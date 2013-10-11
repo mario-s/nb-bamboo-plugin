@@ -1,8 +1,10 @@
-package nb.bamboo;
+package nb.bamboo.ui.nodes;
 
 import java.util.List;
+import javax.swing.Action;
+import nb.bamboo.ui.actions.AddInstanceAction;
 import org.netbeans.api.core.ide.ServicesTabNodeRegistration;
-import static nb.bamboo.Bundle.*;
+import static nb.bamboo.ui.nodes.Bundle.*;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Children;
@@ -33,6 +35,11 @@ public class BambooRootNode extends AbstractNode {
     setIconBaseWithExtension(ICON_BASE);
   }
 
+  @Override
+  public Action[] getActions(boolean context) {
+    return new Action[] { new AddInstanceAction() };
+  }
+  
   private static class RootNodeChildren extends ChildFactory {
 
     public RootNodeChildren() {
