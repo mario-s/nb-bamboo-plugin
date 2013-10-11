@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: nb.bamboo
+OpenIDE-Module-Localizing-Bundle: nb/bamboo/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
