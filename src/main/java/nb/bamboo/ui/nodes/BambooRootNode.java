@@ -25,7 +25,7 @@ public class BambooRootNode extends AbstractNode {
 
   static final String BAMBOO_NODE_NAME = "bamboo";
 
-  static final String ICON_BASE = "nb/bamboo/resources/bamboo.png";
+  static final String ICON_BASE = "nb/bamboo/bamboo.png";
 
   private BambooRootNode() {
     super(Children.create(new RootNodeChildren(), true));
@@ -37,7 +37,7 @@ public class BambooRootNode extends AbstractNode {
 
   @Override
   public Action[] getActions(boolean context) {
-    return new Action[] { new AddInstanceAction() };
+    return new Action[] {  };
   }
   
   private static class RootNodeChildren extends ChildFactory {
