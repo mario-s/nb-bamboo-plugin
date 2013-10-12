@@ -1,8 +1,9 @@
-package nb.bamboo.ui.actions;
+package org.netbeans.bamboo.ui.actions;
 
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
-import static nb.bamboo.ui.actions.Bundle.*;
+import static org.netbeans.bamboo.ui.actions.Bundle.*;
+import org.netbeans.bamboo.ui.wizard.InstanceDialog;
 import org.openide.util.NbBundle.Messages;
 
 @Messages({
@@ -16,7 +17,7 @@ public class AddInstanceAction extends AbstractAction {
 
   @Override
   public void actionPerformed(ActionEvent ae) {
-    
+    new InstanceDialog().show();
   }
 
 }
