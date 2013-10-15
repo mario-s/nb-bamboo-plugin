@@ -3,12 +3,15 @@ package org.netbeans.bamboo.ui.nodes;
 import java.util.List;
 import javax.swing.Action;
 import org.netbeans.api.core.ide.ServicesTabNodeRegistration;
+import org.netbeans.bamboo.BambooChangeListener;
 import org.netbeans.bamboo.BambooInstance;
+import org.netbeans.bamboo.BambooManager;
 import org.netbeans.bamboo.ui.actions.AddInstanceAction;
 import static org.netbeans.bamboo.ui.nodes.Bundle.*;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Children;
+import org.openide.nodes.Node;
 import org.openide.util.NbBundle.Messages;
 
 @ServicesTabNodeRegistration(
@@ -37,16 +40,29 @@ public class BambooRootNode extends AbstractNode {
 
   @Override
   public Action[] getActions(boolean context) {
-    return new Action[] { new AddInstanceAction() };
+    return new Action[]{new AddInstanceAction()};
   }
-  
-  private static class RootNodeChildFactory extends ChildFactory<BambooInstance> {
+
+  private static class RootNodeChildFactory extends ChildFactory<BambooInstance> implements BambooChangeListener {
+
+    private RootNodeChildFactory() {
+      BambooManager.addChangeListener(this);
+    }
+
+    protected @Override
+    Node createNodeForKey(final BambooInstance key) {
+      return new BambooInstanceNode(key);
+    }
 
     @Override
     protected boolean createKeys(final List<BambooInstance> toPopulate) {
+      toPopulate.addAll(BambooManager.getInstances());
       return true;
     }
-    
-  }
 
+    @Override
+    public void onInstancesChanged() {
+      refresh(false);
+    }
+  }
 }

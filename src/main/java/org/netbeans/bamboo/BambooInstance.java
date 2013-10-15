@@ -1,5 +1,9 @@
 package org.netbeans.bamboo;
 
-public class BambooInstance {
+public interface BambooInstance {
 
+  String getName();
+  
+  String getUrl();
+  
 }

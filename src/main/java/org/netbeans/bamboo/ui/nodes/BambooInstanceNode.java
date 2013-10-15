@@ -8,8 +8,9 @@ public class BambooInstanceNode extends AbstractNode {
 
   public BambooInstanceNode(final BambooInstance instance) {
     super(Children.LEAF);
-  }
 
-  
-  
+    setName(instance.getUrl());
+    setDisplayName(instance.getName());
+    setShortDescription(instance.getUrl());
+  }
 }
