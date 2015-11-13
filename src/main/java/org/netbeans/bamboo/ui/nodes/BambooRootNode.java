@@ -40,7 +40,7 @@ public final class BambooRootNode extends AbstractNode {
         setDisplayName(LBL_BambooNode());
         setShortDescription(TIP_BambooNode());
         setIconBaseWithExtension(ICON_BASE);
-        setChildren(Children.create(new BambooInstanceNodeFactory(), false));
+        setChildren(Children.create(new BambooInstanceNodeFactory(getLookup()), false));
     }
 
     @Override
@@ -48,34 +48,4 @@ public final class BambooRootNode extends AbstractNode {
         return new Action[]{new AddInstanceAction()};
     }
 
-    private class BambooInstanceNodeFactory extends ChildFactory<BambooInstance> implements LookupListener {
-
-        private Lookup.Result<BambooInstance> result;
-
-        public BambooInstanceNodeFactory() {
-            lookupResult();
-        }
-
-        private void lookupResult() {
-            result = getLookup().lookupResult(BambooInstance.class);
-            result.addLookupListener(this);
-        }
-
-        @Override
-        protected Node createNodeForKey(final BambooInstance key) {
-            return new BambooInstanceNode(key);
-        }
-
-        @Override
-        protected boolean createKeys(final List<BambooInstance> toPopulate) {
-            toPopulate.addAll(result.allInstances());
-            return true;
-        }
-
-        @Override
-        public void resultChanged(LookupEvent ev) {
-            refresh(true);
-        }
-
-    }
 }
