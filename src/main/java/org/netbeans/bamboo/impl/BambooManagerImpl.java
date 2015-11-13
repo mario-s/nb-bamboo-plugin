@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.Map;
 import org.netbeans.bamboo.BambooChangeListener;
 import org.netbeans.bamboo.BambooInstance;
-import org.netbeans.bamboo.impl.BambooInstanceImpl;
 
-public class BambooManagerImpl {
+final class BambooManagerImpl {
 
     private static class InstanceHolder {
 

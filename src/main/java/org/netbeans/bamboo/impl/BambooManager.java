@@ -1,4 +1,4 @@
-package org.netbeans.bamboo.manager;
+package org.netbeans.bamboo.impl;
 
 import org.netbeans.bamboo.impl.BambooManagerImpl;
 import org.netbeans.bamboo.BambooChangeListener;
