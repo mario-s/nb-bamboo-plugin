@@ -38,6 +38,7 @@ public class InstanceDialog extends DialogDescriptor {
         
         AbstractAction action = new AddAction();
         JButton addButton = new JButton(action);
+        form.setApplyAction(action);
 
         setOptions(new Object[]{addButton, NotifyDescriptor.CANCEL_OPTION});
         setClosingOptions(new Object[]{NotifyDescriptor.CANCEL_OPTION});
@@ -51,6 +52,7 @@ public class InstanceDialog extends DialogDescriptor {
 
         AddAction() {
             super(TXT_ADD());
+            setEnabled(false);
         }
 
         @Override
