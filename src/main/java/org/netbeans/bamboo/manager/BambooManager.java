@@ -1,13 +1,13 @@
-package org.netbeans.bamboo;
+package org.netbeans.bamboo.manager;
 
+import org.netbeans.bamboo.impl.BambooManagerImpl;
+import org.netbeans.bamboo.BambooChangeListener;
+import org.netbeans.bamboo.BambooInstance;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.netbeans.bamboo.impl.BambooManagerImpl;
 
 public class BambooManager {
-
-  private static BambooManager INSTANCE;
 
   private final List<BambooChangeListener> listeners = new ArrayList<BambooChangeListener>();
 

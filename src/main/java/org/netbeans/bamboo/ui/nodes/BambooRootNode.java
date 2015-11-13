@@ -5,7 +5,7 @@ import javax.swing.Action;
 import org.netbeans.api.core.ide.ServicesTabNodeRegistration;
 import org.netbeans.bamboo.BambooChangeListener;
 import org.netbeans.bamboo.BambooInstance;
-import org.netbeans.bamboo.BambooManager;
+import org.netbeans.bamboo.manager.BambooManager;
 import org.netbeans.bamboo.ui.actions.AddInstanceAction;
 import static org.netbeans.bamboo.ui.nodes.Bundle.*;
 import org.openide.nodes.AbstractNode;

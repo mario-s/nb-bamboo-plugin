@@ -5,7 +5,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import org.netbeans.bamboo.BambooManager;
+import org.netbeans.bamboo.manager.BambooManager;
 import org.openide.DialogDescriptor;
 import org.openide.util.NbBundle.Messages;
 import static org.netbeans.bamboo.ui.wizard.Bundle.*;
