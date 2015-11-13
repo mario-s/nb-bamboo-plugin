@@ -1,6 +1,7 @@
 package org.netbeans.bamboo;
 
-public interface BambooInstance {
+@Deprecated
+public interface BambooInstanceable {
 
   String getName();
   

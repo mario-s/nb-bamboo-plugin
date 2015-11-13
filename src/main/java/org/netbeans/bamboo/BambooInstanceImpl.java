@@ -1,6 +1,7 @@
 package org.netbeans.bamboo;
 
-final class BambooInstanceImpl implements BambooInstance {
+@Deprecated
+final class BambooInstanceImpl implements BambooInstanceable {
 
   private final String name;
   

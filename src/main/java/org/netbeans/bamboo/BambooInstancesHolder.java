@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 final class BambooInstancesHolder {
 
     private static class InstanceHolder {
@@ -15,7 +16,7 @@ final class BambooInstancesHolder {
 
     private final List<BambooChangeListener> listeners = new ArrayList<BambooChangeListener>();
 
-    private final Map<String, BambooInstance> instances = new HashMap<String, BambooInstance>();
+    private final Map<String, BambooInstanceable> instances = new HashMap<String, BambooInstanceable>();
 
     private BambooInstancesHolder() {
     }
@@ -38,7 +39,7 @@ final class BambooInstancesHolder {
         fireChangeListeners();
     }
 
-    Collection<BambooInstance> getInstances() {
+    Collection<BambooInstanceable> getInstances() {
         return instances.values();
     }
 

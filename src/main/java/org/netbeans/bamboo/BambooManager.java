@@ -1,12 +1,9 @@
 package org.netbeans.bamboo;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
+@Deprecated
 public class BambooManager {
-
-  private final List<BambooChangeListener> listeners = new ArrayList<BambooChangeListener>();
 
   private BambooManager() {
   }
@@ -19,7 +16,7 @@ public class BambooManager {
     BambooInstancesHolder.getDefault().removeInstance(url);
   }
   
-  public static Collection<BambooInstance> getInstances() {
+  public static Collection<BambooInstanceable> getInstances() {
     return BambooInstancesHolder.getDefault().getInstances();
   }
   
