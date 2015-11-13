@@ -1,4 +1,4 @@
-package org.netbeans.bamboo.impl;
+package org.netbeans.bamboo;
 
 import java.util.ArrayList;
 import java.util.Collection;

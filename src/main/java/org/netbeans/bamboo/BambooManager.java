@@ -1,6 +1,6 @@
-package org.netbeans.bamboo.impl;
+package org.netbeans.bamboo;
 
-import org.netbeans.bamboo.impl.BambooManagerImpl;
+import org.netbeans.bamboo.BambooManagerImpl;
 import org.netbeans.bamboo.BambooChangeListener;
 import org.netbeans.bamboo.BambooInstance;
 import java.util.ArrayList;
