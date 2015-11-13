@@ -5,42 +5,40 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.netbeans.bamboo.BambooChangeListener;
-import org.netbeans.bamboo.BambooInstance;
 
-final class BambooManagerImpl {
+final class BambooInstancesHolder {
 
     private static class InstanceHolder {
 
-        private static final BambooManagerImpl INSTANCE = new BambooManagerImpl();
+        private static final BambooInstancesHolder INSTANCE = new BambooInstancesHolder();
     }
 
     private final List<BambooChangeListener> listeners = new ArrayList<BambooChangeListener>();
 
     private final Map<String, BambooInstance> instances = new HashMap<String, BambooInstance>();
 
-    private BambooManagerImpl() {
+    private BambooInstancesHolder() {
     }
 
-    public static BambooManagerImpl getDefault() {
+    static BambooInstancesHolder getDefault() {
         return InstanceHolder.INSTANCE;
     }
 
-    public void addChangeListener(final BambooChangeListener listener) {
+    void addChangeListener(final BambooChangeListener listener) {
         listeners.add(listener);
     }
 
-    public void addInstance(final String name, final String url) {
+    void addInstance(final String name, final String url) {
         instances.put(url, new BambooInstanceImpl(name, url));
         fireChangeListeners();
     }
 
-    public void removeInstance(final String url) {
+    void removeInstance(final String url) {
         instances.remove(url);
         fireChangeListeners();
     }
 
-    public Collection<BambooInstance> getInstances() {
+    Collection<BambooInstance> getInstances() {
         return instances.values();
     }
 

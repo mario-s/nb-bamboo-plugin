@@ -1,7 +1,5 @@
 package org.netbeans.bamboo;
 
-import org.netbeans.bamboo.BambooInstance;
-
 final class BambooInstanceImpl implements BambooInstance {
 
   private final String name;

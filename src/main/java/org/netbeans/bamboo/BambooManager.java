@@ -1,8 +1,5 @@
 package org.netbeans.bamboo;
 
-import org.netbeans.bamboo.BambooManagerImpl;
-import org.netbeans.bamboo.BambooChangeListener;
-import org.netbeans.bamboo.BambooInstance;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,19 +12,19 @@ public class BambooManager {
   }
 
   public static void addInstance(final String name, final String url) {
-    BambooManagerImpl.getDefault().addInstance(name, url);
+    BambooInstancesHolder.getDefault().addInstance(name, url);
   }
 
   public static void removeInstance(final String url) {
-    BambooManagerImpl.getDefault().removeInstance(url);
+    BambooInstancesHolder.getDefault().removeInstance(url);
   }
   
   public static Collection<BambooInstance> getInstances() {
-    return BambooManagerImpl.getDefault().getInstances();
+    return BambooInstancesHolder.getDefault().getInstances();
   }
   
   public static void addChangeListener(final BambooChangeListener listener) {
-    BambooManagerImpl.getDefault().addChangeListener(listener);
+    BambooInstancesHolder.getDefault().addChangeListener(listener);
   }
 
 }
