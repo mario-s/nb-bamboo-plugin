@@ -129,5 +129,11 @@
             <artifactId>org-openide-util</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>1.5.6</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
