@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.netbeans.modules.bamboo.LookupProvider;
-import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
 import org.openide.nodes.Node;
 
 /**
@@ -40,7 +40,7 @@ public class BambooRootNodeTest {
     
     @Test
     public void testCreateChild() {
-        LookupProvider.Instance.getContent().add(new BambooInstance());
+        LookupProvider.Instance.getContent().add(new DefaultBambooInstance());
         Node [] result = classUnderTest.getChildren().getNodes();
         assertThat(result.length, is(1));
     }

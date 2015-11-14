@@ -7,6 +7,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import org.netbeans.modules.bamboo.LookupProvider;
 import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
 import org.openide.DialogDescriptor;
 import org.openide.util.NbBundle.Messages;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.*;
@@ -60,7 +61,7 @@ public class InstanceDialog extends DialogDescriptor {
         public void actionPerformed(ActionEvent e) {
             final String name = form.getInstanceName();
             final String url = form.getInstanceUrl();
-            BambooInstance instance = new BambooInstance(name, url);
+            BambooInstance instance = new DefaultBambooInstance(name, url);
             LookupProvider.Instance.getContent().add(instance);
             EventQueue.invokeLater(new Runnable() {
                 @Override

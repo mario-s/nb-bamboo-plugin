@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import org.netbeans.modules.bamboo.LookupProvider;
 import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
 import org.openide.util.NbBundle;
 
 /**
