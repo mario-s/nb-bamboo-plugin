@@ -1,6 +1,7 @@
 package org.netbeans.bamboo.ui.nodes;
 
 import javax.swing.Action;
+import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.core.ide.ServicesTabNodeRegistration;
 import org.netbeans.bamboo.LookupProvider;
 import org.netbeans.bamboo.ui.actions.AddInstanceAction;
@@ -24,6 +25,7 @@ public final class BambooRootNode extends AbstractNode {
 
     static final String BAMBOO_NODE_NAME = "bamboo";
 
+    @StaticResource
     static final String ICON_BASE = "org/netbeans/bamboo/resources/bamboo.png";
 
     BambooRootNode() {
