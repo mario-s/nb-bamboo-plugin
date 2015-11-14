@@ -33,7 +33,7 @@ public final class BambooRootNode extends AbstractNode {
 
     static final String ICON_BASE = "org/netbeans/bamboo/resources/bamboo.png";
 
-    private BambooRootNode() {
+    BambooRootNode() {
         super(Children.LEAF, LookupProvider.Instance.getLookup());
 
         setName(BAMBOO_NODE_NAME);
