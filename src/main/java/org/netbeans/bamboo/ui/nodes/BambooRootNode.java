@@ -26,7 +26,7 @@ public final class BambooRootNode extends AbstractNode {
     static final String BAMBOO_NODE_NAME = "bamboo";
 
     @StaticResource
-    static final String ICON_BASE = "org/netbeans/bamboo/resources/bamboo.png";
+    static final String ICON_BASE = "org/netbeans/bamboo/resources/ci.png";
 
     BambooRootNode() {
         super(Children.LEAF, LookupProvider.Instance.getLookup());
