@@ -1,15 +1,15 @@
-package org.netbeans.bamboo.ui.wizard;
+package org.netbeans.modules.bamboo.ui.wizard;
 
 import java.awt.Dialog;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import org.netbeans.bamboo.LookupProvider;
-import org.netbeans.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.LookupProvider;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.openide.DialogDescriptor;
 import org.openide.util.NbBundle.Messages;
-import static org.netbeans.bamboo.ui.wizard.Bundle.*;
+import static org.netbeans.modules.bamboo.ui.wizard.Bundle.*;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 

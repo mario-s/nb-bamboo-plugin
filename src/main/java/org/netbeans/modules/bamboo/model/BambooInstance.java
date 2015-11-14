@@ -1,4 +1,4 @@
-package org.netbeans.bamboo.model;
+package org.netbeans.modules.bamboo.model;
 
 /**
  *

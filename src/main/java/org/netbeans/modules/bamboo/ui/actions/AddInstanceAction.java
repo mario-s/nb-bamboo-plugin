@@ -1,9 +1,9 @@
-package org.netbeans.bamboo.ui.actions;
+package org.netbeans.modules.bamboo.ui.actions;
 
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
-import static org.netbeans.bamboo.ui.actions.Bundle.*;
-import org.netbeans.bamboo.ui.wizard.InstanceDialog;
+import static org.netbeans.modules.bamboo.ui.actions.Bundle.*;
+import org.netbeans.modules.bamboo.ui.wizard.InstanceDialog;
 import org.openide.util.NbBundle.Messages;
 
 @Messages({

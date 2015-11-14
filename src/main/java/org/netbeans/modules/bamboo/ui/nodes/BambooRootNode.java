@@ -1,14 +1,15 @@
-package org.netbeans.bamboo.ui.nodes;
+package org.netbeans.modules.bamboo.ui.nodes;
 
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.core.ide.ServicesTabNodeRegistration;
-import org.netbeans.bamboo.LookupProvider;
-import org.netbeans.bamboo.ui.actions.AddInstanceAction;
-import static org.netbeans.bamboo.ui.nodes.Bundle.*;
+import org.netbeans.modules.bamboo.LookupProvider;
+import org.netbeans.modules.bamboo.ui.actions.AddInstanceAction;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.util.NbBundle.Messages;
+
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.*;
 
 @ServicesTabNodeRegistration(
         name = BambooRootNode.BAMBOO_NODE_NAME,
@@ -22,11 +23,10 @@ import org.openide.util.NbBundle.Messages;
 })
 public final class BambooRootNode extends AbstractNode {
 
-
     static final String BAMBOO_NODE_NAME = "bamboo";
 
     @StaticResource
-    static final String ICON_BASE = "org/netbeans/bamboo/resources/ci.png";
+    static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/ci.png";
 
     BambooRootNode() {
         super(Children.LEAF, LookupProvider.Instance.getLookup());
@@ -35,7 +35,8 @@ public final class BambooRootNode extends AbstractNode {
         setDisplayName(LBL_BambooNode());
         setShortDescription(TIP_BambooNode());
         setIconBaseWithExtension(ICON_BASE);
-        setChildren(Children.create(new BambooInstanceNodeFactory(getLookup()), false));
+        setChildren(Children.create(new BambooInstanceNodeFactory(getLookup()),
+                false));
     }
 
     @Override

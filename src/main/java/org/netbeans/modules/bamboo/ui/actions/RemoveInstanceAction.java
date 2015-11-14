@@ -1,9 +1,9 @@
-package org.netbeans.bamboo.ui.actions;
+package org.netbeans.modules.bamboo.ui.actions;
 
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
-import org.netbeans.bamboo.LookupProvider;
-import org.netbeans.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.LookupProvider;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.openide.util.NbBundle;
 
 /**

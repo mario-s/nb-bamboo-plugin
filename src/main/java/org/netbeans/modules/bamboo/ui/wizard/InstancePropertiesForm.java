@@ -1,4 +1,4 @@
-package org.netbeans.bamboo.ui.wizard;
+package org.netbeans.modules.bamboo.ui.wizard;
 
 import javax.swing.AbstractAction;
 import javax.swing.JPanel;
@@ -52,7 +52,7 @@ final class InstancePropertiesForm extends JPanel implements DocumentListener {
         nameLabel = new javax.swing.JLabel();
         nameTextField = new javax.swing.JTextField();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/netbeans/bamboo/ui/wizard/Bundle"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/netbeans/modules/bamboo/ui/wizard/Bundle"); // NOI18N
         serverLabel.setText(bundle.getString("LBL_SERVER")); // NOI18N
 
         serverTextField.setText("http://");

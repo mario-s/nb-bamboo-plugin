@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.netbeans.bamboo.ui.nodes;
+package org.netbeans.modules.bamboo.ui.nodes;
 
+import org.netbeans.modules.bamboo.ui.nodes.BambooRootNode;
 import javax.swing.Action;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.netbeans.bamboo.LookupProvider;
-import org.netbeans.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.LookupProvider;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.openide.nodes.Node;
 
 /**
