@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.util.List;
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
 import org.openide.util.Lookup;
@@ -15,7 +14,6 @@ import org.openide.util.LookupListener;
  */
 class BambooInstanceNodeFactory extends ChildFactory<BambooInstance> implements LookupListener {
     private final Lookup lookup;
-    
     
     private Lookup.Result<BambooInstance> result;
 

@@ -1,17 +1,20 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
+import java.io.IOException;
+import java.util.List;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
+import org.netbeans.modules.bamboo.LookupProvider;
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.ui.actions.RemoveInstanceAction;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
+import org.openide.util.Utilities;
 
 public class BambooInstanceNode extends AbstractNode {
-    
+
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
-    
+
     private BambooInstance instance;
 
     public BambooInstanceNode(final BambooInstance instance) {
@@ -26,6 +29,20 @@ public class BambooInstanceNode extends AbstractNode {
 
     @Override
     public Action[] getActions(boolean context) {
-        return new Action[]{new RemoveInstanceAction(instance)};
+//        return new Action[]{new RemoveInstanceAction(instance)};
+        List<? extends Action> actions = Utilities.actionsForPath(
+                BambooInstance.ACTION_PATH);
+        
+        return actions.toArray(new Action[actions.size()]);
+    }
+
+    @Override
+    public boolean canDestroy() {
+        return true;
+    }
+
+    @Override
+    public void destroy() throws IOException {
+        LookupProvider.Instance.getContent().remove(instance);
     }
 }
