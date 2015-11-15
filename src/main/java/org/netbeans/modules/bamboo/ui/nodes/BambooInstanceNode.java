@@ -29,7 +29,6 @@ public class BambooInstanceNode extends AbstractNode {
 
     @Override
     public Action[] getActions(boolean context) {
-//        return new Action[]{new RemoveInstanceAction(instance)};
         List<? extends Action> actions = Utilities.actionsForPath(
                 BambooInstance.ACTION_PATH);
         
