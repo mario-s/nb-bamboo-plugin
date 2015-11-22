@@ -1,10 +1,13 @@
 package org.netbeans.modules.bamboo.model;
 
+import java.io.Serializable;
+import java.util.prefs.Preferences;
+
 /**
  *
  * @author spindizzy
  */
-public interface BambooInstance {
+public interface BambooInstance extends Serializable{
     
     /**
      * Path used to load actions for the server instance.
@@ -20,12 +23,14 @@ public interface BambooInstance {
      *
      * @return instance name
      */
-    public String getName();
+    String getName();
  
     /**
      * URL of the Bamboo instance
      *
      * @return instance url
      */
-    public String getUrl();
+    String getUrl();
+    
+    Preferences getPreferences();
 }

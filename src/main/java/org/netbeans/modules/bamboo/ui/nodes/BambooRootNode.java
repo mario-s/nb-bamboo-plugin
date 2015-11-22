@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.ui.nodes;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.core.ide.ServicesTabNodeRegistration;
-import org.netbeans.modules.bamboo.LookupProvider;
+import org.netbeans.modules.bamboo.BambooManager;
 import org.netbeans.modules.bamboo.ui.actions.AddInstanceAction;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
@@ -29,7 +29,7 @@ public final class BambooRootNode extends AbstractNode {
     static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/ci.png";
 
     BambooRootNode() {
-        super(Children.LEAF, LookupProvider.Instance.getLookup());
+        super(Children.LEAF, BambooManager.Instance.getLookup());
 
         setName(BAMBOO_NODE_NAME);
         setDisplayName(LBL_BambooNode());

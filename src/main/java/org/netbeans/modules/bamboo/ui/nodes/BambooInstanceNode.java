@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
-import org.netbeans.modules.bamboo.LookupProvider;
+import org.netbeans.modules.bamboo.BambooManager;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
@@ -42,6 +42,6 @@ public class BambooInstanceNode extends AbstractNode {
 
     @Override
     public void destroy() throws IOException {
-        LookupProvider.Instance.getContent().remove(instance);
+        BambooManager.Instance.getContent().remove(instance);
     }
 }

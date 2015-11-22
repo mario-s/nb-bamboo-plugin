@@ -5,7 +5,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import org.netbeans.modules.bamboo.LookupProvider;
+import org.netbeans.modules.bamboo.BambooManager;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
 import org.openide.DialogDescriptor;
@@ -61,8 +61,7 @@ public class InstanceDialog extends DialogDescriptor {
         public void actionPerformed(ActionEvent e) {
             final String name = form.getInstanceName();
             final String url = form.getInstanceUrl();
-            BambooInstance instance = new DefaultBambooInstance(name, url);
-            LookupProvider.Instance.getContent().add(instance);
+            BambooManager.addInstance(name, url, 0);//TODO sync time
             EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {
