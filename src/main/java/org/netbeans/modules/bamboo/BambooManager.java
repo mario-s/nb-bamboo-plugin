@@ -13,15 +13,16 @@ import org.openide.util.lookup.InstanceContent;
 
 /**
  * Glue to interact.
+ *
  * @author spindizzy
  */
-public enum BambooManager implements Lookup.Provider{
-    
+public enum BambooManager implements Lookup.Provider {
+
     Instance;
-    
+
     private final Lookup lookup;
     private final InstanceContent content;
-    
+
     private BambooManager() {
         content = new InstanceContent();
         lookup = new AbstractLookup(content);
@@ -35,26 +36,25 @@ public enum BambooManager implements Lookup.Provider{
     public InstanceContent getContent() {
         return content;
     }
-    
+
     public static void addInstance(String name, String url, int sync) {
         DefaultBambooInstance instance = new DefaultBambooInstance(name, url);
-        BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
+        BambooInstanceProperties props = new BambooInstanceProperties(
+                instancesPrefs());
         props.copyProperties(instance);
         instance.setProperties(props);
         Instance.content.add(instance);
     }
-    
+
     public static void removeInstance(BambooInstance instance) {
-        
-        
         try {
             instance.getPreferences().removeNode();
-        Instance.content.remove(instance);
+            Instance.content.remove(instance);
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
     }
-    
+
     private static Preferences instancesPrefs() {
         return NbPreferences.forModule(BambooManager.class).node("instances");
     }
