@@ -10,6 +10,10 @@ import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.util.Utilities;
 
+/**
+ * This class is the node of a Bamboo CI server.
+ * @author spindizzy
+ */
 public class BambooInstanceNode extends AbstractNode {
 
     @StaticResource

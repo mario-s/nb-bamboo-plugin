@@ -29,7 +29,6 @@ public class BambooManagerTest {
         result.allInstances().forEach(i -> BambooManager.removeInstance(i));
     }
 
-
     /**
      * Test of addInstance method, of class BambooManager.
      */
@@ -38,7 +37,6 @@ public class BambooManagerTest {
         BambooManager.addInstance("a", "", 0);
         assertThat(result.allInstances().isEmpty(), is(false));
     }
-    
     
     /**
      * Test of addInstance method, of class BambooManager.
