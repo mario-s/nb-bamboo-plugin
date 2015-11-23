@@ -42,7 +42,7 @@ public class BambooRootNodeTest {
     public void testCreateChild() {
         BambooManager.Instance.getContent().add(new DefaultBambooInstance());
         Node [] result = classUnderTest.getChildren().getNodes();
-        assertThat(result.length == 0, is(false));
+        assertThat(result.length, is(1));
     }
     
 }

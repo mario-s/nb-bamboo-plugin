@@ -42,6 +42,6 @@ public class BambooInstanceNode extends AbstractNode {
 
     @Override
     public void destroy() throws IOException {
-        BambooManager.Instance.getContent().remove(instance);
+        BambooManager.removeInstance(instance);
     }
 }
