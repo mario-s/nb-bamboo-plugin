@@ -25,6 +25,7 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance> implements 
     private void lookupResult() {
         result = lookup.lookupResult(BambooInstance.class);
         result.addLookupListener(this);
+        resultChanged(null);
     }
 
     @Override
