@@ -45,6 +45,8 @@ public final class DefaultBambooInstance implements BambooInstance {
 
     public void setProperties(BambooInstanceProperties properties) {
         this.properties = properties;
+        this.name = properties.get(BambooInstanceConstants.INSTANCE_NAME);
+        this.url = properties.get(BambooInstanceConstants.INSTANCE_URL);
     }
 
 }

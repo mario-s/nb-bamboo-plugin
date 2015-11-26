@@ -1,9 +1,11 @@
 package org.netbeans.modules.bamboo;
 
+import java.util.Arrays;
 import java.util.prefs.BackingStoreException;
 import org.netbeans.modules.bamboo.model.BambooInstanceProperties;
 import java.util.prefs.Preferences;
 import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstanceConstants;
 import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
@@ -50,6 +52,22 @@ public enum BambooManager implements Lookup.Provider {
         try {
             instance.getPreferences().removeNode();
             Instance.content.remove(instance);
+        } catch (BackingStoreException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }
+    
+    static void loadInstances() {
+        try {
+            Preferences prefs = instancesPrefs();
+            String [] children = prefs.childrenNames();
+            Arrays.asList(children).forEach(child -> {
+                    BambooInstanceProperties props = new BambooInstanceProperties(prefs);
+                    props.put(BambooInstanceConstants.INSTANCE_NAME, child);
+                    DefaultBambooInstance instance = new DefaultBambooInstance();
+                    instance.setProperties(props);
+                    Instance.content.add(instance);
+            });
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }

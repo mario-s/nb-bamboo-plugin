@@ -74,7 +74,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
     public static List<String> split(String prop) {
         if (prop != null && prop.trim().length() > 0) {
             String[] escaped = prop.split("(?<!/)/(?!/)");              //NOI18N
-            List<String> list = new ArrayList<String>(escaped.length);
+            List<String> list = new ArrayList<>(escaped.length);
             for (String e : escaped) {
                 list.add(e.replace("//", "/"));                         //NOI18N
             }
@@ -149,18 +149,15 @@ public class BambooInstanceProperties extends HashMap<String, String> {
      * Update persistent preferences in a background thread.
      */
     private void updatePreferences(final String... keys) {
-        RP.post(new Runnable() {
-            @Override
-            public void run() {
-                Preferences prefs = getPreferences();
-                if (prefs != null) {
-                    for (String key : keys) {
-                        String val = get(key);
-                        if (val == null) {
-                            prefs.remove(key);
-                        } else {
-                            prefs.put(key, val);
-                        }
+        RP.post(() -> {
+            Preferences prefs = getPreferences();
+            if (prefs != null) {
+                for (String key : keys) {
+                    String val = get(key);
+                    if (val == null) {
+                        prefs.remove(key);
+                    } else {
+                        prefs.put(key, val);
                     }
                 }
             }
@@ -171,27 +168,24 @@ public class BambooInstanceProperties extends HashMap<String, String> {
      * Load preferences in background thread.
      */
     private void loadPreferences() {
-        RP.post(new Runnable() {
-            @Override
-            public void run() {
-                if (hasPreferences()) {
-                    Preferences prefs = getPreferences();
-                    if (prefs != null) {
-                        try {
-                            String[] keys = prefs.keys();
-                            for (String key : keys) {
-                                if (INSTANCE_NAME.equals(key)
-                                        || INSTANCE_URL.equals(key)) {
-                                    continue;
-                                }
-                                String val = prefs.get(key, null);
-                                if (val != null) {
-                                    put(key, val);
-                                }
+        RP.post(() -> {
+            if (hasPreferences()) {
+                Preferences prefs = getPreferences();
+                if (prefs != null) {
+                    try {
+                        String[] keys = prefs.keys();
+                        for (String key : keys) {
+                            if (INSTANCE_NAME.equals(key)
+                                    || INSTANCE_URL.equals(key)) {
+                                continue;
                             }
-                        } catch (BackingStoreException ex) {
-                            Exceptions.printStackTrace(ex);
+                            String val = prefs.get(key, null);
+                            if (val != null) {
+                                put(key, val);
+                            }
                         }
+                    } catch (BackingStoreException ex) {
+                        Exceptions.printStackTrace(ex);
                     }
                 }
             }
