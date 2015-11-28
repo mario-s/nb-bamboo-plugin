@@ -1,10 +1,7 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
-import java.awt.event.ActionEvent;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
