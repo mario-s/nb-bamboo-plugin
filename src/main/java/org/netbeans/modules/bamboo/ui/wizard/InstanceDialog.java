@@ -6,8 +6,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import org.netbeans.modules.bamboo.BambooManager;
-import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
 import org.openide.DialogDescriptor;
 import org.openide.util.NbBundle.Messages;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.*;
