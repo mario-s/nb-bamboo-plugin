@@ -1,6 +1,7 @@
 package org.netbeans.modules.bamboo;
 
 import java.util.Arrays;
+import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import org.netbeans.modules.bamboo.model.BambooInstanceProperties;
 import java.util.prefs.Preferences;
@@ -21,6 +22,8 @@ import org.openide.util.lookup.InstanceContent;
 public enum BambooManager implements Lookup.Provider {
 
     Instance;
+
+    private static final Logger LOG = Logger.getLogger(BambooManager.class.getName());
 
     private final Lookup lookup;
     private final InstanceContent content;
@@ -56,18 +59,19 @@ public enum BambooManager implements Lookup.Provider {
             Exceptions.printStackTrace(ex);
         }
     }
-    
+
     static void loadInstances() {
+        Preferences prefs = instancesPrefs();
         try {
-            Preferences prefs = instancesPrefs();
-            String [] children = prefs.childrenNames();
+            String[] children = prefs.childrenNames();
             Arrays.asList(children).forEach(child -> {
-                    BambooInstanceProperties props = new BambooInstanceProperties(prefs);
-                    props.put(BambooInstanceConstants.INSTANCE_NAME, child);
-                    DefaultBambooInstance instance = new DefaultBambooInstance();
-                    instance.setProperties(props);
-                    Instance.content.add(instance);
+                BambooInstanceProperties props = new BambooInstanceProperties(prefs);
+                props.put(BambooInstanceConstants.INSTANCE_NAME, child);
+                DefaultBambooInstance instance = new DefaultBambooInstance();
+                instance.setProperties(props);
+                Instance.content.add(instance);
             });
+            LOG.finer(String.format("loaded nodes: %s", children.length));
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
