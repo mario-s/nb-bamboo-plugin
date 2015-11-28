@@ -16,7 +16,7 @@ import org.openide.NotifyDescriptor;
     "LBL_DIALOG=Add Bamboo Instance",
     "TXT_ADD=OK"
 })
-public class InstanceDialog extends DialogDescriptor {
+public class InstanceDialog extends DialogDescriptor implements InstancePropertiesDisplayable{
 
     private Dialog dialog;
 
@@ -44,6 +44,7 @@ public class InstanceDialog extends DialogDescriptor {
         setClosingOptions(new Object[]{NotifyDescriptor.CANCEL_OPTION});
     }
 
+    @Override
     public void show() {
         dialog.setVisible(true);
     }
