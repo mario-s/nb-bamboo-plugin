@@ -6,7 +6,7 @@ import java.util.prefs.Preferences;
  *
  * @author spindizzy
  */
-public final class DefaultBambooInstance implements BambooInstance {
+public final class DefaultBambooInstance implements BambooInstance, OpenableInBrowser {
 
     private String name;
 
