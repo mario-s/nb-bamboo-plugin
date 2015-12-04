@@ -14,6 +14,10 @@ import org.openide.awt.HtmlBrowser.URLDisplayer;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
 
+/**
+ * This action opens the url of the give context in the prefered browser.
+ * @author spindizzy
+ */
 @ActionID(
         category = "Team",
         id = "org.netbeans.modules.bamboo.ui.actions.OpenUrlAction"

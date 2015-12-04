@@ -7,6 +7,10 @@ import org.netbeans.modules.bamboo.ui.wizard.InstanceDialog;
 import org.netbeans.modules.bamboo.ui.wizard.InstancePropertiesDisplayable;
 import org.openide.util.NbBundle.Messages;
 
+/**
+ * This action shows the dialog to add a new Bamboo instance.
+ * @author spindizzy
+ */
 @Messages({
     "LBL_Add_Instance=Add New Instance..."
 })
