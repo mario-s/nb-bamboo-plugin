@@ -6,7 +6,7 @@ import java.util.prefs.Preferences;
  *
  * @author spindizzy
  */
-public final class DefaultBambooInstance implements BambooInstance, OpenableInBrowser {
+public final class DefaultBambooInstance implements BambooInstance {
 
     private String name;
 
@@ -22,6 +22,7 @@ public final class DefaultBambooInstance implements BambooInstance, OpenableInBr
         this.url = url;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -30,6 +31,7 @@ public final class DefaultBambooInstance implements BambooInstance, OpenableInBr
         this.name = name;
     }
 
+    @Override
     public String getUrl() {
         return url;
     }

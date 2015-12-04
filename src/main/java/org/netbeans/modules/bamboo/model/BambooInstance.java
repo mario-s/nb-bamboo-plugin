@@ -7,7 +7,7 @@ import java.util.prefs.Preferences;
  *
  * @author spindizzy
  */
-public interface BambooInstance extends Serializable{
+public interface BambooInstance extends OpenableInBrowser, Serializable{
     
     /**
      * Path used to load actions for the server instance.
@@ -25,12 +25,5 @@ public interface BambooInstance extends Serializable{
      */
     String getName();
  
-    /**
-     * URL of the Bamboo instance
-     *
-     * @return instance url
-     */
-    String getUrl();
-    
     Preferences getPreferences();
 }

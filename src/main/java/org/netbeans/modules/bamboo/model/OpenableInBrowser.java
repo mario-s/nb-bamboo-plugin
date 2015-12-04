@@ -5,5 +5,10 @@ package org.netbeans.modules.bamboo.model;
  * @author spindizzy
  */
 public interface OpenableInBrowser {
+    /**
+     * URL of the instance
+     *
+     * @return instance url
+     */
     String getUrl();
 }
