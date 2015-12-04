@@ -30,12 +30,8 @@ public class OpenUrlActionTest {
     
     @Before
     public void setUp() {
-        classUnderTest = new OpenUrlAction(singletonList(openableInBrowser)) {
-            @Override
-            URLDisplayer getUrlDisplayer() {
-                return urlDisplayer;
-            }
-        };
+        classUnderTest = new OpenUrlAction(singletonList(openableInBrowser));
+        classUnderTest.setUrlDisplayer(urlDisplayer);
         given(openableInBrowser.getUrl()).willReturn("http://netbeans.org");
     }
     

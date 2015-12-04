@@ -23,27 +23,29 @@ import org.openide.util.NbBundle.Messages;
 )
 @ActionReference(path = BambooInstance.ACTION_PATH, position = 600)
 @Messages("CTL_OpenUrlAction=&Open in Browser")
-public class OpenUrlAction implements ActionListener {
+public final class OpenUrlAction implements ActionListener {
 
-    private final List<OpenableInBrowser> openables;
+    private final List<OpenableInBrowser> context;
 
-    public OpenUrlAction(List<OpenableInBrowser> openables) {
-        this.openables = openables;
+    private URLDisplayer urlDisplayer;
+
+    public OpenUrlAction(List<OpenableInBrowser> context) {
+        this.context = context;
+        urlDisplayer = URLDisplayer.getDefault();
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        openables.forEach(o -> {
+    public void actionPerformed(ActionEvent ev) {
+        context.forEach(o -> {
             try {
-                URL url = new URL(o.getUrl());
-                getUrlDisplayer().showURL(url);
+                urlDisplayer.showURL(new URL(o.getUrl()));
             } catch (MalformedURLException ex) {
                 Exceptions.printStackTrace(ex);
             }
         });
     }
 
-    URLDisplayer getUrlDisplayer() {
-        return URLDisplayer.getDefault();
+    void setUrlDisplayer(URLDisplayer urlDisplayer) {
+        this.urlDisplayer = urlDisplayer;
     }
 }

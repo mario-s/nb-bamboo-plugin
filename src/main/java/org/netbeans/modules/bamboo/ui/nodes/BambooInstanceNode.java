@@ -9,6 +9,7 @@ import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.util.Utilities;
+import org.openide.util.lookup.Lookups;
 
 /**
  * This class is the node of a Bamboo CI server.
@@ -22,7 +23,7 @@ public class BambooInstanceNode extends AbstractNode {
     private BambooInstance instance;
 
     public BambooInstanceNode(final BambooInstance instance) {
-        super(Children.LEAF);
+        super(Children.LEAF, Lookups.singleton(instance));
         this.instance = instance;
 
         setName(instance.getUrl());
