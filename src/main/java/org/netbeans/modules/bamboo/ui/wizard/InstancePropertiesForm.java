@@ -1,13 +1,18 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
 import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import org.openide.NotificationLineSupport;
 
 final class InstancePropertiesForm extends JPanel implements DocumentListener {
-    
+
     private AbstractAction applyAction;
+
+    private NotificationLineSupport notificationSupport;
 
     /**
      * Creates new form InstancePropertiesForm
@@ -109,13 +114,13 @@ final class InstancePropertiesForm extends JPanel implements DocumentListener {
     public void changedUpdate(DocumentEvent e) {
         updateAction();
     }
-    
+
     private void updateAction() {
-        if(applyAction != null){
+        if (applyAction != null) {
             applyAction.setEnabled(hasValidTextFields());
         }
     }
-    
+
     private boolean hasValidTextFields() {
         return !nameTextField.getText().isEmpty() && !serverTextField.getText().isEmpty();
     }
@@ -123,4 +128,9 @@ final class InstancePropertiesForm extends JPanel implements DocumentListener {
     void setApplyAction(AbstractAction applyAction) {
         this.applyAction = applyAction;
     }
+
+    void setNotificationSupport(NotificationLineSupport support) {
+        this.notificationSupport = support;
+    }
+
 }
