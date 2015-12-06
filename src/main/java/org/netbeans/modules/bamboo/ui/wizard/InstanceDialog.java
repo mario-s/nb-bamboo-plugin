@@ -30,8 +30,8 @@ public class InstanceDialog extends DialogDescriptor implements InstanceProperti
     }
 
     private void initializeGui() {
-        this.dialog = DialogDisplayer.getDefault().createDialog(this);
         form.setNotificationSupport(createNotificationLineSupport());
+        dialog = DialogDisplayer.getDefault().createDialog(this);
         
         AbstractAction action = new AddAction(dialog, form);
         form.setApplyAction(action);

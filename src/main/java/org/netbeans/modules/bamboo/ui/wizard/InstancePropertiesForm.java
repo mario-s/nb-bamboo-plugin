@@ -1,12 +1,11 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
 import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import org.openide.NotificationLineSupport;
+import org.openide.util.NbBundle;
 
 final class InstancePropertiesForm extends JPanel implements DocumentListener {
 
@@ -102,27 +101,41 @@ final class InstancePropertiesForm extends JPanel implements DocumentListener {
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        updateAction();
+        validateInput();
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        updateAction();
+        validateInput();
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        updateAction();
     }
 
-    private void updateAction() {
-        if (applyAction != null) {
-            applyAction.setEnabled(hasValidTextFields());
+    private void validateInput() {
+        applyAction.setEnabled(false);
+        String name = getDisplayName();
+        String url = getUrl();
+        if (name.isEmpty()) {
+            notificationSupport.setInformationMessage(NbBundle.getMessage(getClass(), "MSG_EmptyName"));
+            return;
         }
+        if (url.isEmpty() || url.endsWith("//")) {
+            notificationSupport.setInformationMessage(NbBundle.getMessage(getClass(), "MSG_EmptyUrl"));
+            return;
+        }
+        
+        notificationSupport.clearMessages();
+        applyAction.setEnabled(true);
     }
 
-    private boolean hasValidTextFields() {
-        return !nameTextField.getText().isEmpty() && !serverTextField.getText().isEmpty();
+    private String getDisplayName() {
+        return getInstanceName().trim();
+    }
+
+    private String getUrl() {
+        return getInstanceUrl().trim();
     }
 
     void setApplyAction(AbstractAction applyAction) {
