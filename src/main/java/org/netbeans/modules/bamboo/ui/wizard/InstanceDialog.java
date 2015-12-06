@@ -1,11 +1,8 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
 import java.awt.Dialog;
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import org.netbeans.modules.bamboo.BambooManager;
 import org.openide.DialogDescriptor;
 import org.openide.util.NbBundle.Messages;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.*;
@@ -13,8 +10,7 @@ import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 
 @Messages({
-    "LBL_DIALOG=Add Bamboo Instance",
-    "TXT_ADD=OK"
+    "LBL_DIALOG=Add Bamboo Instance"
 })
 public class InstanceDialog extends DialogDescriptor implements InstancePropertiesDisplayable{
 
@@ -35,39 +31,17 @@ public class InstanceDialog extends DialogDescriptor implements InstanceProperti
 
     private void initializeGui() {
         this.dialog = DialogDisplayer.getDefault().createDialog(this);
-        
-        AbstractAction action = new AddAction();
-        JButton addButton = new JButton(action);
-        form.setApplyAction(action);
         form.setNotificationSupport(createNotificationLineSupport());
         
-        setOptions(new Object[]{addButton, NotifyDescriptor.CANCEL_OPTION});
+        AbstractAction action = new AddAction(dialog, form);
+        form.setApplyAction(action);
+        
+        setOptions(new Object[]{new JButton(action), NotifyDescriptor.CANCEL_OPTION});
         setClosingOptions(new Object[]{NotifyDescriptor.CANCEL_OPTION});
     }
 
     @Override
     public void show() {
         dialog.setVisible(true);
-    }
-
-    private class AddAction extends AbstractAction {
-
-        AddAction() {
-            super(TXT_ADD());
-            setEnabled(false);
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            final String name = form.getInstanceName();
-            final String url = form.getInstanceUrl();
-            BambooManager.addInstance(name, url, 0);//TODO sync time
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    dialog.dispose();
-                }
-            });
-        }
     }
 }
