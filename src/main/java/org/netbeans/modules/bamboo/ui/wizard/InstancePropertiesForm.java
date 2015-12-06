@@ -7,7 +7,7 @@ import javax.swing.event.DocumentListener;
 import org.openide.NotificationLineSupport;
 import org.openide.util.NbBundle;
 
-final class InstancePropertiesForm extends JPanel implements DocumentListener {
+class InstancePropertiesForm extends JPanel implements DocumentListener {
 
     private AbstractAction applyAction;
 

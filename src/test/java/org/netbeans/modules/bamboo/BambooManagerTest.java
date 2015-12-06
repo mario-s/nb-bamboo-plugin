@@ -1,9 +1,7 @@
 package org.netbeans.modules.bamboo;
 
 import java.util.Collection;
-import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.is;
-import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -51,7 +48,7 @@ public class BambooManagerTest {
     }
 
     private void addInstance() {
-        BambooManager.addInstance("a", "", 0);
+        BambooManager.addInstance(getClass().getName(), "", 0);
     }
 
     /**

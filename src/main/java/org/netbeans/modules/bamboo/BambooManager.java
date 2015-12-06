@@ -6,16 +6,14 @@ import java.util.prefs.BackingStoreException;
 import org.netbeans.modules.bamboo.model.BambooInstanceProperties;
 import java.util.prefs.Preferences;
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.BambooInstanceConstants;
 import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
-import org.openide.util.NbPreferences;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 
 /**
- * Glue to interact.
+ * Glue to interact. It manages the load, save and delete of instances.
  *
  * @author spindizzy
  */
@@ -45,7 +43,7 @@ public enum BambooManager implements Lookup.Provider {
     public static void addInstance(String name, String url, int sync) {
         DefaultBambooInstance instance = new DefaultBambooInstance(name, url);
         BambooInstanceProperties props = new BambooInstanceProperties(
-                instancesPrefs());
+                BambooInstanceConstants.instancesPrefs());
         props.copyProperties(instance);
         instance.setProperties(props);
         Instance.content.add(instance);
@@ -61,7 +59,7 @@ public enum BambooManager implements Lookup.Provider {
     }
 
     static void loadInstances() {
-        Preferences prefs = instancesPrefs();
+        Preferences prefs = BambooInstanceConstants.instancesPrefs();
         try {
             String[] children = prefs.childrenNames();
             Arrays.asList(children).forEach(child -> {
@@ -75,9 +73,5 @@ public enum BambooManager implements Lookup.Provider {
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
-    }
-
-    private static Preferences instancesPrefs() {
-        return NbPreferences.forModule(BambooManager.class).node("instances");
     }
 }

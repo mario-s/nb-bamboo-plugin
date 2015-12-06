@@ -15,7 +15,7 @@ import org.openide.util.NbBundle;
 @NbBundle.Messages({
     "TXT_ADD=OK"
 })
-final class AddAction extends AbstractAction {
+class AddAction extends AbstractAction {
 
     private final Dialog dialog;
 
@@ -33,6 +33,10 @@ final class AddAction extends AbstractAction {
         final String name = form.getInstanceName();
         final String url = form.getInstanceUrl();
         BambooManager.addInstance(name, url, 0);//TODO sync time
+        dispose();
+    }
+
+    void dispose() {
         EventQueue.invokeLater(() -> {
             dialog.dispose();
         });
