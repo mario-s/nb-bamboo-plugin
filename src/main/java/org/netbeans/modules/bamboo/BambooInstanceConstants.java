@@ -1,8 +1,5 @@
 package org.netbeans.modules.bamboo;
 
-import java.util.prefs.Preferences;
-import org.openide.util.NbPreferences;
-
 /**
  *
  * @author spindizzy
@@ -38,11 +35,4 @@ public final class BambooInstanceConstants {
      */
     public static final String FALSE = "false";
     
-    /**
-     * This method returns the root preferences to save, load or delete all Bamboo instances.
-     * @return {@link Preferences} the root preferences
-     */
-    public static Preferences instancesPrefs() {
-        return NbPreferences.forModule(BambooInstanceConstants.class).node("instances");
-    }
 }

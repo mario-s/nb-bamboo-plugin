@@ -16,6 +16,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
@@ -35,20 +36,22 @@ public class BambooManagerTest {
     @Captor
     private ArgumentCaptor<LookupEvent> lookupCaptor;
 
-    @Before
-    public void setUp() {
+    public BambooManagerTest() {
         result = BambooManager.Instance.getLookup().lookupResult(
                 BambooInstance.class);
+    }
+
+    @Before
+    public void setUp() {
         result.addLookupListener(listener);
+        BambooManager.addInstance(
+                new DefaultBambooInstance(getClass().getName(), ""));
     }
 
     @After
     public void shutDown() {
         result.allInstances().forEach(i -> BambooManager.removeInstance(i));
-    }
-
-    private void addInstance() {
-        BambooManager.addInstance(getClass().getName(), "", 0);
+        result.removeLookupListener(listener);
     }
 
     /**
@@ -56,7 +59,6 @@ public class BambooManagerTest {
      */
     @Test
     public void testAddInstance() {
-        addInstance();
         assertThat(result.allInstances().isEmpty(), is(false));
         verify(listener).resultChanged(lookupCaptor.capture());
     }
@@ -66,7 +68,6 @@ public class BambooManagerTest {
      */
     @Test
     public void testRemoveInstance() {
-        addInstance();
         Collection<? extends BambooInstance> instances = result.allInstances();
         assumeThat(instances.isEmpty(), is(false));
         BambooManager.removeInstance(instances.iterator().next());
@@ -75,7 +76,6 @@ public class BambooManagerTest {
 
     @Test
     public void testLoadInstances() {
-        addInstance();
         BambooManager.loadInstances();
         verify(listener, atLeast(1)).resultChanged(lookupCaptor.capture());
     }

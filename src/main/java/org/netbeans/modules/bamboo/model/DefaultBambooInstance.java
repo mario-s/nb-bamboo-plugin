@@ -22,7 +22,7 @@ public final class DefaultBambooInstance implements BambooInstance {
         this.name = name;
         this.url = url;
     }
-
+    
     @Override
     public String getName() {
         return name;

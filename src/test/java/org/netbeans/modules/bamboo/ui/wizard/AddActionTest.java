@@ -9,7 +9,7 @@ import static org.mockito.BDDMockito.given;
 import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.BambooInstanceConstants;
+import org.netbeans.modules.bamboo.BambooManager;
 
 /**
  *
@@ -42,7 +42,7 @@ public class AddActionTest {
     
     @After
     public void shutDown() {
-        BambooInstanceConstants.instancesPrefs().remove(NAME);
+        BambooManager.instancesPrefs().remove(NAME);
     }
     
     /**
