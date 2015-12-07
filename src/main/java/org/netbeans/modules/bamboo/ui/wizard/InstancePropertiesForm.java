@@ -26,20 +26,16 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         serverTextField.getDocument().addDocumentListener(this);
     }
 
-    public String getInstanceUrl() {
+    String getInstanceUrl() {
         return serverTextField.getText();
     }
 
-    public void setInstanceUrl(final String url) {
-        serverTextField.setText(url);
-    }
-
-    public String getInstanceName() {
+    String getInstanceName() {
         return nameTextField.getText();
     }
-
-    public void setInstanceName(final String name) {
-        nameTextField.setText(name);
+    
+    int getSyncTime() {
+        return chkRefresh.isSelected() ? (Integer) spinTime.getValue() : 0;
     }
 
     /**

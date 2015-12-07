@@ -39,7 +39,9 @@ class AddAction extends AbstractAction {
     private void addInstance() {
         final String name = form.getInstanceName();
         final String url = form.getInstanceUrl();
-        BambooInstance instance = new DefaultBambooInstance(name, url);//TODO sync time
+        int sync = form.getSyncTime();
+        DefaultBambooInstance instance = new DefaultBambooInstance(name, url);
+        instance.setSync(sync);
         BambooManager.addInstance(instance);
     }
 

@@ -12,6 +12,8 @@ public final class DefaultBambooInstance implements BambooInstance {
     private String name;
 
     private String url;
+    
+    private int sync;
 
     private BambooInstanceProperties properties;
 
@@ -32,6 +34,10 @@ public final class DefaultBambooInstance implements BambooInstance {
         this.name = name;
     }
 
+    public void setSync(int sync) {
+        this.sync = sync;
+    }
+    
     @Override
     public String getUrl() {
         return url;
