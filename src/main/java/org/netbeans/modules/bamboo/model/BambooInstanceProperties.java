@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import static org.netbeans.modules.bamboo.BambooInstanceConstants.*;
+import static org.netbeans.modules.bamboo.model.BambooInstanceConstants.*;
 import org.openide.util.Exceptions;
 import org.openide.util.RequestProcessor;
 

@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.model;
 
-import org.netbeans.modules.bamboo.BambooInstanceConstants;
 import java.util.prefs.Preferences;
 
 /**

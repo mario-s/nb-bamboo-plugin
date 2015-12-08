@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo;
 
+import org.netbeans.modules.bamboo.model.BambooInstanceConstants;
 import java.util.Arrays;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
