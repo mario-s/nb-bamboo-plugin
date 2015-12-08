@@ -44,8 +44,10 @@ public class BambooManagerTest {
     @Before
     public void setUp() {
         result.addLookupListener(listener);
-        BambooManager.addInstance(
-                new DefaultBambooInstance(getClass().getName(), ""));
+        InstanceValues vals = new InstanceValues();
+        vals.setName(getClass().getName());
+        vals.setUrl("");
+        BambooManager.addInstance(vals);
     }
 
     @After

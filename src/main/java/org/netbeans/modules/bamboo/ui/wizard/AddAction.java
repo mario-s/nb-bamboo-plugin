@@ -5,8 +5,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import org.netbeans.modules.bamboo.BambooManager;
-import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
+import org.netbeans.modules.bamboo.InstanceValues;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 import org.openide.util.NbBundle;
 
@@ -37,12 +36,11 @@ class AddAction extends AbstractAction {
     }
 
     private void addInstance() {
-        final String name = form.getInstanceName();
-        final String url = form.getInstanceUrl();
-        int sync = form.getSyncTime();
-        DefaultBambooInstance instance = new DefaultBambooInstance(name, url);
-        instance.setSync(sync);
-        BambooManager.addInstance(instance);
+        InstanceValues vals = new InstanceValues();
+        vals.setName(form.getInstanceName());
+        vals.setUrl(form.getInstanceUrl());
+        vals.setSyncTime(form.getSyncTime());
+        BambooManager.addInstance(vals);
     }
 
     void dispose() {

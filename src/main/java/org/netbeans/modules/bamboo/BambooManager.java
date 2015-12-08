@@ -42,15 +42,15 @@ public enum BambooManager implements Lookup.Provider {
         return content;
     }
 
-    public static void addInstance(BambooInstance instance) {
-        DefaultBambooInstance clone = new DefaultBambooInstance(
-                instance.getName(), instance.getUrl());
+    public static void addInstance(InstanceValues values) {
+        DefaultBambooInstance instance = new DefaultBambooInstance(
+                values.getName(), values.getUrl());
 
         BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
-        props.copyProperties(clone);
-        clone.setProperties(props);
+        props.copyProperties(instance);
+        instance.setProperties(props);
 
-        Instance.content.add(clone);
+        Instance.content.add(instance);
     }
 
     public static void removeInstance(BambooInstance instance) {
