@@ -46,7 +46,8 @@ public enum BambooManager implements Lookup.Provider {
         DefaultBambooInstance instance = new DefaultBambooInstance(
                 values.getName(), values.getUrl());
 
-        BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
+        BambooInstanceProperties props = new BambooInstanceProperties(
+                instancesPrefs());
         props.copyProperties(instance);
         instance.setProperties(props);
 
@@ -66,22 +67,24 @@ public enum BambooManager implements Lookup.Provider {
         Preferences prefs = instancesPrefs();
         try {
             String[] children = prefs.childrenNames();
-            Arrays.asList(children).forEach(child -> {
+            for (String child : children) {
                 BambooInstanceProperties props = new BambooInstanceProperties(
                         prefs);
                 props.put(BambooInstanceConstants.INSTANCE_NAME, child);
                 DefaultBambooInstance instance = new DefaultBambooInstance();
                 instance.setProperties(props);
                 Instance.content.add(instance);
-            });
+            }
             LOG.finer(String.format("loaded nodes: %s", children.length));
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
     }
-    
-     /**
-     * This method returns the root preferences to save, load or delete all Bamboo instances.
+
+    /**
+     * This method returns the root preferences to save, load or delete all
+     * Bamboo instances.
+     *
      * @return {@link Preferences} the root preferences
      */
     public static Preferences instancesPrefs() {
