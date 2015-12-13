@@ -81,4 +81,9 @@ public class BambooManagerTest {
         BambooManager.loadInstances();
         verify(listener, atLeast(1)).resultChanged(lookupCaptor.capture());
     }
+    
+    @Test
+    public void testExistsInstance() {
+        assertTrue(BambooManager.existsInstance(getClass().getName()));
+    }
 }

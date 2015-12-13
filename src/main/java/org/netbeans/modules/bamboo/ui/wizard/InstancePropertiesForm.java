@@ -4,6 +4,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import org.netbeans.modules.bamboo.BambooManager;
 import org.openide.NotificationLineSupport;
 import org.openide.util.NbBundle;
 
@@ -143,6 +144,10 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         }
         if (url.isEmpty() || url.endsWith("//")) {
             notificationSupport.setInformationMessage(NbBundle.getMessage(getClass(), "MSG_EmptyUrl"));
+            return;
+        }
+        if (BambooManager.existsInstance(name)) {
+            notificationSupport.setErrorMessage(NbBundle.getMessage(getClass(), "MSG_ExistName"));
             return;
         }
         

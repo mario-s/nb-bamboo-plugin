@@ -63,23 +63,44 @@ public enum BambooManager implements Lookup.Provider {
             Exceptions.printStackTrace(ex);
         }
     }
-
-    static void loadInstances() {
-        Preferences prefs = instancesPrefs();
+    
+    public static boolean existsInstance(String name) {
         try {
-            String[] children = prefs.childrenNames();
-            for (String child : children) {
-                BambooInstanceProperties props = new BambooInstanceProperties(
-                        prefs);
-                props.put(BambooInstanceConstants.INSTANCE_NAME, child);
-                DefaultBambooInstance instance = new DefaultBambooInstance();
-                instance.setProperties(props);
-                Instance.content.add(instance);
+            String[] names = instancesPrefs().childrenNames();
+            for(String prefName : names) {
+                if(prefName.equals(name)){
+                    return true;
+                }
             }
-            LOG.finer(String.format("loaded nodes: %s", children.length));
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
+        return false;
+    }
+
+    /**
+     * This method loads all existing instances.
+     */
+    static void loadInstances() {
+        Preferences prefs = instancesPrefs();
+        try {
+            String[] names = prefs.childrenNames();
+            for (String name : names) {
+                loadInstance(prefs, name);
+            }
+            LOG.finer(String.format("loaded nodes: %s", names.length));
+        } catch (BackingStoreException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }
+
+    private static void loadInstance(Preferences prefs, String name) {
+        BambooInstanceProperties props = new BambooInstanceProperties(
+                prefs);
+        props.put(BambooInstanceConstants.INSTANCE_NAME, name);
+        DefaultBambooInstance instance = new DefaultBambooInstance();
+        instance.setProperties(props);
+        Instance.content.add(instance);
     }
 
     /**
