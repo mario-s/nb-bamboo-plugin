@@ -46,6 +46,7 @@ public enum BambooManager implements Lookup.Provider {
     public static void addInstance(InstanceValues values) {
         DefaultBambooInstance instance = new DefaultBambooInstance(
                 values.getName(), values.getUrl());
+        instance.setSyncInterval(values.getSyncTime());
 
         BambooInstanceProperties props = new BambooInstanceProperties(
                 instancesPrefs());

@@ -11,7 +11,7 @@ public final class DefaultBambooInstance implements BambooInstance {
     private String name;
 
     private String url;
-    
+
     private int sync;
 
     private BambooInstanceProperties properties;
@@ -23,7 +23,7 @@ public final class DefaultBambooInstance implements BambooInstance {
         this.name = name;
         this.url = url;
     }
-    
+
     @Override
     public String getName() {
         return name;
@@ -33,10 +33,15 @@ public final class DefaultBambooInstance implements BambooInstance {
         this.name = name;
     }
 
-    public void setSync(int sync) {
+    @Override
+    public int getSyncInterval() {
+        return sync;
+    }
+
+    public void setSyncInterval(int sync) {
         this.sync = sync;
     }
-    
+
     @Override
     public String getUrl() {
         return url;
@@ -53,8 +58,16 @@ public final class DefaultBambooInstance implements BambooInstance {
 
     public void setProperties(BambooInstanceProperties properties) {
         this.properties = properties;
-        this.name = properties.get(BambooInstanceConstants.INSTANCE_NAME);
-        this.url = properties.get(BambooInstanceConstants.INSTANCE_URL);
+        updateFields(properties);
+    }
+
+    private void updateFields(BambooInstanceProperties props) throws NumberFormatException {
+        this.name = props.get(BambooInstanceConstants.INSTANCE_NAME);
+        this.url = props.get(BambooInstanceConstants.INSTANCE_URL);
+        String syncProp = props.get(BambooInstanceConstants.INSTANCE_SYNC);
+        if (syncProp != null) {
+            this.sync = Integer.parseInt(syncProp);
+        }
     }
 
 }

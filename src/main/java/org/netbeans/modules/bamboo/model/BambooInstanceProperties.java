@@ -32,7 +32,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
     public void copyProperties(BambooInstance instance) {
         put(INSTANCE_NAME, instance.getName());
         put(INSTANCE_URL, instance.getUrl());
-        put(INSTANCE_SYNC, "");
+        put(INSTANCE_SYNC, Integer.toString(instance.getSyncInterval()));
     }
 
     @Override
