@@ -1,6 +1,7 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
 import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -64,6 +65,14 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         nameLabel.setText(org.openide.util.NbBundle.getMessage(InstancePropertiesForm.class, "TXT_NAME")); // NOI18N
 
         chkRefresh.setText("Auto refresh every");
+        chkRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkRefreshActionPerformed(evt);
+            }
+        });
+
+        spinTime.setEnabled(false);
+        spinTime.setValue(5);
 
         lblTime.setText("minutes");
 
@@ -110,6 +119,13 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
                 .addContainerGap(109, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void chkRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkRefreshActionPerformed
+        AbstractButton abstractButton = (AbstractButton) evt.getSource();
+        boolean selected = abstractButton.getModel().isSelected();
+        spinTime.setEnabled(selected);
+    }//GEN-LAST:event_chkRefreshActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox chkRefresh;
     private javax.swing.JLabel lblTime;
