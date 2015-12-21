@@ -3,9 +3,6 @@ package org.netbeans.modules.bamboo.model;
 import java.util.Arrays;
 import java.util.List;
 
-
-
-
 public enum LifeCycleState {
     Queued,
     Pending,

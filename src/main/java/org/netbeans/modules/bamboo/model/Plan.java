@@ -2,11 +2,9 @@ package org.netbeans.modules.bamboo.model;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-
-
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Plan {
+
     private String shortName;
     private String shortKey;
     private String type;

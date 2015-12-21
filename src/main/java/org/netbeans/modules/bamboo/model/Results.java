@@ -6,9 +6,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Results extends Metrics {
+
     @JsonProperty("result")
     private List<Result> results;
     private String expand;
@@ -22,6 +22,7 @@ public class Results extends Metrics {
     }
 
     public static class Builder {
+
         private final Results result = new Results();
 
         public Builder addResult(final Result result) {

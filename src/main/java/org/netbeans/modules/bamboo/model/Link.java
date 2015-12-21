@@ -2,11 +2,9 @@ package org.netbeans.modules.bamboo.model;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-
-
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Link {
+
     private String href;
     private String rel;
 
