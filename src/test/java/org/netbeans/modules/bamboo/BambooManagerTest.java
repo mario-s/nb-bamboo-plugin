@@ -3,10 +3,12 @@ package org.netbeans.modules.bamboo;
 import java.util.Collection;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.junit.Assume.assumeThat;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -27,7 +29,8 @@ import org.openide.util.LookupListener;
 @RunWith(MockitoJUnitRunner.class)
 public class BambooManagerTest {
 
-    private Lookup.Result<BambooInstance> result;
+    private static Lookup.Result<BambooInstance> result = BambooManager.Instance.getLookup().lookupResult(
+                BambooInstance.class);
 
     @Mock
     private LookupListener listener;
@@ -35,14 +38,13 @@ public class BambooManagerTest {
     @Captor
     private ArgumentCaptor<LookupEvent> lookupCaptor;
 
-    public BambooManagerTest() {
-        result = BambooManager.Instance.getLookup().lookupResult(
-                BambooInstance.class);
-    }
-
     @Before
     public void setUp() {
         result.addLookupListener(listener);
+        addInstance();
+    }
+
+    private void addInstance() {
         InstanceValues vals = new InstanceValues();
         vals.setName(getClass().getName());
         vals.setUrl("");
@@ -51,8 +53,12 @@ public class BambooManagerTest {
 
     @After
     public void shutDown() {
-        result.allInstances().forEach(i -> BambooManager.removeInstance(i));
         result.removeLookupListener(listener);
+    }
+    
+    @AfterClass
+    public static void destroy() {
+        result.allInstances().forEach(i -> BambooManager.removeInstance(i));
     }
 
     /**
