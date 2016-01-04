@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
+import com.sun.istack.internal.logging.Logger;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -19,14 +21,16 @@ public class BambooRestClient {
         this.serverUrl = serverUrl;
     }
 
-    private WebTarget createTarget(final String path) {
-        Client client = ClientBuilder.newClient();
-
-        return client.target(path);
+    private WebTarget target() {
+        return ClientBuilder.newClient().target(serverUrl);
     }
 
     public Plans getPlans() {
         Plans plans = new Plans();
+
+        String entity = target().path(ALL_PLANS).request().get(String.class);
+
+        Logger.getLogger(getClass()).fine(entity);
 
         return plans;
     }
@@ -34,7 +38,9 @@ public class BambooRestClient {
     public ResultsResponse getResultsResponse() {
         ResultsResponse response = new ResultsResponse();
 
-        String entity = createTarget(RESULT).request().get(String.class);
+        String entity = target().path(RESULT).request().get(String.class);
+
+        Logger.getLogger(getClass()).fine(entity);
 
         return response;
     }
