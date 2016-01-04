@@ -2,6 +2,7 @@ package org.netbeans.modules.bamboo.rest;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 
 
 public class BambooRestClient {
@@ -10,7 +11,7 @@ public class BambooRestClient {
     private static final String REST_API = "/rest/api/latest";
     private static final String ALL_PLANS = REST_API + "/plan";
     private final String PLAN = ALL_PLANS + "/{buildKey}.json";
-    private final String RESULT = "/rest/api/latest/result/{buildKey}.json";
+    private final String RESULT = REST_API + "/result/{buildKey}.json";
 
     private String serverUrl;
 
@@ -18,10 +19,22 @@ public class BambooRestClient {
         this.serverUrl = serverUrl;
     }
 
+    private WebTarget createTarget(final String path) {
+        Client client = ClientBuilder.newClient();
+
+        return client.target(path);
+    }
+
+    public Plans getPlans() {
+        Plans plans = new Plans();
+
+        return plans;
+    }
+
     public ResultsResponse getResultsResponse() {
         ResultsResponse response = new ResultsResponse();
-        Client client = ClientBuilder.newClient();
-        String entity = client.target(serverUrl).path("").request().get(String.class);
+
+        String entity = createTarget(RESULT).request().get(String.class);
 
         return response;
     }
