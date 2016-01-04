@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
+import org.netbeans.modules.bamboo.model.BambooInstance;
+
 import java.util.logging.Logger;
 
 import javax.ws.rs.client.ClientBuilder;
@@ -16,8 +18,8 @@ public class BambooRestClient {
 
     private final String serverUrl;
 
-    public BambooRestClient(final String serverUrl) {
-        this.serverUrl = serverUrl;
+    public BambooRestClient(final BambooInstance instance) {
+        this.serverUrl = instance.getUrl();
     }
 
     private WebTarget target() {
