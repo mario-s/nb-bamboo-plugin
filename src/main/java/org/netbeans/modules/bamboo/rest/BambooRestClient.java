@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.rest;
 
 import com.sun.istack.internal.logging.Logger;
 
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 
@@ -15,7 +14,7 @@ public class BambooRestClient {
     private final String PLAN = ALL_PLANS + "/{buildKey}.json";
     private final String RESULT = REST_API + "/result/{buildKey}.json";
 
-    private String serverUrl;
+    private final String serverUrl;
 
     public BambooRestClient(final String serverUrl) {
         this.serverUrl = serverUrl;
