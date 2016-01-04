@@ -5,10 +5,12 @@ import javax.ws.rs.client.ClientBuilder;
 
 
 public class BambooRestClient {
-    private final String BAMBOO_RESULT_URL =
-        "{serverUrl}/rest/api/latest/result/{buildKey}.json?os_authType=basic&os_username={username}&os_password={password}";
-    private final String BAMBOO_PLAN_URL =
-        "{serverUrl}/rest/api/latest/plan/{buildKey}.json?os_authType=basic&os_username={username}&os_password={password}";
+    private static final String AUTHEN =
+        "?os_authType=basic&os_username={username}&os_password={password}";
+    private static final String REST_API = "/rest/api/latest";
+    private static final String ALL_PLANS = REST_API + "/plan";
+    private final String PLAN = ALL_PLANS + "/{buildKey}.json";
+    private final String RESULT = "/rest/api/latest/result/{buildKey}.json";
 
     private String serverUrl;
 
