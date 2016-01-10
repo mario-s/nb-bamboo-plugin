@@ -45,7 +45,7 @@ public class BambooManagerTest {
     }
 
     private void addInstance() {
-        InstanceValues vals = new InstanceValues();
+        InstanceProperties vals = new InstanceProperties();
         vals.setName(getClass().getName());
         vals.setUrl("");
         BambooManager.addInstance(vals);

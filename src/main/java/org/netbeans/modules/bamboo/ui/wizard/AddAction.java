@@ -5,7 +5,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import org.netbeans.modules.bamboo.BambooManager;
-import org.netbeans.modules.bamboo.InstanceValues;
+import org.netbeans.modules.bamboo.InstanceProperties;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 import org.openide.util.NbBundle;
 
@@ -36,7 +36,7 @@ class AddAction extends AbstractAction {
     }
 
     private void addInstance() {
-        InstanceValues vals = new InstanceValues();
+        InstanceProperties vals = new InstanceProperties();
         vals.setName(form.getInstanceName());
         vals.setUrl(form.getInstanceUrl());
         vals.setSyncTime(form.getSyncTime());

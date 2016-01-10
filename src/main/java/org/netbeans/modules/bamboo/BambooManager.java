@@ -43,7 +43,7 @@ public enum BambooManager implements Lookup.Provider {
         return content;
     }
 
-    public static void addInstance(InstanceValues values) {
+    public static void addInstance(InstanceProperties values) {
         DefaultBambooInstance instance = new DefaultBambooInstance(
                 values.getName(), values.getUrl());
         instance.setSyncInterval(values.getSyncTime());

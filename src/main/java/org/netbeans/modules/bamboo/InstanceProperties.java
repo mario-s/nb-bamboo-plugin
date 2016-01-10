@@ -4,7 +4,7 @@ package org.netbeans.modules.bamboo;
  * A wrapper for all parameters to be used to create a new BambooInstance
  * @author spindizzy
  */
-public class InstanceValues {
+public class InstanceProperties {
     
     private String name;
     
