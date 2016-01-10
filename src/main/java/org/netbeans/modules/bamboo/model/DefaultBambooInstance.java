@@ -70,7 +70,7 @@ public final class DefaultBambooInstance implements BambooInstance {
     }
 
     @Override
-    public String getPassword() {
+    public char[] getPassword() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

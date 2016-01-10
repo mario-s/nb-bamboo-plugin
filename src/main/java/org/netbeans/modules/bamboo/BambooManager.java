@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo;
 
+import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.model.BambooInstanceConstants;
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -43,7 +44,7 @@ public enum BambooManager implements Lookup.Provider {
         return content;
     }
 
-    public static void addInstance(InstanceProperties values) {
+    public static void addInstance(DefaultInstanceValues values) {
         DefaultBambooInstance instance = new DefaultBambooInstance(
                 values.getName(), values.getUrl());
         instance.setSyncInterval(values.getSyncTime());

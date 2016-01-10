@@ -1,10 +1,10 @@
-package org.netbeans.modules.bamboo;
+package org.netbeans.modules.bamboo.glue;
 
 /**
  * A wrapper for all parameters to be used to create a new BambooInstance
  * @author spindizzy
  */
-public class InstanceProperties {
+public class DefaultInstanceValues implements InstanceValues{
     
     private String name;
     
@@ -24,6 +24,15 @@ public class InstanceProperties {
         this.name = name;
     }
 
+    @Override
+    public int getSyncInterval() {
+        return syncTime;
+    }
+    
+    public void setSyncInterval(int syncTime) {
+        this.syncTime = syncTime;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -32,14 +41,17 @@ public class InstanceProperties {
         this.url = url;
     }
 
+    @Deprecated
     public int getSyncTime() {
         return syncTime;
     }
 
+    @Deprecated
     public void setSyncTime(int syncTime) {
         this.syncTime = syncTime;
     }
-
+    
+    @Override
     public String getUsername() {
         return username;
     }
@@ -48,6 +60,7 @@ public class InstanceProperties {
         this.username = username;
     }
 
+    @Override
     public char[] getPassword() {
         return password;
     }

@@ -30,5 +30,5 @@ public interface InstanceValues extends OpenableInBrowser{
      *
      * @return password as String
      */
-    String getPassword();
+    char[] getPassword();
 }

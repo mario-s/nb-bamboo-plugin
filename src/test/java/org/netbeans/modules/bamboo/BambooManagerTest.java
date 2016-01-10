@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo;
 
+import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import java.util.Collection;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.After;
@@ -45,7 +46,7 @@ public class BambooManagerTest {
     }
 
     private void addInstance() {
-        InstanceProperties vals = new InstanceProperties();
+        DefaultInstanceValues vals = new DefaultInstanceValues();
         vals.setName(getClass().getName());
         vals.setUrl("");
         BambooManager.addInstance(vals);
