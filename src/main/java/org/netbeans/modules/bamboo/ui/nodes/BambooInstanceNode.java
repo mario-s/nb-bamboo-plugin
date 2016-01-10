@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.modules.bamboo.BambooManager;
+import org.netbeans.modules.bamboo.SharedConstants;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
@@ -35,7 +36,7 @@ public class BambooInstanceNode extends AbstractNode {
     @Override
     public Action[] getActions(boolean context) {
         List<? extends Action> actions = Utilities.actionsForPath(
-                BambooInstance.ACTION_PATH);
+                SharedConstants.ACTION_PATH);
         
         return actions.toArray(new Action[actions.size()]);
     }

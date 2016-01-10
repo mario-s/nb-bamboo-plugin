@@ -9,15 +9,6 @@ import java.util.prefs.Preferences;
  * @author spindizzy
  */
 public interface BambooInstance extends OpenableInBrowser, Serializable {
-    /**
-     * Path used to load actions for the server instance. A
-     * {@code BambooInstance} object should be in the context lookup. May be
-     * used e.g. for the context menu of an instance node.
-     *
-     * @see   ActionReference#path
-     * @since 1.12
-     */
-    String ACTION_PATH = "org-netbeans-modules-bamboo/Actions/instance";
 
     /**
      * Name of the Bamboo instance.

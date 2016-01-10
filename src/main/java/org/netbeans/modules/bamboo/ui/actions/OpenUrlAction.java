@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import org.netbeans.modules.bamboo.SharedConstants;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.OpenableInBrowser;
 import org.openide.awt.ActionID;
@@ -25,7 +26,7 @@ import org.openide.util.NbBundle.Messages;
 @ActionRegistration(
         displayName = "#CTL_OpenUrlAction"
 )
-@ActionReference(path = BambooInstance.ACTION_PATH, position = 600)
+@ActionReference(path = SharedConstants.ACTION_PATH, position = 600)
 @Messages("CTL_OpenUrlAction=&Open in Browser")
 public final class OpenUrlAction implements ActionListener {
 
