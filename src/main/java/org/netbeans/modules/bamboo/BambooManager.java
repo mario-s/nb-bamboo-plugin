@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo;
 
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.model.BambooInstanceConstants;
-import java.util.Arrays;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import org.netbeans.modules.bamboo.model.BambooInstanceProperties;
@@ -45,10 +44,7 @@ public enum BambooManager implements Lookup.Provider {
     }
 
     public static void addInstance(DefaultInstanceValues values) {
-        DefaultBambooInstance instance = new DefaultBambooInstance(
-                values.getName(), values.getUrl());
-        instance.setSyncInterval(values.getSyncTime());
-
+        DefaultBambooInstance instance = new DefaultBambooInstance(values);
         BambooInstanceProperties props = new BambooInstanceProperties(
                 instancesPrefs());
         props.copyProperties(instance);
@@ -65,12 +61,12 @@ public enum BambooManager implements Lookup.Provider {
             Exceptions.printStackTrace(ex);
         }
     }
-    
+
     public static boolean existsInstance(String name) {
         try {
             String[] names = instancesPrefs().childrenNames();
-            for(String prefName : names) {
-                if(prefName.equals(name)){
+            for (String prefName : names) {
+                if (prefName.equals(name)) {
                     return true;
                 }
             }

@@ -16,6 +16,18 @@ public class DefaultInstanceValues implements InstanceValues{
     
     private char [] password;
 
+    public DefaultInstanceValues() {
+    }
+    
+    public DefaultInstanceValues(DefaultInstanceValues other) {
+        this.name = other.getName();
+        this.url = other.getUrl();
+        this.syncTime = other.getSyncInterval();
+        this.username = other.getUsername();
+        this.password = other.getPassword();
+    }
+
+    @Override
     public String getName() {
         return name;
     }
@@ -33,22 +45,13 @@ public class DefaultInstanceValues implements InstanceValues{
         this.syncTime = syncTime;
     }
 
+    @Override
     public String getUrl() {
         return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    @Deprecated
-    public int getSyncTime() {
-        return syncTime;
-    }
-
-    @Deprecated
-    public void setSyncTime(int syncTime) {
-        this.syncTime = syncTime;
     }
     
     @Override
