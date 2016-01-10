@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.glue;
 
 import java.io.Serializable;
 

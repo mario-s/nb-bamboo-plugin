@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import org.netbeans.modules.bamboo.model.BambooInstanceProperties;
 import java.util.prefs.Preferences;
-import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
