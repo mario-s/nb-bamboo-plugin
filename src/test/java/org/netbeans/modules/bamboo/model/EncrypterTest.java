@@ -35,7 +35,7 @@ public class EncrypterTest {
      */
     @Test
     public void testDecrypt() {
-        String str = "test";
+        String str = "testtest";
         String result = classUnderTest.decrypt(str);
         assertFalse(result.equals(str));
     }
