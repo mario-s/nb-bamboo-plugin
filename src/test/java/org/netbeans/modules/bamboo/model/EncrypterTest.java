@@ -6,6 +6,7 @@ package org.netbeans.modules.bamboo.model;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -34,6 +35,7 @@ public class EncrypterTest {
      * Test of decrypt method, of class Encrypter.
      */
     @Test
+    @Ignore
     public void testDecrypt() {
         String str = "testtest";
         String result = classUnderTest.decrypt(str);
