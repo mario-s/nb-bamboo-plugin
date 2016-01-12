@@ -25,10 +25,9 @@ public class EncrypterTest {
      */
     @Test
     public void testEncrypt() {
-        String str = "";
-        String expResult = "";
+        String str = "test";
         String result = classUnderTest.encrypt(str);
-        assertEquals(expResult, result);
+        assertFalse(result.equals(str));
     }
 
     /**
