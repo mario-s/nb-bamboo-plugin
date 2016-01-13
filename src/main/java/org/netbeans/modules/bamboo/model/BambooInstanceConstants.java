@@ -13,6 +13,10 @@ public final class BambooInstanceConstants {
     public static final String INSTANCE_URL = "url";
     
     public static final String INSTANCE_SYNC = "sync_time"; 
+    
+    public static final String INSTANCE_USER = "username";
+    
+    public static final String INSTANCE_PASSWORD = "password";
 
     /**
      * preferred jobs for the instance, list of job names, separated by |

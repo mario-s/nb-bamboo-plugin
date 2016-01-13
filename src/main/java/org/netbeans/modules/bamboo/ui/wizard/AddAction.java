@@ -40,6 +40,8 @@ class AddAction extends AbstractAction {
         vals.setName(form.getInstanceName());
         vals.setUrl(form.getInstanceUrl());
         vals.setSyncInterval(form.getSyncTime());
+        vals.setUsername(form.getUsername());
+        vals.setPassword(form.getPassword());
         BambooManager.addInstance(vals);
     }
 

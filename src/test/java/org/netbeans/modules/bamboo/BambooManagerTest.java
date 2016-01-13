@@ -49,6 +49,7 @@ public class BambooManagerTest {
         DefaultInstanceValues vals = new DefaultInstanceValues();
         vals.setName(getClass().getName());
         vals.setUrl("");
+        vals.setPassword(new char[]{'a'});
         BambooManager.addInstance(vals);
     }
 

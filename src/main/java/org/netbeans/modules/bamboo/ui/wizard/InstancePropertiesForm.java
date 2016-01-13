@@ -229,6 +229,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
             notificationSupport.setErrorMessage(NbBundle.getMessage(getClass(), "MSG_ExistName"));
             return;
         }
+        //TODO add verification for username and password
         
         notificationSupport.clearMessages();
         applyAction.setEnabled(true);

@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.model;
 
-import org.netbeans.modules.bamboo.glue.BambooInstance;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+import org.netbeans.modules.bamboo.glue.InstanceValues;
 import static org.netbeans.modules.bamboo.model.BambooInstanceConstants.*;
 import org.openide.util.Exceptions;
 import org.openide.util.RequestProcessor;
@@ -30,10 +30,13 @@ public class BambooInstanceProperties extends HashMap<String, String> {
         this.preferences = preferences;
     }
 
-    public void copyProperties(BambooInstance instance) {
-        put(INSTANCE_NAME, instance.getName());
-        put(INSTANCE_URL, instance.getUrl());
-        put(INSTANCE_SYNC, Integer.toString(instance.getSyncInterval()));
+    public void copyProperties(InstanceValues values) {
+        put(INSTANCE_NAME, values.getName());
+        put(INSTANCE_URL, values.getUrl());
+        put(INSTANCE_SYNC, Integer.toString(values.getSyncInterval()));
+        put(INSTANCE_USER, values.getUsername());
+        put(INSTANCE_PASSWORD, Encrypter.getInstance().encrypt(
+                values.getPassword()));
     }
 
     @Override
@@ -74,10 +77,10 @@ public class BambooInstanceProperties extends HashMap<String, String> {
 
     public static List<String> split(String prop) {
         if (prop != null && prop.trim().length() > 0) {
-            String[] escaped = prop.split("(?<!/)/(?!/)");              //NOI18N
+            String[] escaped = prop.split("(?<!/)/(?!/)");
             List<String> list = new ArrayList<>(escaped.length);
             for (String e : escaped) {
-                list.add(e.replace("//", "/"));                         //NOI18N
+                list.add(e.replace("//", "/"));
             }
             return list;
         } else {
@@ -88,9 +91,9 @@ public class BambooInstanceProperties extends HashMap<String, String> {
     public static String join(List<String> pieces) {
         StringBuilder b = new StringBuilder();
         for (String piece : pieces) {
-            assert !piece.startsWith("/") //NOI18N
-                    && !piece.endsWith("/") : piece;                    //NOI18N
-            String escaped = piece.replace("/", "//");                  //NOI18N
+            assert !piece.startsWith("/")
+                    && !piece.endsWith("/") : piece;
+            String escaped = piece.replace("/", "//");
             if (b.length() > 0) {
                 b.append('/');
             }
@@ -143,7 +146,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
         // http://deadlock.netbeans.org/hudson/ => deadlock.netbeans.org_hudson
         String display = name.replaceFirst("https?://", "").replaceFirst("/$",
                 "");
-        return forKey ? display.replaceAll("[/:]", "_") : display; // NOI18N
+        return forKey ? display.replaceAll("[/:]", "_") : display;
     }
 
     /**
@@ -182,6 +185,9 @@ public class BambooInstanceProperties extends HashMap<String, String> {
                             }
                             String val = prefs.get(key, null);
                             if (val != null) {
+                                if (INSTANCE_PASSWORD.equals(key)) {
+                                    val = Encrypter.getInstance().decrypt(val);
+                                } 
                                 put(key, val);
                             }
                         }

@@ -50,6 +50,7 @@ public class AddActionTest {
      */
     @Test
     public void testActionPerformed() {
+        given(form.getPassword()).willReturn(new char[]{'a'});
         classUnderTest.actionPerformed(null);
         verify(dialog).dispose();
     }
