@@ -32,17 +32,6 @@ public class EncrypterTest {
     }
 
     /**
-     * Test of decrypt method, of class Encrypter.
-     */
-    @Test
-    @Ignore
-    public void testDecrypt() {
-        String str = "testtest";
-        String result = classUnderTest.decrypt(str);
-        assertFalse(result.equals(str));
-    }
-
-    /**
      * Test of encrypt method, of class Encrypter.
      */
     @Test
