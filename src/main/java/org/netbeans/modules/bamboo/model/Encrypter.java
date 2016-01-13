@@ -47,8 +47,12 @@ final class Encrypter {
     public static Encrypter getInstance() {
         return SingletonHelper.INSTANCE;
     }
+    
+    public String encrypt(char [] chars) {
+        return encrypt(new String(chars));
+    }
 
-    public String encrypt(final String str) {
+    public String encrypt(String str) {
         String result = "";
 
         try {

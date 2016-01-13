@@ -27,7 +27,7 @@ public class EncrypterTest {
     @Test
     public void testEncrypt() {
         String str = "test";
-        String result = classUnderTest.encrypt(str);
+        String result = classUnderTest.encrypt(str.toCharArray());
         assertFalse(result.equals(str));
     }
 
