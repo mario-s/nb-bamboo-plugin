@@ -26,6 +26,8 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
     private void addDocumentListener() {
         txtName.getDocument().addDocumentListener(this);
         txtServer.getDocument().addDocumentListener(this);
+        txtUser.getDocument().addDocumentListener(this);
+        password.getDocument().addDocumentListener(this);
     }
 
     String getInstanceUrl() {
@@ -76,12 +78,6 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
 
         lblName.setText(org.openide.util.NbBundle.getMessage(InstancePropertiesForm.class, "TXT_NAME")); // NOI18N
 
-        txtName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNameActionPerformed(evt);
-            }
-        });
-
         chkRefresh.setText("Auto refresh every");
         chkRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,12 +91,6 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         lblTime.setText("minutes");
 
         lblUser.setText("Username:");
-
-        txtUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUserActionPerformed(evt);
-            }
-        });
 
         lblPassword.setText("Password:");
 
@@ -175,14 +165,6 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         spinTime.setEnabled(selected);
     }//GEN-LAST:event_chkRefreshActionPerformed
 
-    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNameActionPerformed
-
-    private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtUserActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox chkRefresh;
     private javax.swing.JLabel lblName;
@@ -216,21 +198,32 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         String name = getDisplayName();
         String url = getUrl();
         if (name.isEmpty()) {
-            notificationSupport.setInformationMessage(NbBundle.getMessage(getClass(), "MSG_EmptyName"));
+            notificationSupport.setInformationMessage(getMessage("MSG_EmptyName"));
             return;
         }
         if (url.isEmpty() || url.endsWith("//")) {
-            notificationSupport.setInformationMessage(NbBundle.getMessage(getClass(), "MSG_EmptyUrl"));
+            notificationSupport.setInformationMessage(getMessage("MSG_EmptyUrl"));
+            return;
+        }
+        if(getUsername().isEmpty()) {
+            notificationSupport.setInformationMessage(getMessage("MSG_EmptyUserName"));
+            return;
+        }
+        if(getPassword().length == 0) {
+            notificationSupport.setInformationMessage(getMessage("MSG_EmptyPassword"));
             return;
         }
         if (BambooManager.existsInstance(name)) {
-            notificationSupport.setErrorMessage(NbBundle.getMessage(getClass(), "MSG_ExistName"));
+            notificationSupport.setErrorMessage(getMessage("MSG_ExistName"));
             return;
         }
-        //TODO add verification for username and password
         
         notificationSupport.clearMessages();
         applyAction.setEnabled(true);
+    }
+    
+    private String getMessage(String key) {
+        return NbBundle.getMessage(getClass(), key);
     }
 
     private String getDisplayName() {

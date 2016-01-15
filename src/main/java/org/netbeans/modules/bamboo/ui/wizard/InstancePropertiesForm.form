@@ -118,9 +118,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtName">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNameActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="chkRefresh">
       <Properties>
@@ -149,9 +146,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtUser">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtUserActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblPassword">
       <Properties>
