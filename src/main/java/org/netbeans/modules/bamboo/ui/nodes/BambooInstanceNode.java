@@ -27,6 +27,10 @@ public class BambooInstanceNode extends AbstractNode {
         super(Children.LEAF, Lookups.singleton(instance));
         this.instance = instance;
 
+        init();
+    }
+
+    private void init() {
         setName(instance.getUrl());
         setDisplayName(instance.getName());
         setShortDescription(instance.getUrl());

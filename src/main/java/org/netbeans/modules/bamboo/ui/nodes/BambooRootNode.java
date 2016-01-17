@@ -31,6 +31,10 @@ public final class BambooRootNode extends AbstractNode {
     BambooRootNode() {
         super(Children.LEAF, BambooManager.Instance.getLookup());
 
+        init();
+    }
+
+    private void init() {
         setName(BAMBOO_NODE_NAME);
         setDisplayName(LBL_BambooNode());
         setShortDescription(TIP_BambooNode());
