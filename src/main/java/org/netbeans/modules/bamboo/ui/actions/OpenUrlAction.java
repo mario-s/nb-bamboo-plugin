@@ -6,7 +6,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
