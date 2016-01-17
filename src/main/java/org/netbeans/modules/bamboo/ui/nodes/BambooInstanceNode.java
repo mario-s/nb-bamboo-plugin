@@ -14,6 +14,7 @@ import org.openide.util.lookup.Lookups;
 
 /**
  * This class is the node of a Bamboo CI server.
+ *
  * @author spindizzy
  */
 public class BambooInstanceNode extends AbstractNode {
@@ -21,12 +22,11 @@ public class BambooInstanceNode extends AbstractNode {
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
 
-    private BambooInstance instance;
+    private final BambooInstance instance;
 
     public BambooInstanceNode(final BambooInstance instance) {
         super(Children.LEAF, Lookups.singleton(instance));
         this.instance = instance;
-
         init();
     }
 
@@ -35,13 +35,17 @@ public class BambooInstanceNode extends AbstractNode {
         setDisplayName(instance.getName());
         setShortDescription(instance.getUrl());
         setIconBaseWithExtension(ICON_BASE);
+
+        //add plans for the instance
+        setChildren(Children.create(new PlanNodeFactory(instance),
+                true));
     }
 
     @Override
     public Action[] getActions(boolean context) {
         List<? extends Action> actions = Utilities.actionsForPath(
                 SharedConstants.ACTION_PATH);
-        
+
         return actions.toArray(new Action[actions.size()]);
     }
 
