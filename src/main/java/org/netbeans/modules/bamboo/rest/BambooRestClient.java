@@ -1,14 +1,14 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.glue.BambooInstance;
 
 import java.util.logging.Logger;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import org.netbeans.modules.bamboo.glue.InstanceValues;
 
 
-public class BambooRestClient {
+public class BambooRestClient implements BambooInstanceAccessable{
     private static final String AUTHEN =
         "?os_authType=basic&os_username={username}&os_password={password}";
     private static final String REST_API = "/rest/api/latest";
@@ -16,30 +16,26 @@ public class BambooRestClient {
     private final String PLAN = ALL_PLANS + "/{buildKey}.json";
     private final String RESULT = REST_API + "/result/{buildKey}.json";
 
-    private final String serverUrl;
-
-    public BambooRestClient(final BambooInstance instance) {
-        this.serverUrl = instance.getUrl();
-    }
-
-    private WebTarget target() {
+    private WebTarget target(String serverUrl) {
         return ClientBuilder.newClient().target(serverUrl);
     }
 
-    public Plans getPlans() {
+    @Override
+    public Plans getPlans(InstanceValues values) {
         Plans plans = new Plans();
 
-        String entity = target().path(ALL_PLANS).request().get(String.class);
+        String entity = target(values.getUrl()).path(ALL_PLANS).request().get(String.class);
 
         Logger.getLogger(getClass().getName()).fine(entity);
 
         return plans;
     }
 
-    public ResultsResponse getResultsResponse() {
+    @Override
+    public ResultsResponse getResultsResponse(InstanceValues values) {
         ResultsResponse response = new ResultsResponse();
 
-        String entity = target().path(RESULT).request().get(String.class);
+        String entity = target(values.getUrl()).path(RESULT).request().get(String.class);
 
         Logger.getLogger(getClass().getName()).fine(entity);
 
