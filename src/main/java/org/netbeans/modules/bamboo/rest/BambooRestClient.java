@@ -6,8 +6,9 @@ import java.util.logging.Logger;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.openide.util.lookup.ServiceProvider;
 
-
+@ServiceProvider(service = BambooInstanceAccessable.class)
 public class BambooRestClient implements BambooInstanceAccessable{
     private static final String AUTHEN =
         "?os_authType=basic&os_username={username}&os_password={password}";
