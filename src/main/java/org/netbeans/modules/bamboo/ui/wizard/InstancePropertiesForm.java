@@ -78,6 +78,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
 
         lblName.setText(org.openide.util.NbBundle.getMessage(InstancePropertiesForm.class, "TXT_NAME")); // NOI18N
 
+        chkRefresh.setSelected(true);
         chkRefresh.setText("Auto refresh every");
         chkRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -121,6 +121,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="chkRefresh">
       <Properties>
+        <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Auto refresh every"/>
       </Properties>
       <Events>

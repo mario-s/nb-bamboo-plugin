@@ -4,6 +4,11 @@ package org.netbeans.modules.bamboo.glue;
  * Constants shared across packages.
  */
 public interface SharedConstants {
+    
+    /**
+     * The name of the module.
+     */
+    String MODULE_NAME = "org-netbeans-modules-bamboo";
 
     /**
      * Path used to load actions for the server instance. A
@@ -11,7 +16,6 @@ public interface SharedConstants {
      * used e.g. for the context menu of an instance node.
      *
      * @see ActionReference#path
-     * @since 1.12
      */
-    String ACTION_PATH = "org-netbeans-modules-bamboo/Actions/instance";
+    String ACTION_PATH = MODULE_NAME + "/Actions/instance";
 }

@@ -5,7 +5,6 @@
  */
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import org.netbeans.modules.bamboo.ui.nodes.BambooRootNode;
 import javax.swing.Action;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.Before;
