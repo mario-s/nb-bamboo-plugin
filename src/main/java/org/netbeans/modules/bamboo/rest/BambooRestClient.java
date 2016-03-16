@@ -18,17 +18,18 @@ public class BambooRestClient implements BambooInstanceAccessable {
     private static final String PASS = "os_password";
 
     private static final String REST_API = "/rest/api/latest";
-    private static final String ALL_PLANS = REST_API + "/plan";
+    private static final String ALL_PLANS = "/plan";
     private final String PLAN = ALL_PLANS + "/{buildKey}.json";
-    private final String RESULT = REST_API + "/result/{buildKey}.json";
+    private final String RESULT = "/result/{buildKey}.json";
 
     private WebTarget target(final InstanceValues values, final String path) {
         String url = values.getUrl();
         String user = values.getName();
         String password = String.valueOf(values.getPassword());
 
-        return ClientBuilder.newClient().target(url).path(path).queryParam(AUTH_TYPE, BASIC)
-                            .queryParam(USER, user).queryParam(PASS, password);
+        return ClientBuilder.newClient().target(url).path(REST_API).path(path)
+                            .queryParam(AUTH_TYPE, BASIC).queryParam(USER, user).queryParam(PASS,
+                                password);
     }
 
     @Override
