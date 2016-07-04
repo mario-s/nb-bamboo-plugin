@@ -10,47 +10,56 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 
 
+/**
+ * @author spindizzy
+ */
 @ServiceProvider(service = BambooInstanceAccessable.class)
 public class BambooRestClient implements BambooInstanceAccessable {
-    private static final String AUTH_TYPE = "os_authType";
-    private static final String BASIC = "basic";
-    private static final String USER = "os_username";
-    private static final String PASS = "os_password";
+    static final String AUTH_TYPE = "os_authType";
+    static final String BASIC = "basic";
+    static final String USER = "os_username";
+    static final String PASS = "os_password";
 
-    private static final String REST_API = "/rest/api/latest";
-    private static final String ALL_PLANS = "/plan";
-    private final String PLAN = ALL_PLANS + "/{buildKey}.json";
-    private final String RESULT = "/result/{buildKey}.json";
+    static final String REST_API = "/rest/api/latest";
+
+    static final String RESULT = "/result/{buildKey}.json";
+    static final String ALL_PLANS = "/plan";
+    private static final String PLAN = ALL_PLANS + "/{buildKey}.json";
+
+    private final Logger log;
+
+    public BambooRestClient() {
+        this.log = Logger.getLogger(getClass().getName());
+    }
 
     private WebTarget target(final InstanceValues values, final String path) {
         String url = values.getUrl();
-        String user = values.getName();
+        String user = values.getUsername();
         String password = String.valueOf(values.getPassword());
 
-        return ClientBuilder.newClient().target(url).path(REST_API).path(path)
-                            .queryParam(AUTH_TYPE, BASIC).queryParam(USER, user).queryParam(PASS,
-                                password);
+        return newTarget(url).path(REST_API).path(path).queryParam(AUTH_TYPE, BASIC)
+                             .queryParam(USER, user).queryParam(PASS, password);
+    }
+
+    WebTarget newTarget(final String url) {
+        return ClientBuilder.newClient().target(url);
     }
 
     @Override
     public Plans getPlans(final InstanceValues values) {
-        Plans plans = new Plans();
+        Plans entity = target(values, ALL_PLANS).request().get(Plans.class);
 
-        String entity = target(values, ALL_PLANS).request().get(String.class);
+        log.fine(String.format("got plans: %s", entity));
 
-        Logger.getLogger(getClass().getName()).fine(entity);
-
-        return plans;
+        return entity;
     }
 
     @Override
     public ResultsResponse getResultsResponse(final InstanceValues values) {
-        ResultsResponse response = new ResultsResponse();
+        ResultsResponse entity = target(values, RESULT).request().get(ResultsResponse.class);
 
-        String entity = target(values, RESULT).request().get(String.class);
+        log.fine(String.format("got results: %s", entity));
 
-        Logger.getLogger(getClass().getName()).fine(entity);
-
-        return response;
+        return entity;
     }
 }
