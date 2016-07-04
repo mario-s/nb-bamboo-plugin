@@ -10,7 +10,6 @@ import org.openide.util.lookup.ServiceProvider;
 import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import static java.util.Optional.ofNullable;
 import java.util.logging.Logger;
 
 import javax.ws.rs.client.ClientBuilder;
@@ -30,7 +29,7 @@ public class BambooRestClient implements BambooInstanceAccessable {
     static final String REST_API = "/rest/api/latest";
 
     static final String RESULT = "/result/{buildKey}.json";
-    static final String ALL_PLANS = "/plan";
+    static final String ALL_PLANS = "/plan.json";
     private static final String PLAN = ALL_PLANS + "/{buildKey}.json";
 
     private final Logger log;
@@ -62,12 +61,12 @@ public class BambooRestClient implements BambooInstanceAccessable {
     }
 
     @Override
-    public Plans getPlans(final InstanceValues values) {
-        Plans plans = new Plans();
+    public AllPlansResponse getAllPlans(final InstanceValues values) {
+        AllPlansResponse plans = new AllPlansResponse();
         Optional<WebTarget> target = target(values, ALL_PLANS);
 
         if (target.isPresent()) {
-            plans = target.get().request().get(Plans.class);
+            plans = target.get().request().get(AllPlansResponse.class);
 
             log.fine(String.format("got plans: %s", plans));
         }
@@ -76,12 +75,12 @@ public class BambooRestClient implements BambooInstanceAccessable {
     }
 
     @Override
-    public ResultsResponse getResultsResponse(final InstanceValues values) {
-        ResultsResponse results = new ResultsResponse();
+    public AllResultsResponse getResultsResponse(final InstanceValues values) {
+        AllResultsResponse results = new AllResultsResponse();
         Optional<WebTarget> target = target(values, RESULT);
 
         if (target.isPresent()) {
-            results = target.get().request().get(ResultsResponse.class);
+            results = target.get().request().get(AllResultsResponse.class);
 
             log.fine(String.format("got results: %s", results));
         }

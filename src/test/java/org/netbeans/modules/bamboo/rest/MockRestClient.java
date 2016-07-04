@@ -13,19 +13,21 @@ import java.util.ArrayList;
 @ServiceProvider(service = BambooInstanceAccessable.class)
 public class MockRestClient implements BambooInstanceAccessable {
     @Override
-    public Plans getPlans(final InstanceValues values) {
+    public AllPlansResponse getAllPlans(final InstanceValues values) {
+        AllPlansResponse all = new AllPlansResponse();
         Plans plans = new Plans();
         plans.setPlans(new ArrayList<>());
         plans.getPlans().add(new Plan());
+        all.setPlans(plans);
 
-        return plans;
+        return all;
     }
 
     @Override
-    public ResultsResponse getResultsResponse(final InstanceValues values) {
+    public AllResultsResponse getResultsResponse(final InstanceValues values) {
         Results.Builder resBuilder = new Results.Builder();
         Results results = resBuilder.addResult(new Result()).build();
-        ResultsResponse.Builder respBuilder = new ResultsResponse.Builder();
+        AllResultsResponse.Builder respBuilder = new AllResultsResponse.Builder();
 
         return respBuilder.results(results).build();
     }

@@ -9,7 +9,7 @@ import org.netbeans.modules.bamboo.glue.InstanceValues;
  */
 public interface BambooInstanceAccessable {
     
-    Plans getPlans(InstanceValues values);
+    AllPlansResponse getAllPlans(InstanceValues values);
     
-    ResultsResponse getResultsResponse(InstanceValues values);
+    AllResultsResponse getResultsResponse(InstanceValues values);
 }

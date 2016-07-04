@@ -4,10 +4,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ResultsResponse {
+public class AllResultsResponse extends AbstractAllResponse {
     private Results results;
-    private String expand;
-    private Link link;
 
     public Results getResults() {
         return results;
@@ -17,24 +15,9 @@ public class ResultsResponse {
         this.results = results;
     }
 
-    public String getExpand() {
-        return expand;
-    }
-
-    public void setExpand(final String expand) {
-        this.expand = expand;
-    }
-
-    public Link getLink() {
-        return link;
-    }
-
-    public void setLink(final Link link) {
-        this.link = link;
-    }
 
     public static class Builder {
-        private final ResultsResponse response = new ResultsResponse();
+        private final AllResultsResponse response = new AllResultsResponse();
 
         public Builder results(final Results results) {
             response.results = results;
@@ -42,7 +25,7 @@ public class ResultsResponse {
             return this;
         }
 
-        public ResultsResponse build() {
+        public AllResultsResponse build() {
             return response;
         }
     }

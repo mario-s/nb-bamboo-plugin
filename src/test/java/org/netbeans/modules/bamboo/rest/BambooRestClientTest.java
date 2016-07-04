@@ -1,6 +1,3 @@
-/*
- * Schuetze Consulting Informationssysteme AG, Berlin
- */
 package org.netbeans.modules.bamboo.rest;
 
 import static org.junit.Assert.*;
@@ -64,13 +61,15 @@ public class BambooRestClientTest {
      */
     @Test
     public void testGetPlans() {
-        Plans expectedResult = new Plans();
-        expectedResult.setPlans(singletonList(new Plan()));
-        given(invocationBuilder.get(Plans.class)).willReturn(expectedResult);
+        AllPlansResponse all = new AllPlansResponse();
+        Plans plans = new Plans();
+        plans.setPlans(singletonList(new Plan()));
+        all.setPlans(plans);
+        given(invocationBuilder.get(AllPlansResponse.class)).willReturn(all);
         given(webTarget.path(BambooRestClient.ALL_PLANS)).willReturn(webTarget);
 
-        Plans result = classUnderTest.getPlans(instanceValues);
-        assertFalse(result.getPlans().isEmpty());
+        AllPlansResponse result = classUnderTest.getAllPlans(instanceValues);
+        assertFalse(result.getPlans().getPlans().isEmpty());
     }
 
     /**
@@ -78,12 +77,12 @@ public class BambooRestClientTest {
      */
     @Test
     public void testGetResultsResponse() {
-        ResultsResponse expectedResult = new ResultsResponse();
+        AllResultsResponse expectedResult = new AllResultsResponse();
         expectedResult.setResults(new Results());
-        given(invocationBuilder.get(ResultsResponse.class)).willReturn(expectedResult);
+        given(invocationBuilder.get(AllResultsResponse.class)).willReturn(expectedResult);
         given(webTarget.path(BambooRestClient.RESULT)).willReturn(webTarget);
 
-        ResultsResponse result = classUnderTest.getResultsResponse(instanceValues);
+        AllResultsResponse result = classUnderTest.getResultsResponse(instanceValues);
         assertNotNull(result.getResults());
     }
 }
