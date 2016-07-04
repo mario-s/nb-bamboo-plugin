@@ -1,6 +1,3 @@
-/*
- * Schuetze Consulting Informationssysteme AG, Berlin
- */
 package org.netbeans.modules.bamboo.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,7 +15,7 @@ import java.util.List;
 
 
 /**
- * @author schroeder
+ * @author spindizzy
  */
 public class AllPlansResponseITest {
     private AllPlansResponse classUnderTest;
