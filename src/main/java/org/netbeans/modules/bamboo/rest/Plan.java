@@ -42,4 +42,32 @@ public class Plan {
     public String getName() {
         return name;
     }
+
+    public void setShortName(final String shortName) {
+        this.shortName = shortName;
+    }
+
+    public void setShortKey(final String shortKey) {
+        this.shortKey = shortKey;
+    }
+
+    public void setType(final String type) {
+        this.type = type;
+    }
+
+    public void setEnabled(final boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setLink(final Link link) {
+        this.link = link;
+    }
+
+    public void setKey(final String key) {
+        this.key = key;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
 }
