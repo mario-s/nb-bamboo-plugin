@@ -11,4 +11,12 @@ public class Link {
     public String getRel() {
         return rel;
     }
+
+    public void setHref(final String href) {
+        this.href = href;
+    }
+
+    public void setRel(final String rel) {
+        this.rel = rel;
+    }
 }
