@@ -1,10 +1,10 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Result {
-
     private Link link;
     private String key;
     private State state;
@@ -51,7 +51,6 @@ public class Result {
     }
 
     public static class Builder {
-
         private final Result result = new Result();
 
         public Builder number(final int number) {

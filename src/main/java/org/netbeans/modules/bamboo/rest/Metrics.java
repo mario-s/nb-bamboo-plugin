@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Metrics {

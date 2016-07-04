@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.map.annotate.JsonRootName;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 
 @JsonRootName(value = "plan")

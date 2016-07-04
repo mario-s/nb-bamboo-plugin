@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -14,7 +14,6 @@ public class AllResultsResponse extends AbstractAllResponse {
     public void setResults(final Results results) {
         this.results = results;
     }
-
 
     public static class Builder {
         private final AllResultsResponse response = new AllResultsResponse();
