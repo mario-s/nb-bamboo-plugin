@@ -50,7 +50,7 @@ public class BambooManagerTest {
         vals.setName(getClass().getName());
         vals.setUrl("");
         vals.setPassword(new char[]{'a'});
-        BambooManager.addInstance(vals);
+        BambooManager.add(vals);
     }
 
     @After

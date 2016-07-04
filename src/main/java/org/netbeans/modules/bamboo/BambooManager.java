@@ -1,18 +1,23 @@
 package org.netbeans.modules.bamboo;
 
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.model.BambooInstanceConstants;
-import java.util.logging.Logger;
-import java.util.prefs.BackingStoreException;
 import org.netbeans.modules.bamboo.model.BambooInstanceProperties;
-import java.util.prefs.Preferences;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
+
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.NbPreferences;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
+
+import java.awt.EventQueue;
+
+import java.util.logging.Logger;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
+
 
 /**
  * Glue to interact. It manages the load, save and delete of instances.
@@ -20,11 +25,9 @@ import org.openide.util.lookup.InstanceContent;
  * @author spindizzy
  */
 public enum BambooManager implements Lookup.Provider {
-
     Instance;
 
-    private static final Logger LOG = Logger.getLogger(
-            BambooManager.class.getName());
+    private static final Logger LOG = Logger.getLogger(BambooManager.class.getName());
 
     private final Lookup lookup;
     private final InstanceContent content;
@@ -43,17 +46,30 @@ public enum BambooManager implements Lookup.Provider {
         return content;
     }
 
-    public static void addInstance(DefaultInstanceValues values) {
+    /**
+     * Adds a new Instance to Lookup.
+     *
+     * @param values the instance values
+     */
+    public static void addInstance(final DefaultInstanceValues values) {
+        EventQueue.invokeLater(() -> { add(values); });
+    }
+
+    /**
+     * This methos should be only used for testing purpose.
+     *
+     * @param values
+     */
+    static void add(final DefaultInstanceValues values) {
         DefaultBambooInstance instance = new DefaultBambooInstance(values);
-        BambooInstanceProperties props = new BambooInstanceProperties(
-                instancesPrefs());
+        BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
         props.copyProperties(instance);
         instance.setProperties(props);
 
         Instance.content.add(instance);
     }
 
-    public static void removeInstance(BambooInstance instance) {
+    public static void removeInstance(final BambooInstance instance) {
         try {
             instance.getPreferences().removeNode();
             Instance.content.remove(instance);
@@ -62,9 +78,10 @@ public enum BambooManager implements Lookup.Provider {
         }
     }
 
-    public static boolean existsInstance(String name) {
+    public static boolean existsInstance(final String name) {
         try {
             String[] names = instancesPrefs().childrenNames();
+
             for (String prefName : names) {
                 if (prefName.equals(name)) {
                     return true;
@@ -73,6 +90,7 @@ public enum BambooManager implements Lookup.Provider {
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
+
         return false;
     }
 
@@ -81,21 +99,24 @@ public enum BambooManager implements Lookup.Provider {
      */
     static void loadInstances() {
         Preferences prefs = instancesPrefs();
+
         try {
             String[] names = prefs.childrenNames();
+
             for (String name : names) {
                 loadInstance(prefs, name);
             }
+
             LOG.finer(String.format("loaded nodes: %s", names.length));
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
     }
 
-    private static void loadInstance(Preferences prefs, String name) {
-        BambooInstanceProperties props = new BambooInstanceProperties(
-                prefs);
+    private static void loadInstance(final Preferences prefs, final String name) {
+        BambooInstanceProperties props = new BambooInstanceProperties(prefs);
         props.put(BambooInstanceConstants.INSTANCE_NAME, name);
+
         DefaultBambooInstance instance = new DefaultBambooInstance();
         instance.setProperties(props);
         Instance.content.add(instance);
