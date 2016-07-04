@@ -7,8 +7,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import java.util.Base64;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -47,12 +45,12 @@ final class Encrypter {
     public static Encrypter getInstance() {
         return SingletonHelper.INSTANCE;
     }
-    
-    public String encrypt(char [] chars) {
+
+    public String encrypt(final char[] chars) {
         return encrypt(new String(chars));
     }
 
-    public String encrypt(String str) {
+    public String encrypt(final String str) {
         String result = "";
 
         try {
