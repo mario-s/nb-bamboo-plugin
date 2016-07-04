@@ -1,9 +1,16 @@
 package org.netbeans.modules.bamboo.rest;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 
 import org.openide.util.lookup.ServiceProvider;
 
+import java.util.Optional;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
 import java.util.logging.Logger;
 
 import javax.ws.rs.client.ClientBuilder;
@@ -32,13 +39,22 @@ public class BambooRestClient implements BambooInstanceAccessable {
         this.log = Logger.getLogger(getClass().getName());
     }
 
-    private WebTarget target(final InstanceValues values, final String path) {
+    private Optional<WebTarget> target(final InstanceValues values, final String path) {
+        Optional<WebTarget> opt = empty();
         String url = values.getUrl();
         String user = values.getUsername();
-        String password = String.valueOf(values.getPassword());
+        char[] chars = values.getPassword();
 
-        return newTarget(url).path(REST_API).path(path).queryParam(AUTH_TYPE, BASIC)
-                             .queryParam(USER, user).queryParam(PASS, password);
+        if (StringUtils.isNotBlank(url) && StringUtils.isNotBlank(user) &&
+                ArrayUtils.isNotEmpty(chars)) {
+            String password = String.valueOf(chars);
+
+            opt = of(
+                    newTarget(url).path(REST_API).path(path).queryParam(AUTH_TYPE, BASIC)
+                    .queryParam(USER, user).queryParam(PASS, password));
+        }
+
+        return opt;
     }
 
     WebTarget newTarget(final String url) {
@@ -47,19 +63,29 @@ public class BambooRestClient implements BambooInstanceAccessable {
 
     @Override
     public Plans getPlans(final InstanceValues values) {
-        Plans entity = target(values, ALL_PLANS).request().get(Plans.class);
+        Plans plans = new Plans();
+        Optional<WebTarget> target = target(values, ALL_PLANS);
 
-        log.fine(String.format("got plans: %s", entity));
+        if (target.isPresent()) {
+            plans = target.get().request().get(Plans.class);
 
-        return entity;
+            log.fine(String.format("got plans: %s", plans));
+        }
+
+        return plans;
     }
 
     @Override
     public ResultsResponse getResultsResponse(final InstanceValues values) {
-        ResultsResponse entity = target(values, RESULT).request().get(ResultsResponse.class);
+        ResultsResponse results = new ResultsResponse();
+        Optional<WebTarget> target = target(values, RESULT);
 
-        log.fine(String.format("got results: %s", entity));
+        if (target.isPresent()) {
+            results = target.get().request().get(ResultsResponse.class);
 
-        return entity;
+            log.fine(String.format("got results: %s", results));
+        }
+
+        return results;
     }
 }
