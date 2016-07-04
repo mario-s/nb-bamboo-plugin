@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.rest;
 /**
  * @author spindizzy
  */
-public class AbstractAllResponse {
+abstract class AbstractAllResponse {
     private String expand;
     private Link link;
 

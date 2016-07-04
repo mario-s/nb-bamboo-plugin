@@ -1,15 +1,9 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
-
-
 /**
  * @author spindizzy
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class AllPlansResponse extends AbstractAllResponse {
-    @JsonProperty("plans")
     private Plans plans;
 
     public Plans getPlans() {

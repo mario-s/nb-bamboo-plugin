@@ -1,10 +1,12 @@
 package org.netbeans.modules.bamboo.rest;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonRootName;
 
+
+@JsonRootName(value = "plan")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Plan {
-
     private String shortName;
     private String shortKey;
     private String type;
@@ -40,5 +42,4 @@ public class Plan {
     public String getName() {
         return name;
     }
-    
 }

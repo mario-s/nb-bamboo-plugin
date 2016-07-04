@@ -1,11 +1,9 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Metrics {
 
+public class Metrics {
     @JsonProperty("start-index")
     private int startIndex;
     @JsonProperty("max-result")
@@ -22,5 +20,17 @@ public class Metrics {
 
     public int getSize() {
         return size;
+    }
+
+    public void setStartIndex(final int startIndex) {
+        this.startIndex = startIndex;
+    }
+
+    public void setMaxResult(final int maxResult) {
+        this.maxResult = maxResult;
+    }
+
+    public void setSize(final int size) {
+        this.size = size;
     }
 }
