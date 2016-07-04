@@ -16,8 +16,8 @@ public class MockRestClient implements BambooInstanceAccessable {
     public AllPlansResponse getAllPlans(final InstanceValues values) {
         AllPlansResponse all = new AllPlansResponse();
         Plans plans = new Plans();
-        plans.setPlans(new ArrayList<>());
-        plans.getPlans().add(new Plan());
+        plans.setPlan(new ArrayList<>());
+        plans.getPlan().add(new Plan());
         all.setPlans(plans);
 
         return all;

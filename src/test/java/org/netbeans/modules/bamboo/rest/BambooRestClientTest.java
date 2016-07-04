@@ -57,19 +57,19 @@ public class BambooRestClientTest {
     }
 
     /**
-     * Test of getPlans method, of class BambooRestClient.
+     * Test of getPlan method, of class BambooRestClient.
      */
     @Test
     public void testGetPlans() {
         AllPlansResponse all = new AllPlansResponse();
         Plans plans = new Plans();
-        plans.setPlans(singletonList(new Plan()));
+        plans.setPlan(singletonList(new Plan()));
         all.setPlans(plans);
         given(invocationBuilder.get(AllPlansResponse.class)).willReturn(all);
         given(webTarget.path(BambooRestClient.ALL_PLANS)).willReturn(webTarget);
 
         AllPlansResponse result = classUnderTest.getAllPlans(instanceValues);
-        assertFalse(result.getPlans().getPlans().isEmpty());
+        assertFalse(result.getPlans().getPlan().isEmpty());
     }
 
     /**

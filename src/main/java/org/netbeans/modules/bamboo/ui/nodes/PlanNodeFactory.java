@@ -42,7 +42,7 @@ class PlanNodeFactory extends ChildFactory<Plan> {
 
     private void callServer() {
         AllPlansResponse all = instanceAccessor.getAllPlans(instance);
-        plans = all.getPlans().getPlans();
+        plans = all.getPlans().getPlan();
         refresh(true);
     }
 
