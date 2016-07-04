@@ -4,14 +4,12 @@ import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.rest.AllPlansResponse;
 import org.netbeans.modules.bamboo.rest.BambooInstanceAccessable;
 import org.netbeans.modules.bamboo.rest.Plan;
-import org.netbeans.modules.bamboo.rest.Plans;
 
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
 
 import org.openide.util.Lookup;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
