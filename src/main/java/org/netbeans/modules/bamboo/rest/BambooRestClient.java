@@ -38,7 +38,7 @@ public class BambooRestClient implements BambooInstanceAccessable {
         this.log = Logger.getLogger(getClass().getName());
     }
 
-    private Optional<WebTarget> target(final InstanceValues values, final String path) {
+    private Optional<WebTarget> newTarget(final InstanceValues values, final String path) {
         Optional<WebTarget> opt = empty();
         String url = values.getUrl();
         String user = values.getUsername();
@@ -48,8 +48,7 @@ public class BambooRestClient implements BambooInstanceAccessable {
                 ArrayUtils.isNotEmpty(chars)) {
             String password = String.valueOf(chars);
 
-            opt = of(
-                    newTarget(url).path(REST_API).path(path).queryParam(AUTH_TYPE, BASIC)
+            opt = of(BambooRestClient.this.newTarget(url).path(REST_API).path(path).queryParam(AUTH_TYPE, BASIC)
                     .queryParam(USER, user).queryParam(PASS, password));
         }
 
@@ -60,13 +59,17 @@ public class BambooRestClient implements BambooInstanceAccessable {
         return ClientBuilder.newClient().target(url);
     }
 
+    private <T> T request(final WebTarget target, final Class<T> clazz) {
+        return target.request().get(clazz);
+    }
+
     @Override
     public AllPlansResponse getAllPlans(final InstanceValues values) {
         AllPlansResponse plans = new AllPlansResponse();
-        Optional<WebTarget> target = target(values, ALL_PLANS);
+        Optional<WebTarget> target = newTarget(values, ALL_PLANS);
 
         if (target.isPresent()) {
-            plans = target.get().request().get(AllPlansResponse.class);
+            plans = request(target.get(), AllPlansResponse.class);
 
             log.fine(String.format("got plans: %s", plans));
         }
@@ -77,10 +80,10 @@ public class BambooRestClient implements BambooInstanceAccessable {
     @Override
     public AllResultsResponse getResultsResponse(final InstanceValues values) {
         AllResultsResponse results = new AllResultsResponse();
-        Optional<WebTarget> target = target(values, RESULT);
+        Optional<WebTarget> target = newTarget(values, RESULT);
 
         if (target.isPresent()) {
-            results = target.get().request().get(AllResultsResponse.class);
+            results = request(target.get(), AllResultsResponse.class);
 
             log.fine(String.format("got results: %s", results));
         }

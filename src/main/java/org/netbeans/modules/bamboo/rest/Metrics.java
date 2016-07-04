@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Metrics {
-    @JsonProperty("start-index")
+    @JsonProperty(value = "start-index")
     private int startIndex;
-    @JsonProperty("max-result")
+    @JsonProperty(value = "max-result")
     private int maxResult;
     private int size;
 
