@@ -91,6 +91,6 @@ public class DefaultInstanceManagerTest {
     @Test
     @Ignore("FIXME")
     public void testExistsInstance() {
-        assertTrue(BambooManager.existsInstance(getClass().getName()));
+        assertTrue(classUnderTest.existsInstance(getClass().getName()));
     }
 }

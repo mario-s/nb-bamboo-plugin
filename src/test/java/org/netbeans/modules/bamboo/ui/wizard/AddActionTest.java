@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +15,6 @@ import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.netbeans.modules.bamboo.glue.BambooManager;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
 import java.awt.Dialog;
