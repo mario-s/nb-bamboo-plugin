@@ -24,6 +24,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox chkRefresh;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblServer;
@@ -90,6 +91,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         txtUser = new javax.swing.JTextField();
         lblPassword = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
+        jProgressBar1 = new javax.swing.JProgressBar();
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle(
                 "org/netbeans/modules/bamboo/ui/wizard/Bundle"); // NOI18N
@@ -117,12 +119,18 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
 
         lblPassword.setText("Password:");
 
+        jProgressBar1.setIndeterminate(true);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
                 layout.createSequentialGroup().addContainerGap().addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jProgressBar1,
+                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                        Short.MAX_VALUE).addGroup(
                         layout.createSequentialGroup().addGroup(
                             layout.createParallelGroup(
                                 javax.swing.GroupLayout.Alignment.LEADING).addComponent(
@@ -190,8 +198,14 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
                     .addComponent(chkRefresh).addComponent(spinTime,
                         javax.swing.GroupLayout.PREFERRED_SIZE,
                         javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(lblTime))
-                .addContainerGap(36, Short.MAX_VALUE)));
+                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(lblTime)).addGap(18,
+                    18,
+                    18).addComponent(jProgressBar1,
+                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(
+                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                    Short.MAX_VALUE)));
     } // </editor-fold>//GEN-END:initComponents
 
     private void chkRefreshActionPerformed(final java.awt.event.ActionEvent evt) {
