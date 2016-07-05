@@ -18,6 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
 import java.awt.Dialog;
+import static org.junit.Assert.assertFalse;
 
 
 /**
@@ -59,6 +60,7 @@ public class AddActionTest {
     public void testActionPerformed() {
         given(form.getPassword()).willReturn(new char[] { 'a' });
         classUnderTest.actionPerformed(null);
-        verify(dialog).dispose();
+        assertFalse(classUnderTest.isEnabled());
+        verify(form).block();
     }
 }
