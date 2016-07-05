@@ -45,6 +45,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
     InstancePropertiesForm() {
         initComponents();
         addDocumentListener();
+        
         progressBar.setVisible(false);
     }
 
@@ -139,6 +140,8 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         lblPassword.setText("Password:");
 
         progressBar.setIndeterminate(true);
+        progressBar.setString("Please wait...");
+        progressBar.setStringPainted(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -203,8 +206,8 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
                     .addComponent(spinTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTime))
                 .addGap(18, 18, 18)
-                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
