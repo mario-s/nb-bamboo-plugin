@@ -55,7 +55,7 @@ public class DefaultInstanceManagerTest {
         vals.setName(getClass().getName());
         vals.setUrl("");
         vals.setPassword(new char[]{'a'});
-        classUnderTest.add(vals);
+        classUnderTest.addInstance(vals);
     }
 
     @After

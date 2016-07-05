@@ -1,7 +1,8 @@
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.glue;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import java.util.List;
+import org.netbeans.modules.bamboo.model.Plan;
 
 /**
  *

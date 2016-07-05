@@ -1,5 +1,6 @@
-package org.netbeans.modules.bamboo.rest;
+package org.netbeans.modules.bamboo.model;
 
+import org.netbeans.modules.bamboo.model.BambooServiceAccessable;
 import org.netbeans.modules.bamboo.model.Result;
 import org.netbeans.modules.bamboo.model.Plans;
 import org.netbeans.modules.bamboo.model.AllResultsResponse;

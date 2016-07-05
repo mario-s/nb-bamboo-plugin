@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.model;
 
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.glue.PlansProvideable;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 
 /**
@@ -8,5 +8,5 @@ import org.netbeans.modules.bamboo.glue.InstanceValues;
  */
 public interface BambooInstanceProduceable {
     
-    BambooInstance create(InstanceValues values);
+    PlansProvideable create(InstanceValues values);
 }

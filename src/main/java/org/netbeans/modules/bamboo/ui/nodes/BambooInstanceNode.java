@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.swing.Action;
-import org.netbeans.modules.bamboo.model.PlansProvideable;
+import org.netbeans.modules.bamboo.glue.PlansProvideable;
 
 
 /**

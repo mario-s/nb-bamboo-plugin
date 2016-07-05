@@ -1,32 +1,29 @@
 package org.netbeans.modules.bamboo.model;
 
+import org.netbeans.modules.bamboo.glue.PlansProvideable;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.glue.PreferenceWrapper;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
-import org.netbeans.modules.bamboo.model.BambooInstanceConstants;
-import org.netbeans.modules.bamboo.model.BambooInstanceProperties;
-import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
 
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
-import org.openide.util.NbPreferences;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.ServiceProvider;
 
-import java.awt.EventQueue;
+import java.util.Collection;
 
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-
 
 /**
  * @author spindizzy
  */
 @ServiceProvider(service = InstanceManageable.class)
 public class DefaultInstanceManager implements InstanceManageable {
+
     private static final Logger LOG = Logger.getLogger(DefaultInstanceManager.class.getName());
 
     private final InstanceContent content;
@@ -35,7 +32,10 @@ public class DefaultInstanceManager implements InstanceManageable {
     public DefaultInstanceManager() {
         this.content = new InstanceContent();
         this.lookup = new AbstractLookup(content);
+
     }
+
+   
 
     @Override
     public Lookup getLookup() {
@@ -49,12 +49,11 @@ public class DefaultInstanceManager implements InstanceManageable {
 
     @Override
     public void addInstance(final InstanceValues values) {
-        EventQueue.invokeLater(() -> { add(values); });
-    }
-
-    void add(final InstanceValues values) {
+        
         BambooInstanceProduceable factory = new BambooInstanceFactory();
-        content.add(factory.create(values));
+        PlansProvideable instance = factory.create(values);
+        
+        content.add(instance);
     }
 
     @Override
