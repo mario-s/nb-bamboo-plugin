@@ -24,13 +24,13 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox chkRefresh;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblServer;
     private javax.swing.JLabel lblTime;
     private javax.swing.JLabel lblUser;
     private javax.swing.JPasswordField password;
+    private javax.swing.JProgressBar progressBar;
     private javax.swing.JSpinner spinTime;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtServer;
@@ -43,6 +43,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
     InstancePropertiesForm() {
         initComponents();
         addDocumentListener();
+        progressBar.setVisible(false);
     }
 
     private void addDocumentListener() {
@@ -71,6 +72,16 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
     int getSyncTime() {
         return chkRefresh.isSelected() ? (Integer) spinTime.getValue() : 0;
     }
+    
+    void block() {
+        progressBar.setVisible(true);
+        txtName.setEnabled(false);
+        txtServer.setEnabled(false);
+        txtUser.setEnabled(false);
+        password.setEnabled(false);
+        spinTime.setEnabled(false);
+        chkRefresh.setEnabled(false);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -80,6 +91,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         lblServer = new javax.swing.JLabel();
         txtServer = new javax.swing.JTextField();
         lblName = new javax.swing.JLabel();
@@ -91,24 +103,22 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         txtUser = new javax.swing.JTextField();
         lblPassword = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
-        jProgressBar1 = new javax.swing.JProgressBar();
+        progressBar = new javax.swing.JProgressBar();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle(
-                "org/netbeans/modules/bamboo/ui/wizard/Bundle"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/netbeans/modules/bamboo/ui/wizard/Bundle"); // NOI18N
         lblServer.setText(bundle.getString("LBL_SERVER")); // NOI18N
 
         txtServer.setText("http://");
 
-        lblName.setText(
-            org.openide.util.NbBundle.getMessage(InstancePropertiesForm.class, "TXT_NAME")); // NOI18N
+        lblName.setText(org.openide.util.NbBundle.getMessage(InstancePropertiesForm.class, "TXT_NAME")); // NOI18N
 
         chkRefresh.setSelected(true);
         chkRefresh.setText("Auto refresh every");
         chkRefresh.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    chkRefreshActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkRefreshActionPerformed(evt);
+            }
+        });
 
         spinTime.setEnabled(false);
         spinTime.setValue(5);
@@ -119,94 +129,75 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
 
         lblPassword.setText("Password:");
 
-        jProgressBar1.setIndeterminate(true);
+        progressBar.setIndeterminate(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                layout.createSequentialGroup().addContainerGap().addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jProgressBar1,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE).addGroup(
-                        layout.createSequentialGroup().addGroup(
-                            layout.createParallelGroup(
-                                javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                                lblServer).addComponent(lblName)).addGap(18, 18, 18).addGroup(
-                            layout.createParallelGroup(
-                                javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                                txtServer).addComponent(txtName))).addGroup(
-                        layout.createSequentialGroup().addGroup(
-                            layout.createParallelGroup(
-                                javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                                layout.createSequentialGroup().addGroup(
-                                    layout.createParallelGroup(
-                                        javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                                        javax.swing.GroupLayout.Alignment.TRAILING,
-                                        layout.createSequentialGroup().addComponent(
-                                            lblUser).addPreferredGap(
-                                            javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                                    .addGroup(
-                                        layout.createSequentialGroup().addComponent(
-                                            lblPassword).addGap(12, 12, 12))).addGroup(
-                                    layout.createParallelGroup(
-                                        javax.swing.GroupLayout.Alignment.TRAILING,
-                                        false).addComponent(password,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        109,
-                                        Short.MAX_VALUE).addComponent(txtUser))).addGroup(
-                                layout.createSequentialGroup().addComponent(chkRefresh)
-                                .addPreferredGap(
-                                    javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(spinTime,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                                    42,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                                    javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblTime))).addGap(0, 182, Short.MAX_VALUE)))
-                .addContainerGap()));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblServer)
+                            .addComponent(lblName))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtServer)
+                            .addComponent(txtName)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(lblUser)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblPassword)
+                                        .addGap(12, 12, 12)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                                    .addComponent(txtUser)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(chkRefresh)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinTime, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblTime)))
+                        .addGap(0, 182, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                layout.createSequentialGroup().addContainerGap().addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtName,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(lblName))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtServer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(lblServer)).addGap(19,
-                    19,
-                    19).addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUser,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(lblUser))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPassword).addComponent(password,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addGap(18, 18, 18).addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(chkRefresh).addComponent(spinTime,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(lblTime)).addGap(18,
-                    18,
-                    18).addComponent(jProgressBar1,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE)));
-    } // </editor-fold>//GEN-END:initComponents
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblName))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtServer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblServer))
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUser))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPassword)
+                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chkRefresh)
+                    .addComponent(spinTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTime))
+                .addGap(18, 18, 18)
+                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
 
     private void chkRefreshActionPerformed(final java.awt.event.ActionEvent evt) {
         AbstractButton abstractButton = (AbstractButton) evt.getSource();

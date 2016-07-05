@@ -48,6 +48,7 @@ class AddAction extends AbstractAction {
     }
 
     private void addInstance() {
+        form.block();
         DefaultInstanceValues vals = new DefaultInstanceValues();
         vals.setName(form.getInstanceName());
         vals.setUrl(form.getInstanceUrl());
