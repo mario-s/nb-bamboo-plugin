@@ -1,25 +1,25 @@
 package org.netbeans.modules.bamboo.glue;
 
 /**
- * A wrapper for all parameters to be used to create a new BambooInstance
+ * A wrapper for all parameters to be used to create a new BambooInstance.
+ *
  * @author spindizzy
  */
-public class DefaultInstanceValues implements InstanceValues{
-    
+public class DefaultInstanceValues implements InstanceValues {
     private String name;
-    
+
     private String url;
-    
+
     private int syncTime;
-    
+
     private String username;
-    
-    private char [] password;
+
+    private char[] password;
 
     public DefaultInstanceValues() {
     }
-    
-    public DefaultInstanceValues(DefaultInstanceValues other) {
+
+    public DefaultInstanceValues(final InstanceValues other) {
         this.name = other.getName();
         this.url = other.getUrl();
         this.syncTime = other.getSyncInterval();
@@ -32,7 +32,7 @@ public class DefaultInstanceValues implements InstanceValues{
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -40,8 +40,8 @@ public class DefaultInstanceValues implements InstanceValues{
     public int getSyncInterval() {
         return syncTime;
     }
-    
-    public void setSyncInterval(int syncTime) {
+
+    public void setSyncInterval(final int syncTime) {
         this.syncTime = syncTime;
     }
 
@@ -50,16 +50,16 @@ public class DefaultInstanceValues implements InstanceValues{
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(final String url) {
         this.url = url;
     }
-    
+
     @Override
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -68,7 +68,7 @@ public class DefaultInstanceValues implements InstanceValues{
         return password;
     }
 
-    public void setPassword(char[] password) {
+    public void setPassword(final char[] password) {
         this.password = password;
     }
 }

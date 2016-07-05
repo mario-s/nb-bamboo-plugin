@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
-import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
+import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.model.BambooInstanceConstants;
 import org.netbeans.modules.bamboo.model.BambooInstanceProperties;
 import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
@@ -51,7 +51,7 @@ public enum BambooManager implements Lookup.Provider {
      *
      * @param values the instance values
      */
-    public static void addInstance(final DefaultInstanceValues values) {
+    public static void addInstance(final InstanceValues values) {
         EventQueue.invokeLater(() -> { add(values); });
     }
 
@@ -60,7 +60,7 @@ public enum BambooManager implements Lookup.Provider {
      *
      * @param values
      */
-    static void add(final DefaultInstanceValues values) {
+    static void add(final InstanceValues values) {
         DefaultBambooInstance instance = new DefaultBambooInstance(values);
         BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
         props.copyProperties(instance);

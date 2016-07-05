@@ -1,8 +1,10 @@
 package org.netbeans.modules.bamboo.model;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
-import java.util.prefs.Preferences;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
+import org.netbeans.modules.bamboo.glue.InstanceValues;
+
+import java.util.prefs.Preferences;
 
 
 /**
@@ -12,18 +14,16 @@ public final class DefaultBambooInstance extends DefaultInstanceValues implement
     /** Use serialVersionUID for interoperability. */
     private static final long serialVersionUID = 1L;
 
-
     private int sync;
 
     private BambooInstanceProperties properties;
 
     public DefaultBambooInstance() {
     }
-    
-    public DefaultBambooInstance(DefaultInstanceValues values) {
+
+    public DefaultBambooInstance(final InstanceValues values) {
         super(values);
     }
-
 
     @Override
     public Preferences getPreferences() {
