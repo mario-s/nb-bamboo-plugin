@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo;
 
+import org.netbeans.modules.bamboo.glue.BambooManager;
 import org.openide.windows.OnShowing;
 
 @OnShowing

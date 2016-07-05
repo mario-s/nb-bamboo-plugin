@@ -5,7 +5,7 @@ import javax.swing.AbstractButton;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import org.netbeans.modules.bamboo.BambooManager;
+import org.netbeans.modules.bamboo.glue.BambooManager;
 import org.openide.NotificationLineSupport;
 import org.openide.util.NbBundle;
 

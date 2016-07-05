@@ -1,5 +1,6 @@
-package org.netbeans.modules.bamboo;
+package org.netbeans.modules.bamboo.glue;
 
+import org.netbeans.modules.bamboo.glue.BambooManager;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import java.util.Collection;
 import static org.hamcrest.CoreMatchers.is;

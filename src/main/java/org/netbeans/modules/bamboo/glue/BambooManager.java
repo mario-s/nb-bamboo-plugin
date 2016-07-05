@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo;
+package org.netbeans.modules.bamboo.glue;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
@@ -97,7 +97,7 @@ public enum BambooManager implements Lookup.Provider {
     /**
      * This method loads all existing instances.
      */
-    static void loadInstances() {
+    public static void loadInstances() {
         Preferences prefs = instancesPrefs();
 
         try {

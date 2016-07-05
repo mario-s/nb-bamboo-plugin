@@ -10,7 +10,7 @@ import static org.hamcrest.CoreMatchers.is;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.netbeans.modules.bamboo.BambooManager;
+import org.netbeans.modules.bamboo.glue.BambooManager;
 import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
 import org.openide.nodes.Node;
 

@@ -9,7 +9,7 @@ import static org.mockito.BDDMockito.given;
 import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.BambooManager;
+import org.netbeans.modules.bamboo.glue.BambooManager;
 
 /**
  *

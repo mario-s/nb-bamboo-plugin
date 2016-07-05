@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.ui.nodes;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.core.ide.ServicesTabNodeRegistration;
-import org.netbeans.modules.bamboo.BambooManager;
+import org.netbeans.modules.bamboo.glue.BambooManager;
 import org.netbeans.modules.bamboo.ui.actions.AddInstanceAction;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;

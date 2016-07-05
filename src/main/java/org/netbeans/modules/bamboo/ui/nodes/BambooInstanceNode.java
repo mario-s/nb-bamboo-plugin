@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
-import org.netbeans.modules.bamboo.BambooManager;
+import org.netbeans.modules.bamboo.glue.BambooManager;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.openide.nodes.AbstractNode;

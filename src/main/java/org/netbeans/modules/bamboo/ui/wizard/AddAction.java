@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import org.netbeans.modules.bamboo.BambooManager;
+import org.netbeans.modules.bamboo.glue.BambooManager;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 
