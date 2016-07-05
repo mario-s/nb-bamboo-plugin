@@ -1,14 +1,16 @@
 package org.netbeans.modules.bamboo;
 
-import org.netbeans.modules.bamboo.glue.BambooManager;
+import org.netbeans.modules.bamboo.glue.InstanceManageable;
+
+import org.openide.util.Lookup;
+
 import org.openide.windows.OnShowing;
 
-@OnShowing
-public class Installer implements Runnable{
 
+@OnShowing
+public class Installer implements Runnable {
     @Override
     public void run() {
-        BambooManager.loadInstances();
+        Lookup.getDefault().lookup(InstanceManageable.class).loadInstances();
     }
-
 }

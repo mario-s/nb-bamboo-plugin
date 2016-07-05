@@ -9,6 +9,7 @@ import org.openide.util.Lookup;
 import org.openide.util.NbPreferences;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
+import org.openide.util.lookup.ServiceProvider;
 
 import java.awt.EventQueue;
 
@@ -18,71 +19,56 @@ import java.util.prefs.Preferences;
 
 
 /**
- * Glue to interact. It manages the load, save and delete of instances.
- *
  * @author spindizzy
  */
-@Deprecated
-public enum BambooManager implements Lookup.Provider {
-    Instance;
+@ServiceProvider(service = InstanceManageable.class)
+public class DefaultInstanceManager implements InstanceManageable {
+    private static final Logger LOG = Logger.getLogger(DefaultInstanceManager.class.getName());
 
-    private static final Logger LOG = Logger.getLogger(BambooManager.class.getName());
-
-    private final Lookup lookup;
     private final InstanceContent content;
+    private final Lookup lookup;
 
-    private BambooManager() {
-        content = new InstanceContent();
-        lookup = new AbstractLookup(content);
+    public DefaultInstanceManager() {
+        this.content = new InstanceContent();
+        this.lookup = new AbstractLookup(content);
     }
 
-    @Deprecated
     @Override
     public Lookup getLookup() {
         return lookup;
     }
 
-    @Deprecated
+    @Override
     public InstanceContent getContent() {
         return content;
     }
 
-    /**
-     * Adds a new Instance to Lookup.
-     *
-     * @param values the instance values
-     */
-    @Deprecated
-    public static void addInstance(final InstanceValues values) {
+    @Override
+    public void addInstance(final DefaultInstanceValues values) {
         EventQueue.invokeLater(() -> { add(values); });
     }
 
-    /**
-     * This methos should be only used for testing purpose.
-     *
-     * @param values
-     */
-    static void add(final InstanceValues values) {
+    void add(final InstanceValues values) {
         DefaultBambooInstance instance = new DefaultBambooInstance(values);
         BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
         props.copyProperties(instance);
         instance.setProperties(props);
 
-        Instance.content.add(instance);
+        content.add(instance);
     }
 
-    @Deprecated
-    public static void removeInstance(final BambooInstance instance) {
+    @Override
+    public void removeInstance(final BambooInstance instance) {
         try {
             instance.getPreferences().removeNode();
-            Instance.content.remove(instance);
+            content.remove(instance);
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
     }
 
-    @Deprecated
-    public static boolean existsInstance(final String name) {
+    @Override
+    public boolean existsInstance(final String name) {
         try {
             String[] names = instancesPrefs().childrenNames();
 
@@ -98,11 +84,8 @@ public enum BambooManager implements Lookup.Provider {
         return false;
     }
 
-    /**
-     * This method loads all existing instances.
-     */
-    @Deprecated
-    public static void loadInstances() {
+    @Override
+    public void loadInstances() {
         Preferences prefs = instancesPrefs();
 
         try {
@@ -118,22 +101,16 @@ public enum BambooManager implements Lookup.Provider {
         }
     }
 
-    private static void loadInstance(final Preferences prefs, final String name) {
+    private void loadInstance(final Preferences prefs, final String name) {
         BambooInstanceProperties props = new BambooInstanceProperties(prefs);
         props.put(BambooInstanceConstants.INSTANCE_NAME, name);
 
         DefaultBambooInstance instance = new DefaultBambooInstance();
         instance.setProperties(props);
-        Instance.content.add(instance);
+        content.add(instance);
     }
 
-    /**
-     * This method returns the root preferences to save, load or delete all
-     * Bamboo instances.
-     *
-     * @return {@link Preferences} the root preferences
-     */
-    public static Preferences instancesPrefs() {
-        return NbPreferences.forModule(BambooManager.class).node("instances");
+    Preferences instancesPrefs() {
+        return NbPreferences.forModule(InstanceManageable.class).node("instances");
     }
 }

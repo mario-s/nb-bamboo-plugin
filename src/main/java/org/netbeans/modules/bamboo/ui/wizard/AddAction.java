@@ -2,8 +2,11 @@ package org.netbeans.modules.bamboo.ui.wizard;
 
 import org.netbeans.modules.bamboo.glue.BambooManager;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
+import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 
+import org.openide.util.Lookup;
+import static org.openide.util.Lookup.getDefault;
 import org.openide.util.NbBundle;
 
 import java.awt.Dialog;
@@ -25,8 +28,11 @@ class AddAction extends AbstractAction {
 
     private final InstancePropertiesForm form;
 
+    private InstanceManageable manager;
+
     public AddAction(final Dialog dialog, final InstancePropertiesForm form) {
         super(TXT_ADD());
+        manager = getDefault().lookup(InstanceManageable.class);
         this.form = form;
         this.dialog = dialog;
         disable();
@@ -50,7 +56,7 @@ class AddAction extends AbstractAction {
         vals.setSyncInterval(form.getSyncTime());
         vals.setUsername(form.getUsername());
         vals.setPassword(form.getPassword());
-        BambooManager.addInstance(vals);
+        manager.addInstance(vals);
     }
 
     void dispose() {

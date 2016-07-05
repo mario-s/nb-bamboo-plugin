@@ -10,8 +10,8 @@ import java.util.ArrayList;
 /**
  * @author spindizzy
  */
-@ServiceProvider(service = BambooInstanceAccessable.class)
-public class MockRestClient implements BambooInstanceAccessable {
+@ServiceProvider(service = BambooServiceAccessable.class)
+public class MockRestClient implements BambooServiceAccessable {
     @Override
     public AllPlansResponse getAllPlans(final InstanceValues values) {
         AllPlansResponse all = new AllPlansResponse();

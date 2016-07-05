@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.ui.nodes;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.rest.AllPlansResponse;
-import org.netbeans.modules.bamboo.rest.BambooInstanceAccessable;
 import org.netbeans.modules.bamboo.rest.Plan;
 
 import org.openide.nodes.ChildFactory;
@@ -12,6 +11,7 @@ import org.openide.util.Lookup;
 
 import java.util.Collection;
 import java.util.List;
+import org.netbeans.modules.bamboo.rest.BambooServiceAccessable;
 
 
 /**
@@ -20,7 +20,7 @@ import java.util.List;
 class PlanNodeFactory extends ChildFactory<Plan> {
     private final BambooInstance instance;
 
-    private BambooInstanceAccessable instanceAccessor;
+    private BambooServiceAccessable instanceAccessor;
 
     private List<Plan> plans;
 
@@ -31,8 +31,7 @@ class PlanNodeFactory extends ChildFactory<Plan> {
     }
 
     private void initClient() {
-        Collection<? extends BambooInstanceAccessable> services = Lookup.getDefault().lookupAll(
-                BambooInstanceAccessable.class);
+        Collection<? extends BambooServiceAccessable> services = Lookup.getDefault().lookupAll(BambooServiceAccessable.class);
 
         // simply take the first one, in test environment it is the mock client
         this.instanceAccessor = services.iterator().next();

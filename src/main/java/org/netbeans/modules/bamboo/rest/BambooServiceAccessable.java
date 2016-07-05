@@ -7,7 +7,7 @@ import org.netbeans.modules.bamboo.glue.InstanceValues;
  * 
  * @author spindizzy
  */
-public interface BambooInstanceAccessable {
+public interface BambooServiceAccessable {
     
     AllPlansResponse getAllPlans(InstanceValues values);
     

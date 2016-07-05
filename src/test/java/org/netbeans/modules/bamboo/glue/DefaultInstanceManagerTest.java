@@ -1,11 +1,7 @@
 package org.netbeans.modules.bamboo.glue;
 
-import org.netbeans.modules.bamboo.glue.BambooManager;
-import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import java.util.Collection;
-import static org.hamcrest.CoreMatchers.is;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -17,22 +13,23 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Mockito.verify;
 
 /**
  *
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class BambooManagerTest {
+public class DefaultInstanceManagerTest {
 
-    private static Lookup.Result<BambooInstance> result = BambooManager.Instance.getLookup().lookupResult(
-                BambooInstance.class);
+    private DefaultInstanceManager classUnderTest;
+    
+     private Lookup.Result<BambooInstance> result;
 
     @Mock
     private LookupListener listener;
@@ -42,6 +39,10 @@ public class BambooManagerTest {
 
     @Before
     public void setUp() {
+        classUnderTest = new DefaultInstanceManager();
+        result = classUnderTest.getLookup().lookupResult(
+                BambooInstance.class);
+        
         result.addLookupListener(listener);
         addInstance();
     }
@@ -51,18 +52,15 @@ public class BambooManagerTest {
         vals.setName(getClass().getName());
         vals.setUrl("");
         vals.setPassword(new char[]{'a'});
-        BambooManager.add(vals);
+        classUnderTest.add(vals);
     }
 
     @After
     public void shutDown() {
         result.removeLookupListener(listener);
+        result.allInstances().forEach(i -> classUnderTest.removeInstance(i));
     }
     
-    @AfterClass
-    public static void destroy() {
-        result.allInstances().forEach(i -> BambooManager.removeInstance(i));
-    }
 
     /**
      * Test of addInstance method, of class BambooManager.
@@ -80,13 +78,13 @@ public class BambooManagerTest {
     public void testRemoveInstance() {
         Collection<? extends BambooInstance> instances = result.allInstances();
         assumeThat(instances.isEmpty(), is(false));
-        BambooManager.removeInstance(instances.iterator().next());
+        classUnderTest.removeInstance(instances.iterator().next());
         verify(listener, times(2)).resultChanged(lookupCaptor.capture());
     }
 
     @Test
     public void testLoadInstances() {
-        BambooManager.loadInstances();
+        classUnderTest.loadInstances();
         verify(listener, atLeast(1)).resultChanged(lookupCaptor.capture());
     }
     

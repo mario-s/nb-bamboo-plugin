@@ -23,8 +23,8 @@ import javax.ws.rs.core.Feature;
 /**
  * @author spindizzy
  */
-@ServiceProvider(service = BambooInstanceAccessable.class)
-public class BambooRestClient implements BambooInstanceAccessable {
+@ServiceProvider(service = BambooServiceAccessable.class)
+public class BambooRestClient implements BambooServiceAccessable {
     static final String AUTH_TYPE = "os_authType";
     static final String BASIC = "basic";
     static final String USER = "os_username";
