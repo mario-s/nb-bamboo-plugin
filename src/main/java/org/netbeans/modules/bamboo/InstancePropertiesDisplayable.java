@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.glue;
+package org.netbeans.modules.bamboo;
 
 /**
  * Interface to call a GUI for displaying server properties.

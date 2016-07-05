@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import static org.netbeans.modules.bamboo.ui.actions.Bundle.*;
 import org.netbeans.modules.bamboo.ui.wizard.InstanceDialog;
-import org.netbeans.modules.bamboo.glue.InstancePropertiesDisplayable;
+import org.netbeans.modules.bamboo.InstancePropertiesDisplayable;
 import org.openide.util.NbBundle.Messages;
 
 /**

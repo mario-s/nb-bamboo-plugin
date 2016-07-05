@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import org.glassfish.jersey.logging.LoggingFeature;
 
-import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.InstanceValues;
 
 import org.openide.util.lookup.ServiceProvider;
 

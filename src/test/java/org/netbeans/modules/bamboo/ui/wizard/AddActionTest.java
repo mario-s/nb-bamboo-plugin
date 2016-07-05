@@ -15,7 +15,7 @@ import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.netbeans.modules.bamboo.glue.InstanceManageable;
+import org.netbeans.modules.bamboo.InstanceManageable;
 
 import java.awt.Dialog;
 

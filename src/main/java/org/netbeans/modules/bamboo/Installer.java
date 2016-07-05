@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo;
 
-import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
 import org.openide.util.Lookup;
 

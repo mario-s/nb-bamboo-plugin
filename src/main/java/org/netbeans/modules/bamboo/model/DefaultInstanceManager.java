@@ -1,5 +1,9 @@
-package org.netbeans.modules.bamboo.glue;
+package org.netbeans.modules.bamboo.model;
 
+import org.netbeans.modules.bamboo.BambooInstance;
+import org.netbeans.modules.bamboo.InstanceManageable;
+import org.netbeans.modules.bamboo.PreferenceWrapper;
+import org.netbeans.modules.bamboo.InstanceValues;
 import org.netbeans.modules.bamboo.model.BambooInstanceConstants;
 import org.netbeans.modules.bamboo.model.BambooInstanceProperties;
 import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
@@ -44,17 +48,13 @@ public class DefaultInstanceManager implements InstanceManageable {
     }
 
     @Override
-    public void addInstance(final DefaultInstanceValues values) {
+    public void addInstance(final InstanceValues values) {
         EventQueue.invokeLater(() -> { add(values); });
     }
 
     void add(final InstanceValues values) {
-        DefaultBambooInstance instance = new DefaultBambooInstance(values);
-        BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
-        props.copyProperties(instance);
-        instance.setProperties(props);
-
-        content.add(instance);
+        BambooInstanceProduceable factory = new BambooInstanceFactory();
+        content.add(factory.create(values));
     }
 
     @Override
@@ -111,6 +111,6 @@ public class DefaultInstanceManager implements InstanceManageable {
     }
 
     Preferences instancesPrefs() {
-        return NbPreferences.forModule(InstanceManageable.class).node("instances");
+        return PreferenceWrapper.instancesPrefs();
     }
 }

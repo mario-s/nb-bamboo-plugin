@@ -11,7 +11,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
+import org.netbeans.modules.bamboo.OpenableInBrowser;
 import org.openide.awt.HtmlBrowser.URLDisplayer;
 
 @RunWith(MockitoJUnitRunner.class)

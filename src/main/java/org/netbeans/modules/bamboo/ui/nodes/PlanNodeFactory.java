@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.BambooInstance;
 import org.netbeans.modules.bamboo.model.AllPlansResponse;
 import org.netbeans.modules.bamboo.model.Plan;
 
@@ -11,6 +11,7 @@ import org.openide.util.Lookup;
 
 import java.util.Collection;
 import java.util.List;
+import org.netbeans.modules.bamboo.model.PlansProvideable;
 import org.netbeans.modules.bamboo.rest.BambooServiceAccessable;
 
 
@@ -18,15 +19,15 @@ import org.netbeans.modules.bamboo.rest.BambooServiceAccessable;
  * @author spindizzy
  */
 class PlanNodeFactory extends ChildFactory<Plan> {
-    private final BambooInstance instance;
+    private final PlansProvideable instance;
 
     private BambooServiceAccessable instanceAccessor;
 
     private List<Plan> plans;
 
-    PlanNodeFactory(final BambooInstance instance) {
+    PlanNodeFactory(final PlansProvideable instance) {
         this.instance = instance;
-        initClient();
+//        initClient();
         callServer();
     }
 
@@ -38,8 +39,9 @@ class PlanNodeFactory extends ChildFactory<Plan> {
     }
 
     private void callServer() {
-        AllPlansResponse all = instanceAccessor.getAllPlans(instance);
-        plans = all.getPlans().getPlan();
+//        AllPlansResponse all = instanceAccessor.getAllPlans(instance);
+//        plans = all.getPlans().getPlan();
+        plans = instance.getPlans();
         refresh(true);
     }
 

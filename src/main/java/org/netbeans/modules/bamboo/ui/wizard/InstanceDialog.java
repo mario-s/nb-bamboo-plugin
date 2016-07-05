@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import org.netbeans.modules.bamboo.glue.InstancePropertiesDisplayable;
+import org.netbeans.modules.bamboo.InstancePropertiesDisplayable;
 import java.awt.Dialog;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;

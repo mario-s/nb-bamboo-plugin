@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.glue.InstancePropertiesDisplayable;
+import org.netbeans.modules.bamboo.InstancePropertiesDisplayable;
 
 /**
  *

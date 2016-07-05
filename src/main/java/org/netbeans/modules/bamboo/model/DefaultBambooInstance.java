@@ -1,17 +1,20 @@
 package org.netbeans.modules.bamboo.model;
 
-import org.netbeans.modules.bamboo.glue.BambooInstance;
-import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
-import org.netbeans.modules.bamboo.glue.InstanceValues;
+import java.util.List;
+import org.netbeans.modules.bamboo.InstanceValues;
 
 import java.util.prefs.Preferences;
-
 
 /**
  * @author spindizzy
  */
-public final class DefaultBambooInstance extends DefaultInstanceValues implements BambooInstance {
-    /** Use serialVersionUID for interoperability. */
+public final class DefaultBambooInstance extends DefaultInstanceValues implements PlansProvideable {
+
+    private List<Plan> plans;
+
+    /**
+     * Use serialVersionUID for interoperability.
+     */
     private static final long serialVersionUID = 1L;
 
     private int sync;
@@ -44,5 +47,15 @@ public final class DefaultBambooInstance extends DefaultInstanceValues implement
         if (syncProp != null) {
             this.sync = Integer.parseInt(syncProp);
         }
+    }
+
+    @Override
+    public List<Plan> getPlans() {
+        return plans;
+    }
+
+    @Override
+    public void setPlans(List<Plan> plans) {
+        this.plans = plans;
     }
 }

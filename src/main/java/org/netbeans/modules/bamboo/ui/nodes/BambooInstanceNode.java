@@ -2,9 +2,9 @@ package org.netbeans.modules.bamboo.ui.nodes;
 
 import org.netbeans.api.annotations.common.StaticResource;
 
-import org.netbeans.modules.bamboo.glue.BambooInstance;
-import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.glue.SharedConstants;
+import org.netbeans.modules.bamboo.BambooInstance;
+import org.netbeans.modules.bamboo.InstanceManageable;
+import org.netbeans.modules.bamboo.SharedConstants;
 
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.swing.Action;
+import org.netbeans.modules.bamboo.model.PlansProvideable;
 
 
 /**
@@ -29,9 +30,9 @@ public class BambooInstanceNode extends AbstractNode {
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
 
-    private final BambooInstance instance;
+    private final PlansProvideable instance;
 
-    public BambooInstanceNode(final BambooInstance instance) {
+    public BambooInstanceNode(final PlansProvideable instance) {
         super(Children.LEAF, Lookups.singleton(instance));
         this.instance = instance;
         init();

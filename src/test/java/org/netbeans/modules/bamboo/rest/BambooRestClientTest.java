@@ -18,7 +18,7 @@ import org.mockito.Mock;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.InstanceValues;
 
 import static java.util.Collections.singletonList;
 
