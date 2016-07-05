@@ -11,6 +11,7 @@ import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 
 import org.openide.util.Lookup;
+import static org.openide.util.Lookup.getDefault;
 import org.openide.util.NbBundle.Messages;
 
 import javax.swing.Action;
@@ -30,7 +31,7 @@ public final class BambooRootNode extends AbstractNode {
     static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/ci.png";
 
     BambooRootNode() {
-        super(Children.LEAF, Lookup.getDefault().lookup(InstanceManageable.class).getLookup());
+        super(Children.LEAF, getDefault().lookup(InstanceManageable.class).getLookup());
 
         init();
     }
