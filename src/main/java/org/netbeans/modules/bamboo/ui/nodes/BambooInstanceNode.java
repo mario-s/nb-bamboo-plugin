@@ -2,9 +2,9 @@ package org.netbeans.modules.bamboo.ui.nodes;
 
 import org.netbeans.api.annotations.common.StaticResource;
 
-import org.netbeans.modules.bamboo.BambooInstance;
-import org.netbeans.modules.bamboo.InstanceManageable;
-import org.netbeans.modules.bamboo.SharedConstants;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.glue.InstanceManageable;
+import org.netbeans.modules.bamboo.glue.SharedConstants;
 
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;

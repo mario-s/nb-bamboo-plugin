@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.model;
 
 import java.util.List;
-import org.netbeans.modules.bamboo.InstanceValues;
+import org.netbeans.modules.bamboo.glue.InstanceValues;
 
 import java.util.prefs.Preferences;
 

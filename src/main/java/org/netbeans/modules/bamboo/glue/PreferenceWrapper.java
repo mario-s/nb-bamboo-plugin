@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo;
+package org.netbeans.modules.bamboo.glue;
 
 import java.util.prefs.Preferences;
 import org.openide.util.NbPreferences;

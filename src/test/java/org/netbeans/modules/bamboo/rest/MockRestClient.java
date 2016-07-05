@@ -6,7 +6,7 @@ import org.netbeans.modules.bamboo.model.AllResultsResponse;
 import org.netbeans.modules.bamboo.model.Results;
 import org.netbeans.modules.bamboo.model.Plan;
 import org.netbeans.modules.bamboo.model.AllPlansResponse;
-import org.netbeans.modules.bamboo.InstanceValues;
+import org.netbeans.modules.bamboo.glue.InstanceValues;
 
 import org.openide.util.lookup.ServiceProvider;
 

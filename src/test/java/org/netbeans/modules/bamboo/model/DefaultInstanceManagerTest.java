@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.model;
 
-import org.netbeans.modules.bamboo.BambooInstance;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.model.DefaultInstanceManager;
 import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
 import java.util.Collection;

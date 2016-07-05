@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import org.netbeans.modules.bamboo.BambooInstance;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.model.AllPlansResponse;
 import org.netbeans.modules.bamboo.model.Plan;
 

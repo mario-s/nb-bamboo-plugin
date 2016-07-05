@@ -1,9 +1,9 @@
 package org.netbeans.modules.bamboo.model;
 
-import org.netbeans.modules.bamboo.BambooInstance;
-import org.netbeans.modules.bamboo.InstanceManageable;
-import org.netbeans.modules.bamboo.PreferenceWrapper;
-import org.netbeans.modules.bamboo.InstanceValues;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.glue.InstanceManageable;
+import org.netbeans.modules.bamboo.glue.PreferenceWrapper;
+import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.model.BambooInstanceConstants;
 import org.netbeans.modules.bamboo.model.BambooInstanceProperties;
 import org.netbeans.modules.bamboo.model.DefaultBambooInstance;

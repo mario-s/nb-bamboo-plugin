@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
 import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
-import org.netbeans.modules.bamboo.InstanceManageable;
+import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 
 import static org.openide.util.Lookup.getDefault;

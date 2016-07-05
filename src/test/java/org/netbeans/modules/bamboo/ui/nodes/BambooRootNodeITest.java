@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.netbeans.modules.bamboo.InstanceManageable;
+import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
 
 import org.openide.nodes.Node;

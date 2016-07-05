@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import org.netbeans.modules.bamboo.InstanceManageable;
+import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
 import org.openide.NotificationLineSupport;
 
