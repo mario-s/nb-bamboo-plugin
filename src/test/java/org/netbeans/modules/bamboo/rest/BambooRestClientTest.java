@@ -1,5 +1,10 @@
 package org.netbeans.modules.bamboo.rest;
 
+import org.netbeans.modules.bamboo.model.Plans;
+import org.netbeans.modules.bamboo.model.AllResultsResponse;
+import org.netbeans.modules.bamboo.model.Results;
+import org.netbeans.modules.bamboo.model.Plan;
+import org.netbeans.modules.bamboo.model.AllPlansResponse;
 import static org.junit.Assert.*;
 
 import org.junit.Before;

@@ -10,7 +10,6 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.*;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 
-import org.openide.util.Lookup;
 import static org.openide.util.Lookup.getDefault;
 import org.openide.util.NbBundle.Messages;
 

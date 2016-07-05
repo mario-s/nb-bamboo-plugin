@@ -1,8 +1,8 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
-import org.netbeans.modules.bamboo.rest.AllPlansResponse;
-import org.netbeans.modules.bamboo.rest.Plan;
+import org.netbeans.modules.bamboo.model.AllPlansResponse;
+import org.netbeans.modules.bamboo.model.Plan;
 
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
