@@ -3,7 +3,6 @@ package org.netbeans.modules.bamboo.rest;
 import org.netbeans.modules.bamboo.rest.model.AllPlansResponse;
 import org.netbeans.modules.bamboo.rest.model.AllResultsResponse;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
-import org.netbeans.modules.bamboo.glue.InstanceValues;
 
 /**
  * This interface defines methods to access the Bamboo server.
