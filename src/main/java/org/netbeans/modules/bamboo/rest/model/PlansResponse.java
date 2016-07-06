@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-abstract class AbstractAllResponse {
-    private String expand;
-    private Link link;
+public class PlansResponse extends AbstractResponse {
+    private Plans plans;
+
 }

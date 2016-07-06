@@ -3,10 +3,10 @@ package org.netbeans.modules.bamboo.rest;
 import org.netbeans.modules.bamboo.rest.BambooServiceAccessable;
 import org.netbeans.modules.bamboo.rest.model.Result;
 import org.netbeans.modules.bamboo.rest.model.Plans;
-import org.netbeans.modules.bamboo.rest.model.AllResultsResponse;
+import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
 import org.netbeans.modules.bamboo.rest.model.Results;
 import org.netbeans.modules.bamboo.rest.model.Plan;
-import org.netbeans.modules.bamboo.rest.model.AllPlansResponse;
+import org.netbeans.modules.bamboo.rest.model.PlansResponse;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 
 import org.openide.util.lookup.ServiceProvider;
@@ -20,8 +20,8 @@ import java.util.ArrayList;
 @ServiceProvider(service = BambooServiceAccessable.class)
 public class MockRestClient implements BambooServiceAccessable {
     @Override
-    public AllPlansResponse getAllPlans(final InstanceValues values) {
-        AllPlansResponse all = new AllPlansResponse();
+    public PlansResponse getAllPlans(final InstanceValues values) {
+        PlansResponse all = new PlansResponse();
         Plans plans = new Plans();
         plans.setPlan(new ArrayList<>());
         plans.getPlan().add(new Plan());
@@ -31,10 +31,10 @@ public class MockRestClient implements BambooServiceAccessable {
     }
 
     @Override
-    public AllResultsResponse getResultsResponse(final InstanceValues values) {
+    public ResultsResponse getResultsResponse(final InstanceValues values) {
         Results.Builder resBuilder = new Results.Builder();
         Results results = resBuilder.addResult(new Result()).build();
-        AllResultsResponse.Builder respBuilder = new AllResultsResponse.Builder();
+        ResultsResponse.Builder respBuilder = new ResultsResponse.Builder();
 
         return respBuilder.results(results).build();
     }

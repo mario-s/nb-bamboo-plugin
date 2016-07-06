@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.rest.model;
 
 import org.netbeans.modules.bamboo.rest.model.Plans;
 import org.netbeans.modules.bamboo.rest.model.Plan;
-import org.netbeans.modules.bamboo.rest.model.AllPlansResponse;
+import org.netbeans.modules.bamboo.rest.model.PlansResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,13 +21,13 @@ import java.util.List;
  * @author spindizzy
  */
 public class AllPlansResponseITest {
-    private AllPlansResponse classUnderTest;
+    private PlansResponse classUnderTest;
 
     private ObjectMapper mapper;
 
     @Before
     public void setUp() {
-        classUnderTest = new AllPlansResponse();
+        classUnderTest = new PlansResponse();
 
         List<Plan> planList = new ArrayList<>();
         Plan plan = new Plan();
@@ -43,7 +43,7 @@ public class AllPlansResponseITest {
     }
 
     /**
-     * Test of getPlans method, of class AllPlansResponse.
+     * Test of getPlans method, of class PlansResponse.
      */
     @Test
     public void testSerialize_NotEmpty() throws JsonProcessingException {
@@ -52,7 +52,7 @@ public class AllPlansResponseITest {
     }
 
     /**
-     * Test of getPlans method, of class AllPlansResponse.
+     * Test of getPlans method, of class PlansResponse.
      */
     @Test
     public void testDeserialize_NotEmpty() throws JsonProcessingException, IOException {
@@ -60,7 +60,7 @@ public class AllPlansResponseITest {
             "{\"expand\":null,\"link\":null,\"plans\":{\"size\":1,\"plan\":" +
             "[{\"shortName\":null,\"shortKey\":null,\"type\":null,\"enabled\":false,\"link\":null,\"key\":null,\"name\":\"test\"}]" +
             ",\"start-index\":0,\"max-result\":0}}";
-        AllPlansResponse result = mapper.readValue(str, AllPlansResponse.class);
+        PlansResponse result = mapper.readValue(str, PlansResponse.class);
         assertFalse(result.getPlans().getPlan().isEmpty());
     }
 }

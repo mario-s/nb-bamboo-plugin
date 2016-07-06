@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.ui.nodes;
 
 import org.netbeans.api.annotations.common.StaticResource;
 
-import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
 

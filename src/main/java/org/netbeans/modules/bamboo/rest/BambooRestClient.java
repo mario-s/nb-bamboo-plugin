@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.rest.model.AllPlansResponse;
-import org.netbeans.modules.bamboo.rest.model.AllResultsResponse;
+import org.netbeans.modules.bamboo.rest.model.PlansResponse;
+import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -74,12 +74,12 @@ public class BambooRestClient implements BambooServiceAccessable {
     }
 
     @Override
-    public AllPlansResponse getAllPlans(final InstanceValues values) {
-        AllPlansResponse plans = new AllPlansResponse();
+    public PlansResponse getAllPlans(final InstanceValues values) {
+        PlansResponse plans = new PlansResponse();
         Optional<WebTarget> target = newTarget(values, ALL_PLANS);
 
         if (target.isPresent()) {
-            plans = request(target.get(), AllPlansResponse.class);
+            plans = request(target.get(), PlansResponse.class);
 
             log.fine(String.format("got plans: %s", plans));
         }
@@ -88,12 +88,12 @@ public class BambooRestClient implements BambooServiceAccessable {
     }
 
     @Override
-    public AllResultsResponse getResultsResponse(final InstanceValues values) {
-        AllResultsResponse results = new AllResultsResponse();
+    public ResultsResponse getResultsResponse(final InstanceValues values) {
+        ResultsResponse results = new ResultsResponse();
         Optional<WebTarget> target = newTarget(values, RESULT);
 
         if (target.isPresent()) {
-            results = request(target.get(), AllResultsResponse.class);
+            results = request(target.get(), ResultsResponse.class);
 
             log.fine(String.format("got results: %s", results));
         }

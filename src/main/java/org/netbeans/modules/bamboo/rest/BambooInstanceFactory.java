@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.rest.model.AllPlansResponse;
+import org.netbeans.modules.bamboo.rest.model.PlansResponse;
 import java.util.Collection;
 import org.netbeans.modules.bamboo.glue.PlansProvideable;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
@@ -36,7 +36,7 @@ public class BambooInstanceFactory implements BambooInstanceProduceable{
         instance.setProperties(props);
         
         //TODO use results
-        AllPlansResponse all = instanceAccessor.getAllPlans(instance);
+        PlansResponse all = instanceAccessor.getAllPlans(instance);
         instance.setPlans(all.getPlans().getPlan());
         
         return instance;

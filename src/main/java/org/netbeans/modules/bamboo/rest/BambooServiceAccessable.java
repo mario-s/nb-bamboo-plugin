@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.rest.model.AllPlansResponse;
-import org.netbeans.modules.bamboo.rest.model.AllResultsResponse;
+import org.netbeans.modules.bamboo.rest.model.PlansResponse;
+import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 
 /**
@@ -11,7 +11,7 @@ import org.netbeans.modules.bamboo.glue.InstanceValues;
  */
 public interface BambooServiceAccessable {
     
-    AllPlansResponse getAllPlans(InstanceValues values);
+    PlansResponse getAllPlans(InstanceValues values);
     
-    AllResultsResponse getResultsResponse(InstanceValues values);
+    ResultsResponse getResultsResponse(InstanceValues values);
 }

@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +11,7 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Results extends Metrics {
-    @JsonProperty("result")
-    private List<Result> results;
+    private List<Result> result;
     private String expand;
 
     public static class Builder {
@@ -22,14 +20,14 @@ public class Results extends Metrics {
         public Builder addResult(final Result result) {
             newResults();
 
-            this.result.results.add(0, result);
+            this.result.result.add(0, result);
 
             return this;
         }
 
         private void newResults() {
-            if (result.results == null) {
-                result.results = new ArrayList<>();
+            if (result.result == null) {
+                result.result = new ArrayList<>();
             }
         }
 
@@ -38,7 +36,7 @@ public class Results extends Metrics {
         }
 
         public Builder results(final List<Result> newResults) {
-            result.results = newResults;
+            result.result = newResults;
 
             return this;
         }

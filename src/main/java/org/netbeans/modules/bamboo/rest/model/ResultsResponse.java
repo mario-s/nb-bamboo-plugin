@@ -7,11 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AllResultsResponse extends AbstractAllResponse {
+public class ResultsResponse extends AbstractResponse {
     private Results results;
 
     public static class Builder {
-        private final AllResultsResponse response = new AllResultsResponse();
+        private final ResultsResponse response = new ResultsResponse();
 
         public Builder results(final Results results) {
             response.results = results;
@@ -19,7 +19,7 @@ public class AllResultsResponse extends AbstractAllResponse {
             return this;
         }
 
-        public AllResultsResponse build() {
+        public ResultsResponse build() {
             return response;
         }
     }
