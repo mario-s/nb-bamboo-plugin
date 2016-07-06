@@ -1,7 +1,7 @@
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.rest;
 
 import org.netbeans.modules.bamboo.glue.InstanceValues;
-import static org.netbeans.modules.bamboo.model.BambooInstanceConstants.*;
+import static org.netbeans.modules.bamboo.rest.BambooInstanceConstants.*;
 
 import org.openide.util.Exceptions;
 import org.openide.util.RequestProcessor;

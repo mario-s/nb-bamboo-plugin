@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.model.DefaultBambooInstance;
+import org.netbeans.modules.bamboo.rest.DefaultBambooInstance;
 
 import org.openide.nodes.Node;
 

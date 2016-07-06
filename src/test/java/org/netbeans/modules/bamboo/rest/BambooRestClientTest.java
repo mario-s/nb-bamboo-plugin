@@ -1,11 +1,11 @@
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.model.BambooRestClient;
-import org.netbeans.modules.bamboo.model.Plans;
-import org.netbeans.modules.bamboo.model.AllResultsResponse;
-import org.netbeans.modules.bamboo.model.Results;
-import org.netbeans.modules.bamboo.model.Plan;
-import org.netbeans.modules.bamboo.model.AllPlansResponse;
+import org.netbeans.modules.bamboo.rest.BambooRestClient;
+import org.netbeans.modules.bamboo.rest.Plans;
+import org.netbeans.modules.bamboo.rest.AllResultsResponse;
+import org.netbeans.modules.bamboo.rest.Results;
+import org.netbeans.modules.bamboo.rest.Plan;
+import org.netbeans.modules.bamboo.rest.AllPlansResponse;
 import static org.junit.Assert.*;
 
 import org.junit.Before;

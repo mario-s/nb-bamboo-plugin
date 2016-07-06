@@ -1,8 +1,9 @@
 /*
  * Schuetze Consulting Informationssysteme AG, Berlin
  */
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.rest;
 
+import org.netbeans.modules.bamboo.rest.Encrypter;
 import static org.junit.Assert.*;
 
 import org.junit.Before;

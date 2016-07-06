@@ -1,8 +1,8 @@
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.rest;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
-import org.netbeans.modules.bamboo.model.DefaultInstanceManager;
-import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
+import org.netbeans.modules.bamboo.rest.DefaultInstanceManager;
+import org.netbeans.modules.bamboo.rest.DefaultInstanceValues;
 import java.util.Collection;
 import org.junit.After;
 import org.junit.Before;

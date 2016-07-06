@@ -1,7 +1,7 @@
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.model.AllPlansResponse;
-import org.netbeans.modules.bamboo.model.AllResultsResponse;
+import org.netbeans.modules.bamboo.rest.AllPlansResponse;
+import org.netbeans.modules.bamboo.rest.AllResultsResponse;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 
