@@ -1,6 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
 import org.junit.Before;
@@ -94,27 +95,25 @@ public class BambooInstancePropertiesTest {
      * Test of join method, of class BambooInstanceProperties.
      */
     @Test
-    @Ignore
     public void testJoin() {
-        List<String> pieces = null;
-        String expResult = "";
+        List<String> pieces = new ArrayList<>();
+        pieces.add("a");
+        pieces.add("b");
+        String expResult = "a/b";
         String result = BambooInstanceProperties.join(pieces);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of getPreferences method, of class BambooInstanceProperties.
      */
     @Test
-    @Ignore
     public void testGetPreferences() {
-        Preferences expResult = null;
+        String name = "foo";
+        given(preferences.node(name)).willReturn(preferences);
+        classUnderTest.put(BambooInstanceConstants.INSTANCE_NAME, name);
         Preferences result = classUnderTest.getPreferences();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
     
 }
