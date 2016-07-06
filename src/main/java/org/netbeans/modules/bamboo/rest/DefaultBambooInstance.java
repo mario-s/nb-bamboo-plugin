@@ -9,6 +9,8 @@ import org.netbeans.modules.bamboo.glue.InstanceValues;
 import java.util.prefs.Preferences;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * @author spindizzy
@@ -23,8 +25,6 @@ public final class DefaultBambooInstance extends DefaultInstanceValues implement
      * Use serialVersionUID for interoperability.
      */
     private static final long serialVersionUID = 1L;
-
-    private int sync;
 
     private BambooInstanceProperties properties;
 
@@ -51,8 +51,8 @@ public final class DefaultBambooInstance extends DefaultInstanceValues implement
 
         String syncProp = props.get(BambooInstanceConstants.INSTANCE_SYNC);
 
-        if (syncProp != null) {
-            this.sync = Integer.parseInt(syncProp);
+        if (isNotBlank(syncProp)) {
+            setSyncInterval(Integer.parseInt(syncProp));
         }
     }
 }
