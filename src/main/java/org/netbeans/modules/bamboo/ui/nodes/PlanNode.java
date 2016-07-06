@@ -1,9 +1,11 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
+import java.awt.Image;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.modules.bamboo.rest.model.Plan;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
+import org.openide.util.ImageUtilities;
 
 /**
  *
@@ -12,6 +14,8 @@ import org.openide.nodes.Children;
 public class PlanNode extends AbstractNode{
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/grey.png";
+    @StaticResource
+    private static final String ICON_SUCCESS = "org/netbeans/modules/bamboo/resources/blue.png";
     
     private final Plan plan;
     
@@ -28,5 +32,19 @@ public class PlanNode extends AbstractNode{
         setShortDescription(plan.getName());
         setIconBaseWithExtension(ICON_BASE);
     }
+
+    @Override
+    public Image getIcon(int type) {
+        
+        Image icon = super.getIcon(type);
+        
+        if(plan.isEnabled()){
+            icon = ImageUtilities.loadImage(ICON_SUCCESS);
+        }
+        
+        return icon; 
+    }
+     
+     
     
 }
