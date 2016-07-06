@@ -9,6 +9,14 @@
     <packaging>nbm</packaging>
     <name>netbeans-bamboo-plugin</name>
     <description>Bambbo CI plugin for the NetBeans IDE</description>
+    <inceptionYear>2016</inceptionYear>
+    
+    <scm>
+        <url>https://github.com/mario-s/nb-bamboo-plugin</url>
+        <connection>scm:git:git://github.com/mario-s/nb-bamboo-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:mario-s/nb-bamboo-plugin.git</developerConnection>
+    </scm>
+    
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
