@@ -7,10 +7,14 @@ import java.util.List;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 
 import java.util.prefs.Preferences;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author spindizzy
  */
+@Getter
+@Setter
 public final class DefaultBambooInstance extends DefaultInstanceValues implements PlansProvideable {
 
     private List<Plan> plans;
@@ -50,15 +54,5 @@ public final class DefaultBambooInstance extends DefaultInstanceValues implement
         if (syncProp != null) {
             this.sync = Integer.parseInt(syncProp);
         }
-    }
-
-    @Override
-    public List<Plan> getPlans() {
-        return plans;
-    }
-
-    @Override
-    public void setPlans(List<Plan> plans) {
-        this.plans = plans;
     }
 }
