@@ -26,6 +26,8 @@ public class BambooInstancePropertiesTest {
     private InstanceValues values;
     @Mock
     private Preferences preferences;
+    @Mock
+    private PropertyChangeListener listener;
     @InjectMocks
     private BambooInstanceProperties classUnderTest;
     
@@ -61,55 +63,31 @@ public class BambooInstancePropertiesTest {
      * Test of isPersisted method, of class BambooInstanceProperties.
      */
     @Test
-    @Ignore
-    public void testIsPersisted() {
-        boolean expResult = false;
+    public void testIsPersisted_True() {
+        boolean expResult = true;
         boolean result = classUnderTest.isPersisted();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
-
-    /**
-     * Test of removePropertyChangeListener method, of class BambooInstanceProperties.
-     */
-    @Test
-    @Ignore
-    public void testRemovePropertyChangeListener() {
-        PropertyChangeListener l = null;
-        classUnderTest.removePropertyChangeListener(l);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of getCurrentListeners method, of class BambooInstanceProperties.
      */
     @Test
-    @Ignore
     public void testGetCurrentListeners() {
-        PropertyChangeListener l = null;
-        classUnderTest.addPropertyChangeListener(l);
-        List<PropertyChangeListener> expResult = null;
+        classUnderTest.addPropertyChangeListener(listener);
         List<PropertyChangeListener> result = classUnderTest.getCurrentListeners();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(1, result.size());
     }
 
     /**
      * Test of split method, of class BambooInstanceProperties.
      */
     @Test
-    @Ignore
     public void testSplit() {
-        String prop = "";
-        List<String> expResult = null;
+        String prop = "a/b";
         List<String> result = BambooInstanceProperties.split(prop);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(2, result.size());
     }
 
     /**
