@@ -1,10 +1,8 @@
 package org.netbeans.modules.bamboo.rest;
 
-import java.util.Collection;
 import org.netbeans.modules.bamboo.glue.PlansProvideable;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.glue.PreferenceWrapper;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 
 import org.openide.util.Exceptions;

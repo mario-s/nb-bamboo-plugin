@@ -3,7 +3,6 @@ package org.netbeans.modules.bamboo.rest;
 import org.netbeans.modules.bamboo.rest.model.AllPlansResponse;
 import java.util.Collection;
 import org.netbeans.modules.bamboo.glue.PlansProvideable;
-import org.netbeans.modules.bamboo.glue.PreferenceWrapper;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import java.util.prefs.Preferences;
 import org.openide.util.Lookup;

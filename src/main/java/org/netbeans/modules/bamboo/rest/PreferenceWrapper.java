@@ -1,16 +1,17 @@
-package org.netbeans.modules.bamboo.glue;
+package org.netbeans.modules.bamboo.rest;
 
 import java.util.prefs.Preferences;
+import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.openide.util.NbPreferences;
 
 /**
  *
  */
-public class PreferenceWrapper {
+class PreferenceWrapper {
     
     private PreferenceWrapper(){}
     
-    public static Preferences instancesPrefs() {
+    static Preferences instancesPrefs() {
         return NbPreferences.forModule(InstanceManageable.class).node("instances");
     }
 }
