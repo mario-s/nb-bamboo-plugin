@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.junit.Assume.assumeThat;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -23,7 +22,6 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
-import org.mockito.InjectMocks;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
