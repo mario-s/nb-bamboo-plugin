@@ -5,21 +5,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
-
+@Getter
+@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Results extends Metrics {
     @JsonProperty("result")
     private List<Result> results;
     private String expand;
-
-    public List<Result> getResults() {
-        return results;
-    }
-
-    public String getExpand() {
-        return expand;
-    }
 
     public static class Builder {
         private final Results result = new Results();

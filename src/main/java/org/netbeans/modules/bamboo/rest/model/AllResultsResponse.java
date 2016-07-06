@@ -1,19 +1,14 @@
 package org.netbeans.modules.bamboo.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
 
-
+@Getter
+@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AllResultsResponse extends AbstractAllResponse {
     private Results results;
-
-    public Results getResults() {
-        return results;
-    }
-
-    public void setResults(final Results results) {
-        this.results = results;
-    }
 
     public static class Builder {
         private final AllResultsResponse response = new AllResultsResponse();

@@ -1,22 +1,11 @@
 package org.netbeans.modules.bamboo.rest.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Link {
     private String href;
     private String rel;
-
-    public String getHref() {
-        return href;
-    }
-
-    public String getRel() {
-        return rel;
-    }
-
-    public void setHref(final String href) {
-        this.href = href;
-    }
-
-    public void setRel(final String rel) {
-        this.rel = rel;
-    }
 }
