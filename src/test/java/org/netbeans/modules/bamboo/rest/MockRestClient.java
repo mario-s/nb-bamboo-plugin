@@ -1,12 +1,12 @@
 package org.netbeans.modules.bamboo.rest;
 
 import org.netbeans.modules.bamboo.rest.BambooServiceAccessable;
-import org.netbeans.modules.bamboo.rest.Result;
-import org.netbeans.modules.bamboo.rest.Plans;
-import org.netbeans.modules.bamboo.rest.AllResultsResponse;
-import org.netbeans.modules.bamboo.rest.Results;
-import org.netbeans.modules.bamboo.rest.Plan;
-import org.netbeans.modules.bamboo.rest.AllPlansResponse;
+import org.netbeans.modules.bamboo.rest.model.Result;
+import org.netbeans.modules.bamboo.rest.model.Plans;
+import org.netbeans.modules.bamboo.rest.model.AllResultsResponse;
+import org.netbeans.modules.bamboo.rest.model.Results;
+import org.netbeans.modules.bamboo.rest.model.Plan;
+import org.netbeans.modules.bamboo.rest.model.AllPlansResponse;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 
 import org.openide.util.lookup.ServiceProvider;

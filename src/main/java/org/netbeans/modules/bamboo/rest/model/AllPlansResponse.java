@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.rest;
+package org.netbeans.modules.bamboo.rest.model;
 
 /**
  * @author spindizzy

@@ -1,8 +1,8 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.rest.Plans;
-import org.netbeans.modules.bamboo.rest.Plan;
-import org.netbeans.modules.bamboo.rest.AllPlansResponse;
+import org.netbeans.modules.bamboo.rest.model.Plans;
+import org.netbeans.modules.bamboo.rest.model.Plan;
+import org.netbeans.modules.bamboo.rest.model.AllPlansResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

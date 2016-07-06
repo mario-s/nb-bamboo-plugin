@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import org.netbeans.modules.bamboo.rest.Plan;
+import org.netbeans.modules.bamboo.rest.model.Plan;
 
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
