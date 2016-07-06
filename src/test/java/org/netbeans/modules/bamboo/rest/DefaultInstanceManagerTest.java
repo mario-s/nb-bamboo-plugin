@@ -3,6 +3,8 @@ package org.netbeans.modules.bamboo.rest;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import java.util.Collection;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,35 +40,52 @@ public class DefaultInstanceManagerTest {
     private BambooInstanceProduceable bambooInstanceProducer;
     @Captor
     private ArgumentCaptor<LookupEvent> lookupCaptor;
-    @InjectMocks
+    @Mock
+    private Preferences preferences;
+
     private DefaultInstanceManager classUnderTest;
-    
+
     private Lookup.Result<BambooInstance> result;
-    
+
     private DefaultInstanceValues values;
-    
+
     private DefaultBambooInstance instance;
+    
+    private final String name;
+
+    public DefaultInstanceManagerTest() {
+        name = getClass().getName();
+    }
 
     @Before
-    public void setUp() {
-        
+    public void setUp() throws BackingStoreException {
+
+        classUnderTest = new DefaultInstanceManager() {
+            @Override
+            Preferences instancesPrefs() {
+                return preferences;
+            }
+
+        };
+
         setInternalState(classUnderTest, "bambooInstanceProducer", bambooInstanceProducer);
 
         result = classUnderTest.getLookup().lookupResult(
                 BambooInstance.class);
 
         result.addLookupListener(listener);
-        
+
         values = new DefaultInstanceValues();
-        values.setName(getClass().getName());
+        values.setName(name);
         values.setUrl("");
         values.setPassword(new char[]{'a'});
-        
+
         instance = new DefaultBambooInstance();
         instance.setName(values.getName());
         instance.setUrl(values.getUrl());
-        
+
         given(bambooInstanceProducer.create(values)).willReturn(instance);
+        given(preferences.childrenNames()).willReturn(new String[]{values.getName()});
     }
 
     @After
@@ -103,8 +122,8 @@ public class DefaultInstanceManagerTest {
     }
 
     @Test
-    @Ignore("FIXME")
     public void testExistsInstance() {
-        assertTrue(classUnderTest.existsInstance(getClass().getName()));
+        classUnderTest.addInstance(values);
+        assertTrue(classUnderTest.existsInstance(name));
     }
 }
