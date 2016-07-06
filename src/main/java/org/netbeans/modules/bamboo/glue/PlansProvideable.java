@@ -5,11 +5,12 @@ import org.netbeans.modules.bamboo.rest.model.Plan;
 
 /**
  *
+ * @author spindizzy
  */
-public interface PlansProvideable extends BambooInstance{
+public interface PlansProvideable extends BambooInstance {
 
     List<Plan> getPlans();
-    
-     void setPlans(List<Plan> plans);
+
+    void setPlans(List<Plan> plans);
 
 }

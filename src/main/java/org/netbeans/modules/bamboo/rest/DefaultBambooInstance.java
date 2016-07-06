@@ -11,15 +11,19 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import org.netbeans.modules.bamboo.glue.ResultsProvideable;
+import org.netbeans.modules.bamboo.rest.model.Result;
 
 /**
  * @author spindizzy
  */
 @Getter
 @Setter
-public final class DefaultBambooInstance extends DefaultInstanceValues implements PlansProvideable {
+public final class DefaultBambooInstance extends DefaultInstanceValues implements ResultsProvideable {
 
     private List<Plan> plans;
+    
+    private List<Result> results;
 
     /**
      * Use serialVersionUID for interoperability.

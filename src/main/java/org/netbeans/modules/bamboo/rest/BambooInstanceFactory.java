@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.netbeans.modules.bamboo.glue.PlansProvideable;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import java.util.prefs.Preferences;
+import org.netbeans.modules.bamboo.glue.ResultsProvideable;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -28,12 +29,13 @@ public class BambooInstanceFactory implements BambooInstanceProduceable{
     }
     
     @Override
-    public PlansProvideable create(InstanceValues values) {
+    public ResultsProvideable create(InstanceValues values) {
         DefaultBambooInstance instance = new DefaultBambooInstance(values);
         BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
         props.copyProperties(instance);
         instance.setProperties(props);
         
+        //TODO use results
         AllPlansResponse all = instanceAccessor.getAllPlans(instance);
         instance.setPlans(all.getPlans().getPlan());
         

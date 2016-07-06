@@ -1,12 +1,12 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.glue.PlansProvideable;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.glue.ResultsProvideable;
 
 /**
  *
  */
 public interface BambooInstanceProduceable {
     
-    PlansProvideable create(InstanceValues values);
+    ResultsProvideable create(InstanceValues values);
 }
