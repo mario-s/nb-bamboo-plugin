@@ -1,6 +1,4 @@
-package org.netbeans.modules.bamboo.rest;
-
-import org.netbeans.modules.bamboo.glue.InstanceValues;
+package org.netbeans.modules.bamboo.glue;
 
 /**
  * A wrapper for all parameters to be used to create a new BambooInstance.

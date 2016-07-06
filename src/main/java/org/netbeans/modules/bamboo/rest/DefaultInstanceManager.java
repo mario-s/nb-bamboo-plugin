@@ -12,7 +12,6 @@ import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.ServiceProvider;
 
-import java.util.Collection;
 
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;

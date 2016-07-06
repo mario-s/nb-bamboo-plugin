@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
+import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.rest.model.Plan;
 import org.netbeans.modules.bamboo.glue.PlansProvideable;
 import java.util.List;
