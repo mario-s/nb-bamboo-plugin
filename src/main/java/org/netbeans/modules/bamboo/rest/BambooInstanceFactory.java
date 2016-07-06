@@ -7,15 +7,17 @@ import org.netbeans.modules.bamboo.glue.PreferenceWrapper;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import java.util.prefs.Preferences;
 import org.openide.util.Lookup;
+import org.openide.util.lookup.ServiceProvider;
 
 /**
  *
  */
-class BambooInstanceFactory implements BambooInstanceProduceable{
+@ServiceProvider(service = BambooInstanceProduceable.class)
+public class BambooInstanceFactory implements BambooInstanceProduceable{
     
     private BambooServiceAccessable instanceAccessor;
 
-    BambooInstanceFactory() {
+    public BambooInstanceFactory() {
         initClient();
     }
     

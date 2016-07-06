@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
+import java.util.Collection;
 import org.netbeans.modules.bamboo.glue.PlansProvideable;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
@@ -12,10 +13,10 @@ import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.ServiceProvider;
 
-
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+import static org.openide.util.Lookup.getDefault;
 
 /**
  * @author spindizzy
@@ -27,14 +28,15 @@ public class DefaultInstanceManager implements InstanceManageable {
 
     private final InstanceContent content;
     private final Lookup lookup;
+    
+    private BambooInstanceProduceable bambooInstanceProducer;
 
     public DefaultInstanceManager() {
         this.content = new InstanceContent();
         this.lookup = new AbstractLookup(content);
 
+        bambooInstanceProducer = getDefault().lookup(BambooInstanceProduceable.class);
     }
-
-   
 
     @Override
     public Lookup getLookup() {
@@ -48,10 +50,7 @@ public class DefaultInstanceManager implements InstanceManageable {
 
     @Override
     public void addInstance(final InstanceValues values) {
-        
-        BambooInstanceProduceable factory = new BambooInstanceFactory();
-        PlansProvideable instance = factory.create(values);
-        
+        PlansProvideable instance = bambooInstanceProducer.create(values);
         content.add(instance);
     }
 
