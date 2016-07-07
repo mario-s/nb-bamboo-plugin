@@ -57,8 +57,8 @@ public class DefaultInstanceManager implements InstanceManageable {
     @Override
     public void removeInstance(final BambooInstance instance) {
         try {
-            instancesPrefs().remove(instance.getName());
             instance.getPreferences().removeNode();
+            instancesPrefs().remove(instance.getName());
             remove(instance);
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);

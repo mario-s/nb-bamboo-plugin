@@ -75,6 +75,7 @@ class AddAction extends AbstractDialogAction implements LookupListener {
     protected void onCancelled() {
         super.onCancelled();
         worker.cancel(true);
+        getInstanceManager().removeInstance(form.getName());
     }
 
     @Override
