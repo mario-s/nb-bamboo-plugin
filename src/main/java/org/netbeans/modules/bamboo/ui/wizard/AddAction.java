@@ -1,18 +1,14 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
-import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 
-import static org.openide.util.Lookup.getDefault;
 import org.openide.util.NbBundle;
 
 import java.awt.Dialog;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
+import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
-import javax.swing.AbstractAction;
-import javax.swing.SwingWorker;
 import org.netbeans.modules.bamboo.glue.PlansProvideable;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
@@ -22,7 +18,7 @@ import org.openide.util.LookupListener;
  * @author spindizzy
  */
 @NbBundle.Messages({"TXT_ADD=OK"})
-class AddAction extends AbstractAction implements LookupListener {
+class AddAction extends AbstractDialogAction implements LookupListener {
 
     /**
      * Use serialVersionUID for interoperability.
@@ -32,10 +28,10 @@ class AddAction extends AbstractAction implements LookupListener {
     private final Dialog dialog;
 
     private final InstancePropertiesForm form;
-
-    private InstanceManageable manager;
-
+    
     private Lookup.Result<PlansProvideable> result;
+    
+    private AddInstanceWorker worker;
 
     public AddAction(final Dialog dialog, final InstancePropertiesForm form) {
         super(TXT_ADD());
@@ -46,10 +42,11 @@ class AddAction extends AbstractAction implements LookupListener {
     }
 
     private void addLookup() {
-        manager = getDefault().lookup(InstanceManageable.class);
+        InstanceManageable manager = getInstanceManager();
         result = manager.getLookup().lookupResult(PlansProvideable.class);
         result.addLookupListener(this);
         resultChanged(null);
+        worker = new AddInstanceWorker(this);
     }
 
     private void disable() {
@@ -64,11 +61,11 @@ class AddAction extends AbstractAction implements LookupListener {
 
     private void addInstance() {
         form.block();
-        Worker worker = new Worker();
         worker.execute();
     }
 
-    void dispose() {
+    @Override
+    protected void onDone() {
         EventQueue.invokeLater(() -> {
             dialog.dispose();
         });
@@ -81,25 +78,9 @@ class AddAction extends AbstractAction implements LookupListener {
         }
     }
 
-    private class Worker extends SwingWorker<Object, Object> {
-
-        @Override
-        protected Object doInBackground() throws Exception {
-            DefaultInstanceValues vals = new DefaultInstanceValues();
-            vals.setName(form.getInstanceName());
-            vals.setUrl(form.getInstanceUrl());
-            vals.setSyncInterval(form.getSyncTime());
-            vals.setUsername(form.getUsername());
-            vals.setPassword(form.getPassword());
-
-            manager.addInstance(vals);
-            return null;
-        }
-
-        @Override
-        protected void done() {
-            super.done();
-            dispose();
-        }
+    @Override
+    protected InstancePropertiesForm getForm() {
+        return form;
     }
+
 }
