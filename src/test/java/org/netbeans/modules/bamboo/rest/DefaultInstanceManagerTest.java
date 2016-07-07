@@ -34,8 +34,6 @@ public class DefaultInstanceManagerTest {
 
     @Mock
     private LookupListener listener;
-    @Mock
-    private BambooInstanceProduceable bambooInstanceProducer;
     @Captor
     private ArgumentCaptor<LookupEvent> lookupCaptor;
     @Mock
@@ -66,8 +64,6 @@ public class DefaultInstanceManagerTest {
 
         };
 
-        setInternalState(classUnderTest, "bambooInstanceProducer", bambooInstanceProducer);
-
         result = classUnderTest.getLookup().lookupResult(
                 BambooInstance.class);
 
@@ -82,7 +78,6 @@ public class DefaultInstanceManagerTest {
         instance.setName(values.getName());
         instance.setUrl(values.getUrl());
 
-        given(bambooInstanceProducer.create(values)).willReturn(instance);
         given(preferences.childrenNames()).willReturn(new String[]{values.getName()});
     }
 
@@ -96,7 +91,7 @@ public class DefaultInstanceManagerTest {
      */
     @Test
     public void testAddInstance() {
-        classUnderTest.addInstance(values);
+        classUnderTest.addInstance(instance);
         assertThat(result.allInstances().isEmpty(), is(false));
         verify(listener).resultChanged(lookupCaptor.capture());
     }
@@ -114,14 +109,14 @@ public class DefaultInstanceManagerTest {
 
     @Test
     public void testLoadInstances() {
-        classUnderTest.addInstance(values);
+        classUnderTest.addInstance(instance);
         classUnderTest.loadInstances();
         verify(listener, atLeast(1)).resultChanged(lookupCaptor.capture());
     }
 
     @Test
     public void testExistsInstance() {
-        classUnderTest.addInstance(values);
+        classUnderTest.addInstance(instance);
         assertTrue(classUnderTest.existsInstance(name));
     }
 }

@@ -61,7 +61,7 @@ class AddAction extends AbstractDialogAction implements LookupListener {
 
     private void addInstance() {
         form.block();
-        worker.execute();
+        worker.execute(form);
     }
 
     @Override
@@ -72,14 +72,9 @@ class AddAction extends AbstractDialogAction implements LookupListener {
     }
 
     @Override
-    protected void onCanceled() {
-        super.onCanceled();
-        
-        result.removeLookupListener(this);
+    protected void onCancelled() {
+        super.onCancelled();
         worker.cancel(true);
-
-        
-        onDone();
     }
 
     @Override
@@ -89,9 +84,5 @@ class AddAction extends AbstractDialogAction implements LookupListener {
         }
     }
 
-    @Override
-    protected InstancePropertiesForm getForm() {
-        return form;
-    }
 
 }

@@ -9,8 +9,10 @@ import org.openide.util.lookup.InstanceContent;
  */
 public interface InstanceManageable extends Lookup.Provider {
     InstanceContent getContent();
+    
+    void addInstance(final BambooInstance instance);
 
-    void addInstance(final InstanceValues values);
+    void removeInstance(final String name);
 
     void removeInstance(final BambooInstance instance);
 

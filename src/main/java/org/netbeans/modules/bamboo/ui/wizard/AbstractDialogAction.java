@@ -25,8 +25,6 @@ abstract class AbstractDialogAction extends AbstractAction implements PropertyCh
         return instanceManager;
     }
 
-    protected abstract InstancePropertiesForm getForm();
-
     /**
      * Invoked when worker is done.
      */
@@ -37,13 +35,13 @@ abstract class AbstractDialogAction extends AbstractAction implements PropertyCh
         Object newValue = evt.getNewValue();
 
         if (NotifyDescriptor.CLOSED_OPTION.equals(newValue) || NotifyDescriptor.CANCEL_OPTION.equals(newValue)) {
-            onCanceled();
+            onCancelled();
         }
     }
     
     /**
      * This method is called when the user canceld the dialog.
      */
-    protected void onCanceled() {
+    protected void onCancelled() {
     }
 }

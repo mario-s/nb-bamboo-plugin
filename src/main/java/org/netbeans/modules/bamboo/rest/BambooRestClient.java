@@ -57,7 +57,7 @@ public class BambooRestClient implements BambooServiceAccessable {
             String password = String.valueOf(chars);
 
             opt = of(
-                    BambooRestClient.this.newTarget(url).path(REST_API).path(path).queryParam(
+                    newTarget(url).path(REST_API).path(path).queryParam(
                         AUTH_TYPE,
                         BASIC).queryParam(USER, user).queryParam(PASS, password));
         }
