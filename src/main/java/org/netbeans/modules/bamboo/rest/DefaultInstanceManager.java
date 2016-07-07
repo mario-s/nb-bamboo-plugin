@@ -72,9 +72,7 @@ public class DefaultInstanceManager implements InstanceManageable {
 
         try {
             if (isNotBlank(name)) {
-                Preferences prefs = instancesPrefs();
-                prefs.sync();
-                exists = prefs.nodeExists(name);
+                exists = instancesPrefs().nodeExists(name);
             }
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
