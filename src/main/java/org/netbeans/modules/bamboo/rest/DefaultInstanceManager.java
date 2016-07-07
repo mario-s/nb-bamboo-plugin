@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.rest;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.glue.InstanceValues;
 
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
@@ -13,7 +12,6 @@ import org.openide.util.lookup.ServiceProvider;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import static org.openide.util.Lookup.getDefault;
 
 /**
  * @author spindizzy
@@ -25,14 +23,20 @@ public class DefaultInstanceManager implements InstanceManageable {
 
     private final InstanceContent content;
     private final Lookup lookup;
-    
-    private BambooInstanceProduceable bambooInstanceProducer;
 
     public DefaultInstanceManager() {
         this.content = new InstanceContent();
         this.lookup = new AbstractLookup(content);
+    }
 
-        bambooInstanceProducer = getDefault().lookup(BambooInstanceProduceable.class);
+    private void add(final BambooInstance instance) {
+        if (instance != null) {
+            content.add(instance);
+        }
+    }
+
+    private void remove(final BambooInstance instance) {
+        content.remove(instance);
     }
 
     @Override
@@ -46,18 +50,25 @@ public class DefaultInstanceManager implements InstanceManageable {
     }
 
     @Override
-    public void addInstance(final InstanceValues values) {
-        BambooInstance instance = bambooInstanceProducer.create(values);
-        content.add(instance);
+    public void addInstance(final BambooInstance instance) {
+        add(instance);
     }
 
     @Override
     public void removeInstance(final BambooInstance instance) {
         try {
+            instancesPrefs().remove(instance.getName());
             instance.getPreferences().removeNode();
-            content.remove(instance);
+            remove(instance);
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
+        }
+    }
+
+    @Override
+    public void removeInstance(String name) {
+        if (existsInstance(name)) {
+            removeInstance(loadInstance(name));
         }
     }
 
@@ -80,13 +91,12 @@ public class DefaultInstanceManager implements InstanceManageable {
 
     @Override
     public void loadInstances() {
-        Preferences prefs = instancesPrefs();
 
         try {
-            String[] names = prefs.childrenNames();
+            String[] names = instancesPrefs().childrenNames();
 
             for (String name : names) {
-                loadInstance(prefs, name);
+                add(loadInstance(name));
             }
 
             LOG.finer(String.format("loaded nodes: %s", names.length));
@@ -95,17 +105,22 @@ public class DefaultInstanceManager implements InstanceManageable {
         }
     }
 
-    private void loadInstance(final Preferences prefs, final String name) {
-        BambooInstanceProperties props = new BambooInstanceProperties(prefs);
-        props.put(BambooInstanceConstants.INSTANCE_NAME, name);
+    private BambooInstance loadInstance(final String name) {
+        DefaultBambooInstance instance = null;
+        try {
+            BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
+            props.put(BambooInstanceConstants.INSTANCE_NAME, name);
 
-        DefaultBambooInstance instance = new DefaultBambooInstance();
-        instance.setProperties(props);
-        
-        content.add(instance);
+            instance = new DefaultBambooInstance();
+            instance.setProperties(props);
+        } catch (IllegalStateException e) {
+            LOG.warning(e.getMessage());
+        }
+        return instance;
     }
 
-    Preferences instancesPrefs() {
+    synchronized Preferences instancesPrefs() {
         return PreferenceWrapper.instancesPrefs();
     }
+
 }
