@@ -12,4 +12,5 @@ public interface BambooInstance extends InstanceValues, Serializable {
 
     Preferences getPreferences();
 
+    void remove();
 }

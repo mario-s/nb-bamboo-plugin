@@ -12,6 +12,7 @@ import org.openide.util.lookup.ServiceProvider;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * @author spindizzy
@@ -56,37 +57,30 @@ public class DefaultInstanceManager implements InstanceManageable {
 
     @Override
     public void removeInstance(final BambooInstance instance) {
-        try {
-            instance.getPreferences().removeNode();
-            instancesPrefs().remove(instance.getName());
-            remove(instance);
-        } catch (BackingStoreException ex) {
-            Exceptions.printStackTrace(ex);
-        }
+        instance.remove();
+        remove(instance);
     }
 
     @Override
     public void removeInstance(String name) {
-        if (existsInstance(name)) {
-            removeInstance(loadInstance(name));
-        }
+        removeInstance(loadInstance(name));
     }
 
     @Override
     public boolean existsInstance(final String name) {
-        try {
-            String[] names = instancesPrefs().childrenNames();
+        boolean exists = false;
 
-            for (String prefName : names) {
-                if (prefName.equals(name)) {
-                    return true;
-                }
+        try {
+            if (isNotBlank(name)) {
+                Preferences prefs = instancesPrefs();
+                prefs.sync();
+                exists = prefs.nodeExists(name);
             }
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
 
-        return false;
+        return exists;
     }
 
     @Override

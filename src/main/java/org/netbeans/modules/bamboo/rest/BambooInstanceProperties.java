@@ -233,4 +233,17 @@ public class BambooInstanceProperties extends HashMap<String, String> {
             LOG.info(ex.getMessage());
         }
     }
+
+    @Override
+    public void clear() {
+        super.clear();
+        try {
+            preferences.removeNode();
+            preferences.flush();
+        } catch (BackingStoreException ex) {
+            LOG.info(ex.getMessage());
+        }
+    }
+    
+    
 }

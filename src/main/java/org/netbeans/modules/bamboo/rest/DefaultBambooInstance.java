@@ -44,6 +44,11 @@ public final class DefaultBambooInstance extends DefaultInstanceValues implement
         return properties.getPreferences();
     }
 
+    @Override
+    public void remove() {
+        properties.clear();
+    }
+
     public void setProperties(final BambooInstanceProperties properties) {
         this.properties = properties;
         updateFields(properties);
