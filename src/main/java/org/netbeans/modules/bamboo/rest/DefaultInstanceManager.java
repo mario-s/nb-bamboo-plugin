@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.glue.PlansProvideable;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
@@ -48,7 +47,7 @@ public class DefaultInstanceManager implements InstanceManageable {
 
     @Override
     public void addInstance(final InstanceValues values) {
-        PlansProvideable instance = bambooInstanceProducer.create(values);
+        BambooInstance instance = bambooInstanceProducer.create(values);
         content.add(instance);
     }
 

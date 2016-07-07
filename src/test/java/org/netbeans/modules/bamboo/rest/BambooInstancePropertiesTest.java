@@ -7,7 +7,6 @@ import java.util.prefs.Preferences;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
 import org.mockito.InjectMocks;

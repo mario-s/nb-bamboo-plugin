@@ -2,9 +2,6 @@ package org.netbeans.modules.bamboo.ui.wizard;
 
 import org.netbeans.modules.bamboo.glue.InstancePropertiesDisplayable;
 import java.awt.Dialog;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import org.openide.DialogDescriptor;
 import org.openide.util.NbBundle.Messages;
