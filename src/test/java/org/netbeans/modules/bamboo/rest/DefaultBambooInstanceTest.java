@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-import java.util.List;
 import java.util.prefs.Preferences;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
-import org.netbeans.modules.bamboo.rest.model.Plan;
 
 /**
  *
