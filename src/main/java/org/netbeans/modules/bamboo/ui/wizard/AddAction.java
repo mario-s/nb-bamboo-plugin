@@ -72,6 +72,17 @@ class AddAction extends AbstractDialogAction implements LookupListener {
     }
 
     @Override
+    protected void onCanceled() {
+        super.onCanceled();
+        
+        result.removeLookupListener(this);
+        worker.cancel(true);
+
+        
+        onDone();
+    }
+
+    @Override
     public void resultChanged(LookupEvent le) {
         if (le != null) {
             form.unblock();

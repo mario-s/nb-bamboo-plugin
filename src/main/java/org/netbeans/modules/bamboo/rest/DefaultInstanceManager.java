@@ -102,6 +102,7 @@ public class DefaultInstanceManager implements InstanceManageable {
 
         DefaultBambooInstance instance = new DefaultBambooInstance();
         instance.setProperties(props);
+        
         content.add(instance);
     }
 

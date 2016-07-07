@@ -2,6 +2,8 @@ package org.netbeans.modules.bamboo.ui.wizard;
 
 import org.netbeans.modules.bamboo.glue.InstancePropertiesDisplayable;
 import java.awt.Dialog;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import org.openide.DialogDescriptor;
@@ -13,12 +15,11 @@ import org.openide.NotifyDescriptor;
 @Messages({
     "LBL_DIALOG=Add Bamboo Instance"
 })
-public class InstanceDialog extends DialogDescriptor implements InstancePropertiesDisplayable{
+public class InstanceDialog extends DialogDescriptor implements InstancePropertiesDisplayable {
 
     private Dialog dialog;
 
     private final InstancePropertiesForm form;
-
 
     public InstanceDialog() {
         this(new InstancePropertiesForm());
@@ -33,10 +34,11 @@ public class InstanceDialog extends DialogDescriptor implements InstanceProperti
     private void initializeGui() {
         form.setNotificationSupport(createNotificationLineSupport());
         dialog = DialogDisplayer.getDefault().createDialog(this);
-        
-        AbstractAction action = new AddAction(dialog, form);
+
+        AbstractDialogAction action = new AddAction(dialog, form);
         form.setApplyAction(action);
-        
+        addPropertyChangeListener(action);
+
         setOptions(new Object[]{new JButton(action), NotifyDescriptor.CANCEL_OPTION});
         setClosingOptions(new Object[]{NotifyDescriptor.CANCEL_OPTION});
     }
