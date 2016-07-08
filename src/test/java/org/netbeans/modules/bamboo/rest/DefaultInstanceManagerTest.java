@@ -115,9 +115,9 @@ public class DefaultInstanceManagerTest {
     }
 
     @Test
-    @Ignore("FIXME")
-    public void testExistsInstance() {
+    public void testExistsInstance() throws BackingStoreException {
+        given(preferences.nodeExists(name)).willReturn(true);
         classUnderTest.addInstance(instance);
-        assertTrue(classUnderTest.existsInstance(name));
+        assertThat(classUnderTest.existsInstance(name), is(true));
     }
 }
