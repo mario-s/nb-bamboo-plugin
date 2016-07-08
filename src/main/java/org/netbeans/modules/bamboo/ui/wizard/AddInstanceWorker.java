@@ -12,11 +12,11 @@ import org.netbeans.modules.bamboo.rest.BambooInstanceProduceable;
 import static org.openide.util.Lookup.getDefault;
 
 /**
- * This worker does the call to the server and creation of nodes in a background 
+ * This worker does the call to the server and creation of nodes in a background
  * task.
- * 
+ *
  * TODO replace SwingWorker with RequestProcessor
- * 
+ *
  * @author spindizzy
  */
 class AddInstanceWorker extends SwingWorker<BambooInstance, BambooInstance> {
@@ -81,15 +81,22 @@ class AddInstanceWorker extends SwingWorker<BambooInstance, BambooInstance> {
                     if (instance != null) {
                         manager.addInstance(instance);
                     }
+                    action.onDone();
                 } catch (InterruptedException | ExecutionException ex) {
+                    removeInstance();
                     log.log(Level.WARNING, ex.getMessage(), ex);
                     //TODO send feed back to dialog
                 }
-            } else if (values != null) {
-                manager.removeInstance(values.getName());
+            } else {
+                removeInstance();
             }
         });
-        action.onDone();
+    }
+
+    private void removeInstance() {
+        if (values != null) {
+            manager.removeInstance(values.getName());
+        }
     }
 
 }
