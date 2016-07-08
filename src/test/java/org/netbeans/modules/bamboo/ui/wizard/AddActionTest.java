@@ -17,7 +17,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
-import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import static org.junit.Assert.assertFalse;
 import org.mockito.InjectMocks;
