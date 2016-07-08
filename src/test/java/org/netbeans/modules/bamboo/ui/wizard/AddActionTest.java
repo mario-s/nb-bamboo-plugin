@@ -18,8 +18,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
 import java.awt.Dialog;
+import java.awt.event.ActionEvent;
 import static org.junit.Assert.assertFalse;
 import org.mockito.InjectMocks;
+import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 
 /**
  * @author spindizzy
@@ -32,25 +34,28 @@ public class AddActionTest {
     @Mock
     private InstanceManageable manager;
     @Mock
-    private Dialog dialog;
-    @Mock
     private InstancePropertiesForm form;
+    @Mock
+    private AddInstanceWorker worker;
     @InjectMocks
     private AddAction classUnderTest;
 
     @Before
     public void setUp() {
-        setInternalState(classUnderTest, "instanceManager", manager);
         given(form.getInstanceName()).willReturn(NAME);
+        
+        setInternalState(classUnderTest, "instanceManager", manager);
+        setInternalState(classUnderTest, "worker", worker);
     }
 
     /**
      * Test of actionPerformed method, of class AddAction.
      */
     @Test
-    public void testActionPerformed() {
+    public void testActionPerformed_Ok() {
         given(form.getPassword()).willReturn(new char[]{'a'});
-        classUnderTest.actionPerformed(null);
+        ActionEvent event = new ActionEvent(this, 0, TXT_ADD());
+        classUnderTest.actionPerformed(event);
         assertFalse(classUnderTest.isEnabled());
         verify(form).block();
     }

@@ -38,6 +38,7 @@ public class InstanceDialog extends DialogDescriptor implements InstanceProperti
         AbstractDialogAction action = new AddAction(form);
         form.setApplyAction(action);
         addPropertyChangeListener(action);
+        setButtonListener(action);
         action.addPropertyChangeListener(this);
 
         setOptions(new Object[]{new JButton(action), NotifyDescriptor.CANCEL_OPTION});

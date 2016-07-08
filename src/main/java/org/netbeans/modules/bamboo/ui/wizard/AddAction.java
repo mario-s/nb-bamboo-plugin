@@ -4,9 +4,6 @@ import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 
 import org.openide.util.NbBundle;
 
-import java.awt.Dialog;
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
 import org.netbeans.modules.bamboo.glue.PlansProvideable;
@@ -54,7 +51,7 @@ class AddAction extends AbstractDialogAction implements LookupListener {
     }
 
     @Override
-    public void actionPerformed(final ActionEvent e) {
+    protected void onOk() {
         disable(); // block from clicking again
         addInstance();
     }
@@ -70,8 +67,8 @@ class AddAction extends AbstractDialogAction implements LookupListener {
     }
 
     @Override
-    protected void onCancelled() {
-        super.onCancelled();
+    protected void onCancel() {
+        super.onCancel();
         worker.cancel(true);
     }
 
@@ -81,6 +78,4 @@ class AddAction extends AbstractDialogAction implements LookupListener {
             form.unblock();
         }
     }
-
-
 }
