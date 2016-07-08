@@ -21,7 +21,6 @@ import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import static org.hamcrest.CoreMatchers.is;
-import org.junit.Ignore;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
