@@ -18,4 +18,6 @@ public interface SharedConstants {
      * @see ActionReference#path
      */
     String ACTION_PATH = MODULE_NAME + "/Actions/instance";
+    
+    String PROCESS_DONE = "process_done";
 }

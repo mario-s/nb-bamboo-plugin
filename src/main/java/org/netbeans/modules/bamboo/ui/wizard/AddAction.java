@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
 import org.netbeans.modules.bamboo.glue.PlansProvideable;
+import org.netbeans.modules.bamboo.glue.SharedConstants;
+import org.openide.NotifyDescriptor;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
@@ -25,7 +27,6 @@ class AddAction extends AbstractDialogAction implements LookupListener {
      */
     private static final long serialVersionUID = 1L;
 
-    private final Dialog dialog;
 
     private final InstancePropertiesForm form;
     
@@ -33,10 +34,9 @@ class AddAction extends AbstractDialogAction implements LookupListener {
     
     private AddInstanceWorker worker;
 
-    public AddAction(final Dialog dialog, final InstancePropertiesForm form) {
+    public AddAction(final InstancePropertiesForm form) {
         super(TXT_ADD());
         this.form = form;
-        this.dialog = dialog;
         addLookup();
         disable();
     }
@@ -66,9 +66,7 @@ class AddAction extends AbstractDialogAction implements LookupListener {
 
     @Override
     protected void onDone() {
-        EventQueue.invokeLater(() -> {
-            dialog.dispose();
-        });
+        firePropertyChange(SharedConstants.PROCESS_DONE, null, NotifyDescriptor.OK_OPTION);
     }
 
     @Override
