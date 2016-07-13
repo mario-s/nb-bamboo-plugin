@@ -5,9 +5,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 import org.openide.NotifyDescriptor;
+
 import static org.openide.util.Lookup.getDefault;
+import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 
 /**
  *

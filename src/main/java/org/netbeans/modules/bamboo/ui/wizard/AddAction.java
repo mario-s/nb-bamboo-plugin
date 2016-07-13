@@ -1,7 +1,5 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
-
 import org.openide.util.NbBundle;
 
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
@@ -12,6 +10,8 @@ import org.openide.NotifyDescriptor;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+
+import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 
 /**
  * @author spindizzy
