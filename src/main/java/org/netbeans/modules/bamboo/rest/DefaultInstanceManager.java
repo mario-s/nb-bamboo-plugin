@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
@@ -82,19 +84,21 @@ public class DefaultInstanceManager implements InstanceManageable {
     }
 
     @Override
-    public void loadInstances() {
+    public Collection<BambooInstance> loadInstances() {
+        Collection<BambooInstance> instances = new ArrayList<>();
 
         try {
             String[] names = instancesPrefs().childrenNames();
 
             for (String name : names) {
-                add(loadInstance(name));
+                instances.add(loadInstance(name));
             }
 
             LOG.finer(String.format("loaded nodes: %s", names.length));
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
+        return instances;
     }
 
     private BambooInstance loadInstance(final String name) {

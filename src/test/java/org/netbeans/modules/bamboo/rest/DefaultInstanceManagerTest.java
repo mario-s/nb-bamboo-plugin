@@ -109,8 +109,8 @@ public class DefaultInstanceManagerTest {
     @Test
     public void testLoadInstances() {
         classUnderTest.addInstance(instance);
-        classUnderTest.loadInstances();
-        verify(listener, atLeast(1)).resultChanged(lookupCaptor.capture());
+        Collection<BambooInstance> instances = classUnderTest.loadInstances();
+        assertThat(instances.isEmpty(), is(false));
     }
 
     @Test
