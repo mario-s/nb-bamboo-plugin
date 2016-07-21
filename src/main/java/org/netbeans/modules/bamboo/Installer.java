@@ -1,40 +1,30 @@
 package org.netbeans.modules.bamboo;
 
 
+import java.util.Collection;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.glue.PlansProvideable;
 import org.openide.util.Lookup;
-import org.openide.util.LookupEvent;
-import org.openide.util.LookupListener;
 
 import org.openide.windows.OnShowing;
 
 
 @OnShowing
-public final class Installer implements Runnable, LookupListener {
+public final class Installer implements Runnable {
     
     private InstanceManageable manager;
-    private Lookup.Result<PlansProvideable> result;
     
     public Installer() {
          manager = Lookup.getDefault().lookup(InstanceManageable.class);
-         initLookup();
     }
 
-    private void initLookup() {
-        result = manager.getLookup().lookupResult(PlansProvideable.class);
-        result.addLookupListener(this);
-    }
     
     @Override
     public void run() {
-        manager.loadInstances();
+        Collection<BambooInstance> instances = manager.loadInstances();
+        //TODO call CI server
+        instances.forEach(instance -> manager.addInstance(instance));
     }
 
-    @Override
-    public void resultChanged(LookupEvent ev) {
-        //TODO call server to creat nodes
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
     
 }
