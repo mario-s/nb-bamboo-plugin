@@ -4,7 +4,6 @@ import org.netbeans.modules.bamboo.glue.InstanceValues;
 import static org.netbeans.modules.bamboo.rest.BambooInstanceConstants.*;
 
 import org.openide.util.Exceptions;
-import org.openide.util.RequestProcessor;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -26,8 +25,6 @@ public class BambooInstanceProperties extends HashMap<String, String> {
     /** Use serialVersionUID for interoperability. */
     private static final long serialVersionUID = 1L;
 
-    private static final RequestProcessor RP = new RequestProcessor(BambooInstanceProperties.class);
-
     private static final Logger LOG = Logger.getLogger(BambooInstanceProperties.class.getName());
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
@@ -47,7 +44,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
     }
 
     @Override
-    public final synchronized String put(final String key, final String value) {
+    public final String put(final String key, final String value) {
         String o = super.put(key, value);
         pcs.firePropertyChange(key, o, value);
 
@@ -174,48 +171,44 @@ public class BambooInstanceProperties extends HashMap<String, String> {
      * Update persistent preferences in a background thread.
      */
     private void updatePreferences(final String... keys) {
-        RP.post(() -> {
-                Preferences prefs = getPreferences();
+        Preferences prefs = getPreferences();
 
-                if (prefs != null) {
-                    for (String key : keys) {
-                        String val = get(key);
+        if (prefs != null) {
+            for (String key : keys) {
+                String val = get(key);
 
-                        if (val == null) {
-                            prefs.remove(key);
-                        } else {
-                            prefs.put(key, val);
-                        }
-                    }
+                if (val == null) {
+                    prefs.remove(key);
+                } else {
+                    prefs.put(key, val);
                 }
-            });
+            }
+        }
     }
 
     /**
      * Load preferences in background thread.
      */
     private void loadPreferences() {
-        RP.post(() -> {
-                if (hasPreferences()) {
-                    Preferences prefs = getPreferences();
+        if (hasPreferences()) {
+            Preferences prefs = getPreferences();
 
-                    if (prefs != null) {
-                        try {
-                            String[] keys = prefs.keys();
+            if (prefs != null) {
+                try {
+                    String[] keys = prefs.keys();
 
-                            for (String key : keys) {
-                                if (INSTANCE_NAME.equals(key) || INSTANCE_URL.equals(key)) {
-                                    continue;
-                                }
-
-                                put(prefs, key);
-                            }
-                        } catch (BackingStoreException ex) {
-                            Exceptions.printStackTrace(ex);
+                    for (String key : keys) {
+                        if (INSTANCE_NAME.equals(key)) {
+                            continue;
                         }
+
+                        put(prefs, key);
                     }
+                } catch (BackingStoreException ex) {
+                    Exceptions.printStackTrace(ex);
                 }
-            });
+            }
+        }
     }
 
     private void put(final Preferences prefs, final String key) {
@@ -237,6 +230,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
     @Override
     public void clear() {
         super.clear();
+
         try {
             preferences.removeNode();
             preferences.flush();
@@ -244,6 +238,4 @@ public class BambooInstanceProperties extends HashMap<String, String> {
             LOG.info(ex.getMessage());
         }
     }
-    
-    
 }
