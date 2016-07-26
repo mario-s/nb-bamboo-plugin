@@ -1,13 +1,13 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.rest.model.PlansResponse;
-import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import org.glassfish.jersey.logging.LoggingFeature;
 
 import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.rest.model.PlansResponse;
+import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
 
 import org.openide.util.lookup.ServiceProvider;
 
@@ -57,9 +57,10 @@ public class BambooRestClient implements BambooServiceAccessable {
             String password = String.valueOf(chars);
 
             opt = of(
-                    newTarget(url).path(REST_API).path(path).queryParam(
-                        AUTH_TYPE,
-                        BASIC).queryParam(USER, user).queryParam(PASS, password));
+                    newTarget(url).path(REST_API).path(path).queryParam(AUTH_TYPE, BASIC)
+                    .queryParam(USER, user).queryParam(PASS, password));
+        } else if (log.isLoggable(Level.WARNING)) {
+            log.warning("Invalid values for instance");
         }
 
         return opt;
