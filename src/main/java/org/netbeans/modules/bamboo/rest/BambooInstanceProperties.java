@@ -40,7 +40,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
         put(INSTANCE_URL, values.getUrl());
         put(INSTANCE_SYNC, Integer.toString(values.getSyncInterval()));
         put(INSTANCE_USER, values.getUsername());
-        put(INSTANCE_PASSWORD, Encrypter.getInstance().encrypt(values.getPassword()));
+        put(INSTANCE_PASSWORD, new String(values.getPassword()));
     }
 
     @Override
@@ -180,6 +180,10 @@ public class BambooInstanceProperties extends HashMap<String, String> {
                 if (val == null) {
                     prefs.remove(key);
                 } else {
+                    if (INSTANCE_PASSWORD.equals(key)) {
+                        val = Encrypter.getInstance().encrypt(val);
+                    }
+
                     prefs.put(key, val);
                 }
             }
