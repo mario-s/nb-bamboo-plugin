@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.rest.BambooInstanceProduceable;
 import org.netbeans.modules.bamboo.rest.BambooServiceAccessable;
 import org.netbeans.modules.bamboo.rest.DefaultBambooInstance;
 import org.netbeans.modules.bamboo.rest.model.Plans;

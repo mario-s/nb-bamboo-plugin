@@ -8,7 +8,6 @@ import org.netbeans.modules.bamboo.rest.model.PlansResponse;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
-import java.util.Collection;
 import java.util.prefs.Preferences;
 
 
@@ -23,11 +22,7 @@ public class BambooInstanceFactory implements BambooInstanceProduceable {
     }
 
     private void initClient() {
-        Collection<? extends BambooServiceAccessable> services = Lookup.getDefault().lookupAll(
-                BambooServiceAccessable.class);
-
-        // simply take the first one, in test environment it is the mock client
-        this.instanceAccessor = services.iterator().next();
+        this.instanceAccessor = Lookup.getDefault().lookup(BambooServiceAccessable.class);
     }
 
     @Override

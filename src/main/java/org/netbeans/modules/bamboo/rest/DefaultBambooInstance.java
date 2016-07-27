@@ -20,8 +20,7 @@ import java.util.prefs.Preferences;
  */
 @Getter
 @Setter
-public final class DefaultBambooInstance extends DefaultInstanceValues
-    implements ResultsProvideable {
+public class DefaultBambooInstance extends DefaultInstanceValues implements ResultsProvideable {
     /** Use serialVersionUID for interoperability. */
     private static final long serialVersionUID = 1L;
 

@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.rest.BambooServiceAccessable;
 import org.netbeans.modules.bamboo.rest.model.Result;
 import org.netbeans.modules.bamboo.rest.model.Plans;
 import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 /**
  * @author spindizzy
  */
-@ServiceProvider(service = BambooServiceAccessable.class)
+@ServiceProvider(service = BambooServiceAccessable.class, position = 10)
 public class MockRestClient implements BambooServiceAccessable {
     @Override
     public PlansResponse getAllPlans(final InstanceValues values) {
