@@ -1,10 +1,10 @@
 package org.netbeans.modules.bamboo.glue;
 
 /**
- *
+ * Interface which will return the necessary values for a connection to the CI
+ * server.
  */
-public interface InstanceValues extends OpenableInBrowser{
-
+public interface InstanceValues extends OpenableInBrowser {
     /**
      * Name of the Bamboo instance.
      *
@@ -23,8 +23,7 @@ public interface InstanceValues extends OpenableInBrowser{
      * @return user name
      */
     String getUsername();
-    
-    
+
     /**
      * Get the password of the user.
      *

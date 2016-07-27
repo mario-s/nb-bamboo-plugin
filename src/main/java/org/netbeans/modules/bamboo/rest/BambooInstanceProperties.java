@@ -35,6 +35,11 @@ public class BambooInstanceProperties extends HashMap<String, String> {
         this.preferences = preferences;
     }
 
+    /**
+     * Puts all the values into the Properties and updates preferences.
+     *
+     * @param values {@link InstanceValues}
+     */
     public void copyProperties(final InstanceValues values) {
         put(INSTANCE_NAME, values.getName());
         put(INSTANCE_URL, values.getUrl());
@@ -43,16 +48,27 @@ public class BambooInstanceProperties extends HashMap<String, String> {
         put(INSTANCE_PASSWORD, new String(values.getPassword()));
     }
 
+    /**
+     * Loads the preferences for the instance.
+     *
+     * @param instanceName
+     */
+    public void loadPreferences(final String instanceName) {
+        putAndFireChange(INSTANCE_NAME, instanceName);
+        BambooInstanceProperties.this.loadPreferences();
+    }
+
     @Override
     public final String put(final String key, final String value) {
+        String o = putAndFireChange(key, value);
+        updatePreferences(key);
+
+        return o;
+    }
+
+    private String putAndFireChange(final String key, final String value) {
         String o = super.put(key, value);
         pcs.firePropertyChange(key, o, value);
-
-        if (key.equals(INSTANCE_NAME)) {
-            loadPreferences();
-        }
-
-        updatePreferences(key);
 
         return o;
     }
@@ -168,7 +184,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
     }
 
     /**
-     * Update persistent preferences in a background thread.
+     * Update persistent preferences.
      */
     private void updatePreferences(final String... keys) {
         Preferences prefs = getPreferences();
@@ -191,7 +207,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
     }
 
     /**
-     * Load preferences in background thread.
+     * Load preferences.
      */
     private void loadPreferences() {
         if (hasPreferences()) {

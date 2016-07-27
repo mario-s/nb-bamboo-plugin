@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
@@ -11,17 +11,18 @@ import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.ServiceProvider;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 
 /**
  * @author spindizzy
  */
 @ServiceProvider(service = InstanceManageable.class)
 public class DefaultInstanceManager implements InstanceManageable {
-
     private static final Logger LOG = Logger.getLogger(DefaultInstanceManager.class.getName());
 
     private final InstanceContent content;
@@ -64,7 +65,7 @@ public class DefaultInstanceManager implements InstanceManageable {
     }
 
     @Override
-    public void removeInstance(String name) {
+    public void removeInstance(final String name) {
         removeInstance(loadInstance(name));
     }
 
@@ -98,25 +99,27 @@ public class DefaultInstanceManager implements InstanceManageable {
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
+
         return instances;
     }
 
     private BambooInstance loadInstance(final String name) {
         DefaultBambooInstance instance = null;
+
         try {
             BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
-            props.put(BambooInstanceConstants.INSTANCE_NAME, name);
+            props.loadPreferences(name);
 
             instance = new DefaultBambooInstance();
             instance.setProperties(props);
         } catch (IllegalStateException e) {
             LOG.warning(e.getMessage());
         }
+
         return instance;
     }
 
     synchronized Preferences instancesPrefs() {
         return PreferenceWrapper.instancesPrefs();
     }
-
 }
