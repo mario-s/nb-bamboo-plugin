@@ -24,7 +24,7 @@ public final class Installer implements Runnable {
         if (!instances.isEmpty()) {
             BambooServiceAccessable client = getDefault().lookup(BambooServiceAccessable.class);
 
-            instances.forEach(instance -> {
+            instances.parallelStream().forEach(instance -> {
                     PlansResponse all = client.getAllPlans(instance);
                     Plans plans = all.getPlans();
 
