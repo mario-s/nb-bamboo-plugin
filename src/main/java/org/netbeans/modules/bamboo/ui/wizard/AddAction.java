@@ -1,34 +1,30 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import org.openide.util.NbBundle;
-
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-
 import org.netbeans.modules.bamboo.glue.PlansProvideable;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
+import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
+
 import org.openide.NotifyDescriptor;
+
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+import org.openide.util.NbBundle;
 
-import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 
 /**
  * @author spindizzy
  */
-@NbBundle.Messages({"TXT_ADD=OK"})
+@NbBundle.Messages({ "TXT_ADD=OK" })
 class AddAction extends AbstractDialogAction implements LookupListener {
-
-    /**
-     * Use serialVersionUID for interoperability.
-     */
+    /** Use serialVersionUID for interoperability. */
     private static final long serialVersionUID = 1L;
 
-
     private final InstancePropertiesForm form;
-    
+
     private Lookup.Result<PlansProvideable> result;
-    
+
     private AddInstanceWorker worker;
 
     public AddAction(final InstancePropertiesForm form) {
@@ -69,11 +65,11 @@ class AddAction extends AbstractDialogAction implements LookupListener {
     @Override
     protected void onCancel() {
         super.onCancel();
-        worker.cancel(true);
+        worker.cancel();
     }
 
     @Override
-    public void resultChanged(LookupEvent le) {
+    public void resultChanged(final LookupEvent le) {
         if (le != null) {
             form.unblock();
         }
