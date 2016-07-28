@@ -1,22 +1,27 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
 import org.netbeans.modules.bamboo.glue.InstancePropertiesDisplayable;
-import java.awt.Dialog;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.JButton;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
-import org.openide.DialogDescriptor;
-import org.openide.util.NbBundle.Messages;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.*;
+
+import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 
-@Messages({
-    "LBL_DIALOG=Add Bamboo Instance"
-})
-public class InstanceDialog extends DialogDescriptor implements InstancePropertiesDisplayable, PropertyChangeListener {
+import org.openide.util.NbBundle.Messages;
 
+import java.awt.Dialog;
+import java.awt.EventQueue;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.JButton;
+
+
+@Messages({ "LBL_DIALOG=Add Bamboo Instance" })
+public class InstanceDialog extends DialogDescriptor implements InstancePropertiesDisplayable,
+    PropertyChangeListener {
     private Dialog dialog;
 
     private final InstancePropertiesForm form;
@@ -38,19 +43,22 @@ public class InstanceDialog extends DialogDescriptor implements InstanceProperti
         AbstractDialogAction action = new AddAction(form);
         form.setApplyAction(action);
         addPropertyChangeListener(action);
-        setButtonListener(action);
+
         action.addPropertyChangeListener(this);
 
-        setOptions(new Object[]{new JButton(action), NotifyDescriptor.CANCEL_OPTION});
-        setClosingOptions(new Object[]{NotifyDescriptor.CANCEL_OPTION});
+        setOptions(new Object[] { new JButton(action), NotifyDescriptor.CANCEL_OPTION });
+        setClosingOptions(new Object[] { NotifyDescriptor.CANCEL_OPTION });
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent pce) {
-        String propName = pce.getPropertyName();
-        if(SharedConstants.PROCESS_DONE.equals(propName)){
-            dialog.dispose();
-        }
+    public void propertyChange(final PropertyChangeEvent pce) {
+        EventQueue.invokeLater(() -> {
+                String propName = pce.getPropertyName();
+
+                if (SharedConstants.PROCESS_DONE.equals(propName) && dialog.isVisible()) {
+                    dialog.dispose();
+                }
+            });
     }
 
     @Override
