@@ -4,6 +4,7 @@ import org.netbeans.modules.bamboo.glue.InstanceValues;
 import static org.netbeans.modules.bamboo.rest.BambooInstanceConstants.*;
 
 import org.openide.util.Exceptions;
+import org.openide.util.RequestProcessor;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -24,6 +25,8 @@ import java.util.prefs.Preferences;
 public class BambooInstanceProperties extends HashMap<String, String> {
     /** Use serialVersionUID for interoperability. */
     private static final long serialVersionUID = 1L;
+
+    private static final RequestProcessor RP = new RequestProcessor(BambooInstanceProperties.class);
 
     private static final Logger LOG = Logger.getLogger(BambooInstanceProperties.class.getName());
 
@@ -187,23 +190,25 @@ public class BambooInstanceProperties extends HashMap<String, String> {
      * Update persistent preferences.
      */
     private void updatePreferences(final String... keys) {
-        Preferences prefs = getPreferences();
+        RP.post(() -> {
+                Preferences prefs = getPreferences();
 
-        if (prefs != null) {
-            for (String key : keys) {
-                String val = get(key);
+                if (prefs != null) {
+                    for (String key : keys) {
+                        String val = get(key);
 
-                if (val == null) {
-                    prefs.remove(key);
-                } else {
-                    if (INSTANCE_PASSWORD.equals(key)) {
-                        val = Encrypter.getInstance().encrypt(val);
+                        if (val == null) {
+                            prefs.remove(key);
+                        } else {
+                            if (INSTANCE_PASSWORD.equals(key)) {
+                                val = Encrypter.getInstance().encrypt(val);
+                            }
+
+                            prefs.put(key, val);
+                        }
                     }
-
-                    prefs.put(key, val);
                 }
-            }
-        }
+            });
     }
 
     /**
