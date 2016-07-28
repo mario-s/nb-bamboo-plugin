@@ -44,7 +44,9 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Resu
 
     @Override
     public void remove() {
-        properties.clear();
+        if (properties != null) {
+            properties.clear();
+        }
     }
 
     public void setProperties(final BambooInstanceProperties properties) {
