@@ -69,6 +69,11 @@
                             <format>html</format>
                             <format>xml</format>
                         </formats>
+                        <instrumentation>
+                            <excludes>
+                                <exclude>org/netbeans/modules/bamboo/**/*able.class</exclude>
+                            </excludes>
+                        </instrumentation>
                     </configuration>
                     <dependencies>  
                         <dependency>  
