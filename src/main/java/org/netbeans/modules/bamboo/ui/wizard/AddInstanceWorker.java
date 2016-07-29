@@ -3,54 +3,42 @@ package org.netbeans.modules.bamboo.ui.wizard;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.rest.BambooInstanceProduceable;
 
-import static org.openide.util.Lookup.getDefault;
 import org.openide.util.RequestProcessor;
 import org.openide.util.Task;
 import org.openide.util.TaskListener;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
 import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
-import java.util.logging.Logger;
 
 
 /**
- * This currentWorker does the call to the server and creation of nodes in a
+ * This currentRunner does the call to the server and creation of nodes in a
  * background task.
- *
- * <p>TODO replace SwingWorker with RequestProcessor</p>
  *
  * @author spindizzy
  */
 class AddInstanceWorker implements PropertyChangeListener, TaskListener {
-    private static final String EVENT_INSTANCE = "instance";
-
     private static final RequestProcessor RP = new RequestProcessor("interrupt", 1, true);
 
-    private final Logger log;
     private final AbstractDialogAction action;
     private final InstanceManageable manager;
-    private final BambooInstanceProduceable bambooInstanceProducer;
 
     private Optional<RequestProcessor.Task> currentTask;
-    private Optional<Worker> currentWorker;
+    private Optional<Runner> currentRunner;
     private Optional<String> instanceName;
 
     private boolean cancel;
 
     public AddInstanceWorker(final AbstractDialogAction action) {
-        this.log = Logger.getLogger(getClass().getName());
         this.action = action;
         this.manager = action.getInstanceManager();
 
-        bambooInstanceProducer = getDefault().lookup(BambooInstanceProduceable.class);
         reset();
     }
 
@@ -69,21 +57,21 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
 
         instanceName = ofNullable(values.getName());
 
-        Worker worker = new Worker(values);
-        worker.addPropertyChangeListener(this);
+        Runner runner = new Runner(values);
+        runner.addPropertyChangeListener(this);
 
-        RequestProcessor.Task task = RP.post(worker);
+        RequestProcessor.Task task = RP.post(runner);
         task.addTaskListener(this);
 
         currentTask = of(task);
-        currentWorker = of(worker);
+        currentRunner = of(runner);
     }
 
     private void reset() {
         cancel = false;
         instanceName = empty();
         currentTask = empty();
-        currentWorker = empty();
+        currentRunner = empty();
     }
 
     private DefaultInstanceValues createInstanceValues(final InstancePropertiesForm form) {
@@ -101,7 +89,7 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
     public void propertyChange(final PropertyChangeEvent pce) {
         String prop = pce.getPropertyName();
 
-        if (EVENT_INSTANCE.equals(prop) && !cancel) {
+        if (WorkerEvents.INSTANCE_CREATED.name().equals(prop) && !cancel) {
             BambooInstance instance = (BambooInstance) pce.getNewValue();
 
             if (instance != null) {
@@ -115,41 +103,14 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
     @Override
     public void taskFinished(final Task task) {
         if (task.isFinished()) {
-            if (currentWorker.isPresent()) {
-                currentWorker.get().removePropertyChangeListener(this);
+            if (currentRunner.isPresent()) {
+                currentRunner.get().removePropertyChangeListener(this);
             }
 
             task.removeTaskListener(this);
 
             if (cancel && instanceName.isPresent()) {
                 manager.removeInstance(instanceName.get());
-            }
-        }
-    }
-
-    private class Worker extends PropertyChangeSupport implements Runnable {
-        /** Use serialVersionUID for interoperability. */
-        private static final long serialVersionUID = 1L;
-
-        private final DefaultInstanceValues values;
-
-        public Worker(final DefaultInstanceValues values) {
-            super(values);
-            this.values = values;
-        }
-
-        @Override
-        public void run() {
-            BambooInstance instance = bambooInstanceProducer.create(values);
-
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-                log.info(ex.getMessage());
-            }
-
-            if ((instance != null) && !Thread.interrupted()) {
-                firePropertyChange(EVENT_INSTANCE, null, instance);
             }
         }
     }
