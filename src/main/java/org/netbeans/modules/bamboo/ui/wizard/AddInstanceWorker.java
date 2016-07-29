@@ -1,102 +1,117 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import java.awt.EventQueue;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.SwingWorker;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.rest.BambooInstanceProduceable;
-import static org.openide.util.Lookup.getDefault;
+
+import org.openide.util.RequestProcessor;
+import org.openide.util.Task;
+import org.openide.util.TaskListener;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import java.util.Optional;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
+
 
 /**
- * This worker does the call to the server and creation of nodes in a background
- * task.
- *
- * TODO replace SwingWorker with RequestProcessor
+ * This currentRunner does the call to the server and creation of nodes in a
+ * background task.
  *
  * @author spindizzy
  */
-class AddInstanceWorker extends SwingWorker<BambooInstance, BambooInstance> {
+class AddInstanceWorker implements PropertyChangeListener, TaskListener {
+    private static final RequestProcessor RP = new RequestProcessor("interrupt", 1, true);
 
-    private final Logger log;
     private final AbstractDialogAction action;
     private final InstanceManageable manager;
-    private BambooInstanceProduceable bambooInstanceProducer;
-    private DefaultInstanceValues values;
-    private InstancePropertiesForm form;
 
-    public AddInstanceWorker(AbstractDialogAction action) {
-        this.log = Logger.getLogger(getClass().getName());
+    private Optional<RequestProcessor.Task> currentTask;
+    private Optional<Runner> currentRunner;
+    private Optional<String> instanceName;
+
+    private boolean cancel;
+
+    public AddInstanceWorker(final AbstractDialogAction action) {
         this.action = action;
         this.manager = action.getInstanceManager();
 
-        bambooInstanceProducer = getDefault().lookup(
-                BambooInstanceProduceable.class);
+        reset();
     }
 
-    /**
-     * Executes the worker with the values from the form
-     *
-     * @param form
-     */
-    void execute(InstancePropertiesForm form) {
-        this.form = form;
-        execute();
+    void cancel() {
+        cancel = true;
+
+        if (currentTask.isPresent()) {
+            currentTask.get().cancel();
+        }
     }
 
-    private DefaultInstanceValues createInstanceValues(
-            InstancePropertiesForm form) {
+    void execute(final InstancePropertiesForm form) {
+        reset();
+
+        DefaultInstanceValues values = createInstanceValues(form);
+
+        instanceName = ofNullable(values.getName());
+
+        Runner runner = new Runner(values);
+        runner.addPropertyChangeListener(this);
+
+        RequestProcessor.Task task = RP.post(runner);
+        task.addTaskListener(this);
+
+        currentTask = of(task);
+        currentRunner = of(runner);
+    }
+
+    private void reset() {
+        cancel = false;
+        instanceName = empty();
+        currentTask = empty();
+        currentRunner = empty();
+    }
+
+    private DefaultInstanceValues createInstanceValues(final InstancePropertiesForm form) {
         DefaultInstanceValues vals = new DefaultInstanceValues();
         vals.setName(form.getInstanceName());
         vals.setUrl(form.getInstanceUrl());
         vals.setSyncInterval(form.getSyncTime());
         vals.setUsername(form.getUsername());
         vals.setPassword(form.getPassword());
+
         return vals;
     }
 
     @Override
-    protected BambooInstance doInBackground() throws Exception {
-        values = createInstanceValues(form);
-        return createInstance();
-    }
+    public void propertyChange(final PropertyChangeEvent pce) {
+        String prop = pce.getPropertyName();
 
-    BambooInstance createInstance() {
-        BambooInstance instance = null;
-        if (values != null && !isCancelled()) {
-            instance = bambooInstanceProducer.create(values);
+        if (WorkerEvents.INSTANCE_CREATED.name().equals(prop) && !cancel) {
+            BambooInstance instance = (BambooInstance) pce.getNewValue();
+
+            if (instance != null) {
+                manager.addInstance(instance);
+            }
+
+            action.onDone();
         }
-        return instance;
     }
 
     @Override
-    protected void done() {
-        EventQueue.invokeLater(() -> {
-            if (!isCancelled()) {
-                try {
-                    BambooInstance instance = get();
-                    if (instance != null) {
-                        manager.addInstance(instance);
-                    }
-                    action.onDone();
-                } catch (InterruptedException | ExecutionException ex) {
-                    removeInstance();
-                    log.log(Level.WARNING, ex.getMessage(), ex);
-                    //TODO send feed back to dialog
-                }
-            } else {
-                removeInstance();
+    public void taskFinished(final Task task) {
+        if (task.isFinished()) {
+            if (currentRunner.isPresent()) {
+                currentRunner.get().removePropertyChangeListener(this);
             }
-        });
-    }
 
-    private void removeInstance() {
-        if (values != null) {
-            manager.removeInstance(values.getName());
+            task.removeTaskListener(this);
+
+            if (cancel && instanceName.isPresent()) {
+                manager.removeInstance(instanceName.get());
+            }
         }
     }
-
 }
