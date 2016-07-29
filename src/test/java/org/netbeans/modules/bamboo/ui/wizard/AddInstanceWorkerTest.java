@@ -22,7 +22,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
+import org.netbeans.modules.bamboo.mock.MockInstanceFactory;
+import org.netbeans.modules.bamboo.rest.BambooInstanceProduceable;
 
+import static org.openide.util.Lookup.getDefault;
 import org.openide.util.Task;
 
 import java.beans.PropertyChangeEvent;
@@ -41,11 +44,17 @@ public class AddInstanceWorkerTest {
     private InstancePropertiesForm form;
     @Mock
     private BambooInstance instance;
+    @Mock
+    private BambooInstanceProduceable producer;
 
     private AddInstanceWorker classUnderTest;
 
     @Before
     public void setUp() {
+        MockInstanceFactory factory =
+            (MockInstanceFactory) getDefault().lookup(BambooInstanceProduceable.class);
+        factory.setDelegate(producer);
+
         given(action.getInstanceManager()).willReturn(instanceManager);
         classUnderTest = new AddInstanceWorker(action);
         given(form.getInstanceName()).willReturn("test");
