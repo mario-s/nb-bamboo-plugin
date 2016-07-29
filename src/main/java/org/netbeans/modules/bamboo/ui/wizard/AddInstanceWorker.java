@@ -41,8 +41,6 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
 
     private boolean cancel;
 
-    BambooInstance instance;
-
     public AddInstanceWorker(final AbstractDialogAction action) {
         this.log = Logger.getLogger(getClass().getName());
         this.action = action;
@@ -61,7 +59,6 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
 
     void execute(final InstancePropertiesForm form) {
         cancel = false;
-        instance = null;
 
         DefaultInstanceValues values = createInstanceValues(form);
         worker = new Worker(values);
@@ -86,7 +83,13 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
         String prop = pce.getPropertyName();
 
         if (EVENT_INSTANCE.equals(prop) && !cancel) {
-            instance = (BambooInstance) pce.getNewValue();
+            BambooInstance instance = (BambooInstance) pce.getNewValue();
+
+            if (instance != null) {
+                manager.addInstance(instance);
+            }
+
+            action.onDone();
         }
     }
 
@@ -98,12 +101,6 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
             }
 
             task.removeTaskListener(this);
-
-            if (instance != null) {
-                manager.addInstance(instance);
-            }
-
-            action.onDone();
         }
     }
 
