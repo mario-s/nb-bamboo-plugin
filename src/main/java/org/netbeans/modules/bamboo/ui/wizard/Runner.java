@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
-import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
+import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.rest.BambooInstanceProduceable;
 
 import static org.openide.util.Lookup.getDefault;
@@ -19,9 +19,9 @@ class Runner extends PropertyChangeSupport implements Runnable {
     private static final long serialVersionUID = 1L;
     private final Logger log;
 
-    private final DefaultInstanceValues values;
+    private final InstanceValues values;
 
-    Runner(final DefaultInstanceValues values) {
+    Runner(final InstanceValues values) {
         super(values);
         this.log = Logger.getLogger(getClass().getName());
         this.values = values;

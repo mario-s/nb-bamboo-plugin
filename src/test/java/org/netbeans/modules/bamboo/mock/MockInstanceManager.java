@@ -1,14 +1,12 @@
-package org.netbeans.modules.bamboo.rest;
+package org.netbeans.modules.bamboo.mock;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.rest.DefaultInstanceManager;
 
-import org.openide.util.Lookup;
-import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.ServiceProvider;
 
 import java.util.Collection;
+import org.netbeans.modules.bamboo.rest.DefaultInstanceManager;
 
 
 /**

@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.rest;
+package org.netbeans.modules.bamboo.mock;
 
 import org.netbeans.modules.bamboo.rest.model.Result;
 import org.netbeans.modules.bamboo.rest.model.Plans;
@@ -11,6 +11,7 @@ import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.openide.util.lookup.ServiceProvider;
 
 import java.util.ArrayList;
+import org.netbeans.modules.bamboo.rest.BambooServiceAccessable;
 
 
 /**

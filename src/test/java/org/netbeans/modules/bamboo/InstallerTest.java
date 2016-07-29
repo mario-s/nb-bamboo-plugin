@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo;
 
-import org.netbeans.modules.bamboo.rest.MockInstanceManager;
+import org.netbeans.modules.bamboo.mock.MockInstanceManager;
 import org.junit.Before;
 import org.junit.Test;
 
