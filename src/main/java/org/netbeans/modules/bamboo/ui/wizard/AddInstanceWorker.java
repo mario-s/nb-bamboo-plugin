@@ -41,10 +41,9 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
 
     private Optional<RequestProcessor.Task> currentTask;
     private Optional<Worker> currentWorker;
+    private Optional<String> instanceName;
 
     private boolean cancel;
-
-    private Optional<BambooInstance> bambooInstance;
 
     public AddInstanceWorker(final AbstractDialogAction action) {
         this.log = Logger.getLogger(getClass().getName());
@@ -67,6 +66,9 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
         reset();
 
         DefaultInstanceValues values = createInstanceValues(form);
+
+        instanceName = ofNullable(values.getName());
+
         Worker worker = new Worker(values);
         worker.addPropertyChangeListener(this);
 
@@ -79,7 +81,7 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
 
     private void reset() {
         cancel = false;
-        bambooInstance = empty();
+        instanceName = empty();
         currentTask = empty();
         currentWorker = empty();
     }
@@ -100,10 +102,10 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
         String prop = pce.getPropertyName();
 
         if (EVENT_INSTANCE.equals(prop) && !cancel) {
-            bambooInstance = ofNullable((BambooInstance) pce.getNewValue());
+            BambooInstance instance = (BambooInstance) pce.getNewValue();
 
-            if (bambooInstance.isPresent()) {
-                manager.addInstance(bambooInstance.get());
+            if (instance != null) {
+                manager.addInstance(instance);
             }
 
             action.onDone();
@@ -119,8 +121,8 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
 
             task.removeTaskListener(this);
 
-            if (cancel && bambooInstance.isPresent()) {
-                manager.removeInstance(bambooInstance.get());
+            if (cancel && instanceName.isPresent()) {
+                manager.removeInstance(instanceName.get());
             }
         }
     }

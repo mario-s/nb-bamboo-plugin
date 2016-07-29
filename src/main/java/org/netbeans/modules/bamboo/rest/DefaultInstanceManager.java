@@ -60,15 +60,24 @@ public class DefaultInstanceManager implements InstanceManageable {
 
     @Override
     public void removeInstance(final BambooInstance instance) {
+        instance.remove();
+        remove(instance);
+
+        String name = instance.getName();
+
+        removePrefs(name);
+    }
+
+    private void removePrefs(final String name) {
         try {
-            instance.remove();
-
             Preferences prefs = instancesPrefs();
-            Preferences node = prefs.node(instance.getName());
-            node.removeNode();
-            prefs.flush();
+            Preferences node = prefs.node(name);
 
-            remove(instance);
+            if (node != null) {
+                node.removeNode();
+            }
+
+            prefs.flush();
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
@@ -76,7 +85,13 @@ public class DefaultInstanceManager implements InstanceManageable {
 
     @Override
     public void removeInstance(final String name) {
-        removeInstance(loadInstance(name));
+        BambooInstance instance = loadInstance(name);
+
+        if (instance != null) {
+            removeInstance(instance);
+        } else {
+            removePrefs(name);
+        }
     }
 
     @Override
