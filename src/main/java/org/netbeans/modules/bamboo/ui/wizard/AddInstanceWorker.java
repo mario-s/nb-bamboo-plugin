@@ -5,7 +5,6 @@ import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.rest.BambooInstanceProduceable;
 
-import org.openide.util.Exceptions;
 import static org.openide.util.Lookup.getDefault;
 import org.openide.util.RequestProcessor;
 import org.openide.util.Task;
@@ -15,12 +14,16 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import java.util.Optional;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
 import java.util.logging.Logger;
 
 
 /**
- * This worker does the call to the server and creation of nodes in a background
- * task.
+ * This currentWorker does the call to the server and creation of nodes in a
+ * background task.
  *
  * <p>TODO replace SwingWorker with RequestProcessor</p>
  *
@@ -36,10 +39,12 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
     private final InstanceManageable manager;
     private final BambooInstanceProduceable bambooInstanceProducer;
 
-    private RequestProcessor.Task last;
-    private Worker worker;
+    private Optional<RequestProcessor.Task> currentTask;
+    private Optional<Worker> currentWorker;
 
     private boolean cancel;
+
+    private Optional<BambooInstance> bambooInstance;
 
     public AddInstanceWorker(final AbstractDialogAction action) {
         this.log = Logger.getLogger(getClass().getName());
@@ -47,24 +52,36 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
         this.manager = action.getInstanceManager();
 
         bambooInstanceProducer = getDefault().lookup(BambooInstanceProduceable.class);
+        reset();
     }
 
     void cancel() {
         cancel = true;
 
-        if (last != null) {
-            last.cancel();
+        if (currentTask.isPresent()) {
+            currentTask.get().cancel();
         }
     }
 
     void execute(final InstancePropertiesForm form) {
-        cancel = false;
+        reset();
 
         DefaultInstanceValues values = createInstanceValues(form);
-        worker = new Worker(values);
+        Worker worker = new Worker(values);
         worker.addPropertyChangeListener(this);
-        last = RP.post(worker);
-        last.addTaskListener(this);
+
+        RequestProcessor.Task task = RP.post(worker);
+        task.addTaskListener(this);
+
+        currentTask = of(task);
+        currentWorker = of(worker);
+    }
+
+    private void reset() {
+        cancel = false;
+        bambooInstance = empty();
+        currentTask = empty();
+        currentWorker = empty();
     }
 
     private DefaultInstanceValues createInstanceValues(final InstancePropertiesForm form) {
@@ -83,10 +100,10 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
         String prop = pce.getPropertyName();
 
         if (EVENT_INSTANCE.equals(prop) && !cancel) {
-            BambooInstance instance = (BambooInstance) pce.getNewValue();
+            bambooInstance = ofNullable((BambooInstance) pce.getNewValue());
 
-            if (instance != null) {
-                manager.addInstance(instance);
+            if (bambooInstance.isPresent()) {
+                manager.addInstance(bambooInstance.get());
             }
 
             action.onDone();
@@ -96,11 +113,15 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
     @Override
     public void taskFinished(final Task task) {
         if (task.isFinished()) {
-            if (worker != null) {
-                worker.removePropertyChangeListener(this);
+            if (currentWorker.isPresent()) {
+                currentWorker.get().removePropertyChangeListener(this);
             }
 
             task.removeTaskListener(this);
+
+            if (cancel && bambooInstance.isPresent()) {
+                manager.removeInstance(bambooInstance.get());
+            }
         }
     }
 
@@ -122,7 +143,7 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException ex) {
-                Exceptions.printStackTrace(ex);
+                log.info(ex.getMessage());
             }
 
             if ((instance != null) && !Thread.interrupted()) {
