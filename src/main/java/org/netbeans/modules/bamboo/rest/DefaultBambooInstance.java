@@ -5,14 +5,15 @@ import lombok.Setter;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+import org.netbeans.modules.bamboo.glue.BuildProject;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
-import org.netbeans.modules.bamboo.glue.ResultsProvideable;
 import org.netbeans.modules.bamboo.rest.model.Plan;
 import org.netbeans.modules.bamboo.rest.model.Result;
 
 import java.util.List;
 import java.util.prefs.Preferences;
+import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 
 /**
@@ -20,13 +21,13 @@ import java.util.prefs.Preferences;
  */
 @Getter
 @Setter
-public class DefaultBambooInstance extends DefaultInstanceValues implements ResultsProvideable {
+public class DefaultBambooInstance extends DefaultInstanceValues implements ProjectsProvideable {
     /** Use serialVersionUID for interoperability. */
     private static final long serialVersionUID = 1L;
 
     private List<Plan> plans;
 
-    private List<Result> results;
+    private List<BuildProject> projects;
 
     private BambooInstanceProperties properties;
 

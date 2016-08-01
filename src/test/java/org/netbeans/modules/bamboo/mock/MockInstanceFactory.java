@@ -1,10 +1,10 @@
 package org.netbeans.modules.bamboo.mock;
 
 import org.netbeans.modules.bamboo.glue.InstanceValues;
-import org.netbeans.modules.bamboo.glue.ResultsProvideable;
 import org.netbeans.modules.bamboo.rest.BambooInstanceProduceable;
 
 import org.openide.util.lookup.ServiceProvider;
+import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 
 /**
@@ -15,7 +15,7 @@ public class MockInstanceFactory implements BambooInstanceProduceable {
     private BambooInstanceProduceable delegate;
 
     @Override
-    public ResultsProvideable create(final InstanceValues values) {
+    public ProjectsProvideable create(final InstanceValues values) {
         if (delegate != null) {
             return delegate.create(values);
         }

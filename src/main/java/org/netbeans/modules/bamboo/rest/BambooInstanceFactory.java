@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
 import org.netbeans.modules.bamboo.glue.InstanceValues;
-import org.netbeans.modules.bamboo.glue.ResultsProvideable;
 import org.netbeans.modules.bamboo.rest.model.Plans;
 import org.netbeans.modules.bamboo.rest.model.PlansResponse;
 
@@ -9,6 +8,7 @@ import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
 import java.util.prefs.Preferences;
+import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 
 /**
@@ -26,7 +26,7 @@ public class BambooInstanceFactory implements BambooInstanceProduceable {
     }
 
     @Override
-    public ResultsProvideable create(final InstanceValues values) {
+    public ProjectsProvideable create(final InstanceValues values) {
         DefaultBambooInstance instance = new DefaultBambooInstance(values);
         BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
         props.copyProperties(instance);

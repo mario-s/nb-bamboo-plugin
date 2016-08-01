@@ -24,7 +24,7 @@ public class PlanNodeFactoryTest {
     @Mock
     private PlansProvideable plansProvideable;
     
-    private PlanNodeFactory classUnderTest;
+    private ProjectNodeFactory classUnderTest;
     
     private Plan plan;
     
@@ -35,11 +35,11 @@ public class PlanNodeFactoryTest {
         plans.add(plan);
         given(plansProvideable.getPlans()).willReturn(plans);
         
-        classUnderTest = new PlanNodeFactory(plansProvideable);
+        classUnderTest = new ProjectNodeFactory(plansProvideable);
     }
 
     /**
-     * Test of createNodeForKey method, of class PlanNodeFactory.
+     * Test of createNodeForKey method, of class ProjectNodeFactory.
      */
     @Test
     public void testCreateNodeForKey() {
@@ -48,7 +48,7 @@ public class PlanNodeFactoryTest {
     }
 
     /**
-     * Test of createKeys method, of class PlanNodeFactory.
+     * Test of createKeys method, of class ProjectNodeFactory.
      */
     @Test
     public void testCreateKeys() {

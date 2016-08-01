@@ -12,12 +12,12 @@ import org.netbeans.modules.bamboo.glue.PlansProvideable;
 /**
  * @author spindizzy
  */
-class PlanNodeFactory extends ChildFactory<Plan> {
+class ProjectNodeFactory extends ChildFactory<Plan> {
     private final PlansProvideable instance;
 
     private List<Plan> plans;
 
-    PlanNodeFactory(final PlansProvideable instance) {
+    ProjectNodeFactory(final PlansProvideable instance) {
         this.instance = instance;
         refreshNodes();
     }
@@ -29,7 +29,7 @@ class PlanNodeFactory extends ChildFactory<Plan> {
 
     @Override
     protected Node createNodeForKey(final Plan key) {
-        return new PlanNode(key);
+        return new ProjectNode(key);
     }
 
     @Override

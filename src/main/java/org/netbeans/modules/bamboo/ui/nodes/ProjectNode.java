@@ -11,7 +11,7 @@ import org.openide.util.ImageUtilities;
  *
  * @author spindizzy
  */
-public class PlanNode extends AbstractNode{
+public class ProjectNode extends AbstractNode{
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/grey.png";
     @StaticResource
@@ -19,7 +19,7 @@ public class PlanNode extends AbstractNode{
     
     private final Plan plan;
     
-    public PlanNode(Plan plan) {
+    public ProjectNode(Plan plan) {
         super(Children.LEAF);
         this.plan = plan;
         

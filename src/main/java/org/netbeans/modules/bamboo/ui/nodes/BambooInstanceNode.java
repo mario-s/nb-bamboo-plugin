@@ -44,7 +44,7 @@ public class BambooInstanceNode extends AbstractNode {
         setIconBaseWithExtension(ICON_BASE);
 
         // add plans for the instance
-        setChildren(Children.create(new PlanNodeFactory(instance), true));
+        setChildren(Children.create(new ProjectNodeFactory(instance), true));
     }
 
     @Override

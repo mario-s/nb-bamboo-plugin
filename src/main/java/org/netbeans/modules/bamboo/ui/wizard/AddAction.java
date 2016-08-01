@@ -1,7 +1,5 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.glue.PlansProvideable;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 
