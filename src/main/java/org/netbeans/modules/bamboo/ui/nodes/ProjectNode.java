@@ -15,7 +15,7 @@ public class ProjectNode extends AbstractNode{
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/grey.png";
     @StaticResource
-    private static final String ICON_SUCCESS = "org/netbeans/modules/bamboo/resources/blue.png";
+    private static final String ICON_ENABLED = "org/netbeans/modules/bamboo/resources/blue.png";
     
     private final Plan plan;
     
@@ -39,7 +39,7 @@ public class ProjectNode extends AbstractNode{
         Image icon = super.getIcon(type);
         
         if(plan.isEnabled()){
-            icon = ImageUtilities.loadImage(ICON_SUCCESS);
+            icon = ImageUtilities.loadImage(ICON_ENABLED);
         }
         
         return icon; 
