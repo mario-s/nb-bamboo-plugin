@@ -29,6 +29,8 @@ class Runner extends PropertyChangeSupport implements Runnable {
 
     @Override
     public void run() {
+        //TODO add a check if server exists
+
         BambooInstanceProduceable producer = getDefault().lookup(BambooInstanceProduceable.class);
         BambooInstance instance = producer.create(values);
 
