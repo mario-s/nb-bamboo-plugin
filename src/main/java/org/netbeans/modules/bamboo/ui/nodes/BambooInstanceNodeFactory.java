@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.PlansProvideable;
 
 import org.openide.nodes.ChildFactory;
@@ -10,6 +11,7 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 
 import static java.util.Collections.sort;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -17,15 +19,13 @@ import java.util.List;
  * @author spindizzy
  */
 class BambooInstanceNodeFactory extends ChildFactory<PlansProvideable> implements LookupListener {
+    private static final BambooInstanceComparator COMPARATOR = new BambooInstanceComparator();
     private final Lookup lookup;
-
-    private final BambooInstanceComparator comparator;
 
     private Lookup.Result<PlansProvideable> result;
 
     public BambooInstanceNodeFactory(final Lookup lookup) {
         this.lookup = lookup;
-        this.comparator = new BambooInstanceComparator();
         lookupResult();
     }
 
@@ -43,7 +43,7 @@ class BambooInstanceNodeFactory extends ChildFactory<PlansProvideable> implement
     @Override
     protected boolean createKeys(final List<PlansProvideable> toPopulate) {
         toPopulate.addAll(result.allInstances());
-        sort(toPopulate, comparator);
+        sort(toPopulate, COMPARATOR);
 
         return true;
     }
@@ -51,5 +51,12 @@ class BambooInstanceNodeFactory extends ChildFactory<PlansProvideable> implement
     @Override
     public void resultChanged(final LookupEvent ev) {
         refresh(true);
+    }
+
+    private static class BambooInstanceComparator implements Comparator<BambooInstance> {
+        @Override
+        public int compare(final BambooInstance o1, final BambooInstance o2) {
+            return o1.getName().compareTo(o2.getName());
+        }
     }
 }
