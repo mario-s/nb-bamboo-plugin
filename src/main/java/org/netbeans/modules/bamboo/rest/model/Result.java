@@ -10,8 +10,8 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Result {
-    private Link link;
     private String key;
+    private Link link;
     private State state;
     private Plan plan;
     private LifeCycleState lifeCycleState;
