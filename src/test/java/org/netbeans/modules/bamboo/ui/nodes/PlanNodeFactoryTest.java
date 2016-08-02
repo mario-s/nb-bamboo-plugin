@@ -1,41 +1,48 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
 import org.junit.runner.RunWith;
+
 import static org.mockito.BDDMockito.given;
-import org.mockito.InjectMocks;
+
 import org.mockito.Mock;
+
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.glue.PlansProvideable;
-import org.netbeans.modules.bamboo.rest.model.Plan;
+
+import org.netbeans.modules.bamboo.glue.BuildProject;
+import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
+
 import org.openide.nodes.Node;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 /**
- *
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
 public class PlanNodeFactoryTest {
-
     @Mock
-    private PlansProvideable plansProvideable;
-    
+    private ProjectsProvideable projectsProvideable;
+
     private ProjectNodeFactory classUnderTest;
-    
-    private Plan plan;
-    
+
+    private BuildProject project;
+
     @Before
     public void setUp() {
-        plan = new Plan();
-        List<Plan> plans = new ArrayList<>();
-        plans.add(plan);
-        given(plansProvideable.getPlans()).willReturn(plans);
-        
-        classUnderTest = new ProjectNodeFactory(plansProvideable);
+        project = new BuildProject();
+
+        List<BuildProject> projects = new ArrayList<>();
+        projects.add(project);
+        given(projectsProvideable.getProjects()).willReturn(projects);
+
+        classUnderTest = new ProjectNodeFactory(projectsProvideable);
     }
 
     /**
@@ -43,7 +50,7 @@ public class PlanNodeFactoryTest {
      */
     @Test
     public void testCreateNodeForKey() {
-        Node result = classUnderTest.createNodeForKey(plan);
+        Node result = classUnderTest.createNodeForKey(project);
         assertNotNull(result);
     }
 
@@ -52,9 +59,8 @@ public class PlanNodeFactoryTest {
      */
     @Test
     public void testCreateKeys() {
-        List<Plan> toPopulate = new ArrayList<>();
+        List<BuildProject> toPopulate = new ArrayList<>();
         classUnderTest.createKeys(toPopulate);
         assertFalse(toPopulate.isEmpty());
     }
-    
 }

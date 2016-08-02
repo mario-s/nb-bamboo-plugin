@@ -1,11 +1,10 @@
 package org.netbeans.modules.bamboo;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.glue.BuildProject;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
+import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 import org.netbeans.modules.bamboo.rest.BambooServiceAccessable;
-import org.netbeans.modules.bamboo.rest.DefaultBambooInstance;
-import org.netbeans.modules.bamboo.rest.model.Plans;
-import org.netbeans.modules.bamboo.rest.model.PlansResponse;
 
 import static org.openide.util.Lookup.getDefault;
 
@@ -25,13 +24,9 @@ public final class Installer implements Runnable {
             BambooServiceAccessable client = getDefault().lookup(BambooServiceAccessable.class);
 
             instances.parallelStream().forEach(instance -> {
-                    PlansResponse all = client.getAllPlans(instance);
-                    Plans plans = all.getPlans();
+                    Collection<BuildProject> projects = client.getProjects(instance);
 
-                    if (plans != null) {
-                        //TODO use a dto in the glue and add setter to interface
-                        ((DefaultBambooInstance) instance).setPlans(plans.getPlan());
-                    }
+                    ((ProjectsProvideable) instance).setProjects(projects);
 
                     manager.addInstance(instance);
                 });

@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +11,7 @@ import static org.mockito.BDDMockito.given;
 
 import static org.mockito.Mockito.mock;
 
-import org.netbeans.modules.bamboo.glue.PlansProvideable;
+import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
@@ -44,8 +43,8 @@ public class BambooInstanceNodeFactoryTest {
      */
     @Test
     public void testCreateKeys_ExpectSorted() {
-        PlansProvideable plan1 = mock(PlansProvideable.class);
-        PlansProvideable plan2 = mock(PlansProvideable.class);
+        ProjectsProvideable plan1 = mock(ProjectsProvideable.class);
+        ProjectsProvideable plan2 = mock(ProjectsProvideable.class);
 
         given(plan1.getName()).willReturn("b");
         given(plan2.getName()).willReturn("a");
@@ -53,7 +52,7 @@ public class BambooInstanceNodeFactoryTest {
         content.add(plan1);
         content.add(plan2);
 
-        List<PlansProvideable> toPopulate = new ArrayList<>();
+        List<ProjectsProvideable> toPopulate = new ArrayList<>();
 
         classUnderTest.createKeys(toPopulate);
 

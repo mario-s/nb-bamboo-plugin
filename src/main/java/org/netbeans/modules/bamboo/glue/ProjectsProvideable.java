@@ -1,13 +1,13 @@
 package org.netbeans.modules.bamboo.glue;
 
-import java.util.List;
+import java.util.Collection;
 
 
 /**
  * @author spindizzy
  */
-public interface ProjectsProvideable extends PlansProvideable {
-    List<BuildProject> getProjects();
+public interface ProjectsProvideable extends BambooInstance {
+    Collection<BuildProject> getProjects();
 
-    void setProjects(List<BuildProject> results);
+    void setProjects(Collection<BuildProject> results);
 }

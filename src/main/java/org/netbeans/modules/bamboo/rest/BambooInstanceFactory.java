@@ -1,14 +1,16 @@
 package org.netbeans.modules.bamboo.rest;
 
+import org.netbeans.modules.bamboo.glue.BuildProject;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 import org.netbeans.modules.bamboo.rest.model.Plans;
 import org.netbeans.modules.bamboo.rest.model.PlansResponse;
 
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
+import java.util.Collection;
 import java.util.prefs.Preferences;
-import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 
 /**
@@ -31,13 +33,9 @@ public class BambooInstanceFactory implements BambooInstanceProduceable {
         BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
         props.copyProperties(instance);
 
-        //TODO use results
-        PlansResponse all = instanceAccessor.getAllPlans(instance);
-        Plans plans = all.getPlans();
+        Collection<BuildProject> projects = instanceAccessor.getProjects(instance);
 
-        if (plans != null) {
-            instance.setPlans(plans.getPlan());
-        }
+        instance.setProjects(projects);
 
         return instance;
     }

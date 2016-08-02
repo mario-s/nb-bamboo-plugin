@@ -1,16 +1,27 @@
 package org.netbeans.modules.bamboo.rest;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import org.glassfish.jersey.logging.LoggingFeature;
 
+import org.netbeans.modules.bamboo.glue.BuildProject;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.rest.model.Plan;
+import org.netbeans.modules.bamboo.rest.model.Plans;
 import org.netbeans.modules.bamboo.rest.model.PlansResponse;
 import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
 
+import org.openide.util.Exceptions;
 import org.openide.util.lookup.ServiceProvider;
 
+import java.lang.reflect.InvocationTargetException;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -74,6 +85,7 @@ public class BambooRestClient implements BambooServiceAccessable {
         return target.request().get(clazz);
     }
 
+    @Deprecated
     @Override
     public PlansResponse getAllPlans(final InstanceValues values) {
         PlansResponse plans = new PlansResponse();
@@ -88,6 +100,7 @@ public class BambooRestClient implements BambooServiceAccessable {
         return plans;
     }
 
+    @Deprecated
     @Override
     public ResultsResponse getResultsResponse(final InstanceValues values) {
         ResultsResponse results = new ResultsResponse();
@@ -100,5 +113,35 @@ public class BambooRestClient implements BambooServiceAccessable {
         }
 
         return results;
+    }
+
+    @Override
+    public Collection<BuildProject> getProjects(final InstanceValues values) {
+        List<BuildProject> projects = new ArrayList<>();
+        Optional<WebTarget> target = newTarget(values, ALL_PLANS);
+
+        if (target.isPresent()) {
+            PlansResponse response = request(target.get(), PlansResponse.class);
+            Plans plans = response.getPlans();
+
+            if (plans != null) {
+                List<Plan> planList = plans.getPlan();
+
+                if (planList != null) {
+                    planList.forEach(plan -> {
+                            BuildProject project = new BuildProject();
+
+                            try {
+                                BeanUtils.copyProperties(project, plan);
+                                projects.add(project);
+                            } catch (IllegalAccessException | InvocationTargetException ex) {
+                                Exceptions.printStackTrace(ex);
+                            }
+                        });
+                }
+            }
+        }
+
+        return projects;
     }
 }

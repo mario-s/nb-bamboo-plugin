@@ -4,7 +4,7 @@ import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.core.ide.ServicesTabNodeRegistration;
 
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.glue.PlansProvideable;
+import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 import org.netbeans.modules.bamboo.ui.actions.AddInstanceAction;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.*;
 
@@ -43,7 +43,7 @@ public final class BambooRootNode extends AbstractNode {
         setShortDescription(TIP_BambooNode());
         setIconBaseWithExtension(ICON_BASE);
 
-        ChildFactory<PlansProvideable> factory = new BambooInstanceNodeFactory(getLookup());
+        ChildFactory<ProjectsProvideable> factory = new BambooInstanceNodeFactory(getLookup());
         Children children = Children.create(factory, false);
         setChildren(children);
     }

@@ -8,12 +8,12 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import org.netbeans.modules.bamboo.glue.BuildProject;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 import org.netbeans.modules.bamboo.rest.model.Plan;
-import org.netbeans.modules.bamboo.rest.model.Result;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.prefs.Preferences;
-import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 
 /**
@@ -25,9 +25,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     /** Use serialVersionUID for interoperability. */
     private static final long serialVersionUID = 1L;
 
-    private List<Plan> plans;
-
-    private List<BuildProject> projects;
+    private Collection<BuildProject> projects;
 
     private BambooInstanceProperties properties;
 

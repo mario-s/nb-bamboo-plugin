@@ -1,41 +1,42 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import org.netbeans.modules.bamboo.rest.model.Plan;
+import org.netbeans.modules.bamboo.glue.BuildProject;
+import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
 
+import java.util.Collection;
 import java.util.List;
-import org.netbeans.modules.bamboo.glue.PlansProvideable;
 
 
 /**
  * @author spindizzy
  */
-class ProjectNodeFactory extends ChildFactory<Plan> {
-    private final PlansProvideable instance;
+class ProjectNodeFactory extends ChildFactory<BuildProject> {
+    private final ProjectsProvideable instance;
 
-    private List<Plan> plans;
+    private Collection<BuildProject> projects;
 
-    ProjectNodeFactory(final PlansProvideable instance) {
+    ProjectNodeFactory(final ProjectsProvideable instance) {
         this.instance = instance;
         refreshNodes();
     }
 
     private void refreshNodes() {
-        plans = instance.getPlans();
+        projects = instance.getProjects();
         refresh(true);
     }
 
     @Override
-    protected Node createNodeForKey(final Plan key) {
+    protected Node createNodeForKey(final BuildProject key) {
         return new ProjectNode(key);
     }
 
     @Override
-    protected boolean createKeys(final List<Plan> toPopulate) {
-        if (plans != null) {
-            toPopulate.addAll(plans);
+    protected boolean createKeys(final List<BuildProject> toPopulate) {
+        if (projects != null) {
+            toPopulate.addAll(projects);
         }
 
         return true;
