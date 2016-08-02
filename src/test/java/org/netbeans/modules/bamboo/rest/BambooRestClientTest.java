@@ -1,11 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.rest.BambooRestClient;
-import org.netbeans.modules.bamboo.rest.model.Plans;
-import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
-import org.netbeans.modules.bamboo.rest.model.Results;
-import org.netbeans.modules.bamboo.rest.model.Plan;
-import org.netbeans.modules.bamboo.rest.model.PlansResponse;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -19,8 +13,16 @@ import org.mockito.Mock;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
+import org.netbeans.modules.bamboo.glue.BuildProject;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.rest.BambooRestClient;
+import org.netbeans.modules.bamboo.rest.model.Plan;
+import org.netbeans.modules.bamboo.rest.model.Plans;
+import org.netbeans.modules.bamboo.rest.model.PlansResponse;
+import org.netbeans.modules.bamboo.rest.model.Results;
+import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
 
+import java.util.Collection;
 import static java.util.Collections.singletonList;
 
 import javax.ws.rs.client.Invocation;
@@ -63,10 +65,10 @@ public class BambooRestClientTest {
     }
 
     /**
-     * Test of getPlan method, of class BambooRestClient.
+     * Test of getPProjects method, of class BambooRestClient.
      */
     @Test
-    public void testGetPlans() {
+    public void testGetProjects() {
         PlansResponse all = new PlansResponse();
         Plans plans = new Plans();
         plans.setPlan(singletonList(new Plan()));
@@ -74,21 +76,7 @@ public class BambooRestClientTest {
         given(invocationBuilder.get(PlansResponse.class)).willReturn(all);
         given(webTarget.path(BambooRestClient.ALL_PLANS)).willReturn(webTarget);
 
-        PlansResponse result = classUnderTest.getAllPlans(instanceValues);
-        assertFalse(result.getPlans().getPlan().isEmpty());
-    }
-
-    /**
-     * Test of getResultsResponse method, of class BambooRestClient.
-     */
-    @Test
-    public void testGetResultsResponse() {
-        ResultsResponse expectedResult = new ResultsResponse();
-        expectedResult.setResults(new Results());
-        given(invocationBuilder.get(ResultsResponse.class)).willReturn(expectedResult);
-        given(webTarget.path(BambooRestClient.RESULT)).willReturn(webTarget);
-
-        ResultsResponse result = classUnderTest.getResultsResponse(instanceValues);
-        assertNotNull(result.getResults());
+        Collection<BuildProject> result = classUnderTest.getProjects(instanceValues);
+        assertFalse(result.isEmpty());
     }
 }

@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -12,7 +11,6 @@ import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.rest.model.Plan;
 import org.netbeans.modules.bamboo.rest.model.Plans;
 import org.netbeans.modules.bamboo.rest.model.PlansResponse;
-import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
 
 import org.openide.util.Exceptions;
 import org.openide.util.lookup.ServiceProvider;
@@ -85,36 +83,6 @@ public class BambooRestClient implements BambooServiceAccessable {
         return target.request().get(clazz);
     }
 
-    @Deprecated
-    @Override
-    public PlansResponse getAllPlans(final InstanceValues values) {
-        PlansResponse plans = new PlansResponse();
-        Optional<WebTarget> target = newTarget(values, ALL_PLANS);
-
-        if (target.isPresent()) {
-            plans = request(target.get(), PlansResponse.class);
-
-            log.fine(String.format("got plans: %s", plans));
-        }
-
-        return plans;
-    }
-
-    @Deprecated
-    @Override
-    public ResultsResponse getResultsResponse(final InstanceValues values) {
-        ResultsResponse results = new ResultsResponse();
-        Optional<WebTarget> target = newTarget(values, RESULT);
-
-        if (target.isPresent()) {
-            results = request(target.get(), ResultsResponse.class);
-
-            log.fine(String.format("got results: %s", results));
-        }
-
-        return results;
-    }
-
     @Override
     public Collection<BuildProject> getProjects(final InstanceValues values) {
         List<BuildProject> projects = new ArrayList<>();
@@ -122,6 +90,8 @@ public class BambooRestClient implements BambooServiceAccessable {
 
         if (target.isPresent()) {
             PlansResponse response = request(target.get(), PlansResponse.class);
+            log.fine(String.format("got plans: %s", response));
+
             Plans plans = response.getPlans();
 
             if (plans != null) {
