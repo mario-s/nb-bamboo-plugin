@@ -9,10 +9,14 @@ import org.netbeans.modules.bamboo.glue.BuildProject;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
-import org.netbeans.modules.bamboo.rest.model.Plan;
+
+import org.openide.util.RequestProcessor;
+import org.openide.util.RequestProcessor.Task;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Optional;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import java.util.prefs.Preferences;
 
 
@@ -24,6 +28,9 @@ import java.util.prefs.Preferences;
 public class DefaultBambooInstance extends DefaultInstanceValues implements ProjectsProvideable {
     /** Use serialVersionUID for interoperability. */
     private static final long serialVersionUID = 1L;
+    private static final RequestProcessor RP = new RequestProcessor(DefaultBambooInstance.class);
+
+    private Optional<Task> synchronizationTask = empty();
 
     private Collection<BuildProject> projects;
 
@@ -34,6 +41,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
 
     public DefaultBambooInstance(final InstanceValues values) {
         super(values);
+        prepareSynchronization();
     }
 
     @Override
@@ -48,9 +56,29 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
         }
     }
 
-    public void setProperties(final BambooInstanceProperties properties) {
+    @Override
+    public void synchronize() {
+        RP.post(() -> { doSynchronization(); });
+    }
+
+    private void doSynchronization() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void applyProperties(final BambooInstanceProperties properties) {
         this.properties = properties;
         copyProperties(properties);
+        prepareSynchronization();
+    }
+
+    private void prepareSynchronization() {
+        int interval = getSyncInterval(); //TODO convert to minutes
+
+        if (interval > 0) {
+            Task task = RP.create(() -> { doSynchronization(); });
+            task.schedule(interval);
+            synchronizationTask = of(task);
+        }
     }
 
     private void copyProperties(final BambooInstanceProperties props) throws NumberFormatException {

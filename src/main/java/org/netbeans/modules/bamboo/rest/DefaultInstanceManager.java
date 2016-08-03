@@ -136,7 +136,7 @@ public class DefaultInstanceManager implements InstanceManageable {
             props.loadPreferences(name);
 
             instance = new DefaultBambooInstance();
-            instance.setProperties(props);
+            instance.applyProperties(props);
         } catch (IllegalStateException e) {
             LOG.warning(e.getMessage());
         }

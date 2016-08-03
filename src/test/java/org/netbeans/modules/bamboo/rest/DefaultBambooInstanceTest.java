@@ -37,18 +37,18 @@ public class DefaultBambooInstanceTest {
      */
     @Test
     public void testGetPreferences() {
-        classUnderTest.setProperties(properties);
+        classUnderTest.applyProperties(properties);
         Preferences result = classUnderTest.getPreferences();
         assertNotNull(result);
     }
 
     /**
-     * Test of setProperties method, of class DefaultBambooInstance.
+     * Test of applyProperties method, of class DefaultBambooInstance.
      */
     @Test
     public void testSetProperties_WithSync() {
         given(properties.get(BambooInstanceConstants.INSTANCE_SYNC)).willReturn("5");
-        classUnderTest.setProperties(properties);
+        classUnderTest.applyProperties(properties);
         assertEquals(5, classUnderTest.getSyncInterval());
     }
 }
