@@ -26,7 +26,7 @@ import java.util.List;
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class PlanNodeFactoryTest {
+public class ProjectNodeFactoryTest {
     @Mock
     private ProjectsProvideable projectsProvideable;
 
