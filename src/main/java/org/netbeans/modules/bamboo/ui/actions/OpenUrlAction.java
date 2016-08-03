@@ -4,7 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.net.URL;
+import static java.util.Collections.singletonList;
 import java.util.List;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
 import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
 import org.openide.awt.ActionID;
@@ -27,13 +30,18 @@ import org.openide.util.NbBundle.Messages;
 )
 @ActionReference(path = SharedConstants.ACTION_PATH, position = 600)
 @Messages("CTL_OpenUrlAction=&Open in Browser")
-public final class OpenUrlAction implements ActionListener {
+public final class OpenUrlAction extends AbstractAction {
 
     private final List<OpenableInBrowser> context;
 
     private URLDisplayer urlDisplayer;
+    
+    public static Action newAction(OpenableInBrowser context){
+        return new OpenUrlAction(singletonList(context));
+    }
 
     public OpenUrlAction(List<OpenableInBrowser> context) {
+        super(Bundle.CTL_OpenUrlAction());
         this.context = context;
         urlDisplayer = URLDisplayer.getDefault();
     }

@@ -17,7 +17,10 @@ import org.openide.util.NbBundle.Messages;
 
 import javax.swing.Action;
 
-
+/**
+ * Root node for the Bamboo Builder
+ * @author spindizzy
+ */
 @ServicesTabNodeRegistration(
     name = BambooRootNode.BAMBOO_NODE_NAME, displayName = "#LBL_BambooNode",
     shortDescription = "#TIP_BambooNode", iconResource = BambooRootNode.ICON_BASE, position = 450

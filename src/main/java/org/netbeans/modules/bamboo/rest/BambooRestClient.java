@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Feature;
+import org.netbeans.modules.bamboo.rest.model.Link;
 
 /**
  * @author spindizzy
@@ -92,6 +93,7 @@ public class BambooRestClient implements BambooServiceAccessable {
 
             plans.forEach(plan -> {
                 BuildProject project = new BuildProject();
+                project.setServerUrl(values.getUrl());
                 project.setKey(plan.getKey());
                 project.setName(plan.getName());
                 project.setShortName(plan.getShortName());

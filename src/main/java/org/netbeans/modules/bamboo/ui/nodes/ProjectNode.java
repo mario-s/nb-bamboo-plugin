@@ -10,6 +10,8 @@ import org.openide.nodes.Children;
 import org.openide.util.ImageUtilities;
 
 import java.awt.Image;
+import javax.swing.Action;
+import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
 
 
 /**
@@ -46,5 +48,11 @@ public class ProjectNode extends AbstractNode {
         }
 
         return icon;
+    }
+    
+      @Override
+    public Action[] getActions(final boolean context) {
+
+        return new Action[]{OpenUrlAction.newAction(project)};
     }
 }
