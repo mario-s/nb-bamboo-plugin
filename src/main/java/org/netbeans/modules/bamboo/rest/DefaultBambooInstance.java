@@ -72,13 +72,17 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     private void prepareSynchronization() {
-        int interval = getSyncInterval(); //TODO convert to minutes
+        int interval = getSyncInterval();
 
         if (interval > 0) {
             Task task = RP.create(() -> { doSynchronization(); });
-            task.schedule(interval);
+            task.schedule(toMillis(interval));
             synchronizationTask = of(task);
         }
+    }
+    
+    private int toMillis(int minutes) {
+        return minutes * 60000;
     }
 
     private void copyProperties(final BambooInstanceProperties props) throws NumberFormatException {
