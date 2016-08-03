@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 
@@ -62,7 +63,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     private void doSynchronization() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Logger.getLogger(DefaultBambooInstance.class.getName()).info("TODO: call server and refresh children");
     }
 
     public void applyProperties(final BambooInstanceProperties properties) {
@@ -72,13 +73,22 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     private void prepareSynchronization() {
-        int interval = getSyncInterval();
+        int interval = getSyncIntervalInMillis();
 
         if (interval > 0) {
-            Task task = RP.create(() -> { doSynchronization(); });
-            task.schedule(toMillis(interval));
+            Task task = RP.create(() -> { 
+                doSynchronization();
+                if(synchronizationTask.isPresent() && interval > 0){
+                    synchronizationTask.get().schedule(interval);
+                }
+            });
             synchronizationTask = of(task);
+            task.schedule(toMillis(interval));
         }
+    }
+    
+    private int getSyncIntervalInMillis() {
+        return toMillis(getSyncInterval());
     }
     
     private int toMillis(int minutes) {

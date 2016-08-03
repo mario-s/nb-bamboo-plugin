@@ -130,6 +130,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
             }
         });
 
+        spinTime.setModel(new javax.swing.SpinnerNumberModel(5, 1, 10, 1));
         spinTime.setValue(5);
 
         lblTime.setText("minutes");
