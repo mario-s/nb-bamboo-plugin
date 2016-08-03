@@ -24,8 +24,6 @@ import java.util.prefs.Preferences;
 /**
  * @author spindizzy
  */
-@Getter
-@Setter
 public class DefaultBambooInstance extends DefaultInstanceValues implements ProjectsProvideable {
     /** Use serialVersionUID for interoperability. */
     private static final long serialVersionUID = 1L;
@@ -42,7 +40,6 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
 
     public DefaultBambooInstance(final InstanceValues values) {
         super(values);
-        prepareSynchronization();
     }
 
     @Override
@@ -69,7 +66,6 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     public void applyProperties(final BambooInstanceProperties properties) {
         this.properties = properties;
         copyProperties(properties);
-        prepareSynchronization();
     }
 
     private void prepareSynchronization() {
@@ -112,4 +108,20 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
             setSyncInterval(Integer.parseInt(syncProp));
         }
     }
+
+    @Override
+    public Collection<BuildProject> getProjects() {
+        return projects;
+    }
+
+    @Override
+    public void setProjects(Collection<BuildProject> projects) {
+        this.projects = projects;
+        prepareSynchronization();
+    }
+
+    Optional<Task> getSynchronizationTask() {
+        return synchronizationTask;
+    }
+    
 }
