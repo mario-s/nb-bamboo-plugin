@@ -43,7 +43,7 @@ public class AllPlansResponseITest {
     }
 
     /**
-     * Test of getPlans method, of class PlansResponse.
+     * Test of getPlansAsCollection method, of class PlansResponse.
      */
     @Test
     public void testSerialize_NotEmpty() throws JsonProcessingException {
@@ -52,7 +52,7 @@ public class AllPlansResponseITest {
     }
 
     /**
-     * Test of getPlans method, of class PlansResponse.
+     * Test of getPlansAsCollection method, of class PlansResponse.
      */
     @Test
     public void testDeserialize_NotEmpty() throws JsonProcessingException, IOException {
@@ -61,6 +61,6 @@ public class AllPlansResponseITest {
             "[{\"shortName\":null,\"shortKey\":null,\"type\":null,\"enabled\":false,\"link\":null,\"key\":null,\"name\":\"test\"}]" +
             ",\"start-index\":0,\"max-result\":0}}";
         PlansResponse result = mapper.readValue(str, PlansResponse.class);
-        assertFalse(result.getPlans().getPlan().isEmpty());
+        assertFalse(result.getPlansAsCollection().isEmpty());
     }
 }

@@ -2,13 +2,10 @@ package org.netbeans.modules.bamboo.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRootName;
-
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 
-@Getter
-@Setter
+@Data
 @JsonRootName(value = "plan")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Plan {
@@ -18,5 +15,5 @@ public class Plan {
     private String shortKey;
     private String shortName;
     private String type;
-    private boolean enabled;
+    private transient boolean enabled;
 }

@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.glue;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 
 /**
@@ -9,10 +8,10 @@ import lombok.Setter;
  *
  * @author spindizzy
  */
-@Getter
-@Setter
+@Data
 public class BuildProject {
+    private String key;
     private String name;
     private String shortName;
-    private boolean enabled;
+    private transient boolean enabled;
 }

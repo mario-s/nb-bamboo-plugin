@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -9,13 +8,10 @@ import org.glassfish.jersey.logging.LoggingFeature;
 import org.netbeans.modules.bamboo.glue.BuildProject;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.rest.model.Plan;
-import org.netbeans.modules.bamboo.rest.model.Plans;
 import org.netbeans.modules.bamboo.rest.model.PlansResponse;
 
-import org.openide.util.Exceptions;
 import org.openide.util.lookup.ServiceProvider;
 
-import java.lang.reflect.InvocationTargetException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,12 +26,12 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Feature;
 
-
 /**
  * @author spindizzy
  */
 @ServiceProvider(service = BambooServiceAccessable.class)
 public class BambooRestClient implements BambooServiceAccessable {
+
     static final String AUTH_TYPE = "os_authType";
     static final String BASIC = "basic";
     static final String USER = "os_username";
@@ -61,8 +57,8 @@ public class BambooRestClient implements BambooServiceAccessable {
         String user = values.getUsername();
         char[] chars = values.getPassword();
 
-        if (StringUtils.isNotBlank(url) && StringUtils.isNotBlank(user) &&
-                ArrayUtils.isNotEmpty(chars)) {
+        if (StringUtils.isNotBlank(url) && StringUtils.isNotBlank(user)
+                && ArrayUtils.isNotEmpty(chars)) {
             String password = String.valueOf(chars);
 
             opt = of(
@@ -92,24 +88,16 @@ public class BambooRestClient implements BambooServiceAccessable {
             PlansResponse response = request(target.get(), PlansResponse.class);
             log.fine(String.format("got plans: %s", response));
 
-            Plans plans = response.getPlans();
+            Collection<Plan> plans = response.getPlansAsCollection();
 
-            if (plans != null) {
-                List<Plan> planList = plans.getPlan();
-
-                if (planList != null) {
-                    planList.forEach(plan -> {
-                            BuildProject project = new BuildProject();
-
-                            try {
-                                BeanUtils.copyProperties(project, plan);
-                                projects.add(project);
-                            } catch (IllegalAccessException | InvocationTargetException ex) {
-                                Exceptions.printStackTrace(ex);
-                            }
-                        });
-                }
-            }
+            plans.forEach(plan -> {
+                BuildProject project = new BuildProject();
+                project.setKey(plan.getKey());
+                project.setName(plan.getName());
+                project.setShortName(plan.getShortName());
+                project.setEnabled(plan.isEnabled());
+                projects.add(project);
+            });
         }
 
         return projects;

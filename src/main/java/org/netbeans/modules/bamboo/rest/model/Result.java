@@ -1,13 +1,11 @@
 package org.netbeans.modules.bamboo.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 
-@Getter
-@Setter
+
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Result {
     private String key;
