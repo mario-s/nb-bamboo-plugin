@@ -57,7 +57,9 @@ class BambooInstanceNodeFactory extends ChildFactory<ProjectsProvideable>
     private static class BambooInstanceComparator implements Comparator<BambooInstance> {
         @Override
         public int compare(final BambooInstance o1, final BambooInstance o2) {
-            return o1.getName().compareTo(o2.getName());
+            final String left = o1.getName();
+            final String right = o2.getName();
+            return left.compareToIgnoreCase(right);
         }
     }
 }
