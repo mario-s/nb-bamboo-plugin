@@ -15,18 +15,17 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.glue.BuildProject;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
-import org.netbeans.modules.bamboo.rest.BambooRestClient;
 import org.netbeans.modules.bamboo.rest.model.Plan;
 import org.netbeans.modules.bamboo.rest.model.Plans;
 import org.netbeans.modules.bamboo.rest.model.PlansResponse;
-import org.netbeans.modules.bamboo.rest.model.Results;
-import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
 
 import java.util.Collection;
 import static java.util.Collections.singletonList;
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 
 
 /**
@@ -74,7 +73,8 @@ public class BambooRestClientTest {
         plans.setPlan(singletonList(new Plan()));
         all.setPlans(plans);
         given(invocationBuilder.get(PlansResponse.class)).willReturn(all);
-        given(webTarget.path(BambooRestClient.ALL_PLANS)).willReturn(webTarget);
+        given(webTarget.path(BambooRestClient.PLANS)).willReturn(webTarget);
+        given(webTarget.queryParam(anyString(), any())).willReturn(webTarget);
 
         Collection<BuildProject> result = classUnderTest.getProjects(instanceValues);
         assertFalse(result.isEmpty());
