@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
 import org.openide.NotificationLineSupport;
@@ -9,6 +11,7 @@ import org.openide.util.NbBundle;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -23,6 +26,8 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
     private AbstractAction applyAction;
 
     private NotificationLineSupport notificationSupport;
+    
+    private final Map<Integer, JComponent> focusMap;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox chkRefresh;
@@ -43,10 +48,21 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
      * Creates new form InstancePropertiesForm.
      */
     InstancePropertiesForm() {
+        focusMap = new HashMap<>();
         initComponents();
+        onPostInit();
+    }
+
+    private void onPostInit() {
         addDocumentListener();
-        
         progressBar.setVisible(false);
+        
+        focusMap.put(0, txtName);
+        focusMap.put(1, txtServer);
+        focusMap.put(2, txtUser);
+        focusMap.put(3, password);
+        focusMap.put(4, chkRefresh);
+        focusMap.put(5, spinTime);
     }
 
     private void addDocumentListener() {
@@ -82,6 +98,17 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
     
     void unblock() {
         blocking(false);
+    }
+    
+    /**
+     * Set the focus in the field specified by the index;
+     * @param index 
+     */
+    void setFocus(int index){
+        JComponent component = focusMap.get(index);
+        if(component != null){
+            component.requestFocus();
+        }
     }
 
     private void blocking(boolean block) {
@@ -239,25 +266,21 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
 
         if (name.isEmpty()) {
             notificationSupport.setInformationMessage(getMessage("MSG_EmptyName"));
-
             return;
         }
 
         if (url.isEmpty() || url.endsWith("//")) {
             notificationSupport.setInformationMessage(getMessage("MSG_EmptyUrl"));
-
             return;
         }
 
         if (getUsername().isEmpty()) {
             notificationSupport.setInformationMessage(getMessage("MSG_EmptyUserName"));
-
             return;
         }
 
         if (getPassword().length == 0) {
             notificationSupport.setInformationMessage(getMessage("MSG_EmptyPassword"));
-
             return;
         }
 
@@ -265,7 +288,6 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
 
         if (manager.existsInstance(name)) {
             notificationSupport.setErrorMessage(getMessage("MSG_ExistName"));
-
             return;
         }
 

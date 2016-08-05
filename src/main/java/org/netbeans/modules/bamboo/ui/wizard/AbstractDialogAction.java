@@ -31,10 +31,6 @@ abstract class AbstractDialogAction extends AbstractAction implements PropertyCh
         return instanceManager;
     }
 
-    /**
-     * Invoked when worker is done.
-     */
-    protected abstract void onDone();
 
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
@@ -53,6 +49,15 @@ abstract class AbstractDialogAction extends AbstractAction implements PropertyCh
         if (cmd.equals(TXT_ADD())) {
             onOk();
         }
+    }
+
+    @Override
+    public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+        super.firePropertyChange(propertyName, oldValue, newValue);
+    }  
+    
+    void firePropertyChange(PropertyChangeEvent event) {
+        firePropertyChange(event.getPropertyName(), event.getOldValue(), event.getNewValue());
     }
 
     /**

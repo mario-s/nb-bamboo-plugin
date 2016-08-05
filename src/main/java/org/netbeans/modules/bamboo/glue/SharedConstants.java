@@ -19,5 +19,4 @@ public interface SharedConstants {
      */
     String ACTION_PATH = MODULE_NAME + "/Actions/instance";
     
-    String PROCESS_DONE = "process_done";
 }

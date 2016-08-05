@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
 import org.netbeans.modules.bamboo.glue.InstancePropertiesDisplayable;
-import org.netbeans.modules.bamboo.glue.SharedConstants;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.*;
 
 import org.openide.DialogDescriptor;
@@ -17,14 +16,18 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
+import org.openide.NotificationLineSupport;
 
 
-@Messages({ "LBL_DIALOG=Add Bamboo Instance" })
+@Messages({ "LBL_DIALOG=Add Bamboo Instance", "ERR_URL=The Bamboo Server Address is invalid." })
 public class InstanceDialog extends DialogDescriptor implements InstancePropertiesDisplayable,
     PropertyChangeListener {
+    
+    private final InstancePropertiesForm form;
+    
     private Dialog dialog;
 
-    private final InstancePropertiesForm form;
+    private NotificationLineSupport notificationLineSupport;
 
     public InstanceDialog() {
         this(new InstancePropertiesForm());
@@ -37,7 +40,9 @@ public class InstanceDialog extends DialogDescriptor implements InstanceProperti
     }
 
     private void initializeGui() {
-        form.setNotificationSupport(createNotificationLineSupport());
+        notificationLineSupport = createNotificationLineSupport();
+        
+        form.setNotificationSupport(notificationLineSupport);
         dialog = DialogDisplayer.getDefault().createDialog(this);
 
         AbstractDialogAction action = new AddAction(form);
@@ -51,12 +56,16 @@ public class InstanceDialog extends DialogDescriptor implements InstanceProperti
     }
 
     @Override
-    public void propertyChange(final PropertyChangeEvent pce) {
+    public void propertyChange(final PropertyChangeEvent event) {
         EventQueue.invokeLater(() -> {
-                String propName = pce.getPropertyName();
+                String propName = event.getPropertyName();
 
-                if (SharedConstants.PROCESS_DONE.equals(propName) && dialog.isVisible()) {
+                if (WorkerEvents.INSTANCE_CREATED.name().equals(propName) && dialog.isVisible()) {
                     dialog.dispose();
+                }else if(WorkerEvents.INVALID_URL.name().equals(propName)) {
+                    notificationLineSupport.setErrorMessage(ERR_URL());
+                    form.unblock();
+                    form.setFocus(1);
                 }
             });
     }

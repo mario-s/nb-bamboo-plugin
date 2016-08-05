@@ -29,6 +29,10 @@ import static org.openide.util.Lookup.getDefault;
 import org.openide.util.Task;
 
 import java.beans.PropertyChangeEvent;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.times;
+import org.netbeans.modules.bamboo.glue.SharedConstants;
+import org.openide.NotifyDescriptor;
 
 
 /**
@@ -75,7 +79,7 @@ public class AddInstanceWorkerTest {
 
         InOrder order = inOrder(instanceManager, action);
         order.verify(instanceManager).addInstance(instance);
-        order.verify(action).onDone();
+        order.verify(action).firePropertyChange(WorkerEvents.INSTANCE_CREATED.name(), null, NotifyDescriptor.OK_OPTION);
     }
 
     @Test
@@ -85,6 +89,6 @@ public class AddInstanceWorkerTest {
 
         Task task = new Task(null);
         classUnderTest.taskFinished(task);
-        verify(instanceManager).removeInstance(anyString());
+        verify(instanceManager, atLeast(1)).removeInstance(anyString());
     }
 }

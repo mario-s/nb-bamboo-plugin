@@ -15,6 +15,7 @@ import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
+import org.openide.NotifyDescriptor;
 
 
 /**
@@ -86,17 +87,19 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
     }
 
     @Override
-    public void propertyChange(final PropertyChangeEvent pce) {
-        String prop = pce.getPropertyName();
+    public void propertyChange(final PropertyChangeEvent event) {
+        String prop = event.getPropertyName();
 
         if (WorkerEvents.INSTANCE_CREATED.name().equals(prop) && !cancel) {
-            BambooInstance instance = (BambooInstance) pce.getNewValue();
+            BambooInstance instance = (BambooInstance) event.getNewValue();
 
             if (instance != null) {
                 manager.addInstance(instance);
             }
 
-            action.onDone();
+            action.firePropertyChange(WorkerEvents.INSTANCE_CREATED.name(), null, NotifyDescriptor.OK_OPTION);
+        }else if(WorkerEvents.INVALID_URL.name().equals(prop)){
+            action.firePropertyChange(event);
         }
     }
 

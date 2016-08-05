@@ -1,9 +1,7 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import org.netbeans.modules.bamboo.glue.SharedConstants;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 
-import org.openide.NotifyDescriptor;
 
 import org.openide.util.NbBundle;
 
@@ -44,11 +42,6 @@ class AddAction extends AbstractDialogAction {
     private void addInstance() {
         form.block();
         worker.execute(form);
-    }
-
-    @Override
-    protected void onDone() {
-        firePropertyChange(SharedConstants.PROCESS_DONE, null, NotifyDescriptor.OK_OPTION);
     }
 
     @Override
