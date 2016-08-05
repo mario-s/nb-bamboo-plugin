@@ -26,8 +26,6 @@ import java.util.logging.Logger;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Feature;
-import org.netbeans.modules.bamboo.rest.model.Link;
-import org.netbeans.modules.bamboo.rest.model.Plans;
 
 /**
  * @author spindizzy

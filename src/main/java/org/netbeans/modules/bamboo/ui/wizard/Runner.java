@@ -9,39 +9,52 @@ import static org.openide.util.Lookup.getDefault;
 import java.beans.PropertyChangeSupport;
 
 import java.util.logging.Logger;
-
+import org.netbeans.modules.bamboo.glue.HttpUtility;
 
 /**
  * @author spindizzy
  */
 class Runner extends PropertyChangeSupport implements Runnable {
-    /** Use serialVersionUID for interoperability. */
+
+    /**
+     * Use serialVersionUID for interoperability.
+     */
     private static final long serialVersionUID = 1L;
     private final Logger log;
+    private final HttpUtility httpUtility;
 
     private final InstanceValues values;
 
     Runner(final InstanceValues values) {
+        this(values, new HttpUtility());
+    }
+
+    Runner(final InstanceValues values, final HttpUtility httpUtility) {
         super(values);
         this.log = Logger.getLogger(getClass().getName());
+        this.httpUtility = httpUtility;
         this.values = values;
     }
 
     @Override
     public void run() {
-        //TODO add a check if server exists
+        if (httpUtility.exists(values.getUrl())) {
 
-        BambooInstanceProduceable producer = getDefault().lookup(BambooInstanceProduceable.class);
-        BambooInstance instance = producer.create(values);
+            BambooInstanceProduceable producer = getDefault().lookup(BambooInstanceProduceable.class);
+            BambooInstance instance = producer.create(values);
 
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            log.info(ex.getMessage());
-        }
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                log.info(ex.getMessage());
+            }
 
-        if ((instance != null) && !Thread.interrupted()) {
-            firePropertyChange(WorkerEvents.INSTANCE_CREATED.name(), null, instance);
+            if ((instance != null) && !Thread.interrupted()) {
+                firePropertyChange(WorkerEvents.INSTANCE_CREATED.name(), null, instance);
+            }
+        } else {
+            firePropertyChange(WorkerEvents.INVALID_URL.name(), null, values.getUrl());
         }
     }
+
 }
