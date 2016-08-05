@@ -40,19 +40,19 @@ public class HttpUtility {
         return exists;
     }
 
-    private static boolean isValid(int status) {
+    private boolean isValid(int status) {
         return isSuccessful(status) || isRedirect(status) || isUnauthorized(status);
     }
     
-    private static boolean isSuccessful(int status) {
+    private boolean isSuccessful(int status) {
         return status >= 200 && status <= 206;
     }
     
-    private static boolean isRedirect(int status) {
+    private boolean isRedirect(int status) {
         return status >= 300 && status <= 308;
     }
     
-    private static boolean isUnauthorized(int status) {
+    private boolean isUnauthorized(int status) {
         return status == 401;
     }
 }
