@@ -32,13 +32,15 @@ public class HttpUtility {
             if (connection instanceof HttpURLConnection) {
                 HttpURLConnection httpConn = (HttpURLConnection) connection;
                 int status = httpConn.getResponseCode();
-                exists = status == 200 || status == 401;
-            } else {
-
+                exists = isValid(status);
             }
         } catch (IOException ex) {
             log.info(ex.getMessage());
         }
         return exists;
+    }
+
+    private static boolean isValid(int status) {
+        return status == 200 || status == 302 || status == 401;
     }
 }
