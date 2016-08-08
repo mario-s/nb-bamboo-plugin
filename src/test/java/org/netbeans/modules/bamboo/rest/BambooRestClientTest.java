@@ -26,13 +26,18 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-
+import static org.mockito.Matchers.any;
+import org.netbeans.modules.bamboo.rest.model.Result;
+import org.netbeans.modules.bamboo.rest.model.Results;
+import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
 
 /**
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BambooRestClientTest {
+    private static final String FOO = "foo";
+
     @Mock
     private InstanceValues instanceValues;
     @Mock
@@ -45,38 +50,51 @@ public class BambooRestClientTest {
     @Before
     public void setUp() {
         given(instanceValues.getUrl()).willReturn("http://foo.bar");
-        given(instanceValues.getUsername()).willReturn("foo");
-        given(instanceValues.getPassword()).willReturn(new char[] { 'b', 'a', 'z' });
+        given(instanceValues.getUsername()).willReturn(FOO);
+        given(instanceValues.getPassword()).willReturn(new char[]{'b', 'a', 'z'});
         given(webTarget.path(BambooRestClient.REST_API)).willReturn(webTarget);
         given(webTarget.queryParam(BambooRestClient.AUTH_TYPE, BambooRestClient.BASIC)).willReturn(
-            webTarget);
-        given(webTarget.queryParam(BambooRestClient.USER, "foo")).willReturn(webTarget);
+                webTarget);
+        given(webTarget.queryParam(BambooRestClient.USER, FOO)).willReturn(webTarget);
         given(webTarget.queryParam(BambooRestClient.PASS, "baz")).willReturn(webTarget);
         given(webTarget.request()).willReturn(invocationBuilder);
 
-        classUnderTest =
-            new BambooRestClient() {
-                @Override
-                WebTarget newTarget(final String url) {
-                    return webTarget;
-                }
-            };
+        classUnderTest
+                = new BambooRestClient() {
+            @Override
+            WebTarget newTarget(final String url) {
+                return webTarget;
+            }
+        };
     }
+    
 
     /**
      * Test of getPProjects method, of class BambooRestClient.
      */
     @Test
     public void testGetProjects() {
-        PlansResponse all = new PlansResponse();
+        PlansResponse plansResponse = new PlansResponse();
         Plans plans = new Plans();
-        plans.setPlan(singletonList(new Plan()));
-        all.setPlans(plans);
-        given(invocationBuilder.get(PlansResponse.class)).willReturn(all);
+        Plan plan = new Plan();
+        plan.setKey(FOO);
+        plans.setPlan(singletonList(plan));
+        plansResponse.setPlans(plans);
+
+        ResultsResponse resultsResponse = new ResultsResponse();
+        Results results = new Results();
+        Result result = new Result();
+        result.setPlan(plan);
+        results.setResult(singletonList(result));
+        resultsResponse.setResults(results);
+
+        given(invocationBuilder.get(PlansResponse.class)).willReturn(plansResponse);
         given(webTarget.path(BambooRestClient.PLANS)).willReturn(webTarget);
         given(webTarget.queryParam(anyString(), any())).willReturn(webTarget);
+        given(invocationBuilder.get(ResultsResponse.class)).willReturn(resultsResponse);
+        given(webTarget.path(BambooRestClient.RESULTS)).willReturn(webTarget);
 
-        Collection<BuildProject> result = classUnderTest.getProjects(instanceValues);
-        assertFalse(result.isEmpty());
+        Collection<BuildProject> projects = classUnderTest.getProjects(instanceValues);
+        assertFalse(projects.isEmpty());
     }
 }

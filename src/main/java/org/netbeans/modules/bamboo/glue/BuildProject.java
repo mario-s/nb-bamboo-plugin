@@ -1,7 +1,8 @@
 package org.netbeans.modules.bamboo.glue;
 
-import static java.lang.String.format;
 import lombok.Data;
+import org.netbeans.modules.bamboo.rest.model.State;
+import static java.lang.String.format;
 
 
 /**
@@ -11,12 +12,14 @@ import lombok.Data;
  */
 @Data
 public class BuildProject implements OpenableInBrowser{
+    
     private static final String BROWSE = "%s/browse/%s";
     private String serverUrl;
     private String key;
     private String name;
     private String shortName;
     private transient boolean enabled;
+    private transient State state = State.Unknown;
 
     @Override
     public String getUrl() {
