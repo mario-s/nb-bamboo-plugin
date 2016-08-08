@@ -1,7 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import org.glassfish.jersey.logging.LoggingFeature;
 
@@ -26,8 +24,10 @@ import java.util.logging.Logger;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Feature;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import org.netbeans.modules.bamboo.rest.model.Result;
 import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
  * @author spindizzy
@@ -97,32 +97,15 @@ public class BambooRestClient implements BambooServiceAccessable {
             WebTarget target = opt.get();
             PlansResponse initialResponse = request(target, PlansResponse.class);
             log.fine(String.format("got plans for initial call: %s", initialResponse));
-            plans.addAll(initialResponse.getPlansAsCollection());
+            plans.addAll(initialResponse.asCollection());
 
             Optional<PlansResponse> secondResponse = doSecondPlanCall(initialResponse, values);
             if (secondResponse.isPresent()) {
-                plans.addAll(secondResponse.get().getPlansAsCollection());
+                plans.addAll(secondResponse.get().asCollection());
             }
         }
 
         return plans;
-    }
-
-    private Optional<WebTarget> createTarget(final InstanceValues values, final String path) {
-        Optional<WebTarget> opt = empty();
-        String url = values.getUrl();
-        String user = values.getUsername();
-        char[] chars = values.getPassword();
-        
-        if (StringUtils.isNotBlank(url) && StringUtils.isNotBlank(user)
-                && ArrayUtils.isNotEmpty(chars)) {
-            
-            opt = of(newTarget(values, path));
-        } else if (log.isLoggable(Level.WARNING)) {
-            log.warning("Invalid values for instance");
-        }
-        
-        return opt;
     }
 
     private Optional<PlansResponse> doSecondPlanCall(final PlansResponse initial, final InstanceValues values) {
@@ -140,26 +123,8 @@ public class BambooRestClient implements BambooServiceAccessable {
 
         return opt;
     }
-
-    private Collection<Result> getResults(InstanceValues values) {
-        Set<Result> results = new HashSet<>();
-        Optional<WebTarget> opt = createTarget(values, RESULTS);
-        if(opt.isPresent()){
-            WebTarget target = opt.get();
-            ResultsResponse initialResponse = request(target, ResultsResponse.class);
-            log.fine(String.format("got results for initial call: %s", initialResponse));
-            results.addAll(initialResponse.getResultsAsCollection());
-            
-            Optional<ResultsResponse> secondResponse = doSecondResultCall(initialResponse, values);
-            if(secondResponse.isPresent()) {
-                results.addAll(secondResponse.get().getResultsAsCollection());
-            }
-        }
-        
-        return results;
-    }
     
-     private Optional<ResultsResponse> doSecondResultCall(final ResultsResponse initial, final InstanceValues values) {
+    private Optional<ResultsResponse> doSecondResultCall(final ResultsResponse initial, final InstanceValues values) {
         int max = initial.getResults().getMaxResult();
         int size = initial.getResults().getSize();
 
@@ -170,6 +135,39 @@ public class BambooRestClient implements BambooServiceAccessable {
             ResultsResponse response = request(target, ResultsResponse.class);
             log.fine(String.format("got all other results: %s", response));
             opt = of(response);
+        }
+
+        return opt;
+    }
+
+    private Collection<Result> getResults(InstanceValues values) {
+        Set<Result> results = new HashSet<>();
+        Optional<WebTarget> opt = createTarget(values, RESULTS);
+        if (opt.isPresent()) {
+            WebTarget target = opt.get();
+            ResultsResponse initialResponse = request(target, ResultsResponse.class);
+            log.fine(String.format("got results for initial call: %s", initialResponse));
+            results.addAll(initialResponse.asCollection());
+
+            Optional<ResultsResponse> secondResponse = doSecondResultCall(initialResponse, values);
+            if (secondResponse.isPresent()) {
+                results.addAll(secondResponse.get().asCollection());
+            }
+        }
+
+        return results;
+    }
+
+    private Optional<WebTarget> createTarget(final InstanceValues values, final String path) {
+        Optional<WebTarget> opt = empty();
+        String url = values.getUrl();
+        String user = values.getUsername();
+        char[] chars = values.getPassword();
+
+        if (isNotBlank(url) && isNotBlank(user) && isNotEmpty(chars)) {
+            opt = of(newTarget(values, path));
+        } else if (log.isLoggable(Level.WARNING)) {
+            log.warning("Invalid values for instance");
         }
 
         return opt;
