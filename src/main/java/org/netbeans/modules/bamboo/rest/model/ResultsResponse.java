@@ -21,6 +21,16 @@ public class ResultsResponse extends AbstractResponse {
         return coll;
     }
 
+    @Override
+    public int getMaxResult() {
+        return (results != null) ? results.getMaxResult() : 0;
+    }
+
+    @Override
+    public int getSize() {
+        return (results != null) ? results.getSize() : 0;
+    }
+
 
     public static class Builder {
         private final ResultsResponse response = new ResultsResponse();

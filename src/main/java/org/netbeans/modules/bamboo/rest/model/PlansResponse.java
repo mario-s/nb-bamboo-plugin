@@ -22,4 +22,14 @@ public class PlansResponse extends AbstractResponse {
         return coll;
     }
 
+    @Override
+    public int getMaxResult() {
+        return (plans != null) ? plans.getMaxResult() : 0;
+    }
+
+    @Override
+    public int getSize() {
+        return (plans != null) ? plans.getSize() : 0;
+    }
+
 }

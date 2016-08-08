@@ -21,10 +21,10 @@ import org.netbeans.modules.bamboo.rest.model.PlansResponse;
 
 import java.util.Collection;
 import static java.util.Collections.singletonList;
+import static java.util.Optional.of;
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.any;
 import org.netbeans.modules.bamboo.rest.model.Result;
@@ -44,6 +44,10 @@ public class BambooRestClientTest {
     private WebTarget webTarget;
     @Mock
     private Invocation.Builder invocationBuilder;
+    @Mock
+    private ApiCaller<PlansResponse> plansCaller;
+    @Mock
+    private ApiCaller<ResultsResponse> resultsCaller;
 
     private BambooRestClient classUnderTest;
 
@@ -53,17 +57,18 @@ public class BambooRestClientTest {
         given(instanceValues.getUsername()).willReturn(FOO);
         given(instanceValues.getPassword()).willReturn(new char[]{'b', 'a', 'z'});
         given(webTarget.path(BambooRestClient.REST_API)).willReturn(webTarget);
-        given(webTarget.queryParam(BambooRestClient.AUTH_TYPE, BambooRestClient.BASIC)).willReturn(
-                webTarget);
-        given(webTarget.queryParam(BambooRestClient.USER, FOO)).willReturn(webTarget);
-        given(webTarget.queryParam(BambooRestClient.PASS, "baz")).willReturn(webTarget);
         given(webTarget.request()).willReturn(invocationBuilder);
 
         classUnderTest
                 = new BambooRestClient() {
             @Override
-            WebTarget newTarget(final String url) {
-                return webTarget;
+            ApiCaller<PlansResponse> createPlansCaller(InstanceValues values) {
+                return plansCaller;
+            }
+
+            @Override
+            ApiCaller<ResultsResponse> createResultsCaller(InstanceValues values) {
+                return resultsCaller;
             }
         };
     }
@@ -88,11 +93,14 @@ public class BambooRestClientTest {
         results.setResult(singletonList(result));
         resultsResponse.setResults(results);
 
-        given(invocationBuilder.get(PlansResponse.class)).willReturn(plansResponse);
-        given(webTarget.path(BambooRestClient.PLANS)).willReturn(webTarget);
-        given(webTarget.queryParam(anyString(), any())).willReturn(webTarget);
-        given(invocationBuilder.get(ResultsResponse.class)).willReturn(resultsResponse);
-        given(webTarget.path(BambooRestClient.RESULTS)).willReturn(webTarget);
+        
+        given(plansCaller.createTarget()).willReturn(of(webTarget));
+        given(plansCaller.request(webTarget)).willReturn(plansResponse);
+        given(plansCaller.doSecondCall(plansResponse)).willReturn(of(plansResponse));
+        
+        given(resultsCaller.createTarget()).willReturn(of(webTarget));
+        given(resultsCaller.request(webTarget)).willReturn(resultsResponse);
+        given(resultsCaller.doSecondCall(resultsResponse)).willReturn(of(resultsResponse));
 
         Collection<BuildProject> projects = classUnderTest.getProjects(instanceValues);
         assertFalse(projects.isEmpty());

@@ -15,5 +15,7 @@ public abstract class AbstractResponse<T> {
     private String expand;
     private Link link;
     
+    public abstract int getMaxResult();
+    public abstract int getSize();
     public abstract Collection<T> asCollection();
 }
