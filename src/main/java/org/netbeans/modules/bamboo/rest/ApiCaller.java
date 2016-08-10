@@ -1,28 +1,30 @@
 package org.netbeans.modules.bamboo.rest;
 
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
+import org.glassfish.jersey.logging.LoggingFeature;
+
+import org.netbeans.modules.bamboo.glue.InstanceValues;
+import static org.netbeans.modules.bamboo.rest.BambooRestClient.REST_API;
+import org.netbeans.modules.bamboo.rest.model.AbstractResponse;
+
 import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Feature;
 
-import org.glassfish.jersey.logging.LoggingFeature;
-import org.netbeans.modules.bamboo.glue.InstanceValues;
-
-import static org.netbeans.modules.bamboo.rest.BambooRestClient.REST_API;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import org.netbeans.modules.bamboo.rest.model.AbstractResponse;
-import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
- *
  * @author spindizzy
  */
 class ApiCaller<T extends AbstractResponse> {
-
     static final String AUTH_TYPE = "os_authType";
     static final String BASIC = "basic";
     static final String USER = "os_username";
@@ -32,17 +34,22 @@ class ApiCaller<T extends AbstractResponse> {
 
     private final Logger log;
     private final Feature logFeature;
-    
+
     private final Class<T> clazz;
     private final String path;
     private final InstanceValues values;
 
+    private Client client;
+
     ApiCaller(final InstanceValues values, final Class<T> clazz, final String path) {
+        this.client = ClientBuilder.newClient();
         this.values = values;
         this.clazz = clazz;
         this.path = path;
         this.log = Logger.getLogger(getClass().getName());
         this.logFeature = new LoggingFeature(log, Level.INFO, null, null);
+
+        client = client.register(logFeature);
     }
 
     Optional<WebTarget> createTarget() {
@@ -59,7 +66,7 @@ class ApiCaller<T extends AbstractResponse> {
 
         return opt;
     }
-    
+
     Optional<T> doSecondCall(final T initial) {
         int max = initial.getMaxResult();
         int size = initial.getSize();
@@ -82,16 +89,17 @@ class ApiCaller<T extends AbstractResponse> {
         char[] chars = values.getPassword();
         String password = String.valueOf(chars);
 
-        return newTarget(url, path).queryParam(AUTH_TYPE, BASIC)
-                .queryParam(USER, user).queryParam(PASS, password);
+        return newTarget(url, path).queryParam(AUTH_TYPE, BASIC).queryParam(USER, user).queryParam(
+                PASS,
+                password);
     }
 
-    private WebTarget newTarget(String url, final String path) {
+    private WebTarget newTarget(final String url, final String path) {
         return newTarget(url).path(REST_API).path(path);
     }
 
-    WebTarget newTarget(final String url) {
-        return ClientBuilder.newClient().register(logFeature).target(url);
+    private WebTarget newTarget(final String url) {
+        return client.target(url);
     }
 
     T request(final WebTarget target) {
