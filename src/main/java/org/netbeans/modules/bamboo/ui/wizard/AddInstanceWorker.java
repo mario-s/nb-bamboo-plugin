@@ -93,9 +93,9 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
 
         if (WorkerEvents.INSTANCE_CREATED.name().equals(prop) && !cancel) {
             BambooInstance instance = (BambooInstance) event.getNewValue();
-            manager.persist(instance);
 
             if (instance != null) {
+                manager.persist(instance);
                 manager.addInstance(instance);
             }
 
