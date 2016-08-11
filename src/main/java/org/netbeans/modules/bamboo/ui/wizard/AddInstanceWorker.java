@@ -4,6 +4,8 @@ import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
+import org.openide.NotifyDescriptor;
+
 import org.openide.util.RequestProcessor;
 import org.openide.util.Task;
 import org.openide.util.TaskListener;
@@ -15,7 +17,6 @@ import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
-import org.openide.NotifyDescriptor;
 
 
 /**
@@ -92,13 +93,16 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
 
         if (WorkerEvents.INSTANCE_CREATED.name().equals(prop) && !cancel) {
             BambooInstance instance = (BambooInstance) event.getNewValue();
+            manager.persist(instance);
 
             if (instance != null) {
                 manager.addInstance(instance);
             }
 
-            action.firePropertyChange(WorkerEvents.INSTANCE_CREATED.name(), null, NotifyDescriptor.OK_OPTION);
-        }else if(WorkerEvents.INVALID_URL.name().equals(prop)){
+            action.firePropertyChange(WorkerEvents.INSTANCE_CREATED.name(),
+                null,
+                NotifyDescriptor.OK_OPTION);
+        } else if (WorkerEvents.INVALID_URL.name().equals(prop)) {
             action.firePropertyChange(event);
         }
     }

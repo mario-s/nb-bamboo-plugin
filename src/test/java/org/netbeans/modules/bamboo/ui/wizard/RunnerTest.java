@@ -1,7 +1,5 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,15 +7,20 @@ import org.junit.runner.RunWith;
 
 import static org.mockito.BDDMockito.given;
 
+import org.mockito.InOrder;
+
 import static org.mockito.Matchers.any;
 
 import org.mockito.Mock;
 
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
+import org.netbeans.modules.bamboo.glue.HttpUtility;
+import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 import org.netbeans.modules.bamboo.mock.MockInstanceFactory;
 import org.netbeans.modules.bamboo.rest.BambooInstanceProduceable;
 
@@ -25,10 +28,6 @@ import static org.openide.util.Lookup.getDefault;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.mockito.InOrder;
-import static org.mockito.Mockito.inOrder;
-import org.netbeans.modules.bamboo.glue.HttpUtility;
-import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 
 /**
@@ -36,6 +35,7 @@ import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class RunnerTest {
+    private static final String FOO = "foo";
     @Mock
     private BambooInstanceProduceable producer;
     @Mock
@@ -57,11 +57,10 @@ public class RunnerTest {
 
         values = new DefaultInstanceValues();
         values.setUrl(FOO);
-        
+
         classUnderTest = new Runner(values, utility);
         classUnderTest.addPropertyChangeListener(listener);
     }
-    private static final String FOO = "foo";
 
     /**
      * Test of run method, of class Runner.
@@ -71,12 +70,13 @@ public class RunnerTest {
         given(utility.exists(FOO)).willReturn(true);
         given(producer.create(values)).willReturn(instance);
         classUnderTest.run();
+
         InOrder order = inOrder(producer, listener);
         order.verify(producer).create(any(DefaultInstanceValues.class));
         order.verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
-    
-      /**
+
+    /**
      * Test of run method, of class Runner.
      */
     @Test

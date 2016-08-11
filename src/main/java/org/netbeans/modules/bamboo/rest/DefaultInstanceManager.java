@@ -144,6 +144,12 @@ public class DefaultInstanceManager implements InstanceManageable {
         return instance;
     }
 
+    @Override
+    public void persist(final BambooInstance instance) {
+        BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
+        props.copyProperties(instance);
+    }
+
     synchronized Preferences instancesPrefs() {
         return PreferenceWrapper.instancesPrefs();
     }

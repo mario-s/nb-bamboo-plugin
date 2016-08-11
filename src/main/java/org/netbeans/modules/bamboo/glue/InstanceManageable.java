@@ -1,8 +1,9 @@
 package org.netbeans.modules.bamboo.glue;
 
-import java.util.Collection;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.InstanceContent;
+
+import java.util.Collection;
 
 
 /**
@@ -10,7 +11,7 @@ import org.openide.util.lookup.InstanceContent;
  */
 public interface InstanceManageable extends Lookup.Provider {
     InstanceContent getContent();
-    
+
     void addInstance(final BambooInstance instance);
 
     void removeInstance(final String name);
@@ -20,4 +21,6 @@ public interface InstanceManageable extends Lookup.Provider {
     boolean existsInstance(final String name);
 
     Collection<BambooInstance> loadInstances();
+
+    void persist(BambooInstance instance);
 }

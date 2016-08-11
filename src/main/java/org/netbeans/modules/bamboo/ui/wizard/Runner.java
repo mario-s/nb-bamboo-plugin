@@ -1,6 +1,7 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.glue.HttpUtility;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.rest.BambooInstanceProduceable;
 
@@ -9,16 +10,13 @@ import static org.openide.util.Lookup.getDefault;
 import java.beans.PropertyChangeSupport;
 
 import java.util.logging.Logger;
-import org.netbeans.modules.bamboo.glue.HttpUtility;
+
 
 /**
  * @author spindizzy
  */
 class Runner extends PropertyChangeSupport implements Runnable {
-
-    /**
-     * Use serialVersionUID for interoperability.
-     */
+    /** Use serialVersionUID for interoperability. */
     private static final long serialVersionUID = 1L;
     private final Logger log;
     private final HttpUtility httpUtility;
@@ -39,8 +37,8 @@ class Runner extends PropertyChangeSupport implements Runnable {
     @Override
     public void run() {
         if (httpUtility.exists(values.getUrl())) {
-
-            BambooInstanceProduceable producer = getDefault().lookup(BambooInstanceProduceable.class);
+            BambooInstanceProduceable producer = getDefault().lookup(
+                    BambooInstanceProduceable.class);
             BambooInstance instance = producer.create(values);
 
             try {
@@ -56,5 +54,4 @@ class Runner extends PropertyChangeSupport implements Runnable {
             firePropertyChange(WorkerEvents.INVALID_URL.name(), null, values.getUrl());
         }
     }
-
 }

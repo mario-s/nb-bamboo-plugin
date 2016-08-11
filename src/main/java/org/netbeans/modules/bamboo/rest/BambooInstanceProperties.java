@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
@@ -137,16 +138,22 @@ public class BambooInstanceProperties extends HashMap<String, String> {
     }
 
     /**
-     * Get Preferences that this properties use as persistent storage.
+     * Get Preferences that this properties use as persistent storage, might
+     * return null.
      */
     public Preferences getPreferences() {
+        Preferences prefs = null;
         String nodeName = getNodeName();
 
         if (nodeName != null) {
-            return preferences.node(nodeName);
-        } else {
-            return null;
+            try {
+                prefs = preferences.node(nodeName);
+            } catch (IllegalStateException exc) {
+                LOG.log(Level.FINE, exc.getMessage(), exc);
+            }
         }
+
+        return prefs;
     }
 
     /**
