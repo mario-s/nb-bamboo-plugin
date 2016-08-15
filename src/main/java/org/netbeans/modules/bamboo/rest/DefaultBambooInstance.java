@@ -1,8 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.netbeans.modules.bamboo.glue.BuildProject;
@@ -12,6 +9,9 @@ import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 import org.openide.util.RequestProcessor;
 import org.openide.util.RequestProcessor.Task;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -29,6 +29,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     private static final long serialVersionUID = 1L;
     private static final RequestProcessor RP = new RequestProcessor(DefaultBambooInstance.class);
 
+    private final PropertyChangeSupport changeSupport;
+
     private Optional<Task> synchronizationTask = empty();
 
     private Collection<BuildProject> projects;
@@ -36,59 +38,22 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     private BambooInstanceProperties properties;
 
     public DefaultBambooInstance() {
+        this(null);
     }
 
     public DefaultBambooInstance(final InstanceValues values) {
         super(values);
+        changeSupport = new PropertyChangeSupport(this);
     }
 
     @Override
-    public Preferences getPreferences() {
-        return properties.getPreferences();
-    }
-
-    @Override
-    public void remove() {
-        if (properties != null) {
-            properties.clear();
-        }
-    }
-
-    @Override
-    public void synchronize() {
-        RP.post(() -> { doSynchronization(); });
-    }
-
-    private void doSynchronization() {
-        Logger.getLogger(DefaultBambooInstance.class.getName()).info("TODO: call server and refresh children");
+    public void addPropertyChangeListener(final PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
     }
 
     public void applyProperties(final BambooInstanceProperties properties) {
         this.properties = properties;
         copyProperties(properties);
-    }
-
-    private void prepareSynchronization() {
-        int interval = getSyncIntervalInMillis();
-
-        if (interval > 0) {
-            Task task = RP.create(() -> { 
-                doSynchronization();
-                if(synchronizationTask.isPresent() && interval > 0){
-                    synchronizationTask.get().schedule(interval);
-                }
-            });
-            synchronizationTask = of(task);
-            task.schedule(toMillis(interval));
-        }
-    }
-    
-    private int getSyncIntervalInMillis() {
-        return toMillis(getSyncInterval());
-    }
-    
-    private int toMillis(int minutes) {
-        return minutes * 60000;
     }
 
     private void copyProperties(final BambooInstanceProperties props) throws NumberFormatException {
@@ -109,19 +74,69 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
         }
     }
 
+    private void doSynchronization() {
+        Logger.getLogger(DefaultBambooInstance.class.getName()).info(
+            "TODO: call server and refresh children");
+    }
+
+    @Override
+    public Preferences getPreferences() {
+        return properties.getPreferences();
+    }
+
     @Override
     public Collection<BuildProject> getProjects() {
         return projects;
     }
 
+    Optional<Task> getSynchronizationTask() {
+        return synchronizationTask;
+    }
+
     @Override
-    public void setProjects(Collection<BuildProject> projects) {
+    public void setProjects(final Collection<BuildProject> projects) {
         this.projects = projects;
         prepareSynchronization();
     }
 
-    Optional<Task> getSynchronizationTask() {
-        return synchronizationTask;
+    private void prepareSynchronization() {
+        int interval = getSyncIntervalInMillis();
+
+        if (interval > 0) {
+            Task task = RP.create(() -> {
+                        doSynchronization();
+
+                        if (synchronizationTask.isPresent() && (interval > 0)) {
+                            synchronizationTask.get().schedule(interval);
+                        }
+                    });
+            synchronizationTask = of(task);
+            task.schedule(toMillis(interval));
+        }
     }
-    
+
+    private int getSyncIntervalInMillis() {
+        return toMillis(getSyncInterval());
+    }
+
+    @Override
+    public void remove() {
+        if (properties != null) {
+            properties.clear();
+        }
+    }
+
+    @Override
+    public void removePropertyChangeListener(final PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
+    }
+
+    @Override
+    public void synchronize() {
+        RP.post(() -> { doSynchronization(); });
+    }
+
+    private int toMillis(final int minutes) {
+        return minutes * 60000;
+    }
 }

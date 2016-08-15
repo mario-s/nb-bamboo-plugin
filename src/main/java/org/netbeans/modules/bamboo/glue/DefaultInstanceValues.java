@@ -3,6 +3,7 @@ package org.netbeans.modules.bamboo.glue;
 import lombok.Getter;
 import lombok.Setter;
 
+
 /**
  * A wrapper for all parameters to be used to create a new BambooInstance.
  *
@@ -25,11 +26,12 @@ public class DefaultInstanceValues implements InstanceValues {
     }
 
     public DefaultInstanceValues(final InstanceValues other) {
-        this.name = other.getName();
-        this.url = other.getUrl();
-        this.syncInterval = other.getSyncInterval();
-        this.username = other.getUsername();
-        this.password = other.getPassword();
+        if (other != null) {
+            this.name = other.getName();
+            this.url = other.getUrl();
+            this.syncInterval = other.getSyncInterval();
+            this.username = other.getUsername();
+            this.password = other.getPassword();
+        }
     }
-
 }
