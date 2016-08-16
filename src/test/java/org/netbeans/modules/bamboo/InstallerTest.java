@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo;
 
-import org.netbeans.modules.bamboo.mock.MockInstanceManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,13 +7,17 @@ import org.junit.runner.RunWith;
 
 import static org.mockito.BDDMockito.given;
 
+import org.mockito.InOrder;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
+import org.netbeans.modules.bamboo.mock.MockInstanceManager;
 import org.netbeans.modules.bamboo.rest.DefaultBambooInstance;
 
 import static org.openide.util.Lookup.getDefault;
@@ -51,6 +54,9 @@ public class InstallerTest {
     @Test
     public void testRun() {
         classUnderTest.run();
-        verify(delegate).addInstance(instance);
+
+        InOrder order = inOrder(instance, delegate);
+        order.verify(instance).synchronize();
+        order.verify(delegate).addInstance(instance);
     }
 }
