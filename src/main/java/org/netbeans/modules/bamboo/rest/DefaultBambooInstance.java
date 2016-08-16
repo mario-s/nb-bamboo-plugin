@@ -7,6 +7,7 @@ import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
+import static org.openide.util.Lookup.getDefault;
 import org.openide.util.RequestProcessor;
 import org.openide.util.RequestProcessor.Task;
 
@@ -17,7 +18,6 @@ import java.util.Collection;
 import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 
@@ -30,6 +30,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     private static final RequestProcessor RP = new RequestProcessor(DefaultBambooInstance.class);
 
     private final PropertyChangeSupport changeSupport;
+
+    private final BambooServiceAccessable client;
 
     private Optional<Task> synchronizationTask = empty();
 
@@ -44,6 +46,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     public DefaultBambooInstance(final InstanceValues values) {
         super(values);
         changeSupport = new PropertyChangeSupport(this);
+        client = getDefault().lookup(BambooServiceAccessable.class);
     }
 
     @Override
@@ -75,8 +78,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     private void doSynchronization() {
-        Logger.getLogger(DefaultBambooInstance.class.getName()).info(
-            "TODO: call server and refresh children");
+        projects = client.getProjects(this);
     }
 
     @Override
