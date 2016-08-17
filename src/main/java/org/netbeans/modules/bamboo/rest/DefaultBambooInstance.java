@@ -81,8 +81,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
         Collection<BuildProject> projs = client.getProjects(this);
 
         if ((projects == null) || !projects.equals(projs)) {
-            firePropertyChange(PROJECTS, projects, projs);
             this.projects = projs;
+            firePropertyChange(PROJECTS, projects, projs);
         }
     }
 
@@ -139,8 +139,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     @Override
-    public void synchronize() {
-        doSynchronization();
+    public Task synchronize() {
+        return RP.post(() -> { doSynchronization(); });
     }
 
     private int toMillis(final int minutes) {

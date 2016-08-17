@@ -17,7 +17,7 @@ import java.util.List;
  */
 class ProjectNodeFactory extends ChildFactory<BuildProject> {
     private static final BuildProjectComparator COMPARATOR = new BuildProjectComparator();
-    
+
     private final ProjectsProvideable instance;
 
     private Collection<BuildProject> projects;
@@ -27,9 +27,9 @@ class ProjectNodeFactory extends ChildFactory<BuildProject> {
         refreshNodes();
     }
 
-    private void refreshNodes() {
+    final void refreshNodes() {
         projects = instance.getProjects();
-        refresh(true);
+        refresh(false);
     }
 
     @Override
@@ -42,16 +42,18 @@ class ProjectNodeFactory extends ChildFactory<BuildProject> {
         if (projects != null) {
             toPopulate.addAll(projects);
         }
+
         sort(toPopulate, COMPARATOR);
 
         return true;
     }
-    
-     private static class BuildProjectComparator implements Comparator<BuildProject> {
+
+    private static class BuildProjectComparator implements Comparator<BuildProject> {
         @Override
         public int compare(final BuildProject o1, final BuildProject o2) {
             final String left = o1.getShortName();
             final String right = o2.getShortName();
+
             return left.compareToIgnoreCase(right);
         }
     }

@@ -13,6 +13,9 @@ import static org.openide.util.Lookup.getDefault;
 import org.openide.util.Utilities;
 import org.openide.util.lookup.Lookups;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import java.io.IOException;
 
 import java.util.List;
@@ -25,16 +28,28 @@ import javax.swing.Action;
  *
  * @author spindizzy
  */
-public class BambooInstanceNode extends AbstractNode {
+public class BambooInstanceNode extends AbstractNode implements PropertyChangeListener {
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
 
     private final ProjectsProvideable instance;
 
+    private final ProjectNodeFactory projectNodeFactory;
+
     public BambooInstanceNode(final ProjectsProvideable instance) {
         super(Children.LEAF, Lookups.singleton(instance));
         this.instance = instance;
+        this.projectNodeFactory = new ProjectNodeFactory(instance);
         init();
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        String propeName = evt.getPropertyName();
+
+        if (ProjectsProvideable.PROJECTS.equals(propeName)) {
+            projectNodeFactory.refreshNodes();
+        }
     }
 
     private void init() {
@@ -43,8 +58,9 @@ public class BambooInstanceNode extends AbstractNode {
         setShortDescription(instance.getUrl());
         setIconBaseWithExtension(ICON_BASE);
 
-        // add plans for the instance
-        setChildren(Children.create(new ProjectNodeFactory(instance), true));
+        setChildren(Children.create(projectNodeFactory, true));
+
+        instance.addPropertyChangeListener(this);
     }
 
     @Override
@@ -61,6 +77,7 @@ public class BambooInstanceNode extends AbstractNode {
 
     @Override
     public void destroy() throws IOException {
+        instance.removePropertyChangeListener(this);
         getDefault().lookup(InstanceManageable.class).removeInstance(instance);
     }
 }

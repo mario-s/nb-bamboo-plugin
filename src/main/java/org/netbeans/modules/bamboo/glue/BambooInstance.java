@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.glue;
 
+import org.openide.util.Task;
+
 import java.beans.PropertyChangeListener;
 
 import java.io.Serializable;
@@ -17,7 +19,7 @@ public interface BambooInstance extends InstanceValues, Serializable {
 
     void remove();
 
-    void synchronize();
+    Task synchronize();
 
     void addPropertyChangeListener(PropertyChangeListener listener);
 

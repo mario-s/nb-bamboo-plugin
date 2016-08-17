@@ -4,6 +4,8 @@ import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
 import static org.openide.util.Lookup.getDefault;
+import org.openide.util.Task;
+import org.openide.util.TaskListener;
 
 import org.openide.windows.OnShowing;
 
@@ -19,9 +21,28 @@ public final class Installer implements Runnable {
 
         if (!instances.isEmpty()) {
             instances.parallelStream().forEach(instance -> {
-                    instance.synchronize();
-                    manager.addInstance(instance);
+                    TaskListener listener = new SyncTaskListener(manager, instance);
+                    Task task = instance.synchronize();
+                    task.addTaskListener(listener);
                 });
+        }
+    }
+
+    private class SyncTaskListener implements TaskListener {
+        private final InstanceManageable manager;
+
+        private final BambooInstance instance;
+
+        SyncTaskListener(final InstanceManageable manager, final BambooInstance instance) {
+            this.manager = manager;
+            this.instance = instance;
+        }
+
+        @Override
+        public void taskFinished(final Task task) {
+            if (task.isFinished()) {
+                manager.addInstance(instance);
+            }
         }
     }
 }
