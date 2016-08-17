@@ -9,18 +9,17 @@ import static org.mockito.BDDMockito.given;
 
 import org.mockito.InOrder;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.verify;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.mock.MockInstanceManager;
-import org.netbeans.modules.bamboo.rest.DefaultBambooInstance;
 
 import static org.openide.util.Lookup.getDefault;
+import org.openide.util.Task;
 
 import static java.util.Collections.singletonList;
 
@@ -33,7 +32,9 @@ public class InstallerTest {
     private InstanceManageable delegate;
 
     @Mock
-    private DefaultBambooInstance instance;
+    private BambooInstance instance;
+
+    private Task task;
 
     private Installer classUnderTest;
 
@@ -43,7 +44,10 @@ public class InstallerTest {
             (MockInstanceManager) getDefault().lookup(InstanceManageable.class);
         manager.setDelegate(delegate);
 
+        task = new Task(null);
+
         given(delegate.loadInstances()).willReturn(singletonList(instance));
+        given(instance.synchronize()).willReturn(task);
 
         classUnderTest = new Installer();
     }
