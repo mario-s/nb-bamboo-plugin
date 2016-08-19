@@ -100,6 +100,7 @@ public class DefaultInstanceManagerTest {
      */
     @Test
     public void testRemoveInstance() {
+        classUnderTest.addInstance(instance);
         Collection<? extends BambooInstance> instances = result.allInstances();
         assumeThat(instances.isEmpty(), is(false));
         classUnderTest.removeInstance(instances.iterator().next());
