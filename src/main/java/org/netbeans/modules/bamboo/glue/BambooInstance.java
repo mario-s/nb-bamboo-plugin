@@ -15,10 +15,22 @@ import java.util.prefs.Preferences;
  * @author spindizzy
  */
 public interface BambooInstance extends InstanceValues, Serializable {
+    /**
+     * Get the version of the associated bamboo server.
+     *
+     * @return version as String
+     */
+    String getVersion();
+
     Preferences getPreferences();
 
     void remove();
 
+    /**
+     * Synchonize this instance with the server.
+     *
+     * @return the sychronize task
+     */
     Task synchronize();
 
     void addPropertyChangeListener(PropertyChangeListener listener);

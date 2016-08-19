@@ -39,6 +39,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
 
     private BambooInstanceProperties properties;
 
+    private String version;
+
     public DefaultBambooInstance() {
         this(null);
     }
@@ -57,6 +59,11 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     public void applyProperties(final BambooInstanceProperties properties) {
         this.properties = properties;
         copyProperties(properties);
+    }
+
+    @Override
+    public String getVersion() {
+        return version;
     }
 
     private void copyProperties(final BambooInstanceProperties props) throws NumberFormatException {
@@ -151,5 +158,9 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
         final Object oldValue,
         final Object newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
+    }
+
+    void setVersion(final String version) {
+        this.version = version;
     }
 }
