@@ -24,7 +24,7 @@ import javax.ws.rs.core.Feature;
 /**
  * @author spindizzy
  */
-class ApiCaller<T extends AbstractResponse> {
+class ApiCaller<T> {
     static final String AUTH_TYPE = "os_authType";
     static final String BASIC = "basic";
     static final String USER = "os_username";
@@ -32,12 +32,12 @@ class ApiCaller<T extends AbstractResponse> {
     static final String START = "start-index";
     static final String MAX = "max-results";
 
-    private final Logger log;
+    protected final Logger log;
     private final Feature logFeature;
 
     private final Class<T> clazz;
-    private final String path;
-    private final InstanceValues values;
+    protected final String path;
+    protected final InstanceValues values;
 
     private Client client;
 
@@ -67,23 +67,7 @@ class ApiCaller<T extends AbstractResponse> {
         return opt;
     }
 
-    Optional<T> doSecondCall(final T initial) {
-        int max = initial.getMaxResult();
-        int size = initial.getSize();
-
-        Optional<T> opt = empty();
-
-        if (size > max) {
-            WebTarget target = newTarget(values, path).queryParam(MAX, size);
-            T response = request(target);
-            log.fine(String.format("got all items: %s", response));
-            opt = of(response);
-        }
-
-        return opt;
-    }
-
-    private WebTarget newTarget(final InstanceValues values, final String path) {
+    protected WebTarget newTarget(final InstanceValues values, final String path) {
         String url = values.getUrl();
         String user = values.getUsername();
         char[] chars = values.getPassword();

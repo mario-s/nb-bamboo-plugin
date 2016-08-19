@@ -2,6 +2,7 @@ package org.netbeans.modules.bamboo.mock;
 
 import org.netbeans.modules.bamboo.glue.BuildProject;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.glue.VersionInfo;
 import org.netbeans.modules.bamboo.rest.BambooServiceAccessable;
 
 import org.openide.util.lookup.ServiceProvider;
@@ -22,5 +23,10 @@ public class MockRestClient implements BambooServiceAccessable {
         projects.add(new BuildProject());
 
         return projects;
+    }
+
+    @Override
+    public VersionInfo getVersion(final InstanceValues values) {
+        return new VersionInfo();
     }
 }

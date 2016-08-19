@@ -18,6 +18,9 @@ import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.rest.model.Plan;
 import org.netbeans.modules.bamboo.rest.model.Plans;
 import org.netbeans.modules.bamboo.rest.model.PlansResponse;
+import org.netbeans.modules.bamboo.rest.model.Result;
+import org.netbeans.modules.bamboo.rest.model.Results;
+import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
 
 import java.util.Collection;
 import static java.util.Collections.singletonList;
@@ -25,11 +28,7 @@ import static java.util.Optional.of;
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.any;
-import org.netbeans.modules.bamboo.rest.model.Result;
-import org.netbeans.modules.bamboo.rest.model.Results;
-import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
+
 
 /**
  * @author spindizzy
@@ -45,9 +44,9 @@ public class BambooRestClientTest {
     @Mock
     private Invocation.Builder invocationBuilder;
     @Mock
-    private ApiCaller<PlansResponse> plansCaller;
+    private RepeatApiCaller<PlansResponse> plansCaller;
     @Mock
-    private ApiCaller<ResultsResponse> resultsCaller;
+    private RepeatApiCaller<ResultsResponse> resultsCaller;
 
     private BambooRestClient classUnderTest;
 
@@ -55,24 +54,23 @@ public class BambooRestClientTest {
     public void setUp() {
         given(instanceValues.getUrl()).willReturn("http://foo.bar");
         given(instanceValues.getUsername()).willReturn(FOO);
-        given(instanceValues.getPassword()).willReturn(new char[]{'b', 'a', 'z'});
+        given(instanceValues.getPassword()).willReturn(new char[] { 'b', 'a', 'z' });
         given(webTarget.path(BambooRestClient.REST_API)).willReturn(webTarget);
         given(webTarget.request()).willReturn(invocationBuilder);
 
-        classUnderTest
-                = new BambooRestClient() {
-            @Override
-            ApiCaller<PlansResponse> createPlansCaller(InstanceValues values) {
-                return plansCaller;
-            }
+        classUnderTest =
+            new BambooRestClient() {
+                @Override
+                RepeatApiCaller<PlansResponse> createPlansCaller(final InstanceValues values) {
+                    return plansCaller;
+                }
 
-            @Override
-            ApiCaller<ResultsResponse> createResultsCaller(InstanceValues values) {
-                return resultsCaller;
-            }
-        };
+                @Override
+                RepeatApiCaller<ResultsResponse> createResultsCaller(final InstanceValues values) {
+                    return resultsCaller;
+                }
+            };
     }
-    
 
     /**
      * Test of getPProjects method, of class BambooRestClient.
@@ -93,11 +91,10 @@ public class BambooRestClientTest {
         results.setResult(singletonList(result));
         resultsResponse.setResults(results);
 
-        
         given(plansCaller.createTarget()).willReturn(of(webTarget));
         given(plansCaller.request(webTarget)).willReturn(plansResponse);
         given(plansCaller.doSecondCall(plansResponse)).willReturn(of(plansResponse));
-        
+
         given(resultsCaller.createTarget()).willReturn(of(webTarget));
         given(resultsCaller.request(webTarget)).willReturn(resultsResponse);
         given(resultsCaller.doSecondCall(resultsResponse)).willReturn(of(resultsResponse));

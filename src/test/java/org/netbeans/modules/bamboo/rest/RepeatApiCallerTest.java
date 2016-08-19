@@ -36,7 +36,7 @@ import javax.ws.rs.client.WebTarget;
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ApiCallerTest {
+public class RepeatApiCallerTest {
     private static final String FOO = "foo";
 
     @Mock
@@ -48,11 +48,11 @@ public class ApiCallerTest {
     @Mock
     private Invocation.Builder builder;
 
-    private ApiCaller<PlansResponse> classUnderTest;
+    private RepeatApiCaller<PlansResponse> classUnderTest;
 
     @Before
     public void setUp() {
-        classUnderTest = new ApiCaller<>(values, PlansResponse.class, FOO);
+        classUnderTest = new RepeatApiCaller<>(values, PlansResponse.class, FOO);
         setInternalState(classUnderTest, "client", client);
         given(client.target(anyString())).willReturn(target);
     }
