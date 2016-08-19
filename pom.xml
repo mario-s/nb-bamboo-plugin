@@ -8,7 +8,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>nbm</packaging>
     <name>netbeans-bamboo-plugin</name>
-    <description>Bambbo CI plugin for the NetBeans IDE</description>
+    <description>Bamboo CI plugin for the NetBeans IDE</description>
     <inceptionYear>2016</inceptionYear>
     
     <scm>
