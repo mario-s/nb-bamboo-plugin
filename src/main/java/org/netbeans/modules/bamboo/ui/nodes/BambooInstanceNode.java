@@ -17,11 +17,18 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import java.util.List;
 
 import javax.swing.Action;
-
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Name;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Url;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Name;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Url;
+import org.openide.nodes.PropertySupport;
+import org.openide.nodes.Sheet;
+import org.openide.util.NbBundle.Messages;
 
 /**
  * This class is the node of a Bamboo CI server.
@@ -29,12 +36,15 @@ import javax.swing.Action;
  * @author spindizzy
  */
 public class BambooInstanceNode extends AbstractNode implements PropertyChangeListener {
+
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
 
     private final ProjectsProvideable instance;
 
     private final ProjectNodeFactory projectNodeFactory;
+
+    private Sheet.Set sheetSet;
 
     public BambooInstanceNode(final ProjectsProvideable instance) {
         super(Children.LEAF, Lookups.singleton(instance));
@@ -79,5 +89,46 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
     public void destroy() throws IOException {
         instance.removePropertyChangeListener(this);
         getDefault().lookup(InstanceManageable.class).removeInstance(instance);
+    }
+
+    @Override
+    public PropertySet[] getPropertySets() {
+        return new PropertySet[]{getSheetSet()};
+    }
+
+    @Messages({
+        "TXT_Instance_Prop_Name=Name",
+        "DESC_Instance_Prop_Name=Bamboo instance name",
+        "TXT_Instance_Prop_Url=URL",
+        "DESC_Instance_Prop_Url=Bamboo instance URL"
+    })
+    private PropertySet getSheetSet() {
+        if (sheetSet == null) {
+            sheetSet = Sheet.createPropertiesSet();
+            sheetSet.setDisplayName(instance.getName());
+
+            sheetSet.put(new StringReadPropertySupport(SharedConstants.INSTANCE_NAME, TXT_Instance_Prop_Name(), DESC_Instance_Prop_Name()) {
+                @Override
+                public String getValue() throws IllegalAccessException, InvocationTargetException {
+                    return instance.getName();
+                }
+            });
+
+            sheetSet.put(new StringReadPropertySupport(SharedConstants.INSTANCE_URL, TXT_Instance_Prop_Url(), DESC_Instance_Prop_Url()) {
+                @Override
+                public String getValue() throws IllegalAccessException, InvocationTargetException {
+                    return instance.getUrl();
+                }
+            });
+        }
+        return sheetSet;
+    }
+
+    abstract class StringReadPropertySupport extends PropertySupport.ReadOnly<String>{
+        
+        public StringReadPropertySupport(String name, String displayName, String shortDescription) {
+            super(name, String.class, displayName, shortDescription);
+        }
+        
     }
 }

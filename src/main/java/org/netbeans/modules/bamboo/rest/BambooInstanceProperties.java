@@ -18,6 +18,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+import static org.netbeans.modules.bamboo.glue.SharedConstants.INSTANCE_NAME;
+import static org.netbeans.modules.bamboo.glue.SharedConstants.INSTANCE_URL;
 
 
 /**

@@ -20,6 +20,7 @@ import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import java.util.prefs.Preferences;
+import org.netbeans.modules.bamboo.glue.SharedConstants;
 
 
 /**
@@ -68,8 +69,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     private void copyProperties(final BambooInstanceProperties props) throws NumberFormatException {
-        setName(props.get(BambooInstanceConstants.INSTANCE_NAME));
-        setUrl(props.get(BambooInstanceConstants.INSTANCE_URL));
+        setName(props.get(SharedConstants.INSTANCE_NAME));
+        setUrl(props.get(SharedConstants.INSTANCE_URL));
         setUsername(props.get(BambooInstanceConstants.INSTANCE_USER));
 
         String passwd = props.get(BambooInstanceConstants.INSTANCE_PASSWORD);

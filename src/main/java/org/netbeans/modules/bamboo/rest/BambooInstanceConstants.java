@@ -8,10 +8,6 @@ final class BambooInstanceConstants {
 
     private BambooInstanceConstants() {}
     
-    static final String INSTANCE_NAME = "name";
-    
-    static final String INSTANCE_URL = "url";
-    
     static final String INSTANCE_SYNC = "sync_time"; 
     
     static final String INSTANCE_USER = "username";
