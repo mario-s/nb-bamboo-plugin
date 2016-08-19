@@ -29,8 +29,8 @@ public class BambooInstanceFactory implements BambooInstanceProduceable {
     public ProjectsProvideable create(final InstanceValues values) {
         DefaultBambooInstance instance = new DefaultBambooInstance(values);
 
-        VersionInfo info = instanceAccessor.getVersion(values);
-        instance.setVersion(info);
+        VersionInfo info = instanceAccessor.getVersionInfo(values);
+        instance.setVersionInfo(info);
 
         Collection<BuildProject> projects = instanceAccessor.getProjects(values);
 

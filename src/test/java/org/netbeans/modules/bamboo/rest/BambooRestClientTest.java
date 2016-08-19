@@ -123,7 +123,7 @@ public class BambooRestClientTest {
         given(infoCaller.createTarget()).willReturn(of(webTarget));
         given(infoCaller.request(webTarget)).willReturn(info);
 
-        VersionInfo result = classUnderTest.getVersion(instanceValues);
+        VersionInfo result = classUnderTest.getVersionInfo(instanceValues);
         assertThat(result.getBuildDate(), notNullValue());
     }
 }

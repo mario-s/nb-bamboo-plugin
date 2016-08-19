@@ -20,7 +20,7 @@ public interface BambooInstance extends InstanceValues, Serializable {
      *
      * @return version as VersionInfo
      */
-    VersionInfo getVersion();
+    VersionInfo getVersionInfo();
 
     Preferences getPreferences();
 

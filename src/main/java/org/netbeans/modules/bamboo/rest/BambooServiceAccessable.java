@@ -15,5 +15,5 @@ import java.util.Collection;
 public interface BambooServiceAccessable {
     Collection<BuildProject> getProjects(InstanceValues values);
 
-    VersionInfo getVersion(InstanceValues values);
+    VersionInfo getVersionInfo(InstanceValues values);
 }

@@ -129,7 +129,7 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
             sheetSet.put(new StringReadPropertySupport(VERSION, TXT_Instance_Prop_Version(), DESC_Instance_Prop_Version()) {
                 @Override
                 public String getValue() throws IllegalAccessException, InvocationTargetException {
-                    return (instance.getVersion() != null) ? instance.getVersion().getVersion() : "";
+                    return (instance.getVersionInfo() != null) ? instance.getVersionInfo().getVersion() : "";
                 }
             });
         }

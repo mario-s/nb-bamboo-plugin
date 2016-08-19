@@ -84,7 +84,7 @@ public class BambooRestClient implements BambooServiceAccessable {
     }
 
     @Override
-    public VersionInfo getVersion(final InstanceValues values) {
+    public VersionInfo getVersionInfo(final InstanceValues values) {
         VersionInfo versionInfo = new VersionInfo();
         ApiCaller<Info> infoCaller = createInfoCaller(values);
         Optional<WebTarget> opt = infoCaller.createTarget();
