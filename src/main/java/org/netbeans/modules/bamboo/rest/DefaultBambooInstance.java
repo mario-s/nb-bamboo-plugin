@@ -64,7 +64,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     @Override
-    public VersionInfo getVersion() {
+    public VersionInfo getVersionInfo() {
         return version;
     }
 
@@ -162,7 +162,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 
-    void setVersion(final VersionInfo version) {
+    void setVersionInfo(final VersionInfo version) {
         this.version = version;
     }
 }
