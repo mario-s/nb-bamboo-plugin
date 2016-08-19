@@ -16,11 +16,11 @@ import java.util.prefs.Preferences;
  */
 public interface BambooInstance extends InstanceValues, Serializable {
     /**
-     * Get the version of the associated bamboo server.
+     * Get the informations to the version of the associated bamboo server.
      *
-     * @return version as String
+     * @return version as VersionInfo
      */
-    String getVersion();
+    VersionInfo getVersion();
 
     Preferences getPreferences();
 

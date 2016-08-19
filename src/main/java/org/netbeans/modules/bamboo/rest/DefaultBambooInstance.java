@@ -6,6 +6,7 @@ import org.netbeans.modules.bamboo.glue.BuildProject;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
+import org.netbeans.modules.bamboo.glue.VersionInfo;
 
 import static org.openide.util.Lookup.getDefault;
 import org.openide.util.RequestProcessor;
@@ -39,7 +40,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
 
     private BambooInstanceProperties properties;
 
-    private String version;
+    private VersionInfo version;
 
     public DefaultBambooInstance() {
         this(null);
@@ -62,7 +63,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     @Override
-    public String getVersion() {
+    public VersionInfo getVersion() {
         return version;
     }
 
@@ -160,7 +161,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 
-    void setVersion(final String version) {
+    void setVersion(final VersionInfo version) {
         this.version = version;
     }
 }

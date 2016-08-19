@@ -26,11 +26,10 @@ public class BambooInstanceFactory implements BambooInstanceProduceable {
 
     @Override
     public ProjectsProvideable create(final InstanceValues values) {
-        Collection<BuildProject> projects = instanceAccessor.getProjects(values);
         DefaultBambooInstance instance = new DefaultBambooInstance(values);
-
         //TODO get version from server
-        instance.setVersion("0815");
+
+        Collection<BuildProject> projects = instanceAccessor.getProjects(values);
 
         instance.setProjects(projects);
 
