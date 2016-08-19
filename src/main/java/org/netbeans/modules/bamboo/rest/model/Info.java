@@ -15,5 +15,5 @@ import lombok.Setter;
 public class Info {
     private String version;
     private int buildNumber;
-    private String builDate;
+    private String buildDate;
 }
