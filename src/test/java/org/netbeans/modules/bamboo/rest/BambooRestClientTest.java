@@ -1,5 +1,8 @@
 package org.netbeans.modules.bamboo.rest;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -15,6 +18,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.glue.BuildProject;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.glue.VersionInfo;
+import org.netbeans.modules.bamboo.rest.model.Info;
 import org.netbeans.modules.bamboo.rest.model.Plan;
 import org.netbeans.modules.bamboo.rest.model.Plans;
 import org.netbeans.modules.bamboo.rest.model.PlansResponse;
@@ -47,6 +52,8 @@ public class BambooRestClientTest {
     private RepeatApiCaller<PlansResponse> plansCaller;
     @Mock
     private RepeatApiCaller<ResultsResponse> resultsCaller;
+    @Mock
+    private ApiCaller<Info> infoCaller;
 
     private BambooRestClient classUnderTest;
 
@@ -68,6 +75,11 @@ public class BambooRestClientTest {
                 @Override
                 RepeatApiCaller<ResultsResponse> createResultsCaller(final InstanceValues values) {
                     return resultsCaller;
+                }
+
+                @Override
+                ApiCaller<Info> createInfoCaller(final InstanceValues values) {
+                    return infoCaller;
                 }
             };
     }
@@ -100,6 +112,18 @@ public class BambooRestClientTest {
         given(resultsCaller.doSecondCall(resultsResponse)).willReturn(of(resultsResponse));
 
         Collection<BuildProject> projects = classUnderTest.getProjects(instanceValues);
-        assertFalse(projects.isEmpty());
+        assertThat(projects.isEmpty(), is(false));
+    }
+
+    @Test
+    public void testGetVersion() {
+        Info info = new Info();
+        info.setBuildDate("2009-09-11T20:47:44.100+0200");
+
+        given(infoCaller.createTarget()).willReturn(of(webTarget));
+        given(infoCaller.request(webTarget)).willReturn(info);
+
+        VersionInfo result = classUnderTest.getVersion(instanceValues);
+        assertThat(result.getBuildDate(), notNullValue());
     }
 }

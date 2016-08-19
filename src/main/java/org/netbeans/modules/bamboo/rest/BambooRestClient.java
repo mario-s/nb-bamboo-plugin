@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 import org.netbeans.modules.bamboo.glue.BuildProject;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.VersionInfo;
@@ -9,7 +11,12 @@ import org.netbeans.modules.bamboo.rest.model.PlansResponse;
 import org.netbeans.modules.bamboo.rest.model.Result;
 import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
 
+import org.openide.util.Exceptions;
 import org.openide.util.lookup.ServiceProvider;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,6 +43,8 @@ public class BambooRestClient implements BambooServiceAccessable {
     static final String RESULT = "/result/{buildKey}.json";
 
     private static final String PLAN = PLANS + "/{buildKey}.json";
+
+    private static final String BUILD_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
     private final Logger log;
 
@@ -82,6 +91,19 @@ public class BambooRestClient implements BambooServiceAccessable {
 
         if (opt.isPresent()) {
             Info info = infoCaller.request(opt.get());
+            versionInfo.setVersion(info.getVersion());
+            versionInfo.setBuildNumber(info.getBuildNumber());
+
+            final String buildDate = info.getBuildDate();
+
+            if (isNotBlank(buildDate)) {
+                try {
+                    DateFormat df = new SimpleDateFormat(BUILD_DATE_PATTERN);
+                    versionInfo.setBuildDate(df.parse(buildDate));
+                } catch (ParseException ex) {
+                    log.fine(ex.getMessage());
+                }
+            }
         }
 
         return versionInfo;
