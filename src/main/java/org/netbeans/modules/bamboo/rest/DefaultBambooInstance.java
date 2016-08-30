@@ -88,11 +88,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
 
     private synchronized void doSynchronization() {
         Collection<BuildProject> projs = client.getProjects(this);
-
-        if ((projects == null) || !projects.equals(projs)) {
-            this.projects = projs;
-            firePropertyChange(PROJECTS, projects, projs);
-        }
+        this.projects = projs;
+        firePropertyChange(PROJECTS, projects, projs);
     }
 
     @Override
