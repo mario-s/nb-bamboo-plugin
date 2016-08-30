@@ -3,6 +3,7 @@ package org.netbeans.modules.bamboo.glue;
 import lombok.Data;
 import org.netbeans.modules.bamboo.rest.model.State;
 import static java.lang.String.format;
+import org.netbeans.modules.bamboo.rest.model.LifeCycleState;
 
 
 /**
@@ -14,12 +15,15 @@ import static java.lang.String.format;
 public class BuildProject implements OpenableInBrowser{
     
     private static final String BROWSE = "%s/browse/%s";
+    
     private String serverUrl;
     private String key;
     private String name;
     private String shortName;
     private transient boolean enabled;
     private transient State state = State.Unknown;
+    private transient LifeCycleState lifeCycleState = LifeCycleState.NotBuilt;
+    private transient String buildReason;
 
     @Override
     public String getUrl() {
