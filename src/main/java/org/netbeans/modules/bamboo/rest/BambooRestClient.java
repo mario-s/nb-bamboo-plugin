@@ -11,7 +11,6 @@ import org.netbeans.modules.bamboo.rest.model.PlansResponse;
 import org.netbeans.modules.bamboo.rest.model.Result;
 import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
 
-import org.openide.util.Exceptions;
 import org.openide.util.lookup.ServiceProvider;
 
 import java.text.DateFormat;
