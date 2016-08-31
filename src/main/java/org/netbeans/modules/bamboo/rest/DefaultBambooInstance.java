@@ -86,7 +86,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
             setPassword(passwd.toCharArray());
         }
 
-        String syncProp = props.get(BambooInstanceConstants.INSTANCE_SYNC);
+        String syncProp = props.get(SharedConstants.PROP_SYNC_INTERVAL);
 
         if (isNotBlank(syncProp)) {
             setSyncInterval(Integer.parseInt(syncProp));

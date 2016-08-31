@@ -18,14 +18,20 @@ import java.beans.PropertyChangeListener;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 
 import java.util.List;
 
 import javax.swing.Action;
+import org.netbeans.modules.bamboo.glue.BuildProject;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Name;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Projects;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_SyncInterval;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Url;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Version;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Name;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Projects;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_SnycInterval;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Url;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Version;
 import org.openide.nodes.Sheet;
@@ -39,6 +45,7 @@ import org.openide.util.NbBundle.Messages;
 public class BambooInstanceNode extends AbstractNode implements PropertyChangeListener {
 
     private static final String VERSION = "version";
+    private static final String PROJECTS = "projects";
 
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
@@ -99,7 +106,11 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
         "TXT_Instance_Prop_Url=URL",
         "DESC_Instance_Prop_Url=Bamboo instance URL",
         "TXT_Instance_Prop_Version=Version",
-        "DESC_Instance_Prop_Version=Bamboo Version"
+        "DESC_Instance_Prop_Version=Bamboo Version",
+        "TXT_Instance_Prop_Projects=Projects",
+        "DESC_Instance_Prop_Projects=number of all available build projects",
+        "TXT_Instance_Prop_SnycInterval=Synchronization Interval",
+        "DESC_Instance_Prop_SyncInterval=minutes for the next synchronization of the instance with the server"
     })
     protected Sheet createSheet() {
         Sheet sheet = Sheet.createDefault();
@@ -124,6 +135,22 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
                 return (instance.getVersionInfo() != null) ? instance.getVersionInfo().getVersion() : "";
+            }
+        });
+        
+        set.put(new IntReadPropertySupport(PROJECTS, TXT_Instance_Prop_Projects(), DESC_Instance_Prop_Projects()) {
+            @Override
+            public Integer getValue() throws IllegalAccessException, InvocationTargetException {
+                final Collection<BuildProject> projects = instance.getProjects();
+                return (projects != null) ? projects.size() : 0;
+            }
+        });
+        
+        //TODO change to write property and update synchonization
+        set.put(new IntReadPropertySupport(SharedConstants.PROP_SYNC_INTERVAL, TXT_Instance_Prop_SnycInterval(), DESC_Instance_Prop_SyncInterval()) {
+            @Override
+            public Integer getValue() throws IllegalAccessException, InvocationTargetException {
+                return instance.getSyncInterval();
             }
         });
 

@@ -8,8 +8,6 @@ final class BambooInstanceConstants {
 
     private BambooInstanceConstants() {}
     
-    static final String INSTANCE_SYNC = "sync_time"; 
-    
     static final String INSTANCE_USER = "username";
     
     static final String INSTANCE_PASSWORD = "password";

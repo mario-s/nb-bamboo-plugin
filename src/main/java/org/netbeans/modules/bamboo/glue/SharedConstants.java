@@ -24,4 +24,6 @@ public interface SharedConstants {
     
     String PROP_URL = "url";
     
+    String PROP_SYNC_INTERVAL = "syncInterval";
+    
 }

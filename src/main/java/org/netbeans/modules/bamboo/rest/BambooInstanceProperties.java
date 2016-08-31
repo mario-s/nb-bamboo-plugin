@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import static org.netbeans.modules.bamboo.glue.SharedConstants.PROP_NAME;
+import static org.netbeans.modules.bamboo.glue.SharedConstants.PROP_SYNC_INTERVAL;
 import static org.netbeans.modules.bamboo.glue.SharedConstants.PROP_URL;
 
 
@@ -49,7 +50,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
     public void copyProperties(final InstanceValues values) {
         put(PROP_NAME, values.getName());
         put(PROP_URL, values.getUrl());
-        put(INSTANCE_SYNC, Integer.toString(values.getSyncInterval()));
+        put(PROP_SYNC_INTERVAL, Integer.toString(values.getSyncInterval()));
         put(INSTANCE_USER, values.getUsername());
         put(INSTANCE_PASSWORD, new String(values.getPassword()));
     }
