@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-import java.beans.PropertyChangeEvent;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.netbeans.modules.bamboo.glue.BuildProject;
