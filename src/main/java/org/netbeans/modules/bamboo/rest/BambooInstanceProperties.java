@@ -18,8 +18,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import static org.netbeans.modules.bamboo.glue.SharedConstants.INSTANCE_NAME;
-import static org.netbeans.modules.bamboo.glue.SharedConstants.INSTANCE_URL;
+import static org.netbeans.modules.bamboo.glue.SharedConstants.PROP_NAME;
+import static org.netbeans.modules.bamboo.glue.SharedConstants.PROP_URL;
 
 
 /**
@@ -47,8 +47,8 @@ public class BambooInstanceProperties extends HashMap<String, String> {
      * @param values {@link InstanceValues}
      */
     public void copyProperties(final InstanceValues values) {
-        put(INSTANCE_NAME, values.getName());
-        put(INSTANCE_URL, values.getUrl());
+        put(PROP_NAME, values.getName());
+        put(PROP_URL, values.getUrl());
         put(INSTANCE_SYNC, Integer.toString(values.getSyncInterval()));
         put(INSTANCE_USER, values.getUsername());
         put(INSTANCE_PASSWORD, new String(values.getPassword()));
@@ -60,7 +60,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
      * @param instanceName
      */
     public void loadPreferences(final String instanceName) {
-        putAndFireChange(INSTANCE_NAME, instanceName);
+        putAndFireChange(PROP_NAME, instanceName);
         BambooInstanceProperties.this.loadPreferences();
     }
 
@@ -179,7 +179,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
      * Get Preferences node name for this properties instance.
      */
     private String getNodeName() {
-        String name = get(INSTANCE_NAME);
+        String name = get(PROP_NAME);
 
         if ((name != null) && !name.isEmpty()) {
             return simplifyServerLocation(name, true);
@@ -232,7 +232,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
                     String[] keys = prefs.keys();
 
                     for (String key : keys) {
-                        if (INSTANCE_NAME.equals(key)) {
+                        if (PROP_NAME.equals(key)) {
                             continue;
                         }
 

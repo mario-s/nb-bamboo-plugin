@@ -28,7 +28,6 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Ver
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Url;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Version;
-import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.NbBundle.Messages;
 
@@ -112,14 +111,14 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
             sheetSet = Sheet.createPropertiesSet();
             sheetSet.setDisplayName(instance.getName());
 
-            sheetSet.put(new StringReadPropertySupport(SharedConstants.INSTANCE_NAME, TXT_Instance_Prop_Name(), DESC_Instance_Prop_Name()) {
+            sheetSet.put(new StringReadPropertySupport(SharedConstants.PROP_NAME, TXT_Instance_Prop_Name(), DESC_Instance_Prop_Name()) {
                 @Override
                 public String getValue() throws IllegalAccessException, InvocationTargetException {
                     return instance.getName();
                 }
             });
 
-            sheetSet.put(new StringReadPropertySupport(SharedConstants.INSTANCE_URL, TXT_Instance_Prop_Url(), DESC_Instance_Prop_Url()) {
+            sheetSet.put(new StringReadPropertySupport(SharedConstants.PROP_URL, TXT_Instance_Prop_Url(), DESC_Instance_Prop_Url()) {
                 @Override
                 public String getValue() throws IllegalAccessException, InvocationTargetException {
                     return instance.getUrl();
@@ -136,11 +135,4 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
         return sheetSet;
     }
 
-    abstract class StringReadPropertySupport extends PropertySupport.ReadOnly<String>{
-        
-        public StringReadPropertySupport(String name, String displayName, String shortDescription) {
-            super(name, String.class, displayName, shortDescription);
-        }
-        
-    }
 }

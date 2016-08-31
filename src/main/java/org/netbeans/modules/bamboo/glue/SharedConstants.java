@@ -20,8 +20,8 @@ public interface SharedConstants {
     String ACTION_PATH = MODULE_NAME + "/Actions/instance";
     
     
-    String INSTANCE_NAME = "name";
+    String PROP_NAME = "name";
     
-    String INSTANCE_URL = "url";
+    String PROP_URL = "url";
     
 }

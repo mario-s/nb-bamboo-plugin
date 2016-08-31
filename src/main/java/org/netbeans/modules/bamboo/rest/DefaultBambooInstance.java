@@ -76,8 +76,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     private void copyProperties(final BambooInstanceProperties props) throws NumberFormatException {
-        setName(props.get(SharedConstants.INSTANCE_NAME));
-        setUrl(props.get(SharedConstants.INSTANCE_URL));
+        setName(props.get(SharedConstants.PROP_NAME));
+        setUrl(props.get(SharedConstants.PROP_URL));
         setUsername(props.get(BambooInstanceConstants.INSTANCE_USER));
 
         String passwd = props.get(BambooInstanceConstants.INSTANCE_PASSWORD);

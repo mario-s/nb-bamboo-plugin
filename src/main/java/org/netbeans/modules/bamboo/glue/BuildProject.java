@@ -4,6 +4,7 @@ import lombok.Data;
 import org.netbeans.modules.bamboo.rest.model.State;
 import static java.lang.String.format;
 import org.netbeans.modules.bamboo.rest.model.LifeCycleState;
+import static java.lang.String.format;
 
 
 /**
@@ -23,8 +24,9 @@ public class BuildProject implements OpenableInBrowser{
     private transient boolean enabled;
     private transient State state = State.Unknown;
     private transient LifeCycleState lifeCycleState = LifeCycleState.NotBuilt;
+    private int resultNumber;
     private transient String buildReason;
-
+    
     @Override
     public String getUrl() {
         return format(BROWSE, serverUrl, key);

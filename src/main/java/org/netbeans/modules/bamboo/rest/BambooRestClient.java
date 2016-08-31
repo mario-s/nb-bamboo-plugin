@@ -74,6 +74,7 @@ public class BambooRestClient implements BambooServiceAccessable {
                         Plan plan = result.getPlan();
 
                         if (plan.getKey().equals(project.getKey())) {
+                            project.setResultNumber(result.getNumber());
                             project.setState(result.getState());
                             project.setLifeCycleState(result.getLifeCycleState());
                             project.setBuildReason(result.getBuildReason());

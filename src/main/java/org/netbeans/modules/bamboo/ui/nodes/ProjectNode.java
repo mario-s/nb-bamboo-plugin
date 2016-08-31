@@ -11,18 +11,27 @@ import org.openide.util.ImageUtilities;
 
 import java.awt.Image;
 import java.io.CharConversionException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Action;
+import org.netbeans.modules.bamboo.glue.SharedConstants;
 import org.netbeans.modules.bamboo.rest.model.State;
 import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Project_Prop_Name;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Project_Prop_Number;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Project_Prop_Name;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Project_Prop_Number;
+import org.openide.nodes.Sheet;
+import org.openide.util.NbBundle;
 import org.openide.xml.XMLUtil;
 
 /**
  * @author spindizzy
  */
 public class ProjectNode extends AbstractNode {
-
+    
+    private static final String RESULT_NUMBER = "resultNumber";
     private static final String STYLE = "<font color='!controlShadow'>(%s)</font>";
     private static final String SPC = " ";
 
@@ -38,6 +47,8 @@ public class ProjectNode extends AbstractNode {
     private final BuildProject project;
 
     private String htmlDisplayName;
+    
+    private Sheet.Set sheetSet;
 
     public ProjectNode(final BuildProject project) {
         super(Children.LEAF);
@@ -102,5 +113,40 @@ public class ProjectNode extends AbstractNode {
     private String toGray(String text) {
         return String.format(STYLE, text);
     }
+    
+    @Override
+    public PropertySet[] getPropertySets() {
+        return new PropertySet[]{getSheetSet()};
+    }
+
+    @NbBundle.Messages({
+        "TXT_Project_Prop_Name=Project Name",
+        "DESC_Project_Prop_Name=Number of the last result for this build",
+        "TXT_Project_Prop_Number=Result Number",
+        "DESC_Project_Prop_Number=Number of the last result for this build"
+    })
+    private PropertySet getSheetSet() {
+        if (sheetSet == null) {
+            sheetSet = Sheet.createPropertiesSet();
+            sheetSet.setDisplayName(project.getShortName());
+            
+            sheetSet.put(new StringReadPropertySupport(SharedConstants.PROP_NAME, TXT_Project_Prop_Name(), DESC_Project_Prop_Name()) {
+                @Override
+                public String getValue() throws IllegalAccessException, InvocationTargetException {
+                    return project.getName();
+                }
+            });
+
+            sheetSet.put(new IntReadPropertySupport(RESULT_NUMBER, TXT_Project_Prop_Number(), DESC_Project_Prop_Number()) {
+                @Override
+                public Integer getValue() throws IllegalAccessException, InvocationTargetException {
+                    return project.getResultNumber();
+                }
+            });
+
+        }
+        return sheetSet;
+    }
+
 
 }

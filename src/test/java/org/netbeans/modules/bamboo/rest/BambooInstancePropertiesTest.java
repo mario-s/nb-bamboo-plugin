@@ -111,7 +111,7 @@ public class BambooInstancePropertiesTest {
     public void testGetPreferences() {
         String name = "foo";
         given(preferences.node(name)).willReturn(preferences);
-        classUnderTest.put(SharedConstants.INSTANCE_NAME, name);
+        classUnderTest.put(SharedConstants.PROP_NAME, name);
         Preferences result = classUnderTest.getPreferences();
         assertNotNull(result);
     }
