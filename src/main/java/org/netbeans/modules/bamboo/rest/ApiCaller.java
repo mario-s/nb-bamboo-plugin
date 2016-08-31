@@ -48,7 +48,7 @@ class ApiCaller<T> {
         this.clazz = clazz;
         this.path = path;
         this.log = Logger.getLogger(getClass().getName());
-        this.logFeature = new LoggingFeature(log, Level.INFO, null, null);
+        this.logFeature = new LoggingFeature(log, Level.FINE, null, null);
 
         client = client.register(logFeature);
     }

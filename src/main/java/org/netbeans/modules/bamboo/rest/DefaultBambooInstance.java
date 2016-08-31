@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.progress.ProgressHandleFactory;
@@ -31,6 +32,8 @@ import static org.netbeans.modules.bamboo.rest.Bundle.TXT_SYNC;
  * @author spindizzy
  */
 public class DefaultBambooInstance extends DefaultInstanceValues implements ProjectsProvideable {
+    
+    private static final Logger LOG = Logger.getLogger(DefaultBambooInstance.class.getName());
 
     /**
      * Use serialVersionUID for interoperability.
@@ -42,7 +45,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
 
     private final BambooServiceAccessable client;
 
-    private Optional<Task> synchronizationTask = empty();
+    private volatile Optional<Task> synchronizationTask = empty();
 
     private Collection<BuildProject> projects;
 
@@ -109,6 +112,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
         if (progressHandle != null) {
             progressHandle.finish();
         }
+        
+        LOG.info("synchronized");
     }
 
     @Messages({"TXT_SYNC=Synchronizing"})
@@ -139,16 +144,17 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     private void prepareSynchronization() {
         int interval = getSyncIntervalInMillis();
 
+        LOG.info(String.format("interval: %s", interval));
         if (interval > 0) {
             Task task = RP.create(() -> {
                 doSynchronization(true);
-
+                
                 if (synchronizationTask.isPresent() && (interval > 0)) {
                     synchronizationTask.get().schedule(interval);
                 }
             });
             synchronizationTask = of(task);
-            task.schedule(toMillis(interval));
+            task.schedule(interval);
         }
     }
 
