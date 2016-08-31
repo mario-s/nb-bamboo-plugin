@@ -37,6 +37,7 @@ import org.openide.util.NbBundle.Messages;
  * @author spindizzy
  */
 public class BambooInstanceNode extends AbstractNode implements PropertyChangeListener {
+
     private static final String VERSION = "version";
 
     @StaticResource
@@ -45,8 +46,6 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
     private final ProjectsProvideable instance;
 
     private final ProjectNodeFactory projectNodeFactory;
-
-    private Sheet.Set sheetSet;
 
     public BambooInstanceNode(final ProjectsProvideable instance) {
         super(Children.LEAF, Lookups.singleton(instance));
@@ -94,10 +93,6 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
     }
 
     @Override
-    public PropertySet[] getPropertySets() {
-        return new PropertySet[]{getSheetSet()};
-    }
-
     @Messages({
         "TXT_Instance_Prop_Name=Name",
         "DESC_Instance_Prop_Name=Bamboo instance name",
@@ -106,33 +101,35 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
         "TXT_Instance_Prop_Version=Version",
         "DESC_Instance_Prop_Version=Bamboo Version"
     })
-    private PropertySet getSheetSet() {
-        if (sheetSet == null) {
-            sheetSet = Sheet.createPropertiesSet();
-            sheetSet.setDisplayName(instance.getName());
+    protected Sheet createSheet() {
+        Sheet sheet = Sheet.createDefault();
+        Sheet.Set set = Sheet.createPropertiesSet();
+        set.setDisplayName(instance.getName());
 
-            sheetSet.put(new StringReadPropertySupport(SharedConstants.PROP_NAME, TXT_Instance_Prop_Name(), DESC_Instance_Prop_Name()) {
-                @Override
-                public String getValue() throws IllegalAccessException, InvocationTargetException {
-                    return instance.getName();
-                }
-            });
+        set.put(new StringReadPropertySupport(SharedConstants.PROP_NAME, TXT_Instance_Prop_Name(), DESC_Instance_Prop_Name()) {
+            @Override
+            public String getValue() throws IllegalAccessException, InvocationTargetException {
+                return instance.getName();
+            }
+        });
 
-            sheetSet.put(new StringReadPropertySupport(SharedConstants.PROP_URL, TXT_Instance_Prop_Url(), DESC_Instance_Prop_Url()) {
-                @Override
-                public String getValue() throws IllegalAccessException, InvocationTargetException {
-                    return instance.getUrl();
-                }
-            });
-            
-            sheetSet.put(new StringReadPropertySupport(VERSION, TXT_Instance_Prop_Version(), DESC_Instance_Prop_Version()) {
-                @Override
-                public String getValue() throws IllegalAccessException, InvocationTargetException {
-                    return (instance.getVersionInfo() != null) ? instance.getVersionInfo().getVersion() : "";
-                }
-            });
-        }
-        return sheetSet;
+        set.put(new StringReadPropertySupport(SharedConstants.PROP_URL, TXT_Instance_Prop_Url(), DESC_Instance_Prop_Url()) {
+            @Override
+            public String getValue() throws IllegalAccessException, InvocationTargetException {
+                return instance.getUrl();
+            }
+        });
+
+        set.put(new StringReadPropertySupport(VERSION, TXT_Instance_Prop_Version(), DESC_Instance_Prop_Version()) {
+            @Override
+            public String getValue() throws IllegalAccessException, InvocationTargetException {
+                return (instance.getVersionInfo() != null) ? instance.getVersionInfo().getVersion() : "";
+            }
+        });
+
+        sheet.put(set);
+        
+        return sheet;
     }
 
 }

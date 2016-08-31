@@ -12,6 +12,8 @@ import org.openide.util.ImageUtilities;
 import java.awt.Image;
 import java.io.CharConversionException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Action;
@@ -22,15 +24,18 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Project_Prop_Name
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Project_Prop_Number;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Project_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Project_Prop_Number;
+import org.openide.actions.PropertiesAction;
 import org.openide.nodes.Sheet;
 import org.openide.util.NbBundle;
+import org.openide.util.actions.SystemAction;
+import org.openide.util.lookup.Lookups;
 import org.openide.xml.XMLUtil;
 
 /**
  * @author spindizzy
  */
 public class ProjectNode extends AbstractNode {
-    
+
     private static final String RESULT_NUMBER = "resultNumber";
     private static final String STYLE = "<font color='!controlShadow'>(%s)</font>";
     private static final String SPC = " ";
@@ -47,11 +52,9 @@ public class ProjectNode extends AbstractNode {
     private final BuildProject project;
 
     private String htmlDisplayName;
-    
-    private Sheet.Set sheetSet;
 
     public ProjectNode(final BuildProject project) {
-        super(Children.LEAF);
+        super(Children.LEAF, Lookups.singleton(project));
         this.project = project;
 
         init();
@@ -74,7 +77,7 @@ public class ProjectNode extends AbstractNode {
 
             builder.append(SPC).append(toGray(project.getLifeCycleState().name()));
             builder.append(SPC).append(toGray(project.getState().name()));
-            
+
             htmlDisplayName = builder.toString();
 
             fireDisplayNameChange(oldDisplayName, htmlDisplayName);
@@ -106,47 +109,47 @@ public class ProjectNode extends AbstractNode {
 
     @Override
     public Action[] getActions(final boolean context) {
+        List<Action> actions = new ArrayList<>();
 
-        return new Action[]{OpenUrlAction.newAction(project)};
+        actions.add(OpenUrlAction.newAction(project));
+        actions.add(null);
+        actions.add(SystemAction.get(PropertiesAction.class));
+        return actions.toArray(new Action[actions.size()]);
     }
 
     private String toGray(String text) {
         return String.format(STYLE, text);
     }
-    
-    @Override
-    public PropertySet[] getPropertySets() {
-        return new PropertySet[]{getSheetSet()};
-    }
 
+    @Override
     @NbBundle.Messages({
         "TXT_Project_Prop_Name=Project Name",
-        "DESC_Project_Prop_Name=Number of the last result for this build",
+        "DESC_Project_Prop_Name=The name of the build project",
         "TXT_Project_Prop_Number=Result Number",
         "DESC_Project_Prop_Number=Number of the last result for this build"
     })
-    private PropertySet getSheetSet() {
-        if (sheetSet == null) {
-            sheetSet = Sheet.createPropertiesSet();
-            sheetSet.setDisplayName(project.getShortName());
-            
-            sheetSet.put(new StringReadPropertySupport(SharedConstants.PROP_NAME, TXT_Project_Prop_Name(), DESC_Project_Prop_Name()) {
-                @Override
-                public String getValue() throws IllegalAccessException, InvocationTargetException {
-                    return project.getName();
-                }
-            });
+    protected Sheet createSheet() {
+        Sheet sheet = Sheet.createDefault();
+        Sheet.Set set = Sheet.createPropertiesSet();
+        set.setDisplayName(project.getShortName());
 
-            sheetSet.put(new IntReadPropertySupport(RESULT_NUMBER, TXT_Project_Prop_Number(), DESC_Project_Prop_Number()) {
-                @Override
-                public Integer getValue() throws IllegalAccessException, InvocationTargetException {
-                    return project.getResultNumber();
-                }
-            });
+        set.put(new StringReadPropertySupport(SharedConstants.PROP_NAME, TXT_Project_Prop_Name(), DESC_Project_Prop_Name()) {
+            @Override
+            public String getValue() throws IllegalAccessException, InvocationTargetException {
+                return project.getName();
+            }
+        });
 
-        }
-        return sheetSet;
+        set.put(new IntReadPropertySupport(RESULT_NUMBER, TXT_Project_Prop_Number(), DESC_Project_Prop_Number()) {
+            @Override
+            public Integer getValue() throws IllegalAccessException, InvocationTargetException {
+                return project.getResultNumber();
+            }
+        });
+        
+        sheet.put(set);
+
+        return sheet;
     }
-
 
 }
