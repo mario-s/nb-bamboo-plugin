@@ -13,7 +13,14 @@ import java.util.Collection;
  * @author spindizzy
  */
 public interface BambooServiceAccessable {
+    
+    /**
+     * Return a collection of available {@link BuildProject}.
+     * @param values the necessary values to access the rest service.
+     * @return the projects.
+     */
     Collection<BuildProject> getProjects(InstanceValues values);
 
     VersionInfo getVersionInfo(InstanceValues values);
+   
 }

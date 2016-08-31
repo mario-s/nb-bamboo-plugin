@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
+import java.beans.PropertyChangeEvent;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.netbeans.modules.bamboo.glue.BuildProject;
@@ -19,17 +20,22 @@ import java.util.Collection;
 import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import java.util.Random;
 import java.util.prefs.Preferences;
+import org.netbeans.api.progress.ProgressHandle;
+import org.netbeans.api.progress.ProgressHandleFactory;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
+import org.openide.util.NbBundle.Messages;
 
+import static org.netbeans.modules.bamboo.rest.Bundle.TXT_SYNC;
 
 /**
  * @author spindizzy
  */
 public class DefaultBambooInstance extends DefaultInstanceValues implements ProjectsProvideable {
-    
-    /** Use serialVersionUID for interoperability. */
+
+    /**
+     * Use serialVersionUID for interoperability.
+     */
     private static final long serialVersionUID = 1L;
     private static final RequestProcessor RP = new RequestProcessor(DefaultBambooInstance.class);
 
@@ -88,12 +94,27 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
         }
     }
 
-    private synchronized void doSynchronization() {
+    private synchronized void doSynchronization(boolean showProgress) {
+        ProgressHandle progressHandle = null;
+        if (showProgress) {
+            progressHandle = createProgressHandle();
+            progressHandle.start();
+        }
+
         Collection<BuildProject> oldProjects = this.projects;
         Collection<BuildProject> newProjects = client.getProjects(this);
-        
+
         this.projects = newProjects;
         firePropertyChange(PROJECTS, oldProjects, newProjects);
+
+        if (progressHandle != null) {
+            progressHandle.finish();
+        }
+    }
+
+    @Messages({"TXT_SYNC=Synchronizing"})
+    private ProgressHandle createProgressHandle() {
+        return ProgressHandleFactory.createHandle(TXT_SYNC() + " " + getName());
     }
 
     @Override
@@ -121,12 +142,12 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
 
         if (interval > 0) {
             Task task = RP.create(() -> {
-                        doSynchronization();
+                doSynchronization(true);
 
-                        if (synchronizationTask.isPresent() && (interval > 0)) {
-                            synchronizationTask.get().schedule(interval);
-                        }
-                    });
+                if (synchronizationTask.isPresent() && (interval > 0)) {
+                    synchronizationTask.get().schedule(interval);
+                }
+            });
             synchronizationTask = of(task);
             task.schedule(toMillis(interval));
         }
@@ -150,7 +171,9 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
 
     @Override
     public Task synchronize() {
-        return RP.post(() -> { doSynchronization(); });
+        return RP.post(() -> {
+            doSynchronization(false);
+        });
     }
 
     private int toMillis(final int minutes) {
@@ -158,8 +181,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     protected void firePropertyChange(final String propertyName,
-        final Object oldValue,
-        final Object newValue) {
+            final Object oldValue,
+            final Object newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 
