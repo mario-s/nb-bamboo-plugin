@@ -18,6 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
 import static org.junit.Assert.assertFalse;
 import org.mockito.InjectMocks;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
@@ -57,5 +58,12 @@ public class AddActionTest {
         classUnderTest.actionPerformed(event);
         assertFalse(classUnderTest.isEnabled());
         verify(form).block();
+    }
+    
+    @Test
+    public void testPropertyChange_Cancel() {
+        PropertyChangeEvent event = new PropertyChangeEvent(this, "test", null, -1);
+        classUnderTest.propertyChange(event);
+        verify(worker).cancel();
     }
 }
