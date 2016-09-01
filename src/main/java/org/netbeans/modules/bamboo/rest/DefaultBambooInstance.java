@@ -17,8 +17,8 @@ import java.beans.PropertyChangeSupport;
 
 import java.util.Collection;
 import java.util.Optional;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
+
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import org.apache.commons.lang3.time.StopWatch;
@@ -27,13 +27,15 @@ import org.netbeans.api.progress.ProgressHandleFactory;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
 import org.openide.util.NbBundle.Messages;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.netbeans.modules.bamboo.rest.Bundle.TXT_SYNC;
 
 /**
  * @author spindizzy
  */
 public class DefaultBambooInstance extends DefaultInstanceValues implements ProjectsProvideable {
-    
+
     private static final Logger LOG = Logger.getLogger(DefaultBambooInstance.class.getName());
 
     /**
@@ -41,7 +43,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
      */
     private static final long serialVersionUID = 1L;
     private static final RequestProcessor RP = new RequestProcessor(DefaultBambooInstance.class);
-    
+
     private final StopWatch stopWatch = new StopWatch();
 
     private final PropertyChangeSupport changeSupport;
@@ -100,7 +102,10 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     private synchronized void doSynchronization(boolean showProgress) {
-        stopWatch.start();
+        if (LOG.isLoggable(Level.INFO)) {
+            stopWatch.start();
+        }
+        
         ProgressHandle progressHandle = null;
         if (showProgress) {
             progressHandle = createProgressHandle();
@@ -116,9 +121,12 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
         if (progressHandle != null) {
             progressHandle.finish();
         }
-        
-        stopWatch.stop();
-        LOG.info(String.format("synchronized in %s", stopWatch));
+
+        if (LOG.isLoggable(Level.INFO)) {
+            stopWatch.stop();
+            LOG.info(String.format("synchronized %s in %s", getName(), stopWatch));
+            stopWatch.reset();
+        }
     }
 
     @Messages({"TXT_SYNC=Synchronizing"})
@@ -153,7 +161,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
         if (interval > 0) {
             Task task = RP.create(() -> {
                 doSynchronization(true);
-                
+
                 if (synchronizationTask.isPresent() && (interval > 0)) {
                     synchronizationTask.get().schedule(interval);
                 }
