@@ -1,13 +1,11 @@
 package org.netbeans.modules.bamboo.rest;
 
-import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.glassfish.jersey.logging.LoggingFeature;
 
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import static org.netbeans.modules.bamboo.rest.BambooRestClient.REST_API;
-import org.netbeans.modules.bamboo.rest.model.AbstractResponse;
 
 import java.util.Optional;
 import static java.util.Optional.empty;
@@ -18,14 +16,13 @@ import java.util.logging.Logger;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Feature;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
-
 
 /**
  * @author spindizzy
  */
 class ApiCaller<T> {
+
     static final String AUTH_TYPE = "os_authType";
     static final String BASIC = "basic";
     static final String USER = "os_username";
@@ -34,7 +31,6 @@ class ApiCaller<T> {
     static final String MAX = "max-results";
 
     protected final Logger log;
-    private final Feature logFeature;
 
     private final Class<T> clazz;
     protected final String path;
@@ -48,9 +44,7 @@ class ApiCaller<T> {
         this.clazz = clazz;
         this.path = path;
         this.log = Logger.getLogger(getClass().getName());
-        this.logFeature = new LoggingFeature(log, Level.FINE, null, null);
-
-        client = client.register(logFeature);
+        client = client.register(new LoggingFeature(log, Level.FINE, null, null));
     }
 
     Optional<WebTarget> createTarget() {
