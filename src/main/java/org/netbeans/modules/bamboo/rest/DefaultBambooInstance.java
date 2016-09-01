@@ -21,6 +21,7 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+import org.apache.commons.lang3.time.StopWatch;
 import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.progress.ProgressHandleFactory;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
@@ -40,12 +41,14 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
      */
     private static final long serialVersionUID = 1L;
     private static final RequestProcessor RP = new RequestProcessor(DefaultBambooInstance.class);
+    
+    private final StopWatch stopWatch = new StopWatch();
 
     private final PropertyChangeSupport changeSupport;
 
     private final BambooServiceAccessable client;
 
-    private volatile Optional<Task> synchronizationTask = empty();
+    private Optional<Task> synchronizationTask = empty();
 
     private Collection<BuildProject> projects;
 
@@ -97,6 +100,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     private synchronized void doSynchronization(boolean showProgress) {
+        stopWatch.start();
         ProgressHandle progressHandle = null;
         if (showProgress) {
             progressHandle = createProgressHandle();
@@ -113,7 +117,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
             progressHandle.finish();
         }
         
-        LOG.info("synchronized");
+        stopWatch.stop();
+        LOG.info(String.format("synchronized in %s", stopWatch));
     }
 
     @Messages({"TXT_SYNC=Synchronizing"})
