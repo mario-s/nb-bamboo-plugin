@@ -20,6 +20,7 @@ import org.openide.nodes.Node;
 
 import java.util.ArrayList;
 import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 
 /**
@@ -31,15 +32,23 @@ public class ProjectNodeFactoryTest {
     private ProjectsProvideable projectsProvideable;
 
     private ProjectNodeFactory classUnderTest;
+    
+    private List<BuildProject> projects;
 
     private BuildProject project;
 
     @Before
     public void setUp() {
         project = new BuildProject();
+        project.setShortName("b");
+        
+        BuildProject other = new BuildProject();
+        other.setShortName("a");
 
-        List<BuildProject> projects = new ArrayList<>();
+        projects = new ArrayList<>();
         projects.add(project);
+        projects.add(other);
+        
         given(projectsProvideable.getProjects()).willReturn(projects);
 
         classUnderTest = new ProjectNodeFactory(projectsProvideable);
@@ -61,6 +70,6 @@ public class ProjectNodeFactoryTest {
     public void testCreateKeys() {
         List<BuildProject> toPopulate = new ArrayList<>();
         classUnderTest.createKeys(toPopulate);
-        assertFalse(toPopulate.isEmpty());
+        assertThat(toPopulate.get(0).getShortName(), equalTo("a"));
     }
 }
