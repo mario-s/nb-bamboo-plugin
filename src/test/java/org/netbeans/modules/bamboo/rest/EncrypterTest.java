@@ -3,11 +3,9 @@
  */
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.rest.Encrypter;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 

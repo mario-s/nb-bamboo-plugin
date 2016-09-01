@@ -27,22 +27,4 @@ public final class Installer implements Runnable {
                 });
         }
     }
-
-    private class SyncTaskListener implements TaskListener {
-        private final InstanceManageable manager;
-
-        private final BambooInstance instance;
-
-        SyncTaskListener(final InstanceManageable manager, final BambooInstance instance) {
-            this.manager = manager;
-            this.instance = instance;
-        }
-
-        @Override
-        public void taskFinished(final Task task) {
-            if (task.isFinished()) {
-                manager.addInstance(instance);
-            }
-        }
-    }
 }

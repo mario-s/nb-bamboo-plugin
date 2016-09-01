@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.glue;
 
 import lombok.Data;
 import org.netbeans.modules.bamboo.rest.model.State;
-import static java.lang.String.format;
 import org.netbeans.modules.bamboo.rest.model.LifeCycleState;
 import static java.lang.String.format;
 

@@ -101,7 +101,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
         }
     }
 
-    private synchronized void doSynchronization(boolean showProgress) {
+    private void doSynchronization(boolean showProgress) {
         if (LOG.isLoggable(Level.INFO)) {
             stopWatch.start();
         }

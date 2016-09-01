@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
 import java.util.Collection;
-import java.util.Collections;
 import static java.util.Collections.emptyList;
 import java.util.prefs.Preferences;
 import static org.hamcrest.CoreMatchers.is;

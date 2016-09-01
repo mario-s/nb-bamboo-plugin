@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.net.URL;
 import static java.util.Collections.singletonList;

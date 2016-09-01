@@ -30,8 +30,6 @@ import org.openide.util.Task;
 
 import java.beans.PropertyChangeEvent;
 import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.times;
-import org.netbeans.modules.bamboo.glue.SharedConstants;
 import org.openide.NotifyDescriptor;
 
 
