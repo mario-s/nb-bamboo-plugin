@@ -21,6 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.glue.BuildProject;
@@ -46,6 +47,8 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
 
     private static final String VERSION = "version";
     private static final String PROJECTS = "projects";
+    
+    private static final Logger LOG = Logger.getLogger(BambooInstanceNode.class.getName());
 
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
@@ -66,6 +69,7 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
         String propeName = evt.getPropertyName();
 
         if (ProjectsProvideable.PROJECTS.equals(propeName)) {
+            LOG.info(String.format("refreshing projects of %s", instance.getName()));
             projectNodeFactory.refreshNodes();
         }
     }
