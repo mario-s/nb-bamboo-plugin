@@ -15,7 +15,17 @@ public abstract class AbstractResponse<T> {
     private String expand;
     private Link link;
     
-    public abstract int getMaxResult();
-    public abstract int getSize();
+    public int getMaxResult() {
+        Metrics metrics = getMetrics();
+        return (metrics != null) ? metrics.getMaxResult() : 0;
+    }
+
+    public int getSize() {
+        Metrics metrics = getMetrics();
+        return (metrics != null) ? metrics.getSize() : 0;
+    }
+    
+    protected abstract Metrics getMetrics();
+    
     public abstract Collection<T> asCollection();
 }

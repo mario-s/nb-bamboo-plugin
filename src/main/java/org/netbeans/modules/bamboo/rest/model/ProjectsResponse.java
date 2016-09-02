@@ -26,13 +26,7 @@ public class ProjectsResponse extends AbstractResponse<Project> {
     }
 
     @Override
-    public int getMaxResult() {
-        return (projects != null) ? projects.getMaxResult() : 0;
+    protected Metrics getMetrics() {
+        return projects;
     }
-
-    @Override
-    public int getSize() {
-        return (projects != null) ? projects.getSize() : 0;
-    }
-
 }

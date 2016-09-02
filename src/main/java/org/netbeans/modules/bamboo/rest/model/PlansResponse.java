@@ -23,13 +23,7 @@ public class PlansResponse extends AbstractResponse<Plan> {
     }
 
     @Override
-    public int getMaxResult() {
-        return (plans != null) ? plans.getMaxResult() : 0;
+    protected Metrics getMetrics() {
+        return plans;
     }
-
-    @Override
-    public int getSize() {
-        return (plans != null) ? plans.getSize() : 0;
-    }
-
 }

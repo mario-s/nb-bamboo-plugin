@@ -22,13 +22,8 @@ public class ResultsResponse extends AbstractResponse<Result> {
     }
 
     @Override
-    public int getMaxResult() {
-        return (results != null) ? results.getMaxResult() : 0;
-    }
-
-    @Override
-    public int getSize() {
-        return (results != null) ? results.getSize() : 0;
+    protected Metrics getMetrics() {
+        return results;
     }
 
 
