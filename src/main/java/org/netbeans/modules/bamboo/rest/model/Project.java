@@ -12,5 +12,7 @@ import lombok.Data;
 @JsonRootName(value = "project")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Project {
+    private String key;
+    private String name;
     private Plans plans;
 }
