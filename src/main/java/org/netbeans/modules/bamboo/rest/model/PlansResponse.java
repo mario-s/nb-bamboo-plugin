@@ -10,7 +10,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class PlansResponse extends AbstractResponse {
+public class PlansResponse extends AbstractResponse<Plan> {
     private Plans plans;
 
     @Override

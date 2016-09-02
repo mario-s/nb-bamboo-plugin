@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ResultsResponse extends AbstractResponse {
+public class ResultsResponse extends AbstractResponse<Result> {
     private Results results;
     
     @Override
