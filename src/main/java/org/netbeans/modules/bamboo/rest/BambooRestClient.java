@@ -23,16 +23,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.ServerErrorException;
 
 import javax.ws.rs.client.WebTarget;
-
 
 /**
  * @author spindizzy
  */
 @ServiceProvider(service = BambooServiceAccessable.class)
 public class BambooRestClient implements BambooServiceAccessable {
+
     static final String REST_API = "/rest/api/latest";
 
     static final String RESULTS = "/result.json";
@@ -55,9 +57,10 @@ public class BambooRestClient implements BambooServiceAccessable {
     public Collection<BuildProject> getProjects(final InstanceValues values) {
         List<BuildProject> projects = new ArrayList<>();
 
-        Collection<Plan> plans = getPlans(values);
+        try {
+            Collection<Plan> plans = getPlans(values);
 
-        plans.forEach(plan -> {
+            plans.forEach(plan -> {
                 BuildProject project = new BuildProject();
                 project.setServerUrl(values.getUrl());
                 project.setKey(plan.getKey());
@@ -67,21 +70,23 @@ public class BambooRestClient implements BambooServiceAccessable {
                 projects.add(project);
             });
 
-        Collection<Result> results = getResults(values);
+            Collection<Result> results = getResults(values);
 
-        results.forEach(result -> {
+            results.forEach(result -> {
                 projects.forEach(project -> {
-                        Plan plan = result.getPlan();
+                    Plan plan = result.getPlan();
 
-                        if (plan.getKey().equals(project.getKey())) {
-                            project.setResultNumber(result.getNumber());
-                            project.setState(result.getState());
-                            project.setLifeCycleState(result.getLifeCycleState());
-                            project.setBuildReason(result.getBuildReason());
-                        }
-                    });
+                    if (plan.getKey().equals(project.getKey())) {
+                        project.setResultNumber(result.getNumber());
+                        project.setState(result.getState());
+                        project.setLifeCycleState(result.getLifeCycleState());
+                        project.setBuildReason(result.getBuildReason());
+                    }
+                });
             });
-
+        } catch (ServerErrorException exc) {
+           log.log(Level.WARNING, exc.getMessage(), exc);
+        }
         return projects;
     }
 
@@ -152,8 +157,8 @@ public class BambooRestClient implements BambooServiceAccessable {
     }
 
     RepeatApiCaller<ResultsResponse> createResultsCaller(final InstanceValues values) {
-        RepeatApiCaller<ResultsResponse> apiCaller =
-            new RepeatApiCaller<>(values, ResultsResponse.class, RESULTS);
+        RepeatApiCaller<ResultsResponse> apiCaller
+                = new RepeatApiCaller<>(values, ResultsResponse.class, RESULTS);
 
         return apiCaller;
     }
