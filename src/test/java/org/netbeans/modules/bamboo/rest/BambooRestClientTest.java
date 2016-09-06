@@ -16,16 +16,16 @@ import org.mockito.Mock;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.netbeans.modules.bamboo.glue.BuildProject;
+import org.netbeans.modules.bamboo.model.BuildProject;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.VersionInfo;
-import org.netbeans.modules.bamboo.rest.model.Info;
-import org.netbeans.modules.bamboo.rest.model.Plan;
-import org.netbeans.modules.bamboo.rest.model.Plans;
-import org.netbeans.modules.bamboo.rest.model.PlansResponse;
-import org.netbeans.modules.bamboo.rest.model.Result;
-import org.netbeans.modules.bamboo.rest.model.Results;
-import org.netbeans.modules.bamboo.rest.model.ResultsResponse;
+import org.netbeans.modules.bamboo.model.Info;
+import org.netbeans.modules.bamboo.model.Plan;
+import org.netbeans.modules.bamboo.model.Plans;
+import org.netbeans.modules.bamboo.model.PlansResponse;
+import org.netbeans.modules.bamboo.model.Result;
+import org.netbeans.modules.bamboo.model.Results;
+import org.netbeans.modules.bamboo.model.ResultsResponse;
 
 import java.util.Collection;
 import static java.util.Collections.singletonList;

@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.ui.nodes;
 
 import org.netbeans.api.annotations.common.StaticResource;
 
-import org.netbeans.modules.bamboo.glue.BuildProject;
+import org.netbeans.modules.bamboo.model.BuildProject;
 
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
@@ -18,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
-import org.netbeans.modules.bamboo.rest.model.State;
+import org.netbeans.modules.bamboo.model.State;
 import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Project_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Project_Prop_Number;

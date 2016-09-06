@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import org.netbeans.modules.bamboo.glue.BuildProject;
+import org.netbeans.modules.bamboo.model.BuildProject;
 import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 import org.openide.nodes.ChildFactory;

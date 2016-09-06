@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.swing.Action;
-import org.netbeans.modules.bamboo.glue.BuildProject;
+import org.netbeans.modules.bamboo.model.BuildProject;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Projects;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_SyncInterval;

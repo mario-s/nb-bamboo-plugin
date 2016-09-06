@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.mock;
 
-import org.netbeans.modules.bamboo.glue.BuildProject;
+import org.netbeans.modules.bamboo.model.BuildProject;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.VersionInfo;
 import org.netbeans.modules.bamboo.rest.BambooServiceAccessable;

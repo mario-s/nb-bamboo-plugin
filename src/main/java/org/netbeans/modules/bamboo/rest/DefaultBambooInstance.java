@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.rest;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import org.netbeans.modules.bamboo.glue.BuildProject;
+import org.netbeans.modules.bamboo.model.BuildProject;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.ProjectsProvideable;

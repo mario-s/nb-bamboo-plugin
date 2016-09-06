@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.rest;
 
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import static org.netbeans.modules.bamboo.rest.ApiCaller.MAX;
-import org.netbeans.modules.bamboo.rest.model.AbstractResponse;
+import org.netbeans.modules.bamboo.model.AbstractResponse;
 
 import java.util.Optional;
 import static java.util.Optional.empty;

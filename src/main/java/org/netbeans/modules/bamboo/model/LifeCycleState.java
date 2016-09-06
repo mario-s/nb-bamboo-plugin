@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.rest.model;
+package org.netbeans.modules.bamboo.model;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.rest.model;
+package org.netbeans.modules.bamboo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRootName;

@@ -7,7 +7,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.netbeans.modules.bamboo.glue.BuildProject;
+import org.netbeans.modules.bamboo.model.BuildProject;
 
 /**
  *

@@ -1,8 +1,9 @@
-package org.netbeans.modules.bamboo.glue;
+package org.netbeans.modules.bamboo.model;
 
 import lombok.Data;
-import org.netbeans.modules.bamboo.rest.model.State;
-import org.netbeans.modules.bamboo.rest.model.LifeCycleState;
+import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
+import org.netbeans.modules.bamboo.model.State;
+import org.netbeans.modules.bamboo.model.LifeCycleState;
 import static java.lang.String.format;
 
 
