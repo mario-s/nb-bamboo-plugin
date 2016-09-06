@@ -51,8 +51,8 @@ class ProjectNodeFactory extends ChildFactory<BuildProject> {
     private static class BuildProjectComparator implements Comparator<BuildProject> {
         @Override
         public int compare(final BuildProject o1, final BuildProject o2) {
-            final String left = o1.getShortName();
-            final String right = o2.getShortName();
+            final String left = o1.getName();
+            final String right = o2.getName();
 
             return left.compareToIgnoreCase(right);
         }

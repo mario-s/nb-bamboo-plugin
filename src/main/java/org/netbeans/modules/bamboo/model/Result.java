@@ -16,4 +16,9 @@ public class Result {
     private int number;
     private int id;
     private String buildReason;
+    
+    public Result() {
+        state = State.Unknown;
+        lifeCycleState = LifeCycleState.NotBuilt;
+    }
 }

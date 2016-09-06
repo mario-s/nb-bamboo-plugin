@@ -1,7 +1,8 @@
 package org.netbeans.modules.bamboo.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,7 @@ public class PlansResponse extends AbstractResponse<Plan> {
 
     @Override
     public Collection<Plan> asCollection(){
-        Collection<Plan> coll = new ArrayList<>();
+        Set<Plan> coll = new HashSet<>();
         if(plans != null){
             coll.addAll(plans.getPlan());
         }

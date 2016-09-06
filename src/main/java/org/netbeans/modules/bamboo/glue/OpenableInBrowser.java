@@ -5,6 +5,8 @@ package org.netbeans.modules.bamboo.glue;
  * @author spindizzy
  */
 public interface OpenableInBrowser {
+    String BROWSE = "%s/browse/%s";
+    
     /**
      * URL of the instance
      *

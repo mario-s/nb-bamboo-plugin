@@ -1,8 +1,9 @@
 package org.netbeans.modules.bamboo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +19,7 @@ public class ProjectsResponse extends AbstractResponse<Project> {
 
     @Override
     public Collection<Project> asCollection() {
-        Collection<Project> coll = new ArrayList<>();
+        Set<Project> coll = new HashSet<>();
         if(projects != null){
             coll.addAll(projects.getProject());
         }

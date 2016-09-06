@@ -1,5 +1,8 @@
 package org.netbeans.modules.bamboo.rest;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.glassfish.jersey.logging.LoggingFeature;
@@ -10,6 +13,7 @@ import static org.netbeans.modules.bamboo.rest.BambooRestClient.REST_API;
 import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,16 +39,23 @@ class ApiCaller<T> {
     private final Class<T> clazz;
     protected final String path;
     protected final InstanceValues values;
+    private Map<String, String> params;
 
     private Client client;
-
+    
     ApiCaller(final InstanceValues values, final Class<T> clazz, final String path) {
+        this(values, clazz, path, new HashMap<>());
+    }
+
+    ApiCaller(final InstanceValues values, final Class<T> clazz, final String path, final Map<String, String> params) {
         this.client = ClientBuilder.newClient();
         this.values = values;
         this.clazz = clazz;
         this.path = path;
+        this.params = params;
+        
         this.log = Logger.getLogger(getClass().getName());
-        client = client.register(new LoggingFeature(log, Level.FINE, null, null));
+        client = client.register(new LoggingFeature(log, Level.INFO, null, null));
     }
 
     Optional<WebTarget> createTarget() {
@@ -67,13 +78,22 @@ class ApiCaller<T> {
         String user = values.getUsername();
         char[] chars = values.getPassword();
         String password = String.valueOf(chars);
-
-        return newTarget(url, path).queryParam(AUTH_TYPE, BASIC).queryParam(USER, user).queryParam(
+        WebTarget target = newTarget(url, path).queryParam(AUTH_TYPE, BASIC).queryParam(USER, user).queryParam(
                 PASS,
                 password);
+        
+        if(params != null){
+            for (Entry<String, String> entry : params.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                target = target.queryParam(key, value);
+            }
+        }
+
+        return target;
     }
 
-    private WebTarget newTarget(final String url, final String path) {
+    protected WebTarget newTarget(final String url, final String path) {
         return newTarget(url).path(REST_API).path(path);
     }
 

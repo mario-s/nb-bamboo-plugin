@@ -40,10 +40,10 @@ public class ProjectNodeFactoryTest {
     @Before
     public void setUp() {
         project = new BuildProject();
-        project.setShortName("b");
+        project.setName("b");
         
         BuildProject other = new BuildProject();
-        other.setShortName("a");
+        other.setName("a");
 
         projects = new ArrayList<>();
         projects.add(project);
@@ -70,6 +70,6 @@ public class ProjectNodeFactoryTest {
     public void testCreateKeys() {
         List<BuildProject> toPopulate = new ArrayList<>();
         classUnderTest.createKeys(toPopulate);
-        assertThat(toPopulate.get(0).getShortName(), equalTo("a"));
+        assertThat(toPopulate.get(0).getName(), equalTo("a"));
     }
 }

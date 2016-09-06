@@ -29,17 +29,21 @@ import org.netbeans.modules.bamboo.model.ResultsResponse;
 
 import java.util.Collection;
 import static java.util.Collections.singletonList;
+import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
-
+import org.netbeans.modules.bamboo.model.Project;
+import org.netbeans.modules.bamboo.model.Projects;
+import org.netbeans.modules.bamboo.model.ProjectsResponse;
 
 /**
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BambooRestClientTest {
+
     private static final String FOO = "foo";
 
     @Mock
@@ -48,6 +52,8 @@ public class BambooRestClientTest {
     private WebTarget webTarget;
     @Mock
     private Invocation.Builder invocationBuilder;
+    @Mock
+    private RepeatApiCaller<ProjectsResponse> projectsCaller;
     @Mock
     private RepeatApiCaller<PlansResponse> plansCaller;
     @Mock
@@ -61,27 +67,32 @@ public class BambooRestClientTest {
     public void setUp() {
         given(instanceValues.getUrl()).willReturn("http://foo.bar");
         given(instanceValues.getUsername()).willReturn(FOO);
-        given(instanceValues.getPassword()).willReturn(new char[] { 'b', 'a', 'z' });
+        given(instanceValues.getPassword()).willReturn(new char[]{'b', 'a', 'z'});
         given(webTarget.path(BambooRestClient.REST_API)).willReturn(webTarget);
         given(webTarget.request()).willReturn(invocationBuilder);
 
-        classUnderTest =
-            new BambooRestClient() {
-                @Override
-                RepeatApiCaller<PlansResponse> createPlansCaller(final InstanceValues values) {
-                    return plansCaller;
-                }
+        classUnderTest
+                = new BambooRestClient() {
+            @Override
+            RepeatApiCaller<ProjectsResponse> createProjectCaller(InstanceValues values) {
+                return projectsCaller;
+            }
 
-                @Override
-                RepeatApiCaller<ResultsResponse> createResultsCaller(final InstanceValues values) {
-                    return resultsCaller;
-                }
+            @Override
+            RepeatApiCaller<PlansResponse> createPlansCaller(final InstanceValues values) {
+                return plansCaller;
+            }
 
-                @Override
-                ApiCaller<Info> createInfoCaller(final InstanceValues values) {
-                    return infoCaller;
-                }
-            };
+            @Override
+            RepeatApiCaller<ResultsResponse> createResultsCaller(final InstanceValues values) {
+                return resultsCaller;
+            }
+
+            @Override
+            ApiCaller<Info> createInfoCaller(final InstanceValues values) {
+                return infoCaller;
+            }
+        };
     }
 
     /**
@@ -89,6 +100,12 @@ public class BambooRestClientTest {
      */
     @Test
     public void testGetProjects() {
+        ProjectsResponse projectsResponse = new ProjectsResponse();
+        Project project = new Project();
+        Projects projects = new Projects();
+        projects.setProject(singletonList(project));
+        projectsResponse.setProjects(projects);
+        
         PlansResponse plansResponse = new PlansResponse();
         Plans plans = new Plans();
         Plan plan = new Plan();
@@ -102,6 +119,12 @@ public class BambooRestClientTest {
         result.setPlan(plan);
         results.setResult(singletonList(result));
         resultsResponse.setResults(results);
+        
+        project.setPlans(plans);
+        
+        given(projectsCaller.createTarget()).willReturn(of(webTarget));
+        given(projectsCaller.request(webTarget)).willReturn(projectsResponse);
+        given(projectsCaller.doSecondCall(projectsResponse)).willReturn(empty());
 
         given(plansCaller.createTarget()).willReturn(of(webTarget));
         given(plansCaller.request(webTarget)).willReturn(plansResponse);
@@ -111,8 +134,8 @@ public class BambooRestClientTest {
         given(resultsCaller.request(webTarget)).willReturn(resultsResponse);
         given(resultsCaller.doSecondCall(resultsResponse)).willReturn(of(resultsResponse));
 
-        Collection<BuildProject> projects = classUnderTest.getProjects(instanceValues);
-        assertThat(projects.isEmpty(), is(false));
+        Collection<BuildProject> buildProjects = classUnderTest.getProjects(instanceValues);
+        assertThat(buildProjects.isEmpty(), is(false));
     }
 
     @Test

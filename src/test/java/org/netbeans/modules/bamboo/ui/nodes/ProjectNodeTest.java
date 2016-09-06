@@ -22,7 +22,6 @@ public class ProjectNodeTest {
     @Before
     public void setUp() {
         project = new BuildProject();
-        project.setEnabled(true);
         classUnderTest = new ProjectNode(project);
     }
 
@@ -42,7 +41,7 @@ public class ProjectNodeTest {
     @Test
     public void testGetActions() {
         Action[] result = classUnderTest.getActions(true);
-        assertThat(result.length, is(3));
+        assertThat(result.length, is(1));
     }
     
 }

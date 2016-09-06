@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
+import java.util.Map;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import static org.netbeans.modules.bamboo.rest.ApiCaller.MAX;
 import org.netbeans.modules.bamboo.model.AbstractResponse;
@@ -15,11 +16,16 @@ import javax.ws.rs.client.WebTarget;
  * @author spindizzy
  */
 class RepeatApiCaller<T extends AbstractResponse> extends ApiCaller<T> {
-    RepeatApiCaller(final InstanceValues values, final Class<T> clazz, final String path) {
+
+    RepeatApiCaller(InstanceValues values, Class<T> clazz, String path) {
         super(values, clazz, path);
     }
 
-    Optional<T> doSecondCall(final T initial) {
+    RepeatApiCaller(InstanceValues values, Class<T> clazz, String path, Map<String, String> params) {
+        super(values, clazz, path, params);
+    }
+    
+    Optional<T> doSecondCall(final AbstractResponse initial) {
         int max = initial.getMaxResult();
         int size = initial.getSize();
 

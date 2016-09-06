@@ -13,6 +13,7 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Project {
     private String key;
+    private Link link;
     private String name;
-    private Plans plans;
+    private transient Plans plans;
 }
