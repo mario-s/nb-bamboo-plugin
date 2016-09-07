@@ -33,7 +33,7 @@ import org.openide.xml.XMLUtil;
  * @author spindizzy
  */
 public class PlanNode extends AbstractNode {
-
+    
     private static final String RESULT_NUMBER = "resultNumber";
     private static final String STYLE = "<font color='!controlShadow'>(%s)</font>";
     private static final String SPC = " ";
