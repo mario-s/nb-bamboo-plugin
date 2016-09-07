@@ -34,6 +34,8 @@ import static java.util.Optional.of;
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import static org.hamcrest.CoreMatchers.equalTo;
+import org.junit.Ignore;
 import org.netbeans.modules.bamboo.model.Project;
 import org.netbeans.modules.bamboo.model.Projects;
 import org.netbeans.modules.bamboo.model.ProjectsResponse;
@@ -94,12 +96,8 @@ public class BambooRestClientTest {
             }
         };
     }
-
-    /**
-     * Test of getPProjects method, of class BambooRestClient.
-     */
-    @Test
-    public void testGetProjects() {
+    
+    private void trainMocks() {
         ProjectsResponse projectsResponse = new ProjectsResponse();
         Project project = new Project();
         Projects projects = new Projects();
@@ -133,9 +131,31 @@ public class BambooRestClientTest {
         given(resultsCaller.createTarget()).willReturn(of(webTarget));
         given(resultsCaller.request(webTarget)).willReturn(resultsResponse);
         given(resultsCaller.doSecondCall(resultsResponse)).willReturn(of(resultsResponse));
+    }
+
+    /**
+     * Test of getProjects method, of class BambooRestClient.
+     */
+    @Test
+    public void testGetProjects_NotNull() {
+        trainMocks();
 
         Collection<Project> buildProjects = classUnderTest.getProjects(instanceValues);
         assertThat(buildProjects.isEmpty(), is(false));
+    }
+    
+     /**
+     * Test of getProjects method, of class BambooRestClient.
+     */
+    @Ignore
+    @Test
+    public void testGetProjects_Equal() {
+        trainMocks();
+
+        Collection<Project> first = classUnderTest.getProjects(instanceValues);
+        Collection<Project> second = classUnderTest.getProjects(instanceValues);
+        
+        assertThat(first, equalTo(second));
     }
 
     @Test
