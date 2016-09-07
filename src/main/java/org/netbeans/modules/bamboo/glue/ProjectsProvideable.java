@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.glue;
 
-import org.netbeans.modules.bamboo.model.BuildProject;
+import org.netbeans.modules.bamboo.model.Project;
 import java.util.Collection;
 
 
@@ -10,7 +10,7 @@ import java.util.Collection;
 public interface ProjectsProvideable extends BambooInstance {
     String PROJECTS = "projects";
 
-    Collection<BuildProject> getProjects();
+    Collection<Project> getProjects();
 
-    void setProjects(Collection<BuildProject> results);
+    void setProjects(Collection<Project> results);
 }

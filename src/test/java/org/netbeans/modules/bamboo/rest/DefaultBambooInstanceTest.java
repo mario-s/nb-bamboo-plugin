@@ -12,7 +12,7 @@ import static org.mockito.BDDMockito.given;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.model.BuildProject;
+import org.netbeans.modules.bamboo.model.Project;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
 
@@ -32,7 +32,7 @@ public class DefaultBambooInstanceTest {
     @InjectMocks
     private DefaultBambooInstance classUnderTest;
     
-    private Collection<BuildProject> projects;
+    private Collection<Project> projects;
     
     @Before
     public void setUp() {

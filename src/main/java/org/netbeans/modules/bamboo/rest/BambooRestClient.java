@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.rest;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import org.netbeans.modules.bamboo.model.BuildProject;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.VersionInfo;
 import org.netbeans.modules.bamboo.model.Info;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -63,32 +61,17 @@ public class BambooRestClient implements BambooServiceAccessable {
     }
 
     @Override
-    public Collection<BuildProject> getProjects(final InstanceValues values) {
-        List<BuildProject> buildProjects = new ArrayList<>();
+    public Collection<Project> getProjects(final InstanceValues values) {
+        Collection<Project> projects = new ArrayList<>();
 
         try {
-            Collection<Project> projects = doProjectsCall(values);
-            Collection<Plan> plans = doPlansCall(values);
-            Collection<Result> results = doResultsCall(values);
+            projects = doProjectsCall(values);
             
-            results.forEach(result -> {
-                plans.forEach(plan -> {
-                   if(result.getPlan().getKey().equals(plan.getKey())) {
-                       plan.setResult(result);
-                   }
-                });
-            });
-            
+            Collection<Plan> plans = getPlans(values);
             
             projects.forEach(project -> {
-                BuildProject buildProject = new BuildProject();
-                buildProject.setServerUrl(values.getUrl());
-                buildProject.setKey(project.getKey());
-                buildProject.setName(project.getName());
-                buildProject.setPlans(project.getPlans().getPlan());
-                buildProjects.add(buildProject);
-                
-                buildProject.getPlans().forEach(buildPlan -> {
+                project.setServerUrl(values.getUrl());
+                project.plansAsCollection().forEach(buildPlan -> {
                     buildPlan.setServerUrl(values.getUrl());
                     plans.forEach(plan -> {
                         if(buildPlan.getKey().equals(plan.getKey())){
@@ -103,7 +86,25 @@ public class BambooRestClient implements BambooServiceAccessable {
         } catch (ServerErrorException exc) {
            log.log(Level.WARNING, exc.getMessage(), exc);
         }
-        return buildProjects;
+        return projects;
+    }
+
+    /**
+     * Load the available plans and their results.
+     * @param values {@link InstanceValues}
+     * @return the avlailable plans
+     */
+    private Collection<Plan> getPlans(final InstanceValues values) {
+        Collection<Plan> plans = doPlansCall(values);
+        Collection<Result> results = doResultsCall(values);
+        results.forEach(result -> {
+            plans.forEach(plan -> {
+                if(result.getPlan().getKey().equals(plan.getKey())) {
+                    plan.setResult(result);
+                }
+            });
+        });
+        return plans;
     }
 
     @Override

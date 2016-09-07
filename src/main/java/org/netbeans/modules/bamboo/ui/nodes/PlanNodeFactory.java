@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import org.netbeans.modules.bamboo.model.BuildProject;
+import org.netbeans.modules.bamboo.model.Project;
 
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
@@ -18,17 +18,17 @@ import static java.util.Collections.sort;
 class PlanNodeFactory extends ChildFactory<Plan> {
     private static final PlanComparator COMPARATOR = new PlanComparator();
 
-    private final BuildProject project;
+    private final Project project;
 
     private Collection<Plan> plans;
 
-    PlanNodeFactory(final BuildProject project) {
+    PlanNodeFactory(final Project project) {
         this.project = project;
         refreshNodes();
     }
 
     final void refreshNodes() {
-        plans = project.getPlans();
+        plans = project.plansAsCollection();
         refresh(false);
     }
 

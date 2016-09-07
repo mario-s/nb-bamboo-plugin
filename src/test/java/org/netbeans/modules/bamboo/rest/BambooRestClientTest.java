@@ -16,7 +16,7 @@ import org.mockito.Mock;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.netbeans.modules.bamboo.model.BuildProject;
+import org.netbeans.modules.bamboo.model.Project;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.VersionInfo;
 import org.netbeans.modules.bamboo.model.Info;
@@ -134,7 +134,7 @@ public class BambooRestClientTest {
         given(resultsCaller.request(webTarget)).willReturn(resultsResponse);
         given(resultsCaller.doSecondCall(resultsResponse)).willReturn(of(resultsResponse));
 
-        Collection<BuildProject> buildProjects = classUnderTest.getProjects(instanceValues);
+        Collection<Project> buildProjects = classUnderTest.getProjects(instanceValues);
         assertThat(buildProjects.isEmpty(), is(false));
     }
 

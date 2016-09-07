@@ -13,7 +13,7 @@ import org.mockito.Mock;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.netbeans.modules.bamboo.model.BuildProject;
+import org.netbeans.modules.bamboo.model.Project;
 import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 import org.openide.nodes.Node;
@@ -33,16 +33,16 @@ public class ProjectNodeFactoryTest {
 
     private ProjectNodeFactory classUnderTest;
     
-    private List<BuildProject> projects;
+    private List<Project> projects;
 
-    private BuildProject project;
+    private Project project;
 
     @Before
     public void setUp() {
-        project = new BuildProject();
+        project = new Project();
         project.setName("b");
         
-        BuildProject other = new BuildProject();
+        Project other = new Project();
         other.setName("a");
 
         projects = new ArrayList<>();
@@ -68,7 +68,7 @@ public class ProjectNodeFactoryTest {
      */
     @Test
     public void testCreateKeys() {
-        List<BuildProject> toPopulate = new ArrayList<>();
+        List<Project> toPopulate = new ArrayList<>();
         classUnderTest.createKeys(toPopulate);
         assertThat(toPopulate.get(0).getName(), equalTo("a"));
     }

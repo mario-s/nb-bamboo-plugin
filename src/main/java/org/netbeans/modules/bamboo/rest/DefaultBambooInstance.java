@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.rest;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import org.netbeans.modules.bamboo.model.BuildProject;
+import org.netbeans.modules.bamboo.model.Project;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
@@ -52,7 +52,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
 
     private Optional<Task> synchronizationTask = empty();
 
-    private Collection<BuildProject> projects;
+    private Collection<Project> projects;
 
     private BambooInstanceProperties properties;
 
@@ -112,8 +112,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
             progressHandle.start();
         }
 
-        Collection<BuildProject> oldProjects = this.projects;
-        Collection<BuildProject> newProjects = client.getProjects(this);
+        Collection<Project> oldProjects = this.projects;
+        Collection<Project> newProjects = client.getProjects(this);
 
         this.projects = newProjects;
         firePropertyChange(PROJECTS, oldProjects, newProjects);
@@ -140,7 +140,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     @Override
-    public Collection<BuildProject> getProjects() {
+    public Collection<Project> getProjects() {
         return projects;
     }
 
@@ -149,7 +149,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     @Override
-    public void setProjects(final Collection<BuildProject> projects) {
+    public void setProjects(final Collection<Project> projects) {
         this.projects = projects;
         prepareSynchronization();
     }

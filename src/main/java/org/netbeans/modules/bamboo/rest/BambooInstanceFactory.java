@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.model.BuildProject;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 import org.netbeans.modules.bamboo.glue.VersionInfo;
@@ -9,6 +8,7 @@ import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
 import java.util.Collection;
+import org.netbeans.modules.bamboo.model.Project;
 
 
 /**
@@ -32,7 +32,7 @@ public class BambooInstanceFactory implements BambooInstanceProduceable {
         VersionInfo info = instanceAccessor.getVersionInfo(values);
         instance.setVersionInfo(info);
 
-        Collection<BuildProject> projects = instanceAccessor.getProjects(values);
+        Collection<Project> projects = instanceAccessor.getProjects(values);
 
         instance.setProjects(projects);
 

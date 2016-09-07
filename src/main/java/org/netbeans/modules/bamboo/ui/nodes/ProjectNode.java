@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 
-import org.netbeans.modules.bamboo.model.BuildProject;
+import org.netbeans.modules.bamboo.model.Project;
 
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
@@ -24,11 +24,11 @@ public class ProjectNode extends AbstractNode {
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/folder.png";
 
-    private final BuildProject project;
+    private final Project project;
     
     private final PlanNodeFactory planNodeFactory;
 
-    public ProjectNode(final BuildProject project) {
+    public ProjectNode(final Project project) {
         super(Children.LEAF, Lookups.singleton(project));
         this.project = project;
         this.planNodeFactory = new PlanNodeFactory(project);
