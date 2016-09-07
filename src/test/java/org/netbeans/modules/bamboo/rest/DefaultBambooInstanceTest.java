@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import static java.util.Collections.emptyList;
 import java.util.prefs.Preferences;
@@ -10,10 +12,12 @@ import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
 import org.mockito.InjectMocks;
+import static org.mockito.Matchers.any;
 import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.model.Project;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.model.Project;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
 
 /**
@@ -22,13 +26,13 @@ import org.netbeans.modules.bamboo.glue.SharedConstants;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultBambooInstanceTest {
-    
-    @Mock
-    private InstanceValues values;
+
     @Mock
     private BambooInstanceProperties properties;
     @Mock
     private Preferences preferences;
+    @Mock
+    private PropertyChangeListener listener;
     @InjectMocks
     private DefaultBambooInstance classUnderTest;
     
@@ -36,6 +40,8 @@ public class DefaultBambooInstanceTest {
     
     @Before
     public void setUp() {
+        classUnderTest.setSyncInterval(5);
+        classUnderTest.addPropertyChangeListener(listener);
         given(properties.getPreferences()).willReturn(preferences);
         projects = emptyList();
     }
@@ -69,5 +75,14 @@ public class DefaultBambooInstanceTest {
         classUnderTest.applyProperties(properties);
         classUnderTest.setProjects(projects);
         assertThat(classUnderTest.getSynchronizationTask().isPresent(), is(true));
+    }
+    
+    @Test
+    public void testSynchronize_ListenerShouldBeCalled() throws InterruptedException {
+        classUnderTest.synchronize();
+        synchronized (listener){
+            listener.wait(1000);
+        }
+        verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
 }

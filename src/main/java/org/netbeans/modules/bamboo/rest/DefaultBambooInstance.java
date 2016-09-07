@@ -127,6 +127,10 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
             LOG.info(String.format("synchronized %s in %s", getName(), stopWatch));
             stopWatch.reset();
         }
+        
+        synchronized (this) {
+            notifyAll();
+        }
     }
 
     @Messages({"TXT_SYNC=Synchronizing"})
