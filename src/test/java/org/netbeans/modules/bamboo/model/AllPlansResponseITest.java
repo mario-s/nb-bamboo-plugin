@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.rest.model;
+package org.netbeans.modules.bamboo.model;
 
 import org.netbeans.modules.bamboo.model.PlansResponse;
 import org.netbeans.modules.bamboo.model.Plans;
