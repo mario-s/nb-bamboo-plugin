@@ -29,6 +29,7 @@ import org.netbeans.modules.bamboo.model.ResultsResponse;
 
 import java.util.Collection;
 import static java.util.Collections.singletonList;
+import java.util.Map;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
@@ -74,7 +75,7 @@ public class BambooRestClientTest {
         classUnderTest
                 = new BambooRestClient() {
             @Override
-            RepeatApiCaller<ProjectsResponse> createProjectCaller(InstanceValues values) {
+            RepeatApiCaller<ProjectsResponse> createProjectCaller(InstanceValues values, Map<String, String> params) {
                 return projectsCaller;
             }
 

@@ -13,7 +13,6 @@ import static org.netbeans.modules.bamboo.rest.BambooRestClient.REST_API;
 import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

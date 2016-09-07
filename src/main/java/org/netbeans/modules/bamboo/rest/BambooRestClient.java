@@ -41,7 +41,7 @@ public class BambooRestClient implements BambooServiceAccessable {
     static final String REST_API = "/rest/api/latest";
     
     static final String EXPAND = "expand";
-    static final String EXPAND_PROJ_PLANS = "projects.project.plans";
+    static final String EXPAND_PROJ_PLANS = "projects.project.plans.plan";
 
     static final String PROJECTS = "/project.json";
     static final String RESULTS = "/result.json";
@@ -65,9 +65,10 @@ public class BambooRestClient implements BambooServiceAccessable {
         Collection<Project> projects = new ArrayList<>();
 
         try {
-            projects = doProjectsCall(values);
             
             Collection<Plan> plans = getPlans(values);
+            
+            projects = doProjectsCall(values, plans.size());
             
             projects.forEach(project -> {
                 project.setServerUrl(values.getUrl());
@@ -133,9 +134,12 @@ public class BambooRestClient implements BambooServiceAccessable {
         return versionInfo;
     }
     
-    private Collection<Project> doProjectsCall(final InstanceValues values) {
+    private Collection<Project> doProjectsCall(final InstanceValues values, int max) {
         Set<Project> results = new HashSet<>();
-        doRepeatableCall(createProjectCaller(values), results);
+        Map<String,String> params = new HashMap<>();
+        params.put(EXPAND, EXPAND_PROJ_PLANS);
+        params.put(ApiCaller.MAX, Integer.toString(max));
+        doSimpleCall(createProjectCaller(values, params), results);
         return results;
     }
 
@@ -151,6 +155,26 @@ public class BambooRestClient implements BambooServiceAccessable {
         return results;
     }
     
+    /**
+     * Does a API call only once.
+     * @param apiCaller
+     * @param results 
+     */
+    private void doSimpleCall(ApiCaller<? extends AbstractResponse> apiCaller, Set results){
+        Optional<WebTarget> opt = apiCaller.createTarget();
+
+        if (opt.isPresent()) {
+            AbstractResponse initialResponse = apiCaller.request(opt.get());
+            log.fine(String.format("got results for initial call: %s", initialResponse));
+            results.addAll(initialResponse.asCollection());
+        }
+    }
+    
+    /**
+     * Repeats the API call.
+     * @param apiCaller
+     * @param results 
+     */
     private void doRepeatableCall(RepeatApiCaller<? extends AbstractResponse> apiCaller, Set results){
         Optional<WebTarget> opt = apiCaller.createTarget();
 
@@ -168,20 +192,15 @@ public class BambooRestClient implements BambooServiceAccessable {
     }
 
     RepeatApiCaller<ResultsResponse> createResultsCaller(final InstanceValues values) {
-        RepeatApiCaller<ResultsResponse> apiCaller
-                = new RepeatApiCaller<>(values, ResultsResponse.class, RESULTS);
-
-        return apiCaller;
+        return new RepeatApiCaller<>(values, ResultsResponse.class, RESULTS);
     }
 
     RepeatApiCaller<PlansResponse> createPlansCaller(final InstanceValues values) {
         return new RepeatApiCaller<>(values, PlansResponse.class, PLANS);
     }
     
-    RepeatApiCaller<ProjectsResponse> createProjectCaller(final InstanceValues values) {
-        Map<String,String> params = new HashMap<>();
-        params.put(EXPAND, EXPAND_PROJ_PLANS);
-        return new RepeatApiCaller<>(values, ProjectsResponse.class, PROJECTS, params);
+    ApiCaller<ProjectsResponse> createProjectCaller(final InstanceValues values, Map<String,String> params) {
+        return new ApiCaller<>(values, ProjectsResponse.class, PROJECTS, params);
     }
 
     ApiCaller<Info> createInfoCaller(final InstanceValues values) {
