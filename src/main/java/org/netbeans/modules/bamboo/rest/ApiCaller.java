@@ -54,7 +54,7 @@ class ApiCaller<T> {
         this.params = params;
         
         this.log = Logger.getLogger(getClass().getName());
-        client = client.register(new LoggingFeature(log, Level.INFO, null, null));
+        client = client.register(new LoggingFeature(log, Level.FINE, null, null));
     }
 
     Optional<WebTarget> createTarget() {
