@@ -41,7 +41,7 @@ public class ProjectNodeTest {
     @Test
     public void testGetActions() {
         Action[] result = classUnderTest.getActions(true);
-        assertThat(result.length, is(1));
+        assertThat(result.length, is(3));
     }
     
 }
