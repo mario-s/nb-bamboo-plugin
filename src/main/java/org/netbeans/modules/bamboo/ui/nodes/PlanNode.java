@@ -118,7 +118,7 @@ public class PlanNode extends AbstractNode {
     public Action[] getActions(final boolean context) {
         List<Action> actions = new ArrayList<>();
 
-//        actions.add(OpenUrlAction.newAction(plan));
+        actions.add(OpenUrlAction.newAction(plan));
         actions.add(null);
         actions.add(SystemAction.get(PropertiesAction.class));
         return actions.toArray(new Action[actions.size()]);
