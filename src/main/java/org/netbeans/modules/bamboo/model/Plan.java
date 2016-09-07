@@ -19,7 +19,8 @@ public class Plan implements OpenableInBrowser {
     private String shortName;
     private transient PlanType type;
     private transient boolean enabled;
-    private transient Result result;
+    private Result result;
+    
     @JsonIgnore
     private String serverUrl;
 

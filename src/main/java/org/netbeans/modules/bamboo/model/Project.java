@@ -16,7 +16,7 @@ import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
 @Data
 @JsonRootName(value = "project")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Project implements OpenableInBrowser{
+public class Project extends AbstractChangeSupportEntity implements OpenableInBrowser{
     private String key;
     private Link link;
     private String name;
