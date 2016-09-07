@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import static java.lang.String.format;
 import lombok.Data;
 import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
-import static org.netbeans.modules.bamboo.glue.OpenableInBrowser.BROWSE;
 
 @Data
 @JsonRootName(value = "plan")
@@ -26,6 +25,6 @@ public class Plan implements OpenableInBrowser {
 
     @Override
     public String getUrl() {
-        return format(BROWSE, serverUrl, key);
+        return format(OpenableInBrowser.BROWSE, serverUrl, key);
     }
 }

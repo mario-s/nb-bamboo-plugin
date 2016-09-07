@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.Collections;
 import lombok.Data;
 import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
-import static org.netbeans.modules.bamboo.glue.OpenableInBrowser.BROWSE;
 
 /**
  *
@@ -32,6 +31,6 @@ public class Project implements OpenableInBrowser{
     
     @Override
     public String getUrl() {
-        return format(BROWSE, serverUrl, key);
+        return format(OpenableInBrowser.BROWSE, serverUrl, key);
     }
 }
