@@ -25,6 +25,9 @@ import java.util.logging.Logger;
 
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.Project;
+import org.openide.nodes.Sheet;
+import org.openide.util.NbBundle.Messages;
+
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Projects;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_SyncInterval;
@@ -35,8 +38,6 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Proj
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_SnycInterval;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Url;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Version;
-import org.openide.nodes.Sheet;
-import org.openide.util.NbBundle.Messages;
 
 /**
  * This class is the node of a Bamboo CI server.
