@@ -191,6 +191,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     public Task synchronize() {
         return RP.post(() -> {
             doSynchronization(false);
+            prepareSynchronization();
         });
     }
 
