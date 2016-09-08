@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.ui.nodes;
 
 
 import java.lang.reflect.InvocationTargetException;
-import org.netbeans.modules.bamboo.model.Project;
+import org.netbeans.modules.bamboo.model.rest.Project;
 
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
-import org.netbeans.modules.bamboo.model.Plan;
+import org.netbeans.modules.bamboo.model.rest.Plan;
 import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Plans;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Plans;

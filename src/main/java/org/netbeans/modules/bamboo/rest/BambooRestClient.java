@@ -4,11 +4,11 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.VersionInfo;
-import org.netbeans.modules.bamboo.model.Info;
-import org.netbeans.modules.bamboo.model.Plan;
-import org.netbeans.modules.bamboo.model.PlansResponse;
-import org.netbeans.modules.bamboo.model.Result;
-import org.netbeans.modules.bamboo.model.ResultsResponse;
+import org.netbeans.modules.bamboo.model.rest.Info;
+import org.netbeans.modules.bamboo.model.rest.Plan;
+import org.netbeans.modules.bamboo.model.rest.PlansResponse;
+import org.netbeans.modules.bamboo.model.rest.Result;
+import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 
 import org.openide.util.lookup.ServiceProvider;
 
@@ -28,9 +28,9 @@ import java.util.logging.Logger;
 import javax.ws.rs.ServerErrorException;
 
 import javax.ws.rs.client.WebTarget;
-import org.netbeans.modules.bamboo.model.AbstractResponse;
-import org.netbeans.modules.bamboo.model.Project;
-import org.netbeans.modules.bamboo.model.ProjectsResponse;
+import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
+import org.netbeans.modules.bamboo.model.rest.Project;
+import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 
 /**
  * @author spindizzy

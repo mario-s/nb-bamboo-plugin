@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.model.rest;
 
 import java.util.Collection;
 import java.util.HashSet;

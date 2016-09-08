@@ -18,13 +18,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.VersionInfo;
-import org.netbeans.modules.bamboo.model.Info;
-import org.netbeans.modules.bamboo.model.Plan;
-import org.netbeans.modules.bamboo.model.Plans;
-import org.netbeans.modules.bamboo.model.PlansResponse;
-import org.netbeans.modules.bamboo.model.Result;
-import org.netbeans.modules.bamboo.model.Results;
-import org.netbeans.modules.bamboo.model.ResultsResponse;
+import org.netbeans.modules.bamboo.model.rest.Info;
+import org.netbeans.modules.bamboo.model.rest.Plan;
+import org.netbeans.modules.bamboo.model.rest.Plans;
+import org.netbeans.modules.bamboo.model.rest.PlansResponse;
+import org.netbeans.modules.bamboo.model.rest.Result;
+import org.netbeans.modules.bamboo.model.rest.Results;
+import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 
 import java.util.Collection;
 import static java.util.Collections.singletonList;
@@ -36,9 +36,9 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import static org.hamcrest.CoreMatchers.equalTo;
 import org.junit.Ignore;
-import org.netbeans.modules.bamboo.model.Project;
-import org.netbeans.modules.bamboo.model.Projects;
-import org.netbeans.modules.bamboo.model.ProjectsResponse;
+import org.netbeans.modules.bamboo.model.rest.Project;
+import org.netbeans.modules.bamboo.model.rest.Projects;
+import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 
 /**
  * @author spindizzy

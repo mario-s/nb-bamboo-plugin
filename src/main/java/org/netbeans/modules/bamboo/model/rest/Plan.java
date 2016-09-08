@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.model.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import static java.lang.String.format;
 import lombok.Data;
 import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
+import org.netbeans.modules.bamboo.model.PlanType;
 
 @Data
 @JsonRootName(value = "plan")

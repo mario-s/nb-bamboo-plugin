@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import org.netbeans.modules.bamboo.model.Project;
+import org.netbeans.modules.bamboo.model.rest.Project;
 
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
@@ -8,7 +8,7 @@ import org.openide.nodes.Node;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import org.netbeans.modules.bamboo.model.Plan;
+import org.netbeans.modules.bamboo.model.rest.Plan;
 import static java.util.Collections.sort;
 
 

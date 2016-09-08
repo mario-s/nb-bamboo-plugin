@@ -22,7 +22,7 @@ import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.glue.InstanceValues;
-import org.netbeans.modules.bamboo.model.PlansResponse;
+import org.netbeans.modules.bamboo.model.rest.PlansResponse;
 
 import java.util.Optional;
 import static java.util.Optional.empty;

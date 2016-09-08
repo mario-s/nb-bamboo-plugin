@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.glue;
 
-import org.netbeans.modules.bamboo.model.Project;
+import org.netbeans.modules.bamboo.model.rest.Project;
 import java.util.Collection;
 
 

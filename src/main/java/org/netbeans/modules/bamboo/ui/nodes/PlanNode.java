@@ -10,8 +10,8 @@ import java.util.logging.Logger;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
-import org.netbeans.modules.bamboo.model.Plan;
-import org.netbeans.modules.bamboo.model.Result;
+import org.netbeans.modules.bamboo.model.rest.Plan;
+import org.netbeans.modules.bamboo.model.rest.Result;
 import org.netbeans.modules.bamboo.model.State;
 import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
 

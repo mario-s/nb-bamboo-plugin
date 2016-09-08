@@ -1,7 +1,9 @@
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.model.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.netbeans.modules.bamboo.model.LifeCycleState;
+import org.netbeans.modules.bamboo.model.State;
 
 
 

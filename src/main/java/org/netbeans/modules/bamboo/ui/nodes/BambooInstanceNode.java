@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.swing.Action;
-import org.netbeans.modules.bamboo.model.Project;
+import org.netbeans.modules.bamboo.model.rest.Project;
 import org.openide.nodes.Sheet;
 import org.openide.util.NbBundle.Messages;
 
