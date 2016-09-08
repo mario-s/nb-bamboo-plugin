@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 
@@ -9,8 +10,16 @@ import lombok.Data;
  * @author spindizzy
  */
 @Data
-public class ProjectVo {
+public class ProjectVo extends AbstractOpenInBrowserVo{
     private String key;
     private String name;
-    private List<PlanDto> plans;
+    private List<PlanVo> plans;
+
+    public ProjectVo() {
+        plans = new ArrayList<>();
+    }
+    
+    public void addPlan(PlanVo plan){
+        plans.add(plan);
+    }
 }

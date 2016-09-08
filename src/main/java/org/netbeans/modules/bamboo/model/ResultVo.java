@@ -11,6 +11,6 @@ public class ResultVo {
     private String key;
     private int number;
     private String buildReason;
-    private State state;
-    private LifeCycleState lifeCycleState;
+    private State state = State.Unknown;
+    private LifeCycleState lifeCycleState = LifeCycleState.Finished;
 }

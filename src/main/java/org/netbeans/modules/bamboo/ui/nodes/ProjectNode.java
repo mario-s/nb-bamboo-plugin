@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.ui.nodes;
 
 
 import java.lang.reflect.InvocationTargetException;
-import org.netbeans.modules.bamboo.model.rest.Project;
 
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
@@ -13,7 +12,8 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
-import org.netbeans.modules.bamboo.model.rest.Plan;
+import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Plans;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Plans;
@@ -35,11 +35,11 @@ public class ProjectNode extends AbstractNode {
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/folder.png";
 
-    private final Project project;
+    private final ProjectVo project;
     
     private final PlanNodeFactory planNodeFactory;
 
-    public ProjectNode(final Project project) {
+    public ProjectNode(final ProjectVo project) {
         super(Children.LEAF, Lookups.singleton(project));
         this.project = project;
         this.planNodeFactory = new PlanNodeFactory(project);
@@ -80,7 +80,7 @@ public class ProjectNode extends AbstractNode {
         set.put(new IntReadPropertySupport(PLANS, TXT_Instance_Prop_Plans(), DESC_Instance_Prop_Plans()) {
             @Override
             public Integer getValue() throws IllegalAccessException, InvocationTargetException {
-                final Collection<Plan> plans = project.plansAsCollection();
+                final Collection<PlanVo> plans = project.getPlans();
                 return (plans != null) ? plans.size() : 0;
             }
         });

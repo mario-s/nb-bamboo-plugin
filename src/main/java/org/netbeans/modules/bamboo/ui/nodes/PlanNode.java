@@ -10,8 +10,8 @@ import java.util.logging.Logger;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
-import org.netbeans.modules.bamboo.model.rest.Plan;
-import org.netbeans.modules.bamboo.model.rest.Result;
+import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
 import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
 
@@ -51,9 +51,9 @@ public class PlanNode extends AbstractNode {
 
     private String htmlDisplayName;
 
-    private final Plan plan;
+    private final PlanVo plan;
 
-    public PlanNode(final Plan plan) {
+    public PlanNode(final PlanVo plan) {
         super(Children.LEAF, Lookups.singleton(plan));
         this.plan = plan;
 
@@ -86,9 +86,9 @@ public class PlanNode extends AbstractNode {
         }
     }
 
-    private Result getResult() {
-        Result result = plan.getResult();
-        return (result != null) ? result : new Result();
+    private ResultVo getResult() {
+        ResultVo result = plan.getResult();
+        return (result != null) ? result : new ResultVo();
     }
 
     @Override

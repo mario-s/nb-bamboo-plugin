@@ -16,9 +16,8 @@ import static org.mockito.Matchers.any;
 import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.glue.InstanceValues;
-import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
+import org.netbeans.modules.bamboo.model.ProjectVo;
 
 /**
  *
@@ -36,7 +35,7 @@ public class DefaultBambooInstanceTest {
     @InjectMocks
     private DefaultBambooInstance classUnderTest;
     
-    private Collection<Project> projects;
+    private Collection<ProjectVo> projects;
     
     @Before
     public void setUp() {

@@ -7,7 +7,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.netbeans.modules.bamboo.model.rest.Project;
+import org.netbeans.modules.bamboo.model.ProjectVo;
 
 /**
  *
@@ -17,11 +17,11 @@ public class ProjectNodeTest {
     
     private ProjectNode classUnderTest;
     
-    private Project project;
+    private ProjectVo project;
     
     @Before
     public void setUp() {
-        project = new Project();
+        project = new ProjectVo();
         classUnderTest = new ProjectNode(project);
     }
 

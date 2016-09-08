@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.swing.Action;
-import org.netbeans.modules.bamboo.model.rest.Project;
+import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.openide.nodes.Sheet;
 import org.openide.util.NbBundle.Messages;
 
@@ -146,7 +146,7 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
         set.put(new IntReadPropertySupport(PROJECTS, TXT_Instance_Prop_Projects(), DESC_Instance_Prop_Projects()) {
             @Override
             public Integer getValue() throws IllegalAccessException, InvocationTargetException {
-                final Collection<Project> projects = instance.getProjects();
+                final Collection<ProjectVo> projects = instance.getProjects();
                 return (projects != null) ? projects.size() : 0;
             }
         });

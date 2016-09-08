@@ -36,6 +36,7 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import static org.hamcrest.CoreMatchers.equalTo;
 import org.junit.Ignore;
+import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.Projects;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
@@ -140,7 +141,7 @@ public class BambooRestClientTest {
     public void testGetProjects_NotNull() {
         trainMocks();
 
-        Collection<Project> buildProjects = classUnderTest.getProjects(instanceValues);
+        Collection<ProjectVo> buildProjects = classUnderTest.getProjects(instanceValues);
         assertThat(buildProjects.isEmpty(), is(false));
     }
     
@@ -152,8 +153,8 @@ public class BambooRestClientTest {
     public void testGetProjects_Equal() {
         trainMocks();
 
-        Collection<Project> first = classUnderTest.getProjects(instanceValues);
-        Collection<Project> second = classUnderTest.getProjects(instanceValues);
+        Collection<ProjectVo> first = classUnderTest.getProjects(instanceValues);
+        Collection<ProjectVo> second = classUnderTest.getProjects(instanceValues);
         
         assertThat(first, equalTo(second));
     }

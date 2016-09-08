@@ -29,6 +29,7 @@ import org.openide.util.NbBundle.Messages;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import org.netbeans.modules.bamboo.model.ProjectVo;
 import static org.netbeans.modules.bamboo.rest.Bundle.TXT_SYNC;
 
 /**
@@ -52,7 +53,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
 
     private Optional<Task> synchronizationTask = empty();
 
-    private Collection<Project> projects;
+    private Collection<ProjectVo> projects;
 
     private BambooInstanceProperties properties;
 
@@ -112,8 +113,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
             progressHandle.start();
         }
 
-        Collection<Project> oldProjects = this.projects;
-        Collection<Project> newProjects = client.getProjects(this);
+        Collection<ProjectVo> oldProjects = this.projects;
+        Collection<ProjectVo> newProjects = client.getProjects(this);
 
         this.projects = newProjects;
         firePropertyChange(PROJECTS, oldProjects, newProjects);
@@ -144,7 +145,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     @Override
-    public Collection<Project> getProjects() {
+    public Collection<ProjectVo> getProjects() {
         return projects;
     }
 
@@ -153,7 +154,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     @Override
-    public void setProjects(final Collection<Project> projects) {
+    public void setProjects(final Collection<ProjectVo> projects) {
         this.projects = projects;
         prepareSynchronization();
     }

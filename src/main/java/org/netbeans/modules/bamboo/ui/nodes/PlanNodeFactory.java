@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import org.netbeans.modules.bamboo.model.rest.Project;
 
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
@@ -8,37 +7,38 @@ import org.openide.nodes.Node;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import org.netbeans.modules.bamboo.model.rest.Plan;
 import static java.util.Collections.sort;
+import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.ProjectVo;
 
 
 /**
  * @author spindizzy
  */
-class PlanNodeFactory extends ChildFactory<Plan> {
+class PlanNodeFactory extends ChildFactory<PlanVo> {
     private static final PlanComparator COMPARATOR = new PlanComparator();
 
-    private final Project project;
+    private final ProjectVo project;
 
-    private Collection<Plan> plans;
+    private Collection<PlanVo> plans;
 
-    PlanNodeFactory(final Project project) {
+    PlanNodeFactory(final ProjectVo project) {
         this.project = project;
         refreshNodes();
     }
 
     final void refreshNodes() {
-        plans = project.plansAsCollection();
+        plans = project.getPlans();
         refresh(false);
     }
 
     @Override
-    protected Node createNodeForKey(final Plan key) {
+    protected Node createNodeForKey(final PlanVo key) {
         return new PlanNode(key);
     }
 
     @Override
-    protected boolean createKeys(final List<Plan> toPopulate) {
+    protected boolean createKeys(final List<PlanVo> toPopulate) {
         if (plans != null) {
             toPopulate.addAll(plans);
         }
@@ -48,9 +48,9 @@ class PlanNodeFactory extends ChildFactory<Plan> {
         return true;
     }
 
-    private static class PlanComparator implements Comparator<Plan> {
+    private static class PlanComparator implements Comparator<PlanVo> {
         @Override
-        public int compare(final Plan o1, final Plan o2) {
+        public int compare(final PlanVo o1, final PlanVo o2) {
             final String left = o1.getName();
             final String right = o2.getName();
 

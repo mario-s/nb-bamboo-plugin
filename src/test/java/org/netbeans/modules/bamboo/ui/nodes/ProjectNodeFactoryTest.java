@@ -21,6 +21,7 @@ import org.openide.nodes.Node;
 import java.util.ArrayList;
 import java.util.List;
 import static org.hamcrest.CoreMatchers.equalTo;
+import org.netbeans.modules.bamboo.model.ProjectVo;
 
 
 /**
@@ -33,16 +34,16 @@ public class ProjectNodeFactoryTest {
 
     private ProjectNodeFactory classUnderTest;
     
-    private List<Project> projects;
+    private List<ProjectVo> projects;
 
-    private Project project;
+    private ProjectVo project;
 
     @Before
     public void setUp() {
-        project = new Project();
+        project = new ProjectVo();
         project.setName("b");
         
-        Project other = new Project();
+        ProjectVo other = new ProjectVo();
         other.setName("a");
 
         projects = new ArrayList<>();
@@ -68,7 +69,7 @@ public class ProjectNodeFactoryTest {
      */
     @Test
     public void testCreateKeys() {
-        List<Project> toPopulate = new ArrayList<>();
+        List<ProjectVo> toPopulate = new ArrayList<>();
         classUnderTest.createKeys(toPopulate);
         assertThat(toPopulate.get(0).getName(), equalTo("a"));
     }

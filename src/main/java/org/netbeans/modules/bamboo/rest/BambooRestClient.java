@@ -28,6 +28,9 @@ import java.util.logging.Logger;
 import javax.ws.rs.ServerErrorException;
 
 import javax.ws.rs.client.WebTarget;
+import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
@@ -39,7 +42,7 @@ import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 public class BambooRestClient implements BambooServiceAccessable {
 
     static final String REST_API = "/rest/api/latest";
-    
+
     static final String EXPAND = "expand";
     static final String EXPAND_PROJ_PLANS = "projects.project.plans.plan";
 
@@ -61,37 +64,62 @@ public class BambooRestClient implements BambooServiceAccessable {
     }
 
     @Override
-    public Collection<Project> getProjects(final InstanceValues values) {
-        Collection<Project> projects = new ArrayList<>();
+    public Collection<ProjectVo> getProjects(final InstanceValues values) {
+        Collection<ProjectVo> vos = new ArrayList<>();
 
         try {
-            
+
             Collection<Plan> plans = getPlans(values);
-            
-            projects = doProjectsCall(values, plans.size());
-            
+
+            Collection<Project> projects = doProjectsCall(values, plans.size());
+
             projects.forEach(project -> {
-                project.setServerUrl(values.getUrl());
-                project.plansAsCollection().forEach(buildPlan -> {
-                    buildPlan.setServerUrl(values.getUrl());
+
+                ProjectVo projectVo = new ProjectVo();
+                projectVo.setServerUrl(values.getUrl());
+                projectVo.setKey(project.getKey());
+                projectVo.setName(project.getName());
+
+                project.plansAsCollection().forEach(projectPlan -> {
+
                     plans.forEach(plan -> {
-                        if(buildPlan.getKey().equals(plan.getKey())){
-                            buildPlan.setEnabled(plan.isEnabled());
-                            buildPlan.setName(plan.getName());
-                            buildPlan.setShortName(plan.getShortName());
-                            buildPlan.setResult(plan.getResult());
+                        if (projectPlan.getKey().equals(plan.getKey())) {
+                            PlanVo planVo = new PlanVo();
+                            planVo.setServerUrl(values.getUrl());
+                            planVo.setKey(plan.getKey());
+                            planVo.setShortKey(plan.getShortKey());
+                            planVo.setName(plan.getName());
+                            planVo.setShortName(plan.getShortName());
+                            planVo.setEnabled(plan.isEnabled());
+                            planVo.setType(plan.getType());
+
+                            Result result = plan.getResult();
+                            if (result != null) {
+                                ResultVo resultVo = new ResultVo();
+                                resultVo.setKey(result.getKey());
+                                resultVo.setNumber(result.getNumber());
+                                resultVo.setBuildReason(result.getBuildReason());
+                                resultVo.setState(result.getState());
+                                resultVo.setLifeCycleState(result.getLifeCycleState());
+                                planVo.setResult(resultVo);
+                            }
+
+                            projectVo.addPlan(planVo);
                         }
                     });
                 });
+
+                vos.add(projectVo);
             });
         } catch (ServerErrorException exc) {
-           log.log(Level.WARNING, exc.getMessage(), exc);
+            log.log(Level.WARNING, exc.getMessage(), exc);
         }
-        return projects;
+        return vos;
     }
 
     /**
      * Load the available plans and their results.
+     *
      * @param values {@link InstanceValues}
      * @return the avlailable plans
      */
@@ -100,7 +128,7 @@ public class BambooRestClient implements BambooServiceAccessable {
         Collection<Result> results = doResultsCall(values);
         results.forEach(result -> {
             plans.forEach(plan -> {
-                if(result.getPlan().getKey().equals(plan.getKey())) {
+                if (result.getPlan().getKey().equals(plan.getKey())) {
                     plan.setResult(result);
                 }
             });
@@ -133,10 +161,10 @@ public class BambooRestClient implements BambooServiceAccessable {
 
         return versionInfo;
     }
-    
+
     private Collection<Project> doProjectsCall(final InstanceValues values, int max) {
         Set<Project> results = new HashSet<>();
-        Map<String,String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put(EXPAND, EXPAND_PROJ_PLANS);
         params.put(ApiCaller.MAX, Integer.toString(max));
         doSimpleCall(createProjectCaller(values, params), results);
@@ -154,13 +182,14 @@ public class BambooRestClient implements BambooServiceAccessable {
         doRepeatableCall(createResultsCaller(values), results);
         return results;
     }
-    
+
     /**
      * Does a API call only once.
+     *
      * @param apiCaller
-     * @param results 
+     * @param results
      */
-    private void doSimpleCall(ApiCaller<? extends AbstractResponse> apiCaller, Set results){
+    private void doSimpleCall(ApiCaller<? extends AbstractResponse> apiCaller, Set results) {
         Optional<WebTarget> opt = apiCaller.createTarget();
 
         if (opt.isPresent()) {
@@ -169,13 +198,14 @@ public class BambooRestClient implements BambooServiceAccessable {
             results.addAll(initialResponse.asCollection());
         }
     }
-    
+
     /**
      * Repeats the API call.
+     *
      * @param apiCaller
-     * @param results 
+     * @param results
      */
-    private void doRepeatableCall(RepeatApiCaller<? extends AbstractResponse> apiCaller, Set results){
+    private void doRepeatableCall(RepeatApiCaller<? extends AbstractResponse> apiCaller, Set results) {
         Optional<WebTarget> opt = apiCaller.createTarget();
 
         if (opt.isPresent()) {
@@ -198,8 +228,8 @@ public class BambooRestClient implements BambooServiceAccessable {
     RepeatApiCaller<PlansResponse> createPlansCaller(final InstanceValues values) {
         return new RepeatApiCaller<>(values, PlansResponse.class, PLANS);
     }
-    
-    ApiCaller<ProjectsResponse> createProjectCaller(final InstanceValues values, Map<String,String> params) {
+
+    ApiCaller<ProjectsResponse> createProjectCaller(final InstanceValues values, Map<String, String> params) {
         return new ApiCaller<>(values, ProjectsResponse.class, PROJECTS, params);
     }
 

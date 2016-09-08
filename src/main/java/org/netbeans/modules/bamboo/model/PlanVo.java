@@ -7,7 +7,7 @@ import lombok.Data;
  * @author spindizzy
  */
 @Data
-public class PlanDto {
+public class PlanVo extends AbstractOpenInBrowserVo{
     
     private String key;
     private String name;
@@ -18,5 +18,8 @@ public class PlanDto {
     private ResultVo result;
 
     private transient PlanType type;
-    
+
+    public PlanVo() {
+        this.result = new ResultVo();
+    }
 }

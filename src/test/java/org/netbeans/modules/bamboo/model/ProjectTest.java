@@ -66,12 +66,7 @@ public class ProjectTest {
         Collection<Plan> plans = classUnderTest.plansAsCollection();
         assertThat(plans.isEmpty(), is(true));
     }
-    
-    @Test
-    public void testGetUrl() {
-        String url = classUnderTest.getUrl();
-        assertThat(url, containsString("browse"));
-    }
+
     
     
 }

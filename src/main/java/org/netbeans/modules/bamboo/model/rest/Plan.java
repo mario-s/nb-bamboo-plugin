@@ -1,17 +1,14 @@
 package org.netbeans.modules.bamboo.model.rest;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRootName;
-import static java.lang.String.format;
 import lombok.Data;
-import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
 import org.netbeans.modules.bamboo.model.PlanType;
 
 @Data
 @JsonRootName(value = "plan")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Plan implements OpenableInBrowser {
+public class Plan {
 
     private String key;
     private Link link;
@@ -22,11 +19,4 @@ public class Plan implements OpenableInBrowser {
     private transient boolean enabled;
     private transient Result result;
     
-    @JsonIgnore
-    private String serverUrl;
-
-    @Override
-    public String getUrl() {
-        return format(OpenableInBrowser.BROWSE, serverUrl, key);
-    }
 }
