@@ -35,7 +35,6 @@ import static java.util.Optional.of;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import static org.hamcrest.CoreMatchers.equalTo;
-import org.junit.Ignore;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.Projects;
@@ -148,7 +147,6 @@ public class BambooRestClientTest {
      /**
      * Test of getProjects method, of class BambooRestClient.
      */
-    @Ignore
     @Test
     public void testGetProjects_Equal() {
         trainMocks();
