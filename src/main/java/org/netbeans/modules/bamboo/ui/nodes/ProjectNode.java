@@ -1,6 +1,9 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import org.openide.nodes.AbstractNode;
@@ -27,7 +30,7 @@ import org.openide.util.lookup.Lookups;
 /**
  * @author spindizzy
  */
-public class ProjectNode extends AbstractNode {
+public class ProjectNode extends AbstractNode implements PropertyChangeListener {
     
 
     private static final Logger LOG = Logger.getLogger(ProjectNode.class.getName());
@@ -43,8 +46,16 @@ public class ProjectNode extends AbstractNode {
         super(Children.LEAF, Lookups.singleton(project));
         this.project = project;
         this.planNodeFactory = new PlanNodeFactory(project);
-
         init();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String propName = evt.getPropertyName();
+        if(ModelProperties.Plans.toString().equals(propName)){
+            LOG.info(String.format("refreshing plans of %s", project.getName()));
+            planNodeFactory.refreshNodes();
+        }
     }
 
     private void init() {
@@ -54,6 +65,8 @@ public class ProjectNode extends AbstractNode {
         setIconBaseWithExtension(ICON_BASE);
         
         setChildren(Children.create(planNodeFactory, true));
+        
+        project.addPropertyChangeListener(this);
     }
    
 
@@ -89,4 +102,11 @@ public class ProjectNode extends AbstractNode {
         
         return sheet;
     }
+
+    @Override
+    public void destroy() throws IOException {
+        project.removePropertyChangeListener(this);
+        super.destroy(); 
+    }
+    
 }

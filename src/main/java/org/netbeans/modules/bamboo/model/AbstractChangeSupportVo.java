@@ -25,7 +25,5 @@ public abstract class AbstractChangeSupportVo {
 
     public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
-    }
-    
-    
+    }    
 }

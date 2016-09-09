@@ -102,6 +102,7 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
     public void destroy() throws IOException {
         instance.removePropertyChangeListener(this);
         getDefault().lookup(InstanceManageable.class).removeInstance(instance);
+        super.destroy();
     }
 
     @Override

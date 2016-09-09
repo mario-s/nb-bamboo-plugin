@@ -13,7 +13,7 @@ import lombok.Data;
 public class ProjectVo extends AbstractOpenInBrowserVo{
     private String key;
     private String name;
-    private List<PlanVo> plans;
+    private transient List<PlanVo> plans;
 
     public ProjectVo() {
         plans = new ArrayList<>();
