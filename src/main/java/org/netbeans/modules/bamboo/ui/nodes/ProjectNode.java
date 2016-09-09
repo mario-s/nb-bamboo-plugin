@@ -30,10 +30,7 @@ import org.openide.util.lookup.Lookups;
 /**
  * @author spindizzy
  */
-public class ProjectNode extends AbstractNode implements PropertyChangeListener {
-    
-
-    private static final Logger LOG = Logger.getLogger(ProjectNode.class.getName());
+public class ProjectNode extends AbstractNode {
 
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/folder.png";
@@ -49,15 +46,6 @@ public class ProjectNode extends AbstractNode implements PropertyChangeListener 
         init();
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        String propName = evt.getPropertyName();
-        if(ModelProperties.Plans.toString().equals(propName)){
-            LOG.info(String.format("refreshing plans of %s", project.getName()));
-            planNodeFactory.refreshNodes();
-        }
-    }
-
     private void init() {
         setName(project.getKey());
         setDisplayName(project.getName());
@@ -65,8 +53,6 @@ public class ProjectNode extends AbstractNode implements PropertyChangeListener 
         setIconBaseWithExtension(ICON_BASE);
         
         setChildren(Children.create(planNodeFactory, true));
-        
-        project.addPropertyChangeListener(this);
     }
    
 
@@ -105,7 +91,7 @@ public class ProjectNode extends AbstractNode implements PropertyChangeListener 
 
     @Override
     public void destroy() throws IOException {
-        project.removePropertyChangeListener(this);
+        planNodeFactory.removePropertyChangeListener();
         super.destroy(); 
     }
     

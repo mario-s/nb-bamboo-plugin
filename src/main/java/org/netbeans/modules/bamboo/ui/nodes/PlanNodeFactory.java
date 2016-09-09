@@ -1,21 +1,22 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
-
-import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import static java.util.Collections.sort;
+import java.util.logging.Logger;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
-
 
 /**
  * @author spindizzy
  */
-class PlanNodeFactory extends ChildFactory<PlanVo> {
+class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
+
+    private static final Logger LOG = Logger.getLogger(PlanNodeFactory.class.getName());
+
     private static final PlanComparator COMPARATOR = new PlanComparator();
 
     private final ProjectVo project;
@@ -24,10 +25,17 @@ class PlanNodeFactory extends ChildFactory<PlanVo> {
 
     PlanNodeFactory(final ProjectVo project) {
         this.project = project;
+        init();
+    }
+    
+    private void init() {
         refreshNodes();
+        project.addPropertyChangeListener(this);
     }
 
-    final void refreshNodes() {
+    @Override
+    void refreshNodes() {
+        LOG.info(String.format("refreshing plans of %s", project.getName()));
         plans = project.getPlans();
         refresh(false);
     }
@@ -47,8 +55,14 @@ class PlanNodeFactory extends ChildFactory<PlanVo> {
 
         return true;
     }
+    
+    @Override
+    void removePropertyChangeListener() {
+       project.removePropertyChangeListener(this);
+    }
 
     private static class PlanComparator implements Comparator<PlanVo> {
+
         @Override
         public int compare(final PlanVo o1, final PlanVo o2) {
             final String left = o1.getName();

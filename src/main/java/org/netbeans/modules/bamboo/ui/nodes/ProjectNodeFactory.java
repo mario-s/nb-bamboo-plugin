@@ -1,22 +1,24 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
-import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
 
 import java.util.Collection;
 import static java.util.Collections.sort;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
 
 /**
  * @author spindizzy
  */
-class ProjectNodeFactory extends ChildFactory<ProjectVo> {
+class ProjectNodeFactory extends AbstractListenerChildFactory<ProjectVo> {
+    
+    private static final Logger LOG = Logger.getLogger(ProjectNodeFactory.class.getName());
+    
     private static final BuildProjectComparator COMPARATOR = new BuildProjectComparator();
 
     private final ProjectsProvideable instance;
@@ -25,10 +27,18 @@ class ProjectNodeFactory extends ChildFactory<ProjectVo> {
 
     ProjectNodeFactory(final ProjectsProvideable instance) {
         this.instance = instance;
+        
+        init();
+    }
+    
+    private void init() {
         refreshNodes();
+        instance.addPropertyChangeListener(this);
     }
 
-    final void refreshNodes() {
+    @Override
+    void refreshNodes() {
+        LOG.info(String.format("refreshing projects of %s", instance.getName()));
         projects = instance.getProjects();
         refresh(false);
     }
@@ -47,6 +57,11 @@ class ProjectNodeFactory extends ChildFactory<ProjectVo> {
         sort(toPopulate, COMPARATOR);
 
         return true;
+    }
+    
+    @Override
+    void removePropertyChangeListener() {
+       instance.removePropertyChangeListener(this);
     }
 
     private static class BuildProjectComparator implements Comparator<ProjectVo> {

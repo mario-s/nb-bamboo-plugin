@@ -13,15 +13,12 @@ import static org.openide.util.Lookup.getDefault;
 import org.openide.util.Utilities;
 import org.openide.util.lookup.Lookups;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.ModelProperties;
@@ -45,12 +42,10 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Vers
  *
  * @author spindizzy
  */
-public class BambooInstanceNode extends AbstractNode implements PropertyChangeListener {
+public class BambooInstanceNode extends AbstractNode  {
 
     private static final String VERSION = "version";
     
-    private static final Logger LOG = Logger.getLogger(BambooInstanceNode.class.getName());
-
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
 
@@ -65,16 +60,6 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
         init();
     }
 
-    @Override
-    public void propertyChange(final PropertyChangeEvent evt) {
-        String propName = evt.getPropertyName();
-
-        if (ModelProperties.Projects.toString().equals(propName)) {
-            LOG.info(String.format("refreshing projects of %s", instance.getName()));
-            projectNodeFactory.refreshNodes();
-        }
-    }
-
     private void init() {
         setName(instance.getUrl());
         setDisplayName(instance.getName());
@@ -82,8 +67,6 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
         setIconBaseWithExtension(ICON_BASE);
 
         setChildren(Children.create(projectNodeFactory, true));
-
-        instance.addPropertyChangeListener(this);
     }
 
     @Override
@@ -100,7 +83,7 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
 
     @Override
     public void destroy() throws IOException {
-        instance.removePropertyChangeListener(this);
+        projectNodeFactory.removePropertyChangeListener();
         getDefault().lookup(InstanceManageable.class).removeInstance(instance);
         super.destroy();
     }
