@@ -51,7 +51,8 @@ public class BambooRestClient implements BambooServiceAccessable {
     static final String REST_API = "/rest/api/latest";
 
     static final String EXPAND = "expand";
-    static final String EXPAND_PROJ_PLANS = "projects.project.plans.plan";
+    static final String PROJECT_PLANS = "projects.project.plans.plan";
+    static final String RESULT_COMMENTS = "results.result.comments";
 
     static final String PROJECTS = "/project.json";
     static final String RESULTS = "/result.json";
@@ -159,7 +160,7 @@ public class BambooRestClient implements BambooServiceAccessable {
     private Collection<Project> doProjectsCall(final InstanceValues values, int max) {
         Set<Project> results = new HashSet<>();
         Map<String, String> params = new HashMap<>();
-        params.put(EXPAND, EXPAND_PROJ_PLANS);
+        params.put(EXPAND, PROJECT_PLANS);
         params.put(ApiCaller.MAX, Integer.toString(max));
         doSimpleCall(createProjectCaller(values, params), results);
         return results;
@@ -173,7 +174,9 @@ public class BambooRestClient implements BambooServiceAccessable {
 
     private Collection<Result> doResultsCall(final InstanceValues values) {
         Set<Result> results = new HashSet<>();
-        doRepeatableCall(createResultsCaller(values), results);
+        Map<String, String> params = new HashMap<>();
+        params.put(EXPAND, RESULT_COMMENTS);
+        doRepeatableCall(createResultsCaller(values, params), results);
         return results;
     }
 
@@ -215,8 +218,8 @@ public class BambooRestClient implements BambooServiceAccessable {
         }
     }
 
-    RepeatApiCaller<ResultsResponse> createResultsCaller(final InstanceValues values) {
-        return new RepeatApiCaller<>(values, ResultsResponse.class, RESULTS);
+    RepeatApiCaller<ResultsResponse> createResultsCaller(final InstanceValues values, Map<String, String> params) {
+        return new RepeatApiCaller<>(values, ResultsResponse.class, RESULTS, params);
     }
 
     RepeatApiCaller<PlansResponse> createPlansCaller(final InstanceValues values) {

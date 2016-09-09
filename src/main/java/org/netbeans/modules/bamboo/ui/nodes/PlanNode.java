@@ -27,8 +27,10 @@ import org.openide.xml.XMLUtil;
 
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Number;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Reason;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Number;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Reason;
 
 /**
  *
@@ -37,6 +39,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_N
 public class PlanNode extends AbstractNode {
     
     private static final String RESULT_NUMBER = "resultNumber";
+    private static final String BUILD_REASON = "buildReason";
     private static final String STYLE = "<font color='!controlShadow'>(%s)</font>";
     private static final String SPC = " ";
 
@@ -131,7 +134,9 @@ public class PlanNode extends AbstractNode {
         "TXT_Plan_Prop_Name=Plan Name",
         "DESC_Plan_Prop_Name=The name of the build plan",
         "TXT_Plan_Prop_Result_Number=Result Number",
-        "DESC_Plan_Prop_Result_Number=Number of the last result for this plan"
+        "DESC_Plan_Prop_Result_Number=Number of the last result for this plan",
+        "TXT_Plan_Prop_Result_Reason=Build Reason",
+        "DESC_Plan_Prop_Result_Reason=The reason why this plan was built"
     })
     protected Sheet createSheet() {
         Sheet sheet = Sheet.createDefault();
@@ -149,6 +154,13 @@ public class PlanNode extends AbstractNode {
             @Override
             public Integer getValue() throws IllegalAccessException, InvocationTargetException {
                 return getResult().getNumber();
+            }
+        });
+        
+        set.put(new StringReadPropertySupport(BUILD_REASON, TXT_Plan_Prop_Result_Reason(), DESC_Plan_Prop_Result_Reason()) {
+            @Override
+            public String getValue() throws IllegalAccessException, InvocationTargetException {
+                return getResult().getBuildReason();
             }
         });
 

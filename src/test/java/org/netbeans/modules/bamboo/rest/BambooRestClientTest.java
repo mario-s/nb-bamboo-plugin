@@ -86,7 +86,7 @@ public class BambooRestClientTest {
             }
 
             @Override
-            RepeatApiCaller<ResultsResponse> createResultsCaller(final InstanceValues values) {
+            RepeatApiCaller<ResultsResponse> createResultsCaller(final InstanceValues values, Map<String, String> params) {
                 return resultsCaller;
             }
 
