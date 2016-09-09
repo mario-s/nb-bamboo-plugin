@@ -1,8 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -12,7 +10,6 @@ import org.openide.nodes.Children;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.modules.bamboo.model.ModelProperties;
@@ -33,7 +30,7 @@ import org.openide.util.lookup.Lookups;
 public class ProjectNode extends AbstractNode {
 
     @StaticResource
-    private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/folder.png";
+    private static final String FOLDER = "org/netbeans/modules/bamboo/resources/folder.png";
 
     private final ProjectVo project;
     
@@ -50,11 +47,10 @@ public class ProjectNode extends AbstractNode {
         setName(project.getKey());
         setDisplayName(project.getName());
         setShortDescription(project.getName());
-        setIconBaseWithExtension(ICON_BASE);
+        setIconBaseWithExtension(FOLDER);
         
         setChildren(Children.create(planNodeFactory, true));
     }
-   
 
     @Override
     public Action[] getActions(final boolean context) {
