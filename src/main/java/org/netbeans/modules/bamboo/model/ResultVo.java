@@ -7,8 +7,7 @@ import lombok.Data;
  * @author spindizzy
  */
 @Data
-public class ResultVo {
-    private String key;
+public class ResultVo extends AbstractVo{
     private int number;
     private String buildReason;
     private State state = State.Unknown;

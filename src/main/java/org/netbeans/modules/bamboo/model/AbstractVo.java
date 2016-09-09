@@ -7,11 +7,13 @@ import java.beans.PropertyChangeSupport;
  *
  * @author spindizzy
  */
-public abstract class AbstractChangeSupportVo {
+public abstract class AbstractVo {
+    
+    private String key;
     
     private final PropertyChangeSupport changeSupport;
 
-    public AbstractChangeSupportVo() {
+    public AbstractVo() {
         this.changeSupport = new PropertyChangeSupport(this);
     }
     
@@ -26,4 +28,13 @@ public abstract class AbstractChangeSupportVo {
     public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }    
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+    
 }

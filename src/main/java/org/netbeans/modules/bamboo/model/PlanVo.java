@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 public class PlanVo extends AbstractOpenInBrowserVo{
     
-    private String key;
     private String name;
     private String shortKey;
     private String shortName;

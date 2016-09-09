@@ -11,7 +11,6 @@ import lombok.Data;
  */
 @Data
 public class ProjectVo extends AbstractOpenInBrowserVo{
-    private String key;
     private String name;
     private transient List<PlanVo> plans;
 

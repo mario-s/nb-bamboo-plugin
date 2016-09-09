@@ -1,19 +1,17 @@
 package org.netbeans.modules.bamboo.model;
 
-import static java.lang.String.format;
 import lombok.Setter;
 import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
+import static java.lang.String.format;
 
 /**
  *
  * @author spindizzy
  */
 @Setter
-public abstract class AbstractOpenInBrowserVo extends AbstractChangeSupportVo implements OpenableInBrowser {
+public abstract class AbstractOpenInBrowserVo extends AbstractVo implements OpenableInBrowser {
 
-    private String serverUrl;
-
-    public abstract String getKey();
+    private transient String serverUrl;
 
     @Override
     public String getUrl() {
