@@ -29,6 +29,7 @@ import org.openide.util.NbBundle.Messages;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import org.netbeans.modules.bamboo.model.ModelProperties;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import static org.netbeans.modules.bamboo.rest.Bundle.TXT_SYNC;
 
@@ -117,7 +118,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
         Collection<ProjectVo> newProjects = client.getProjects(this);
 
         this.projects = newProjects;
-        firePropertyChange(PROJECTS, oldProjects, newProjects);
+        firePropertyChange(ModelProperties.Projects.toString(), oldProjects, newProjects);
 
         if (progressHandle != null) {
             progressHandle.finish();

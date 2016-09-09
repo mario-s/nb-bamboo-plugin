@@ -9,7 +9,7 @@ import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
  * @author spindizzy
  */
 @Setter
-public abstract class AbstractOpenInBrowserVo implements OpenableInBrowser {
+public abstract class AbstractOpenInBrowserVo extends AbstractChangeSupportVo implements OpenableInBrowser {
 
     private String serverUrl;
 

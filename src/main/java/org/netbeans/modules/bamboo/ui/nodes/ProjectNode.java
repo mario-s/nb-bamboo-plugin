@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
+import org.netbeans.modules.bamboo.model.ModelProperties;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
@@ -28,7 +29,6 @@ import org.openide.util.lookup.Lookups;
  */
 public class ProjectNode extends AbstractNode {
     
-    private static final String PLANS = "plans";
 
     private static final Logger LOG = Logger.getLogger(ProjectNode.class.getName());
 
@@ -77,7 +77,7 @@ public class ProjectNode extends AbstractNode {
         Sheet.Set set = Sheet.createPropertiesSet();
         set.setDisplayName(project.getName());
         
-        set.put(new IntReadPropertySupport(PLANS, TXT_Instance_Prop_Plans(), DESC_Instance_Prop_Plans()) {
+        set.put(new IntReadPropertySupport(ModelProperties.Plans.toString(), TXT_Instance_Prop_Plans(), DESC_Instance_Prop_Plans()) {
             @Override
             public Integer getValue() throws IllegalAccessException, InvocationTargetException {
                 final Collection<PlanVo> plans = project.getPlans();

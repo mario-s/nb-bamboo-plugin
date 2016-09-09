@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.swing.Action;
+import org.netbeans.modules.bamboo.model.ModelProperties;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.openide.nodes.Sheet;
 import org.openide.util.NbBundle.Messages;
@@ -47,7 +48,6 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Vers
 public class BambooInstanceNode extends AbstractNode implements PropertyChangeListener {
 
     private static final String VERSION = "version";
-    private static final String PROJECTS = "projects";
     
     private static final Logger LOG = Logger.getLogger(BambooInstanceNode.class.getName());
 
@@ -67,9 +67,9 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
 
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
-        String propeName = evt.getPropertyName();
+        String propName = evt.getPropertyName();
 
-        if (ProjectsProvideable.PROJECTS.equals(propeName)) {
+        if (ModelProperties.Projects.toString().equals(propName)) {
             LOG.info(String.format("refreshing projects of %s", instance.getName()));
             projectNodeFactory.refreshNodes();
         }
@@ -143,7 +143,7 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
             }
         });
         
-        set.put(new IntReadPropertySupport(PROJECTS, TXT_Instance_Prop_Projects(), DESC_Instance_Prop_Projects()) {
+        set.put(new IntReadPropertySupport(ModelProperties.Projects.toString(), TXT_Instance_Prop_Projects(), DESC_Instance_Prop_Projects()) {
             @Override
             public Integer getValue() throws IllegalAccessException, InvocationTargetException {
                 final Collection<ProjectVo> projects = instance.getProjects();
