@@ -34,12 +34,19 @@ import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
+import org.netbeans.modules.bamboo.rest.AbstractVoConverter.PlanVoConverter;
+import org.netbeans.modules.bamboo.rest.AbstractVoConverter.ProjectVoConverter;
+import org.netbeans.modules.bamboo.rest.AbstractVoConverter.ResultVoConverter;
 
 /**
  * @author spindizzy
  */
 @ServiceProvider(service = BambooServiceAccessable.class)
 public class BambooRestClient implements BambooServiceAccessable {
+    
+    private static final ProjectVoConverter PROJECT_CONVERTER = new ProjectVoConverter();
+    private static final PlanVoConverter PLAN_CONVERTER = new PlanVoConverter();
+    private static final ResultVoConverter RESULT_CONVERTER = new ResultVoConverter();
 
     static final String REST_API = "/rest/api/latest";
 
@@ -75,32 +82,19 @@ public class BambooRestClient implements BambooServiceAccessable {
 
             projects.forEach(project -> {
 
-                ProjectVo projectVo = new ProjectVo();
+                ProjectVo projectVo = PROJECT_CONVERTER.convert(project);
                 projectVo.setServerUrl(values.getUrl());
-                projectVo.setKey(project.getKey());
-                projectVo.setName(project.getName());
 
                 project.plansAsCollection().forEach(projectPlan -> {
 
                     plans.forEach(plan -> {
                         if (projectPlan.getKey().equals(plan.getKey())) {
-                            PlanVo planVo = new PlanVo();
+                            PlanVo planVo = PLAN_CONVERTER.convert(plan);
                             planVo.setServerUrl(values.getUrl());
-                            planVo.setKey(plan.getKey());
-                            planVo.setShortKey(plan.getShortKey());
-                            planVo.setName(plan.getName());
-                            planVo.setShortName(plan.getShortName());
-                            planVo.setEnabled(plan.isEnabled());
-                            planVo.setType(plan.getType());
 
                             Result result = plan.getResult();
                             if (result != null) {
-                                ResultVo resultVo = new ResultVo();
-                                resultVo.setKey(result.getKey());
-                                resultVo.setNumber(result.getNumber());
-                                resultVo.setBuildReason(result.getBuildReason());
-                                resultVo.setState(result.getState());
-                                resultVo.setLifeCycleState(result.getLifeCycleState());
+                                ResultVo resultVo = RESULT_CONVERTER.convert(result);
                                 planVo.setResult(resultVo);
                             }
 
