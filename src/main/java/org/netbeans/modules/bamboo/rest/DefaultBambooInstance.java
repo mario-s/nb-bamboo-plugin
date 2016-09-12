@@ -29,9 +29,12 @@ import org.openide.util.NbBundle.Messages;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import org.netbeans.modules.bamboo.glue.LookupContext;
 import org.netbeans.modules.bamboo.model.ModelProperties;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import static org.netbeans.modules.bamboo.rest.Bundle.TXT_SYNC;
+import org.openide.util.Lookup;
+import org.openide.util.lookup.InstanceContent;
 
 /**
  * @author spindizzy
@@ -51,6 +54,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     private final PropertyChangeSupport changeSupport;
 
     private final BambooServiceAccessable client;
+    
+    private final LookupContext lookupContext;
 
     private Optional<Task> synchronizationTask = empty();
 
@@ -67,6 +72,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     public DefaultBambooInstance(final InstanceValues values) {
         super(values);
         changeSupport = new PropertyChangeSupport(this);
+        lookupContext = LookupContext.Instance;
         client = getDefault().lookup(BambooServiceAccessable.class);
     }
 
@@ -85,6 +91,11 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
         return version;
     }
 
+    @Override
+    public Lookup getLookup() {
+       return lookupContext.getLookup();
+    }
+    
     private void copyProperties(final BambooInstanceProperties props) throws NumberFormatException {
         setName(props.get(SharedConstants.PROP_NAME));
         setUrl(props.get(SharedConstants.PROP_URL));
@@ -209,6 +220,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
             final Object oldValue,
             final Object newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
+        
+        lookupContext.add(newValue);
     }
 
     void setVersionInfo(final VersionInfo version) {

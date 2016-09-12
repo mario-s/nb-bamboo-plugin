@@ -20,5 +20,6 @@ public class ProjectVo extends AbstractOpenInBrowserVo{
     
     public void addPlan(PlanVo plan){
         plans.add(plan);
+        getContent().add(plan);
     }
 }

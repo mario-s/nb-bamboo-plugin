@@ -22,18 +22,23 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.hamcrest.CoreMatchers.equalTo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
-
+import org.openide.util.Lookup;
 
 /**
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ProjectNodeFactoryTest {
+
     @Mock
     private ProjectsProvideable projectsProvideable;
+    @Mock
+    private Lookup lookup;
+    @Mock
+    private Lookup.Result<ProjectVo> lookupResult;
 
     private ProjectNodeFactory classUnderTest;
-    
+
     private List<ProjectVo> projects;
 
     private ProjectVo project;
@@ -42,15 +47,17 @@ public class ProjectNodeFactoryTest {
     public void setUp() {
         project = new ProjectVo();
         project.setName("b");
-        
+
         ProjectVo other = new ProjectVo();
         other.setName("a");
 
         projects = new ArrayList<>();
         projects.add(project);
         projects.add(other);
-        
+
         given(projectsProvideable.getProjects()).willReturn(projects);
+        given(projectsProvideable.getLookup()).willReturn(lookup);
+        given(lookup.lookupResult(ProjectVo.class)).willReturn(lookupResult);
 
         classUnderTest = new ProjectNodeFactory(projectsProvideable);
     }

@@ -10,30 +10,34 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 import org.netbeans.modules.bamboo.model.ProjectVo;
-
+import org.openide.util.Lookup;
 
 /**
  * @author spindizzy
  */
 class ProjectNodeFactory extends AbstractListenerChildFactory<ProjectVo> {
-    
+
     private static final Logger LOG = Logger.getLogger(ProjectNodeFactory.class.getName());
-    
+
     private static final BuildProjectComparator COMPARATOR = new BuildProjectComparator();
 
     private final ProjectsProvideable instance;
 
     private Collection<ProjectVo> projects;
 
+    private Lookup.Result<ProjectVo> result;
+
     ProjectNodeFactory(final ProjectsProvideable instance) {
         this.instance = instance;
-        
+
         init();
     }
-    
+
     private void init() {
         refreshNodes();
-        instance.addPropertyChangeListener(this);
+        //instance.addPropertyChangeListener(this);
+        result = instance.getLookup().lookupResult(ProjectVo.class);
+        result.addLookupListener(this);
     }
 
     @Override
@@ -58,13 +62,14 @@ class ProjectNodeFactory extends AbstractListenerChildFactory<ProjectVo> {
 
         return true;
     }
-    
+
     @Override
     void removePropertyChangeListener() {
-       instance.removePropertyChangeListener(this);
+//        instance.removePropertyChangeListener(this);
     }
 
     private static class BuildProjectComparator implements Comparator<ProjectVo> {
+
         @Override
         public int compare(final ProjectVo o1, final ProjectVo o2) {
             final String left = o1.getName();

@@ -7,6 +7,7 @@ import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 
 import java.util.prefs.Preferences;
+import org.openide.util.Lookup;
 
 
 /**
@@ -14,7 +15,7 @@ import java.util.prefs.Preferences;
  *
  * @author spindizzy
  */
-public interface BambooInstance extends InstanceValues, Serializable {
+public interface BambooInstance extends InstanceValues, Lookup.Provider, Serializable {
     /**
      * Get the informations to the version of the associated bamboo server.
      *
@@ -36,4 +37,5 @@ public interface BambooInstance extends InstanceValues, Serializable {
     void addPropertyChangeListener(PropertyChangeListener listener);
 
     void removePropertyChangeListener(PropertyChangeListener listener);
+    
 }

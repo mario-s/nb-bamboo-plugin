@@ -4,14 +4,13 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import org.netbeans.modules.bamboo.glue.LookupContext;
 import org.openide.util.Lookup;
-import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 
 /**
  *
  * @author spindizzy
  */
-public abstract class AbstractVo {
+public abstract class AbstractVo implements Lookup.Provider{
     
     private final LookupContext lookupContext;
     
@@ -42,6 +41,11 @@ public abstract class AbstractVo {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    @Override
+    public Lookup getLookup() {
+        return lookupContext.getLookup();
     }
     
     protected InstanceContent getContent() {

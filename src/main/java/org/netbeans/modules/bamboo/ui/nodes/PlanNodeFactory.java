@@ -9,6 +9,7 @@ import static java.util.Collections.sort;
 import java.util.logging.Logger;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.openide.util.Lookup;
 
 /**
  * @author spindizzy
@@ -23,14 +24,18 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
 
     private Collection<PlanVo> plans;
 
+    private Lookup.Result<PlanVo> result;
+
     PlanNodeFactory(final ProjectVo project) {
         this.project = project;
         init();
     }
-    
+
     private void init() {
         refreshNodes();
-        project.addPropertyChangeListener(this);
+//        project.addPropertyChangeListener(this);
+        result = project.getLookup().lookupResult(PlanVo.class);
+        result.addLookupListener(this);
     }
 
     @Override
@@ -55,10 +60,10 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
 
         return true;
     }
-    
+
     @Override
     void removePropertyChangeListener() {
-       project.removePropertyChangeListener(this);
+//       project.removePropertyChangeListener(this);
     }
 
     private static class PlanComparator implements Comparator<PlanVo> {
