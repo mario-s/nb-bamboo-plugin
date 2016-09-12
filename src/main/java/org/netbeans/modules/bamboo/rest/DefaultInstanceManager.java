@@ -7,7 +7,6 @@ import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
-import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -16,6 +15,7 @@ import java.util.Collection;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+import org.netbeans.modules.bamboo.glue.LookupContext;
 
 
 /**
@@ -25,32 +25,30 @@ import java.util.prefs.Preferences;
 public class DefaultInstanceManager implements InstanceManageable {
     private static final Logger LOG = Logger.getLogger(DefaultInstanceManager.class.getName());
 
-    private final InstanceContent content;
-    private final Lookup lookup;
+    private final LookupContext lookupContext;
 
     public DefaultInstanceManager() {
-        this.content = new InstanceContent();
-        this.lookup = new AbstractLookup(content);
+        lookupContext = LookupContext.Instance;
     }
 
     private void add(final BambooInstance instance) {
         if (instance != null) {
-            content.add(instance);
+            lookupContext.add(instance);
         }
     }
 
     private void remove(final BambooInstance instance) {
-        content.remove(instance);
+        lookupContext.remove(instance);
     }
 
     @Override
     public Lookup getLookup() {
-        return lookup;
+        return lookupContext.getLookup();
     }
 
     @Override
     public InstanceContent getContent() {
-        return content;
+        return lookupContext.getContent();
     }
 
     @Override

@@ -33,7 +33,6 @@ class BambooInstanceNodeFactory extends ChildFactory<ProjectsProvideable>
     private void lookupResult() {
         result = lookup.lookupResult(ProjectsProvideable.class);
         result.addLookupListener(this);
-        resultChanged(null);
     }
 
     @Override
@@ -57,9 +56,15 @@ class BambooInstanceNodeFactory extends ChildFactory<ProjectsProvideable>
     private static class BambooInstanceComparator implements Comparator<BambooInstance> {
         @Override
         public int compare(final BambooInstance o1, final BambooInstance o2) {
+            int val = 0;
+            
             final String left = o1.getName();
             final String right = o2.getName();
-            return left.compareToIgnoreCase(right);
+            
+            if(left != null && right != null){
+                val = left.compareToIgnoreCase(right);
+            }
+            return val;
         }
     }
 }

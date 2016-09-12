@@ -2,6 +2,10 @@ package org.netbeans.modules.bamboo.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import org.netbeans.modules.bamboo.glue.LookupContext;
+import org.openide.util.Lookup;
+import org.openide.util.lookup.AbstractLookup;
+import org.openide.util.lookup.InstanceContent;
 
 /**
  *
@@ -9,12 +13,15 @@ import java.beans.PropertyChangeSupport;
  */
 public abstract class AbstractVo {
     
+    private final LookupContext lookupContext;
+    
     private String key;
     
     private final PropertyChangeSupport changeSupport;
 
     public AbstractVo() {
         this.changeSupport = new PropertyChangeSupport(this);
+        lookupContext = LookupContext.Instance;
     }
     
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -37,4 +44,7 @@ public abstract class AbstractVo {
         this.key = key;
     }
     
+    protected InstanceContent getContent() {
+        return lookupContext.getContent();
+    }
 }

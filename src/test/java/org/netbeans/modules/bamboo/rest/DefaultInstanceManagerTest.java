@@ -82,6 +82,7 @@ public class DefaultInstanceManagerTest {
     @After
     public void shutDown() {
         result.removeLookupListener(listener);
+        classUnderTest.removeInstance(instance);
     }
 
     /**
