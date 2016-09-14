@@ -2,6 +2,7 @@ package org.netbeans.modules.bamboo.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 import org.netbeans.modules.bamboo.glue.LookupContext;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.InstanceContent;
@@ -51,4 +52,28 @@ public abstract class AbstractVo implements Lookup.Provider{
     protected InstanceContent getContent() {
         return lookupContext.getContent();
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + Objects.hashCode(this.key);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AbstractVo other = (AbstractVo) obj;
+        return Objects.equals(this.key, other.key);
+    }
+    
+    
 }
