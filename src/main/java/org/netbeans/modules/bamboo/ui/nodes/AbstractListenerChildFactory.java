@@ -24,5 +24,5 @@ abstract class AbstractListenerChildFactory<T> extends ChildFactory<T> implement
 
     abstract void refreshNodes();
 
-    abstract void removePropertyChangeListener();
+    abstract void removeListener();
 }
