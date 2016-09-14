@@ -39,8 +39,8 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_R
  *
  * @author spindizzy
  */
-public class PlanNode extends AbstractNode implements PropertyChangeListener{
-    
+public class PlanNode extends AbstractNode implements PropertyChangeListener {
+
     private static final String RESULT_NUMBER = "resultNumber";
     private static final String BUILD_REASON = "buildReason";
     private static final String STYLE = "<font color='!controlShadow'>(%s)</font>";
@@ -58,19 +58,12 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener{
     private String htmlDisplayName;
 
     private final PlanVo plan;
-    
+
     public PlanNode(final PlanVo plan) {
         super(Children.LEAF, Lookups.singleton(plan));
         this.plan = plan;
 
         init();
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        LOG.info(String.format("result for plan %s changed", plan.getName()));
-        updateHtmlDisplayName();
-        firePropertySetsChange(null, getPropertySets());
     }
 
     private void init() {
@@ -79,8 +72,15 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener{
         setShortDescription(plan.getName());
         setIconBaseWithExtension(ICON_BASE);
         updateHtmlDisplayName();
-        
+
         plan.addPropertyChangeListener(this);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        LOG.info(String.format("result for plan %s changed", plan.getName()));
+        updateHtmlDisplayName();
+        firePropertySetsChange(null, getPropertySets());
     }
 
     private void updateHtmlDisplayName() {
@@ -168,7 +168,7 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener{
                 return getResult().getNumber();
             }
         });
-        
+
         set.put(new StringReadPropertySupport(BUILD_REASON, TXT_Plan_Prop_Result_Reason(), DESC_Plan_Prop_Result_Reason()) {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
@@ -186,5 +186,5 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener{
         super.destroy();
         plan.removePropertyChangeListener(this);
     }
-    
+
 }
