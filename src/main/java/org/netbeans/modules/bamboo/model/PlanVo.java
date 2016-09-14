@@ -14,7 +14,7 @@ public class PlanVo extends AbstractOpenInBrowserVo{
     private String shortName;
     private boolean enabled;
     
-    private ResultVo result;
+    private transient ResultVo result;
 
     private transient PlanType type;
 

@@ -9,13 +9,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 import org.netbeans.modules.bamboo.model.ProjectVo;
-import org.openide.util.Lookup;
+import static java.util.Collections.sort;
 import static java.util.Collections.sort;
 
 /**
  * @author spindizzy
  */
-class ProjectNodeFactory extends AbstractListenerChildFactory<ProjectVo> {
+class ProjectNodeFactory extends AbstractRefreshChildFactory<ProjectVo> {
 
     private static final Logger LOG = Logger.getLogger(ProjectNodeFactory.class.getName());
 
@@ -25,8 +25,6 @@ class ProjectNodeFactory extends AbstractListenerChildFactory<ProjectVo> {
 
     private Collection<ProjectVo> projects;
 
-    private Lookup.Result<ProjectVo> result;
-
     ProjectNodeFactory(final ProjectsProvideable instance) {
         this.instance = instance;
 
@@ -35,8 +33,6 @@ class ProjectNodeFactory extends AbstractListenerChildFactory<ProjectVo> {
 
     private void init() {
         refreshNodes();
-        result = instance.getLookup().lookupResult(ProjectVo.class);
-        result.addLookupListener(this);
     }
 
     @Override
@@ -60,11 +56,6 @@ class ProjectNodeFactory extends AbstractListenerChildFactory<ProjectVo> {
         sort(toPopulate, COMPARATOR);
 
         return true;
-    }
-
-    @Override
-    void removeListener() {
-        result.removeLookupListener(this);
     }
 
     private static class BuildProjectComparator implements Comparator<ProjectVo> {

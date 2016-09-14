@@ -13,7 +13,7 @@ import static java.util.Collections.sort;
 /**
  * @author spindizzy
  */
-class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
+class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {
 
     private static final Logger LOG = Logger.getLogger(PlanNodeFactory.class.getName());
 
@@ -30,7 +30,6 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
 
     private void init() {
         refreshNodes();
-        project.addPropertyChangeListener(this);
     }
 
     @Override
@@ -42,7 +41,6 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
 
     @Override
     protected Node createNodeForKey(final PlanVo key) {
-        LOG.info(String.format("creating plan node for %s", key.getName()));
         return new PlanNode(key);
     }
 
@@ -55,11 +53,6 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
         sort(toPopulate, COMPARATOR);
 
         return true;
-    }
-
-    @Override
-    void removeListener() {
-        project.removePropertyChangeListener(this);
     }
 
     private static class PlanComparator implements Comparator<PlanVo> {
