@@ -11,7 +11,6 @@ import org.openide.nodes.Children;
 
 import static org.openide.util.Lookup.getDefault;
 import org.openide.util.Utilities;
-import org.openide.util.lookup.Lookups;
 
 
 import java.io.IOException;
@@ -36,6 +35,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Proj
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_SnycInterval;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Url;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Version;
+import org.openide.util.lookup.Lookups;
 
 /**
  * This class is the node of a Bamboo CI server.
@@ -83,7 +83,7 @@ public class BambooInstanceNode extends AbstractNode  {
 
     @Override
     public void destroy() throws IOException {
-        projectNodeFactory.removePropertyChangeListener();
+        projectNodeFactory.removeListener();
         getDefault().lookup(InstanceManageable.class).removeInstance(instance);
         super.destroy();
     }
