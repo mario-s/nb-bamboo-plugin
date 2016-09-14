@@ -34,9 +34,6 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Number;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Reason;
-import org.openide.util.Lookup;
-import org.openide.util.LookupEvent;
-import org.openide.util.LookupListener;
 
 /**
  *
@@ -62,8 +59,6 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener{
 
     private final PlanVo plan;
     
-    private Lookup.Result<ResultVo> resultLookupResult;
-
     public PlanNode(final PlanVo plan) {
         super(Children.LEAF, Lookups.singleton(plan));
         this.plan = plan;
@@ -77,8 +72,6 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener{
         updateHtmlDisplayName();
         firePropertySetsChange(null, getPropertySets());
     }
-    
-    
 
     private void init() {
         setName(plan.getName());
