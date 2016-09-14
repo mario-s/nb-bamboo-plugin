@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.logging.Logger;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
-import org.openide.util.Lookup;
 import static java.util.Collections.sort;
 
 /**
@@ -24,8 +23,6 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
 
     private Collection<PlanVo> plans;
 
-//    private Lookup.Result<PlanVo> planLookupResult;
-
     PlanNodeFactory(final ProjectVo project) {
         this.project = project;
         init();
@@ -33,8 +30,6 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
 
     private void init() {
         refreshNodes();
-//        planLookupResult = project.getLookup().lookupResult(PlanVo.class);
-//        planLookupResult.addLookupListener(this);
         project.addPropertyChangeListener(this);
     }
 
@@ -64,7 +59,6 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
 
     @Override
     void removeListener() {
-//        planLookupResult.removeLookupListener(this);
         project.removePropertyChangeListener(this);
     }
 

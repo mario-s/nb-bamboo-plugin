@@ -18,8 +18,9 @@ public class ProjectVo extends AbstractOpenInBrowserVo{
         plans = new ArrayList<>();
     }
     
-    public void addPlan(PlanVo plan){
-        plans.add(plan);
-        getContent().add(plan);
+    public void setPlans(List<PlanVo> plans){
+        List<PlanVo> old = this.plans;
+        this.plans = plans;
+        firePropertyChange(ModelProperties.Plans.toString(), old, plans);
     }
 }

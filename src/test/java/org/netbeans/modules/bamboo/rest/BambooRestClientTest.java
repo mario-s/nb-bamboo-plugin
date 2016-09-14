@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
+import java.util.ArrayList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
@@ -28,6 +29,7 @@ import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 
 import java.util.Collection;
 import static java.util.Collections.singletonList;
+import java.util.List;
 import java.util.Map;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -39,6 +41,9 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.Projects;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import org.netbeans.modules.bamboo.model.PlanVo;
 
 /**
  * @author spindizzy
@@ -47,6 +52,7 @@ import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 public class BambooRestClientTest {
 
     private static final String FOO = "foo";
+    private static final String BAR = "bar";
 
     @Mock
     private InstanceValues instanceValues;
@@ -98,27 +104,36 @@ public class BambooRestClientTest {
     }
     
     private void trainMocks() {
+        
+        
+        Plan fooPlan = new Plan();
+        fooPlan.setKey(FOO);
+        Plan barPlan = new Plan();
+        barPlan.setKey(BAR);
+        
+        Plans plans = new Plans();
+        List<Plan> planList = new ArrayList<>(2);
+        planList.add(fooPlan);
+        planList.add(barPlan);
+        plans.setPlan(planList);
+        
         ProjectsResponse projectsResponse = new ProjectsResponse();
         Project project = new Project();
+        project.setPlans(plans);
         Projects projects = new Projects();
         projects.setProject(singletonList(project));
         projectsResponse.setProjects(projects);
         
         PlansResponse plansResponse = new PlansResponse();
-        Plans plans = new Plans();
-        Plan plan = new Plan();
-        plan.setKey(FOO);
-        plans.setPlan(singletonList(plan));
+        
         plansResponse.setPlans(plans);
 
         ResultsResponse resultsResponse = new ResultsResponse();
         Results results = new Results();
         Result result = new Result();
-        result.setPlan(plan);
+        result.setPlan(fooPlan);
         results.setResult(singletonList(result));
         resultsResponse.setResults(results);
-        
-        project.setPlans(plans);
         
         given(projectsCaller.createTarget()).willReturn(of(webTarget));
         given(projectsCaller.request(webTarget)).willReturn(projectsResponse);
@@ -142,6 +157,19 @@ public class BambooRestClientTest {
 
         Collection<ProjectVo> buildProjects = classUnderTest.getProjects(instanceValues);
         assertThat(buildProjects.isEmpty(), is(false));
+    }
+    
+    
+    /**
+     * Test of getProjects method, of class BambooRestClient.
+     */
+    @Test
+    public void testGetProjects_TwoPlans() {
+        trainMocks();
+
+        Collection<ProjectVo> buildProjects = classUnderTest.getProjects(instanceValues);
+        List<PlanVo> plans = buildProjects.iterator().next().getPlans();
+        assertThat(plans.size(), is(2));
     }
     
      /**

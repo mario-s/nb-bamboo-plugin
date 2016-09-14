@@ -20,8 +20,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +46,7 @@ import org.netbeans.modules.bamboo.rest.AbstractVoConverter.ResultVoConverter;
  */
 @ServiceProvider(service = BambooServiceAccessable.class)
 public class BambooRestClient implements BambooServiceAccessable {
-    
+
     private static final ProjectVoConverter PROJECT_CONVERTER = new ProjectVoConverter();
     private static final PlanVoConverter PLAN_CONVERTER = new PlanVoConverter();
     private static final ResultVoConverter RESULT_CONVERTER = new ResultVoConverter();
@@ -85,24 +88,20 @@ public class BambooRestClient implements BambooServiceAccessable {
 
                 ProjectVo projectVo = PROJECT_CONVERTER.convert(project);
                 projectVo.setServerUrl(values.getUrl());
+                
+                List<PlanVo> planVos = new ArrayList<>();
 
                 project.plansAsCollection().forEach(projectPlan -> {
-
-                    plans.forEach(plan -> {
-                        if (projectPlan.getKey().equals(plan.getKey())) {
-                            PlanVo planVo = PLAN_CONVERTER.convert(plan);
-                            planVo.setServerUrl(values.getUrl());
-
-                            Result result = plan.getResult();
-                            if (result != null) {
-                                ResultVo resultVo = RESULT_CONVERTER.convert(result);
-                                planVo.setResult(resultVo);
-                            }
-
-                            projectVo.addPlan(planVo);
-                        }
-                    });
+                    String planKey = projectPlan.getKey();
+                    Optional<PlanVo> extracted = extractPlan(planKey, plans);
+                    if(extracted.isPresent()){
+                        PlanVo planVo = extracted.get();
+                        planVo.setServerUrl(values.getUrl());
+                        planVos.add(planVo);
+                    }
                 });
+                
+                projectVo.setPlans(planVos);
 
                 vos.add(projectVo);
             });
@@ -110,6 +109,25 @@ public class BambooRestClient implements BambooServiceAccessable {
             log.log(Level.FINE, exc.getMessage(), exc);
         }
         return vos;
+    }
+
+    private Optional<PlanVo> extractPlan(String planKey, Collection<Plan> plans) {
+        Optional<PlanVo> vo = empty();
+        for (Plan plan : plans) {
+            if (planKey.equals(plan.getKey())) {
+                PlanVo planVo = PLAN_CONVERTER.convert(plan);
+
+                Result result = plan.getResult();
+                if (result != null) {
+                    ResultVo resultVo = RESULT_CONVERTER.convert(result);
+                    planVo.setResult(resultVo);
+                }
+
+                vo = of(planVo);
+            }
+        }
+        return vo;
+
     }
 
     /**
