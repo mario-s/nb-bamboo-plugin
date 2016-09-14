@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
+import java.lang.reflect.InvocationTargetException;
+import static org.hamcrest.CoreMatchers.is;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -7,6 +9,8 @@ import static org.mockito.Matchers.contains;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
+import org.openide.nodes.Node;
+import org.openide.nodes.Node.Property;
 
 /**
  *
@@ -23,7 +27,9 @@ public class PlanNodeTest {
     public void setUp() {
         plan = new PlanVo();
         plan.setShortName("test");
-        plan.setResult(new ResultVo());
+        ResultVo resultVo = new ResultVo();
+        resultVo.setNumber(1);
+        plan.setResult(resultVo);
         classUnderTest = new PlanNode(plan);
     }
 
@@ -31,12 +37,39 @@ public class PlanNodeTest {
      * Test of propertyChange method, of class PlanNode.
      */
     @Test
-    public void testPropertyChange_ShouldChangeName() {
+    public void testChange_Name() {
         ResultVo result = new ResultVo();
-        result.setNumber(1);
+        result.setNumber(2);
         result.setState(State.Failed);
         plan.setResult(result);
         assertTrue(classUnderTest.getHtmlDisplayName().contains(State.Failed.toString()));
+    }
+    
+     /**
+     * Test of propertyChange method, of class PlanNode.
+     */
+    @Test
+    public void testChange_BuildNumber() throws IllegalAccessException, InvocationTargetException {
+        
+        Property[] oldProps = getProperties(0);
+        Object oldValue = oldProps[1].getValue();
+        
+        ResultVo result = new ResultVo();
+        result.setNumber(2);
+        result.setState(State.Failed);
+        plan.setResult(result);
+
+        Property[] newProps = getProperties(0); 
+        
+        Object newValue = newProps[1].getValue();
+        
+        assertThat(oldValue.equals(newValue), is(false));
+    }
+    
+    private Property[] getProperties(int setIndex) {
+        Node.PropertySet[] oldSets = classUnderTest.getPropertySets();
+        Node.PropertySet oldPropSet = oldSets[setIndex];
+        return oldPropSet.getProperties();
     }
 
     
