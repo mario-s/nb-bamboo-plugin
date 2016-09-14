@@ -46,7 +46,7 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
 
     @Override
     protected Node createNodeForKey(final PlanVo key) {
-        LOG.info(String.format("creating plan node for %s", key));
+        LOG.info(String.format("creating plan node for %s", key.getName()));
         return new PlanNode(key);
     }
 
