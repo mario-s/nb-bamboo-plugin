@@ -24,7 +24,7 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
 
     private Collection<PlanVo> plans;
 
-    private Lookup.Result<PlanVo> planLookupResult;
+//    private Lookup.Result<PlanVo> planLookupResult;
 
     PlanNodeFactory(final ProjectVo project) {
         this.project = project;
@@ -33,8 +33,9 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
 
     private void init() {
         refreshNodes();
-        planLookupResult = project.getLookup().lookupResult(PlanVo.class);
-        planLookupResult.addLookupListener(this);
+//        planLookupResult = project.getLookup().lookupResult(PlanVo.class);
+//        planLookupResult.addLookupListener(this);
+        project.addPropertyChangeListener(this);
     }
 
     @Override
@@ -63,7 +64,8 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
 
     @Override
     void removeListener() {
-        planLookupResult.removeLookupListener(this);
+//        planLookupResult.removeLookupListener(this);
+        project.removePropertyChangeListener(this);
     }
 
     private static class PlanComparator implements Comparator<PlanVo> {
