@@ -8,7 +8,7 @@ import org.openide.util.lookup.ServiceProvider;
  *
  * @author spindizzy
  */
-@ServiceProvider(service = StatusLineElementProvider.class, position=1)
+//@ServiceProvider(service = StatusLineElementProvider.class, position=1)
 public class BuildResultStatusBar implements StatusLineElementProvider{
 
     @Override
