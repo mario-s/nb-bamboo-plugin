@@ -1,6 +1,7 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
-
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -27,13 +28,13 @@ import org.openide.util.lookup.Lookups;
 /**
  * @author spindizzy
  */
-public class ProjectNode extends AbstractNode {
+public class ProjectNode extends AbstractNode implements PropertyChangeListener {
 
     @StaticResource
     private static final String FOLDER = "org/netbeans/modules/bamboo/resources/folder.png";
 
     private final ProjectVo project;
-    
+
     private final PlanNodeFactory planNodeFactory;
 
     public ProjectNode(final ProjectVo project) {
@@ -48,8 +49,15 @@ public class ProjectNode extends AbstractNode {
         setDisplayName(project.getName());
         setShortDescription(project.getName());
         setIconBaseWithExtension(FOLDER);
-        
+
         setChildren(Children.create(planNodeFactory, true));
+        
+        project.addPropertyChangeListener(this);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        planNodeFactory.refreshNodes();
     }
 
     @Override
@@ -65,13 +73,12 @@ public class ProjectNode extends AbstractNode {
     @Override
     @NbBundle.Messages({
         "TXT_Instance_Prop_Plans=Plans",
-        "DESC_Instance_Prop_Plans=number of all available build plans",
-    })
+        "DESC_Instance_Prop_Plans=number of all available build plans",})
     protected Sheet createSheet() {
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
         set.setDisplayName(project.getName());
-        
+
         set.put(new IntReadPropertySupport(ModelProperties.Plans.toString(), TXT_Instance_Prop_Plans(), DESC_Instance_Prop_Plans()) {
             @Override
             public Integer getValue() throws IllegalAccessException, InvocationTargetException {
@@ -81,14 +88,15 @@ public class ProjectNode extends AbstractNode {
         });
 
         sheet.put(set);
-        
+
         return sheet;
     }
 
     @Override
     public void destroy() throws IOException {
+        project.removePropertyChangeListener(this);
         planNodeFactory.removeListener();
-        super.destroy(); 
+        super.destroy();
     }
-    
+
 }

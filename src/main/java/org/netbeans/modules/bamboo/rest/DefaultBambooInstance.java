@@ -221,7 +221,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
             final Object newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
         
-        lookupContext.add(newValue);
+//        lookupContext.add(newValue);
     }
 
     void setVersionInfo(final VersionInfo version) {

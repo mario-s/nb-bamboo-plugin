@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import org.netbeans.api.annotations.common.StaticResource;
 
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
@@ -42,7 +44,7 @@ import org.openide.util.lookup.Lookups;
  *
  * @author spindizzy
  */
-public class BambooInstanceNode extends AbstractNode  {
+public class BambooInstanceNode extends AbstractNode implements PropertyChangeListener {
 
     private static final String VERSION = "version";
     
@@ -67,6 +69,13 @@ public class BambooInstanceNode extends AbstractNode  {
         setIconBaseWithExtension(ICON_BASE);
 
         setChildren(Children.create(projectNodeFactory, true));
+        
+        instance.addPropertyChangeListener(this);
+    }
+    
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        projectNodeFactory.refreshNodes();
     }
 
     @Override
@@ -84,6 +93,7 @@ public class BambooInstanceNode extends AbstractNode  {
     @Override
     public void destroy() throws IOException {
         projectNodeFactory.removeListener();
+        instance.removePropertyChangeListener(this);
         getDefault().lookup(InstanceManageable.class).removeInstance(instance);
         super.destroy();
     }
