@@ -1,7 +1,10 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.awt.Image;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.CharConversionException;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +34,15 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Number;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Reason;
+import org.openide.util.Lookup;
+import org.openide.util.LookupEvent;
+import org.openide.util.LookupListener;
 
 /**
  *
  * @author spindizzy
  */
-public class PlanNode extends AbstractNode {
+public class PlanNode extends AbstractNode implements PropertyChangeListener{
     
     private static final String RESULT_NUMBER = "resultNumber";
     private static final String BUILD_REASON = "buildReason";
@@ -55,6 +61,8 @@ public class PlanNode extends AbstractNode {
     private String htmlDisplayName;
 
     private final PlanVo plan;
+    
+    private Lookup.Result<ResultVo> resultLookupResult;
 
     public PlanNode(final PlanVo plan) {
         super(Children.LEAF, Lookups.singleton(plan));
@@ -63,12 +71,23 @@ public class PlanNode extends AbstractNode {
         init();
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        LOG.info(String.format("result for plan %s changed", plan.getName()));
+        updateHtmlDisplayName();
+        firePropertySetsChange(null, getPropertySets());
+    }
+    
+    
+
     private void init() {
         setName(plan.getName());
         setDisplayName(plan.getShortName());
         setShortDescription(plan.getName());
         setIconBaseWithExtension(ICON_BASE);
         updateHtmlDisplayName();
+        
+        plan.addPropertyChangeListener(this);
     }
 
     private void updateHtmlDisplayName() {
@@ -168,4 +187,11 @@ public class PlanNode extends AbstractNode {
 
         return sheet;
     }
+
+    @Override
+    public void destroy() throws IOException {
+        super.destroy();
+        plan.removePropertyChangeListener(this);
+    }
+    
 }
