@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.glue;
 
+import java.time.LocalDate;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,5 +13,5 @@ import java.util.Date;
 public class VersionInfo {
     private String version;
     private int buildNumber;
-    private Date buildDate;
+    private LocalDate buildDate;
 }

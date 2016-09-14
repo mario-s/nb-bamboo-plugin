@@ -12,9 +12,9 @@ import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 
 import org.openide.util.lookup.ServiceProvider;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -164,9 +164,9 @@ public class BambooRestClient implements BambooServiceAccessable {
 
             if (isNotBlank(buildDate)) {
                 try {
-                    DateFormat df = new SimpleDateFormat(BUILD_DATE_PATTERN);
-                    versionInfo.setBuildDate(df.parse(buildDate));
-                } catch (ParseException ex) {
+                    DateTimeFormatter formater = DateTimeFormatter.ofPattern(BUILD_DATE_PATTERN);
+                    versionInfo.setBuildDate(LocalDate.parse(buildDate, formater));
+                } catch (DateTimeParseException ex) {
                     log.fine(ex.getMessage());
                 }
             }
