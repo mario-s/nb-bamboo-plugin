@@ -13,7 +13,6 @@ import org.mockito.Mock;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 import org.openide.nodes.Node;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.hamcrest.CoreMatchers.equalTo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
-import org.openide.util.Lookup;
 
 /**
  * @author spindizzy
@@ -32,11 +30,7 @@ public class ProjectNodeFactoryTest {
 
     @Mock
     private ProjectsProvideable projectsProvideable;
-    @Mock
-    private Lookup lookup;
-    @Mock
-    private Lookup.Result<ProjectVo> lookupResult;
-
+    
     private ProjectNodeFactory classUnderTest;
 
     private List<ProjectVo> projects;
@@ -56,8 +50,7 @@ public class ProjectNodeFactoryTest {
         projects.add(other);
 
         given(projectsProvideable.getProjects()).willReturn(projects);
-        given(projectsProvideable.getLookup()).willReturn(lookup);
-        given(lookup.lookupResult(ProjectVo.class)).willReturn(lookupResult);
+        given(projectsProvideable.getLookup()).willReturn(project.getLookup());
 
         classUnderTest = new ProjectNodeFactory(projectsProvideable);
     }
