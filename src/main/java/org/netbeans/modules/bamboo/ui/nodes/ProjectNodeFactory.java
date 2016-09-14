@@ -5,12 +5,12 @@ import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 import org.openide.nodes.Node;
 
 import java.util.Collection;
-import static java.util.Collections.sort;
 import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.openide.util.Lookup;
+import static java.util.Collections.sort;
 
 /**
  * @author spindizzy
@@ -35,7 +35,6 @@ class ProjectNodeFactory extends AbstractListenerChildFactory<ProjectVo> {
 
     private void init() {
         refreshNodes();
-        //instance.addPropertyChangeListener(this);
         result = instance.getLookup().lookupResult(ProjectVo.class);
         result.addLookupListener(this);
     }
@@ -64,8 +63,8 @@ class ProjectNodeFactory extends AbstractListenerChildFactory<ProjectVo> {
     }
 
     @Override
-    void removePropertyChangeListener() {
-//        instance.removePropertyChangeListener(this);
+    void removeListener() {
+        result.removeLookupListener(this);
     }
 
     private static class BuildProjectComparator implements Comparator<ProjectVo> {

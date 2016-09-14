@@ -5,11 +5,11 @@ import org.openide.nodes.Node;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import static java.util.Collections.sort;
 import java.util.logging.Logger;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.openide.util.Lookup;
+import static java.util.Collections.sort;
 
 /**
  * @author spindizzy
@@ -24,7 +24,7 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
 
     private Collection<PlanVo> plans;
 
-    private Lookup.Result<PlanVo> result;
+    private Lookup.Result<PlanVo> planLookupResult;
 
     PlanNodeFactory(final ProjectVo project) {
         this.project = project;
@@ -33,9 +33,8 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
 
     private void init() {
         refreshNodes();
-//        project.addPropertyChangeListener(this);
-        result = project.getLookup().lookupResult(PlanVo.class);
-        result.addLookupListener(this);
+        planLookupResult = project.getLookup().lookupResult(PlanVo.class);
+        planLookupResult.addLookupListener(this);
     }
 
     @Override
@@ -47,6 +46,7 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
 
     @Override
     protected Node createNodeForKey(final PlanVo key) {
+        LOG.info(String.format("creating plan node for %s", key));
         return new PlanNode(key);
     }
 
@@ -62,8 +62,8 @@ class PlanNodeFactory extends AbstractListenerChildFactory<PlanVo> {
     }
 
     @Override
-    void removePropertyChangeListener() {
-//       project.removePropertyChangeListener(this);
+    void removeListener() {
+        planLookupResult.removeLookupListener(this);
     }
 
     private static class PlanComparator implements Comparator<PlanVo> {

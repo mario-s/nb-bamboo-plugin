@@ -22,7 +22,6 @@ import org.openide.actions.PropertiesAction;
 import org.openide.nodes.Sheet;
 import org.openide.util.NbBundle;
 import org.openide.util.actions.SystemAction;
-import org.openide.util.lookup.Lookups;
 
 /**
  * @author spindizzy
@@ -37,7 +36,7 @@ public class ProjectNode extends AbstractNode {
     private final PlanNodeFactory planNodeFactory;
 
     public ProjectNode(final ProjectVo project) {
-        super(Children.LEAF, Lookups.singleton(project));
+        super(Children.LEAF);
         this.project = project;
         this.planNodeFactory = new PlanNodeFactory(project);
         init();
@@ -87,7 +86,7 @@ public class ProjectNode extends AbstractNode {
 
     @Override
     public void destroy() throws IOException {
-        planNodeFactory.removePropertyChangeListener();
+        planNodeFactory.removeListener();
         super.destroy(); 
     }
     
