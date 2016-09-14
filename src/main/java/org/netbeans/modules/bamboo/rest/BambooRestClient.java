@@ -107,7 +107,7 @@ public class BambooRestClient implements BambooServiceAccessable {
                 vos.add(projectVo);
             });
         } catch (ServerErrorException exc) {
-            log.log(Level.WARNING, exc.getMessage(), exc);
+            log.log(Level.FINE, exc.getMessage(), exc);
         }
         return vos;
     }
