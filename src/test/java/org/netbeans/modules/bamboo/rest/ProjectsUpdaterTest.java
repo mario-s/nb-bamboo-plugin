@@ -52,7 +52,7 @@ public class ProjectsUpdaterTest {
      * Test of update method, of class ProjectsUpdater.
      */
     @Test
-    public void testUpdate_DifferentContent_Empty() {
+    public void testUpdate_DifferentContent_ExpectLeft() {
         ProjectVo left = new ProjectVo();
         left.setKey(FOO);
         ProjectVo right = new ProjectVo();
@@ -63,7 +63,7 @@ public class ProjectsUpdaterTest {
         
         classUnderTest.update(source, target);
 
-        assertThat(target.isEmpty(), is(true));
+        assertThat(target.get(0).getKey(), equalTo(FOO));
     }
     
      /**
@@ -83,6 +83,25 @@ public class ProjectsUpdaterTest {
         classUnderTest.update(source, target);
 
         assertThat(target.size(), is(1));
+    }
+    
+     /**
+     * Test of update method, of class ProjectsUpdater.
+     */
+    @Test
+    public void testUpdate_AddContent_NewOne() {
+        ProjectVo left = new ProjectVo();
+        left.setKey(FOO);
+        ProjectVo right = new ProjectVo();
+        right.setKey(BAR);
+        
+        source.add(left);
+        source.add(right);
+        target.add(right);
+        
+        classUnderTest.update(source, target);
+
+        assertThat(target.size(), is(2));
     }
     
 }
