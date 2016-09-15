@@ -17,19 +17,31 @@ abstract class AbstractVoConverter<S, T extends AbstractVo> {
     abstract T convert(S src);
 
     static class ProjectVoConverter extends AbstractVoConverter<Project, ProjectVo> {
+        private final String serverUrl;
 
+        public ProjectVoConverter(String serverUrl) {
+            this.serverUrl = serverUrl;
+        }
+        
         @Override
         ProjectVo convert(Project src) {
             ProjectVo target = new ProjectVo();
             target.setKey(src.getKey());
             target.setName(src.getName());
+            target.setServerUrl(serverUrl);
             return target;
         }
 
     }
 
     static class PlanVoConverter extends AbstractVoConverter<Plan, PlanVo> {
+        
+        private final String serverUrl;
 
+        public PlanVoConverter(String serverUrl) {
+            this.serverUrl = serverUrl;
+        }
+        
         @Override
         PlanVo convert(Plan src) {
             PlanVo target = new PlanVo();
@@ -39,6 +51,7 @@ abstract class AbstractVoConverter<S, T extends AbstractVo> {
             target.setShortName(src.getShortName());
             target.setEnabled(src.isEnabled());
             target.setType(src.getType());
+            target.setServerUrl(serverUrl);
             return target;
         }
 

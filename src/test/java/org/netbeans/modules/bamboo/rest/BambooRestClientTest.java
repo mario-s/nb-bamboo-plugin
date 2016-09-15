@@ -196,4 +196,12 @@ public class BambooRestClientTest {
         VersionInfo result = classUnderTest.getVersionInfo(instanceValues);
         assertThat(result.getBuildDate(), notNullValue());
     }
+    
+    @Test
+    public void testUpdate() {
+        trainMocks();
+        List<ProjectVo> toBeUpdated = new ArrayList<>();
+        classUnderTest.updateProjects(toBeUpdated, instanceValues);
+        assertThat(toBeUpdated.isEmpty(), is(false));
+    }
 }

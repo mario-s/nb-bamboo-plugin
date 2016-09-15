@@ -17,30 +17,21 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.ServerErrorException;
 
 import javax.ws.rs.client.WebTarget;
-import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
-import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
-import org.netbeans.modules.bamboo.rest.AbstractVoConverter.PlanVoConverter;
-import org.netbeans.modules.bamboo.rest.AbstractVoConverter.ProjectVoConverter;
-import org.netbeans.modules.bamboo.rest.AbstractVoConverter.ResultVoConverter;
 import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
 
 /**
@@ -48,10 +39,6 @@ import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
  */
 @ServiceProvider(service = BambooServiceAccessable.class)
 public class BambooRestClient implements BambooServiceAccessable {
-
-    private static final ProjectVoConverter PROJECT_CONVERTER = new ProjectVoConverter();
-    private static final PlanVoConverter PLAN_CONVERTER = new PlanVoConverter();
-    private static final ResultVoConverter RESULT_CONVERTER = new ResultVoConverter();
 
     static final String REST_API = "/rest/api/latest";
 
@@ -87,59 +74,21 @@ public class BambooRestClient implements BambooServiceAccessable {
 
     @Override
     public Collection<ProjectVo> getProjects(final InstanceValues values) {
-        Collection<ProjectVo> vos = new ArrayList<>();
-
+        ProjectsFactory factory = new ProjectsFactory(values.getUrl());
         try {
 
             Collection<Plan> plans = getPlans(values);
-
             Collection<Project> projects = doProjectsCall(values, plans.size());
+            
+            factory.setPlans(plans);
+            factory.setProjects(projects);
 
-            projects.forEach(project -> {
-
-                ProjectVo projectVo = PROJECT_CONVERTER.convert(project);
-                projectVo.setServerUrl(values.getUrl());
-
-                List<PlanVo> planVos = new ArrayList<>();
-
-                project.plansAsCollection().forEach(projectPlan -> {
-                    String planKey = projectPlan.getKey();
-                    Optional<PlanVo> extracted = extractPlan(planKey, plans);
-                    if (extracted.isPresent()) {
-                        PlanVo planVo = extracted.get();
-                        planVo.setServerUrl(values.getUrl());
-                        planVos.add(planVo);
-                    }
-                });
-
-                projectVo.setPlans(planVos);
-
-                vos.add(projectVo);
-            });
         } catch (ServerErrorException exc) {
             log.log(Level.FINE, exc.getMessage(), exc);
         }
-        return vos;
+        return factory.create();
     }
 
-    private Optional<PlanVo> extractPlan(String planKey, Collection<Plan> plans) {
-        Optional<PlanVo> vo = empty();
-        for (Plan plan : plans) {
-            if (planKey.equals(plan.getKey())) {
-                PlanVo planVo = PLAN_CONVERTER.convert(plan);
-
-                Result result = plan.getResult();
-                if (result != null) {
-                    ResultVo resultVo = RESULT_CONVERTER.convert(result);
-                    planVo.setResult(resultVo);
-                }
-
-                vo = of(planVo);
-            }
-        }
-        return vo;
-
-    }
 
     /**
      * Load the available plans and their results.
