@@ -79,7 +79,8 @@ public class BambooRestClient implements BambooServiceAccessable {
     public void updateProjects(Collection<ProjectVo> projects, InstanceValues values) {
         Collection<ProjectVo> source = getProjects(values);
         if (!source.isEmpty()) {
-            ProjectsUpdater.update(source, projects);
+            ProjectsUpdater updater = new ProjectsUpdater();
+            updater.update(source, projects);
         }
     }
 

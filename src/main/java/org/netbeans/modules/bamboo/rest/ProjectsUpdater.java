@@ -11,15 +11,20 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
  */
 final class ProjectsUpdater {
     
-    private ProjectsUpdater(){
+    ProjectsUpdater(){
     }
     
     /**
      * This method updates the given target with the values from the source.
-     * @param src source for updates
+     * @param source source for updates
      * @param target updates to be applied
      */
-    static void update(Collection<ProjectVo> src, Collection<ProjectVo> target){
+    void update(Collection<ProjectVo> source, Collection<ProjectVo> target){
         
+        //if nothing has changed we can skip here
+        //a change will cause the complete tree to be rebuild
+        if(target.retainAll(source)){
+            
+        }
     }
 }
