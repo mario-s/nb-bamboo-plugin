@@ -30,7 +30,7 @@ final class ProjectsFactory {
 
     private Collection<Plan> plans;
 
-    public ProjectsFactory(String serverUrl) {
+    ProjectsFactory(String serverUrl) {
         projectConverter = new ProjectVoConverter(serverUrl);
         planConverter = new PlanVoConverter(serverUrl);
         resultConverter = new ResultVoConverter();

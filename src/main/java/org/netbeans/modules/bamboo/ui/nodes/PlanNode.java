@@ -152,7 +152,6 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener {
         "DESC_Plan_Prop_Result_Reason=The reason why this plan was built"
     })
     protected Sheet createSheet() {
-        Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
         set.setDisplayName(plan.getShortName());
 
@@ -177,6 +176,7 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener {
             }
         });
 
+        Sheet sheet = Sheet.createDefault();
         sheet.put(set);
 
         return sheet;

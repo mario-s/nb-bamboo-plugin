@@ -3,7 +3,6 @@ package org.netbeans.modules.bamboo.glue;
 import java.time.LocalDate;
 import lombok.Data;
 
-import java.util.Date;
 
 
 /**

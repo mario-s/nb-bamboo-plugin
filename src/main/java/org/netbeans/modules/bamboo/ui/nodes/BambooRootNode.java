@@ -34,7 +34,7 @@ public final class BambooRootNode extends AbstractNode {
     @StaticResource
     static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/ci.png";
     
-    private ChildFactory<ProjectsProvideable> instanceNodeFactory;
+    private final ChildFactory<ProjectsProvideable> instanceNodeFactory;
 
     BambooRootNode() {
         super(Children.LEAF, getDefault().lookup(InstanceManageable.class).getLookup());

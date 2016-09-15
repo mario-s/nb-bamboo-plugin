@@ -111,7 +111,6 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
         "DESC_Instance_Prop_SyncInterval=minutes for the next synchronization of the instance with the server"
     })
     protected Sheet createSheet() {
-        Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
         set.setDisplayName(instance.getName());
 
@@ -152,6 +151,7 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
             }
         });
 
+        Sheet sheet = Sheet.createDefault();
         sheet.put(set);
         
         return sheet;

@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import static org.hamcrest.CoreMatchers.is;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

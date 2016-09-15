@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.model;
 
-import lombok.Setter;
 import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
 import static java.lang.String.format;
 

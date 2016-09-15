@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
+import java.io.Serializable;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
@@ -53,7 +54,10 @@ class BambooInstanceNodeFactory extends ChildFactory<ProjectsProvideable>
         refresh(true);
     }
 
-    private static class BambooInstanceComparator implements Comparator<BambooInstance> {
+    private static class BambooInstanceComparator implements Comparator<BambooInstance>, Serializable {
+
+        private static final long serialVersionUID = 1L;
+        
         @Override
         public int compare(final BambooInstance o1, final BambooInstance o2) {
             int val = 0;

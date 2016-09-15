@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.ui.notification;
 
 import java.awt.Component;
 import org.openide.awt.StatusLineElementProvider;
-import org.openide.util.lookup.ServiceProvider;
 
 /**
  *

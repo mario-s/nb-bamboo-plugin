@@ -75,7 +75,7 @@ public class ProjectNode extends AbstractNode implements PropertyChangeListener 
         "TXT_Instance_Prop_Plans=Plans",
         "DESC_Instance_Prop_Plans=number of all available build plans",})
     protected Sheet createSheet() {
-        Sheet sheet = Sheet.createDefault();
+        
         Sheet.Set set = Sheet.createPropertiesSet();
         set.setDisplayName(project.getName());
 
@@ -87,6 +87,7 @@ public class ProjectNode extends AbstractNode implements PropertyChangeListener 
             }
         });
 
+        Sheet sheet = Sheet.createDefault();
         sheet.put(set);
 
         return sheet;

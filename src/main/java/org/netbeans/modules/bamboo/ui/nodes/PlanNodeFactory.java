@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
+import java.io.Serializable;
 import org.openide.nodes.Node;
 
 import java.util.Collection;
@@ -55,8 +56,10 @@ class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {
         return true;
     }
 
-    private static class PlanComparator implements Comparator<PlanVo> {
+    private static class PlanComparator implements Comparator<PlanVo>, Serializable {
 
+        private static final long serialVersionUID = 1L;
+        
         @Override
         public int compare(final PlanVo o1, final PlanVo o2) {
             final String left = o1.getName();

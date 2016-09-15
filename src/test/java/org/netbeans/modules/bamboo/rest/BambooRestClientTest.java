@@ -1,8 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
 import java.util.ArrayList;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 
 import static org.junit.Assert.*;
 

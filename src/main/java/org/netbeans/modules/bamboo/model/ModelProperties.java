@@ -13,7 +13,7 @@ public enum ModelProperties {
                 
     }
     
-    private String value;
+    private final String value;
 
     @Override
     public String toString() {

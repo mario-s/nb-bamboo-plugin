@@ -1,9 +1,5 @@
 package org.netbeans.modules.bamboo.model.rest;
 
-import org.netbeans.modules.bamboo.model.rest.Plans;
-import org.netbeans.modules.bamboo.model.rest.Plan;
-import org.netbeans.modules.bamboo.model.rest.Project;
-import org.netbeans.modules.bamboo.model.rest.Result;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
