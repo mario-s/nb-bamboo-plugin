@@ -1,6 +1,9 @@
 package org.netbeans.modules.bamboo.rest;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
 /**
@@ -12,6 +15,8 @@ final class ProjectsUpdater {
 
     ProjectsUpdater() {
     }
+
+    
 
     /**
      * This method updates the given target with the values from the source.
@@ -28,8 +33,23 @@ final class ProjectsUpdater {
             //add it to the target if not present, will change the whole tree
             if (!target.contains(srcProjVo)) {
                 target.add(srcProjVo);
+            }else{
+                Optional<ProjectVo> optProj = find(target, srcProjVo);
+                if(optProj.isPresent()) {
+                    //copy plans
+                    ProjectVo tarProjVo = optProj.get();
+                    updatePlans(srcProjVo.getPlans(), tarProjVo.getPlans());
+                }
             }
         });
 
+    }
+    
+    private Optional<ProjectVo> find(Collection<ProjectVo> target, ProjectVo project) {
+        return target.stream().filter(vo -> vo.getKey().equals(project.getKey())).findFirst();
+    }
+    
+    private void updatePlans(List<PlanVo> source, List<PlanVo> target) {
+        //TODO implement
     }
 }
