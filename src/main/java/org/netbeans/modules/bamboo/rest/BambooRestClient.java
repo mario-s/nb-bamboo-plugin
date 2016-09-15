@@ -41,6 +41,7 @@ import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 import org.netbeans.modules.bamboo.rest.AbstractVoConverter.PlanVoConverter;
 import org.netbeans.modules.bamboo.rest.AbstractVoConverter.ProjectVoConverter;
 import org.netbeans.modules.bamboo.rest.AbstractVoConverter.ResultVoConverter;
+import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
 
 /**
  * @author spindizzy
