@@ -80,6 +80,7 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         LOG.info(String.format("result for plan %s changed", plan.getName()));
         updateHtmlDisplayName();
+        fireIconChange();
         firePropertySetsChange(null, getPropertySets());
     }
 
