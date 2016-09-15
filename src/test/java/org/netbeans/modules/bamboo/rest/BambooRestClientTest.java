@@ -188,7 +188,7 @@ public class BambooRestClientTest {
     @Test
     public void testGetVersion() {
         Info info = new Info();
-        info.setBuildDate("2009-09-11T20:47:44.100+0200");
+        info.setBuildDate("2014-12-02T07:43:02.000+01:00");
 
         given(infoCaller.createTarget()).willReturn(of(webTarget));
         given(infoCaller.request(webTarget)).willReturn(info);

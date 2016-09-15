@@ -29,4 +29,9 @@ public class MockRestClient implements BambooServiceAccessable {
     public VersionInfo getVersionInfo(final InstanceValues values) {
         return new VersionInfo();
     }
+
+    @Override
+    public void updateProjects(Collection<ProjectVo> projects, InstanceValues values) {
+        
+    }
 }

@@ -14,6 +14,7 @@ import org.openide.util.lookup.ServiceProvider;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 
 import java.util.ArrayList;
@@ -66,12 +67,20 @@ public class BambooRestClient implements BambooServiceAccessable {
 
     private static final String PLAN = PLANS + "/{buildKey}.json";
 
-    private static final String BUILD_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    private static final String BUILD_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
     private final Logger log;
 
     public BambooRestClient() {
         this.log = Logger.getLogger(getClass().getName());
+    }
+
+    @Override
+    public void updateProjects(Collection<ProjectVo> projects, InstanceValues values) {
+        Collection<ProjectVo> source = getProjects(values);
+        if (!source.isEmpty()) {
+            ProjectsUpdater.update(source, projects);
+        }
     }
 
     @Override
@@ -88,19 +97,19 @@ public class BambooRestClient implements BambooServiceAccessable {
 
                 ProjectVo projectVo = PROJECT_CONVERTER.convert(project);
                 projectVo.setServerUrl(values.getUrl());
-                
+
                 List<PlanVo> planVos = new ArrayList<>();
 
                 project.plansAsCollection().forEach(projectPlan -> {
                     String planKey = projectPlan.getKey();
                     Optional<PlanVo> extracted = extractPlan(planKey, plans);
-                    if(extracted.isPresent()){
+                    if (extracted.isPresent()) {
                         PlanVo planVo = extracted.get();
                         planVo.setServerUrl(values.getUrl());
                         planVos.add(planVo);
                     }
                 });
-                
+
                 projectVo.setPlans(planVos);
 
                 vos.add(projectVo);
@@ -164,7 +173,10 @@ public class BambooRestClient implements BambooServiceAccessable {
 
             if (isNotBlank(buildDate)) {
                 try {
-                    DateTimeFormatter formater = DateTimeFormatter.ofPattern(BUILD_DATE_PATTERN);
+                    DateTimeFormatter formater = new DateTimeFormatterBuilder()
+                            .appendPattern(BUILD_DATE_PATTERN)
+                            .appendOffset("+HH:MM", "+00:00")
+                            .toFormatter();
                     versionInfo.setBuildDate(LocalDate.parse(buildDate, formater));
                 } catch (DateTimeParseException ex) {
                     log.fine(ex.getMessage());

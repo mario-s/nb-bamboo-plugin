@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.rest;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
@@ -34,7 +33,6 @@ import org.netbeans.modules.bamboo.model.ModelProperties;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import static org.netbeans.modules.bamboo.rest.Bundle.TXT_SYNC;
 import org.openide.util.Lookup;
-import org.openide.util.lookup.InstanceContent;
 
 /**
  * @author spindizzy
@@ -127,11 +125,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
             progressHandle.start();
         }
 
-        Collection<ProjectVo> oldProjects = this.projects;
-        Collection<ProjectVo> newProjects = client.getProjects(this);
-        this.projects = newProjects;
-        firePropertyChange(ModelProperties.Projects.toString(), oldProjects,
-                newProjects);
+        synchronizeProjects();
+
         if (progressHandle != null) {
             progressHandle.finish();
         }
@@ -146,6 +141,23 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
         synchronized (this) {
             notifyAll();
         }
+    }
+
+    private void synchronizeProjects() {
+        Collection<ProjectVo> oldProjects = this.projects;
+        if (oldProjects == null || oldProjects.isEmpty()) {
+            Collection<ProjectVo> newProjects = client.getProjects(this);
+            this.projects = newProjects;
+            fireProjectsChanged(oldProjects, newProjects);
+        } else {
+            client.updateProjects(this.projects, this);
+            fireProjectsChanged(oldProjects, this.projects);
+        }
+    }
+
+    private void fireProjectsChanged(Collection<ProjectVo> oldProjects, Collection<ProjectVo> newProjects) {
+        firePropertyChange(ModelProperties.Projects.toString(), oldProjects,
+                newProjects);
     }
 
     @Messages({"TXT_SYNC=Synchronizing"})
