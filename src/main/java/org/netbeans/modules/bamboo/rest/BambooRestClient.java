@@ -66,7 +66,7 @@ public class BambooRestClient implements BambooServiceAccessable {
 
     private static final String PLAN = PLANS + "/{buildKey}.json";
 
-    private static final String BUILD_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    private static final String BUILD_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
     private final Logger log;
 
