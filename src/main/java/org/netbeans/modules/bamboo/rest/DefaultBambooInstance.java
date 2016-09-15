@@ -41,20 +41,22 @@ import org.openide.util.lookup.InstanceContent;
  */
 public class DefaultBambooInstance extends DefaultInstanceValues implements ProjectsProvideable {
 
-    private static final Logger LOG = Logger.getLogger(DefaultBambooInstance.class.getName());
+    private static final Logger LOG = Logger.getLogger(
+            DefaultBambooInstance.class.getName());
 
     /**
      * Use serialVersionUID for interoperability.
      */
     private static final long serialVersionUID = 1L;
-    private static final RequestProcessor RP = new RequestProcessor(DefaultBambooInstance.class);
+    private static final RequestProcessor RP = new RequestProcessor(
+            DefaultBambooInstance.class);
 
     private final StopWatch stopWatch = new StopWatch();
 
     private final PropertyChangeSupport changeSupport;
 
     private final BambooServiceAccessable client;
-    
+
     private final LookupContext lookupContext;
 
     private Optional<Task> synchronizationTask = empty();
@@ -93,9 +95,9 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
 
     @Override
     public Lookup getLookup() {
-       return lookupContext.getLookup();
+        return lookupContext.getLookup();
     }
-    
+
     private void copyProperties(final BambooInstanceProperties props) throws NumberFormatException {
         setName(props.get(SharedConstants.PROP_NAME));
         setUrl(props.get(SharedConstants.PROP_URL));
@@ -118,7 +120,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
         if (LOG.isLoggable(Level.INFO)) {
             stopWatch.start();
         }
-        
+
         ProgressHandle progressHandle = null;
         if (showProgress) {
             progressHandle = createProgressHandle();
@@ -127,20 +129,20 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
 
         Collection<ProjectVo> oldProjects = this.projects;
         Collection<ProjectVo> newProjects = client.getProjects(this);
-
         this.projects = newProjects;
-        firePropertyChange(ModelProperties.Projects.toString(), oldProjects, newProjects);
-
+        firePropertyChange(ModelProperties.Projects.toString(), oldProjects,
+                newProjects);
         if (progressHandle != null) {
             progressHandle.finish();
         }
 
         if (LOG.isLoggable(Level.INFO)) {
             stopWatch.stop();
-            LOG.info(String.format("synchronized %s in %s", getName(), stopWatch));
+            LOG.info(
+                    String.format("synchronized %s in %s", getName(), stopWatch));
             stopWatch.reset();
         }
-        
+
         synchronized (this) {
             notifyAll();
         }
@@ -200,7 +202,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
     }
 
     @Override
-    public void removePropertyChangeListener(final PropertyChangeListener listener) {
+    public void removePropertyChangeListener(
+            final PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
     }
 
@@ -220,7 +223,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Proj
             final Object oldValue,
             final Object newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
-        
+
 //        lookupContext.add(newValue);
     }
 

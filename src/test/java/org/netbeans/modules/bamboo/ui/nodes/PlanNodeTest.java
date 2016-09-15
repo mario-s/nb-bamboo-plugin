@@ -5,7 +5,6 @@ import static org.hamcrest.CoreMatchers.is;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.contains;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
@@ -17,17 +16,18 @@ import org.openide.nodes.Node.Property;
  * @author spindizzy
  */
 public class PlanNodeTest {
+    private static final String FOO = "foo";
     
     private PlanVo plan;
     
     private PlanNode classUnderTest;
     
-    
     @Before
     public void setUp() {
         plan = new PlanVo();
-        plan.setShortName("test");
+        plan.setShortName(FOO);
         ResultVo resultVo = new ResultVo();
+        resultVo.setKey(FOO);
         resultVo.setNumber(1);
         plan.setResult(resultVo);
         classUnderTest = new PlanNode(plan);
@@ -42,7 +42,8 @@ public class PlanNodeTest {
         result.setNumber(2);
         result.setState(State.Failed);
         plan.setResult(result);
-        assertTrue(classUnderTest.getHtmlDisplayName().contains(State.Failed.toString()));
+        String htmlDisplayName = classUnderTest.getHtmlDisplayName();
+        assertTrue(htmlDisplayName.contains(State.Failed.toString()));
     }
     
      /**

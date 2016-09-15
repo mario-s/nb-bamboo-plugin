@@ -95,7 +95,6 @@ public class ProjectNode extends AbstractNode implements PropertyChangeListener 
     @Override
     public void destroy() throws IOException {
         project.removePropertyChangeListener(this);
-        planNodeFactory.removeListener();
         super.destroy();
     }
 
