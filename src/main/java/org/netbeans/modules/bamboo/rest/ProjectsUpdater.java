@@ -38,6 +38,8 @@ final class ProjectsUpdater {
                 if(optProj.isPresent()) {
                     //copy plans
                     ProjectVo tarProjVo = optProj.get();
+                    tarProjVo.setName(srcProjVo.getName());
+                    
                     updatePlans(srcProjVo.getPlans(), tarProjVo.getPlans());
                 }
             }
