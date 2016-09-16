@@ -2,7 +2,9 @@ package org.netbeans.modules.bamboo.rest;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -68,7 +70,9 @@ final class ProjectsFactory {
 
     private Optional<PlanVo> extractPlan(String planKey, Collection<Plan> plans) {
         Optional<PlanVo> vo = empty();
-        for (Plan plan : plans) {
+        Iterator<Plan> itPlans = plans.iterator();
+        while(itPlans.hasNext()){
+            Plan plan = itPlans.next();
             if (planKey.equals(plan.getKey())) {
                 PlanVo planVo = planConverter.convert(plan);
 
@@ -79,8 +83,11 @@ final class ProjectsFactory {
                 }
 
                 vo = of(planVo);
+                itPlans.remove();
+                break;
             }
         }
+       
         return vo;
 
     }
