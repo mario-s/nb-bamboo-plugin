@@ -6,6 +6,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import org.netbeans.api.annotations.common.StaticResource;
@@ -30,6 +31,8 @@ import org.openide.util.lookup.ServiceProvider;
  */
 @ServiceProvider(service = StatusLineElementProvider.class, position = 1)
 public class BuildResultStatusBar implements StatusLineElementProvider, LookupListener, PropertyChangeListener {
+    
+    private static final Logger LOG = Logger.getLogger(BuildResultStatusBar.class.getName());
 
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
@@ -88,6 +91,7 @@ public class BuildResultStatusBar implements StatusLineElementProvider, LookupLi
             String name = plan.getName();
             ResultVo resVo = plan.getResult();
             String details = resVo.getState().toString();
+            LOG.info(String.format("state of plan %s has changed to %s", name, details));
             NotificationDisplayer.getDefault().notify(name, getIcon(), details, null);
         });
     }
