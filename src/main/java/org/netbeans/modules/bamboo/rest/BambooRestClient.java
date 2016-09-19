@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.ServerErrorException;
 
 import javax.ws.rs.client.WebTarget;
@@ -83,7 +84,7 @@ public class BambooRestClient implements BambooServiceAccessable {
             factory.setPlans(plans);
             factory.setProjects(projects);
 
-        } catch (ServerErrorException exc) {
+        } catch (ServerErrorException | ProcessingException exc) {
             log.log(Level.FINE, exc.getMessage(), exc);
         }
         return factory.create();
