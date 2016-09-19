@@ -82,7 +82,7 @@ public class BuildResultStatusBar implements StatusLineElementProvider, LookupLi
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals(ModelProperties.Result.toString())){
-            add((PlanVo) evt.getNewValue());
+            add((PlanVo) evt.getSource());
         }
     }
 
