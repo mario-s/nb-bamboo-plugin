@@ -26,9 +26,9 @@ import org.openide.util.lookup.ServiceProvider;
  * @author spindizzy
  */
 @ServiceProvider(service = BuildStatusNotifyable.class, position = 1)
-public class BuildResultStatusBar implements BuildStatusNotifyable, LookupListener, PropertyChangeListener {
+public class DefaultBuildResultNotify implements BuildStatusNotifyable, LookupListener, PropertyChangeListener {
     
-    private static final Logger LOG = Logger.getLogger(BuildResultStatusBar.class.getName());
+    private static final Logger LOG = Logger.getLogger(DefaultBuildResultNotify.class.getName());
 
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
