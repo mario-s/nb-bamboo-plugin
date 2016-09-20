@@ -17,7 +17,6 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import org.netbeans.modules.bamboo.glue.BuildStatusWatchable;
 import org.netbeans.modules.bamboo.glue.LookupContext;
-import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 import static org.openide.util.Lookup.getDefault;
 
 /**
@@ -40,18 +39,14 @@ public class DefaultInstanceManager implements InstanceManageable {
     private void add(final BambooInstance instance) {
         if (instance != null) {
             lookupContext.add(instance);
-
-            if (instance instanceof ProjectsProvideable) {
-                buildStatusWatcher.addInstance((ProjectsProvideable) instance);
-            }
+            buildStatusWatcher.addInstance(instance);
         }
     }
 
     private void remove(final BambooInstance instance) {
-        lookupContext.remove(instance);
-
-        if (instance instanceof ProjectsProvideable) {
-            buildStatusWatcher.removeInstance((ProjectsProvideable) instance);
+        if (instance != null) {
+            lookupContext.remove(instance);
+            buildStatusWatcher.removeInstance(instance);
         }
     }
 

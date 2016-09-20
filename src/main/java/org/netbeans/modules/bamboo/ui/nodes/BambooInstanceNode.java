@@ -5,7 +5,6 @@ import java.beans.PropertyChangeListener;
 import org.netbeans.api.annotations.common.StaticResource;
 
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
 
 import org.openide.nodes.AbstractNode;
@@ -22,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.swing.Action;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.model.ModelProperties;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.openide.nodes.Sheet;
@@ -51,11 +51,11 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
 
-    private final ProjectsProvideable instance;
+    private final BambooInstance instance;
 
     private final ProjectNodeFactory projectNodeFactory;
 
-    public BambooInstanceNode(final ProjectsProvideable instance) {
+    public BambooInstanceNode(final BambooInstance instance) {
         super(Children.LEAF, Lookups.singleton(instance));
         this.instance = instance;
         this.projectNodeFactory = new ProjectNodeFactory(instance);

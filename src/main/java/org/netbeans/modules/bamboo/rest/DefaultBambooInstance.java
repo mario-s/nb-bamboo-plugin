@@ -4,7 +4,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
-import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 import org.netbeans.modules.bamboo.glue.VersionInfo;
 
 import static org.openide.util.Lookup.getDefault;
@@ -28,6 +27,7 @@ import org.openide.util.NbBundle.Messages;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.LookupContext;
 import org.netbeans.modules.bamboo.model.ModelProperties;
 import org.netbeans.modules.bamboo.model.ProjectVo;
@@ -37,7 +37,7 @@ import org.openide.util.Lookup;
 /**
  * @author spindizzy
  */
-public class DefaultBambooInstance extends DefaultInstanceValues implements ProjectsProvideable {
+public class DefaultBambooInstance extends DefaultInstanceValues implements BambooInstance {
 
     private static final Logger LOG = Logger.getLogger(
             DefaultBambooInstance.class.getName());

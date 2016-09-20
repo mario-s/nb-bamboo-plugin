@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 import javax.swing.Icon;
 import lombok.NonNull;
 import org.netbeans.api.annotations.common.StaticResource;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 import org.netbeans.modules.bamboo.model.ModelProperties;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
@@ -32,9 +32,9 @@ public class BuildResultNotify implements LookupListener, PropertyChangeListener
 
     private InstanceManageable manager;
 
-    private Lookup.Result<ProjectsProvideable> projectResult;
+    private Lookup.Result<BambooInstance> projectResult;
     
-    private Collection<? extends ProjectsProvideable> projectsProviders;
+    private Collection<? extends BambooInstance> projectsProviders;
 
 
     public void setManager(@NonNull InstanceManageable manager) {
@@ -43,7 +43,7 @@ public class BuildResultNotify implements LookupListener, PropertyChangeListener
     }
     
     private void init() {
-        projectResult = manager.getLookup().lookupResult(ProjectsProvideable.class);
+        projectResult = manager.getLookup().lookupResult(BambooInstance.class);
         projectResult.addLookupListener(this);
     }
 

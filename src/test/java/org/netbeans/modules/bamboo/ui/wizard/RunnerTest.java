@@ -20,7 +20,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.glue.HttpUtility;
-import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 import org.netbeans.modules.bamboo.mock.MockInstanceFactory;
 import org.netbeans.modules.bamboo.rest.BambooInstanceProduceable;
 
@@ -28,6 +27,7 @@ import static org.openide.util.Lookup.getDefault;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 
 
 /**
@@ -39,7 +39,7 @@ public class RunnerTest {
     @Mock
     private BambooInstanceProduceable producer;
     @Mock
-    private ProjectsProvideable instance;
+    private BambooInstance instance;
     @Mock
     private PropertyChangeListener listener;
     @Mock

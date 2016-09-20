@@ -13,13 +13,13 @@ import org.mockito.Mock;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 import org.openide.nodes.Node;
 
 import java.util.ArrayList;
 import java.util.List;
 import static org.hamcrest.CoreMatchers.equalTo;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
 /**
@@ -29,7 +29,7 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 public class ProjectNodeFactoryTest {
 
     @Mock
-    private ProjectsProvideable projectsProvideable;
+    private BambooInstance projectsProvideable;
     
     private ProjectNodeFactory classUnderTest;
 

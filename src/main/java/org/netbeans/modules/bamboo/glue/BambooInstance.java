@@ -5,8 +5,10 @@ import org.openide.util.Task;
 import java.beans.PropertyChangeListener;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import java.util.prefs.Preferences;
+import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.openide.util.Lookup;
 
 
@@ -37,5 +39,9 @@ public interface BambooInstance extends InstanceValues, Lookup.Provider, Seriali
     void addPropertyChangeListener(PropertyChangeListener listener);
 
     void removePropertyChangeListener(PropertyChangeListener listener);
+
+    Collection<ProjectVo> getProjects();
+
+    void setProjects(Collection<ProjectVo> results);
     
 }

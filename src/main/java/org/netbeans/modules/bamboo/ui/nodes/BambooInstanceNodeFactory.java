@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.io.Serializable;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
-import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
@@ -19,12 +18,12 @@ import java.util.List;
 /**
  * @author spindizzy
  */
-class BambooInstanceNodeFactory extends ChildFactory<ProjectsProvideable>
+class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
     implements LookupListener {
     private static final BambooInstanceComparator COMPARATOR = new BambooInstanceComparator();
     private final Lookup lookup;
 
-    private Lookup.Result<ProjectsProvideable> result;
+    private Lookup.Result<BambooInstance> result;
 
     public BambooInstanceNodeFactory(final Lookup lookup) {
         this.lookup = lookup;
@@ -32,17 +31,17 @@ class BambooInstanceNodeFactory extends ChildFactory<ProjectsProvideable>
     }
 
     private void lookupResult() {
-        result = lookup.lookupResult(ProjectsProvideable.class);
+        result = lookup.lookupResult(BambooInstance.class);
         result.addLookupListener(this);
     }
 
     @Override
-    protected Node createNodeForKey(final ProjectsProvideable key) {
+    protected Node createNodeForKey(final BambooInstance key) {
         return new BambooInstanceNode(key);
     }
 
     @Override
-    protected boolean createKeys(final List<ProjectsProvideable> toPopulate) {
+    protected boolean createKeys(final List<BambooInstance> toPopulate) {
         toPopulate.addAll(result.allInstances());
         sort(toPopulate, COMPARATOR);
 

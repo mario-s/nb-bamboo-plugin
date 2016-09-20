@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.io.Serializable;
-import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 import org.openide.nodes.Node;
 
@@ -11,6 +10,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import static java.util.Collections.sort;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 
 /**
  * @author spindizzy
@@ -21,11 +21,11 @@ class ProjectNodeFactory extends AbstractRefreshChildFactory<ProjectVo> {
 
     private static final BuildProjectComparator COMPARATOR = new BuildProjectComparator();
 
-    private final ProjectsProvideable instance;
+    private final BambooInstance instance;
 
     private Collection<ProjectVo> projects;
 
-    ProjectNodeFactory(final ProjectsProvideable instance) {
+    ProjectNodeFactory(final BambooInstance instance) {
         this.instance = instance;
 
         init();

@@ -11,7 +11,6 @@ import static org.mockito.BDDMockito.given;
 
 import static org.mockito.Mockito.mock;
 
-import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 
 import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
@@ -19,6 +18,7 @@ import org.openide.util.lookup.InstanceContent;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 
 
 /**
@@ -43,8 +43,8 @@ public class BambooInstanceNodeFactoryTest {
      */
     @Test
     public void testCreateKeys_ExpectSorted() {
-        ProjectsProvideable plan1 = mock(ProjectsProvideable.class);
-        ProjectsProvideable plan2 = mock(ProjectsProvideable.class);
+        BambooInstance plan1 = mock(BambooInstance.class);
+        BambooInstance plan2 = mock(BambooInstance.class);
 
         given(plan1.getName()).willReturn("b");
         given(plan2.getName()).willReturn("a");
@@ -52,7 +52,7 @@ public class BambooInstanceNodeFactoryTest {
         content.add(plan1);
         content.add(plan2);
 
-        List<ProjectsProvideable> toPopulate = new ArrayList<>();
+        List<BambooInstance> toPopulate = new ArrayList<>();
 
         classUnderTest.createKeys(toPopulate);
 
