@@ -72,7 +72,8 @@ public class DefaultBuildResultNotify implements BuildStatusNotifyable, LookupLi
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getPropertyName().equals(ModelProperties.Result.toString())){
+        String propertyName = evt.getPropertyName();
+        if(ModelProperties.Result.toString().equals(propertyName)){
             add((PlanVo) evt.getSource());
         }
     }
