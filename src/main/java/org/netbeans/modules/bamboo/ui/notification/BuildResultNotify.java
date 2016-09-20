@@ -18,15 +18,14 @@ import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
-import org.openide.util.lookup.ServiceProvider;
 
 /**
  *
  * @author spindizzy
  */
-public class DefaultBuildResultNotify implements LookupListener, PropertyChangeListener {
+public class BuildResultNotify implements LookupListener, PropertyChangeListener {
     
-    private static final Logger LOG = Logger.getLogger(DefaultBuildResultNotify.class.getName());
+    private static final Logger LOG = Logger.getLogger(BuildResultNotify.class.getName());
 
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";

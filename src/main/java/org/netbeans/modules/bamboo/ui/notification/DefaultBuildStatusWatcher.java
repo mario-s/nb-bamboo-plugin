@@ -15,7 +15,7 @@ import org.openide.util.LookupListener;
 @ServiceProvider(service = BuildStatusWatchable.class, position = 1)
 public class DefaultBuildStatusWatcher implements BuildStatusWatchable, LookupListener{
     
-    private final Map<ProjectsProvideable, DefaultBuildResultNotify> notifiers;
+    private final Map<ProjectsProvideable, BuildResultNotify> notifiers;
 
     public DefaultBuildStatusWatcher() {
         this.notifiers = new HashMap<>();
