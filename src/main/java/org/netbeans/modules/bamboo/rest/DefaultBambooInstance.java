@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import java.util.Collection;
+import static java.util.Collections.emptyList;
 import java.util.Optional;
 
 import java.util.logging.Level;
@@ -172,7 +173,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
 
     @Override
     public Collection<ProjectVo> getProjects() {
-        return projects;
+        return (projects == null) ? emptyList() : projects;
     }
 
     Optional<Task> getSynchronizationTask() {

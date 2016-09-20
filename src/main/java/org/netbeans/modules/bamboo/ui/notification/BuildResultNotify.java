@@ -3,66 +3,42 @@ package org.netbeans.modules.bamboo.ui.notification;
 import java.awt.EventQueue;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Collection;
 import java.util.logging.Logger;
 import javax.swing.Icon;
-import lombok.NonNull;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
-import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.model.ModelProperties;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.util.ImageUtilities;
-import org.openide.util.Lookup;
-import org.openide.util.LookupEvent;
-import org.openide.util.LookupListener;
 
 /**
  *
  * @author spindizzy
  */
-public class BuildResultNotify implements LookupListener, PropertyChangeListener {
-    
+public class BuildResultNotify implements PropertyChangeListener {
+
     private static final Logger LOG = Logger.getLogger(BuildResultNotify.class.getName());
 
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
 
-    private InstanceManageable manager;
+    private final BambooInstance instance;
 
-    private Lookup.Result<BambooInstance> projectResult;
-    
-    private Collection<? extends BambooInstance> projectsProviders;
-
-
-    public void setManager(@NonNull InstanceManageable manager) {
-        this.manager = manager;
-        init();
-    }
-    
-    private void init() {
-        projectResult = manager.getLookup().lookupResult(BambooInstance.class);
-        projectResult.addLookupListener(this);
+    public BuildResultNotify(BambooInstance instance) {
+        this.instance = instance;
+        registerChangeListener();
     }
 
     private Icon getIcon() {
         return ImageUtilities.loadImageIcon(ICON_BASE, true);
     }
 
-    @Override
-    public void resultChanged(LookupEvent ev) {
-        projectsProviders = projectResult.allInstances();
-        registerChangeListener();
-    }
-
     private void registerChangeListener() {
-        projectsProviders.forEach(provider -> {
-            provider.getProjects().forEach(project -> {
-                project.getPlans().forEach(plan -> {
-                    plan.addPropertyChangeListener(this);
-                });
+        instance.getProjects().forEach(project -> {
+            project.getPlans().forEach(plan -> {
+                plan.addPropertyChangeListener(this);
             });
         });
     }
@@ -70,7 +46,7 @@ public class BuildResultNotify implements LookupListener, PropertyChangeListener
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
-        if(ModelProperties.Result.toString().equals(propertyName)){
+        if (ModelProperties.Result.toString().equals(propertyName)) {
             add((PlanVo) evt.getSource());
         }
     }
