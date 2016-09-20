@@ -15,8 +15,9 @@ import java.util.Collection;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import org.netbeans.modules.bamboo.glue.BuildStatusNotifyable;
+import org.netbeans.modules.bamboo.glue.BuildStatusWatchable;
 import org.netbeans.modules.bamboo.glue.LookupContext;
+import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 import static org.openide.util.Lookup.getDefault;
 
 /**
@@ -27,28 +28,31 @@ public class DefaultInstanceManager implements InstanceManageable {
 
     private static final Logger LOG = Logger.getLogger(DefaultInstanceManager.class.getName());
 
-    private final BuildStatusNotifyable buildStatusNotifer;
+    private final BuildStatusWatchable buildStatusWatcher;
 
     private final LookupContext lookupContext;
 
     public DefaultInstanceManager() {
         lookupContext = LookupContext.Instance;
-        buildStatusNotifer = getDefault().lookup(BuildStatusNotifyable.class);
-        init();
-    }
-
-    private void init() {
-        buildStatusNotifer.setManager(this);
+        buildStatusWatcher = getDefault().lookup(BuildStatusWatchable.class);
     }
 
     private void add(final BambooInstance instance) {
         if (instance != null) {
             lookupContext.add(instance);
+
+            if (instance instanceof ProjectsProvideable) {
+                buildStatusWatcher.addInstance((ProjectsProvideable) instance);
+            }
         }
     }
 
     private void remove(final BambooInstance instance) {
         lookupContext.remove(instance);
+
+        if (instance instanceof ProjectsProvideable) {
+            buildStatusWatcher.removeInstance((ProjectsProvideable) instance);
+        }
     }
 
     @Override

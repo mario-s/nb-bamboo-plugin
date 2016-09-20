@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import javax.swing.Icon;
 import lombok.NonNull;
 import org.netbeans.api.annotations.common.StaticResource;
-import org.netbeans.modules.bamboo.glue.BuildStatusNotifyable;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 import org.netbeans.modules.bamboo.model.ModelProperties;
@@ -25,8 +24,7 @@ import org.openide.util.lookup.ServiceProvider;
  *
  * @author spindizzy
  */
-@ServiceProvider(service = BuildStatusNotifyable.class, position = 1)
-public class DefaultBuildResultNotify implements BuildStatusNotifyable, LookupListener, PropertyChangeListener {
+public class DefaultBuildResultNotify implements LookupListener, PropertyChangeListener {
     
     private static final Logger LOG = Logger.getLogger(DefaultBuildResultNotify.class.getName());
 
@@ -39,7 +37,7 @@ public class DefaultBuildResultNotify implements BuildStatusNotifyable, LookupLi
     
     private Collection<? extends ProjectsProvideable> projectsProviders;
 
-    @Override
+
     public void setManager(@NonNull InstanceManageable manager) {
         this.manager = manager;
         init();
