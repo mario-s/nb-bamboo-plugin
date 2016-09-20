@@ -15,20 +15,30 @@ import java.util.Collection;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+import org.netbeans.modules.bamboo.glue.BuildStatusNotifyable;
 import org.netbeans.modules.bamboo.glue.LookupContext;
-
+import static org.openide.util.Lookup.getDefault;
 
 /**
  * @author spindizzy
  */
 @ServiceProvider(service = InstanceManageable.class)
 public class DefaultInstanceManager implements InstanceManageable {
+
     private static final Logger LOG = Logger.getLogger(DefaultInstanceManager.class.getName());
+
+    private final BuildStatusNotifyable buildStatusNotifer;
 
     private final LookupContext lookupContext;
 
     public DefaultInstanceManager() {
         lookupContext = LookupContext.Instance;
+        buildStatusNotifer = getDefault().lookup(BuildStatusNotifyable.class);
+        init();
+    }
+
+    private void init() {
+        buildStatusNotifer.setManager(this);
     }
 
     private void add(final BambooInstance instance) {

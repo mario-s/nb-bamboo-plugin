@@ -1,23 +1,22 @@
 package org.netbeans.modules.bamboo.ui.notification;
 
-import java.awt.Component;
 import java.awt.EventQueue;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.logging.Logger;
 import javax.swing.Icon;
+import lombok.NonNull;
 import org.netbeans.api.annotations.common.StaticResource;
+import org.netbeans.modules.bamboo.glue.BuildStatusNotifyable;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.glue.ProjectsProvideable;
 import org.netbeans.modules.bamboo.model.ModelProperties;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.openide.awt.NotificationDisplayer;
-import org.openide.awt.StatusLineElementProvider;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
-import static org.openide.util.Lookup.getDefault;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import org.openide.util.lookup.ServiceProvider;
@@ -26,26 +25,26 @@ import org.openide.util.lookup.ServiceProvider;
  *
  * @author spindizzy
  */
-@ServiceProvider(service = StatusLineElementProvider.class, position = 1)
-public class BuildResultStatusBar implements StatusLineElementProvider, LookupListener, PropertyChangeListener {
+@ServiceProvider(service = BuildStatusNotifyable.class, position = 1)
+public class BuildResultStatusBar implements BuildStatusNotifyable, LookupListener, PropertyChangeListener {
     
     private static final Logger LOG = Logger.getLogger(BuildResultStatusBar.class.getName());
 
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
 
-    private final InstanceManageable manager;
+    private InstanceManageable manager;
 
     private Lookup.Result<ProjectsProvideable> projectResult;
     
     private Collection<? extends ProjectsProvideable> projectsProviders;
-    
 
-    public BuildResultStatusBar() {
-        manager = getDefault().lookup(InstanceManageable.class);
+    @Override
+    public void setManager(@NonNull InstanceManageable manager) {
+        this.manager = manager;
         init();
     }
-
+    
     private void init() {
         projectResult = manager.getLookup().lookupResult(ProjectsProvideable.class);
         projectResult.addLookupListener(this);
@@ -53,11 +52,6 @@ public class BuildResultStatusBar implements StatusLineElementProvider, LookupLi
 
     private Icon getIcon() {
         return ImageUtilities.loadImageIcon(ICON_BASE, true);
-    }
-
-    @Override
-    public Component getStatusLineElement() {
-        return null;
     }
 
     @Override
