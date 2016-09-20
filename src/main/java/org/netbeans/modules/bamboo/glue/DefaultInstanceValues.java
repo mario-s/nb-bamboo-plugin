@@ -1,16 +1,14 @@
 package org.netbeans.modules.bamboo.glue;
 
 import java.util.Arrays;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * A wrapper for all parameters to be used to create a new BambooInstance.
  *
  * @author spindizzy
  */
-@Getter
-@Setter
+@Data
 public class DefaultInstanceValues implements InstanceValues {
     private String name;
 
