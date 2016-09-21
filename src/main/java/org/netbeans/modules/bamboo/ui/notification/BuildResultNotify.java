@@ -33,10 +33,6 @@ public class BuildResultNotify implements PropertyChangeListener {
         registerChangeListener();
     }
 
-    private Icon getIcon() {
-        return ImageUtilities.loadImageIcon(ICON_BASE, true);
-    }
-
     private void registerChangeListener() {
         instance.getProjects().forEach(project -> {
             project.getPlans().forEach(plan -> {
@@ -53,20 +49,31 @@ public class BuildResultNotify implements PropertyChangeListener {
         }
     }
 
+    private Icon getIcon() {
+        return ImageUtilities.loadImageIcon(ICON_BASE, true);
+    }
+
+    private String getDetails(PlanVo plan) {
+        ResultVo result = plan.getResult();
+        int number = result.getNumber();
+        State state = result.getState();
+        return String.format("Build %s: %s", number, state);
+    }
+
     private void notify(PlanVo plan) {
         EventQueue.invokeLater(() -> {
             String name = plan.getName();
             ResultVo resVo = plan.getResult();
             State state = resVo.getState();
-            String details = state.toString();
-            
+            String details = getDetails(plan);
+
             LOG.info(String.format("state of plan %s has changed to %s", name, details));
-            
+
             Priority priority = Priority.NORMAL;
-            if(State.Failed.equals(state)){
+            if (State.Failed.equals(state)) {
                 priority = Priority.HIGH;
             }
-            
+
             NotificationDisplayer.getDefault().notify(name, getIcon(), details, null, priority);
         });
     }
