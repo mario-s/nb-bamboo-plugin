@@ -1,15 +1,13 @@
 package org.netbeans.modules.bamboo.ui.notification;
 
-import java.beans.PropertyChangeEvent;
 import static java.util.Collections.singletonList;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.model.PlanVo;
@@ -26,7 +24,7 @@ public class BuildResultNotifyTest {
     @Mock
     private BambooInstance instance;
     
-    @Mock
+    @Spy
     private NotifyDelegator delegator;
     
     private BuildResultNotify classUnderTest;
