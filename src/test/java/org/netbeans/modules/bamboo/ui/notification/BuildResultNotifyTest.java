@@ -34,6 +34,7 @@ public class BuildResultNotifyTest {
     @Before
     public void setUp() {
         plan = new PlanVo();
+        plan.setName("test");
         ResultVo resultVo = new ResultVo();
         resultVo.setNumber(1);
         plan.setResult(resultVo);

@@ -5,7 +5,11 @@ import javax.swing.Icon;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
+import static org.netbeans.modules.bamboo.ui.notification.Bundle.Build;
+import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Failed;
+import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Successful;
 import org.openide.awt.NotificationDisplayer;
+import org.openide.util.NbBundle;
 
 /**
  * This class displays the notification in the status bar.
@@ -13,6 +17,7 @@ import org.openide.awt.NotificationDisplayer;
  * @author spindizzy
  */
 class NotifyDisplayer implements Runnable {
+  
 
     private static final Logger LOG = Logger.getLogger(NotifyDisplayer.class.getName());
 
@@ -28,25 +33,35 @@ class NotifyDisplayer implements Runnable {
     @Override
     public void run() {
         String name = plan.getName();
-        ResultVo resVo = plan.getResult();
-        State state = resVo.getState();
         String details = getDetails(plan);
 
         LOG.info(String.format("state of plan %s has changed to %s", name, details));
 
         NotificationDisplayer.Priority priority = NotificationDisplayer.Priority.NORMAL;
-        if (State.Failed.equals(state)) {
+        if (isFailed(plan)) {
             priority = NotificationDisplayer.Priority.HIGH;
         }
 
         getNotificationDisplayer().notify(name, instanceIcon, details, null, priority);
     }
 
+    @NbBundle.Messages({
+        "Build=The Build",
+        "Result_Failed=failed",
+        "Result_Successful=was successful"
+    })
     private String getDetails(PlanVo plan) {
         ResultVo result = plan.getResult();
         int number = result.getNumber();
+        String strState = (isFailed(plan)) ? Result_Failed() : Result_Successful();
+
+        return String.format("%s %s: %s", Build(), number, strState);
+    }
+    
+    private boolean isFailed(PlanVo plan){
+        ResultVo result = plan.getResult();
         State state = result.getState();
-        return String.format("Build %s: %s", number, state);
+        return State.Failed.equals(state);
     }
 
     NotificationDisplayer getNotificationDisplayer() {
