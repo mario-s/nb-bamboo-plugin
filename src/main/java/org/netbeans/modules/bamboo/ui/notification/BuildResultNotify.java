@@ -25,11 +25,14 @@ public class BuildResultNotify implements PropertyChangeListener {
 
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
+    
+    private final Icon instanceIcon;
 
     private final BambooInstance instance;
-
+    
     public BuildResultNotify(BambooInstance instance) {
         this.instance = instance;
+        this.instanceIcon = ImageUtilities.loadImageIcon(ICON_BASE, false);
         registerChangeListener();
     }
 
@@ -47,10 +50,6 @@ public class BuildResultNotify implements PropertyChangeListener {
         if (ModelProperties.Result.toString().equals(propertyName)) {
             notify((PlanVo) evt.getSource());
         }
-    }
-
-    private Icon getIcon() {
-        return ImageUtilities.loadImageIcon(ICON_BASE, true);
     }
 
     private String getDetails(PlanVo plan) {
@@ -74,7 +73,7 @@ public class BuildResultNotify implements PropertyChangeListener {
                 priority = Priority.HIGH;
             }
 
-            NotificationDisplayer.getDefault().notify(name, getIcon(), details, null, priority);
+            NotificationDisplayer.getDefault().notify(name, instanceIcon, details, null, priority);
         });
     }
 }
