@@ -10,7 +10,9 @@ import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.model.ModelProperties;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
+import org.netbeans.modules.bamboo.model.State;
 import org.openide.awt.NotificationDisplayer;
+import org.openide.awt.NotificationDisplayer.Priority;
 import org.openide.util.ImageUtilities;
 
 /**
@@ -47,17 +49,25 @@ public class BuildResultNotify implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
         if (ModelProperties.Result.toString().equals(propertyName)) {
-            add((PlanVo) evt.getSource());
+            notify((PlanVo) evt.getSource());
         }
     }
 
-    private void add(PlanVo plan) {
+    private void notify(PlanVo plan) {
         EventQueue.invokeLater(() -> {
             String name = plan.getName();
             ResultVo resVo = plan.getResult();
-            String details = resVo.getState().toString();
+            State state = resVo.getState();
+            String details = state.toString();
+            
             LOG.info(String.format("state of plan %s has changed to %s", name, details));
-            NotificationDisplayer.getDefault().notify(name, getIcon(), details, null);
+            
+            Priority priority = Priority.NORMAL;
+            if(State.Failed.equals(state)){
+                priority = Priority.HIGH;
+            }
+            
+            NotificationDisplayer.getDefault().notify(name, getIcon(), details, null, priority);
         });
     }
 }
