@@ -39,7 +39,7 @@ class NotifyDisplayer implements Runnable {
             priority = NotificationDisplayer.Priority.HIGH;
         }
 
-        NotificationDisplayer.getDefault().notify(name, instanceIcon, details, null, priority);
+        getNotificationDisplayer().notify(name, instanceIcon, details, null, priority);
     }
 
     private String getDetails(PlanVo plan) {
@@ -49,4 +49,7 @@ class NotifyDisplayer implements Runnable {
         return String.format("Build %s: %s", number, state);
     }
 
+    NotificationDisplayer getNotificationDisplayer() {
+        return NotificationDisplayer.getDefault();
+    }
 }
