@@ -96,6 +96,9 @@
                     <extensions>true</extensions>
                     <configuration>
                         <useOSGiDependencies>false</useOSGiDependencies>
+                        <verifyRuntime>warn</verifyRuntime>
+                        <licenseName>Apache 2.0</licenseName>
+                        <author>Mario Schroeder</author>
                     </configuration>
                 </plugin>
                 <plugin>
