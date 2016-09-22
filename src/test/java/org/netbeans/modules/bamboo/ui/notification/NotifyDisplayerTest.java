@@ -25,16 +25,17 @@ import org.openide.awt.NotificationDisplayer.Priority;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class NotifyDisplayerTest {
+
     @Mock
     private Icon instanceIcon;
-    
+
     @Mock
     private NotificationDisplayer notificationDisplayer;
-    
+
     private PlanVo plan;
-    
+
     private NotifyDisplayer classUnderTest;
-    
+
     @Before
     public void setUp() {
         plan = new PlanVo();
@@ -53,9 +54,9 @@ public class NotifyDisplayerTest {
     @Test
     public void testRunResultNormal_ExpectNotifyNormal() {
         classUnderTest.run();
-        verify(notificationDisplayer).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.NORMAL), eq(Category.INFO));
+        verify(notificationDisplayer).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.NORMAL), eq(Category.INFO.getName()));
     }
-    
+
     /**
      * Test of run method, of class NotifyDisplayer.
      */
@@ -65,7 +66,7 @@ public class NotifyDisplayerTest {
         result.setState(State.Failed);
         plan.setResult(result);
         classUnderTest.run();
-        verify(notificationDisplayer).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.HIGH), eq(Category.ERROR));
+        verify(notificationDisplayer).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.HIGH), eq(Category.ERROR.getName()));
     }
 
 }
