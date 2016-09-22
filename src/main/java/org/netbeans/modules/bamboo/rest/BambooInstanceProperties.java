@@ -15,9 +15,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+import lombok.extern.java.Log;
 import static org.netbeans.modules.bamboo.glue.SharedConstants.PROP_NAME;
 import static org.netbeans.modules.bamboo.glue.SharedConstants.PROP_SYNC_INTERVAL;
 import static org.netbeans.modules.bamboo.glue.SharedConstants.PROP_URL;
@@ -26,13 +26,13 @@ import static org.netbeans.modules.bamboo.glue.SharedConstants.PROP_URL;
 /**
  * Instance properties for Bamboo instance.
  */
+@Log
 public class BambooInstanceProperties extends HashMap<String, String> {
     /** Use serialVersionUID for interoperability. */
     private static final long serialVersionUID = 1L;
 
     private static final RequestProcessor RP = new RequestProcessor(BambooInstanceProperties.class);
 
-    private static final Logger LOG = Logger.getLogger(BambooInstanceProperties.class.getName());
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
@@ -152,7 +152,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
             try {
                 prefs = preferences.node(nodeName);
             } catch (IllegalStateException exc) {
-                LOG.log(Level.FINE, exc.getMessage(), exc);
+                log.log(Level.FINE, exc.getMessage(), exc);
             }
         }
 
@@ -258,7 +258,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
                 put(key, val);
             }
         } catch (IllegalStateException ex) {
-            LOG.info(ex.getMessage());
+            log.info(ex.getMessage());
         }
     }
 
@@ -270,7 +270,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
             preferences.removeNode();
             preferences.flush();
         } catch (BackingStoreException ex) {
-            LOG.info(ex.getMessage());
+            log.info(ex.getMessage());
         }
     }
 }

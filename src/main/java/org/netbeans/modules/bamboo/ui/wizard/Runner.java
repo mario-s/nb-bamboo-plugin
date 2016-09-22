@@ -8,17 +8,16 @@ import org.netbeans.modules.bamboo.rest.BambooInstanceProduceable;
 import static org.openide.util.Lookup.getDefault;
 
 import java.beans.PropertyChangeSupport;
-
-import java.util.logging.Logger;
+import lombok.extern.java.Log;
 
 
 /**
  * @author spindizzy
  */
+@Log
 class Runner extends PropertyChangeSupport implements Runnable {
     /** Use serialVersionUID for interoperability. */
     private static final long serialVersionUID = 1L;
-    private final Logger log;
     private final HttpUtility httpUtility;
 
     private final InstanceValues values;
@@ -29,7 +28,6 @@ class Runner extends PropertyChangeSupport implements Runnable {
 
     Runner(final InstanceValues values, final HttpUtility httpUtility) {
         super(values);
-        this.log = Logger.getLogger(getClass().getName());
         this.httpUtility = httpUtility;
         this.values = values;
     }

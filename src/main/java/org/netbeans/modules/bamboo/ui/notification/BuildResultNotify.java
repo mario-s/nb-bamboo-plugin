@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.ui.notification;
 
-import java.awt.EventQueue;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.netbeans.modules.bamboo.glue.BambooInstance;

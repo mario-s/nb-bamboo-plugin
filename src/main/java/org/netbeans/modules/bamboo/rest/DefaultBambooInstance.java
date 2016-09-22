@@ -18,7 +18,6 @@ import static java.util.Collections.emptyList;
 import java.util.Optional;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import org.apache.commons.lang3.time.StopWatch;
 import org.netbeans.api.progress.ProgressHandle;
@@ -28,6 +27,7 @@ import org.openide.util.NbBundle.Messages;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.LookupContext;
 import org.netbeans.modules.bamboo.model.ModelProperties;
@@ -38,10 +38,8 @@ import org.openide.util.Lookup;
 /**
  * @author spindizzy
  */
+@Log
 public class DefaultBambooInstance extends DefaultInstanceValues implements BambooInstance {
-
-    private static final Logger LOG = Logger.getLogger(
-            DefaultBambooInstance.class.getName());
 
     /**
      * Use serialVersionUID for interoperability.
@@ -116,7 +114,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     }
 
     private void doSynchronization(boolean showProgress) {
-        if (LOG.isLoggable(Level.INFO)) {
+        if (log.isLoggable(Level.INFO)) {
             stopWatch.start();
         }
 
@@ -132,9 +130,9 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
             progressHandle.finish();
         }
 
-        if (LOG.isLoggable(Level.INFO)) {
+        if (log.isLoggable(Level.INFO)) {
             stopWatch.stop();
-            LOG.info(
+            log.info(
                     String.format("synchronized %s in %s", getName(), stopWatch));
             stopWatch.reset();
         }
@@ -189,7 +187,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     private void prepareSynchronization() {
         int interval = getSyncIntervalInMillis();
 
-        LOG.info(String.format("interval: %s", interval));
+        log.info(String.format("interval: %s", interval));
         if (interval > 0) {
             Task task = RP.create(() -> {
                 doSynchronization(true);

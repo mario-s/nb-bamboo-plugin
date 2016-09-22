@@ -9,8 +9,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Action;
+import lombok.extern.java.Log;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.modules.bamboo.glue.SharedConstants;
 import org.netbeans.modules.bamboo.model.PlanVo;
@@ -39,6 +39,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_R
  *
  * @author spindizzy
  */
+@Log
 public class PlanNode extends AbstractNode implements PropertyChangeListener {
 
     private static final String RESULT_NUMBER = "resultNumber";
@@ -52,8 +53,6 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener {
     private static final String ICON_ENABLED = "org/netbeans/modules/bamboo/resources/blue.png";
     @StaticResource
     private static final String ICON_FAILED = "org/netbeans/modules/bamboo/resources/red.png";
-
-    private static final Logger LOG = Logger.getLogger(PlanNode.class.getName());
 
     private String htmlDisplayName;
 
@@ -78,7 +77,7 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        LOG.info(String.format("result for plan %s changed", plan.getName()));
+        log.info(String.format("result for plan %s changed", plan.getName()));
         updateHtmlDisplayName();
         fireIconChange();
         firePropertySetsChange(null, getPropertySets());
@@ -98,7 +97,7 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener {
 
             fireDisplayNameChange(oldDisplayName, htmlDisplayName);
         } catch (CharConversionException ex) {
-            LOG.log(Level.FINE, ex.getMessage(), ex);
+            log.log(Level.FINE, ex.getMessage(), ex);
         }
     }
 

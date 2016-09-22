@@ -6,17 +6,16 @@ import org.openide.nodes.Node;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.logging.Logger;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import static java.util.Collections.sort;
+import lombok.extern.java.Log;
 
 /**
  * @author spindizzy
  */
+@Log
 class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {
-
-    private static final Logger LOG = Logger.getLogger(PlanNodeFactory.class.getName());
 
     private static final PlanComparator COMPARATOR = new PlanComparator();
 
@@ -35,7 +34,7 @@ class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {
 
     @Override
     void refreshNodes() {
-        LOG.info(String.format("refreshing plans of %s", project.getName()));
+        log.info(String.format("refreshing plans of %s", project.getName()));
         plans = project.getPlans();
         refresh(false);
     }

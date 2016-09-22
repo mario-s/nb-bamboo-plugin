@@ -24,11 +24,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.ServerErrorException;
 
 import javax.ws.rs.client.WebTarget;
+import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
 import org.netbeans.modules.bamboo.model.rest.Project;
@@ -38,6 +38,7 @@ import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
 /**
  * @author spindizzy
  */
+@Log
 @ServiceProvider(service = BambooServiceAccessable.class)
 public class BambooRestClient implements BambooServiceAccessable {
 
@@ -57,12 +58,6 @@ public class BambooRestClient implements BambooServiceAccessable {
     private static final String PLAN = PLANS + "/{buildKey}.json";
 
     private static final String BUILD_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-
-    private final Logger log;
-
-    public BambooRestClient() {
-        this.log = Logger.getLogger(getClass().getName());
-    }
 
     @Override
     public void updateProjects(Collection<ProjectVo> projects, InstanceValues values) {

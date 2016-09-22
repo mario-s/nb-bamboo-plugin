@@ -7,17 +7,16 @@ import org.openide.nodes.Node;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.logging.Logger;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import static java.util.Collections.sort;
+import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 
 /**
  * @author spindizzy
  */
+@Log
 class ProjectNodeFactory extends AbstractRefreshChildFactory<ProjectVo> {
-
-    private static final Logger LOG = Logger.getLogger(ProjectNodeFactory.class.getName());
 
     private static final BuildProjectComparator COMPARATOR = new BuildProjectComparator();
 
@@ -37,7 +36,7 @@ class ProjectNodeFactory extends AbstractRefreshChildFactory<ProjectVo> {
 
     @Override
     void refreshNodes() {
-        LOG.info(String.format("refreshing projects of %s", instance.getName()));
+        log.info(String.format("refreshing projects of %s", instance.getName()));
         projects = instance.getProjects();
         refresh(false);
     }
