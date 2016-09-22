@@ -2,12 +2,16 @@ package org.netbeans.modules.bamboo.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A class which represent the project.
  *
  * @author spindizzy
  */
+@Getter
+@Setter
 public class ProjectVo extends AbstractOpenInBrowserVo {
 
     private String name;
@@ -15,18 +19,6 @@ public class ProjectVo extends AbstractOpenInBrowserVo {
 
     public ProjectVo() {
         plans = new ArrayList<>();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<PlanVo> getPlans() {
-        return plans;
     }
     
     public void setPlans(List<PlanVo> plans) {
