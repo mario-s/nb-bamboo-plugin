@@ -54,7 +54,7 @@ public class NotifyDisplayerTest {
     @Test
     public void testRunResultNormal_ExpectNotifyNormal() {
         classUnderTest.run();
-        verify(notificationDisplayer).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.NORMAL), eq(Category.INFO.getName()));
+        verify(notificationDisplayer).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.NORMAL), eq(Category.INFO));
     }
 
     /**
@@ -66,7 +66,7 @@ public class NotifyDisplayerTest {
         result.setState(State.Failed);
         plan.setResult(result);
         classUnderTest.run();
-        verify(notificationDisplayer).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.HIGH), eq(Category.ERROR.getName()));
+        verify(notificationDisplayer).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.HIGH), eq(Category.ERROR));
     }
 
 }

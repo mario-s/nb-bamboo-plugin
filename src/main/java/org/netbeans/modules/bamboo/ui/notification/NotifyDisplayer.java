@@ -46,7 +46,7 @@ class NotifyDisplayer implements Runnable {
             category = Category.ERROR;
         }
 
-        getNotificationDisplayer().notify(name, instanceIcon, details, null, priority, category.getName());
+        getNotificationDisplayer().notify(name, instanceIcon, details, null, priority, category);
     }
 
     @NbBundle.Messages({
