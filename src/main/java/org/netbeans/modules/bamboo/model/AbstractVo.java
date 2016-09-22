@@ -2,7 +2,9 @@ package org.netbeans.modules.bamboo.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.netbeans.modules.bamboo.glue.LookupContext;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.InstanceContent;
@@ -11,10 +13,13 @@ import org.openide.util.lookup.InstanceContent;
  *
  * @author spindizzy
  */
+@EqualsAndHashCode(of = "key")
 public abstract class AbstractVo implements Lookup.Provider{
     
     private final LookupContext lookupContext;
     
+    @Getter
+    @Setter
     private String key;
     
     private final PropertyChangeSupport changeSupport;
@@ -36,14 +41,6 @@ public abstract class AbstractVo implements Lookup.Provider{
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }    
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
     @Override
     public Lookup getLookup() {
         return lookupContext.getLookup();
@@ -51,29 +48,5 @@ public abstract class AbstractVo implements Lookup.Provider{
     
     protected InstanceContent getContent() {
         return lookupContext.getContent();
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + Objects.hashCode(this.key);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final AbstractVo other = (AbstractVo) obj;
-        return Objects.equals(this.key, other.key);
-    }
-    
-    
+    }   
 }
