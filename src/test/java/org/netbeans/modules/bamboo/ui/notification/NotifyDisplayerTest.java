@@ -16,6 +16,7 @@ import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
 import org.openide.awt.NotificationDisplayer;
+import org.openide.awt.NotificationDisplayer.Category;
 import org.openide.awt.NotificationDisplayer.Priority;
 
 /**
@@ -52,7 +53,7 @@ public class NotifyDisplayerTest {
     @Test
     public void testRunResultNormal_ExpectNotifyNormal() {
         classUnderTest.run();
-        verify(notificationDisplayer).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.NORMAL));
+        verify(notificationDisplayer).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.NORMAL), eq(Category.INFO));
     }
     
     /**
@@ -64,7 +65,7 @@ public class NotifyDisplayerTest {
         result.setState(State.Failed);
         plan.setResult(result);
         classUnderTest.run();
-        verify(notificationDisplayer).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.HIGH));
+        verify(notificationDisplayer).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.HIGH), eq(Category.ERROR));
     }
 
 }

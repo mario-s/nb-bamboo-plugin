@@ -9,6 +9,8 @@ import static org.netbeans.modules.bamboo.ui.notification.Bundle.Build;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Failed;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Successful;
 import org.openide.awt.NotificationDisplayer;
+import org.openide.awt.NotificationDisplayer.Category;
+import org.openide.awt.NotificationDisplayer.Priority;
 import org.openide.util.NbBundle;
 
 /**
@@ -24,7 +26,7 @@ class NotifyDisplayer implements Runnable {
     private final Icon instanceIcon;
 
     private final PlanVo plan;
-
+    
     NotifyDisplayer(Icon instanceIcon, PlanVo plan) {
         this.instanceIcon = instanceIcon;
         this.plan = plan;
@@ -36,13 +38,15 @@ class NotifyDisplayer implements Runnable {
         String details = getDetails(plan);
 
         LOG.info(String.format("state of plan %s has changed to %s", name, details));
-
-        NotificationDisplayer.Priority priority = NotificationDisplayer.Priority.NORMAL;
+        
+        Priority priority = Priority.NORMAL;
+        Category category = Category.INFO;
         if (isFailed(plan)) {
-            priority = NotificationDisplayer.Priority.HIGH;
+            priority = Priority.HIGH;
+            category = Category.ERROR;
         }
 
-        getNotificationDisplayer().notify(name, instanceIcon, details, null, priority);
+        getNotificationDisplayer().notify(name, instanceIcon, details, null, priority, category);
     }
 
     @NbBundle.Messages({
