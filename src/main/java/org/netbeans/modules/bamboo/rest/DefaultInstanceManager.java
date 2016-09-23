@@ -12,9 +12,9 @@ import org.openide.util.lookup.ServiceProvider;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.glue.BuildStatusWatchable;
 import org.netbeans.modules.bamboo.glue.LookupContext;
 import static org.openide.util.Lookup.getDefault;
@@ -22,10 +22,9 @@ import static org.openide.util.Lookup.getDefault;
 /**
  * @author spindizzy
  */
+@Log
 @ServiceProvider(service = InstanceManageable.class)
 public class DefaultInstanceManager implements InstanceManageable {
-
-    private static final Logger LOG = Logger.getLogger(DefaultInstanceManager.class.getName());
 
     private final BuildStatusWatchable buildStatusWatcher;
 
@@ -127,7 +126,7 @@ public class DefaultInstanceManager implements InstanceManageable {
                 instances.add(loadInstance(name));
             }
 
-            LOG.finer(String.format("loaded nodes: %s", names.length));
+            log.finer(String.format("loaded nodes: %s", names.length));
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
@@ -145,7 +144,7 @@ public class DefaultInstanceManager implements InstanceManageable {
             instance = new DefaultBambooInstance();
             instance.applyProperties(props);
         } catch (IllegalStateException e) {
-            LOG.warning(e.getMessage());
+            log.warning(e.getMessage());
         }
 
         return instance;

@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.ui.notification;
 
-import java.util.logging.Logger;
 import javax.swing.Icon;
+import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
@@ -18,11 +18,9 @@ import org.openide.util.NbBundle;
  *
  * @author spindizzy
  */
+@Log
 class NotifyDisplayer implements Runnable {
   
-
-    private static final Logger LOG = Logger.getLogger(NotifyDisplayer.class.getName());
-
     private final Icon instanceIcon;
 
     private final PlanVo plan;
@@ -37,7 +35,7 @@ class NotifyDisplayer implements Runnable {
         String name = plan.getName();
         String details = getDetails(plan);
 
-        LOG.info(String.format("state of plan %s has changed to %s", name, details));
+        log.info(String.format("state of plan %s has changed to %s", name, details));
         
         Priority priority = Priority.NORMAL;
         Category category = Category.INFO;

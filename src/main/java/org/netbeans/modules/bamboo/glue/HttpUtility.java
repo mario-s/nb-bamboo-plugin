@@ -4,19 +4,14 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.logging.Logger;
+import lombok.extern.java.Log;
 
 /**
- *
+ * This utility provides HTTP related functionality. 
  * @author spindizzy
  */
+@Log
 public class HttpUtility {
-
-    private final Logger log;
-
-    public HttpUtility() {
-        this.log = Logger.getLogger(HttpUtility.class.getName());
-    }
 
     /**
      * Checks if the server behind the url answers with a valid http response.
