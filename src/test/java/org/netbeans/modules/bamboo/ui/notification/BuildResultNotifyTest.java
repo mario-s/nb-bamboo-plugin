@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
 import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import org.mockito.Spy;
@@ -54,7 +55,7 @@ public class BuildResultNotifyTest {
         resultVo.setNumber(2);
         resultVo.setState(State.Failed);
         plan.setResult(resultVo);
-        verify(delegator).notify(plan);
+        verify(delegator).notify(any(BuildResult.class));
     }
     
 }
