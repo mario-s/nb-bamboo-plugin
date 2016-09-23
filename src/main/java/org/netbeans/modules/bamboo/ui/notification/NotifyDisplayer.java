@@ -23,15 +23,16 @@ class NotifyDisplayer implements Runnable {
   
     private final Icon instanceIcon;
 
-    private final PlanVo plan;
+    private final BuildResult buildResult;
     
-    NotifyDisplayer(Icon instanceIcon, PlanVo plan) {
+    NotifyDisplayer(Icon instanceIcon, BuildResult buildResult) {
         this.instanceIcon = instanceIcon;
-        this.plan = plan;
+        this.buildResult = buildResult;
     }
 
     @Override
     public void run() {
+        PlanVo plan = buildResult.getPlan();
         String name = plan.getName();
         String details = getDetails(plan);
 
@@ -62,6 +63,10 @@ class NotifyDisplayer implements Runnable {
     
     private boolean isFailed(PlanVo plan){
         ResultVo result = plan.getResult();
+        return isFailed(result);
+    }
+
+    private boolean isFailed(ResultVo result) {
         State state = result.getState();
         return State.Failed.equals(state);
     }

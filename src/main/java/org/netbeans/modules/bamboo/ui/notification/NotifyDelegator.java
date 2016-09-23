@@ -17,7 +17,7 @@ class NotifyDelegator {
     private static final Icon ICON = ImageUtilities.loadImageIcon(ICON_BASE, false);
 
     void notify(BuildResult buildResult) {
-        EventQueue.invokeLater(new NotifyDisplayer(ICON, buildResult.getPlan()));
+        EventQueue.invokeLater(new NotifyDisplayer(ICON, buildResult));
     }
     
 }

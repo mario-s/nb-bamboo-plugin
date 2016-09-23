@@ -31,8 +31,14 @@ public class NotifyDisplayerTest {
 
     @Mock
     private NotificationDisplayer notificationDisplayer;
-
+    
+    private BuildResult buildResult;
+    
     private PlanVo plan;
+    
+    private ResultVo oldResult;
+    
+    private ResultVo newResult;
 
     private NotifyDisplayer classUnderTest;
 
@@ -40,7 +46,8 @@ public class NotifyDisplayerTest {
     public void setUp() {
         plan = new PlanVo();
         plan.setName("test");
-        classUnderTest = new NotifyDisplayer(instanceIcon, plan) {
+        buildResult = new BuildResult(plan, oldResult, newResult);
+        classUnderTest = new NotifyDisplayer(instanceIcon, buildResult) {
             @Override
             NotificationDisplayer getNotificationDisplayer() {
                 return notificationDisplayer;
