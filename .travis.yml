@@ -7,5 +7,4 @@ after_failure:
   - "cat ./target/surefire-reports/*.xml"
 jdk:
   - oraclejdk8 
-after_success:
-  - mvn clean cobertura:cobertura coveralls:report -DrepoToken=aqb1mPVviUB2yTiFevW6RDGkQGuhyeYe5
+after_success: mvn clean cobertura:cobertura coveralls:report -DrepoToken=aqb1mPVviUB2yTiFevW6RDGkQGuhyeYe5
