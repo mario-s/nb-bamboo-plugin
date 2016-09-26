@@ -124,21 +124,24 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
             progressHandle.start();
         }
 
-        synchronizeProjects();
+        try {
+            synchronizeProjects();
+        } finally {
 
-        if (progressHandle != null) {
-            progressHandle.finish();
-        }
+            if (progressHandle != null) {
+                progressHandle.finish();
+            }
 
-        if (log.isLoggable(Level.INFO)) {
-            stopWatch.stop();
-            log.info(
-                    String.format("synchronized %s in %s", getName(), stopWatch));
-            stopWatch.reset();
-        }
+            if (log.isLoggable(Level.INFO)) {
+                stopWatch.stop();
+                log.info(
+                        String.format("synchronized %s in %s", getName(), stopWatch));
+                stopWatch.reset();
+            }
 
-        synchronized (this) {
-            notifyAll();
+            synchronized (this) {
+                notifyAll();
+            }
         }
     }
 
