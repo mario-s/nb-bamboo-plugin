@@ -63,6 +63,8 @@ class NotifyDisplayer implements Runnable {
         if (State.Successful.equals(oldResult.getState()) && State.Successful.equals(newResult.getState())) {
             relevant = false;
         }
+        
+        log.info(String.format("result change is relevant: %s", relevant));
 
         return relevant;
     }
