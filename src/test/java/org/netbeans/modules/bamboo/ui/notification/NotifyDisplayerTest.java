@@ -10,6 +10,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isNull;
 import org.mockito.Mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.PlanVo;
@@ -44,6 +45,8 @@ public class NotifyDisplayerTest {
 
     @Before
     public void setUp() {
+        oldResult = new ResultVo();
+        newResult = new ResultVo();
         plan = new PlanVo();
         plan.setName("test");
         buildResult = new BuildResult(plan, oldResult, newResult);
@@ -74,6 +77,17 @@ public class NotifyDisplayerTest {
         plan.setResult(result);
         classUnderTest.run();
         verify(notificationDisplayer).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.HIGH), eq(Category.ERROR));
+    }
+    
+    /**
+     * Test of run method, of class NotifyDisplayer.
+     */
+    @Test
+    public void testRunResultStillNormal_ExpectNoNotify() {
+        oldResult.setState(State.Successful);
+        newResult.setState(State.Successful);
+        classUnderTest.run();
+        verify(notificationDisplayer, never()).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.NORMAL), eq(Category.INFO));
     }
 
 }
