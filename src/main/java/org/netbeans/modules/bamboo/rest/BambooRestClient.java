@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.ServerErrorException;
 
@@ -79,7 +80,7 @@ public class BambooRestClient implements BambooServiceAccessable {
             factory.setPlans(plans);
             factory.setProjects(projects);
 
-        } catch (ServerErrorException | ProcessingException exc) {
+        } catch (ServerErrorException | ProcessingException | NotFoundException exc) {
             log.log(Level.FINE, exc.getMessage(), exc);
         }
         return factory.create();
