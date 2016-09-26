@@ -80,6 +80,9 @@
                                 <exclude>org/netbeans/modules/bamboo/**/*able.class</exclude>
                             </excludes>
                         </instrumentation>
+                        <format>xml</format>
+                        <maxmem>256m</maxmem>
+                        <aggregate>true</aggregate>
                     </configuration>
                     <dependencies>  
                         <dependency>  
