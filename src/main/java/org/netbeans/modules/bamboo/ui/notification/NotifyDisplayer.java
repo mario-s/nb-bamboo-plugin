@@ -20,11 +20,11 @@ import org.openide.util.NbBundle;
  */
 @Log
 class NotifyDisplayer implements Runnable {
-  
+
     private final Icon instanceIcon;
 
     private final BuildResult buildResult;
-    
+
     NotifyDisplayer(Icon instanceIcon, BuildResult buildResult) {
         this.instanceIcon = instanceIcon;
         this.buildResult = buildResult;
@@ -32,20 +32,39 @@ class NotifyDisplayer implements Runnable {
 
     @Override
     public void run() {
-        PlanVo plan = buildResult.getPlan();
-        String name = plan.getName();
-        String details = getDetails(plan);
+        if (isRelevant()) {
+            PlanVo plan = buildResult.getPlan();
+            String name = plan.getName();
+            String details = getDetails(plan);
 
-        log.info(String.format("state of plan %s has changed to %s", name, details));
-        
-        Priority priority = Priority.NORMAL;
-        Category category = Category.INFO;
-        if (isFailed(plan)) {
-            priority = Priority.HIGH;
-            category = Category.ERROR;
+            log.info(String.format("state of plan %s has changed to %s", name, details));
+
+            Priority priority = Priority.NORMAL;
+            Category category = Category.INFO;
+            if (isFailed(plan)) {
+                priority = Priority.HIGH;
+                category = Category.ERROR;
+            }
+
+            getNotificationDisplayer().notify(name, instanceIcon, details, null, priority, category);
+        }
+    }
+
+    /**
+     * Is the result change relevant for a notification?
+     * We are not interested in a change from success to success.
+     */
+    private boolean isRelevant() {
+        boolean relevant = true;
+
+        ResultVo oldResult = buildResult.getOldResult();
+        ResultVo newResult = buildResult.getNewResult();
+
+        if (State.Successful.equals(oldResult.getState()) && State.Successful.equals(newResult.getState())) {
+            relevant = false;
         }
 
-        getNotificationDisplayer().notify(name, instanceIcon, details, null, priority, category);
+        return relevant;
     }
 
     @NbBundle.Messages({
@@ -60,8 +79,8 @@ class NotifyDisplayer implements Runnable {
 
         return String.format("%s %s: %s", Build(), number, strState);
     }
-    
-    private boolean isFailed(PlanVo plan){
+
+    private boolean isFailed(PlanVo plan) {
         ResultVo result = plan.getResult();
         return isFailed(result);
     }
