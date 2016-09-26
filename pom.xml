@@ -101,6 +101,7 @@
                         <useOSGiDependencies>false</useOSGiDependencies>
                         <verifyRuntime>warn</verifyRuntime>
                         <licenseName>Apache 2.0</licenseName>
+                        <licenseFile>LICENSE</licenseFile>
                         <author>Mario Schroeder</author>
                     </configuration>
                 </plugin>
