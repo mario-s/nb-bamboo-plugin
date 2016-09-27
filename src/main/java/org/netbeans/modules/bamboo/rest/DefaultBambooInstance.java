@@ -248,11 +248,12 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
 
     @Override
     public void updateSyncInterval(int minutes) {
+        int oldInterval = getSyncInterval();
         setSyncInterval(minutes);
         if(synchronizationTask.isPresent()){
             synchronizationTask.get().cancel();
         }
-//        properties.put(PROP_SYNC_INTERVAL, Integer.toString(minutes));
+        firePropertyChange(PROP_SYNC_INTERVAL, oldInterval, minutes);
         prepareSynchronization();
     }
 }

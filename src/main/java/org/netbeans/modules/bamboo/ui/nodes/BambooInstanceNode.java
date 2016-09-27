@@ -75,7 +75,10 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
     
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        projectNodeFactory.refreshNodes();
+        String eventName = evt.getPropertyName();
+        if(ModelProperties.Projects.toString().equals(eventName)){
+            projectNodeFactory.refreshNodes();
+        }
     }
 
     @Override
