@@ -26,19 +26,4 @@ public class ResultsResponse extends AbstractResponse<Result> {
     protected Metrics getMetrics() {
         return results;
     }
-
-
-    public static class Builder {
-        private final ResultsResponse response = new ResultsResponse();
-
-        public Builder results(final Results results) {
-            response.results = results;
-
-            return this;
-        }
-
-        public ResultsResponse build() {
-            return response;
-        }
-    }
 }
