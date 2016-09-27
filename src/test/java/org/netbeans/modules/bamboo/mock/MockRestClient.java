@@ -17,8 +17,13 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
  */
 @ServiceProvider(service = BambooServiceAccessable.class, position = 10)
 public class MockRestClient implements BambooServiceAccessable {
+    private BambooServiceAccessable delegate;
+    
     @Override
     public Collection<ProjectVo> getProjects(final InstanceValues values) {
+        if(delegate != null){
+            return delegate.getProjects(values);
+        }
         List<ProjectVo> projects = new ArrayList<>();
         projects.add(new ProjectVo());
 
@@ -27,11 +32,22 @@ public class MockRestClient implements BambooServiceAccessable {
 
     @Override
     public VersionInfo getVersionInfo(final InstanceValues values) {
+        if(delegate != null){
+            return delegate.getVersionInfo(values);
+        }
         return new VersionInfo();
     }
 
     @Override
     public void updateProjects(Collection<ProjectVo> projects, InstanceValues values) {
-        
+        if(delegate != null){
+            delegate.updateProjects(projects, values);
+        }
     }
+
+    public void setDelegate(BambooServiceAccessable delegate) {
+        this.delegate = delegate;
+    }
+    
+    
 }
