@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
@@ -17,6 +19,8 @@ import java.util.prefs.Preferences;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.glue.BuildStatusWatchable;
 import org.netbeans.modules.bamboo.glue.LookupContext;
+import org.netbeans.modules.bamboo.glue.SharedConstants;
+import static org.netbeans.modules.bamboo.glue.SharedConstants.PROP_SYNC_INTERVAL;
 import static org.openide.util.Lookup.getDefault;
 
 /**
@@ -24,7 +28,7 @@ import static org.openide.util.Lookup.getDefault;
  */
 @Log
 @ServiceProvider(service = InstanceManageable.class)
-public class DefaultInstanceManager implements InstanceManageable {
+public class DefaultInstanceManager implements InstanceManageable, PropertyChangeListener {
 
     private final BuildStatusWatchable buildStatusWatcher;
 
@@ -35,8 +39,18 @@ public class DefaultInstanceManager implements InstanceManageable {
         buildStatusWatcher = getDefault().lookup(BuildStatusWatchable.class);
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String propName = evt.getPropertyName();
+        if(PROP_SYNC_INTERVAL.equals(propName)){
+            BambooInstance instance = (BambooInstance) evt.getSource();
+            persist(instance);
+        }
+    }
+
     private void add(final BambooInstance instance) {
         if (instance != null) {
+            instance.addPropertyChangeListener(this);
             lookupContext.add(instance);
             buildStatusWatcher.addInstance(instance);
         }
@@ -44,6 +58,7 @@ public class DefaultInstanceManager implements InstanceManageable {
 
     private void remove(final BambooInstance instance) {
         if (instance != null) {
+            instance.removePropertyChangeListener(this);
             lookupContext.remove(instance);
             buildStatusWatcher.removeInstance(instance);
         }

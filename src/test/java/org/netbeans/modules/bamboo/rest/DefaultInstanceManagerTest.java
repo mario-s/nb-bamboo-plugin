@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
+import java.beans.PropertyChangeEvent;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
 import java.util.Collection;
@@ -22,6 +23,7 @@ import org.openide.util.LookupListener;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import org.netbeans.modules.bamboo.glue.SharedConstants;
 
 /**
  *
@@ -119,5 +121,13 @@ public class DefaultInstanceManagerTest {
         given(preferences.nodeExists(name)).willReturn(true);
         classUnderTest.addInstance(instance);
         assertThat(classUnderTest.existsInstance(name), is(true));
+    }
+    
+    @Test
+    public void testPropertyChange_ShouldPersist() {
+        PropertyChangeEvent event = new PropertyChangeEvent(instance, SharedConstants.PROP_SYNC_INTERVAL, 0, 1);
+        classUnderTest.propertyChange(event);
+        Collection<BambooInstance> instances = classUnderTest.loadInstances();
+        assertThat(instances.isEmpty(), is(false));
     }
 }
