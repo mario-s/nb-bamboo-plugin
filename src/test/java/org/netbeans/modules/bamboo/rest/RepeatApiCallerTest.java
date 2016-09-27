@@ -25,11 +25,16 @@ import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.model.rest.PlansResponse;
 
 import java.util.Optional;
+
 import static java.util.Optional.empty;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import org.netbeans.modules.bamboo.model.rest.Plans;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Matchers.any;
 
 
 /**
@@ -54,7 +59,12 @@ public class RepeatApiCallerTest {
     public void setUp() {
         classUnderTest = new RepeatApiCaller<>(values, PlansResponse.class, FOO);
         setInternalState(classUnderTest, "client", client);
+        
+        given(values.getPassword()).willReturn(FOO.toCharArray());
+        given(values.getUrl()).willReturn(FOO);
         given(client.target(anyString())).willReturn(target);
+        given(target.path(anyString())).willReturn(target);
+        given(target.queryParam(anyString(), any())).willReturn(target);
     }
 
     /**
@@ -71,11 +81,27 @@ public class RepeatApiCallerTest {
      * Test of doSecondCall method, of class ApiCaller.
      */
     @Test
-    public void testDoSecondCall() {
+    public void testDoSecondCall_SizeLessMax() {
         PlansResponse initial = new PlansResponse();
         Optional<PlansResponse> expResult = empty();
         Optional<PlansResponse> result = classUnderTest.doSecondCall(initial);
         assertThat(result, equalTo(expResult));
+    }
+    
+    @Test
+    public void testDoSecondCall_SizeGreaterMax() {
+        
+        PlansResponse initial = new PlansResponse();
+        Plans plans = new Plans();
+        plans.setSize(50);
+        plans.setMaxResult(25);
+        initial.setPlans(plans);
+        
+        given(target.request()).willReturn(builder);
+        given(builder.get(PlansResponse.class)).willReturn(initial);
+        
+        Optional<PlansResponse> result = classUnderTest.doSecondCall(initial);
+        assertThat(result.isPresent(), is(true));
     }
 
     /**
