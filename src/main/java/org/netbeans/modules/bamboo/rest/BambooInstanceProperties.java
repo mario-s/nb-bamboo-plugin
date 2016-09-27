@@ -66,7 +66,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
     }
 
     @Override
-    public final String put(final String key, final String value) {
+    public String put(final String key, final String value) {
         String o = putAndFireChange(key, value);
         updatePreferences(key);
 

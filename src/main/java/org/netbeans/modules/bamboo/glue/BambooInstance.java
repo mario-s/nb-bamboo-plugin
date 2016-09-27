@@ -48,10 +48,10 @@ public interface BambooInstance extends InstanceValues, Lookup.Provider, Seriali
     void setProjects(Collection<ProjectVo> results);
 
     /**
-     * Sets the synchronization interval
+     * This methos updates the synchronization interval and restart any scheduled synchronization tasks.
      *
      * @param minutes time in minutes
      */
-    void changeSyncInterval(int minutes);
+    void updateSyncInterval(int minutes);
 
 }

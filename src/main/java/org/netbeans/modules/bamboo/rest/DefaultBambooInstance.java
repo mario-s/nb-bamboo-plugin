@@ -30,6 +30,7 @@ import static java.util.Optional.of;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.LookupContext;
+import static org.netbeans.modules.bamboo.glue.SharedConstants.PROP_SYNC_INTERVAL;
 import org.netbeans.modules.bamboo.model.ModelProperties;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import static org.netbeans.modules.bamboo.rest.Bundle.TXT_SYNC;
@@ -246,8 +247,12 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     }
 
     @Override
-    public void changeSyncInterval(int minutes) {
+    public void updateSyncInterval(int minutes) {
         setSyncInterval(minutes);
-        throw new UnsupportedOperationException("not implemented yet");
+        if(synchronizationTask.isPresent()){
+            synchronizationTask.get().cancel();
+        }
+//        properties.put(PROP_SYNC_INTERVAL, Integer.toString(minutes));
+        prepareSynchronization();
     }
 }

@@ -151,7 +151,7 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
 
             @Override
             public void setValue(Integer val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-                instance.changeSyncInterval(val);
+                instance.updateSyncInterval(val);
             }
         });
 

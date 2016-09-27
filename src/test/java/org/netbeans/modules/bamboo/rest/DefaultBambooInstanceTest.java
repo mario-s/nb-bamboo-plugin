@@ -18,11 +18,13 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 
 import static org.hamcrest.CoreMatchers.is;
 import static java.util.Collections.emptyList;
+import java.util.Optional;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import org.openide.util.RequestProcessor.Task;
 
 /**
  *
@@ -97,5 +99,13 @@ public class DefaultBambooInstanceTest {
             listener.wait(1000);
         }
         verify(listener).propertyChange(any(PropertyChangeEvent.class));
+    }
+    
+    @Test
+    public void testUpdateSyncInterval() {
+        classUnderTest.applyProperties(properties);
+        classUnderTest.updateSyncInterval(1);
+        Optional<Task> task = classUnderTest.getSynchronizationTask();
+        assertThat(task.get().isFinished(), is(false));
     }
 }
