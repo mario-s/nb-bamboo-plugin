@@ -244,4 +244,10 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     void setVersionInfo(final VersionInfo version) {
         this.version = version;
     }
+
+    @Override
+    public void changeSyncInterval(int minutes) {
+        setSyncInterval(minutes);
+        throw new UnsupportedOperationException("not implemented yet");
+    }
 }

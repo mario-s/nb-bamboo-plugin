@@ -16,7 +16,7 @@ public interface InstanceValues extends OpenableInBrowser {
      * @return Synchronization interval in minutes.
      */
     int getSyncInterval();
-
+    
     /**
      * Get the user's name used for authentication.
      *

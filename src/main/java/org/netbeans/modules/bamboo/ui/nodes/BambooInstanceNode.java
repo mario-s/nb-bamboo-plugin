@@ -143,11 +143,15 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
             }
         });
         
-        //TODO change to write property and update synchonization
-        set.put(new IntReadPropertySupport(SharedConstants.PROP_SYNC_INTERVAL, TXT_Instance_Prop_SnycInterval(), DESC_Instance_Prop_SyncInterval()) {
+        set.put(new IntReadWritePropertySupport(SharedConstants.PROP_SYNC_INTERVAL, TXT_Instance_Prop_SnycInterval(), DESC_Instance_Prop_SyncInterval()) {
             @Override
             public Integer getValue() throws IllegalAccessException, InvocationTargetException {
                 return instance.getSyncInterval();
+            }
+
+            @Override
+            public void setValue(Integer val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+                instance.changeSyncInterval(val);
             }
         });
 

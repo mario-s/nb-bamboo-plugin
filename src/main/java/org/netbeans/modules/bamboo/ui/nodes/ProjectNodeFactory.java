@@ -8,9 +8,9 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import org.netbeans.modules.bamboo.model.ProjectVo;
-import static java.util.Collections.sort;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
+import static java.util.Collections.sort;
 
 /**
  * @author spindizzy

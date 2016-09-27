@@ -11,13 +11,13 @@ import java.util.prefs.Preferences;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.openide.util.Lookup;
 
-
 /**
  * This interface represents a bamboo server.
  *
  * @author spindizzy
  */
 public interface BambooInstance extends InstanceValues, Lookup.Provider, Serializable {
+
     /**
      * Get the informations to the version of the associated bamboo server.
      *
@@ -27,6 +27,9 @@ public interface BambooInstance extends InstanceValues, Lookup.Provider, Seriali
 
     Preferences getPreferences();
 
+    /**
+     * Removes the instance from the preferences.
+     */
     void remove();
 
     /**
@@ -43,5 +46,12 @@ public interface BambooInstance extends InstanceValues, Lookup.Provider, Seriali
     Collection<ProjectVo> getProjects();
 
     void setProjects(Collection<ProjectVo> results);
-    
+
+    /**
+     * Sets the synchronization interval
+     *
+     * @param minutes time in minutes
+     */
+    void changeSyncInterval(int minutes);
+
 }
