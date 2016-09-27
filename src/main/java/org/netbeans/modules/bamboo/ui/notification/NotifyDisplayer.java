@@ -1,17 +1,20 @@
 package org.netbeans.modules.bamboo.ui.notification;
 
+import java.util.logging.Level;
 import javax.swing.Icon;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
-import static org.netbeans.modules.bamboo.ui.notification.Bundle.Build;
-import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Failed;
-import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Successful;
+
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.NotificationDisplayer.Category;
 import org.openide.awt.NotificationDisplayer.Priority;
 import org.openide.util.NbBundle;
+
+import static org.netbeans.modules.bamboo.ui.notification.Bundle.Build;
+import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Failed;
+import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Successful;
 
 /**
  * This class displays the notification in the status bar.
@@ -37,7 +40,9 @@ class NotifyDisplayer implements Runnable {
             String name = plan.getName();
             String details = getDetails(plan);
 
-            log.info(String.format("state of plan %s has changed to %s", name, details));
+            if (log.isLoggable(Level.INFO)) {
+                log.info(String.format("state of plan %s has changed to %s", name, details));
+            }
 
             Priority priority = Priority.NORMAL;
             Category category = Category.INFO;
@@ -51,8 +56,7 @@ class NotifyDisplayer implements Runnable {
     }
 
     /**
-     * Is the result change relevant for a notification?
-     * We are not interested in a change from success to success.
+     * Is the result change relevant for a notification? We are not interested in a change from success to success.
      */
     private boolean isRelevant() {
         boolean relevant = true;
@@ -63,8 +67,10 @@ class NotifyDisplayer implements Runnable {
         if (State.Successful.equals(oldResult.getState()) && State.Successful.equals(newResult.getState())) {
             relevant = false;
         }
-        
-        log.info(String.format("result change is relevant: %s", relevant));
+
+        if (log.isLoggable(Level.INFO)) {
+            log.info(String.format("result change is relevant: %s", relevant));
+        }
 
         return relevant;
     }

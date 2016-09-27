@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import javax.swing.Action;
 import lombok.extern.java.Log;
 import org.netbeans.api.annotations.common.StaticResource;
-import org.netbeans.modules.bamboo.glue.SharedConstants;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
@@ -21,6 +20,7 @@ import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
 import org.openide.actions.PropertiesAction;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
+import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.ImageUtilities;
 import org.openide.util.NbBundle;
@@ -154,12 +154,7 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener {
         Sheet.Set set = Sheet.createPropertiesSet();
         set.setDisplayName(plan.getShortName());
 
-        set.put(new StringReadPropertySupport(SharedConstants.PROP_NAME, TXT_Plan_Prop_Name(), DESC_Plan_Prop_Name()) {
-            @Override
-            public String getValue() throws IllegalAccessException, InvocationTargetException {
-                return plan.getName();
-            }
-        });
+        set.put(new PropertySupport.Name(this, TXT_Plan_Prop_Name(), DESC_Plan_Prop_Name()));
 
         set.put(new IntReadPropertySupport(RESULT_NUMBER, TXT_Plan_Prop_Result_Number(), DESC_Plan_Prop_Result_Number()) {
             @Override

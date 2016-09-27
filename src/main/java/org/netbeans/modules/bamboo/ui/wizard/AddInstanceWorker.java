@@ -20,7 +20,7 @@ import static java.util.Optional.ofNullable;
 
 
 /**
- * This currentRunner does the call to the server and creation of nodes in a
+ * This worker does the call to the server and creation of nodes in a
  * background task.
  *
  * @author spindizzy
