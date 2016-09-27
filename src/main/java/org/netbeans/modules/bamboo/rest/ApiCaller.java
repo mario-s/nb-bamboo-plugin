@@ -18,7 +18,6 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;

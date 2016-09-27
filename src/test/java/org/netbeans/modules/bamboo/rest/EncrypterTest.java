@@ -34,7 +34,7 @@ public class EncrypterTest {
      * Test of encrypt method, of class Encrypter.
      */
     @Test
-    public void testEncrypt_And_Decrypt() throws Exception {
+    public void testEncrypt_And_Decrypt() {
         String str = "test";
         String result = classUnderTest.decrypt(classUnderTest.encrypt(str));
         assertEquals(str, result);
