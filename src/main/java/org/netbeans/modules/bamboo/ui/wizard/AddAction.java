@@ -16,7 +16,7 @@ class AddAction extends AbstractDialogAction {
 
     private final InstancePropertiesForm form;
 
-    private AddInstanceWorker worker;
+    private transient AddInstanceWorker worker;
 
     public AddAction(final InstancePropertiesForm form) {
         super(TXT_ADD());

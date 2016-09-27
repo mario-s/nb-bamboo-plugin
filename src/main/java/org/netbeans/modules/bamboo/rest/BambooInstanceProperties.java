@@ -36,7 +36,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
-    private final Preferences preferences;
+    private final transient Preferences preferences;
 
     public BambooInstanceProperties(final Preferences preferences) {
         this.preferences = preferences;

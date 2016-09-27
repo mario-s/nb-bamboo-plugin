@@ -49,21 +49,21 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     private static final RequestProcessor RP = new RequestProcessor(
             DefaultBambooInstance.class);
 
-    private final StopWatch stopWatch = new StopWatch();
+    private final transient StopWatch stopWatch = new StopWatch();
 
     private final PropertyChangeSupport changeSupport;
 
-    private final BambooServiceAccessable client;
+    private final transient BambooServiceAccessable client;
 
     private final LookupContext lookupContext;
 
-    private Optional<Task> synchronizationTask = empty();
+    private transient Optional<Task> synchronizationTask = empty();
 
-    private Collection<ProjectVo> projects;
+    private transient Collection<ProjectVo> projects;
 
     private BambooInstanceProperties properties;
 
-    private VersionInfo version;
+    private transient VersionInfo version;
 
     public DefaultBambooInstance() {
         this(null);

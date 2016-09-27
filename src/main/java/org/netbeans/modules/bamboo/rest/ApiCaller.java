@@ -3,27 +3,34 @@ package org.netbeans.modules.bamboo.rest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.glassfish.jersey.logging.LoggingFeature;
 
 import org.netbeans.modules.bamboo.glue.InstanceValues;
+
 import static org.netbeans.modules.bamboo.rest.BambooRestClient.REST_API;
 
 import java.util.Optional;
+
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import lombok.extern.java.Log;
+
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
  * @author spindizzy
  */
+@Log
 class ApiCaller<T> {
 
     static final String AUTH_TYPE = "os_authType";
@@ -32,8 +39,6 @@ class ApiCaller<T> {
     static final String PASS = "os_password";
     static final String START = "start-index";
     static final String MAX = "max-results";
-
-    protected final Logger log;
 
     private final Class<T> clazz;
     protected final String path;
@@ -53,7 +58,6 @@ class ApiCaller<T> {
         this.path = path;
         this.params = params;
         
-        this.log = Logger.getLogger(getClass().getName());
         client = client.register(new LoggingFeature(log, Level.FINE, null, null));
     }
 

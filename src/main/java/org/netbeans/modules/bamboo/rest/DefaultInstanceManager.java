@@ -2,6 +2,7 @@ package org.netbeans.modules.bamboo.rest;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
@@ -19,7 +20,7 @@ import java.util.prefs.Preferences;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.glue.BuildStatusWatchable;
 import org.netbeans.modules.bamboo.glue.LookupContext;
-import org.netbeans.modules.bamboo.glue.SharedConstants;
+
 import static org.netbeans.modules.bamboo.glue.SharedConstants.PROP_SYNC_INTERVAL;
 import static org.openide.util.Lookup.getDefault;
 

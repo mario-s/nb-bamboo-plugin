@@ -18,9 +18,9 @@ import lombok.extern.java.Log;
 class Runner extends PropertyChangeSupport implements Runnable {
     /** Use serialVersionUID for interoperability. */
     private static final long serialVersionUID = 1L;
-    private final HttpUtility httpUtility;
+    private transient final HttpUtility httpUtility;
 
-    private final InstanceValues values;
+    private final transient InstanceValues values;
 
     Runner(final InstanceValues values) {
         this(values, new HttpUtility());

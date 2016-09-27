@@ -2,19 +2,24 @@ package org.netbeans.modules.bamboo.rest;
 
 import java.util.Map;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
+
 import static org.netbeans.modules.bamboo.rest.ApiCaller.MAX;
+
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
 
 import java.util.Optional;
+
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 import javax.ws.rs.client.WebTarget;
+import lombok.extern.java.Log;
 
 
 /**
  * @author spindizzy
  */
+@Log
 class RepeatApiCaller<T extends AbstractResponse> extends ApiCaller<T> {
 
     RepeatApiCaller(InstanceValues values, Class<T> clazz, String path) {

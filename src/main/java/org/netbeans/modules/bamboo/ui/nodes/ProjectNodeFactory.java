@@ -10,7 +10,7 @@ import java.util.List;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
-import static java.util.Collections.sort;
+
 import static java.util.Collections.sort;
 
 /**
