@@ -44,10 +44,9 @@ abstract class AbstractVoConverter<S, T extends AbstractVo> {
         
         @Override
         PlanVo convert(Plan src) {
-            PlanVo target = new PlanVo();
+            PlanVo target = new PlanVo(src.getName());
             target.setKey(src.getKey());
             target.setShortKey(src.getShortKey());
-            target.setName(src.getName());
             target.setShortName(src.getShortName());
             target.setEnabled(src.isEnabled());
             target.setType(src.getType());

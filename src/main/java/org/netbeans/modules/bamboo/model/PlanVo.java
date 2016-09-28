@@ -19,6 +19,11 @@ public class PlanVo extends AbstractOpenInBrowserVo{
     private PlanType type;
 
     public PlanVo() {
+        this("");
+    }
+    
+    public PlanVo(String name){
+        this.name = name;
         this.result = new ResultVo();
     }
     
