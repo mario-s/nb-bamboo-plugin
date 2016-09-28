@@ -34,12 +34,12 @@ public class BuildResultNotifyTest {
     
     @Before
     public void setUp() {
-        plan = new PlanVo();
+        plan = new PlanVo("a");
         plan.setName("test");
         ResultVo resultVo = new ResultVo();
         resultVo.setNumber(1);
         plan.setResult(resultVo);
-        ProjectVo project = new ProjectVo();
+        ProjectVo project = new ProjectVo("");
         project.setPlans(singletonList(plan));
         given(instance.getProjects()).willReturn(singletonList(project));
         classUnderTest = new BuildResultNotify(instance);

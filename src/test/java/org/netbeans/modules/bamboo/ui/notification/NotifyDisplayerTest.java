@@ -47,8 +47,7 @@ public class NotifyDisplayerTest {
     public void setUp() {
         oldResult = new ResultVo();
         newResult = new ResultVo();
-        plan = new PlanVo();
-        plan.setName("test");
+        plan = new PlanVo("test", "test");
         buildResult = new BuildResult(plan, oldResult, newResult);
         classUnderTest = new NotifyDisplayer(instanceIcon, buildResult) {
             @Override

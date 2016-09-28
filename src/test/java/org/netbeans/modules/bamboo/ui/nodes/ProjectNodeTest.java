@@ -21,7 +21,7 @@ public class ProjectNodeTest {
     
     @Before
     public void setUp() {
-        project = new ProjectVo();
+        project = new ProjectVo("");
         classUnderTest = new ProjectNode(project);
     }
 

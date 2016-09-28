@@ -39,10 +39,10 @@ public class ProjectNodeFactoryTest {
 
     @Before
     public void setUp() {
-        project = new ProjectVo();
+        project = new ProjectVo("b");
         project.setName("b");
 
-        ProjectVo other = new ProjectVo();
+        ProjectVo other = new ProjectVo("a");
         other.setName("a");
 
         projects = new ArrayList<>();

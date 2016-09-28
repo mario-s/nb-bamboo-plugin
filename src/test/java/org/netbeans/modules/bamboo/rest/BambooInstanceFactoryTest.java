@@ -54,7 +54,7 @@ public class BambooInstanceFactoryTest {
      */
     @Test
     public void testCreate_ExpectInstanceWithProject() {
-        given(delegate.getProjects(values)).willReturn(singletonList(new ProjectVo()));
+        given(delegate.getProjects(values)).willReturn(singletonList(new ProjectVo("")));
         BambooInstance result = classUnderTest.create(values);
         assertThat(result.getProjects().isEmpty(), is(false));
     }

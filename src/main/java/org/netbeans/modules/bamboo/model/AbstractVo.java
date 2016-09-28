@@ -4,7 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
+import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.modules.bamboo.glue.LookupContext;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.InstanceContent;
@@ -19,12 +19,12 @@ public abstract class AbstractVo implements Lookup.Provider{
     private final LookupContext lookupContext;
     
     @Getter
-    @Setter
-    private String key;
+    private final String key;
     
     private final PropertyChangeSupport changeSupport;
 
-    public AbstractVo() {
+    public AbstractVo(@NonNull String key) {
+        this.key = key;
         this.changeSupport = new PropertyChangeSupport(this);
         lookupContext = LookupContext.Instance;
     }

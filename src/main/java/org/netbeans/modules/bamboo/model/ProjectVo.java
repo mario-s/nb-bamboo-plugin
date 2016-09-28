@@ -17,7 +17,8 @@ public class ProjectVo extends AbstractOpenInBrowserVo {
     private String name;
     private List<PlanVo> plans;
 
-    public ProjectVo() {
+    public ProjectVo(String key) {
+        super(key);
         plans = new ArrayList<>();
     }
     

@@ -11,6 +11,10 @@ public abstract class AbstractOpenInBrowserVo extends AbstractVo implements Open
 
     private transient String serverUrl;
 
+    public AbstractOpenInBrowserVo(String key) {
+        super(key);
+    }
+
     public void setServerUrl(String serverUrl) {
         this.serverUrl = serverUrl;
     }

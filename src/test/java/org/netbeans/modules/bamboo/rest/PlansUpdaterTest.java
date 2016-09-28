@@ -37,10 +37,8 @@ public class PlansUpdaterTest {
      */
     @Test
     public void testUpdate_SameContent_NoChange() {
-        PlanVo left = new PlanVo();
-        left.setKey(FOO);
-        PlanVo right = new PlanVo();
-        right.setKey(FOO);
+        PlanVo left = new PlanVo(FOO, FOO);
+        PlanVo right = new PlanVo(FOO, FOO);
         
         source.add(left);
         target.add(right);
@@ -55,10 +53,8 @@ public class PlansUpdaterTest {
      */
     @Test
     public void testUpdate_DifferentContent_ExpectLeft() {
-        PlanVo left = new PlanVo();
-        left.setKey(FOO);
-        PlanVo right = new PlanVo();
-        right.setKey(BAR);
+        PlanVo left = new PlanVo(FOO, FOO);
+        PlanVo right = new PlanVo(BAR, BAR);
         
         source.add(left);
         target.add(right);
@@ -73,10 +69,8 @@ public class PlansUpdaterTest {
      */
     @Test
     public void testUpdate_DifferentContent_OnlyOne() {
-        PlanVo left = new PlanVo();
-        left.setKey(FOO);
-        PlanVo right = new PlanVo();
-        right.setKey(BAR);
+        PlanVo left = new PlanVo(FOO, FOO);
+        PlanVo right = new PlanVo(BAR, BAR);
         
         source.add(left);
         target.add(right);
@@ -92,10 +86,8 @@ public class PlansUpdaterTest {
      */
     @Test
     public void testUpdate_AddContent_NewOne() {
-        PlanVo left = new PlanVo();
-        left.setKey(FOO);
-        PlanVo right = new PlanVo();
-        right.setKey(BAR);
+        PlanVo left = new PlanVo(FOO, FOO);
+        PlanVo right = new PlanVo(BAR, BAR);
         
         source.add(left);
         source.add(right);
@@ -111,14 +103,12 @@ public class PlansUpdaterTest {
      */
     @Test
     public void testUpdate_NewResult() {
-        PlanVo left = new PlanVo();
-        left.setKey(FOO);
+        PlanVo left = new PlanVo(FOO);
         ResultVo leftResult = new ResultVo();
         leftResult.setNumber(1);
         left.setResult(leftResult);
         
-        PlanVo right = new PlanVo();
-        right.setKey(FOO);
+        PlanVo right = new PlanVo(FOO);
         ResultVo rightResult = new ResultVo();
         right.setResult(rightResult);
         

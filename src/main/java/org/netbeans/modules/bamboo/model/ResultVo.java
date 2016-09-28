@@ -18,4 +18,12 @@ public class ResultVo extends AbstractVo {
     private String buildReason;
     private State state = State.Unknown;
     private LifeCycleState lifeCycleState = LifeCycleState.Finished;
+
+    public ResultVo() {
+        this("");
+    }
+
+    public ResultVo(String key) {
+        super(key);
+    }
 }

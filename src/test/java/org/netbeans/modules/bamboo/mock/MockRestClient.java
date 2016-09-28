@@ -25,7 +25,7 @@ public class MockRestClient implements BambooServiceAccessable {
             return delegate.getProjects(values);
         }
         List<ProjectVo> projects = new ArrayList<>();
-        projects.add(new ProjectVo());
+        projects.add(new ProjectVo(""));
 
         return projects;
     }

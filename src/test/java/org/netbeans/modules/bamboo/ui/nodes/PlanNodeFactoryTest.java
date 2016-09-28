@@ -25,7 +25,7 @@ public class PlanNodeFactoryTest {
 
     @Before
     public void setUp() {
-        project = new ProjectVo();
+        project = new ProjectVo("");
         classUnderTest = new PlanNodeFactory(project);
     }
 
@@ -42,8 +42,7 @@ public class PlanNodeFactoryTest {
      */
     @Test
     public void testCreateNodeForKey() {
-        PlanVo key = new PlanVo();
-        key.setName(FOO);
+        PlanVo key = new PlanVo(FOO, FOO);
         Node result = classUnderTest.createNodeForKey(key);
         assertThat(result.getName(), equalTo(FOO));
     }
@@ -54,8 +53,8 @@ public class PlanNodeFactoryTest {
     @Test
     public void testCreateKeys() {
         List<PlanVo> toPopulate = new ArrayList<>();
-        toPopulate.add(new PlanVo(FOO));
-        toPopulate.add(new PlanVo(BAR));
+        toPopulate.add(new PlanVo(FOO, FOO));
+        toPopulate.add(new PlanVo(BAR, BAR));
         classUnderTest.createKeys(toPopulate);
         assertThat(toPopulate.get(0).getName(), equalTo(BAR));
     }

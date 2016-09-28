@@ -25,8 +25,7 @@ abstract class AbstractVoConverter<S, T extends AbstractVo> {
         
         @Override
         ProjectVo convert(Project src) {
-            ProjectVo target = new ProjectVo();
-            target.setKey(src.getKey());
+            ProjectVo target = new ProjectVo(src.getKey());
             target.setName(src.getName());
             target.setServerUrl(serverUrl);
             return target;
@@ -44,8 +43,7 @@ abstract class AbstractVoConverter<S, T extends AbstractVo> {
         
         @Override
         PlanVo convert(Plan src) {
-            PlanVo target = new PlanVo(src.getName());
-            target.setKey(src.getKey());
+            PlanVo target = new PlanVo(src.getKey(), src.getName());
             target.setShortKey(src.getShortKey());
             target.setShortName(src.getShortName());
             target.setEnabled(src.isEnabled());
@@ -60,8 +58,7 @@ abstract class AbstractVoConverter<S, T extends AbstractVo> {
 
         @Override
         ResultVo convert(Result src) {
-            ResultVo target = new ResultVo();
-            target.setKey(src.getKey());
+            ResultVo target = new ResultVo(src.getKey());
             target.setNumber(src.getNumber());
             target.setBuildReason(src.getBuildReason());
             target.setState(src.getState());

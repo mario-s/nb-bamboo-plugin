@@ -24,10 +24,9 @@ public class PlanNodeTest {
     
     @Before
     public void setUp() {
-        plan = new PlanVo();
+        plan = new PlanVo(FOO);
         plan.setShortName(FOO);
-        ResultVo resultVo = new ResultVo();
-        resultVo.setKey(FOO);
+        ResultVo resultVo = new ResultVo(FOO);
         resultVo.setNumber(1);
         plan.setResult(resultVo);
         classUnderTest = new PlanNode(plan);

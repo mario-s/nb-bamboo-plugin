@@ -36,10 +36,8 @@ public class ProjectsUpdaterTest {
      */
     @Test
     public void testUpdate_SameContent_NoChange() {
-        ProjectVo left = new ProjectVo();
-        left.setKey(FOO);
-        ProjectVo right = new ProjectVo();
-        right.setKey(FOO);
+        ProjectVo left = new ProjectVo(FOO);
+        ProjectVo right = new ProjectVo(FOO);
         
         source.add(left);
         target.add(right);
@@ -54,10 +52,8 @@ public class ProjectsUpdaterTest {
      */
     @Test
     public void testUpdate_DifferentContent_ExpectLeft() {
-        ProjectVo left = new ProjectVo();
-        left.setKey(FOO);
-        ProjectVo right = new ProjectVo();
-        right.setKey(BAR);
+        ProjectVo left = new ProjectVo(FOO);
+        ProjectVo right = new ProjectVo(BAR);
         
         source.add(left);
         target.add(right);
@@ -72,10 +68,8 @@ public class ProjectsUpdaterTest {
      */
     @Test
     public void testUpdate_DifferentContent_OnlyOne() {
-        ProjectVo left = new ProjectVo();
-        left.setKey(FOO);
-        ProjectVo right = new ProjectVo();
-        right.setKey(BAR);
+        ProjectVo left = new ProjectVo(FOO);
+        ProjectVo right = new ProjectVo(BAR);
         
         source.add(left);
         target.add(right);
@@ -91,10 +85,8 @@ public class ProjectsUpdaterTest {
      */
     @Test
     public void testUpdate_AddContent_NewOne() {
-        ProjectVo left = new ProjectVo();
-        left.setKey(FOO);
-        ProjectVo right = new ProjectVo();
-        right.setKey(BAR);
+        ProjectVo left = new ProjectVo(FOO);
+        ProjectVo right = new ProjectVo(BAR);
         
         source.add(left);
         source.add(right);

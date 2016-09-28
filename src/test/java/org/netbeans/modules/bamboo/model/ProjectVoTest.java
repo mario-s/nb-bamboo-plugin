@@ -22,10 +22,10 @@ public class ProjectVoTest {
     }
 
     private ProjectVo newInstance() {
-        ProjectVo instance = new ProjectVo();
+        ProjectVo instance = new ProjectVo("");
         
         List<PlanVo> plans = new ArrayList<>();
-        PlanVo plan = new PlanVo();
+        PlanVo plan = new PlanVo("");
         plans.add(plan);
         instance.setPlans(plans);
                 
