@@ -1,8 +1,9 @@
-package org.netbeans.modules.bamboo.glue;
+package org.netbeans.modules.bamboo.util;
 
-import static org.hamcrest.CoreMatchers.is;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 /**

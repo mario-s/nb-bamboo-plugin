@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.glue;
+package org.netbeans.modules.bamboo.util;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

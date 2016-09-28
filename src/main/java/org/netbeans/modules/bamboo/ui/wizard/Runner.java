@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
 import org.netbeans.modules.bamboo.glue.BambooInstance;
-import org.netbeans.modules.bamboo.glue.HttpUtility;
+import org.netbeans.modules.bamboo.util.HttpUtility;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.rest.BambooInstanceProduceable;
 
