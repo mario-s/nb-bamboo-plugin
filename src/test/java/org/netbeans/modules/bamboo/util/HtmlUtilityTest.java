@@ -9,21 +9,39 @@ import static org.junit.Assert.*;
  * @author spindizzy
  */
 public class HtmlUtilityTest {
-    
+
     private HtmlUtility classUnderTest;
-    
+
     @Before
     public void setUp() {
         classUnderTest = new HtmlUtility();
     }
 
     /**
-     * Test of extractHtmlContent method, of class HtmlUtility.
+     * Test of extractLink method, of class HtmlUtility.
      */
     @Test
-    public void testExtractHtmlContent_EmptyString_ExpectEmpty() {
-        String result = classUnderTest.extractHtmlContent("");
+    public void testExtractLink_EmptyString_ExpectEmpty() {
+        String result = classUnderTest.extractLink("");
         assertEquals("", result);
+    }
+
+    /**
+     * Test of extractLink method, of class HtmlUtility.
+     */
+    @Test
+    public void testExtractLink_FirstText_ExpectLink() {
+        String result = classUnderTest.extractLink("test <a href=\"http://localhost\">test</a>");
+        assertEquals("<a href=\"http://localhost\">test</a>", result);
+    }
+    
+    /**
+     * Test of extractLink method, of class HtmlUtility.
+     */
+    @Test
+    public void testExtractLink_LastText_ExpectLink() {
+        String result = classUnderTest.extractLink("<a href=\"http://localhost\">test</a> test");
+        assertEquals("<a href=\"http://localhost\">test</a>", result);
     }
 
     /**
@@ -34,5 +52,5 @@ public class HtmlUtilityTest {
         String result = classUnderTest.extractNormalText("");
         assertEquals("", result);
     }
-    
+
 }
