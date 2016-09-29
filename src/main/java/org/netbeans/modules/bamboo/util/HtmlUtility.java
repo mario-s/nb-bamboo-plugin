@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * This class provides methods to handle string with HTML markup.
+ * This class provides methods to handle strings with HTML markup.
  *
  * @author spindizzy
  */
@@ -44,6 +44,18 @@ public class HtmlUtility {
         return "";
     }
 
+      /**
+     * This methods returns the url from the given text. 
+     * If there is no url in the text, the result will
+     * be an empty string.
+     * 
+     * The string
+     * <code>test <a href="http://localhost">test</a>/code> 
+     * will result in <code>http://localhost</code>
+     *
+     * @param text string with a possible url
+     * @return url as string or empty string.
+     */
     public String extractUrl(String text) {
         return removeLastQuote(find(text, URL_REGEX));
     }
