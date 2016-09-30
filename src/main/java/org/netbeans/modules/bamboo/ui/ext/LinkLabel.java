@@ -14,7 +14,7 @@ import javax.swing.JLabel;
  * A {@link JLabel} behaving like an HTML hyperlink usually found on web applications. By default, the style of the link
  * is mimicking that found by default in web browsers.
  */
-public class HyperlinkLabel extends JLabel {
+final class LinkLabel extends JLabel {
 
     private String text;
     private URI uri;
@@ -31,7 +31,7 @@ public class HyperlinkLabel extends JLabel {
      * @param text text/label for the link
      * @param uri {@link URI} to which the link points to
      */
-    public HyperlinkLabel(String text, URI uri) {
+    LinkLabel(String text, URI uri) {
         super();
         setup(text, uri);
     }
@@ -46,7 +46,7 @@ public class HyperlinkLabel extends JLabel {
      * @param text text/label of the link
      * @param uri {@link URI} to which the link points to
      */
-    public HyperlinkLabel(String text, String uri) {
+    LinkLabel(String text, String uri) {
         super();
         URI oURI;
         try {
@@ -62,7 +62,7 @@ public class HyperlinkLabel extends JLabel {
      *
      * @param color {@link Color}
      */
-    public void setColorBeforeClick(Color color) {
+    void setColorBeforeClick(Color color) {
         this.colorBeforeClick = color;
         setForeground(color);
     }
@@ -72,7 +72,7 @@ public class HyperlinkLabel extends JLabel {
      *
      * @param color {@link Color}
      */
-    public void setColorAfterClick(Color color) {
+    void setColorAfterClick(Color color) {
         this.colorAfterClick = color;
     }
 
