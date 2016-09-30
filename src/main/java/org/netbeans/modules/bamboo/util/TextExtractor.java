@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author spindizzy
  */
-public class TextExtractUtility {
+public class TextExtractor {
 
     private static final int ZERO = 0;
 

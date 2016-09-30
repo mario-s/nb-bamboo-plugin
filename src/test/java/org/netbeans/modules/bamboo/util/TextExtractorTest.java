@@ -8,17 +8,17 @@ import static org.junit.Assert.*;
  *
  * @author spindizzy
  */
-public class TextExtractUtilityTest {
+public class TextExtractorTest {
 
-    private TextExtractUtility classUnderTest;
+    private TextExtractor classUnderTest;
 
     @Before
     public void setUp() {
-        classUnderTest = new TextExtractUtility();
+        classUnderTest = new TextExtractor();
     }
 
     /**
-     * Test of extractLink method, of class TextExtractUtility.
+     * Test of extractLink method, of class TextExtractor.
      */
     @Test
     public void testExtractLink_EmptyString_ExpectEmpty() {
@@ -27,7 +27,7 @@ public class TextExtractUtilityTest {
     }
 
     /**
-     * Test of extractLink method, of class TextExtractUtility.
+     * Test of extractLink method, of class TextExtractor.
      */
     @Test
     public void testExtractLink_FirstText_ExpectLink() {
@@ -36,7 +36,7 @@ public class TextExtractUtilityTest {
     }
 
     /**
-     * Test of extractLink method, of class TextExtractUtility.
+     * Test of extractLink method, of class TextExtractor.
      */
     @Test
     public void testExtractLink_LastText_ExpectLink() {
@@ -45,7 +45,7 @@ public class TextExtractUtilityTest {
     }
 
     /**
-     * Test of extractUrl method, of class TextExtractUtility.
+     * Test of extractUrl method, of class TextExtractor.
      */
     @Test
     public void testExtractUrl_NotEmptyLink_ExpectUrl() {
@@ -54,7 +54,7 @@ public class TextExtractUtilityTest {
     }
     
     /**
-     * Test of extractUrl method, of class TextExtractUtility.
+     * Test of extractUrl method, of class TextExtractor.
      */
     @Test
     public void testExtractUrl_InvalidLink_ExpectEmpty() {
@@ -63,7 +63,7 @@ public class TextExtractUtilityTest {
     }
 
     /**
-     * Test of extractNormalText method, of class TextExtractUtility.
+     * Test of extractNormalText method, of class TextExtractor.
      */
     @Test
     public void testExtractNormalText_EmptyString_expectEmpty() {
@@ -72,7 +72,7 @@ public class TextExtractUtilityTest {
     }
     
      /**
-     * Test of extractNormalText method, of class TextExtractUtility.
+     * Test of extractNormalText method, of class TextExtractor.
      */
     @Test
     public void testExtractNormalText_EmbeddedString_expectString() {
