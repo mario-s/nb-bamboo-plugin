@@ -1,7 +1,8 @@
-package org.netbeans.modules.bamboo.util;
+package org.netbeans.modules.bamboo.ui.ext;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**

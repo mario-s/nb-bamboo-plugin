@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.util;
+package org.netbeans.modules.bamboo.ui.ext;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author spindizzy
  */
-public class TextExtractor {
+final class TextExtractor {
 
     private static final int ZERO = 0;
 
@@ -31,7 +31,7 @@ public class TextExtractor {
      * @param text string with a possible link
      * @return HTML link content or empty string.
      */
-    public String extractLink(String text) {
+    String extractLink(String text) {
         return find(text, LINK_REGEX);
     }
 
@@ -43,7 +43,7 @@ public class TextExtractor {
      * @param text string with possible HTML content.
      * @return normal text or empty string.
      */
-    public String extractNormalText(String text) {
+    String extractNormalText(String text) {
         String found = find(text, TEXT_REGEX);
         return removeFirst(removeLast(found, OPN), CLS);
     }
@@ -58,7 +58,7 @@ public class TextExtractor {
      * @param text string with a possible url
      * @return url as string or empty string.
      */
-    public String extractUrl(String text) {
+    String extractUrl(String text) {
         return removeLastQuote(find(text, URL_REGEX));
     }
 

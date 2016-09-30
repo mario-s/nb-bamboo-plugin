@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.ui;
+package org.netbeans.modules.bamboo.ui.ext;
 
 import java.awt.Color;
 import java.awt.Cursor;

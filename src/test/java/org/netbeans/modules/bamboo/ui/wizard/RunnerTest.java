@@ -19,7 +19,6 @@ import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
-import org.netbeans.modules.bamboo.util.HttpUtility;
 import org.netbeans.modules.bamboo.mock.MockInstanceFactory;
 import org.netbeans.modules.bamboo.rest.BambooInstanceProduceable;
 
