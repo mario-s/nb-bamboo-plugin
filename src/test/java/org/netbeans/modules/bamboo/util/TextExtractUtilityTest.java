@@ -8,17 +8,17 @@ import static org.junit.Assert.*;
  *
  * @author spindizzy
  */
-public class HtmlUtilityTest {
+public class TextExtractUtilityTest {
 
-    private HtmlUtility classUnderTest;
+    private TextExtractUtility classUnderTest;
 
     @Before
     public void setUp() {
-        classUnderTest = new HtmlUtility();
+        classUnderTest = new TextExtractUtility();
     }
 
     /**
-     * Test of extractLink method, of class HtmlUtility.
+     * Test of extractLink method, of class TextExtractUtility.
      */
     @Test
     public void testExtractLink_EmptyString_ExpectEmpty() {
@@ -27,7 +27,7 @@ public class HtmlUtilityTest {
     }
 
     /**
-     * Test of extractLink method, of class HtmlUtility.
+     * Test of extractLink method, of class TextExtractUtility.
      */
     @Test
     public void testExtractLink_FirstText_ExpectLink() {
@@ -36,7 +36,7 @@ public class HtmlUtilityTest {
     }
 
     /**
-     * Test of extractLink method, of class HtmlUtility.
+     * Test of extractLink method, of class TextExtractUtility.
      */
     @Test
     public void testExtractLink_LastText_ExpectLink() {
@@ -45,7 +45,7 @@ public class HtmlUtilityTest {
     }
 
     /**
-     * Test of extractUrl method, of class HtmlUtility.
+     * Test of extractUrl method, of class TextExtractUtility.
      */
     @Test
     public void testExtractUrl_NotEmptyLink_ExpectUrl() {
@@ -54,7 +54,7 @@ public class HtmlUtilityTest {
     }
     
     /**
-     * Test of extractUrl method, of class HtmlUtility.
+     * Test of extractUrl method, of class TextExtractUtility.
      */
     @Test
     public void testExtractUrl_InvalidLink_ExpectEmpty() {
@@ -63,12 +63,21 @@ public class HtmlUtilityTest {
     }
 
     /**
-     * Test of extractNormalText method, of class HtmlUtility.
+     * Test of extractNormalText method, of class TextExtractUtility.
      */
     @Test
     public void testExtractNormalText_EmptyString_expectEmpty() {
         String result = classUnderTest.extractNormalText("");
         assertEquals("", result);
+    }
+    
+     /**
+     * Test of extractNormalText method, of class TextExtractUtility.
+     */
+    @Test
+    public void testExtractNormalText_EmbeddedString_expectString() {
+        String result = classUnderTest.extractNormalText("<a href=\"http://localhost\">test 1</a>");
+        assertEquals("test 1", result);
     }
 
 }
