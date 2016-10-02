@@ -80,5 +80,14 @@ public class TextExtractorTest {
         String result = classUnderTest.extractNormalText("<a href=\"http://localhost\">test 1</a>");
         assertEquals("test 1", result);
     }
+    
+      /**
+     * Test of extractNormalText method, of class TextExtractor.
+     */
+    @Test
+    public void testExtractNormalText_EmbeddedHtmlContent_expectString() {
+        String result = classUnderTest.extractNormalText("<a href=\"http://localhost\">test <foo@bar.baz/></a>");
+        assertEquals("test <foo@bar.baz/>", result);
+    }
 
 }

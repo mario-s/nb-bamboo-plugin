@@ -56,7 +56,8 @@ class NotifyDisplayer implements Runnable {
     }
 
     /**
-     * Is the result change relevant for a notification? We are not interested in a change from success to success.
+     * Is the result change relevant for a notification? We are not interested in a change from success to success.<br/>
+     * It is similar to Bamboo's "Failed Builds And First Successful" notification.
      */
     private boolean isRelevant() {
         boolean relevant = true;
