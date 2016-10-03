@@ -45,7 +45,9 @@ public class ComponentFactory implements ComponentProduceable {
     }
 
     private JPanel newPanel() {
-        return new JPanel(new GridLayout(1, 2));
+        JPanel panel = new JPanel(new GridLayout(1, 2));
+        panel.setOpaque(false);
+        return panel;
     }
 
     private JLabel newLabel(String text) {

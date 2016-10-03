@@ -1,17 +1,19 @@
 package org.netbeans.modules.bamboo.ui.notification;
 
-import java.awt.event.ActionListener;
 import javax.swing.Icon;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isNull;
+
 import org.mockito.Mock;
+
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
@@ -63,7 +65,7 @@ public class NotifyDisplayerTest {
     @Test
     public void testRunResultNormal_ExpectNotifyNormal() {
         classUnderTest.run();
-        verify(notificationDisplayer).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.NORMAL), eq(Category.INFO));
+        verify(notificationDisplayer).notify(anyString(), any(Icon.class), any(BuildResultPanel.class), any(BuildResultPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
     }
 
     /**
@@ -75,7 +77,7 @@ public class NotifyDisplayerTest {
         result.setState(State.Failed);
         plan.setResult(result);
         classUnderTest.run();
-        verify(notificationDisplayer).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.HIGH), eq(Category.ERROR));
+        verify(notificationDisplayer).notify(anyString(), any(Icon.class), any(BuildResultPanel.class), any(BuildResultPanel.class), eq(Priority.HIGH), eq(Category.ERROR));
     }
     
     /**
@@ -86,7 +88,7 @@ public class NotifyDisplayerTest {
         oldResult.setState(State.Successful);
         newResult.setState(State.Successful);
         classUnderTest.run();
-        verify(notificationDisplayer, never()).notify(anyString(), any(Icon.class), anyString(), isNull(ActionListener.class), eq(Priority.NORMAL), eq(Category.INFO));
+        verify(notificationDisplayer, never()).notify(anyString(), any(Icon.class), any(BuildResultPanel.class), any(BuildResultPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
     }
 
 }

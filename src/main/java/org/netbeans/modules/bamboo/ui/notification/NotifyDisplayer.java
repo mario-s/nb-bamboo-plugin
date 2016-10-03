@@ -28,15 +28,15 @@ import static org.openide.util.Pair.of;
  */
 @Log
 class NotifyDisplayer implements Runnable {
-    
+
     private static final Pair<Priority, Category> INFO = of(Priority.NORMAL, Category.INFO);
-    
+
     private static final Pair<Priority, Category> ERROR = of(Priority.HIGH, Category.ERROR);
 
     private final Icon instanceIcon;
 
     private final BuildResult buildResult;
-    
+
     private final ComponentProduceable componentProducer;
 
     NotifyDisplayer(Icon instanceIcon, BuildResult buildResult) {
@@ -48,28 +48,35 @@ class NotifyDisplayer implements Runnable {
     @Override
     public void run() {
         if (isRelevant()) {
-            PlanVo plan = buildResult.getPlan();
+            PlanVo plan = getPlan();
             String name = plan.getName();
-            String details = getDetails(plan);
 
             if (log.isLoggable(Level.INFO)) {
-                log.info(String.format("state of plan %s has changed to %s", name, details));
+                log.info(String.format("state of plan %s has changed", name));
             }
 
+            JComponent resultPanel = newBuildResultPanel();
             Pair<Priority, Category> cat = getCategory();
 
-            getNotificationDisplayer().notify(name, instanceIcon, details, null, cat.first(), cat.second());
+            getNotificationDisplayer().notify(name, instanceIcon, resultPanel, resultPanel, cat.first(), cat.second());
         }
     }
-    
-    private JComponent getComponent(){
+
+    private JComponent newBuildResultPanel() {
+        PlanVo plan = getPlan();
+        String summary = getSummary(plan);
         ResultVo resultVo = buildResult.getNewResult();
-        return componentProducer.create(resultVo.getBuildReason());
+        JComponent reasonComp = componentProducer.create(resultVo.getBuildReason());
+        return new BuildResultPanel(summary, reasonComp);
     }
-    
-    private Pair<Priority, Category> getCategory(){
-        PlanVo plan = buildResult.getPlan();
+
+    private Pair<Priority, Category> getCategory() {
+        PlanVo plan = getPlan();
         return (isFailed(plan)) ? ERROR : INFO;
+    }
+
+    private PlanVo getPlan() {
+        return buildResult.getPlan();
     }
 
     /**
@@ -98,12 +105,12 @@ class NotifyDisplayer implements Runnable {
         "Result_Failed=failed",
         "Result_Successful=was successful"
     })
-    private String getDetails(PlanVo plan) {
+    private String getSummary(PlanVo plan) {
         ResultVo result = plan.getResult();
         int number = result.getNumber();
         String strState = (isFailed(plan)) ? Result_Failed() : Result_Successful();
 
-        return String.format("%s %s: %s", Build(), number, strState);
+        return String.format("%s %s %s", Build(), number, strState);
     }
 
     private boolean isFailed(PlanVo plan) {
