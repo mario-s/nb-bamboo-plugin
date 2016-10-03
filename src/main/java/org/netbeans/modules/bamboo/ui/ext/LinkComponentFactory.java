@@ -4,21 +4,26 @@ import java.awt.GridLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import org.netbeans.modules.bamboo.glue.ComponentProduceable;
 import org.openide.util.lookup.ServiceProvider;
+import org.netbeans.modules.bamboo.glue.LinkComponentProduceable;
 
 /**
  * Factory class that creates a new {@link JComponent}.
  *
  * @author spindizzy
  */
-@ServiceProvider(service = ComponentProduceable.class)
-public class ComponentFactory implements ComponentProduceable {
+@ServiceProvider(service = LinkComponentProduceable.class)
+public class LinkComponentFactory implements LinkComponentProduceable {
 
     private final TextExtractor textExtractor;
 
-    public ComponentFactory() {
+    public LinkComponentFactory() {
         this.textExtractor = new TextExtractor();
+    }
+
+    @Override
+    public boolean containsLink(String text) {
+        return !textExtractor.extractLink(text).isEmpty();
     }
 
     /**

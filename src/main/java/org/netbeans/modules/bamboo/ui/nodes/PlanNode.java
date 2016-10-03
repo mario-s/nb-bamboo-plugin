@@ -169,7 +169,7 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener {
                 return getResult().getBuildReason();
             }
         });
-
+        
         Sheet sheet = Sheet.createDefault();
         sheet.put(set);
 

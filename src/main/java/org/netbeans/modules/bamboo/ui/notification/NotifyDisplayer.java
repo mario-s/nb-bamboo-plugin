@@ -4,7 +4,6 @@ import java.util.logging.Level;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import lombok.extern.java.Log;
-import org.netbeans.modules.bamboo.glue.ComponentProduceable;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
@@ -20,6 +19,8 @@ import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Failed;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Successful;
 import static org.openide.util.Lookup.getDefault;
 import static org.openide.util.Pair.of;
+
+import org.netbeans.modules.bamboo.glue.LinkComponentProduceable;
 
 /**
  * This class displays the notification in the status bar.
@@ -37,12 +38,12 @@ class NotifyDisplayer implements Runnable {
 
     private final BuildResult buildResult;
 
-    private final ComponentProduceable componentProducer;
+    private final LinkComponentProduceable componentProducer;
 
     NotifyDisplayer(Icon instanceIcon, BuildResult buildResult) {
         this.instanceIcon = instanceIcon;
         this.buildResult = buildResult;
-        componentProducer = getDefault().lookup(ComponentProduceable.class);
+        componentProducer = getDefault().lookup(LinkComponentProduceable.class);
     }
 
     @Override
