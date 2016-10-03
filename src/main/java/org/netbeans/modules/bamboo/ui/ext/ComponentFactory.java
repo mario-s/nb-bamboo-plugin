@@ -2,12 +2,15 @@ package org.netbeans.modules.bamboo.ui.ext;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import org.netbeans.modules.bamboo.glue.ComponentProduceable;
+import org.openide.util.lookup.ServiceProvider;
 
 /**
  * Factory class that creates a new {@link JComponent}.
  * @author spindizzy
  */
-public class ComponentFactory {
+@ServiceProvider(service = ComponentProduceable.class)
+public class ComponentFactory implements ComponentProduceable{
     
     private final TextExtractor textExtractor;
 
@@ -20,6 +23,7 @@ public class ComponentFactory {
      * @param text text with possible HTML markup.
      * @return a new {@link JComponent}.
      */
+    @Override
     public JComponent create(String text) {
         String link = textExtractor.extractLink(text);
         if(!link.isEmpty()){
