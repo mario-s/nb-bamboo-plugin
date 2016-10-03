@@ -38,7 +38,7 @@ public class ComponentFactoryTest {
     public void testCreate_NormalString_ExpectLinkLabel() {
         String text = "test <a href=\"http://localhost\">test</a>";
         JComponent result = classUnderTest.create(text);
-        assertThat(result instanceof LinkLabel, is(true));
+        assertThat(result.getComponentCount(), is(2));
     }
     
 }
