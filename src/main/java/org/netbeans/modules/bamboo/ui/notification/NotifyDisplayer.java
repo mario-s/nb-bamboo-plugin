@@ -2,7 +2,9 @@ package org.netbeans.modules.bamboo.ui.notification;
 
 import java.util.logging.Level;
 import javax.swing.Icon;
+import javax.swing.JComponent;
 import lombok.extern.java.Log;
+import org.netbeans.modules.bamboo.glue.ComponentProduceable;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
@@ -11,10 +13,13 @@ import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.NotificationDisplayer.Category;
 import org.openide.awt.NotificationDisplayer.Priority;
 import org.openide.util.NbBundle;
+import org.openide.util.Pair;
 
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Build;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Failed;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Successful;
+import static org.openide.util.Lookup.getDefault;
+import static org.openide.util.Pair.of;
 
 /**
  * This class displays the notification in the status bar.
@@ -23,14 +28,21 @@ import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Successf
  */
 @Log
 class NotifyDisplayer implements Runnable {
+    
+    private static final Pair<Priority, Category> INFO = of(Priority.NORMAL, Category.INFO);
+    
+    private static final Pair<Priority, Category> ERROR = of(Priority.HIGH, Category.ERROR);
 
     private final Icon instanceIcon;
 
     private final BuildResult buildResult;
+    
+    private final ComponentProduceable componentProducer;
 
     NotifyDisplayer(Icon instanceIcon, BuildResult buildResult) {
         this.instanceIcon = instanceIcon;
         this.buildResult = buildResult;
+        componentProducer = getDefault().lookup(ComponentProduceable.class);
     }
 
     @Override
@@ -44,15 +56,20 @@ class NotifyDisplayer implements Runnable {
                 log.info(String.format("state of plan %s has changed to %s", name, details));
             }
 
-            Priority priority = Priority.NORMAL;
-            Category category = Category.INFO;
-            if (isFailed(plan)) {
-                priority = Priority.HIGH;
-                category = Category.ERROR;
-            }
+            Pair<Priority, Category> cat = getCategory();
 
-            getNotificationDisplayer().notify(name, instanceIcon, details, null, priority, category);
+            getNotificationDisplayer().notify(name, instanceIcon, details, null, cat.first(), cat.second());
         }
+    }
+    
+    private JComponent getComponent(){
+        ResultVo resultVo = buildResult.getNewResult();
+        return componentProducer.create(resultVo.getBuildReason());
+    }
+    
+    private Pair<Priority, Category> getCategory(){
+        PlanVo plan = buildResult.getPlan();
+        return (isFailed(plan)) ? ERROR : INFO;
     }
 
     /**
