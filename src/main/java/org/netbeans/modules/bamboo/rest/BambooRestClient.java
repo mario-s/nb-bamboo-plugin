@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
+import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
+
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.netbeans.modules.bamboo.glue.InstanceValues;

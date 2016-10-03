@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
+import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
+import org.netbeans.modules.bamboo.glue.BambooInstanceProduceable;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.VersionInfo;
 

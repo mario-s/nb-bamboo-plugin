@@ -23,13 +23,16 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.mock.MockInstanceFactory;
-import org.netbeans.modules.bamboo.rest.BambooInstanceProduceable;
+import org.netbeans.modules.bamboo.glue.BambooInstanceProduceable;
 
 import static org.openide.util.Lookup.getDefault;
+
 import org.openide.util.Task;
 
 import java.beans.PropertyChangeEvent;
+
 import static org.mockito.Mockito.atLeast;
+
 import org.openide.NotifyDescriptor;
 
 

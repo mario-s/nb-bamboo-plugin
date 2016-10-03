@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
+import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
+
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.netbeans.modules.bamboo.glue.DefaultInstanceValues;
@@ -7,6 +9,7 @@ import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.VersionInfo;
 
 import static org.openide.util.Lookup.getDefault;
+
 import org.openide.util.RequestProcessor;
 import org.openide.util.RequestProcessor.Task;
 
@@ -14,7 +17,9 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import java.util.Collection;
+
 import static java.util.Collections.emptyList;
+
 import java.util.Optional;
 
 import java.util.logging.Level;
@@ -27,13 +32,18 @@ import org.openide.util.NbBundle.Messages;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.LookupContext;
+
 import static org.netbeans.modules.bamboo.glue.SharedConstants.PROP_SYNC_INTERVAL;
+
 import org.netbeans.modules.bamboo.model.ModelProperties;
 import org.netbeans.modules.bamboo.model.ProjectVo;
+
 import static org.netbeans.modules.bamboo.rest.Bundle.TXT_SYNC;
+
 import org.openide.util.Lookup;
 
 /**
