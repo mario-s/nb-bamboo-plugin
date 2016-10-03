@@ -3,6 +3,7 @@ package org.netbeans.modules.bamboo.ui.ext;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
 /**
@@ -90,4 +91,15 @@ public class TextExtractorTest {
         assertEquals("test <foo@bar.baz/>", result);
     }
 
+    /**
+     * Test of substring method.
+     */
+    @Test
+    public void testSubstring_ExpectOnlyFirst() {
+        String foo = "foo";
+        String bar = "bar";
+        String complete = foo + bar;
+        String result = classUnderTest.substring(complete, bar);
+        assertThat(result, equalTo(foo));
+    }
 }

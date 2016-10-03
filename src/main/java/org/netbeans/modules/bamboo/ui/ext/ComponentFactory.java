@@ -31,8 +31,7 @@ public class ComponentFactory implements ComponentProduceable {
     public JComponent create(String text) {
         String link = textExtractor.extractLink(text);
         if (!link.isEmpty()) {
-            int pos = text.indexOf(link);
-            String lblTxt = text.substring(0, pos);
+            String lblTxt = textExtractor.substring(text, link);
             String txt = textExtractor.extractNormalText(link);
             String url = textExtractor.extractUrl(link);
             

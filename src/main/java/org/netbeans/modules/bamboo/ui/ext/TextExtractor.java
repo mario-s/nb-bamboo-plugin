@@ -48,6 +48,16 @@ final class TextExtractor {
         return removeFirst(removeLast(found, OPN), CLS);
     }
     
+    /**
+     * This method returns a sub string from the givin complte string till the first appearance of the string to be removed.
+     * @param complete the complete string
+     * @param toRemove the part to be removed
+     * @return the trimmed string
+     */
+    String substring(String complete, String toRemove) {
+        int pos = complete.indexOf(toRemove);
+        return complete.substring(ZERO, pos);
+    }
 
     /**
      * This methods returns the url from the given text. If there is no url in the text, the result will be an empty
