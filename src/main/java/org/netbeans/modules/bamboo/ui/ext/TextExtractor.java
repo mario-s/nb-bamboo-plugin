@@ -3,13 +3,14 @@ package org.netbeans.modules.bamboo.ui.ext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
+import org.netbeans.modules.bamboo.glue.TextExtractable;
 
 /**
  * This class provides methods to handle strings with HTML markup.
  *
  * @author spindizzy
  */
-final class TextExtractor {
+final class TextExtractor implements TextExtractable{
 
     private static final int ZERO = 0;
 
@@ -21,54 +22,27 @@ final class TextExtractor {
     private static final String TEXT_REGEX = CLS + ".+" + OPN;
     private static final String URL_REGEX = "(http|https):\\/\\/.+" + QUOTE;
 
-    /**
-     * This methods returns the link content from the given text. If there is no link in the text, the result will be an
-     * empty string.
-     *
-     * The string <code>test <a href="http://localhost">test</a></code> will result in
-     * <code><a href="http://localhost">test</a></code>
-     *
-     * @param text string with a possible link
-     * @return HTML link content or empty string.
-     */
-    String extractLink(String text) {
+    @Override
+    public String extractLink(String text) {
         return find(text, LINK_REGEX);
     }
 
-    /**
-     * Returns the normal text, which is embedded within HTML tags.
-     *
-     * The string <code><a href="http://localhost">test</a></code> will result in <code>test</code>
-     *
-     * @param text string with possible HTML content.
-     * @return normal text or empty string.
-     */
-    String extractNormalText(String text) {
+    @Override
+    public String extractNormalText(String text) {
         String found = find(text, TEXT_REGEX);
         return removeFirst(removeLast(found, OPN), CLS);
     }
     
-    /**
-     * This method returns a sub string from the givin complte string till the first appearance of the string to be removed.
-     * @param complete the complete string
-     * @param toRemove the part to be removed
-     * @return the trimmed string
-     */
-    String substring(String complete, String toRemove) {
+    
+    @Override
+    public String substring(String complete, String toRemove) {
         int pos = complete.indexOf(toRemove);
         return complete.substring(ZERO, pos);
     }
 
-    /**
-     * This methods returns the url from the given text. If there is no url in the text, the result will be an empty
-     * string.
-     *
-     * The string <code><a href="http://localhost">test</a>s/code> will result in <code>http://localhost</code>
-     *
-     * @param text string with a possible url
-     * @return url as string or empty string.
-     */
-    String extractUrl(String text) {
+
+    @Override
+    public String extractUrl(String text) {
         return removeLastQuote(find(text, URL_REGEX));
     }
 

@@ -41,23 +41,4 @@ public class LinkComponentFactoryTest {
         assertThat(result.getComponentCount(), is(2));
     }
 
-    /**
-     * Test of containsLink method, of class LinkComponentFactory.
-     */
-    @Test
-    public void testContainsLink_HtmlString_ExpectTrue() {
-        String text = "test <a href=\"http://localhost\">test</a>";
-        boolean result = classUnderTest.containsLink(text);
-        assertThat(result, is(true));
-    }
-
-    /**
-     * Test of containsLink method, of class LinkComponentFactory.
-     */
-    @Test
-    public void testContainsLink_NormalString_ExpectFalse() {
-        String text = "test";
-        boolean result = classUnderTest.containsLink(text);
-        assertThat(result, is(false));
-    }
 }

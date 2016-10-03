@@ -21,11 +21,6 @@ public class LinkComponentFactory implements LinkComponentProduceable {
         this.textExtractor = new TextExtractor();
     }
 
-    @Override
-    public boolean containsLink(String text) {
-        return !textExtractor.extractLink(text).isEmpty();
-    }
-
     /**
      * This method creates a subclass of JComponent depending on the given text.
      *

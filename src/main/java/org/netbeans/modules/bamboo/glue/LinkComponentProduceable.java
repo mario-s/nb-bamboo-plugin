@@ -15,10 +15,4 @@ public interface LinkComponentProduceable {
      */
     JComponent create(String text);
     
-    /**
-     * This method returns true if the text contains a link otherwhise false.
-     * @param text the text which may contain a HTML link
-     * @return true if the text contains a link otherwhise false.
-     */
-    boolean containsLink(String text);
 }

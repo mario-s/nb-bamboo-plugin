@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 /**
@@ -101,5 +102,25 @@ public class TextExtractorTest {
         String complete = foo + bar;
         String result = classUnderTest.substring(complete, bar);
         assertThat(result, equalTo(foo));
+    }
+    
+      /**
+     * Test of containsLink method, of class TextExtractor.
+     */
+    @Test
+    public void testContainsLink_HtmlString_ExpectTrue() {
+        String text = "test <a href=\"http://localhost\">test</a>";
+        boolean result = classUnderTest.containsLink(text);
+        assertThat(result, is(true));
+    }
+
+    /**
+     * Test of containsLink method, of class TextExtractor.
+     */
+    @Test
+    public void testContainsLink_NormalString_ExpectFalse() {
+        String text = "test";
+        boolean result = classUnderTest.containsLink(text);
+        assertThat(result, is(false));
     }
 }
