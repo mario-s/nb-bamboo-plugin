@@ -6,9 +6,10 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.swing.JLabel;
+import org.openide.awt.HtmlBrowser.URLDisplayer;
 
 /**
  * A {@link JLabel} behaving like an HTML hyperlink usually found on web applications. By default, the style of the link
@@ -16,86 +17,59 @@ import javax.swing.JLabel;
  */
 final class LinkLabel extends JLabel {
 
-    private String text;
-    private URI uri;
+    private final String text;
+    private final URL url;
 
     private boolean mouseEntered = false;
-    private boolean underlinedWhenHovered = true;
-    private boolean handCursorWhenHovered = true;
     private Color colorBeforeClick = Color.blue;
     private Color colorAfterClick = new Color(128, 0, 128); // purple
 
     /**
      * Constructor.
+     * <p>
+     * Constructs a {@link URL} object from the <code>url</code> argument. Any {@link MalformedURLException} thrown is
+     * converted to {@link IllegalArgumentException} if you cannot be sure at compile time that your url is valid, construct
+     * your url manually and use the other constructor.
      *
-     * @param text text/label for the link
-     * @param uri {@link URI} to which the link points to
+     * @param text text/label of the link
+     * @param uri {@link URL} to which the link points to
      */
-    LinkLabel(String text, URI uri) {
-        super();
-        setup(text, uri);
+    LinkLabel(String text, String url) {
+        try {
+            this.text = text;
+            this.url = new URL(url);
+            init();
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     /**
      * Constructor.
-     * <p>
-     * Constructs a {@link URI} object from the <code>uri</code> argument. Any {@link URISyntaxException} thrown is
-     * converted to {@link RuntimeException} if you cannot be sure at compile time that your uri is valid, construct
-     * your uri manually and use the other constructor.
      *
-     * @param text text/label of the link
-     * @param uri {@link URI} to which the link points to
+     * @param text text/label for the link
+     * @param uri {@link URL} to which the link points to
      */
-    LinkLabel(String text, String uri) {
-        super();
-        URI oURI;
-        try {
-            oURI = new URI(uri);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-        setup(text, oURI);
-    }
-
-    /**
-     * Sets the colour before the link has been clicked.
-     *
-     * @param color {@link Color}
-     */
-    void setColorBeforeClick(Color color) {
-        this.colorBeforeClick = color;
-        setForeground(color);
-    }
-
-    /**
-     * Sets the colour once the link has been clicked.
-     *
-     * @param color {@link Color}
-     */
-    void setColorAfterClick(Color color) {
-        this.colorAfterClick = color;
+    LinkLabel(String text, URL url) {
+        this.text = text;
+        this.url = url;
+        init();
     }
 
     /**
      * Sets up the link style, colour and mouse behaviour
-     *
-     * @param text text/label of the link
-     * @param uri {@link URI} to which the link points to
      */
-    private void setup(final String text, final URI uri) {
-
-        this.text = text;
-        this.uri = uri;
+    private void init() {
 
         setText(text);
-        setToolTipText(uri.toString());
+        setToolTipText(this.url.toString());
         setForeground(colorBeforeClick);
 
         addMouseListener(new MouseAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                open(uri);
+                open(url);
                 setForeground(colorAfterClick);
             }
 
@@ -104,9 +78,7 @@ final class LinkLabel extends JLabel {
                 setText(text);
                 mouseEntered = true;
                 repaint();
-                if (handCursorWhenHovered) {
-                    setCursor(new Cursor(Cursor.HAND_CURSOR));
-                }
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
 
             }
 
@@ -115,9 +87,7 @@ final class LinkLabel extends JLabel {
                 setText(text);
                 mouseEntered = false;
                 repaint();
-                if (handCursorWhenHovered) {
-                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                }
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
             }
         });
@@ -131,7 +101,7 @@ final class LinkLabel extends JLabel {
 
         super.paint(g);
 
-        if (underlinedWhenHovered && mouseEntered) {
+        if (mouseEntered) {
 
             // draw a line under the text
             Rectangle r = g.getClipBounds();
@@ -145,8 +115,8 @@ final class LinkLabel extends JLabel {
      *
      * @param uri {@link URI} to which the link points to
      */
-    private void open(URI uri) {
-        throw new UnsupportedOperationException("not yet implemented");
+    private void open(URL url) {
+        URLDisplayer.getDefault().showURL(url);
     }
 
 }
