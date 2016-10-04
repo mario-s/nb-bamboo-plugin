@@ -1,13 +1,16 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.awt.Image;
+import static java.util.Collections.singletonList;
 import javax.swing.Action;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.openide.nodes.Sheet;
 
 /**
  *
@@ -22,6 +25,7 @@ public class ProjectNodeTest {
     @Before
     public void setUp() {
         project = new ProjectVo("");
+        project.setPlans(singletonList(new PlanVo("")));
         classUnderTest = new ProjectNode(project);
     }
 
@@ -29,7 +33,7 @@ public class ProjectNodeTest {
      * Test of getIcon method, of class ProjectNode.
      */
     @Test
-    public void testGetIcon() {
+    public void testGetIcon_ExpectNotNull() {
         Image result = classUnderTest.getIcon(1);
         assertThat(result, notNullValue());
 
@@ -39,9 +43,17 @@ public class ProjectNodeTest {
      * Test of getActions method, of class ProjectNode.
      */
     @Test
-    public void testGetActions() {
+    public void testGetActions_ExpectThree() {
         Action[] result = classUnderTest.getActions(true);
         assertThat(result.length, is(3));
     }
     
+     /**
+     * Test of getActions method, of class ProjectNode.
+     */
+    @Test
+    public void testCreateSheet_ExpectOneSheet() {
+        Sheet result = classUnderTest.createSheet();
+        assertThat(result.toArray().length, is(1));
+    }
 }
