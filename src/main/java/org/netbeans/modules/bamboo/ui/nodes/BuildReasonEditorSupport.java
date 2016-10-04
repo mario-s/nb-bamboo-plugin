@@ -38,25 +38,23 @@ public class BuildReasonEditorSupport extends StringReadPropertySupport {
     }
 
     @Override
-    public String getValue() throws IllegalAccessException, InvocationTargetException {
-        String buildReason = result.getBuildReason();
-        return (buildReason == null) ? StringUtils.EMPTY : buildReason;
+    public PropertyEditor getPropertyEditor() {
+        String val = getBuildReason();
+        if (textExtractor.containsLink(val)) {
+            return new BuildReasonEditor();
+        } else {
+            return super.getPropertyEditor();
+        }
     }
 
     @Override
-    public PropertyEditor getPropertyEditor() {
-        try {
-            String val = getValue();
-            if (textExtractor.containsLink(val)) {
-                return new BuildReasonEditor();
-            } else {
-                return super.getPropertyEditor();
-            }
-        } catch (IllegalAccessException | InvocationTargetException ex) {
-            log.log(Level.INFO, ex.getMessage(), ex);
-            return super.getPropertyEditor();
-        }
+    public String getValue() throws IllegalAccessException, InvocationTargetException {
+        return getBuildReason();
+    }
 
+    private String getBuildReason() {
+        String buildReason = result.getBuildReason();
+        return (buildReason == null) ? StringUtils.EMPTY : buildReason;
     }
 
 }
