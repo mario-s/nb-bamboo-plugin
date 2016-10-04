@@ -3,7 +3,6 @@ package org.netbeans.modules.bamboo.ui.nodes;
 import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyEditor;
 import java.io.CharConversionException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -12,9 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import javax.swing.Action;
 import lombok.extern.java.Log;
-import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.annotations.common.StaticResource;
-import org.netbeans.modules.bamboo.glue.TextExtractable;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
@@ -33,11 +30,8 @@ import org.openide.xml.XMLUtil;
 
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Number;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Reason;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Number;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Reason;
-import static org.openide.util.lookup.AbstractLookup.getDefault;
 
 /**
  *
@@ -47,7 +41,6 @@ import static org.openide.util.lookup.AbstractLookup.getDefault;
 public class PlanNode extends AbstractNode implements PropertyChangeListener {
 
     private static final String RESULT_NUMBER = "resultNumber";
-    private static final String BUILD_REASON = "buildReason";
     private static final String STYLE = "<font color='!controlShadow'>(%s)</font>";
     private static final String SPC = " ";
 
