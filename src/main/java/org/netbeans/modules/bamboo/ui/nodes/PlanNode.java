@@ -3,6 +3,7 @@ package org.netbeans.modules.bamboo.ui.nodes;
 import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyEditor;
 import java.io.CharConversionException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -11,7 +12,9 @@ import java.util.List;
 import java.util.logging.Level;
 import javax.swing.Action;
 import lombok.extern.java.Log;
+import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.annotations.common.StaticResource;
+import org.netbeans.modules.bamboo.glue.TextExtractable;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
@@ -34,6 +37,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Number;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Reason;
+import static org.openide.util.lookup.AbstractLookup.getDefault;
 
 /**
  *
@@ -54,13 +58,17 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener {
     @StaticResource
     private static final String ICON_FAILED = "org/netbeans/modules/bamboo/resources/red.png";
 
-    private String htmlDisplayName;
-
     private final PlanVo plan;
+
+    private final TextExtractable textExtractor;
+
+    private String htmlDisplayName;
 
     public PlanNode(final PlanVo plan) {
         super(Children.LEAF, Lookups.singleton(plan));
         this.plan = plan;
+
+        textExtractor = getDefault().lookup(TextExtractable.class);
 
         init();
     }
@@ -166,10 +174,27 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener {
         set.put(new StringReadPropertySupport(BUILD_REASON, TXT_Plan_Prop_Result_Reason(), DESC_Plan_Prop_Result_Reason()) {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
-                return getResult().getBuildReason();
+                String buildReason = getResult().getBuildReason();
+                return (buildReason == null) ? StringUtils.EMPTY : buildReason;
+            }
+
+            @Override
+            public PropertyEditor getPropertyEditor() {
+                try {
+                    String val = getValue();
+                    if (textExtractor.containsLink(val)) {
+                        return new BuildReasonEditor();
+                    } else {
+                        return super.getPropertyEditor();
+                    }
+                } catch (IllegalAccessException | InvocationTargetException ex) {
+                    log.log(Level.INFO, ex.getMessage(), ex);
+                    return super.getPropertyEditor();
+                }
+
             }
         });
-        
+
         Sheet sheet = Sheet.createDefault();
         sheet.put(set);
 

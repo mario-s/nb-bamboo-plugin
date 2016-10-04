@@ -4,13 +4,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.modules.bamboo.glue.TextExtractable;
+import org.openide.util.lookup.ServiceProvider;
 
 /**
  * This class provides methods to handle strings with HTML markup.
  *
  * @author spindizzy
  */
-final class TextExtractor implements TextExtractable{
+@ServiceProvider(service = TextExtractable.class)
+public class TextExtractor implements TextExtractable{
 
     private static final int ZERO = 0;
 

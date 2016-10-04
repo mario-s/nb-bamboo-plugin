@@ -3,8 +3,6 @@ package org.netbeans.modules.bamboo.ui.nodes;
 import java.awt.Component;
 import java.beans.PropertyEditorSupport;
 import org.netbeans.modules.bamboo.glue.LinkComponentProduceable;
-import org.openide.explorer.propertysheet.ExPropertyEditor;
-import org.openide.explorer.propertysheet.PropertyEnv;
 
 import static org.openide.util.Lookup.getDefault;
 
