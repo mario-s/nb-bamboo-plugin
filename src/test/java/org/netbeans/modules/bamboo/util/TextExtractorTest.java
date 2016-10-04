@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.ui.ext;
+package org.netbeans.modules.bamboo.util;
 
 import org.junit.Before;
 import org.junit.Test;
