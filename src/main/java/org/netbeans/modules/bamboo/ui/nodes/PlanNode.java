@@ -60,15 +60,11 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener {
 
     private final PlanVo plan;
 
-    private final TextExtractable textExtractor;
-
     private String htmlDisplayName;
 
     public PlanNode(final PlanVo plan) {
         super(Children.LEAF, Lookups.singleton(plan));
         this.plan = plan;
-
-        textExtractor = getDefault().lookup(TextExtractable.class);
 
         init();
     }
@@ -154,9 +150,7 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener {
         "TXT_Plan_Prop_Name=Plan Name",
         "DESC_Plan_Prop_Name=The name of the build plan",
         "TXT_Plan_Prop_Result_Number=Result Number",
-        "DESC_Plan_Prop_Result_Number=Number of the last result for this plan",
-        "TXT_Plan_Prop_Result_Reason=Build Reason",
-        "DESC_Plan_Prop_Result_Reason=The reason why this plan was built"
+        "DESC_Plan_Prop_Result_Number=Number of the last result for this plan"
     })
     protected Sheet createSheet() {
         Sheet.Set set = Sheet.createPropertiesSet();
@@ -171,29 +165,7 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener {
             }
         });
 
-        set.put(new StringReadPropertySupport(BUILD_REASON, TXT_Plan_Prop_Result_Reason(), DESC_Plan_Prop_Result_Reason()) {
-            @Override
-            public String getValue() throws IllegalAccessException, InvocationTargetException {
-                String buildReason = getResult().getBuildReason();
-                return (buildReason == null) ? StringUtils.EMPTY : buildReason;
-            }
-
-            @Override
-            public PropertyEditor getPropertyEditor() {
-                try {
-                    String val = getValue();
-                    if (textExtractor.containsLink(val)) {
-                        return new BuildReasonEditor();
-                    } else {
-                        return super.getPropertyEditor();
-                    }
-                } catch (IllegalAccessException | InvocationTargetException ex) {
-                    log.log(Level.INFO, ex.getMessage(), ex);
-                    return super.getPropertyEditor();
-                }
-
-            }
-        });
+        set.put(new BuildReasonEditorSupport(getResult()));
 
         Sheet sheet = Sheet.createDefault();
         sheet.put(set);
