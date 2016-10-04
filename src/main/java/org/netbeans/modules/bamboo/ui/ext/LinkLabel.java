@@ -75,22 +75,25 @@ final class LinkLabel extends JLabel {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                setText(text);
                 mouseEntered = true;
-                repaint();
                 setCursor(new Cursor(Cursor.HAND_CURSOR));
-
+                
+                refresh();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                setText(text);
                 mouseEntered = false;
-                repaint();
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-
+                
+                refresh();
             }
         });
+    }
+
+    private void refresh() {
+        setText(text);
+        repaint();
     }
 
     /**
