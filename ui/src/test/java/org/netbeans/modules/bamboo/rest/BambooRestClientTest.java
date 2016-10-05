@@ -1,0 +1,205 @@
+package org.netbeans.modules.bamboo.rest;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import org.junit.runner.RunWith;
+
+import static org.mockito.BDDMockito.given;
+
+import org.mockito.Mock;
+
+import org.mockito.runners.MockitoJUnitRunner;
+
+import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.glue.VersionInfo;
+import org.netbeans.modules.bamboo.model.rest.Info;
+import org.netbeans.modules.bamboo.model.rest.Plan;
+import org.netbeans.modules.bamboo.model.rest.Plans;
+import org.netbeans.modules.bamboo.model.rest.PlansResponse;
+import org.netbeans.modules.bamboo.model.rest.Result;
+import org.netbeans.modules.bamboo.model.rest.Results;
+import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
+
+import java.util.Collection;
+import static java.util.Collections.singletonList;
+import java.util.List;
+import java.util.Map;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import static org.hamcrest.CoreMatchers.equalTo;
+import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.rest.Project;
+import org.netbeans.modules.bamboo.model.rest.Projects;
+import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import org.netbeans.modules.bamboo.model.PlanVo;
+
+/**
+ * @author spindizzy
+ */
+@RunWith(MockitoJUnitRunner.class)
+public class BambooRestClientTest {
+
+    private static final String FOO = "foo";
+    private static final String BAR = "bar";
+
+    @Mock
+    private InstanceValues instanceValues;
+    @Mock
+    private WebTarget webTarget;
+    @Mock
+    private Invocation.Builder invocationBuilder;
+    @Mock
+    private RepeatApiCaller<ProjectsResponse> projectsCaller;
+    @Mock
+    private RepeatApiCaller<PlansResponse> plansCaller;
+    @Mock
+    private RepeatApiCaller<ResultsResponse> resultsCaller;
+    @Mock
+    private ApiCaller<Info> infoCaller;
+
+    private BambooRestClient classUnderTest;
+
+    @Before
+    public void setUp() {
+        given(instanceValues.getUrl()).willReturn("http://foo.bar");
+        given(instanceValues.getUsername()).willReturn(FOO);
+        given(instanceValues.getPassword()).willReturn(new char[]{'b', 'a', 'z'});
+        given(webTarget.path(BambooRestClient.REST_API)).willReturn(webTarget);
+        given(webTarget.request()).willReturn(invocationBuilder);
+
+        classUnderTest
+                = new BambooRestClient() {
+            @Override
+            RepeatApiCaller<ProjectsResponse> createProjectCaller(InstanceValues values, Map<String, String> params) {
+                return projectsCaller;
+            }
+
+            @Override
+            RepeatApiCaller<PlansResponse> createPlansCaller(final InstanceValues values) {
+                return plansCaller;
+            }
+
+            @Override
+            RepeatApiCaller<ResultsResponse> createResultsCaller(final InstanceValues values, Map<String, String> params) {
+                return resultsCaller;
+            }
+
+            @Override
+            ApiCaller<Info> createInfoCaller(final InstanceValues values) {
+                return infoCaller;
+            }
+        };
+    }
+    
+    private void trainMocks() {
+        
+        
+        Plan fooPlan = new Plan();
+        fooPlan.setKey(FOO);
+        Plan barPlan = new Plan();
+        barPlan.setKey(BAR);
+        
+        Plans plans = new Plans();
+        List<Plan> planList = new ArrayList<>(2);
+        planList.add(fooPlan);
+        planList.add(barPlan);
+        plans.setPlan(planList);
+        
+        ProjectsResponse projectsResponse = new ProjectsResponse();
+        Project project = new Project();
+        project.setPlans(plans);
+        Projects projects = new Projects();
+        projects.setProject(singletonList(project));
+        projectsResponse.setProjects(projects);
+        
+        PlansResponse plansResponse = new PlansResponse();
+        
+        plansResponse.setPlans(plans);
+
+        ResultsResponse resultsResponse = new ResultsResponse();
+        Results results = new Results();
+        Result result = new Result();
+        result.setPlan(fooPlan);
+        results.setResult(singletonList(result));
+        resultsResponse.setResults(results);
+        
+        given(projectsCaller.createTarget()).willReturn(of(webTarget));
+        given(projectsCaller.request(webTarget)).willReturn(projectsResponse);
+        given(projectsCaller.doSecondCall(projectsResponse)).willReturn(empty());
+
+        given(plansCaller.createTarget()).willReturn(of(webTarget));
+        given(plansCaller.request(webTarget)).willReturn(plansResponse);
+        given(plansCaller.doSecondCall(plansResponse)).willReturn(of(plansResponse));
+
+        given(resultsCaller.createTarget()).willReturn(of(webTarget));
+        given(resultsCaller.request(webTarget)).willReturn(resultsResponse);
+        given(resultsCaller.doSecondCall(resultsResponse)).willReturn(of(resultsResponse));
+    }
+
+    /**
+     * Test of getProjects method, of class BambooRestClient.
+     */
+    @Test
+    public void testGetProjects_NotNull() {
+        trainMocks();
+
+        Collection<ProjectVo> buildProjects = classUnderTest.getProjects(instanceValues);
+        assertThat(buildProjects.isEmpty(), is(false));
+    }
+    
+    
+    /**
+     * Test of getProjects method, of class BambooRestClient.
+     */
+    @Test
+    public void testGetProjects_TwoPlans() {
+        trainMocks();
+
+        Collection<ProjectVo> buildProjects = classUnderTest.getProjects(instanceValues);
+        List<PlanVo> plans = buildProjects.iterator().next().getPlans();
+        assertThat(plans.size(), is(2));
+    }
+    
+     /**
+     * Test of getProjects method, of class BambooRestClient.
+     */
+    @Test
+    public void testGetProjects_Equal() {
+        trainMocks();
+
+        Collection<ProjectVo> first = classUnderTest.getProjects(instanceValues);
+        Collection<ProjectVo> second = classUnderTest.getProjects(instanceValues);
+        
+        assertThat(first, equalTo(second));
+    }
+
+    @Test
+    public void testGetVersion() {
+        Info info = new Info();
+        info.setBuildDate("2014-12-02T07:43:02.000+01:00");
+
+        given(infoCaller.createTarget()).willReturn(of(webTarget));
+        given(infoCaller.request(webTarget)).willReturn(info);
+
+        VersionInfo result = classUnderTest.getVersionInfo(instanceValues);
+        assertThat(result.getBuildDate(), notNullValue());
+    }
+    
+    @Test
+    public void testUpdate() {
+        trainMocks();
+        List<ProjectVo> toBeUpdated = new ArrayList<>();
+        classUnderTest.updateProjects(toBeUpdated, instanceValues);
+        assertThat(toBeUpdated.isEmpty(), is(false));
+    }
+}
