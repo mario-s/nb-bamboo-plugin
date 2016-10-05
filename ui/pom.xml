@@ -15,4 +15,11 @@
     <packaging>nbm</packaging>
     <name>netbeans-bamboo-plugin-ui</name>
     
+    <dependencies>
+        <dependency>
+            <groupId>org.netbeans.module.bamboo</groupId>
+            <artifactId>service</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
