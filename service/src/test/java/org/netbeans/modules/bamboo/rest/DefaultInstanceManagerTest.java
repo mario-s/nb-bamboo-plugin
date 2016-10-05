@@ -9,21 +9,33 @@ import java.util.prefs.Preferences;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 import static org.junit.Assume.assumeThat;
+
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+
 import static org.mockito.Mockito.times;
+
 import org.mockito.runners.MockitoJUnitRunner;
+import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
+import org.netbeans.modules.bamboo.glue.BuildStatusWatchable;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+
 import org.netbeans.modules.bamboo.glue.SharedConstants;
+import org.netbeans.modules.bamboo.mock.MockBuildStateWatcher;
+import org.netbeans.modules.bamboo.mock.MockRestClient;
+
+import static org.openide.util.Lookup.getDefault;
 
 /**
  *
@@ -38,6 +50,8 @@ public class DefaultInstanceManagerTest {
     private ArgumentCaptor<LookupEvent> lookupCaptor;
     @Mock
     private Preferences preferences;
+    @Mock
+    private BuildStatusWatchable buildStatusWatcher;
 
     private DefaultInstanceManager classUnderTest;
 
@@ -55,6 +69,9 @@ public class DefaultInstanceManagerTest {
 
     @Before
     public void setUp() throws BackingStoreException {
+        
+        MockBuildStateWatcher watcher = (MockBuildStateWatcher) getDefault().lookup(BuildStatusWatchable.class);
+        watcher.setDelegate(buildStatusWatcher);
 
         classUnderTest = new DefaultInstanceManager() {
             @Override
