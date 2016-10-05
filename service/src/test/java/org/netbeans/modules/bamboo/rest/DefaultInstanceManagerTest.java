@@ -30,10 +30,11 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import org.netbeans.modules.bamboo.glue.SharedConstants;
 import org.netbeans.modules.bamboo.mock.MockBuildStateWatcher;
 
 import static org.openide.util.Lookup.getDefault;
+
+import org.netbeans.modules.bamboo.glue.InstanceConstants;
 
 /**
  *
@@ -140,7 +141,7 @@ public class DefaultInstanceManagerTest {
     
     @Test
     public void testPropertyChange_ShouldPersist() {
-        PropertyChangeEvent event = new PropertyChangeEvent(instance, SharedConstants.PROP_SYNC_INTERVAL, 0, 1);
+        PropertyChangeEvent event = new PropertyChangeEvent(instance, InstanceConstants.PROP_SYNC_INTERVAL, 0, 1);
         classUnderTest.propertyChange(event);
         Collection<BambooInstance> instances = classUnderTest.loadInstances();
         assertThat(instances.isEmpty(), is(false));

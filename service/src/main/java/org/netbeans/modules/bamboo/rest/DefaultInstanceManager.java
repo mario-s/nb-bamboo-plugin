@@ -21,7 +21,7 @@ import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.glue.BuildStatusWatchable;
 import org.netbeans.modules.bamboo.glue.LookupContext;
 
-import static org.netbeans.modules.bamboo.glue.SharedConstants.PROP_SYNC_INTERVAL;
+import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 import static org.openide.util.Lookup.getDefault;
 
 /**

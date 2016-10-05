@@ -27,7 +27,6 @@ import java.util.prefs.Preferences;
 import org.apache.commons.lang3.time.StopWatch;
 import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.progress.ProgressHandleFactory;
-import org.netbeans.modules.bamboo.glue.SharedConstants;
 import org.openide.util.NbBundle.Messages;
 
 import static java.util.Optional.empty;
@@ -37,7 +36,7 @@ import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.LookupContext;
 
-import static org.netbeans.modules.bamboo.glue.SharedConstants.PROP_SYNC_INTERVAL;
+import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 
 import org.netbeans.modules.bamboo.model.ModelProperties;
 import org.netbeans.modules.bamboo.model.ProjectVo;
@@ -45,6 +44,7 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 import static org.netbeans.modules.bamboo.rest.Bundle.TXT_SYNC;
 
 import org.openide.util.Lookup;
+import org.netbeans.modules.bamboo.glue.InstanceConstants;
 
 /**
  * @author spindizzy
@@ -107,8 +107,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     }
 
     private void copyProperties(final BambooInstanceProperties props) throws NumberFormatException {
-        setName(props.get(SharedConstants.PROP_NAME));
-        setUrl(props.get(SharedConstants.PROP_URL));
+        setName(props.get(InstanceConstants.PROP_NAME));
+        setUrl(props.get(InstanceConstants.PROP_URL));
         setUsername(props.get(BambooInstanceConstants.INSTANCE_USER));
 
         String passwd = props.get(BambooInstanceConstants.INSTANCE_PASSWORD);
@@ -117,7 +117,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
             setPassword(passwd.toCharArray());
         }
 
-        String syncProp = props.get(SharedConstants.PROP_SYNC_INTERVAL);
+        String syncProp = props.get(InstanceConstants.PROP_SYNC_INTERVAL);
 
         if (isNotBlank(syncProp)) {
             setSyncInterval(Integer.parseInt(syncProp));

@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
-import org.netbeans.modules.bamboo.glue.SharedConstants;
+import org.netbeans.modules.bamboo.glue.InstanceConstants;
 
 /**
  *
@@ -117,7 +117,7 @@ public class BambooInstancePropertiesTest {
     public void testGetPreferences() {
         String name = "foo";
         given(preferences.node(name)).willReturn(preferences);
-        classUnderTest.put(SharedConstants.PROP_NAME, name);
+        classUnderTest.put(InstanceConstants.PROP_NAME, name);
         Preferences result = classUnderTest.getPreferences();
         assertNotNull(result);
     }

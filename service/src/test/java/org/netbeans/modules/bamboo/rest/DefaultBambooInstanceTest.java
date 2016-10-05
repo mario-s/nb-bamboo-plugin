@@ -13,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.glue.SharedConstants;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -28,6 +27,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.openide.util.RequestProcessor.Task;
+import org.netbeans.modules.bamboo.glue.InstanceConstants;
 
 /**
  *
@@ -79,7 +79,7 @@ public class DefaultBambooInstanceTest {
      */
     @Test
     public void testSetProperties_WithSync() {
-        given(properties.get(SharedConstants.PROP_SYNC_INTERVAL)).willReturn("5");
+        given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn("5");
         classUnderTest.applyProperties(properties);
         assertEquals(5, classUnderTest.getSyncInterval());
     }
@@ -89,7 +89,7 @@ public class DefaultBambooInstanceTest {
      */
     @Test
     public void testSetProjects_ShouldCreateTask() {
-        given(properties.get(SharedConstants.PROP_SYNC_INTERVAL)).willReturn("5");
+        given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn("5");
         classUnderTest.applyProperties(properties);
         classUnderTest.setProjects(projects);
         assertThat(classUnderTest.getSynchronizationTask().isPresent(), is(true));

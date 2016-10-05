@@ -5,7 +5,6 @@ import java.beans.PropertyChangeListener;
 import org.netbeans.api.annotations.common.StaticResource;
 
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.glue.SharedConstants;
 
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
@@ -41,6 +40,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Url;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Version;
 
 import org.openide.util.lookup.Lookups;
+import org.netbeans.modules.bamboo.glue.InstanceConstants;
 
 /**
  * This class is the node of a Bamboo CI server.
@@ -120,14 +120,14 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
         Sheet.Set set = Sheet.createPropertiesSet();
         set.setDisplayName(instance.getName());
 
-        set.put(new StringReadPropertySupport(SharedConstants.PROP_NAME, TXT_Instance_Prop_Name(), DESC_Instance_Prop_Name()) {
+        set.put(new StringReadPropertySupport(InstanceConstants.PROP_NAME, TXT_Instance_Prop_Name(), DESC_Instance_Prop_Name()) {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
                 return instance.getName();
             }
         });
 
-        set.put(new StringReadPropertySupport(SharedConstants.PROP_URL, TXT_Instance_Prop_Url(), DESC_Instance_Prop_Url()) {
+        set.put(new StringReadPropertySupport(InstanceConstants.PROP_URL, TXT_Instance_Prop_Url(), DESC_Instance_Prop_Url()) {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
                 return instance.getUrl();
@@ -149,7 +149,7 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
             }
         });
         
-        set.put(new IntReadWritePropertySupport(SharedConstants.PROP_SYNC_INTERVAL, TXT_Instance_Prop_SnycInterval(), DESC_Instance_Prop_SyncInterval()) {
+        set.put(new IntReadWritePropertySupport(InstanceConstants.PROP_SYNC_INTERVAL, TXT_Instance_Prop_SnycInterval(), DESC_Instance_Prop_SyncInterval()) {
             @Override
             public Integer getValue() throws IllegalAccessException, InvocationTargetException {
                 return instance.getSyncInterval();
