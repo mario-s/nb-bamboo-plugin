@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module: org.netbeans.modules.bamboo.model
-OpenIDE-Module-Localizing-Bundle: org/netbeans/modules/bamboo/Bundle.properties
-

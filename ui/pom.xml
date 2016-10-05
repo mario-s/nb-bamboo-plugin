@@ -15,6 +15,15 @@
     <packaging>nbm</packaging>
     <name>netbeans-bamboo-plugin-ui</name>
     
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>nbm-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+    
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -75,6 +84,10 @@
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-dialogs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-netbeans-api-progress</artifactId>
         </dependency>
     </dependencies>
 </project>
