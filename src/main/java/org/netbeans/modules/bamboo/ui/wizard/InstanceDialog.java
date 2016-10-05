@@ -33,7 +33,7 @@ public class InstanceDialog extends DialogDescriptor implements InstanceProperti
         this(new InstancePropertiesForm());
     }
 
-    private InstanceDialog(final InstancePropertiesForm form) {
+    InstanceDialog(final InstancePropertiesForm form) {
         super(form, LBL_DIALOG());
         this.form = form;
         initializeGui();
@@ -43,7 +43,7 @@ public class InstanceDialog extends DialogDescriptor implements InstanceProperti
         notificationLineSupport = createNotificationLineSupport();
         
         form.setNotificationSupport(notificationLineSupport);
-        dialog = DialogDisplayer.getDefault().createDialog(this);
+        dialog = createDialog();
 
         AbstractDialogAction action = new AddAction(form);
         form.setApplyAction(action);
@@ -53,6 +53,10 @@ public class InstanceDialog extends DialogDescriptor implements InstanceProperti
 
         setOptions(new Object[] { new JButton(action), NotifyDescriptor.CANCEL_OPTION });
         setClosingOptions(new Object[] { NotifyDescriptor.CANCEL_OPTION });
+    }
+
+    Dialog createDialog() {
+        return DialogDisplayer.getDefault().createDialog(this);
     }
 
     @Override
