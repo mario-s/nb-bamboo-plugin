@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
-OpenIDE-Module: org.netbeans.modules.bamboo
+OpenIDE-Module: org.netbeans.modules.bamboo.service
 OpenIDE-Module-Localizing-Bundle: org/netbeans/modules/bamboo/Bundle.properties
 

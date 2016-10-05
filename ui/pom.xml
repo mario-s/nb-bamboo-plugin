@@ -15,17 +15,36 @@
     <packaging>nbm</packaging>
     <name>netbeans-bamboo-plugin-ui</name>
     
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.netbeans.module.bamboo</groupId>
+                <artifactId>model</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>        
+            <dependency>
+                <groupId>org.netbeans.module.bamboo</groupId>
+                <artifactId>service</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.netbeans.module.bamboo</groupId>
+                        <artifactId>model</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    
     
     <dependencies>
         <dependency>
             <groupId>org.netbeans.module.bamboo</groupId>
             <artifactId>model</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
         </dependency>        
         <dependency>
             <groupId>org.netbeans.module.bamboo</groupId>
             <artifactId>service</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         
         <dependency>
