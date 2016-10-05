@@ -11,6 +11,7 @@ import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 
 import static org.openide.util.Lookup.getDefault;
+
 import org.openide.util.Utilities;
 
 
@@ -24,6 +25,7 @@ import javax.swing.Action;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.model.ModelProperties;
 import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.ui.actions.ActionConstants;
 import org.openide.nodes.Sheet;
 import org.openide.util.NbBundle.Messages;
 
@@ -37,6 +39,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Proj
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_SnycInterval;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Url;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Version;
+
 import org.openide.util.lookup.Lookups;
 
 /**
@@ -83,7 +86,7 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
 
     @Override
     public Action[] getActions(final boolean context) {
-        List<? extends Action> actions = Utilities.actionsForPath(SharedConstants.ACTION_PATH);
+        List<? extends Action> actions = Utilities.actionsForPath(ActionConstants.ACTION_PATH);
 
         return actions.toArray(new Action[actions.size()]);
     }

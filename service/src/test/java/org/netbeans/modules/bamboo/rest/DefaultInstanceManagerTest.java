@@ -21,7 +21,6 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.times;
 
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 import org.netbeans.modules.bamboo.glue.BuildStatusWatchable;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
@@ -33,7 +32,6 @@ import static org.mockito.Mockito.verify;
 
 import org.netbeans.modules.bamboo.glue.SharedConstants;
 import org.netbeans.modules.bamboo.mock.MockBuildStateWatcher;
-import org.netbeans.modules.bamboo.mock.MockRestClient;
 
 import static org.openide.util.Lookup.getDefault;
 

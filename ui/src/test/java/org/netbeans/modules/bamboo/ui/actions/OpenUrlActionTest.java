@@ -1,15 +1,21 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
 import java.net.URL;
+
 import static java.util.Collections.singletonList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+
 import static org.mockito.BDDMockito.given;
+
 import org.mockito.Captor;
 import org.mockito.Mock;
+
 import static org.mockito.Mockito.verify;
+
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
 import org.openide.awt.HtmlBrowser.URLDisplayer;

@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.glue;
 
+import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
+
 /**
  * Interface which will return the necessary values for a connection to the CI
  * server.

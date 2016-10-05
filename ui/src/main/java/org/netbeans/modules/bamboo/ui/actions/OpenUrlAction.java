@@ -3,11 +3,12 @@ package org.netbeans.modules.bamboo.ui.actions;
 import java.awt.event.ActionEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import static java.util.Collections.singletonList;
+
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import org.netbeans.modules.bamboo.glue.SharedConstants;
 import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -27,7 +28,7 @@ import org.openide.util.NbBundle.Messages;
 @ActionRegistration(
         displayName = "#CTL_OpenUrlAction"
 )
-@ActionReference(path = SharedConstants.ACTION_PATH, position = 600)
+@ActionReference(path = ActionConstants.ACTION_PATH, position = 600)
 @Messages("CTL_OpenUrlAction=&Open in Browser")
 public final class OpenUrlAction extends AbstractAction {
 

@@ -6,12 +6,18 @@ import java.util.List;
 import java.util.prefs.Preferences;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import org.junit.runner.RunWith;
+
 import static org.mockito.BDDMockito.given;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
 import static org.mockito.Mockito.verify;
+
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.SharedConstants;

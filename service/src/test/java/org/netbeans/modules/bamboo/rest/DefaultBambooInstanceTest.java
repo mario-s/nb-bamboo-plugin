@@ -18,12 +18,15 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 
 import static org.hamcrest.CoreMatchers.is;
 import static java.util.Collections.emptyList;
+
 import java.util.Optional;
+
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+
 import org.openide.util.RequestProcessor.Task;
 
 /**

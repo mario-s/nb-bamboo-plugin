@@ -1,6 +1,7 @@
 package org.netbeans.modules.bamboo.model;
 
 import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
+
 import static java.lang.String.format;
 
 /**
