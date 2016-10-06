@@ -1,12 +1,12 @@
 package org.netbeans.modules.bamboo.ui.ext;
 
-import java.awt.GridLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.openide.util.lookup.ServiceProvider;
 import org.netbeans.modules.bamboo.glue.LinkComponentProduceable;
 import org.netbeans.modules.bamboo.glue.TextExtractable;
+
 import static org.openide.util.Lookup.getDefault;
 
 /**
@@ -47,7 +47,7 @@ public class LinkComponentFactory implements LinkComponentProduceable {
     }
 
     private JPanel newPanel() {
-        JPanel panel = new JPanel(new GridLayout(1, 2));
+        JPanel panel = new JPanel();
         panel.setOpaque(false);
         return panel;
     }
