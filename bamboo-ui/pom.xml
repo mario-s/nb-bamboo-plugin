@@ -1,21 +1,38 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
-        <groupId>org.netbeans.module.bamboo</groupId>
-        <artifactId>netbeans-bamboo-plugin</artifactId>
+        <groupId>org.netbeans.modules</groupId>
+        <artifactId>bamboo</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.netbeans.module.bamboo</groupId>
-    <artifactId>ui</artifactId>
+    <groupId>org.netbeans.modules</groupId>
+    <artifactId>bamboo-ui</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>nbm</packaging>
-    <name>netbeans-bamboo-plugin-ui</name>
-    
+    <name>NetBeans Bamboo plugin UI</name>
+
     <build>
+      <pluginManagement>
+          <plugins>
+              <plugin>
+                  <groupId>org.codehaus.mojo</groupId>
+                  <artifactId>nbm-maven-plugin</artifactId>
+                  <version>3.14.1</version>
+                  <extensions>true</extensions>
+                  <configuration>
+                      <useOSGiDependencies>false</useOSGiDependencies>
+                      <verifyRuntime>warn</verifyRuntime>
+                      <licenseName>Apache 2.0</licenseName>
+                      <licenseFile>../LICENSE</licenseFile>
+                      <author>Mario Schroeder</author>
+                  </configuration>
+              </plugin>
+          </plugins>
+      </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -23,39 +40,14 @@
             </plugin>
         </plugins>
     </build>
-    
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.netbeans.module.bamboo</groupId>
-                <artifactId>model</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
-            </dependency>        
-            <dependency>
-                <groupId>org.netbeans.module.bamboo</groupId>
-                <artifactId>service</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.netbeans.module.bamboo</groupId>
-                        <artifactId>model</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-    
-    
+
     <dependencies>
         <dependency>
-            <groupId>org.netbeans.module.bamboo</groupId>
-            <artifactId>model</artifactId>
-        </dependency>        
-        <dependency>
-            <groupId>org.netbeans.module.bamboo</groupId>
-            <artifactId>service</artifactId>
+            <groupId>org.netbeans.modules</groupId>
+            <artifactId>bamboo-client</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -72,7 +64,7 @@
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-actions</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-awt</artifactId>

@@ -1,48 +1,60 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.netbeans.module.bamboo</groupId>
-    <artifactId>netbeans-bamboo-plugin</artifactId>
+    <groupId>org.netbeans.modules</groupId>
+    <artifactId>bamboo</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>netbeans-bamboo-plugin</name>
     <description>Bamboo CI plugin for the NetBeans IDE</description>
     <inceptionYear>2016</inceptionYear>
-    
+    <organization>
+        <name>NetBeans</name>
+        <url>http://netbeans.org</url>
+    </organization>
+
     <modules>
-        <module>model</module>
-        <module>service</module>
-        <module>ui</module>
+        <module>bamboo-model</module>
+        <module>bamboo-client</module>
+        <module>bamboo-ui</module>
     </modules>
-    
+
     <contributors>
         <contributor>
             <name>Mario Schroeder</name>
         </contributor>
     </contributors>
-    
+
+    <developers>
+        <developer>
+            <id>spindizzy</id>
+            <name>Mario Schroeder</name>
+            <timezone>+2</timezone>
+          </developer>
+    </developers>
+
     <scm>
         <url>https://github.com/mario-s/nb-bamboo-plugin</url>
         <connection>scm:git:git://github.com/mario-s/nb-bamboo-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:mario-s/nb-bamboo-plugin.git</developerConnection>
     </scm>
-    
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <netbeans.version>RELEASE802</netbeans.version>
         <netbeans.run.params.ide/>
         <netbeans.run.params>${netbeans.run.params.ide}</netbeans.run.params>
     </properties>
-    
+
     <repositories>
         <repository>
             <id>netbeans</id>
@@ -53,7 +65,7 @@
             </snapshots>
         </repository>
     </repositories>
-    
+
     <build>
         <pluginManagement>
             <plugins>
@@ -103,13 +115,13 @@
                         <maxmem>256m</maxmem>
                         <aggregate>true</aggregate>
                     </configuration>
-                    <dependencies>  
-                        <dependency>  
-                            <groupId>org.ow2.asm</groupId>  
-                            <artifactId>asm</artifactId>  
-                            <version>5.0.3</version>  
-                        </dependency>  
-                    </dependencies>  
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.ow2.asm</groupId>
+                            <artifactId>asm</artifactId>
+                            <version>5.0.3</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -213,19 +225,19 @@
                 <version>1.10.19</version>
                 <scope>test</scope>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>1.16.8</version>
             </dependency>
-        
+
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>3.4</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.netbeans.api</groupId>
                 <artifactId>org-netbeans-modules-nbjunit</artifactId>
@@ -295,7 +307,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -309,12 +321,12 @@
             <version>1.10.19</version>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-api-annotations-common</artifactId>
