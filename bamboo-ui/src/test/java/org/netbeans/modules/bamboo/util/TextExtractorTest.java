@@ -1,11 +1,13 @@
 package org.netbeans.modules.bamboo.util;
 
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+
 import org.junit.Ignore;
 
 /**
@@ -134,5 +136,19 @@ public class TextExtractorTest {
         String expected = "Manual run from: Foo, Bar by";
         String result = classUnderTest.removeTags(text);
         assertEquals(expected, result);
+    }
+    
+    @Test
+    public void testFindAllLinks_TwoLinks_ExpectTwo() {
+        String text = "test <a href=\"http://localhost\">test</a> and <a href=\"https://localhost\">test</a>";
+        List<String> result = classUnderTest.extractLinks(text);
+        assertThat(result.size(), is(2));
+    }
+    
+    @Test
+    public void testFindAllLinks_Empty_ExpectEmpty() {
+        String text = "";
+        List<String> result = classUnderTest.extractLinks(text);
+        assertThat(result.isEmpty(), is(true));
     }
 }

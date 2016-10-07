@@ -1,10 +1,16 @@
 package org.netbeans.modules.bamboo.util;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.nodes.Element;
+
+import static java.util.stream.Collectors.toList;
+import static org.jsoup.Jsoup.parse;
+
 
 /**
  * This class provides methods to handle strings with HTML markup.
@@ -22,6 +28,8 @@ public class TextExtractor {
     private static final String LINK_REGEX = OPN + "a\\s.+<\\/a" + CLS;
     private static final String TEXT_REGEX = CLS + ".+" + OPN;
     private static final String URL_REGEX = "(http|https):\\/\\/.+" + QUOTE;
+    
+    private static final String A_HREF = "a[href]";
 
     /**
      * This method returns true if the text contains a link otherwhise false.
@@ -30,7 +38,7 @@ public class TextExtractor {
      * @return true if the text contains a link otherwhise false.
      */
     public boolean containsLink(String text) {
-        return !extractLink(text).isEmpty();
+        return !extractLinks(text).isEmpty();
     }
 
     /**
@@ -53,8 +61,30 @@ public class TextExtractor {
      * @param text string with a possible link
      * @return HTML link content or empty string.
      */
+    @Deprecated
     public String extractLink(String text) {
         return find(text, LINK_REGEX);
+    }
+    
+    /**
+     * Extract all links from the text and returns them as a list of HTML tags. If there is no link in the text, the result will be an
+     * empty list.
+     * 
+     * The string <code>test <a href="http://localhost">test</a></code> will result in
+     * <code><a href="http://localhost">test</a></code>
+     * @param text string with a possible link
+     * @return a list with the links.
+     */
+    public List<String> extractLinks(String text) {
+        return linksAsStream(text).map(Element::outerHtml).collect(toList());
+    }
+
+    private Stream<Element> linksAsStream(String text) {
+        return asStream(text, A_HREF);
+    }
+
+    private Stream<Element> asStream(String text, String selector) {
+        return parse(text).select(selector).stream();
     }
 
     /**
@@ -103,18 +133,6 @@ public class TextExtractor {
             Matcher matcher = newMatcher(regex, text);
             if (matcher.find()) {
                 result = matcher.group(ZERO);
-            }
-        }
-        return result;
-    }
-
-    //find all appearance
-    private List<String> findAll(String text, String regex) {
-        List<String> result = new ArrayList<>();
-        if (StringUtils.isNotBlank(text)) {
-            Matcher matcher = newMatcher(regex, text);
-            while (matcher.find()) {
-                result.add(matcher.group(ZERO));
             }
         }
         return result;
