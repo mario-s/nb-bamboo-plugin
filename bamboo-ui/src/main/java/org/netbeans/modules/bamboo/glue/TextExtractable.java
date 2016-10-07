@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.glue;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * This interface defines methods to handle strings with HTML markup.
  * @author spindizzy
@@ -56,4 +58,13 @@ public interface TextExtractable {
      * @return the trimmed string
      */
     String substring(String complete, String toRemove);
+    
+    /**
+     * Removes all HTML tags from the given text.
+     * @param text text with possible HTML tags
+     * @return text without tags
+     */
+    default String removeTags(String text){
+        return StringUtils.isNotBlank(text) ? text.replaceAll("\\<[^>]*>","") : StringUtils.EMPTY;
+    }
 }

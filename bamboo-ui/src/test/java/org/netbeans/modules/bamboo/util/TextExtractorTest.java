@@ -129,8 +129,10 @@ public class TextExtractorTest {
      * Test to remove all tags
      */
     @Test
-    @Ignore("TODO")
     public void testRemove_Tags() {
-        String text = "Manual run from: <b> Foo, Bar</b> by";;
+        String text = "Manual run from: <b>Foo, Bar</b> by";
+        String expected = "Manual run from: Foo, Bar by";
+        String result = classUnderTest.removeTags(text);
+        assertEquals(expected, result);
     }
 }

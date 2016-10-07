@@ -82,4 +82,5 @@ public class TextExtractor implements TextExtractable{
         }
         return result;
     }
+
 }
