@@ -167,6 +167,10 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
             fireProjectsChanged(oldProjects, this.projects);
         }
     }
+    
+    private void synchronizeVersion() {
+        version = client.getVersionInfo(this);
+    }
 
     private void fireProjectsChanged(Collection<ProjectVo> oldProjects, Collection<ProjectVo> newProjects) {
         firePropertyChange(ModelProperties.Projects.toString(), oldProjects,
@@ -235,6 +239,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     @Override
     public Task synchronize() {
         return RP.post(() -> {
+            synchronizeVersion();
             doSynchronization(false);
             prepareSynchronization();
         });

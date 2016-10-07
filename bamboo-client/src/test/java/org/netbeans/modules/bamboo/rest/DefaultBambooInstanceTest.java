@@ -19,6 +19,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static java.util.Collections.emptyList;
 
 import java.util.Optional;
+import org.mockito.InOrder;
+import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
@@ -28,6 +30,11 @@ import static org.mockito.Mockito.verify;
 
 import org.openide.util.RequestProcessor.Task;
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
+import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.mock.MockRestClient;
+
+import static org.mockito.Mockito.inOrder;
+import static org.openide.util.Lookup.getDefault;
 
 /**
  *
@@ -40,7 +47,9 @@ public class DefaultBambooInstanceTest {
     private BambooInstanceProperties properties;
     @Mock
     private Preferences preferences;
-
+    @Mock
+    private BambooServiceAccessable serviceAccessable;
+    
     private final PropertyChangeListener listener;
     @InjectMocks
     private DefaultBambooInstance classUnderTest;
@@ -53,6 +62,8 @@ public class DefaultBambooInstanceTest {
 
     @Before
     public void setUp() {
+        MockRestClient client = (MockRestClient)getDefault().lookup(BambooServiceAccessable.class);
+        client.setDelegate(serviceAccessable);
         classUnderTest.setSyncInterval(5);
         classUnderTest.addPropertyChangeListener(listener);
         given(properties.getPreferences()).willReturn(preferences);
@@ -101,7 +112,9 @@ public class DefaultBambooInstanceTest {
         synchronized (listener) {
             listener.wait(1000);
         }
-        verify(listener).propertyChange(any(PropertyChangeEvent.class));
+        InOrder order = inOrder(serviceAccessable, listener);
+        order.verify(serviceAccessable).getVersionInfo(any(InstanceValues.class));
+        order.verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
     
     @Test
