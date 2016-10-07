@@ -7,13 +7,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.openide.explorer.propertysheet.InplaceEditor;
 import org.openide.explorer.propertysheet.PropertyEnv;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
 
 /**
  *
@@ -41,19 +38,5 @@ public class BuildReasonEditorTest {
         assertThat(result instanceof JLabel, is(true));
     }
 
-    /**
-     * Test of getInplaceEditor method, of class BuildReasonEditor.
-     */
-    @Test
-    public void testGetInplaceEditor_ExpectNotNull() {
-        InplaceEditor result = classUnderTest.getInplaceEditor();
-        assertThat(result, notNullValue());
-    }
-    
-    @Test
-    public void testAttachEnv() {
-        classUnderTest.attachEnv(env);
-        verify(env).registerInplaceEditorFactory(classUnderTest);
-    }
 
 }
