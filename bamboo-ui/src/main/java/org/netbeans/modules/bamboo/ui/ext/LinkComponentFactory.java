@@ -53,6 +53,7 @@ public class LinkComponentFactory implements LinkComponentProduceable {
     }
 
     private JLabel newLabel(String text) {
-        return new JLabel(text);
+        String txt = textExtractor.removeTags(text);
+        return new JLabel(txt);
     }
 }

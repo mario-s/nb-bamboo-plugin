@@ -43,7 +43,7 @@ public class BuildReasonEditor extends PropertyEditorSupport {
         StringBuilder builder = new StringBuilder();
         builder.append(textExtractor.substring(text, link));
         builder.append(textExtractor.extractNormalText(link));
-        return builder.toString();
+        return textExtractor.removeTags(builder.toString());
     }
 
     @Override
