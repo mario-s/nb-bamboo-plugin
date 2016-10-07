@@ -5,9 +5,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.openide.util.lookup.ServiceProvider;
 import org.netbeans.modules.bamboo.glue.LinkComponentProduceable;
-import org.netbeans.modules.bamboo.glue.TextExtractable;
+import org.netbeans.modules.bamboo.util.TextExtractor;
 
-import static org.openide.util.Lookup.getDefault;
 
 /**
  * Factory class that creates a new {@link JComponent}.
@@ -17,10 +16,10 @@ import static org.openide.util.Lookup.getDefault;
 @ServiceProvider(service = LinkComponentProduceable.class)
 public class LinkComponentFactory implements LinkComponentProduceable {
 
-    private final TextExtractable textExtractor;
+    private final TextExtractor textExtractor;
 
     public LinkComponentFactory() {
-        this.textExtractor = getDefault().lookup(TextExtractable.class);
+        this.textExtractor = new TextExtractor();
     }
 
     /**

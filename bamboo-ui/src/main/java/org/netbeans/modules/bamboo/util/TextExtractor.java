@@ -5,16 +5,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
-import org.netbeans.modules.bamboo.glue.TextExtractable;
-import org.openide.util.lookup.ServiceProvider;
 
 /**
  * This class provides methods to handle strings with HTML markup.
  *
  * @author spindizzy
  */
-@ServiceProvider(service = TextExtractable.class)
-public class TextExtractor implements TextExtractable {
+public class TextExtractor {
 
     private static final int ZERO = 0;
 
@@ -26,24 +23,75 @@ public class TextExtractor implements TextExtractable {
     private static final String TEXT_REGEX = CLS + ".+" + OPN;
     private static final String URL_REGEX = "(http|https):\\/\\/.+" + QUOTE;
 
-    @Override
+    /**
+     * This method returns true if the text contains a link otherwhise false.
+     *
+     * @param text the text which may contain a HTML link
+     * @return true if the text contains a link otherwhise false.
+     */
+    public boolean containsLink(String text) {
+        return !extractLink(text).isEmpty();
+    }
+
+    /**
+     * Removes all HTML tags from the given text.
+     *
+     * @param text text with possible HTML tags
+     * @return text without tags
+     */
+    public String removeTags(String text) {
+        return StringUtils.isNotBlank(text) ? text.replaceAll("\\<[^>]*>", "") : StringUtils.EMPTY;
+    }
+
+    /**
+     * This methods returns the link content from the given text. If there is no link in the text, the result will be an
+     * empty string.
+     *
+     * The string <code>test <a href="http://localhost">test</a></code> will result in
+     * <code><a href="http://localhost">test</a></code>
+     *
+     * @param text string with a possible link
+     * @return HTML link content or empty string.
+     */
     public String extractLink(String text) {
         return find(text, LINK_REGEX);
     }
 
-    @Override
+    /**
+     * Returns the normal text, which is embedded within HTML tags.
+     *
+     * The string <code><a href="http://localhost">test</a></code> will result in <code>test</code>
+     *
+     * @param text string with possible HTML content.
+     * @return normal text or empty string.
+     */
     public String extractNormalText(String text) {
         String found = find(text, TEXT_REGEX);
         return removeFirst(removeLast(found, OPN), CLS);
     }
 
-    @Override
+    /**
+     * This methods returns the url from the given text. If there is no url in the text, the result will be an empty
+     * string.
+     *
+     * The string <code><a href="http://localhost">test</a>s/code> will result in <code>http://localhost</code>
+     *
+     * @param text string with a possible url
+     * @return url as string or empty string.
+     */
     public String substring(String complete, String toRemove) {
         int pos = complete.indexOf(toRemove);
         return complete.substring(ZERO, pos);
     }
 
-    @Override
+    /**
+     * This method returns a sub string from the givin complte string till the first appearance of the string to be
+     * removed.
+     *
+     * @param complete the complete string
+     * @param toRemove the part to be removed
+     * @return the trimmed string
+     */
     public String extractUrl(String text) {
         return removeLastQuote(find(text, URL_REGEX));
     }

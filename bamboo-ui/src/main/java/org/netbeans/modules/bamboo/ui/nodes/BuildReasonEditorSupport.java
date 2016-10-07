@@ -2,15 +2,14 @@ package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.beans.PropertyEditor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
 import lombok.extern.java.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.NbBundle;
-import org.netbeans.modules.bamboo.glue.TextExtractable;
 import org.netbeans.modules.bamboo.model.ResultVo;
+import org.netbeans.modules.bamboo.util.TextExtractor;
+
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Reason;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Reason;
-import static org.openide.util.Lookup.getDefault;
 
 /**
  *
@@ -25,14 +24,14 @@ public class BuildReasonEditorSupport extends StringReadPropertySupport {
 
     private static final String BUILD_REASON = "buildReason";
 
-    private final TextExtractable textExtractor;
+    private final TextExtractor textExtractor;
 
     private final ResultVo result;
 
     public BuildReasonEditorSupport(ResultVo result) {
         super(BUILD_REASON, TXT_Plan_Prop_Result_Reason(), DESC_Plan_Prop_Result_Reason());
 
-        textExtractor = getDefault().lookup(TextExtractable.class);
+        textExtractor = new TextExtractor();
 
         this.result = result;
     }
