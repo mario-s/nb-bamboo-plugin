@@ -6,6 +6,7 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
@@ -122,5 +123,14 @@ public class TextExtractorTest {
         String text = "test";
         boolean result = classUnderTest.containsLink(text);
         assertThat(result, is(false));
+    }
+    
+    /**
+     * Test to remove all tags
+     */
+    @Test
+    @Ignore("TODO")
+    public void testRemove_Tags() {
+        String text = "Manual run from: <b> Foo, Bar</b> by";;
     }
 }
