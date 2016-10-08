@@ -32,17 +32,9 @@ public class BuildReasonEditor extends PropertyEditorSupport {
     public String getAsText() {
         String text = super.getAsText();
         if(containsLink(text)){
-            text = buildText(text);
+            text = textExtractor.removeTags(text);
         }
         return text;
-    }
-
-    private String buildText(String text) {
-        String link = textExtractor.extractLink(text);
-        StringBuilder builder = new StringBuilder();
-        builder.append(textExtractor.substring(text, link));
-        builder.append(textExtractor.extractNormalText(link));
-        return textExtractor.removeTags(builder.toString());
     }
 
     @Override
