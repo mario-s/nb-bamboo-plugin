@@ -27,6 +27,8 @@ final class BuildResultPanel extends JPanel {
 
         scrollPane = new javax.swing.JScrollPane();
 
+        setPreferredSize(new java.awt.Dimension(500, 300));
+
         scrollPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -42,7 +44,7 @@ final class BuildResultPanel extends JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
