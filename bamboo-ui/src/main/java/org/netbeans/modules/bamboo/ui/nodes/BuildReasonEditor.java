@@ -13,18 +13,21 @@ public class BuildReasonEditor extends PropertyEditorSupport {
 
     private final TextExtractor textExtractor;
 
+    private final BuildResultPanel buildResultPanel;
+    
     private final HtmlPane pane;
 
     public BuildReasonEditor() {
         textExtractor = new TextExtractor();
         pane = new HtmlPane();
+        buildResultPanel = new BuildResultPanel(pane);
     }
 
     @Override
     public Component getCustomEditor() {
         String txt = super.getAsText();
         pane.setText(txt);
-        return pane;
+        return buildResultPanel;
     }
 
     @Override
