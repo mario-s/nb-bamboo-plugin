@@ -239,6 +239,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     @Override
     public Task synchronize() {
         return RP.post(() -> {
+            //TODO catch exception when server not available and set error flag
             synchronizeVersion();
             doSynchronization(false);
             prepareSynchronization();
@@ -253,8 +254,6 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
             final Object oldValue,
             final Object newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
-
-//        lookupContext.add(newValue);
     }
 
     void setVersionInfo(final VersionInfo version) {
