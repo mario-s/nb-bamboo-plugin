@@ -16,7 +16,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.glue.InstanceValues;
-import org.netbeans.modules.bamboo.glue.VersionInfo;
+import org.netbeans.modules.bamboo.model.VersionInfo;
 import org.netbeans.modules.bamboo.model.rest.Info;
 import org.netbeans.modules.bamboo.model.rest.Plan;
 import org.netbeans.modules.bamboo.model.rest.Plans;
@@ -26,21 +26,28 @@ import org.netbeans.modules.bamboo.model.rest.Results;
 import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 
 import java.util.Collection;
+
 import static java.util.Collections.singletonList;
+
 import java.util.List;
 import java.util.Map;
+
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+
 import static org.hamcrest.CoreMatchers.equalTo;
+
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.Projects;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+
 import org.netbeans.modules.bamboo.model.PlanVo;
 
 /**

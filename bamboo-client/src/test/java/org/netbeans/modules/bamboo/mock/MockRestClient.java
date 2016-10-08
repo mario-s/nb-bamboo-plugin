@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.mock;
 
 import org.netbeans.modules.bamboo.glue.InstanceValues;
-import org.netbeans.modules.bamboo.glue.VersionInfo;
+import org.netbeans.modules.bamboo.model.VersionInfo;
 import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 
 import org.openide.util.lookup.ServiceProvider;

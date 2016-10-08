@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.glue;
 
+import org.netbeans.modules.bamboo.model.VersionInfo;
 import org.openide.util.Task;
 
 import java.beans.PropertyChangeListener;
