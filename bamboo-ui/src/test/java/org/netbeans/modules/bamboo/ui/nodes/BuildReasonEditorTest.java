@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.awt.Component;
-import javax.swing.JEditorPane;
+import javax.swing.JPanel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +35,7 @@ public class BuildReasonEditorTest {
     @Test
     public void testGetCustomEditor_ExpectInstanceOfJEditor() {
         Component result = classUnderTest.getCustomEditor();
-        assertThat(result instanceof JEditorPane, is(true));
+        assertThat(result instanceof JPanel, is(true));
     }
 
 
