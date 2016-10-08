@@ -10,8 +10,6 @@ import org.glassfish.jersey.logging.LoggingFeature;
 
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 
-import static org.netbeans.modules.bamboo.rest.BambooRestClient.REST_API;
-
 import java.util.Optional;
 
 import static java.util.Optional.empty;
@@ -31,6 +29,8 @@ import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
  */
 @Log
 class ApiCaller<T> {
+    
+    static final String REST_API = "/rest/api/latest";
 
     static final String AUTH_TYPE = "os_authType";
     static final String BASIC = "basic";

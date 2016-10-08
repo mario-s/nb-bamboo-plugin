@@ -45,8 +45,6 @@ import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
 @ServiceProvider(service = BambooServiceAccessable.class)
 public class BambooRestClient implements BambooServiceAccessable {
 
-    static final String REST_API = "/rest/api/latest";
-
     static final String EXPAND = "expand";
     static final String PROJECT_PLANS = "projects.project.plans.plan";
     static final String RESULT_COMMENTS = "results.result.comments";
