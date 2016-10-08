@@ -8,7 +8,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-import org.junit.Ignore;
 
 /**
  *
@@ -58,7 +57,7 @@ public class TextExtractorTest {
         String result = classUnderTest.extractUrl("<a href=\"http://localhost\">test</a>");
         assertEquals("http://localhost", result);
     }
-    
+
     /**
      * Test of extractUrl method, of class TextExtractor.
      */
@@ -76,8 +75,8 @@ public class TextExtractorTest {
         String result = classUnderTest.extractNormalText("");
         assertEquals("", result);
     }
-    
-     /**
+
+    /**
      * Test of extractNormalText method, of class TextExtractor.
      */
     @Test
@@ -85,8 +84,8 @@ public class TextExtractorTest {
         String result = classUnderTest.extractNormalText("<a href=\"http://localhost\">test 1</a>");
         assertEquals("test 1", result);
     }
-    
-      /**
+
+    /**
      * Test of extractNormalText method, of class TextExtractor.
      */
     @Test
@@ -106,8 +105,8 @@ public class TextExtractorTest {
         String result = classUnderTest.substring(complete, bar);
         assertThat(result, equalTo(foo));
     }
-    
-      /**
+
+    /**
      * Test of containsLink method, of class TextExtractor.
      */
     @Test
@@ -126,7 +125,7 @@ public class TextExtractorTest {
         boolean result = classUnderTest.containsLink(text);
         assertThat(result, is(false));
     }
-    
+
     /**
      * Test to remove all tags
      */
@@ -135,20 +134,28 @@ public class TextExtractorTest {
         String text = "Manual run from: <b>Foo, Bar</b> by";
         String expected = "Manual run from: Foo, Bar by";
         String result = classUnderTest.removeTags(text);
-        assertEquals(expected, result);
+        assertThat(result, equalTo(expected));
     }
-    
+
     @Test
     public void testFindAllLinks_TwoLinks_ExpectTwo() {
         String text = "test <a href=\"http://localhost\">test</a> and <a href=\"https://localhost\">test</a>";
         List<String> result = classUnderTest.extractLinks(text);
         assertThat(result.size(), is(2));
     }
-    
+
     @Test
     public void testFindAllLinks_Empty_ExpectEmpty() {
         String text = "";
         List<String> result = classUnderTest.extractLinks(text);
         assertThat(result.isEmpty(), is(true));
+    }
+    
+    @Test
+    public void testreplaceLinksWithText_TwoLinks_ExpectNone() {
+        String text = "test <b/> <a href=\"http://localhost\">test</a> and <a href=\"https://localhost\">test</a>";
+        String result = classUnderTest.replaceLinksWithText(text);
+        String expected = "test <b/> test and test";
+        assertThat(result, equalTo(expected));
     }
 }

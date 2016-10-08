@@ -1,16 +1,17 @@
 package org.netbeans.modules.bamboo.util;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Element;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 import static org.jsoup.Jsoup.parse;
-
 
 /**
  * This class provides methods to handle strings with HTML markup.
@@ -28,7 +29,7 @@ public class TextExtractor {
     private static final String LINK_REGEX = OPN + "a\\s.+<\\/a" + CLS;
     private static final String TEXT_REGEX = CLS + ".+" + OPN;
     private static final String URL_REGEX = "(http|https):\\/\\/.+" + QUOTE;
-    
+
     private static final String A_HREF = "a[href]";
 
     /**
@@ -65,26 +66,45 @@ public class TextExtractor {
     public String extractLink(String text) {
         return find(text, LINK_REGEX);
     }
-    
+
     /**
-     * Extract all links from the text and returns them as a list of HTML tags. If there is no link in the text, the result will be an
-     * empty list.
-     * 
+     * This method replaces all apearances of of links like '<a href="">link</a>' with the inner text.
+     *
+     * @param input text with possible links
+     * @return text with out tags of <a/>
+     */
+    public String replaceLinksWithText(String input) {
+        String txt = input;
+        if (containsLink(txt)) {
+            Map<String, String> linkToText = linksAsStream(input).collect(toMap(Element::outerHtml, Element::text));
+
+            for (Entry<String, String> entry : linkToText.entrySet()) {
+                txt = txt.replaceFirst(entry.getKey(), entry.getValue());
+            }
+        }
+        return txt;
+    }
+
+    /**
+     * Extract all links from the text and returns them as a list of HTML tags. If there is no link in the text, the
+     * result will be an empty list.
+     *
      * The string <code>test <a href="http://localhost">test</a></code> will result in
      * <code><a href="http://localhost">test</a></code>
-     * @param text string with a possible link
+     *
+     * @param input string with a possible link
      * @return a list with the links.
      */
-    public List<String> extractLinks(String text) {
-        return linksAsStream(text).map(Element::outerHtml).collect(toList());
+    public List<String> extractLinks(String input) {
+        return linksAsStream(input).map(Element::outerHtml).collect(toList());
     }
 
-    private Stream<Element> linksAsStream(String text) {
-        return asStream(text, A_HREF);
+    private Stream<Element> linksAsStream(String input) {
+        return asStream(input, A_HREF);
     }
 
-    private Stream<Element> asStream(String text, String selector) {
-        return parse(text).select(selector).stream();
+    private Stream<Element> asStream(String input, String selector) {
+        return parse(input).select(selector).stream();
     }
 
     /**
