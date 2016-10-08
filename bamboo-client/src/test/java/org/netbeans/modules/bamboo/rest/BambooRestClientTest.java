@@ -81,7 +81,7 @@ public class BambooRestClientTest {
         given(instanceValues.getUrl()).willReturn("http://foo.bar");
         given(instanceValues.getUsername()).willReturn(FOO);
         given(instanceValues.getPassword()).willReturn(new char[]{'b', 'a', 'z'});
-        given(webTarget.path(BambooRestClient.REST_API)).willReturn(webTarget);
+        given(webTarget.path(ApiCaller.REST_API)).willReturn(webTarget);
         given(webTarget.request()).willReturn(invocationBuilder);
 
         classUnderTest
