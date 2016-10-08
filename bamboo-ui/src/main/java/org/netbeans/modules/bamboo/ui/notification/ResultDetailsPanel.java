@@ -7,12 +7,12 @@ import javax.swing.JComponent;
  *
  * @author spindizzy
  */
-public class BuildResultPanel extends javax.swing.JPanel {
+public class ResultDetailsPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form BuildResultPanel
      */
-    public BuildResultPanel(String summary, JComponent reasonComponent) {
+    public ResultDetailsPanel(String summary, JComponent reasonComponent) {
         initComponents();
         lblSummary.setText(summary);
         panelReason.add(reasonComponent, BorderLayout.CENTER);
@@ -43,7 +43,7 @@ public class BuildResultPanel extends javax.swing.JPanel {
 
         setOpaque(false);
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblSummary, org.openide.util.NbBundle.getMessage(BuildResultPanel.class, "BuildResultPanel.lblSummary.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(lblSummary, org.openide.util.NbBundle.getMessage(ResultDetailsPanel.class, "ResultDetailsPanel.lblSummary.text")); // NOI18N
 
         javax.swing.GroupLayout panelReasonLayout = new javax.swing.GroupLayout(panelReason);
         panelReason.setLayout(panelReasonLayout);

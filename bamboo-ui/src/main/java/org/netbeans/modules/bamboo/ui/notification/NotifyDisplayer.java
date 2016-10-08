@@ -52,20 +52,20 @@ class NotifyDisplayer implements Runnable {
                 log.info(String.format("state of plan %s has changed", name));
             }
 
-            JComponent resultPanel = newBuildResultPanel();
+            JComponent detailsComp = newDetailsPanel();
             Pair<Priority, Category> cat = getCategory();
 
-            getNotificationDisplayer().notify(name, instanceIcon, resultPanel, resultPanel, cat.first(), cat.second());
+            getNotificationDisplayer().notify(name, instanceIcon, detailsComp, detailsComp, cat.first(), cat.second());
         }
     }
 
-    private JComponent newBuildResultPanel() {
+    private JComponent newDetailsPanel() {
         PlanVo plan = getPlan();
         String summary = getSummary(plan);
         ResultVo resultVo = buildResult.getNewResult();
         HtmlPane reasonComp = new HtmlPane();
         reasonComp.setText(resultVo.getBuildReason());
-        return new BuildResultPanel(summary, reasonComp);
+        return new ResultDetailsPanel(summary, reasonComp);
     }
 
     private Pair<Priority, Category> getCategory() {

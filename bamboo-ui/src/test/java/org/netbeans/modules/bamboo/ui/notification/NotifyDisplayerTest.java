@@ -65,7 +65,7 @@ public class NotifyDisplayerTest {
     @Test
     public void testRunResultNormal_ExpectNotifyNormal() {
         classUnderTest.run();
-        verify(notificationDisplayer).notify(anyString(), any(Icon.class), any(BuildResultPanel.class), any(BuildResultPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
+        verify(notificationDisplayer).notify(anyString(), any(Icon.class), any(ResultDetailsPanel.class), any(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
     }
 
     /**
@@ -77,7 +77,7 @@ public class NotifyDisplayerTest {
         result.setState(State.Failed);
         plan.setResult(result);
         classUnderTest.run();
-        verify(notificationDisplayer).notify(anyString(), any(Icon.class), any(BuildResultPanel.class), any(BuildResultPanel.class), eq(Priority.HIGH), eq(Category.ERROR));
+        verify(notificationDisplayer).notify(anyString(), any(Icon.class), any(ResultDetailsPanel.class), any(ResultDetailsPanel.class), eq(Priority.HIGH), eq(Category.ERROR));
     }
     
     /**
@@ -88,7 +88,7 @@ public class NotifyDisplayerTest {
         oldResult.setState(State.Successful);
         newResult.setState(State.Successful);
         classUnderTest.run();
-        verify(notificationDisplayer, never()).notify(anyString(), any(Icon.class), any(BuildResultPanel.class), any(BuildResultPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
+        verify(notificationDisplayer, never()).notify(anyString(), any(Icon.class), any(ResultDetailsPanel.class), any(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
     }
 
 }
