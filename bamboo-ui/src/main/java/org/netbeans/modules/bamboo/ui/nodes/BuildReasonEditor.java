@@ -5,7 +5,6 @@ import java.beans.PropertyEditorSupport;
 import org.netbeans.modules.bamboo.ui.HtmlPane;
 import org.netbeans.modules.bamboo.util.TextExtractor;
 
-
 /**
  *
  * @author spindizzy
@@ -13,7 +12,7 @@ import org.netbeans.modules.bamboo.util.TextExtractor;
 public class BuildReasonEditor extends PropertyEditorSupport {
 
     private final TextExtractor textExtractor;
-    
+
     private final HtmlPane pane;
 
     public BuildReasonEditor() {
@@ -30,20 +29,11 @@ public class BuildReasonEditor extends PropertyEditorSupport {
 
     @Override
     public String getAsText() {
-        String text = super.getAsText();
-        if(containsLink(text)){
-            text = textExtractor.removeTags(text);
-        }
-        return text;
+        return textExtractor.removeTags(super.getAsText());
     }
 
     @Override
     public boolean supportsCustomEditor() {
         return true;
     }
-
-    private boolean containsLink(String txt) {
-        return textExtractor.containsLink(txt);
-    }
-
 }

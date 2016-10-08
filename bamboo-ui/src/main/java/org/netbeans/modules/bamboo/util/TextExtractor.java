@@ -67,7 +67,7 @@ public class TextExtractor {
      * @param input string with a possible link
      * @return a list with the links.
      */
-    public List<String> extractLinks(String input) {
+    List<String> extractLinks(String input) {
         return linksAsStream(input).map(Element::outerHtml).collect(toList());
     }
 
