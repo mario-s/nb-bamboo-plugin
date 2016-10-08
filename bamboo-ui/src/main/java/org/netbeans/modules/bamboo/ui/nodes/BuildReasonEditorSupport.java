@@ -22,7 +22,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_R
 })
 public class BuildReasonEditorSupport extends StringReadPropertySupport {
 
-    private static final String BUILD_REASON = "buildReason";
+    private static final String BUILD_REASON = "htmlDisplayValue";
 
     private final TextExtractor textExtractor;
 
@@ -56,4 +56,8 @@ public class BuildReasonEditorSupport extends StringReadPropertySupport {
         return (buildReason == null) ? StringUtils.EMPTY : buildReason;
     }
 
+    @Override
+    public String getHtmlDisplayName() {
+        return getBuildReason(); 
+    }
 }

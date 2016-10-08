@@ -47,8 +47,7 @@ public class BuildReasonEditor extends PropertyEditorSupport {
 
     @Override
     public boolean supportsCustomEditor() {
-        String txt = super.getAsText();
-        return containsLink(txt);
+        return true;
     }
 
     private boolean containsLink(String txt) {
