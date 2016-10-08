@@ -7,6 +7,7 @@ import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
+import org.netbeans.modules.bamboo.ui.HtmlPane;
 
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.NotificationDisplayer.Category;
@@ -17,10 +18,8 @@ import org.openide.util.Pair;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Build;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Failed;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Successful;
-import static org.openide.util.Lookup.getDefault;
 import static org.openide.util.Pair.of;
 
-import org.netbeans.modules.bamboo.glue.LinkComponentProduceable;
 
 /**
  * This class displays the notification in the status bar.
@@ -38,12 +37,9 @@ class NotifyDisplayer implements Runnable {
 
     private final BuildResult buildResult;
 
-    private final LinkComponentProduceable componentProducer;
-
     NotifyDisplayer(Icon instanceIcon, BuildResult buildResult) {
         this.instanceIcon = instanceIcon;
         this.buildResult = buildResult;
-        componentProducer = getDefault().lookup(LinkComponentProduceable.class);
     }
 
     @Override
@@ -67,7 +63,8 @@ class NotifyDisplayer implements Runnable {
         PlanVo plan = getPlan();
         String summary = getSummary(plan);
         ResultVo resultVo = buildResult.getNewResult();
-        JComponent reasonComp = componentProducer.create(resultVo.getBuildReason());
+        HtmlPane reasonComp = new HtmlPane();
+        reasonComp.setText(resultVo.getBuildReason());
         return new BuildResultPanel(summary, reasonComp);
     }
 

@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.awt.Component;
-import javax.swing.JLabel;
+import javax.swing.JEditorPane;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,9 +33,9 @@ public class BuildReasonEditorTest {
      * Test of getCustomEditor method, of class BuildReasonEditor.
      */
     @Test
-    public void testGetCustomEditor_ExpectInstanceOfJLabel() {
+    public void testGetCustomEditor_ExpectInstanceOfJEditor() {
         Component result = classUnderTest.getCustomEditor();
-        assertThat(result instanceof JLabel, is(true));
+        assertThat(result instanceof JEditorPane, is(true));
     }
 
 

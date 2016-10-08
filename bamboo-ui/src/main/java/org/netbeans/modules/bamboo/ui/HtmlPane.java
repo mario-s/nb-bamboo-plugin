@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.ui.ext;
+package org.netbeans.modules.bamboo.ui;
 
 import java.net.URL;
 import javax.swing.JEditorPane;

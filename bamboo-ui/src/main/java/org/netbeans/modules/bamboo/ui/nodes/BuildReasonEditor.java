@@ -2,10 +2,9 @@ package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.awt.Component;
 import java.beans.PropertyEditorSupport;
-import org.netbeans.modules.bamboo.glue.LinkComponentProduceable;
+import org.netbeans.modules.bamboo.ui.HtmlPane;
 import org.netbeans.modules.bamboo.util.TextExtractor;
 
-import static org.openide.util.Lookup.getDefault;
 
 /**
  *
@@ -14,18 +13,19 @@ import static org.openide.util.Lookup.getDefault;
 public class BuildReasonEditor extends PropertyEditorSupport {
 
     private final TextExtractor textExtractor;
-
-    private final LinkComponentProduceable linkComponentProducer;
+    
+    private final HtmlPane pane;
 
     public BuildReasonEditor() {
-        this.textExtractor = new TextExtractor();
-        this.linkComponentProducer = getDefault().lookup(LinkComponentProduceable.class);
+        textExtractor = new TextExtractor();
+        pane = new HtmlPane();
     }
 
     @Override
     public Component getCustomEditor() {
         String txt = super.getAsText();
-        return linkComponentProducer.create(txt);
+        pane.setText(txt);
+        return pane;
     }
 
     @Override
