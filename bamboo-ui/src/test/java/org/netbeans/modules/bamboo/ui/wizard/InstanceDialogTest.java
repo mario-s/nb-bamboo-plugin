@@ -4,11 +4,11 @@ import java.awt.Dialog;
 import java.beans.PropertyChangeEvent;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
 import static org.mockito.Mockito.verify;
+
 import org.mockito.runners.MockitoJUnitRunner;
 
 /**
