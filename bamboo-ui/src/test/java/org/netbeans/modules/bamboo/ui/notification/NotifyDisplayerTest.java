@@ -1,6 +1,7 @@
 package org.netbeans.modules.bamboo.ui.notification;
 
 import javax.swing.Icon;
+import javax.swing.JLabel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +22,8 @@ import org.netbeans.modules.bamboo.model.State;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.NotificationDisplayer.Category;
 import org.openide.awt.NotificationDisplayer.Priority;
+
+import static org.mockito.Matchers.isA;
 
 /**
  *
@@ -65,7 +68,7 @@ public class NotifyDisplayerTest {
     @Test
     public void testRunResultNormal_ExpectNotifyNormal() {
         classUnderTest.run();
-        verify(notificationDisplayer).notify(anyString(), any(Icon.class), any(ResultDetailsPanel.class), any(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
+        verify(notificationDisplayer).notify(anyString(), any(Icon.class), isA(JLabel.class), isA(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
     }
 
     /**
@@ -77,7 +80,7 @@ public class NotifyDisplayerTest {
         result.setState(State.Failed);
         plan.setResult(result);
         classUnderTest.run();
-        verify(notificationDisplayer).notify(anyString(), any(Icon.class), any(ResultDetailsPanel.class), any(ResultDetailsPanel.class), eq(Priority.HIGH), eq(Category.ERROR));
+        verify(notificationDisplayer).notify(anyString(), any(Icon.class), isA(JLabel.class), isA(ResultDetailsPanel.class), eq(Priority.HIGH), eq(Category.ERROR));
     }
     
     /**
@@ -88,7 +91,7 @@ public class NotifyDisplayerTest {
         oldResult.setState(State.Successful);
         newResult.setState(State.Successful);
         classUnderTest.run();
-        verify(notificationDisplayer, never()).notify(anyString(), any(Icon.class), any(ResultDetailsPanel.class), any(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
+        verify(notificationDisplayer, never()).notify(anyString(), any(Icon.class), isA(JLabel.class), isA(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
     }
 
 }

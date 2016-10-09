@@ -3,6 +3,7 @@ package org.netbeans.modules.bamboo.ui.notification;
 import java.util.logging.Level;
 import javax.swing.Icon;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
@@ -51,19 +52,19 @@ class NotifyDisplayer implements Runnable {
             if (log.isLoggable(Level.INFO)) {
                 log.info(String.format("state of plan %s has changed", name));
             }
-
-            JComponent detailsComp = newDetailsPanel();
+            String summary = getSummary(plan);
+            JComponent balloonDetails = new JLabel(summary);
+            JComponent popupDetails = newDetailsPanel(summary);
             Pair<Priority, Category> cat = getCategory();
 
-            getNotificationDisplayer().notify(name, instanceIcon, detailsComp, detailsComp, cat.first(), cat.second());
+            getNotificationDisplayer().notify(name, instanceIcon, balloonDetails, popupDetails, cat.first(), cat.second());
         }
     }
 
-    private JComponent newDetailsPanel() {
-        PlanVo plan = getPlan();
-        String summary = getSummary(plan);
+    private JComponent newDetailsPanel(String summary) {
         ResultVo resultVo = buildResult.getNewResult();
         HtmlPane reasonComp = new HtmlPane();
+        reasonComp.setOpaque(true);
         reasonComp.setText(resultVo.getBuildReason());
         return new ResultDetailsPanel(summary, reasonComp);
     }
