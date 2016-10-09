@@ -30,10 +30,15 @@ import static org.openide.util.Lookup.getDefault;
 import org.openide.util.Task;
 
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
 
 import static org.mockito.Mockito.atLeast;
 
 import org.openide.NotifyDescriptor;
+
+import static org.mockito.Matchers.isA;
+
 
 
 /**
@@ -51,6 +56,8 @@ public class AddInstanceWorkerTest {
     private BambooInstance instance;
     @Mock
     private BambooInstanceProduceable producer;
+    @Mock
+    private Runner runner;
 
     private AddInstanceWorker classUnderTest;
 
@@ -61,14 +68,21 @@ public class AddInstanceWorkerTest {
         factory.setDelegate(producer);
 
         given(action.getInstanceManager()).willReturn(instanceManager);
-        classUnderTest = new AddInstanceWorker(action);
         given(form.getInstanceName()).willReturn("test");
+        
+        classUnderTest = new AddInstanceWorker(action){
+            @Override
+            Runner newRunner(DefaultInstanceValues values) {
+                return runner;
+            }
+        };
     }
 
     @Test
     public void testExecute_Cancel() {
         classUnderTest.execute(form);
         classUnderTest.cancel();
+        verify(runner).addPropertyChangeListener(isA(PropertyChangeListener.class));
         verify(form).getPassword();
     }
 

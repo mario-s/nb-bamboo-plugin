@@ -60,7 +60,7 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
 
         instanceName = ofNullable(values.getName());
 
-        Runner runner = new Runner(values);
+        Runner runner = newRunner(values);
         runner.addPropertyChangeListener(this);
 
         RequestProcessor.Task task = RP.post(runner);
@@ -68,6 +68,10 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
 
         currentTask = of(task);
         currentRunner = of(runner);
+    }
+
+    Runner newRunner(DefaultInstanceValues values) {
+        return new Runner(values);
     }
 
     private void reset() {
