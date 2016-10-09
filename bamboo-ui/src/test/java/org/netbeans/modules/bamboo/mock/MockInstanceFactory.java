@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.mock;
 
+import java.util.Optional;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.BambooInstanceProduceable;
@@ -15,7 +16,7 @@ public class MockInstanceFactory implements BambooInstanceProduceable {
     private BambooInstanceProduceable delegate;
 
     @Override
-    public BambooInstance create(final InstanceValues values) {
+    public Optional<BambooInstance> create(final InstanceValues values) {
         if (delegate != null) {
             return delegate.create(values);
         }

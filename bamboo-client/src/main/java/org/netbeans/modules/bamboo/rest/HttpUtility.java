@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.ui.wizard;
+package org.netbeans.modules.bamboo.rest;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

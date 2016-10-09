@@ -7,6 +7,7 @@ import org.netbeans.modules.bamboo.glue.BambooInstanceProduceable;
 import static org.openide.util.Lookup.getDefault;
 
 import java.beans.PropertyChangeSupport;
+import java.util.Optional;
 import lombok.extern.java.Log;
 
 
@@ -17,35 +18,28 @@ import lombok.extern.java.Log;
 class Runner extends PropertyChangeSupport implements Runnable {
     /** Use serialVersionUID for interoperability. */
     private static final long serialVersionUID = 1L;
-    private transient final HttpUtility httpUtility;
 
     private final transient InstanceValues values;
 
     Runner(final InstanceValues values) {
-        this(values, new HttpUtility());
-    }
-
-    Runner(final InstanceValues values, final HttpUtility httpUtility) {
         super(values);
-        this.httpUtility = httpUtility;
         this.values = values;
     }
 
     @Override
     public void run() {
-        if (httpUtility.exists(values.getUrl())) {
-            BambooInstanceProduceable producer = getDefault().lookup(
+        BambooInstanceProduceable producer = getDefault().lookup(
                     BambooInstanceProduceable.class);
-            BambooInstance instance = producer.create(values);
-
+        Optional<BambooInstance> instance = producer.create(values);
+        if (instance.isPresent()) {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException ex) {
                 log.info(ex.getMessage());
             }
 
-            if ((instance != null) && !Thread.interrupted()) {
-                firePropertyChange(WorkerEvents.INSTANCE_CREATED.name(), null, instance);
+            if (!Thread.interrupted()) {
+                firePropertyChange(WorkerEvents.INSTANCE_CREATED.name(), null, instance.get());
             }
         } else {
             firePropertyChange(WorkerEvents.INVALID_URL.name(), null, values.getUrl());

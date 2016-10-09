@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
+import org.netbeans.modules.bamboo.rest.HttpUtility;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,6 +29,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+
 
 /**
  * @author spindizzy
@@ -41,8 +45,6 @@ public class RunnerTest {
     private BambooInstance instance;
     @Mock
     private PropertyChangeListener listener;
-    @Mock
-    private HttpUtility utility;
 
     private DefaultInstanceValues values;
 
@@ -57,7 +59,7 @@ public class RunnerTest {
         values = new DefaultInstanceValues();
         values.setUrl(FOO);
 
-        classUnderTest = new Runner(values, utility);
+        classUnderTest = new Runner(values);
         classUnderTest.addPropertyChangeListener(listener);
     }
 
@@ -66,8 +68,7 @@ public class RunnerTest {
      */
     @Test
     public void testRun_ServerExists() {
-        given(utility.exists(FOO)).willReturn(true);
-        given(producer.create(values)).willReturn(instance);
+        given(producer.create(values)).willReturn(of(instance));
         classUnderTest.run();
 
         InOrder order = inOrder(producer, listener);
@@ -80,8 +81,7 @@ public class RunnerTest {
      */
     @Test
     public void testRun_ServerDoesNotExists() {
-        given(utility.exists(FOO)).willReturn(false);
-        given(producer.create(values)).willReturn(instance);
+        given(producer.create(values)).willReturn(empty());
         classUnderTest.run();
         verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }

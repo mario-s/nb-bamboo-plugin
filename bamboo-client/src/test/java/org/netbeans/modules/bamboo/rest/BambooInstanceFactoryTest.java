@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
+import java.util.Optional;
 import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,8 @@ import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 import static org.openide.util.Lookup.getDefault;
 
 /**
@@ -28,6 +31,8 @@ public class BambooInstanceFactoryTest {
     private BambooServiceAccessable delegate;
     @Mock
     private InstanceValues values;
+    @Mock
+    private HttpUtility httpUtility;
     
     private BambooInstanceFactory classUnderTest;
     
@@ -36,28 +41,41 @@ public class BambooInstanceFactoryTest {
         MockRestClient client = (MockRestClient) getDefault().lookup(BambooServiceAccessable.class);
         client.setDelegate(delegate);
         classUnderTest = new BambooInstanceFactory();
+        setInternalState(classUnderTest, "httpUtility", httpUtility);
     }
     
      /**
      * Test of create method, of class BambooInstanceFactory.
      */
     @Test
-    public void testCreate_ExpectInstanceWithVersionInfo() {
+    public void testCreate_ValidValues_ExpectInstanceWithVersionInfo() {
         VersionInfo versionInfo = new VersionInfo();
         versionInfo.setBuildNumber(1);
         given(delegate.getVersionInfo(values)).willReturn(versionInfo);
-        BambooInstance result = classUnderTest.create(values);
-        assertThat(result.getVersionInfo().getBuildNumber(), is(1));
+        given(httpUtility.exists(anyString())).willReturn(true);
+        Optional<BambooInstance> result = classUnderTest.create(values);
+        assertThat(result.get().getVersionInfo().getBuildNumber(), is(1));
     }
 
     /**
      * Test of create method, of class BambooInstanceFactory.
      */
     @Test
-    public void testCreate_ExpectInstanceWithProject() {
+    public void testCreate_ValidValues_ExpectInstanceWithProject() {
         given(delegate.getProjects(values)).willReturn(singletonList(new ProjectVo("")));
-        BambooInstance result = classUnderTest.create(values);
-        assertThat(result.getProjects().isEmpty(), is(false));
+        given(httpUtility.exists(anyString())).willReturn(true);
+        Optional<BambooInstance> result = classUnderTest.create(values);
+        assertThat(result.get().getProjects().isEmpty(), is(false));
+    }
+    
+     /**
+     * Test of create method, of class BambooInstanceFactory.
+     */
+    @Test
+    public void testCreate_InvalidUrl_ExpectEmpty() {
+        given(httpUtility.exists(anyString())).willReturn(false);
+        Optional<BambooInstance> result = classUnderTest.create(values);
+        assertThat(result.isPresent(), is(false));
     }
     
 }

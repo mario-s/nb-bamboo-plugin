@@ -28,8 +28,7 @@ public class HtmlPane extends JEditorPane {
 
         addHyperlinkListener((HyperlinkEvent evt) -> {
             if (HyperlinkEvent.EventType.ACTIVATED.equals(evt.getEventType())) {
-                URL url = evt.getURL();
-                URLDisplayer.getDefault().showURL(url);
+                URLDisplayer.getDefault().showURL(evt.getURL());
             }
         });
     }
