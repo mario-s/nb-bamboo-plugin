@@ -7,12 +7,14 @@ import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.openide.NotificationLineSupport;
 
 import static org.openide.util.Lookup.getDefault;
+
 import org.openide.util.NbBundle;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -26,7 +28,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
     private AbstractAction applyAction;
 
     private NotificationLineSupport notificationSupport;
-    
+
     private final Map<Integer, JComponent> focusMap;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -56,7 +58,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
     private void onPostInit() {
         addDocumentListener();
         progressBar.setVisible(false);
-        
+
         focusMap.put(0, txtName);
         focusMap.put(1, txtServer);
         focusMap.put(2, txtUser);
@@ -95,18 +97,19 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
     void block() {
         blocking(true);
     }
-    
+
     void unblock() {
         blocking(false);
     }
-    
+
     /**
      * Set the focus in the field specified by the index;
-     * @param index 
+     *
+     * @param index
      */
-    void setFocus(int index){
+    void setFocus(int index) {
         JComponent component = focusMap.get(index);
-        if(component != null){
+        if (component != null) {
             component.requestFocus();
         }
     }
@@ -265,34 +268,46 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         String url = getUrl();
 
         if (name.isEmpty()) {
-            notificationSupport.setInformationMessage(getMessage("MSG_EmptyName"));
+            inform(getMessage("MSG_EmptyName"));
             return;
         }
 
         if (url.isEmpty() || url.endsWith("//")) {
-            notificationSupport.setInformationMessage(getMessage("MSG_EmptyUrl"));
+            inform(getMessage("MSG_EmptyUrl"));
             return;
         }
 
         if (getUsername().isEmpty()) {
-            notificationSupport.setInformationMessage(getMessage("MSG_EmptyUserName"));
+            inform(getMessage("MSG_EmptyUserName"));
             return;
         }
 
         if (getPassword().length == 0) {
-            notificationSupport.setInformationMessage(getMessage("MSG_EmptyPassword"));
+            inform(getMessage("MSG_EmptyPassword"));
             return;
         }
 
         InstanceManageable manager = getDefault().lookup(InstanceManageable.class);
 
         if (manager.existsInstance(name)) {
-            notificationSupport.setErrorMessage(getMessage("MSG_ExistName"));
+            error(getMessage("MSG_ExistName"));
             return;
         }
 
-        notificationSupport.clearMessages();
+        clearMessages();
         applyAction.setEnabled(true);
+    }
+
+    void inform(String message) {
+        notificationSupport.setInformationMessage(message);
+    }
+    
+    void error(String message) {
+        notificationSupport.setErrorMessage(message);
+    }
+
+    void clearMessages() {
+        notificationSupport.clearMessages();
     }
 
     private String getMessage(final String key) {
@@ -313,5 +328,9 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
 
     void setNotificationSupport(final NotificationLineSupport support) {
         this.notificationSupport = support;
+    }
+
+    JProgressBar getProgressBar() {
+        return progressBar;
     }
 }
