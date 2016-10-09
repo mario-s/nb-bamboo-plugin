@@ -1,6 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
 import org.netbeans.modules.bamboo.glue.InstanceValues;
+
 import static org.netbeans.modules.bamboo.rest.BambooInstanceConstants.*;
 
 import org.openide.util.Exceptions;
@@ -18,6 +19,7 @@ import java.util.logging.Level;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import lombok.extern.java.Log;
+
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_NAME;
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_URL;
