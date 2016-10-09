@@ -23,18 +23,15 @@ public class BambooInstanceFactory implements BambooInstanceProduceable {
 
     private final BambooServiceAccessable instanceAccessor;
 
-    private HttpUtility httpUtility;
-
     public BambooInstanceFactory() {
         this.instanceAccessor = Lookup.getDefault().lookup(BambooServiceAccessable.class);
-        this.httpUtility = new HttpUtility();
     }
 
 
     @Override
     public Optional<BambooInstance> create(final InstanceValues values) {
         Optional<BambooInstance> opt = empty();
-        if (httpUtility.exists(values.getUrl())) {
+        if (instanceAccessor.existsService(values)) {
             DefaultBambooInstance instance = new DefaultBambooInstance(values);
 
             VersionInfo info = instanceAccessor.getVersionInfo(values);

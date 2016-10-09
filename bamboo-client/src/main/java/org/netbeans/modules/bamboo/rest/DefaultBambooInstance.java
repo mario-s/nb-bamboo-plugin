@@ -75,6 +75,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
 
     private transient VersionInfo version;
 
+    private transient boolean available;
+
     public DefaultBambooInstance() {
         this(null);
     }
@@ -167,7 +169,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
             fireProjectsChanged(oldProjects, this.projects);
         }
     }
-    
+
     private void synchronizeVersion() {
         version = client.getVersionInfo(this);
     }
@@ -224,6 +226,16 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     }
 
     @Override
+    public boolean isAvailable() {
+        return available;
+    }
+
+    private boolean checkAvailability() {
+        available = client.existsService(this);
+        return available;
+    }
+
+    @Override
     public void remove() {
         if (properties != null) {
             properties.clear();
@@ -239,10 +251,11 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     @Override
     public Task synchronize() {
         return RP.post(() -> {
-            //TODO catch exception when server not available and set error flag
-            synchronizeVersion();
-            doSynchronization(false);
-            prepareSynchronization();
+            if (checkAvailability()) {
+                synchronizeVersion();
+                doSynchronization(false);
+                prepareSynchronization();
+            }
         });
     }
 
@@ -264,7 +277,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     public void updateSyncInterval(int minutes) {
         int oldInterval = getSyncInterval();
         setSyncInterval(minutes);
-        if(synchronizationTask.isPresent()){
+        if (synchronizationTask.isPresent()) {
             synchronizationTask.get().cancel();
         }
         firePropertyChange(PROP_SYNC_INTERVAL, oldInterval, minutes);

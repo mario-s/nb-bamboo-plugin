@@ -18,6 +18,14 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 @ServiceProvider(service = BambooServiceAccessable.class, position = 10)
 public class MockRestClient implements BambooServiceAccessable {
     private BambooServiceAccessable delegate;
+
+    @Override
+    public boolean existsService(InstanceValues values) {
+        if(delegate != null){
+            return delegate.existsService(values);
+        }
+        return true;
+    }
     
     @Override
     public Collection<ProjectVo> getProjects(final InstanceValues values) {

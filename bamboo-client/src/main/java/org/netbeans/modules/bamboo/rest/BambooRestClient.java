@@ -59,6 +59,18 @@ public class BambooRestClient implements BambooServiceAccessable {
     private static final String PLAN = PLANS + "/{buildKey}.json";
 
     private static final String BUILD_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    
+    private HttpUtility httpUtility;
+
+    public BambooRestClient() {
+        httpUtility = new HttpUtility();
+    }
+
+    @Override
+    public boolean existsService(InstanceValues values) {
+       String url = values.getUrl();
+       return httpUtility.exists(url);
+    }
 
     @Override
     public void updateProjects(Collection<ProjectVo> projects, InstanceValues values) {

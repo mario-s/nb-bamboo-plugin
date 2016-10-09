@@ -54,5 +54,11 @@ public interface BambooInstance extends InstanceValues, Lookup.Provider, Seriali
      * @param minutes time in minutes
      */
     void updateSyncInterval(int minutes);
+    
+    /**
+     * This method returns <code>true</code> when the CI server could be reached, if not it returns <code>false</code>.
+     * @return <code>true</code> when server is present, otherwhise <code>false</code>
+     */
+    boolean isAvailable();
 
 }

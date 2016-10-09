@@ -17,8 +17,6 @@ import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 import static org.openide.util.Lookup.getDefault;
 
 /**
@@ -31,8 +29,6 @@ public class BambooInstanceFactoryTest {
     private BambooServiceAccessable delegate;
     @Mock
     private InstanceValues values;
-    @Mock
-    private HttpUtility httpUtility;
     
     private BambooInstanceFactory classUnderTest;
     
@@ -41,7 +37,6 @@ public class BambooInstanceFactoryTest {
         MockRestClient client = (MockRestClient) getDefault().lookup(BambooServiceAccessable.class);
         client.setDelegate(delegate);
         classUnderTest = new BambooInstanceFactory();
-        setInternalState(classUnderTest, "httpUtility", httpUtility);
     }
     
      /**
@@ -52,7 +47,7 @@ public class BambooInstanceFactoryTest {
         VersionInfo versionInfo = new VersionInfo();
         versionInfo.setBuildNumber(1);
         given(delegate.getVersionInfo(values)).willReturn(versionInfo);
-        given(httpUtility.exists(anyString())).willReturn(true);
+        given(delegate.existsService(values)).willReturn(true);
         Optional<BambooInstance> result = classUnderTest.create(values);
         assertThat(result.get().getVersionInfo().getBuildNumber(), is(1));
     }
@@ -63,7 +58,7 @@ public class BambooInstanceFactoryTest {
     @Test
     public void testCreate_ValidValues_ExpectInstanceWithProject() {
         given(delegate.getProjects(values)).willReturn(singletonList(new ProjectVo("")));
-        given(httpUtility.exists(anyString())).willReturn(true);
+        given(delegate.existsService(values)).willReturn(true);
         Optional<BambooInstance> result = classUnderTest.create(values);
         assertThat(result.get().getProjects().isEmpty(), is(false));
     }
@@ -73,7 +68,7 @@ public class BambooInstanceFactoryTest {
      */
     @Test
     public void testCreate_InvalidUrl_ExpectEmpty() {
-        given(httpUtility.exists(anyString())).willReturn(false);
+        given(delegate.existsService(values)).willReturn(false);
         Optional<BambooInstance> result = classUnderTest.create(values);
         assertThat(result.isPresent(), is(false));
     }

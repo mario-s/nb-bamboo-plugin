@@ -26,7 +26,6 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 import org.openide.util.RequestProcessor.Task;
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
@@ -108,6 +107,7 @@ public class DefaultBambooInstanceTest {
 
     @Test
     public void testSynchronize_ListenerShouldBeCalled() throws InterruptedException {
+        given(serviceAccessable.existsService(any(InstanceValues.class))).willReturn(true);
         classUnderTest.synchronize();
         synchronized (listener) {
             listener.wait(1000);
