@@ -23,7 +23,6 @@ class SynchronizationListener implements PropertyChangeListener {
 
     SynchronizationListener(@NonNull BambooInstance instance) {
         this.instance = instance;
-        progressHandle = createProgressHandle();
         instance.addPropertyChangeListener(this);
     }
 
@@ -32,17 +31,22 @@ class SynchronizationListener implements PropertyChangeListener {
         String propertyName = evt.getPropertyName();
         if (ChangeEvents.Synchronizing.toString().equals(propertyName)) {
             boolean progress = (boolean) evt.getNewValue();
+            progressHandle = getProgressHandle();
             if(progress){
                 progressHandle.start();
             }else{
                 progressHandle.finish();
+                progressHandle = null;
             }
         }
     }
 
     @NbBundle.Messages({"TXT_SYNC=Synchronizing"})
-    private ProgressHandle createProgressHandle() {
-        return ProgressHandleFactory.createHandle(TXT_SYNC() + " " + getName());
+    private ProgressHandle getProgressHandle() {
+        if(progressHandle == null){
+            progressHandle = ProgressHandleFactory.createHandle(TXT_SYNC() + " " + getName());
+        }
+        return progressHandle;
     }
 
     private String getName() {
