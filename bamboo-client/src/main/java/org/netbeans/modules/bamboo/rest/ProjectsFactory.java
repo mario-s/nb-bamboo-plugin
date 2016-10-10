@@ -13,9 +13,9 @@ import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.rest.Plan;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.Result;
-import org.netbeans.modules.bamboo.rest.AbstractVoConverter.PlanVoConverter;
-import org.netbeans.modules.bamboo.rest.AbstractVoConverter.ProjectVoConverter;
-import org.netbeans.modules.bamboo.rest.AbstractVoConverter.ResultVoConverter;
+import org.netbeans.modules.bamboo.rest.VoConverter.PlanVoConverter;
+import org.netbeans.modules.bamboo.rest.VoConverter.ProjectVoConverter;
+import org.netbeans.modules.bamboo.rest.VoConverter.ResultVoConverter;
 
 /**
  * This class constructs a new {@link ProjectVo} with all the children.

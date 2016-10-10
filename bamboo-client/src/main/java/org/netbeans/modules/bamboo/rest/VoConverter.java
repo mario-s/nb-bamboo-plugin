@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import lombok.extern.java.Log;
-import org.netbeans.modules.bamboo.model.AbstractVo;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
@@ -18,15 +17,14 @@ import org.netbeans.modules.bamboo.model.rest.Result;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
- *
+ * Interface for class which convert class from the rest model to class for model to be used for the view.
  * @author spindizzy
  */
-@Log
-abstract class AbstractVoConverter<S, T> {
+interface VoConverter<S, T> {
 
-    abstract T convert(S src);
+    T convert(S src);
 
-    static class ProjectVoConverter extends AbstractVoConverter<Project, ProjectVo> {
+    static class ProjectVoConverter implements VoConverter<Project, ProjectVo> {
         private final String serverUrl;
 
         public ProjectVoConverter(String serverUrl) {
@@ -34,7 +32,7 @@ abstract class AbstractVoConverter<S, T> {
         }
         
         @Override
-        ProjectVo convert(Project src) {
+        public ProjectVo convert(Project src) {
             ProjectVo target = new ProjectVo(src.getKey());
             target.setName(src.getName());
             target.setServerUrl(serverUrl);
@@ -42,7 +40,7 @@ abstract class AbstractVoConverter<S, T> {
         }
     }
 
-    static class PlanVoConverter extends AbstractVoConverter<Plan, PlanVo> {
+    static class PlanVoConverter implements VoConverter<Plan, PlanVo> {
         
         private final String serverUrl;
 
@@ -51,7 +49,7 @@ abstract class AbstractVoConverter<S, T> {
         }
         
         @Override
-        PlanVo convert(Plan src) {
+        public PlanVo convert(Plan src) {
             PlanVo target = new PlanVo(src.getKey(), src.getName());
             target.setShortKey(src.getShortKey());
             target.setShortName(src.getShortName());
@@ -62,10 +60,11 @@ abstract class AbstractVoConverter<S, T> {
         }
     }
 
-    static class ResultVoConverter extends AbstractVoConverter<Result, ResultVo> {
+    
+    static class ResultVoConverter implements VoConverter<Result, ResultVo> {
 
         @Override
-        ResultVo convert(Result src) {
+        public ResultVo convert(Result src) {
             ResultVo target = new ResultVo(src.getKey());
             target.setNumber(src.getNumber());
             target.setBuildReason(src.getBuildReason());
@@ -75,12 +74,13 @@ abstract class AbstractVoConverter<S, T> {
         }
     }
     
-    static class VersionInfoConverter extends AbstractVoConverter<Info, VersionInfo> {
+    @Log
+    static class VersionInfoConverter implements VoConverter<Info, VersionInfo> {
         
         private static final String BUILD_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
         @Override
-        VersionInfo convert(Info src) {
+        public VersionInfo convert(Info src) {
             VersionInfo target = new VersionInfo();
             target.setVersion(src.getVersion());
             target.setBuildNumber(src.getBuildNumber());
