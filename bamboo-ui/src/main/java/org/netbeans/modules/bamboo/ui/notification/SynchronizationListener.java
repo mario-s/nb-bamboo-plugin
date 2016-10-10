@@ -55,10 +55,10 @@ class SynchronizationListener implements PropertyChangeListener {
     }
 
     private void finishProgress() {
-        if (progressHandle.isPresent()) {
-            progressHandle.get().finish();
+        progressHandle.ifPresent(handle -> {
+            handle.finish();
             progressHandle = empty();
-        }
+        });
     }
 
     private Optional<ProgressHandle> getProgressHandle() {
