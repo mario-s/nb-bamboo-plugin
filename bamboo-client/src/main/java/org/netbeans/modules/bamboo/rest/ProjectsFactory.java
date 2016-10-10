@@ -58,12 +58,7 @@ final class ProjectsFactory {
         Collection<Plan> plansFromProject = project.plansAsCollection();
 
         plansFromProject.forEach(plan -> {
-            Optional<PlanVo> created = createPlanVo(plan);
-            if (created.isPresent()) {
-                PlanVo planVo = created.get();
-                planVo.setProject(projectVo);
-                planVos.add(planVo);
-            }
+            createPlanVo(plan).ifPresent(vo -> planVos.add(vo));
         });
 
         projectVo.setPlans(planVos);

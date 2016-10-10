@@ -19,9 +19,6 @@ public class PlanVo extends AbstractOpenInBrowserVo {
     private boolean enabled;
     private ResultVo result;
     private PlanType type;
-    //parent project
-    private ProjectVo project;
-
     
     public PlanVo(String key) {
         this(key, "");

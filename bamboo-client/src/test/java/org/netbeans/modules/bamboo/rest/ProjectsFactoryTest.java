@@ -76,36 +76,6 @@ public class ProjectsFactoryTest {
         Collection<ProjectVo> result = classUnderTest.create();
         assertThat(result.isEmpty(), is(false));
     }
-
-    /**
-     * Test of create method, of class ProjectsFactory.
-     */
-    @Test
-    public void testCreate_ProjectPlans_ExpectProjectIsParent() {
-        Plan plan = new Plan();
-        plan.setKey(FOO);
-        List<Plan> planListForPlans = new ArrayList<>(1);
-        planListForPlans.add(plan);
-        Plans plans = new Plans();
-        plans.setPlan(planListForPlans);
-        Project project = new Project();
-        project.setPlans(plans);
-        List<Project> projects = new ArrayList<>(1);
-        projects.add(project);
-        classUnderTest.setProjects(projects);
-
-        //create a different list to avoid concurrent modification exception
-        List<Plan> planListForFactory = new ArrayList<>(1);
-        planListForFactory.add(plan);
-        classUnderTest.setPlans(planListForFactory);
-
-        Collection<ProjectVo> result = classUnderTest.create();
-        ProjectVo firstProjectVo = result.iterator().next();
-        List<PlanVo> plansOfFirstProject = firstProjectVo.getPlans();
-        PlanVo firstPlanVo = plansOfFirstProject.iterator().next();
-
-        assertThat(firstPlanVo.getProject(), equalTo(firstProjectVo));
-    }
     
     /**
      * Test of create method, of class ProjectsFactory.
