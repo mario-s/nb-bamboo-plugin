@@ -25,9 +25,6 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.prefs.Preferences;
 import org.apache.commons.lang3.time.StopWatch;
-import org.netbeans.api.progress.ProgressHandle;
-import org.netbeans.api.progress.ProgressHandleFactory;
-import org.openide.util.NbBundle.Messages;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -41,7 +38,6 @@ import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTER
 import org.netbeans.modules.bamboo.model.ChangeEvents;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
-import static org.netbeans.modules.bamboo.rest.Bundle.TXT_SYNC;
 
 import org.openide.util.Lookup;
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
@@ -131,18 +127,16 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
             stopWatch.start();
         }
 
-        ProgressHandle progressHandle = null;
         if (showProgress) {
-            progressHandle = createProgressHandle();
-            progressHandle.start();
+            fireSynchronizationChange(true);
         }
 
         try {
             synchronizeProjects();
         } finally {
 
-            if (progressHandle != null) {
-                progressHandle.finish();
+            if (showProgress) {
+                fireSynchronizationChange(false);
             }
 
             if (log.isLoggable(Level.INFO)) {
@@ -156,6 +150,10 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
                 notifyAll();
             }
         }
+    }
+
+    private void fireSynchronizationChange(boolean value) {
+        firePropertyChange(ChangeEvents.Synchronizing.toString(), !value, value);
     }
 
     private void synchronizeProjects() {
@@ -177,11 +175,6 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     private void fireProjectsChanged(Collection<ProjectVo> oldProjects, Collection<ProjectVo> newProjects) {
         firePropertyChange(ChangeEvents.Projects.toString(), oldProjects,
                 newProjects);
-    }
-
-    @Messages({"TXT_SYNC=Synchronizing"})
-    private ProgressHandle createProgressHandle() {
-        return ProgressHandleFactory.createHandle(TXT_SYNC() + " " + getName());
     }
 
     @Override

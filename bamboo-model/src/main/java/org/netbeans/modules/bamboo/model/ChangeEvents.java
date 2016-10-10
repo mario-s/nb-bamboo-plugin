@@ -6,7 +6,7 @@ package org.netbeans.modules.bamboo.model;
  */
 public enum ChangeEvents {
     
-    Projects("projects"), Plans("plans"), Result("result");
+    Synchronizing("synchronizing"), Projects("projects"), Plans("plans"), Result("result");
 
     private ChangeEvents(String value){
         this.value = value;

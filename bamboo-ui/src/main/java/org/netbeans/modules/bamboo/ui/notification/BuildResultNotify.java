@@ -18,9 +18,12 @@ public class BuildResultNotify implements PropertyChangeListener {
     
     private NotifyDelegator delegator;
     
+    private final SynchronizationListener synchronizationListener;
+    
     public BuildResultNotify(BambooInstance instance) {
         this.instance = instance;
         delegator = new NotifyDelegator();
+        synchronizationListener = new SynchronizationListener(instance);
         registerChangeListener();
     }
 
