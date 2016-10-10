@@ -36,6 +36,7 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
+import org.netbeans.modules.bamboo.rest.AbstractVoConverter.VersionInfoConverter;
 import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
 
 /**
@@ -58,8 +59,6 @@ public class BambooRestClient implements BambooServiceAccessable {
 
     private static final String PLAN = PLANS + "/{buildKey}.json";
 
-    private static final String BUILD_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-    
     private HttpUtility httpUtility;
 
     public BambooRestClient() {
@@ -126,22 +125,8 @@ public class BambooRestClient implements BambooServiceAccessable {
 
         if (opt.isPresent()) {
             Info info = infoCaller.request(opt.get());
-            versionInfo.setVersion(info.getVersion());
-            versionInfo.setBuildNumber(info.getBuildNumber());
-
-            final String buildDate = info.getBuildDate();
-
-            if (isNotBlank(buildDate)) {
-                try {
-                    DateTimeFormatter formater = new DateTimeFormatterBuilder()
-                            .appendPattern(BUILD_DATE_PATTERN)
-                            .appendOffset("+HH:MM", "+00:00")
-                            .toFormatter();
-                    versionInfo.setBuildDate(LocalDate.parse(buildDate, formater));
-                } catch (DateTimeParseException ex) {
-                    log.fine(ex.getMessage());
-                }
-            }
+            VersionInfoConverter converter = new VersionInfoConverter();
+            versionInfo = converter.convert(info);
         }
 
         return versionInfo;
