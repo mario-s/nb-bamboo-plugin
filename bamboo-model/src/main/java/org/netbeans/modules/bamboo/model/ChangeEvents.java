@@ -1,14 +1,14 @@
 package org.netbeans.modules.bamboo.model;
 
 /**
- *
+ * This enum contains possible events fired during an update of the model.
  * @author spindizzy
  */
-public enum ModelProperties {
+public enum ChangeEvents {
     
     Projects("projects"), Plans("plans"), Result("result");
 
-    private ModelProperties(String value){
+    private ChangeEvents(String value){
         this.value = value;
                 
     }

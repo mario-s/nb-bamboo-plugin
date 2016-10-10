@@ -34,7 +34,7 @@ public class PlanVo extends AbstractOpenInBrowserVo {
     public void setResult(ResultVo result) {
         ResultVo old = this.result;
         this.result = result;
-        firePropertyChange(ModelProperties.Result.toString(), old, result);
+        firePropertyChange(ChangeEvents.Result.toString(), old, result);
     }
 
 }

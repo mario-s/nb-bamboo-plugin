@@ -25,7 +25,7 @@ public class ProjectVo extends AbstractOpenInBrowserVo {
     public void setPlans(List<PlanVo> plans) {
         List<PlanVo> old = this.plans;
         this.plans = plans;
-        firePropertyChange(ModelProperties.Plans.toString(), old, plans);
+        firePropertyChange(ChangeEvents.Plans.toString(), old, plans);
     }
 
 }

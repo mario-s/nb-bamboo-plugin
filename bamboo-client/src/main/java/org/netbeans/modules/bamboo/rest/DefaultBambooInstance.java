@@ -38,7 +38,7 @@ import org.netbeans.modules.bamboo.glue.LookupContext;
 
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 
-import org.netbeans.modules.bamboo.model.ModelProperties;
+import org.netbeans.modules.bamboo.model.ChangeEvents;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
 import static org.netbeans.modules.bamboo.rest.Bundle.TXT_SYNC;
@@ -175,7 +175,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     }
 
     private void fireProjectsChanged(Collection<ProjectVo> oldProjects, Collection<ProjectVo> newProjects) {
-        firePropertyChange(ModelProperties.Projects.toString(), oldProjects,
+        firePropertyChange(ChangeEvents.Projects.toString(), oldProjects,
                 newProjects);
     }
 

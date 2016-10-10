@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.ui.notification;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.netbeans.modules.bamboo.glue.BambooInstance;
-import org.netbeans.modules.bamboo.model.ModelProperties;
+import org.netbeans.modules.bamboo.model.ChangeEvents;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 
@@ -35,7 +35,7 @@ public class BuildResultNotify implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
-        if (ModelProperties.Result.toString().equals(propertyName)) {
+        if (ChangeEvents.Result.toString().equals(propertyName)) {
             PlanVo plan = (PlanVo) evt.getSource();
             ResultVo oldResult = (ResultVo) evt.getOldValue();
             ResultVo newResult = (ResultVo) evt.getNewValue();
