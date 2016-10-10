@@ -19,6 +19,7 @@ import org.netbeans.modules.bamboo.rest.VoConverter.ResultVoConverter;
 
 /**
  * This class constructs a new {@link ProjectVo} with all the children.
+ *
  * @author spindizzy
  */
 final class ProjectsFactory {
@@ -43,34 +44,42 @@ final class ProjectsFactory {
         if (projects != null && plans != null) {
 
             projects.forEach(project -> {
-
-                ProjectVo projectVo = projectConverter.convert(project);
-
-                List<PlanVo> planVos = new ArrayList<>();
-
-                project.plansAsCollection().forEach(projectPlan -> {
-                    String planKey = projectPlan.getKey();
-                    Optional<PlanVo> extracted = extractPlan(planKey, plans);
-                    if (extracted.isPresent()) {
-                        PlanVo planVo = extracted.get();
-                        planVos.add(planVo);
-                    }
-                });
-
-                projectVo.setPlans(planVos);
-
-                vos.add(projectVo);
-
+                addProjectVo(vos, project);
             });
         }
 
         return vos;
     }
 
-    private Optional<PlanVo> extractPlan(String planKey, Collection<Plan> plans) {
+    private void addProjectVo(Collection<ProjectVo> vos, Project project) {
+        ProjectVo projectVo = projectConverter.convert(project);
+
+        List<PlanVo> planVos = new ArrayList<>();
+        Collection<Plan> plansFromProject = project.plansAsCollection();
+
+        plansFromProject.forEach(plan -> {
+            Optional<PlanVo> created = createPlanVo(plan);
+            if (created.isPresent()) {
+                PlanVo planVo = created.get();
+                planVo.setProject(projectVo);
+                planVos.add(planVo);
+            }
+        });
+
+        projectVo.setPlans(planVos);
+
+        vos.add(projectVo);
+    }
+
+    private Optional<PlanVo> createPlanVo(Plan plan) {
+        String planKey = plan.getKey();
+        return createPlanVo(planKey, plans);
+    }
+
+    private Optional<PlanVo> createPlanVo(String planKey, Collection<Plan> plans) {
         Optional<PlanVo> vo = empty();
         Iterator<Plan> itPlans = plans.iterator();
-        while(itPlans.hasNext()){
+        while (itPlans.hasNext()) {
             Plan plan = itPlans.next();
             if (planKey.equals(plan.getKey())) {
                 PlanVo planVo = planConverter.convert(plan);
@@ -86,7 +95,7 @@ final class ProjectsFactory {
                 break;
             }
         }
-       
+
         return vo;
 
     }
