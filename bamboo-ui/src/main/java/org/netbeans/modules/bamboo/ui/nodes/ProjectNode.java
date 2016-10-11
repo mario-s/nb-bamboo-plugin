@@ -1,11 +1,9 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 
 import java.util.ArrayList;
@@ -13,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.model.ChangeEvents;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
@@ -28,7 +27,7 @@ import org.openide.util.lookup.Lookups;
 /**
  * @author spindizzy
  */
-public class ProjectNode extends AbstractNode implements PropertyChangeListener {
+public class ProjectNode extends AbstractInstanceChildNode {
 
     @StaticResource
     private static final String FOLDER = "org/netbeans/modules/bamboo/resources/folder.png";
@@ -37,10 +36,10 @@ public class ProjectNode extends AbstractNode implements PropertyChangeListener 
 
     private final PlanNodeFactory planNodeFactory;
 
-    public ProjectNode(final ProjectVo project) {
-        super(Children.LEAF, Lookups.singleton(project));
+    public ProjectNode(final BambooInstance instance, final ProjectVo project) {
+        super(instance, Lookups.singleton(project));
         this.project = project;
-        this.planNodeFactory = new PlanNodeFactory(project);
+        this.planNodeFactory = new PlanNodeFactory(instance, project);
         init();
     }
 

@@ -44,7 +44,7 @@ class ProjectNodeFactory extends AbstractRefreshChildFactory<ProjectVo> {
 
     @Override
     protected Node createNodeForKey(final ProjectVo key) {
-        return new ProjectNode(key);
+        return new ProjectNode(instance, key);
     }
 
     @Override

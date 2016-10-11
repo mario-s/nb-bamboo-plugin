@@ -10,6 +10,7 @@ import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import static java.util.Collections.sort;
 import lombok.extern.java.Log;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 
 /**
  * @author spindizzy
@@ -18,12 +19,15 @@ import lombok.extern.java.Log;
 class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {
 
     private static final PlanComparator COMPARATOR = new PlanComparator();
+    
+    private final BambooInstance instance;
 
     private final ProjectVo project;
 
     private Collection<PlanVo> plans;
 
-    PlanNodeFactory(final ProjectVo project) {
+    PlanNodeFactory(final BambooInstance instance, final ProjectVo project) {
+        this.instance = instance;
         this.project = project;
         init();
     }
@@ -41,7 +45,7 @@ class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {
 
     @Override
     protected Node createNodeForKey(final PlanVo key) {
-        return new PlanNode(key);
+        return new PlanNode(instance, key);
     }
 
     @Override

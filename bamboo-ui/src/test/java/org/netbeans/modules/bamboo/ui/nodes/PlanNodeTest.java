@@ -5,6 +5,10 @@ import static org.hamcrest.CoreMatchers.is;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
@@ -15,8 +19,12 @@ import org.openide.nodes.Node.Property;
  *
  * @author spindizzy
  */
+@RunWith(MockitoJUnitRunner.class)
 public class PlanNodeTest {
     private static final String FOO = "foo";
+    
+    @Mock
+    private BambooInstance instance;
     
     private PlanVo plan;
     
@@ -29,7 +37,7 @@ public class PlanNodeTest {
         ResultVo resultVo = new ResultVo(FOO);
         resultVo.setNumber(1);
         plan.setResult(resultVo);
-        classUnderTest = new PlanNode(plan);
+        classUnderTest = new PlanNode(instance, plan);
     }
 
     /**

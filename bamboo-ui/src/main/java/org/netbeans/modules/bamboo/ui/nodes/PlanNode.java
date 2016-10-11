@@ -14,6 +14,7 @@ import javax.swing.Action;
 import lombok.extern.java.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.annotations.common.StaticResource;
+import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
@@ -42,7 +43,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_R
  * @author spindizzy
  */
 @Log
-public class PlanNode extends AbstractNode implements PropertyChangeListener {
+public class PlanNode extends AbstractInstanceChildNode {
 
     private static final String BUILD_REASON = "buildReason";
     private static final String RESULT_NUMBER = "resultNumber";
@@ -57,13 +58,13 @@ public class PlanNode extends AbstractNode implements PropertyChangeListener {
     private static final String ICON_FAILED = "org/netbeans/modules/bamboo/resources/red.png";
 
     private final PlanVo plan;
-    
+
     private final BuildReasonEditor buildReasonEditor;
 
     private String htmlDisplayName;
 
-    public PlanNode(final PlanVo plan) {
-        super(Children.LEAF, Lookups.singleton(plan));
+    public PlanNode(final BambooInstance instance, final PlanVo plan) {
+        super(instance, Lookups.singleton(plan));
         this.plan = plan;
         this.buildReasonEditor = new BuildReasonEditor();
         init();
