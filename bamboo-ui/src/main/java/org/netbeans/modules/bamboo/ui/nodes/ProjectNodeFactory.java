@@ -20,12 +20,13 @@ import static java.util.Collections.sort;
 class ProjectNodeFactory extends AbstractRefreshChildFactory<ProjectVo> {
 
     private static final BuildProjectComparator COMPARATOR = new BuildProjectComparator();
+    
+    private final BambooInstance instance;
 
     private Collection<ProjectVo> projects;
 
     ProjectNodeFactory(final BambooInstance instance) {
-        super(instance);
-
+        this.instance = instance;
         init();
     }
 
@@ -35,7 +36,6 @@ class ProjectNodeFactory extends AbstractRefreshChildFactory<ProjectVo> {
 
     @Override
     void refreshNodes() {
-        final BambooInstance instance = getInstance();
         log.info(String.format("refreshing projects of %s", instance.getName()));
         projects = instance.getProjects();
         refresh(false);
@@ -43,7 +43,7 @@ class ProjectNodeFactory extends AbstractRefreshChildFactory<ProjectVo> {
 
     @Override
     protected Node createNodeForKey(final ProjectVo key) {
-        return new ProjectNode(getInstance(), key);
+        return new ProjectNode(key);
     }
 
     @Override

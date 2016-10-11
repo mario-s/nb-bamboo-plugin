@@ -11,13 +11,14 @@ import java.util.Collection;
 import java.util.List;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.model.ChangeEvents;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
+
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Plans;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Plans;
+
 import org.openide.actions.PropertiesAction;
 import org.openide.nodes.Sheet;
 import org.openide.util.NbBundle;
@@ -33,13 +34,13 @@ public class ProjectNode extends AbstractInstanceChildNode {
     private static final String FOLDER = "org/netbeans/modules/bamboo/resources/folder.png";
 
     private final ProjectVo project;
-
+    
     private final PlanNodeFactory planNodeFactory;
 
-    public ProjectNode(final BambooInstance instance, final ProjectVo project) {
-        super(instance, Lookups.singleton(project));
+    public ProjectNode(final ProjectVo project) {
+        super(Lookups.singleton(project));
         this.project = project;
-        this.planNodeFactory = new PlanNodeFactory(instance, project);
+        this.planNodeFactory = new PlanNodeFactory(project);
         init();
     }
 

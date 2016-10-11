@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.awt.Image;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyEditor;
 import java.io.CharConversionException;
 import java.io.IOException;
@@ -14,15 +13,12 @@ import javax.swing.Action;
 import lombok.extern.java.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.annotations.common.StaticResource;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
 import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
 
 import org.openide.actions.PropertiesAction;
-import org.openide.nodes.AbstractNode;
-import org.openide.nodes.Children;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.ImageUtilities;
@@ -63,8 +59,8 @@ public class PlanNode extends AbstractInstanceChildNode {
 
     private String htmlDisplayName;
 
-    public PlanNode(final BambooInstance instance, final PlanVo plan) {
-        super(instance, Lookups.singleton(plan));
+    public PlanNode(final PlanVo plan) {
+        super(Lookups.singleton(plan));
         this.plan = plan;
         this.buildReasonEditor = new BuildReasonEditor();
         init();

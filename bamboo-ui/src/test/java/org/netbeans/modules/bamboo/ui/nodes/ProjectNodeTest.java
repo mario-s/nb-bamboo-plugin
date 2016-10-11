@@ -1,17 +1,19 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.awt.Image;
+
 import static java.util.Collections.singletonList;
+
 import javax.swing.Action;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.openide.nodes.Sheet;
@@ -20,13 +22,9 @@ import org.openide.nodes.Sheet;
  *
  * @author spindizzy
  */
-@RunWith(MockitoJUnitRunner.class)
 public class ProjectNodeTest {
     
     private ProjectNode classUnderTest;
-    
-    @Mock
-    private BambooInstance instance;
     
     private ProjectVo project;
     
@@ -34,7 +32,7 @@ public class ProjectNodeTest {
     public void setUp() {
         project = new ProjectVo("");
         project.setPlans(singletonList(new PlanVo("")));
-        classUnderTest = new ProjectNode(instance, project);
+        classUnderTest = new ProjectNode(project);
     }
 
     /**
