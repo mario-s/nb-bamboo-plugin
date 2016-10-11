@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.mock;
 
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.glue.BuildStatusWatchable;
 import org.openide.util.lookup.ServiceProvider;
 

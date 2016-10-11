@@ -82,7 +82,7 @@ public class ProjectNode extends AbstractInstanceChildNode {
         set.put(new IntReadPropertySupport(ChangeEvents.Plans.toString(), TXT_Instance_Prop_Plans(), DESC_Instance_Prop_Plans()) {
             @Override
             public Integer getValue() throws IllegalAccessException, InvocationTargetException {
-                final Collection<PlanVo> plans = project.getPlans();
+                final Collection<PlanVo> plans = project.getChildren();
                 return (plans != null) ? plans.size() : 0;
             }
         });

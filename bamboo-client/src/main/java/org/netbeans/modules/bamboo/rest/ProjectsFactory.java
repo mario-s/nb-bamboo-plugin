@@ -5,8 +5,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import org.netbeans.modules.bamboo.glue.InstanceValues;
+
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
@@ -32,7 +35,8 @@ final class ProjectsFactory {
 
     private Collection<Plan> plans;
 
-    ProjectsFactory(String serverUrl) {
+    ProjectsFactory(InstanceValues values) {
+        String serverUrl = values.getUrl();
         projectConverter = new ProjectVoConverter(serverUrl);
         planConverter = new PlanVoConverter(serverUrl);
         resultConverter = new ResultVoConverter();
@@ -58,10 +62,13 @@ final class ProjectsFactory {
         Collection<Plan> plansFromProject = project.plansAsCollection();
 
         plansFromProject.forEach(plan -> {
-            createPlanVo(plan).ifPresent(vo -> planVos.add(vo));
+            createPlanVo(plan).ifPresent(planVo -> {
+                planVo.setParent(projectVo);
+                planVos.add(planVo);
+            });
         });
 
-        projectVo.setPlans(planVos);
+        projectVo.setChildren(planVos);
 
         vos.add(projectVo);
     }

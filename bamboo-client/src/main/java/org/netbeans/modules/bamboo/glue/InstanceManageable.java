@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.glue;
 
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.InstanceContent;
 

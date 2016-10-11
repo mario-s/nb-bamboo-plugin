@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.api.progress.ProgressHandle;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.ChangeEvents;
 
 import static org.hamcrest.CoreMatchers.is;

@@ -9,8 +9,11 @@ import java.util.Comparator;
 import java.util.List;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import lombok.extern.java.Log;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 
+import static java.util.Collections.sort;
+import static java.util.Collections.sort;
+import static java.util.Collections.sort;
 import static java.util.Collections.sort;
 
 /**
@@ -37,7 +40,7 @@ class ProjectNodeFactory extends AbstractRefreshChildFactory<ProjectVo> {
     @Override
     void refreshNodes() {
         log.info(String.format("refreshing projects of %s", instance.getName()));
-        projects = instance.getProjects();
+        projects = instance.getChildren();
         refresh(false);
     }
 

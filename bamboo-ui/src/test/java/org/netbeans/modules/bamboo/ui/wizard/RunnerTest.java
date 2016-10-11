@@ -27,7 +27,7 @@ import static org.openide.util.Lookup.getDefault;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;

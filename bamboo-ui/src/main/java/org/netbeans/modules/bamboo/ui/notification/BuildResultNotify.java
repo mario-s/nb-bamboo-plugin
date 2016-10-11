@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.ui.notification;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.ChangeEvents;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
@@ -28,8 +28,8 @@ public class BuildResultNotify implements PropertyChangeListener {
     }
 
     private void registerChangeListener() {
-        instance.getProjects().forEach(project -> {
-            project.getPlans().forEach(plan -> {
+        instance.getChildren().forEach(project -> {
+            project.getChildren().forEach(plan -> {
                 plan.addPropertyChangeListener(this);
             });
         });

@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.io.Serializable;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
@@ -11,6 +11,7 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 
 import static java.util.Collections.sort;
+
 import java.util.Comparator;
 import java.util.List;
 

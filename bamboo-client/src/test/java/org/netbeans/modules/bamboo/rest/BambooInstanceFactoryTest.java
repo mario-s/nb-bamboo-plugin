@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
 import org.netbeans.modules.bamboo.mock.MockRestClient;
@@ -60,7 +60,7 @@ public class BambooInstanceFactoryTest {
         given(delegate.getProjects(values)).willReturn(singletonList(new ProjectVo("")));
         given(delegate.existsService(values)).willReturn(true);
         Optional<BambooInstance> result = classUnderTest.create(values);
-        assertThat(result.get().getProjects().isEmpty(), is(false));
+        assertThat(result.get().getChildren().isEmpty(), is(false));
     }
     
      /**

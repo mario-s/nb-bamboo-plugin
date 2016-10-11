@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.ui.notification;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.openide.util.lookup.ServiceProvider;
 import org.netbeans.modules.bamboo.glue.BuildStatusWatchable;
 

@@ -14,11 +14,12 @@ import static org.mockito.Mockito.inOrder;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.mock.MockInstanceManager;
 
 import static org.openide.util.Lookup.getDefault;
+
 import org.openide.util.Task;
 
 import static java.util.Collections.singletonList;

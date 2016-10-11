@@ -1,9 +1,11 @@
 package org.netbeans.modules.bamboo.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
 
@@ -27,9 +29,16 @@ public class ProjectVoTest {
         List<PlanVo> plans = new ArrayList<>();
         PlanVo plan = new PlanVo("");
         plans.add(plan);
-        instance.setPlans(plans);
+        instance.setChildren(plans);
                 
         return instance;
+    }
+    
+    @Test
+    public void testGetChildren_ExpectProjectToBeParent() {
+        Collection<PlanVo> children = classUnderTest.getChildren();
+        ProjectVo parent = children.iterator().next().getParent().get();
+        assertThat(parent, is(classUnderTest));
     }
 
     /**
@@ -50,7 +59,7 @@ public class ProjectVoTest {
         ProjectVo instance = newInstance();
         ResultVo resultVo = new ResultVo();
         resultVo.setNumber(1);
-        instance.getPlans().get(0).setResult(resultVo);
+        instance.getChildren().iterator().next().setResult(resultVo);
         boolean result = classUnderTest.equals(instance);
         assertThat(result, is(true));
     }

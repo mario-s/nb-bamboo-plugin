@@ -82,7 +82,7 @@ public class BambooRestClient implements BambooServiceAccessable {
 
     @Override
     public Collection<ProjectVo> getProjects(final InstanceValues values) {
-        ProjectsFactory factory = new ProjectsFactory(values.getUrl());
+        ProjectsFactory factory = new ProjectsFactory(values);
         try {
 
             Collection<Plan> plans = getPlans(values);

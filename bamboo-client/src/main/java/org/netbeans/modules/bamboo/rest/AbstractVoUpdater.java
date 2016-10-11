@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import org.netbeans.modules.bamboo.model.AbstractVo;
 import org.netbeans.modules.bamboo.model.PlanVo;
@@ -50,11 +49,11 @@ abstract class AbstractVoUpdater<T extends AbstractVo> {
         protected void doUpdate(ProjectVo source, ProjectVo target) {
             
             target.setName(source.getName());
-            updatePlans(source.getPlans(), target.getPlans());
+            updatePlans(source.getChildren(), target.getChildren());
         }
 
 
-        private void updatePlans(List<PlanVo> source, List<PlanVo> target) {
+        private void updatePlans(Collection<PlanVo> source, Collection<PlanVo> target) {
             PlansUpdater updater = new PlansUpdater();
             updater.update(source, target);
         }

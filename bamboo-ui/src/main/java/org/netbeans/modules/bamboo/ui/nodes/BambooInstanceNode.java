@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.swing.Action;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.ChangeEvents;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.ui.actions.ActionConstants;
@@ -144,7 +144,7 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
         set.put(new IntReadPropertySupport(ChangeEvents.Projects.toString(), TXT_Instance_Prop_Projects(), DESC_Instance_Prop_Projects()) {
             @Override
             public Integer getValue() throws IllegalAccessException, InvocationTargetException {
-                final Collection<ProjectVo> projects = instance.getProjects();
+                final Collection<ProjectVo> projects = instance.getChildren();
                 return (projects != null) ? projects.size() : 0;
             }
         });

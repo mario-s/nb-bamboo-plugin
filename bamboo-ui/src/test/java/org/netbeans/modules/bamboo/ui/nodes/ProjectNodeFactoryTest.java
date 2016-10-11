@@ -18,8 +18,10 @@ import org.openide.nodes.Node;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.hamcrest.CoreMatchers.equalTo;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
 /**
@@ -49,7 +51,7 @@ public class ProjectNodeFactoryTest {
         projects.add(project);
         projects.add(other);
 
-        given(projectsProvideable.getProjects()).willReturn(projects);
+        given(projectsProvideable.getChildren()).willReturn(projects);
         given(projectsProvideable.getLookup()).willReturn(project.getLookup());
 
         classUnderTest = new ProjectNodeFactory(projectsProvideable);

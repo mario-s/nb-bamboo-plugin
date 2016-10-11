@@ -109,8 +109,6 @@ public class BambooRestClientTest {
     }
     
     private void trainMocks() {
-        
-        
         Plan fooPlan = new Plan();
         fooPlan.setKey(FOO);
         Plan barPlan = new Plan();
@@ -157,11 +155,23 @@ public class BambooRestClientTest {
      * Test of getProjects method, of class BambooRestClient.
      */
     @Test
-    public void testGetProjects_NotNull() {
+    public void testGetProjects_ExpectNotEmpty() {
         trainMocks();
 
         Collection<ProjectVo> buildProjects = classUnderTest.getProjects(instanceValues);
         assertThat(buildProjects.isEmpty(), is(false));
+    }
+    
+     /**
+     * Test of getProjects method, of class BambooRestClient.
+     */
+    @Test
+    public void testGetProjects_ExpectNoParent() {
+        trainMocks();
+
+        Collection<ProjectVo> buildProjects = classUnderTest.getProjects(instanceValues);
+        buildProjects.forEach(pr -> { assertThat(pr.getParent().isPresent(), is(false));});
+        
     }
     
     
@@ -173,7 +183,7 @@ public class BambooRestClientTest {
         trainMocks();
 
         Collection<ProjectVo> buildProjects = classUnderTest.getProjects(instanceValues);
-        List<PlanVo> plans = buildProjects.iterator().next().getPlans();
+        Collection<PlanVo> plans = buildProjects.iterator().next().getChildren();
         assertThat(plans.size(), is(2));
     }
     

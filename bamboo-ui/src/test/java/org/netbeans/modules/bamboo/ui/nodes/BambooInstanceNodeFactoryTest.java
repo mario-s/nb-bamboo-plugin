@@ -11,14 +11,13 @@ import static org.mockito.BDDMockito.given;
 
 import static org.mockito.Mockito.mock;
 
-
 import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 
 
 /**

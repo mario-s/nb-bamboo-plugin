@@ -95,14 +95,25 @@ public class DefaultBambooInstanceTest {
     }
 
     /**
-     * Test of setProjects method, of class DefaultBambooInstance.
+     * Test of setChildren method, of class DefaultBambooInstance.
      */
     @Test
     public void testSetProjects_ShouldCreateTask() {
         given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn("5");
         classUnderTest.applyProperties(properties);
-        classUnderTest.setProjects(projects);
+        classUnderTest.setChildren(projects);
         assertThat(classUnderTest.getSynchronizationTask().isPresent(), is(true));
+    }
+    
+    /**
+     * Test of setChildren method, of class DefaultBambooInstance.
+     */
+    @Test
+    public void testSetProjects_ExpectProjectsHaveParent() {
+        given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn("5");
+        classUnderTest.applyProperties(properties);
+        classUnderTest.setChildren(projects);
+        projects.forEach(pr -> {assertThat(pr.getParent().get(), is(classUnderTest));});
     }
 
     @Test

@@ -5,6 +5,7 @@ import org.netbeans.api.core.ide.ServicesTabNodeRegistration;
 
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.ui.actions.AddInstanceAction;
+
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.*;
 
 import org.openide.nodes.AbstractNode;
@@ -12,10 +13,11 @@ import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Children;
 
 import static org.openide.util.Lookup.getDefault;
+
 import org.openide.util.NbBundle.Messages;
 
 import javax.swing.Action;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 
 /**
  * Root node for the Bamboo Builder

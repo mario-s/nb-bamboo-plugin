@@ -10,7 +10,7 @@ import org.openide.util.lookup.ServiceProvider;
 
 import java.util.Collection;
 import java.util.Optional;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
 import static java.util.Optional.empty;
@@ -38,7 +38,7 @@ public class BambooInstanceFactory implements BambooInstanceProduceable {
             instance.setVersionInfo(info);
 
             Collection<ProjectVo> projects = instanceAccessor.getProjects(values);
-            instance.setProjects(projects);
+            instance.setChildren(projects);
             
             opt = of(instance);
         }

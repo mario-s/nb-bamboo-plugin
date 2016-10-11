@@ -6,11 +6,13 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.is;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.netbeans.modules.bamboo.model.PlanVo;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.netbeans.modules.bamboo.glue.InstanceValues;
 
 import static org.junit.Assert.*;
 
@@ -19,29 +21,27 @@ import org.netbeans.modules.bamboo.model.rest.Plan;
 import org.netbeans.modules.bamboo.model.rest.Plans;
 import org.netbeans.modules.bamboo.model.rest.Project;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.isA;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.BDDMockito.given;
 
 /**
  *
  * @author spindizzy
  */
+@RunWith(MockitoJUnitRunner.class)
 public class ProjectsFactoryTest {
 
     private static final String FOO = "foo";
+    
+    @Mock
+    private InstanceValues values;
 
     private ProjectsFactory classUnderTest;
 
     @Before
     public void setUp() {
-        classUnderTest = new ProjectsFactory(FOO);
+        given(values.getUrl()).willReturn(FOO);
+        classUnderTest = new ProjectsFactory(values);
     }
 
     /**

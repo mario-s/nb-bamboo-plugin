@@ -1,15 +1,14 @@
-package org.netbeans.modules.bamboo.glue;
+package org.netbeans.modules.bamboo.model;
 
-import org.netbeans.modules.bamboo.model.VersionInfo;
 import org.openide.util.Task;
 
 import java.beans.PropertyChangeListener;
 
 import java.io.Serializable;
-import java.util.Collection;
 
 import java.util.prefs.Preferences;
-import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.glue.TraverseDown;
 import org.openide.util.Lookup;
 
 /**
@@ -17,7 +16,8 @@ import org.openide.util.Lookup;
  *
  * @author spindizzy
  */
-public interface BambooInstance extends InstanceValues, Lookup.Provider, Serializable {
+public interface BambooInstance extends 
+        InstanceValues, Lookup.Provider, Serializable, TraverseDown<ProjectVo> {
 
     /**
      * Get the informations to the version of the associated bamboo server.
@@ -25,7 +25,7 @@ public interface BambooInstance extends InstanceValues, Lookup.Provider, Seriali
      * @return version as VersionInfo
      */
     VersionInfo getVersionInfo();
-
+    
     Preferences getPreferences();
 
     /**
@@ -39,14 +39,10 @@ public interface BambooInstance extends InstanceValues, Lookup.Provider, Seriali
      * @return the sychronize task
      */
     Task synchronize();
-
+    
     void addPropertyChangeListener(PropertyChangeListener listener);
-
+    
     void removePropertyChangeListener(PropertyChangeListener listener);
-
-    Collection<ProjectVo> getProjects();
-
-    void setProjects(Collection<ProjectVo> results);
 
     /**
      * This methos updates the synchronization interval and restart any scheduled synchronization tasks.
@@ -54,11 +50,12 @@ public interface BambooInstance extends InstanceValues, Lookup.Provider, Seriali
      * @param minutes time in minutes
      */
     void updateSyncInterval(int minutes);
-    
+
     /**
      * This method returns <code>true</code> when the CI server could be reached, if not it returns <code>false</code>.
+     *
      * @return <code>true</code> when server is present, otherwhise <code>false</code>
      */
     boolean isAvailable();
-
+    
 }

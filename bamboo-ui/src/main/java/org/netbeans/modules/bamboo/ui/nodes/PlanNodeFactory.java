@@ -37,7 +37,7 @@ class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {
     @Override
     void refreshNodes() {
         log.info(String.format("refreshing plans of %s", project.getName()));
-        plans = project.getPlans();
+        plans = project.getChildren();
         refresh(false);
     }
 

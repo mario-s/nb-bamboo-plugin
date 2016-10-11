@@ -30,7 +30,7 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 import lombok.extern.java.Log;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.glue.LookupContext;
 
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTERVAL;
@@ -183,7 +183,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     }
 
     @Override
-    public Collection<ProjectVo> getProjects() {
+    public Collection<ProjectVo> getChildren() {
         return (projects == null) ? emptyList() : projects;
     }
 
@@ -192,8 +192,9 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     }
 
     @Override
-    public void setProjects(final Collection<ProjectVo> projects) {
+    public void setChildren(final Collection<ProjectVo> projects) {
         this.projects = projects;
+        this.projects.parallelStream().forEach(pr -> pr.setParent(this));
         prepareSynchronization();
     }
 

@@ -31,7 +31,7 @@ public class ProjectNodeTest {
     @Before
     public void setUp() {
         project = new ProjectVo("");
-        project.setPlans(singletonList(new PlanVo("")));
+        project.setChildren(singletonList(new PlanVo("")));
         classUnderTest = new ProjectNode(project);
     }
 

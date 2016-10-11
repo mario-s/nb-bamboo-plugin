@@ -5,7 +5,7 @@ import java.beans.PropertyChangeListener;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
 import org.openide.util.Exceptions;

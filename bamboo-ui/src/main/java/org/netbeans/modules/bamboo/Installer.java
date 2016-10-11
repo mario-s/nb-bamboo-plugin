@@ -1,9 +1,10 @@
 package org.netbeans.modules.bamboo;
 
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
 import static org.openide.util.Lookup.getDefault;
+
 import org.openide.util.Task;
 import org.openide.util.TaskListener;
 

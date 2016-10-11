@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.mock;
 
 import java.util.Optional;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.glue.InstanceValues;
 import org.netbeans.modules.bamboo.glue.BambooInstanceProduceable;
 

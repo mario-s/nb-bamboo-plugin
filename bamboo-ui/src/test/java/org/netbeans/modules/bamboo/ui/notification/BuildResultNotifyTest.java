@@ -1,16 +1,21 @@
 package org.netbeans.modules.bamboo.ui.notification;
 
 import static java.util.Collections.singletonList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
+
 import org.mockito.Mock;
+
 import static org.mockito.Mockito.verify;
+
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.glue.BambooInstance;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
@@ -40,8 +45,8 @@ public class BuildResultNotifyTest {
         resultVo.setNumber(1);
         plan.setResult(resultVo);
         ProjectVo project = new ProjectVo("");
-        project.setPlans(singletonList(plan));
-        given(instance.getProjects()).willReturn(singletonList(project));
+        project.setChildren(singletonList(plan));
+        given(instance.getChildren()).willReturn(singletonList(project));
         classUnderTest = new BuildResultNotify(instance);
         classUnderTest.setDelegator(delegator);
     }

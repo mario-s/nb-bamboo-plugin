@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.glue;
 
+import org.netbeans.modules.bamboo.model.BambooInstance;
+
 /**
  * Interface to watch the build state.
  * @author spindizzy
