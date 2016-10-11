@@ -20,14 +20,12 @@ class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {
 
     private static final PlanComparator COMPARATOR = new PlanComparator();
     
-    private final BambooInstance instance;
-
     private final ProjectVo project;
 
     private Collection<PlanVo> plans;
 
     PlanNodeFactory(final BambooInstance instance, final ProjectVo project) {
-        this.instance = instance;
+        super(instance);
         this.project = project;
         init();
     }
@@ -45,7 +43,7 @@ class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {
 
     @Override
     protected Node createNodeForKey(final PlanVo key) {
-        return new PlanNode(instance, key);
+        return new PlanNode(getInstance(), key);
     }
 
     @Override
