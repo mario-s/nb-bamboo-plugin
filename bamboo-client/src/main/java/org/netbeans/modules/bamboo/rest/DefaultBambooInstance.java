@@ -18,7 +18,6 @@ import java.beans.PropertyChangeSupport;
 
 import java.util.Collection;
 
-import static java.util.Collections.emptyList;
 
 import java.util.Optional;
 
@@ -41,6 +40,9 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 
 import org.openide.util.Lookup;
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
+
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 
 /**
  * @author spindizzy
@@ -182,9 +184,13 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
         return properties.getPreferences();
     }
 
+     /**
+     * Returns all the projects for the bamboo instance. 
+     * @return a collection where no element can be added or removed.
+     */
     @Override
     public Collection<ProjectVo> getChildren() {
-        return (projects == null) ? emptyList() : projects;
+        return (projects == null) ? emptyList() : asList(projects.toArray(new ProjectVo[projects.size()]));
     }
 
     Optional<Task> getSynchronizationTask() {

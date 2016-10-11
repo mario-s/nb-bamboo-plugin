@@ -11,4 +11,5 @@ public interface TraverseDown<C> {
     Collection<C> getChildren();
     
     void setChildren(Collection<C> children);
+  
 }

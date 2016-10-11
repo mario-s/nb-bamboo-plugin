@@ -1,6 +1,7 @@
 package org.netbeans.modules.bamboo.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import lombok.Setter;
 import org.netbeans.modules.bamboo.glue.TraverseDown;
 import org.netbeans.modules.bamboo.glue.TraverseUp;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static lombok.AccessLevel.NONE;
 
@@ -34,6 +37,15 @@ public class ProjectVo extends AbstractOpenInBrowserVo implements TraverseDown<P
     public Optional<BambooInstance> getParent() {
         return ofNullable(parent);
     } 
+    
+    /**
+     * Returns all the plans for this project. 
+     * @return a collection where no element can be added or removed.
+     */
+    @Override
+    public Collection<PlanVo> getChildren() {
+        return (children == null) ? emptyList() : asList(children.toArray(new PlanVo[children.size()]));
+    }
     
     @Override
     public void setChildren(Collection<PlanVo> plans) {

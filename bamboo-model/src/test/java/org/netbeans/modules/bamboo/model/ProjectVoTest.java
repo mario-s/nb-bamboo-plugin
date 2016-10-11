@@ -64,4 +64,9 @@ public class ProjectVoTest {
         assertThat(result, is(true));
     }
 
+    @Test(expected = UnsupportedOperationException.class)
+    public void testAddPlanToChildren_ExpectException() {
+        PlanVo plan = new PlanVo("");
+        classUnderTest.getChildren().add(plan);
+    }
 }

@@ -17,6 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.openide.nodes.Node;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -31,7 +32,7 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 public class ProjectNodeFactoryTest {
 
     @Mock
-    private BambooInstance projectsProvideable;
+    private BambooInstance instance;
     
     private ProjectNodeFactory classUnderTest;
 
@@ -46,15 +47,15 @@ public class ProjectNodeFactoryTest {
 
         ProjectVo other = new ProjectVo("a");
         other.setName("a");
+        
+        //make sure that we have the same list in the mock like in the implementation
+        ProjectVo [] vos = new ProjectVo[] {project, other};
+        projects = Arrays.asList(vos);
 
-        projects = new ArrayList<>();
-        projects.add(project);
-        projects.add(other);
+        given(instance.getChildren()).willReturn(projects);
+        given(instance.getLookup()).willReturn(project.getLookup());
 
-        given(projectsProvideable.getChildren()).willReturn(projects);
-        given(projectsProvideable.getLookup()).willReturn(project.getLookup());
-
-        classUnderTest = new ProjectNodeFactory(projectsProvideable);
+        classUnderTest = new ProjectNodeFactory(instance);
     }
 
     /**
