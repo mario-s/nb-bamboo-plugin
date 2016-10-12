@@ -9,7 +9,7 @@ import static java.util.Collections.singletonList;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
+import org.netbeans.modules.bamboo.model.OpenableInBrowser;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;

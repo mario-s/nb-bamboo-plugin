@@ -4,7 +4,6 @@ import java.util.Optional;
 import lombok.Getter;
 import lombok.Setter;
 import org.netbeans.api.annotations.common.NonNull;
-import org.netbeans.modules.bamboo.glue.TraverseUp;
 
 import static java.util.Optional.ofNullable;
 import static lombok.AccessLevel.NONE;

@@ -29,7 +29,7 @@ import static org.mockito.Mockito.mock;
 
 import org.openide.util.RequestProcessor.Task;
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
-import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.mock.MockRestClient;
 
 import static org.mockito.Mockito.inOrder;

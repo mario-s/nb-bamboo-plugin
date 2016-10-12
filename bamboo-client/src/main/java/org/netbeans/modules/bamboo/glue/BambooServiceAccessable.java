@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.glue;
 
+import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
 import java.util.Collection;
 import org.netbeans.modules.bamboo.model.ProjectVo;
