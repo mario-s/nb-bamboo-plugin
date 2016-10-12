@@ -30,7 +30,7 @@ import static java.util.Optional.of;
 
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.glue.LookupContext;
+import org.netbeans.modules.bamboo.model.LookupContext;
 
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 

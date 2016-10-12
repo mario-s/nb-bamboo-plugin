@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.rest;
+package org.netbeans.modules.bamboo.glue;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,11 +20,11 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  * Interface for class which convert class from the rest model to class for model to be used for the view.
  * @author spindizzy
  */
-interface VoConverter<S, T> {
+public interface VoConverter<S, T> {
 
     T convert(S src);
 
-    static class ProjectVoConverter implements VoConverter<Project, ProjectVo> {
+    public static class ProjectVoConverter implements VoConverter<Project, ProjectVo> {
         private final String serverUrl;
 
         public ProjectVoConverter(String serverUrl) {
@@ -40,7 +40,7 @@ interface VoConverter<S, T> {
         }
     }
 
-    static class PlanVoConverter implements VoConverter<Plan, PlanVo> {
+    public static class PlanVoConverter implements VoConverter<Plan, PlanVo> {
         
         private final String serverUrl;
 
