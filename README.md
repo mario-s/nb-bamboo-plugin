@@ -5,5 +5,17 @@ nb-bamboo-plugin
 [![Apache 2.0](https://img.shields.io/github/license/nebula-plugins/nebula-project-plugin.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
 
-NetBeans Plugin for the Atlassian Bamboo CI server
+NetBeans Plugin for Atlassian's Bamboo CI server
+---
+
+The features of this plugin are similar to those of the Hudson Builders.
+
+Support for:
+
+* open in browser
+* synchronization
+* notification when a build failed and is back to successful
+* queue a build
+
+
 
