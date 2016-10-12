@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.rest;
 
 import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
@@ -14,10 +13,6 @@ import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 
 import org.openide.util.lookup.ServiceProvider;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.DateTimeParseException;
 
 import java.util.Collection;
 import java.util.HashMap;
