@@ -17,6 +17,7 @@ import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
 import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
+import org.netbeans.modules.bamboo.ui.actions.QueuePlanAction;
 
 import org.openide.actions.PropertiesAction;
 import org.openide.nodes.PropertySupport;
@@ -137,6 +138,7 @@ public class PlanNode extends AbstractInstanceChildNode {
         List<Action> actions = new ArrayList<>();
 
         actions.add(OpenUrlAction.newAction(plan));
+        actions.add(new QueuePlanAction(plan));
         actions.add(null);
         actions.add(SystemAction.get(PropertiesAction.class));
         return actions.toArray(new Action[actions.size()]);
