@@ -15,7 +15,7 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
  * @author spindizzy
  */
 @ServiceProvider(service = BambooServiceAccessable.class, position = 10)
-public class MockRestClient implements BambooServiceAccessable {
+public class MockBambooClient implements BambooServiceAccessable {
     private BambooServiceAccessable delegate;
 
     @Override

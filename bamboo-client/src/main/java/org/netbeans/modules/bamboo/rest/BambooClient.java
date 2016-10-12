@@ -37,7 +37,7 @@ import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
  */
 @Log
 @ServiceProvider(service = BambooServiceAccessable.class)
-public class BambooRestClient implements BambooServiceAccessable {
+public class BambooClient implements BambooServiceAccessable {
 
     static final String EXPAND = "expand";
     static final String PROJECT_PLANS = "projects.project.plans.plan";
@@ -56,13 +56,13 @@ public class BambooRestClient implements BambooServiceAccessable {
 
     private HttpUtility httpUtility;
 
-    public BambooRestClient(InstanceValues values) {
+    public BambooClient(InstanceValues values) {
         this.values = values;
         httpUtility = new HttpUtility();
     }
 
     @Deprecated
-    public BambooRestClient() {
+    public BambooClient() {
         this(null);
     }
 

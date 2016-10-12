@@ -50,11 +50,14 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 
 import org.netbeans.modules.bamboo.model.PlanVo;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+
 /**
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class BambooRestClientTest {
+public class BambooClientTest {
 
     private static final String FOO = "foo";
     private static final String BAR = "bar";
@@ -74,7 +77,7 @@ public class BambooRestClientTest {
     @Mock
     private ApiCaller<Info> infoCaller;
 
-    private BambooRestClient classUnderTest;
+    private BambooClient classUnderTest;
 
     @Before
     public void setUp() {
@@ -85,7 +88,7 @@ public class BambooRestClientTest {
         given(webTarget.request()).willReturn(invocationBuilder);
 
         classUnderTest
-                = new BambooRestClient() {
+                = new BambooClient() {
             @Override
             RepeatApiCaller<ProjectsResponse> createProjectCaller(InstanceValues values, Map<String, String> params) {
                 return projectsCaller;
@@ -152,7 +155,7 @@ public class BambooRestClientTest {
     }
 
     /**
-     * Test of getProjects method, of class BambooRestClient.
+     * Test of getProjects method, of class BambooClient.
      */
     @Test
     public void testGetProjects_ExpectNotEmpty() {
@@ -163,7 +166,7 @@ public class BambooRestClientTest {
     }
     
      /**
-     * Test of getProjects method, of class BambooRestClient.
+     * Test of getProjects method, of class BambooClient.
      */
     @Test
     public void testGetProjects_ExpectNoParent() {
@@ -176,7 +179,7 @@ public class BambooRestClientTest {
     
     
     /**
-     * Test of getProjects method, of class BambooRestClient.
+     * Test of getProjects method, of class BambooClient.
      */
     @Test
     public void testGetProjects_TwoPlans() {
@@ -188,7 +191,7 @@ public class BambooRestClientTest {
     }
     
      /**
-     * Test of getProjects method, of class BambooRestClient.
+     * Test of getProjects method, of class BambooClient.
      */
     @Test
     public void testGetProjects_Equal() {

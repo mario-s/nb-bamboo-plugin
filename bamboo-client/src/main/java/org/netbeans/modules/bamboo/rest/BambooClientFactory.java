@@ -14,6 +14,6 @@ public class BambooClientFactory implements BambooClientProduceable{
 
     @Override
     public BambooServiceAccessable newClient(InstanceValues values) {
-        return new BambooRestClient(values);
+        return new BambooClient(values);
     }
 }

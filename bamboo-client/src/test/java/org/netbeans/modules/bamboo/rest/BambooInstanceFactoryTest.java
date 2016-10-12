@@ -10,7 +10,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
-import org.netbeans.modules.bamboo.mock.MockRestClient;
+import org.netbeans.modules.bamboo.mock.MockBambooClient;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
 import static java.util.Collections.singletonList;
@@ -18,6 +18,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.openide.util.Lookup.getDefault;
+import static org.hamcrest.CoreMatchers.is;
 
 /**
  *
@@ -34,7 +35,7 @@ public class BambooInstanceFactoryTest {
     
     @Before
     public void setUp() {
-        MockRestClient client = (MockRestClient) getDefault().lookup(BambooServiceAccessable.class);
+        MockBambooClient client = (MockBambooClient) getDefault().lookup(BambooServiceAccessable.class);
         client.setDelegate(delegate);
         classUnderTest = new BambooInstanceFactory();
     }

@@ -30,10 +30,13 @@ import static org.mockito.Mockito.mock;
 import org.openide.util.RequestProcessor.Task;
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
 import org.netbeans.modules.bamboo.model.InstanceValues;
-import org.netbeans.modules.bamboo.mock.MockRestClient;
+import org.netbeans.modules.bamboo.mock.MockBambooClient;
 
 import static org.mockito.Mockito.inOrder;
 import static org.openide.util.Lookup.getDefault;
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 
 /**
  *
@@ -61,7 +64,7 @@ public class DefaultBambooInstanceTest {
 
     @Before
     public void setUp() {
-        MockRestClient client = (MockRestClient)getDefault().lookup(BambooServiceAccessable.class);
+        MockBambooClient client = (MockBambooClient)getDefault().lookup(BambooServiceAccessable.class);
         client.setDelegate(serviceAccessable);
         classUnderTest.setSyncInterval(5);
         classUnderTest.addPropertyChangeListener(listener);
