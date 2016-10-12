@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.rest;
 
 import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 
-
 import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
 import org.netbeans.modules.bamboo.model.rest.Info;
@@ -12,7 +11,6 @@ import org.netbeans.modules.bamboo.model.rest.Result;
 import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 
 import org.openide.util.lookup.ServiceProvider;
-
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -54,16 +52,44 @@ public class BambooRestClient implements BambooServiceAccessable {
 
     private static final String PLAN = PLANS + "/{buildKey}.json";
 
+    private final InstanceValues values;
+
     private HttpUtility httpUtility;
 
-    public BambooRestClient() {
+    public BambooRestClient(InstanceValues values) {
+        this.values = values;
         httpUtility = new HttpUtility();
+    }
+
+    @Deprecated
+    public BambooRestClient() {
+        this(null);
     }
 
     @Override
     public boolean existsService(InstanceValues values) {
-       String url = values.getUrl();
-       return httpUtility.exists(url);
+        String url = values.getUrl();
+        return httpUtility.exists(url);
+    }
+
+    @Override
+    public boolean existsService() {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+
+    @Override
+    public void updateProjects(Collection<ProjectVo> projects) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Collection<ProjectVo> getProjects() {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+
+    @Override
+    public VersionInfo getVersionInfo() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -82,7 +108,7 @@ public class BambooRestClient implements BambooServiceAccessable {
 
             Collection<Plan> plans = getPlans(values);
             Collection<Project> projects = doProjectsCall(values, plans.size());
-            
+
             factory.setPlans(plans);
             factory.setProjects(projects);
 
@@ -91,7 +117,6 @@ public class BambooRestClient implements BambooServiceAccessable {
         }
         return factory.create();
     }
-
 
     /**
      * Load the available plans and their results.
@@ -203,4 +228,5 @@ public class BambooRestClient implements BambooServiceAccessable {
     ApiCaller<Info> createInfoCaller(final InstanceValues values) {
         return new ApiCaller<>(values, Info.class, INFO);
     }
+
 }
