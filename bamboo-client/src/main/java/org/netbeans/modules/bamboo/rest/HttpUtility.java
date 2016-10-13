@@ -6,12 +6,16 @@ import java.net.URL;
 import java.net.URLConnection;
 import lombok.extern.java.Log;
 
+import static java.lang.String.format;
+
 /**
  * This utility provides HTTP related functionality. 
  * @author spindizzy
  */
 @Log
 public class HttpUtility {
+    
+    private static final String WRONG_URL = "url is wrong: %s";
 
     /**
      * Checks if the server behind the url answers with a valid http response.
@@ -30,7 +34,7 @@ public class HttpUtility {
                 exists = isValid(status);
             }
         } catch (IOException ex) {
-            log.info(ex.getMessage());
+            log.info(format(WRONG_URL, ex.getMessage()));
         }
         return exists;
     }

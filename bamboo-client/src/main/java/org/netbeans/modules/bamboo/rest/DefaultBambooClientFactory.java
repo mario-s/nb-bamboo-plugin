@@ -10,6 +10,8 @@ import static java.util.Optional.of;
 
 import org.netbeans.modules.bamboo.glue.BambooClient;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 /**
  *
  * @author spindizzy
@@ -31,7 +33,7 @@ public class DefaultBambooClientFactory implements BambooClientProduceable {
     public Optional<BambooClient> newClient(InstanceValues values) {
         Optional<BambooClient> opt = empty();
         String url = values.getUrl();
-        if (httpUtility.exists(url)) {
+        if (isNotBlank(url) && httpUtility.exists(url)) {
             opt = of(new DefaultBambooClient(values));
         }
         return opt;
