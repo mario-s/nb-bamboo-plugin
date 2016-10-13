@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.mock;
 
-import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
 import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 
@@ -17,14 +16,6 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 @ServiceProvider(service = BambooServiceAccessable.class, position = 10)
 public class MockBambooClient implements BambooServiceAccessable {
     private BambooServiceAccessable delegate;
-
-    @Override
-    public boolean existsService() {
-        if(delegate != null){
-            return delegate.existsService();
-        }
-        return true;
-    }
 
     @Override
     public Collection<ProjectVo> getProjects() {

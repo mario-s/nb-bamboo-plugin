@@ -10,18 +10,6 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
  * @author spindizzy
  */
 public interface BambooServiceAccessable {
-
-  
-    /**
-     * This method returns <code>true</code> when the url can be reached, if not it returns <code>false</code>.
-     *
-     * @return <code>true</code> when server is present, otherwhise <code>false</code>
-     *
-     *
-     */
-    @Deprecated
-    boolean existsService();
-
   
     /**
      * Return a collection of available {@link BuildProject}.

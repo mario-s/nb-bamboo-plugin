@@ -52,22 +52,8 @@ public class BambooClient implements BambooServiceAccessable {
 
     private final InstanceValues values;
 
-    private HttpUtility httpUtility;
-
     public BambooClient(InstanceValues values) {
         this.values = values;
-        httpUtility = new HttpUtility();
-    }
-
-    @Deprecated
-    public BambooClient() {
-        this(null);
-    }
-
-    @Override
-    public boolean existsService() {
-        String url = values.getUrl();
-        return httpUtility.exists(url);
     }
 
     @Override
