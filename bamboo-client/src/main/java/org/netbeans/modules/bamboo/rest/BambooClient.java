@@ -10,7 +10,6 @@ import org.netbeans.modules.bamboo.model.rest.PlansResponse;
 import org.netbeans.modules.bamboo.model.rest.Result;
 import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 
-import org.openide.util.lookup.ServiceProvider;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -36,7 +35,6 @@ import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
  * @author spindizzy
  */
 @Log
-@ServiceProvider(service = BambooServiceAccessable.class)
 public class BambooClient implements BambooServiceAccessable {
 
     static final String EXPAND = "expand";
@@ -67,34 +65,14 @@ public class BambooClient implements BambooServiceAccessable {
     }
 
     @Override
-    public boolean existsService(InstanceValues values) {
+    public boolean existsService() {
         String url = values.getUrl();
         return httpUtility.exists(url);
     }
 
     @Override
-    public boolean existsService() {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-
-    @Override
     public void updateProjects(Collection<ProjectVo> projects) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Collection<ProjectVo> getProjects() {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-
-    @Override
-    public VersionInfo getVersionInfo() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void updateProjects(Collection<ProjectVo> projects, InstanceValues values) {
-        Collection<ProjectVo> source = getProjects(values);
+        Collection<ProjectVo> source = getProjects();
         if (!source.isEmpty()) {
             ProjectsUpdater updater = new ProjectsUpdater();
             updater.update(source, projects);
@@ -102,7 +80,7 @@ public class BambooClient implements BambooServiceAccessable {
     }
 
     @Override
-    public Collection<ProjectVo> getProjects(final InstanceValues values) {
+    public Collection<ProjectVo> getProjects() {
         ProjectsFactory factory = new ProjectsFactory(values);
         try {
 
@@ -138,7 +116,7 @@ public class BambooClient implements BambooServiceAccessable {
     }
 
     @Override
-    public VersionInfo getVersionInfo(final InstanceValues values) {
+    public VersionInfo getVersionInfo() {
         VersionInfo versionInfo = new VersionInfo();
         ApiCaller<Info> infoCaller = createInfoCaller(values);
         Optional<WebTarget> opt = infoCaller.createTarget();

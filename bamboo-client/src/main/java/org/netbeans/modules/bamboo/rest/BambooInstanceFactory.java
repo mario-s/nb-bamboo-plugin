@@ -10,6 +10,7 @@ import org.openide.util.lookup.ServiceProvider;
 
 import java.util.Collection;
 import java.util.Optional;
+import org.netbeans.modules.bamboo.glue.BambooClientProduceable;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
@@ -21,28 +22,29 @@ import static java.util.Optional.of;
 @ServiceProvider(service = BambooInstanceProduceable.class)
 public class BambooInstanceFactory implements BambooInstanceProduceable {
 
-    private final BambooServiceAccessable instanceAccessor;
+    private final BambooClientProduceable clientProducer;
 
     public BambooInstanceFactory() {
-        this.instanceAccessor = Lookup.getDefault().lookup(BambooServiceAccessable.class);
+        this.clientProducer = Lookup.getDefault().lookup(BambooClientProduceable.class);
     }
-
 
     @Override
     public Optional<BambooInstance> create(final InstanceValues values) {
-        Optional<BambooInstance> opt = empty();
-        if (instanceAccessor.existsService(values)) {
+        Optional<BambooInstance> optInstance = empty();
+        Optional<BambooServiceAccessable> optClient = clientProducer.newClient(values);
+        if(optClient.isPresent()){
+            BambooServiceAccessable client = optClient.get();
             DefaultBambooInstance instance = new DefaultBambooInstance(values);
 
-            VersionInfo info = instanceAccessor.getVersionInfo(values);
+            VersionInfo info = client.getVersionInfo();
             instance.setVersionInfo(info);
 
-            Collection<ProjectVo> projects = instanceAccessor.getProjects(values);
+            Collection<ProjectVo> projects = client.getProjects();
             instance.setChildren(projects);
             
-            opt = of(instance);
+            optInstance = of(instance);
         }
 
-        return opt;
+        return optInstance;
     }
 }

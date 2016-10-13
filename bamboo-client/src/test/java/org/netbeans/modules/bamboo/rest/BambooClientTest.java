@@ -45,8 +45,6 @@ import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.Projects;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 
 import org.netbeans.modules.bamboo.model.PlanVo;
 
@@ -88,7 +86,7 @@ public class BambooClientTest {
         given(webTarget.request()).willReturn(invocationBuilder);
 
         classUnderTest
-                = new BambooClient() {
+                = new BambooClient(instanceValues) {
             @Override
             RepeatApiCaller<ProjectsResponse> createProjectCaller(InstanceValues values, Map<String, String> params) {
                 return projectsCaller;
@@ -161,7 +159,7 @@ public class BambooClientTest {
     public void testGetProjects_ExpectNotEmpty() {
         trainMocks();
 
-        Collection<ProjectVo> buildProjects = classUnderTest.getProjects(instanceValues);
+        Collection<ProjectVo> buildProjects = classUnderTest.getProjects();
         assertThat(buildProjects.isEmpty(), is(false));
     }
     
@@ -172,7 +170,7 @@ public class BambooClientTest {
     public void testGetProjects_ExpectNoParent() {
         trainMocks();
 
-        Collection<ProjectVo> buildProjects = classUnderTest.getProjects(instanceValues);
+        Collection<ProjectVo> buildProjects = classUnderTest.getProjects();
         buildProjects.forEach(pr -> { assertThat(pr.getParent().isPresent(), is(false));});
         
     }
@@ -185,7 +183,7 @@ public class BambooClientTest {
     public void testGetProjects_TwoPlans() {
         trainMocks();
 
-        Collection<ProjectVo> buildProjects = classUnderTest.getProjects(instanceValues);
+        Collection<ProjectVo> buildProjects = classUnderTest.getProjects();
         Collection<PlanVo> plans = buildProjects.iterator().next().getChildren();
         assertThat(plans.size(), is(2));
     }
@@ -197,8 +195,8 @@ public class BambooClientTest {
     public void testGetProjects_Equal() {
         trainMocks();
 
-        Collection<ProjectVo> first = classUnderTest.getProjects(instanceValues);
-        Collection<ProjectVo> second = classUnderTest.getProjects(instanceValues);
+        Collection<ProjectVo> first = classUnderTest.getProjects();
+        Collection<ProjectVo> second = classUnderTest.getProjects();
         
         assertThat(first, equalTo(second));
     }
@@ -211,7 +209,7 @@ public class BambooClientTest {
         given(infoCaller.createTarget()).willReturn(of(webTarget));
         given(infoCaller.request(webTarget)).willReturn(info);
 
-        VersionInfo result = classUnderTest.getVersionInfo(instanceValues);
+        VersionInfo result = classUnderTest.getVersionInfo();
         assertThat(result.getBuildDate(), notNullValue());
     }
     
@@ -219,7 +217,7 @@ public class BambooClientTest {
     public void testUpdate() {
         trainMocks();
         List<ProjectVo> toBeUpdated = new ArrayList<>();
-        classUnderTest.updateProjects(toBeUpdated, instanceValues);
+        classUnderTest.updateProjects(toBeUpdated);
         assertThat(toBeUpdated.isEmpty(), is(false));
     }
 }

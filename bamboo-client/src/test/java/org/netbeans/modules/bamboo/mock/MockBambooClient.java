@@ -19,30 +19,11 @@ public class MockBambooClient implements BambooServiceAccessable {
     private BambooServiceAccessable delegate;
 
     @Override
-    public boolean existsService(InstanceValues values) {
-        if(delegate != null){
-            return delegate.existsService(values);
-        }
-        return true;
-    }
-
-    @Override
     public boolean existsService() {
         if(delegate != null){
             return delegate.existsService();
         }
         return true;
-    }
-    
-    @Override
-    public Collection<ProjectVo> getProjects(final InstanceValues values) {
-        if(delegate != null){
-            return delegate.getProjects(values);
-        }
-        List<ProjectVo> projects = new ArrayList<>();
-        projects.add(new ProjectVo(""));
-
-        return projects;
     }
 
     @Override
@@ -57,26 +38,11 @@ public class MockBambooClient implements BambooServiceAccessable {
     }
 
     @Override
-    public VersionInfo getVersionInfo(final InstanceValues values) {
-        if(delegate != null){
-            return delegate.getVersionInfo(values);
-        }
-        return new VersionInfo();
-    }
-
-    @Override
     public VersionInfo getVersionInfo() {
        if(delegate != null){
             return delegate.getVersionInfo();
         }
         return new VersionInfo();
-    }
-
-    @Override
-    public void updateProjects(Collection<ProjectVo> projects, InstanceValues values) {
-        if(delegate != null){
-            delegate.updateProjects(projects, values);
-        }
     }
 
     @Override

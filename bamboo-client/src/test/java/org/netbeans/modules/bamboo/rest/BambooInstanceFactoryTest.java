@@ -7,18 +7,22 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.netbeans.modules.bamboo.glue.BambooClientProduceable;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
 import org.netbeans.modules.bamboo.mock.MockBambooClient;
+import org.netbeans.modules.bamboo.mock.MockBambooClientFactory;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
 import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.is;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.openide.util.Lookup.getDefault;
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Matchers.any;
 
 /**
  *
@@ -27,16 +31,22 @@ import static org.hamcrest.CoreMatchers.is;
 @RunWith(MockitoJUnitRunner.class)
 public class BambooInstanceFactoryTest {
     @Mock
-    private BambooServiceAccessable delegate;
+    private BambooClientProduceable delegate;
     @Mock
     private InstanceValues values;
+    @Mock
+    private BambooServiceAccessable client;
+    
     
     private BambooInstanceFactory classUnderTest;
     
     @Before
     public void setUp() {
-        MockBambooClient client = (MockBambooClient) getDefault().lookup(BambooServiceAccessable.class);
-        client.setDelegate(delegate);
+        MockBambooClientFactory factory = (MockBambooClientFactory) getDefault().lookup(BambooClientProduceable.class);
+        factory.setDelegate(delegate);
+        
+        given(delegate.newClient(any(InstanceValues.class))).willReturn(of(client));
+        
         classUnderTest = new BambooInstanceFactory();
     }
     
@@ -47,8 +57,8 @@ public class BambooInstanceFactoryTest {
     public void testCreate_ValidValues_ExpectInstanceWithVersionInfo() {
         VersionInfo versionInfo = new VersionInfo();
         versionInfo.setBuildNumber(1);
-        given(delegate.getVersionInfo(values)).willReturn(versionInfo);
-        given(delegate.existsService(values)).willReturn(true);
+        given(client.getVersionInfo()).willReturn(versionInfo);
+        
         Optional<BambooInstance> result = classUnderTest.create(values);
         assertThat(result.get().getVersionInfo().getBuildNumber(), is(1));
     }
@@ -58,8 +68,8 @@ public class BambooInstanceFactoryTest {
      */
     @Test
     public void testCreate_ValidValues_ExpectInstanceWithProject() {
-        given(delegate.getProjects(values)).willReturn(singletonList(new ProjectVo("")));
-        given(delegate.existsService(values)).willReturn(true);
+        given(client.getProjects()).willReturn(singletonList(new ProjectVo("")));
+        
         Optional<BambooInstance> result = classUnderTest.create(values);
         assertThat(result.get().getChildren().isEmpty(), is(false));
     }
@@ -69,7 +79,7 @@ public class BambooInstanceFactoryTest {
      */
     @Test
     public void testCreate_InvalidUrl_ExpectEmpty() {
-        given(delegate.existsService(values)).willReturn(false);
+        given(delegate.newClient(any(InstanceValues.class))).willReturn(empty());
         Optional<BambooInstance> result = classUnderTest.create(values);
         assertThat(result.isPresent(), is(false));
     }

@@ -161,17 +161,17 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     private void synchronizeProjects() {
         Collection<ProjectVo> oldProjects = this.projects;
         if (oldProjects == null || oldProjects.isEmpty()) {
-            Collection<ProjectVo> newProjects = client.getProjects(this);
+            Collection<ProjectVo> newProjects = client.getProjects();
             this.projects = newProjects;
             fireProjectsChanged(oldProjects, newProjects);
         } else {
-            client.updateProjects(this.projects, this);
+            client.updateProjects(this.projects);
             fireProjectsChanged(oldProjects, this.projects);
         }
     }
 
     private void synchronizeVersion() {
-        version = client.getVersionInfo(this);
+        version = client.getVersionInfo();
     }
 
     private void fireProjectsChanged(Collection<ProjectVo> oldProjects, Collection<ProjectVo> newProjects) {
@@ -231,7 +231,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     }
 
     private boolean checkAvailability() {
-        available = client.existsService(this);
+        available = client.existsService();
         return available;
     }
 

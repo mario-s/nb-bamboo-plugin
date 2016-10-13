@@ -121,13 +121,13 @@ public class DefaultBambooInstanceTest {
 
     @Test
     public void testSynchronize_ListenerShouldBeCalled() throws InterruptedException {
-        given(serviceAccessable.existsService(any(InstanceValues.class))).willReturn(true);
+        given(serviceAccessable.existsService()).willReturn(true);
         classUnderTest.synchronize();
         synchronized (listener) {
             listener.wait(1000);
         }
         InOrder order = inOrder(serviceAccessable, listener);
-        order.verify(serviceAccessable).getVersionInfo(any(InstanceValues.class));
+        order.verify(serviceAccessable).getVersionInfo();
         order.verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
     
