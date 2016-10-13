@@ -19,6 +19,9 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 /**
  * Interface for class which convert class from the rest model to class for model to be used for the view.
  *
+ * @param <S> the target to convert into
+ * @param <T> the source to convert from
+ *
  * @author spindizzy
  */
 public interface VoConverter<S, T> {
