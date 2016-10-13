@@ -9,7 +9,7 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
  *
  * @author spindizzy
  */
-public interface BambooServiceAccessable {
+public interface BambooClient {
   
     /**
      * Return a collection of available {@link BuildProject}.

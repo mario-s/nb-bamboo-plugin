@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
 import java.util.Optional;
-import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +23,8 @@ import static org.openide.util.Lookup.getDefault;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Matchers.any;
 
+import org.netbeans.modules.bamboo.glue.BambooClient;
+
 /**
  *
  * @author spindizzy
@@ -35,10 +36,10 @@ public class BambooInstanceFactoryTest {
     @Mock
     private InstanceValues values;
     @Mock
-    private BambooServiceAccessable client;
+    private BambooClient client;
     
     
-    private BambooInstanceFactory classUnderTest;
+    private DefaultBambooInstanceFactory classUnderTest;
     
     @Before
     public void setUp() {
@@ -47,11 +48,11 @@ public class BambooInstanceFactoryTest {
         
         given(delegate.newClient(any(InstanceValues.class))).willReturn(of(client));
         
-        classUnderTest = new BambooInstanceFactory();
+        classUnderTest = new DefaultBambooInstanceFactory();
     }
     
      /**
-     * Test of create method, of class BambooInstanceFactory.
+     * Test of create method, of class DefaultBambooInstanceFactory.
      */
     @Test
     public void testCreate_ValidValues_ExpectInstanceWithVersionInfo() {
@@ -64,7 +65,7 @@ public class BambooInstanceFactoryTest {
     }
 
     /**
-     * Test of create method, of class BambooInstanceFactory.
+     * Test of create method, of class DefaultBambooInstanceFactory.
      */
     @Test
     public void testCreate_ValidValues_ExpectInstanceWithProject() {
@@ -75,7 +76,7 @@ public class BambooInstanceFactoryTest {
     }
     
      /**
-     * Test of create method, of class BambooInstanceFactory.
+     * Test of create method, of class DefaultBambooInstanceFactory.
      */
     @Test
     public void testCreate_InvalidUrl_ExpectEmpty() {

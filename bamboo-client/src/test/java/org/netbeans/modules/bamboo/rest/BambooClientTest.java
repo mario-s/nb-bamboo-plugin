@@ -75,7 +75,7 @@ public class BambooClientTest {
     @Mock
     private ApiCaller<Info> infoCaller;
 
-    private BambooClient classUnderTest;
+    private DefaultBambooClient classUnderTest;
 
     @Before
     public void setUp() {
@@ -86,7 +86,7 @@ public class BambooClientTest {
         given(webTarget.request()).willReturn(invocationBuilder);
 
         classUnderTest
-                = new BambooClient(instanceValues) {
+                = new DefaultBambooClient(instanceValues) {
             @Override
             RepeatApiCaller<ProjectsResponse> createProjectCaller(InstanceValues values, Map<String, String> params) {
                 return projectsCaller;
@@ -153,7 +153,7 @@ public class BambooClientTest {
     }
 
     /**
-     * Test of getProjects method, of class BambooClient.
+     * Test of getProjects method, of class DefaultBambooClient.
      */
     @Test
     public void testGetProjects_ExpectNotEmpty() {
@@ -164,7 +164,7 @@ public class BambooClientTest {
     }
     
      /**
-     * Test of getProjects method, of class BambooClient.
+     * Test of getProjects method, of class DefaultBambooClient.
      */
     @Test
     public void testGetProjects_ExpectNoParent() {
@@ -177,7 +177,7 @@ public class BambooClientTest {
     
     
     /**
-     * Test of getProjects method, of class BambooClient.
+     * Test of getProjects method, of class DefaultBambooClient.
      */
     @Test
     public void testGetProjects_TwoPlans() {
@@ -189,7 +189,7 @@ public class BambooClientTest {
     }
     
      /**
-     * Test of getProjects method, of class BambooClient.
+     * Test of getProjects method, of class DefaultBambooClient.
      */
     @Test
     public void testGetProjects_Equal() {

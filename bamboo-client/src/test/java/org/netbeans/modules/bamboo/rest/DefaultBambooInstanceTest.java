@@ -19,7 +19,6 @@ import static java.util.Collections.emptyList;
 
 import java.util.Optional;
 import org.mockito.InOrder;
-import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
@@ -34,6 +33,8 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
+import org.netbeans.modules.bamboo.glue.BambooClient;
+
 /**
  *
  * @author spindizzy
@@ -46,7 +47,7 @@ public class DefaultBambooInstanceTest {
     @Mock
     private Preferences preferences;
     @Mock
-    private BambooServiceAccessable client;
+    private BambooClient client;
     
     private final PropertyChangeListener listener;
     

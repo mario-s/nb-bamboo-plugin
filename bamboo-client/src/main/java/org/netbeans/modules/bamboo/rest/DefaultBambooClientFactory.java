@@ -2,36 +2,37 @@ package org.netbeans.modules.bamboo.rest;
 
 import java.util.Optional;
 import org.netbeans.modules.bamboo.glue.BambooClientProduceable;
-import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.openide.util.lookup.ServiceProvider;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
+import org.netbeans.modules.bamboo.glue.BambooClient;
+
 /**
  *
  * @author spindizzy
  */
 @ServiceProvider(service = BambooClientProduceable.class)
-public class BambooClientFactory implements BambooClientProduceable {
+public class DefaultBambooClientFactory implements BambooClientProduceable {
 
     private final HttpUtility httpUtility;
 
-    public BambooClientFactory() {
+    public DefaultBambooClientFactory() {
         this(new HttpUtility());
     }
 
-    BambooClientFactory(HttpUtility httpUtility) {
+    DefaultBambooClientFactory(HttpUtility httpUtility) {
         this.httpUtility = httpUtility;
     }
 
     @Override
-    public Optional<BambooServiceAccessable> newClient(InstanceValues values) {
-        Optional<BambooServiceAccessable> opt = empty();
+    public Optional<BambooClient> newClient(InstanceValues values) {
+        Optional<BambooClient> opt = empty();
         String url = values.getUrl();
         if (httpUtility.exists(url)) {
-            opt = of(new BambooClient(values));
+            opt = of(new DefaultBambooClient(values));
         }
         return opt;
     }

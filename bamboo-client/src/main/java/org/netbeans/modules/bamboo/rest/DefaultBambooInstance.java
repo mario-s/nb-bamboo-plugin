@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -44,6 +43,10 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 
+import org.netbeans.modules.bamboo.glue.BambooClient;
+
+import static java.lang.String.format;
+
 /**
  * @author spindizzy
  */
@@ -63,7 +66,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
 
     private final LookupContext lookupContext;
     
-    private transient Optional<BambooServiceAccessable> optClient = empty();
+    private transient Optional<BambooClient> optClient = empty();
 
     private transient Optional<Task> synchronizationTask = empty();
 

@@ -13,7 +13,7 @@ public interface BambooClientProduceable {
      * This method supplies a new client when the server for the given arguments can bea accessed.
      * If the server is not avialable the result is empty.
      * @param values the necessary values to access the server.
-     * @return an {@link Optional} of {@link BambooServiceAccessable}.
+     * @return an {@link Optional} of {@link BambooClient}.
      */
-    Optional<BambooServiceAccessable> newClient(InstanceValues values);
+    Optional<BambooClient> newClient(InstanceValues values);
 }

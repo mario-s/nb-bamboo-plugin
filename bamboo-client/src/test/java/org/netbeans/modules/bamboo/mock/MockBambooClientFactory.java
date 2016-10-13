@@ -4,10 +4,11 @@ import java.util.Optional;
 import org.openide.util.lookup.ServiceProvider;
 
 import org.netbeans.modules.bamboo.glue.BambooClientProduceable;
-import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 
 import static java.util.Optional.empty;
+
+import org.netbeans.modules.bamboo.glue.BambooClient;
 
 /**
  * @author spindizzy
@@ -17,7 +18,7 @@ public class MockBambooClientFactory implements BambooClientProduceable {
     private BambooClientProduceable delegate;
 
     @Override
-    public Optional<BambooServiceAccessable> newClient(InstanceValues values) {
+    public Optional<BambooClient> newClient(InstanceValues values) {
        if(delegate != null){
            return delegate.newClient(values);
        }

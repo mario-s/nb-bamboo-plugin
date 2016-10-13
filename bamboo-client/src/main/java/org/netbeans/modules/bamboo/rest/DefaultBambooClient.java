@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 
 import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
@@ -30,12 +29,13 @@ import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 import org.netbeans.modules.bamboo.glue.VoConverter.VersionInfoConverter;
 import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
+import org.netbeans.modules.bamboo.glue.BambooClient;
 
 /**
  * @author spindizzy
  */
 @Log
-public class BambooClient implements BambooServiceAccessable {
+public class DefaultBambooClient implements BambooClient {
 
     static final String EXPAND = "expand";
     static final String PROJECT_PLANS = "projects.project.plans.plan";
@@ -52,7 +52,7 @@ public class BambooClient implements BambooServiceAccessable {
 
     private final InstanceValues values;
 
-    public BambooClient(InstanceValues values) {
+    public DefaultBambooClient(InstanceValues values) {
         this.values = values;
     }
 

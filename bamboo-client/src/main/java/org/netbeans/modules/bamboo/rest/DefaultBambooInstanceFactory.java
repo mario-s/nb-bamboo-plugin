@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 import org.netbeans.modules.bamboo.glue.BambooInstanceProduceable;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
@@ -17,23 +16,25 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
+import org.netbeans.modules.bamboo.glue.BambooClient;
+
 /**
  */
 @ServiceProvider(service = BambooInstanceProduceable.class)
-public class BambooInstanceFactory implements BambooInstanceProduceable {
+public class DefaultBambooInstanceFactory implements BambooInstanceProduceable {
 
     private final BambooClientProduceable clientProducer;
 
-    public BambooInstanceFactory() {
+    public DefaultBambooInstanceFactory() {
         this.clientProducer = Lookup.getDefault().lookup(BambooClientProduceable.class);
     }
 
     @Override
     public Optional<BambooInstance> create(final InstanceValues values) {
         Optional<BambooInstance> optInstance = empty();
-        Optional<BambooServiceAccessable> optClient = clientProducer.newClient(values);
+        Optional<BambooClient> optClient = clientProducer.newClient(values);
         if(optClient.isPresent()){
-            BambooServiceAccessable client = optClient.get();
+            BambooClient client = optClient.get();
             DefaultBambooInstance instance = new DefaultBambooInstance(values);
 
             VersionInfo info = client.getVersionInfo();
