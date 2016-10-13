@@ -1,8 +1,10 @@
 package org.netbeans.modules.bamboo.model;
 
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 
@@ -11,6 +13,8 @@ import lombok.Data;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class VersionInfo {
     private String version;
     private int buildNumber;
