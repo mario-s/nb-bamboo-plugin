@@ -10,7 +10,6 @@ import org.netbeans.modules.bamboo.glue.BambooClientProduceable;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
-import org.netbeans.modules.bamboo.mock.MockBambooClient;
 import org.netbeans.modules.bamboo.mock.MockBambooClientFactory;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 

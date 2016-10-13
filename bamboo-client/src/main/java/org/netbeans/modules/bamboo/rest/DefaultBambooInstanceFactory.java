@@ -23,16 +23,16 @@ import org.netbeans.modules.bamboo.glue.BambooClient;
 @ServiceProvider(service = BambooInstanceProduceable.class)
 public class DefaultBambooInstanceFactory implements BambooInstanceProduceable {
 
-    private final BambooClientProduceable clientProducer;
+    private final BambooClientProduceable clientFactory;
 
     public DefaultBambooInstanceFactory() {
-        this.clientProducer = Lookup.getDefault().lookup(BambooClientProduceable.class);
+        this.clientFactory = Lookup.getDefault().lookup(BambooClientProduceable.class);
     }
 
     @Override
     public Optional<BambooInstance> create(final InstanceValues values) {
         Optional<BambooInstance> optInstance = empty();
-        Optional<BambooClient> optClient = clientProducer.newClient(values);
+        Optional<BambooClient> optClient = clientFactory.newClient(values);
         if(optClient.isPresent()){
             BambooClient client = optClient.get();
             DefaultBambooInstance instance = new DefaultBambooInstance(values);
