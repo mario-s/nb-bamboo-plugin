@@ -18,6 +18,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * Interface for class which convert class from the rest model to class for model to be used for the view.
+ *
  * @author spindizzy
  */
 public interface VoConverter<S, T> {
@@ -25,12 +26,13 @@ public interface VoConverter<S, T> {
     T convert(S src);
 
     public static class ProjectVoConverter implements VoConverter<Project, ProjectVo> {
+
         private final String serverUrl;
 
         public ProjectVoConverter(String serverUrl) {
             this.serverUrl = serverUrl;
         }
-        
+
         @Override
         public ProjectVo convert(Project src) {
             ProjectVo target = new ProjectVo(src.getKey());
@@ -41,13 +43,13 @@ public interface VoConverter<S, T> {
     }
 
     public static class PlanVoConverter implements VoConverter<Plan, PlanVo> {
-        
+
         private final String serverUrl;
 
         public PlanVoConverter(String serverUrl) {
             this.serverUrl = serverUrl;
         }
-        
+
         @Override
         public PlanVo convert(Plan src) {
             PlanVo target = new PlanVo(src.getKey(), src.getName());
@@ -60,7 +62,6 @@ public interface VoConverter<S, T> {
         }
     }
 
-    
     static class ResultVoConverter implements VoConverter<Result, ResultVo> {
 
         @Override
@@ -73,17 +74,16 @@ public interface VoConverter<S, T> {
             return target;
         }
     }
-    
+
     @Log
     static class VersionInfoConverter implements VoConverter<Info, VersionInfo> {
-        
+
         private static final String BUILD_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
         @Override
         public VersionInfo convert(Info src) {
-            VersionInfo target = new VersionInfo();
-            target.setVersion(src.getVersion());
-            target.setBuildNumber(src.getBuildNumber());
+
+            VersionInfo target = VersionInfo.builder().version(src.getVersion()).buildNumber(src.getBuildNumber()).build();
 
             final String buildDate = src.getBuildDate();
 
@@ -100,6 +100,6 @@ public interface VoConverter<S, T> {
             }
             return target;
         }
-        
+
     }
 }
