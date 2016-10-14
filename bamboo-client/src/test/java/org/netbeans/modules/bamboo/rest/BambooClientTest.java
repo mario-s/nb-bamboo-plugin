@@ -74,6 +74,8 @@ public class BambooClientTest {
     private RepeatApiCaller<ResultsResponse> resultsCaller;
     @Mock
     private ApiCaller<Info> infoCaller;
+    @Mock
+    private HttpUtility httpUtility;
 
     private DefaultBambooClient classUnderTest;
 
@@ -86,7 +88,7 @@ public class BambooClientTest {
         given(webTarget.request()).willReturn(invocationBuilder);
 
         classUnderTest
-                = new DefaultBambooClient(instanceValues) {
+                = new DefaultBambooClient(instanceValues, httpUtility) {
             @Override
             RepeatApiCaller<ProjectsResponse> createProjectCaller(InstanceValues values, Map<String, String> params) {
                 return projectsCaller;

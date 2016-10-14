@@ -51,14 +51,17 @@ public class DefaultBambooClient implements BambooClient {
     private static final String PLAN = PLANS + "/{buildKey}.json";
 
     private final InstanceValues values;
+    
+    private final HttpUtility utility;
 
-    public DefaultBambooClient(InstanceValues values) {
+    public DefaultBambooClient(InstanceValues values, HttpUtility utility) {
         this.values = values;
+        this.utility = utility;
     }
 
     @Override
     public boolean existsService() {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        return utility.exists(values.getUrl());
     }
     
     

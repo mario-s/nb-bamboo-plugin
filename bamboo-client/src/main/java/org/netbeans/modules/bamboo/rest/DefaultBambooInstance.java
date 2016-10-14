@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
@@ -39,7 +38,6 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.openide.util.Lookup;
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
 
-import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 
@@ -58,7 +56,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
      * Use serialVersionUID for interoperability.
      */
     private static final long serialVersionUID = 1L;
-    
+
     private static final RequestProcessor RP = new RequestProcessor(
             DefaultBambooInstance.class);
 
@@ -67,7 +65,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     private final PropertyChangeSupport changeSupport;
 
     private final LookupContext lookupContext;
-    
+
     private transient Optional<BambooClient> optClient = empty();
 
     private transient Optional<Task> synchronizationTask = empty();
@@ -77,7 +75,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     private transient VersionInfo version;
 
     private transient boolean available;
-    
+
     private BambooInstanceProperties properties;
 
     public DefaultBambooInstance() {
@@ -228,16 +226,22 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
 
         log.info(String.format("interval: %s", interval));
         if (interval > 0) {
-            Task task = RP.create(() -> {
-                doSynchronization(true);
+            scheduleTask(interval);
+        }
+    }
 
+    private void scheduleTask(int interval) {
+        Task task = RP.create(() -> {
+            if (checkAvailability()) {
+                doSynchronization(true);
+                
                 if (synchronizationTask.isPresent() && (interval > 0)) {
                     synchronizationTask.get().schedule(interval);
                 }
-            });
-            synchronizationTask = of(task);
-            task.schedule(interval);
-        }
+            }
+        });
+        synchronizationTask = of(task);
+        task.schedule(interval);
     }
 
     private int getSyncIntervalInMillis() {
@@ -250,13 +254,19 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     }
 
     private boolean checkAvailability() {
-        available = optClient.isPresent();
+        if (optClient.isPresent()) {
+            optClient.ifPresent(client -> {
+                available = client.existsService();
+            });
+        } else {
+            available = false;
+        }
         return available;
     }
 
     @Override
     public boolean queue(PlanVo plan) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

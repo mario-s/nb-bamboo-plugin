@@ -64,7 +64,10 @@ public class DefaultBambooInstanceTest {
     public void setUp() {       
         classUnderTest.setSyncInterval(5);
         classUnderTest.addPropertyChangeListener(listener);
+        
         given(properties.getPreferences()).willReturn(preferences);
+        given(client.existsService()).willReturn(true);
+        
         projects = emptyList();
         
         setInternalState(classUnderTest, "optClient", of(client));
