@@ -1,16 +1,16 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
-import java.awt.event.ActionEvent;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.Ignore;
+
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
+
+import static org.mockito.Mockito.verify;
 
 /**
  *
@@ -43,9 +43,9 @@ public class QueuePlanActionTest {
      * Test of actionPerformed method, of class QueuePlanAction.
      */
     @Test
-    @Ignore
     public void testActionPerformed() {
         classUnderTest.actionPerformed(null);
+        verify(instance).queue(plan);
     }
     
 }

@@ -23,7 +23,10 @@ public class QueuePlanAction extends AbstractAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        plan.getParent().ifPresent(project ->{
+            project.getParent().ifPresent(instance ->{
+                instance.queue(plan);
+            });
+        });
     }
-    
 }
