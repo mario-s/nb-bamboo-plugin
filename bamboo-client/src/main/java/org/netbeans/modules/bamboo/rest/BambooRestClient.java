@@ -124,7 +124,7 @@ public class BambooRestClient implements BambooServiceAccessable {
         Optional<WebTarget> opt = infoCaller.createTarget();
 
         if (opt.isPresent()) {
-            Info info = infoCaller.request(opt.get());
+            Info info = infoCaller.get(opt.get());
             VersionInfoConverter converter = new VersionInfoConverter();
             versionInfo = converter.convert(info);
         }
@@ -165,7 +165,7 @@ public class BambooRestClient implements BambooServiceAccessable {
         Optional<WebTarget> opt = apiCaller.createTarget();
 
         if (opt.isPresent()) {
-            AbstractResponse initialResponse = apiCaller.request(opt.get());
+            AbstractResponse initialResponse = apiCaller.get(opt.get());
             log.fine(String.format("got results for initial call: %s", initialResponse));
             results.addAll(initialResponse.asCollection());
         }
@@ -181,7 +181,7 @@ public class BambooRestClient implements BambooServiceAccessable {
         Optional<WebTarget> opt = apiCaller.createTarget();
 
         if (opt.isPresent()) {
-            AbstractResponse initialResponse = apiCaller.request(opt.get());
+            AbstractResponse initialResponse = apiCaller.get(opt.get());
             log.fine(String.format("got results for initial call: %s", initialResponse));
             results.addAll(initialResponse.asCollection());
 

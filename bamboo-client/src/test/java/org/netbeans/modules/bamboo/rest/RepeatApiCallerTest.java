@@ -105,12 +105,12 @@ public class RepeatApiCallerTest {
     }
 
     /**
-     * Test of request method, of class ApiCaller.
+     * Test of get method, of class ApiCaller.
      */
     @Test
     public void testRequest() {
         given(target.request()).willReturn(builder);
-        classUnderTest.request(target);
+        classUnderTest.get(target);
         verify(builder).get(PlansResponse.class);
     }
 }

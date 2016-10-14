@@ -23,6 +23,7 @@ import javax.ws.rs.client.WebTarget;
 import lombok.extern.java.Log;
 
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
  * @author spindizzy
@@ -103,7 +104,7 @@ class ApiCaller<T> {
         return client.target(url);
     }
 
-    T request(final WebTarget target) {
+    T get(final WebTarget target) {
         return target.request().get(clazz);
     }
 }

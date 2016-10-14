@@ -139,15 +139,15 @@ public class BambooRestClientTest {
         resultsResponse.setResults(results);
         
         given(projectsCaller.createTarget()).willReturn(of(webTarget));
-        given(projectsCaller.request(webTarget)).willReturn(projectsResponse);
+        given(projectsCaller.get(webTarget)).willReturn(projectsResponse);
         given(projectsCaller.doSecondCall(projectsResponse)).willReturn(empty());
 
         given(plansCaller.createTarget()).willReturn(of(webTarget));
-        given(plansCaller.request(webTarget)).willReturn(plansResponse);
+        given(plansCaller.get(webTarget)).willReturn(plansResponse);
         given(plansCaller.doSecondCall(plansResponse)).willReturn(of(plansResponse));
 
         given(resultsCaller.createTarget()).willReturn(of(webTarget));
-        given(resultsCaller.request(webTarget)).willReturn(resultsResponse);
+        given(resultsCaller.get(webTarget)).willReturn(resultsResponse);
         given(resultsCaller.doSecondCall(resultsResponse)).willReturn(of(resultsResponse));
     }
 
@@ -206,7 +206,7 @@ public class BambooRestClientTest {
         info.setBuildDate("2014-12-02T07:43:02.000+01:00");
 
         given(infoCaller.createTarget()).willReturn(of(webTarget));
-        given(infoCaller.request(webTarget)).willReturn(info);
+        given(infoCaller.get(webTarget)).willReturn(info);
 
         VersionInfo result = classUnderTest.getVersionInfo(instanceValues);
         assertThat(result.getBuildDate(), notNullValue());
