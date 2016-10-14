@@ -1,6 +1,6 @@
-package org.netbeans.modules.bamboo.glue;
+package org.netbeans.modules.bamboo.model;
 
-import org.netbeans.modules.bamboo.glue.OpenableInBrowser;
+import org.netbeans.modules.bamboo.model.OpenableInBrowser;
 
 /**
  * Interface which will return the necessary values for a connection to the CI

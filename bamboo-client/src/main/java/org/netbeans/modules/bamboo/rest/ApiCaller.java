@@ -8,7 +8,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.glassfish.jersey.logging.LoggingFeature;
 
-import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.model.InstanceValues;
 
 import java.util.Optional;
 

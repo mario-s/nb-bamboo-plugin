@@ -1,11 +1,10 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
-import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
 
 import static org.openide.util.Lookup.getDefault;
@@ -18,7 +17,6 @@ import java.beans.PropertyChangeSupport;
 
 import java.util.Collection;
 
-
 import java.util.Optional;
 
 import java.util.logging.Level;
@@ -29,20 +27,25 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 import lombok.extern.java.Log;
+import org.netbeans.modules.bamboo.glue.BambooClientProduceable;
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.glue.LookupContext;
+import org.netbeans.modules.bamboo.model.LookupContext;
 
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 
 import org.netbeans.modules.bamboo.model.ChangeEvents;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
-
 import org.openide.util.Lookup;
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
 
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+
+import org.netbeans.modules.bamboo.glue.BambooClient;
+
+import static java.lang.String.format;
 
 /**
  * @author spindizzy
@@ -61,19 +64,19 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
 
     private final PropertyChangeSupport changeSupport;
 
-    private final transient BambooServiceAccessable client;
-
     private final LookupContext lookupContext;
+    
+    private transient Optional<BambooClient> optClient = empty();
 
     private transient Optional<Task> synchronizationTask = empty();
 
     private transient Collection<ProjectVo> projects;
 
-    private BambooInstanceProperties properties;
-
     private transient VersionInfo version;
 
     private transient boolean available;
+    
+    private BambooInstanceProperties properties;
 
     public DefaultBambooInstance() {
         this(null);
@@ -83,7 +86,6 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
         super(values);
         changeSupport = new PropertyChangeSupport(this);
         lookupContext = LookupContext.Instance;
-        client = getDefault().lookup(BambooServiceAccessable.class);
     }
 
     @Override
@@ -94,6 +96,16 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     public void applyProperties(final BambooInstanceProperties properties) {
         this.properties = properties;
         copyProperties(properties);
+        initClient();
+    }
+
+    private void initClient() {
+        BambooClientProduceable factory = getDefault().lookup(BambooClientProduceable.class);
+        optClient = factory.newClient(this);
+
+        if (log.isLoggable(Level.INFO)) {
+            log.info(format("initialized client, is present: %s", optClient.isPresent()));
+        }
     }
 
     @Override
@@ -159,19 +171,23 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     }
 
     private void synchronizeProjects() {
-        Collection<ProjectVo> oldProjects = this.projects;
-        if (oldProjects == null || oldProjects.isEmpty()) {
-            Collection<ProjectVo> newProjects = client.getProjects(this);
-            this.projects = newProjects;
-            fireProjectsChanged(oldProjects, newProjects);
-        } else {
-            client.updateProjects(this.projects, this);
-            fireProjectsChanged(oldProjects, this.projects);
-        }
+        optClient.ifPresent(client -> {
+            Collection<ProjectVo> oldProjects = this.projects;
+            if (oldProjects == null || oldProjects.isEmpty()) {
+                Collection<ProjectVo> newProjects = client.getProjects();
+                this.projects = newProjects;
+                fireProjectsChanged(oldProjects, newProjects);
+            } else {
+                client.updateProjects(this.projects);
+                fireProjectsChanged(oldProjects, this.projects);
+            }
+        });
     }
 
     private void synchronizeVersion() {
-        version = client.getVersionInfo(this);
+        optClient.ifPresent(client -> {
+            version = client.getVersionInfo();
+        });
     }
 
     private void fireProjectsChanged(Collection<ProjectVo> oldProjects, Collection<ProjectVo> newProjects) {
@@ -184,8 +200,9 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
         return properties.getPreferences();
     }
 
-     /**
-     * Returns all the projects for the bamboo instance. 
+    /**
+     * Returns all the projects for the bamboo instance.
+     *
      * @return a collection where no element can be added or removed.
      */
     @Override
@@ -231,7 +248,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     }
 
     private boolean checkAvailability() {
-        available = client.existsService(this);
+        available = optClient.isPresent();
         return available;
     }
 

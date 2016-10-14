@@ -15,25 +15,25 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
-import static org.hamcrest.CoreMatchers.is;
 import static java.util.Collections.emptyList;
 
 import java.util.Optional;
 import org.mockito.InOrder;
-import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 
 import org.openide.util.RequestProcessor.Task;
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
-import org.netbeans.modules.bamboo.glue.InstanceValues;
-import org.netbeans.modules.bamboo.mock.MockRestClient;
 
+import static java.util.Optional.of;
 import static org.mockito.Mockito.inOrder;
-import static org.openide.util.Lookup.getDefault;
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
+
+import org.netbeans.modules.bamboo.glue.BambooClient;
 
 /**
  *
@@ -47,9 +47,10 @@ public class DefaultBambooInstanceTest {
     @Mock
     private Preferences preferences;
     @Mock
-    private BambooServiceAccessable serviceAccessable;
+    private BambooClient client;
     
     private final PropertyChangeListener listener;
+    
     @InjectMocks
     private DefaultBambooInstance classUnderTest;
 
@@ -60,13 +61,13 @@ public class DefaultBambooInstanceTest {
     }
 
     @Before
-    public void setUp() {
-        MockRestClient client = (MockRestClient)getDefault().lookup(BambooServiceAccessable.class);
-        client.setDelegate(serviceAccessable);
+    public void setUp() {       
         classUnderTest.setSyncInterval(5);
         classUnderTest.addPropertyChangeListener(listener);
         given(properties.getPreferences()).willReturn(preferences);
         projects = emptyList();
+        
+        setInternalState(classUnderTest, "optClient", of(client));
     }
     
     @After
@@ -118,13 +119,12 @@ public class DefaultBambooInstanceTest {
 
     @Test
     public void testSynchronize_ListenerShouldBeCalled() throws InterruptedException {
-        given(serviceAccessable.existsService(any(InstanceValues.class))).willReturn(true);
         classUnderTest.synchronize();
         synchronized (listener) {
             listener.wait(1000);
         }
-        InOrder order = inOrder(serviceAccessable, listener);
-        order.verify(serviceAccessable).getVersionInfo(any(InstanceValues.class));
+        InOrder order = inOrder(client, listener);
+        order.verify(client).getVersionInfo();
         order.verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
     

@@ -1,10 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.glue.BambooServiceAccessable;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-
-import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
 import org.netbeans.modules.bamboo.model.rest.Info;
 import org.netbeans.modules.bamboo.model.rest.Plan;
@@ -12,12 +9,6 @@ import org.netbeans.modules.bamboo.model.rest.PlansResponse;
 import org.netbeans.modules.bamboo.model.rest.Result;
 import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 
-import org.openide.util.lookup.ServiceProvider;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.DateTimeParseException;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -36,15 +27,15 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
-import org.netbeans.modules.bamboo.rest.VoConverter.VersionInfoConverter;
+import org.netbeans.modules.bamboo.glue.VoConverter.VersionInfoConverter;
 import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
+import org.netbeans.modules.bamboo.glue.BambooClient;
 
 /**
  * @author spindizzy
  */
 @Log
-@ServiceProvider(service = BambooServiceAccessable.class)
-public class BambooRestClient implements BambooServiceAccessable {
+public class DefaultBambooClient implements BambooClient {
 
     static final String EXPAND = "expand";
     static final String PROJECT_PLANS = "projects.project.plans.plan";
@@ -59,21 +50,15 @@ public class BambooRestClient implements BambooServiceAccessable {
 
     private static final String PLAN = PLANS + "/{buildKey}.json";
 
-    private HttpUtility httpUtility;
+    private final InstanceValues values;
 
-    public BambooRestClient() {
-        httpUtility = new HttpUtility();
+    public DefaultBambooClient(InstanceValues values) {
+        this.values = values;
     }
 
     @Override
-    public boolean existsService(InstanceValues values) {
-       String url = values.getUrl();
-       return httpUtility.exists(url);
-    }
-
-    @Override
-    public void updateProjects(Collection<ProjectVo> projects, InstanceValues values) {
-        Collection<ProjectVo> source = getProjects(values);
+    public void updateProjects(Collection<ProjectVo> projects) {
+        Collection<ProjectVo> source = getProjects();
         if (!source.isEmpty()) {
             ProjectsUpdater updater = new ProjectsUpdater();
             updater.update(source, projects);
@@ -81,13 +66,13 @@ public class BambooRestClient implements BambooServiceAccessable {
     }
 
     @Override
-    public Collection<ProjectVo> getProjects(final InstanceValues values) {
+    public Collection<ProjectVo> getProjects() {
         ProjectsFactory factory = new ProjectsFactory(values);
         try {
 
             Collection<Plan> plans = getPlans(values);
             Collection<Project> projects = doProjectsCall(values, plans.size());
-            
+
             factory.setPlans(plans);
             factory.setProjects(projects);
 
@@ -96,7 +81,6 @@ public class BambooRestClient implements BambooServiceAccessable {
         }
         return factory.create();
     }
-
 
     /**
      * Load the available plans and their results.
@@ -118,7 +102,7 @@ public class BambooRestClient implements BambooServiceAccessable {
     }
 
     @Override
-    public VersionInfo getVersionInfo(final InstanceValues values) {
+    public VersionInfo getVersionInfo() {
         VersionInfo versionInfo = new VersionInfo();
         ApiCaller<Info> infoCaller = createInfoCaller(values);
         Optional<WebTarget> opt = infoCaller.createTarget();
@@ -208,4 +192,5 @@ public class BambooRestClient implements BambooServiceAccessable {
     ApiCaller<Info> createInfoCaller(final InstanceValues values) {
         return new ApiCaller<>(values, Info.class, INFO);
     }
+
 }

@@ -5,7 +5,6 @@ import java.beans.PropertyChangeSupport;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.netbeans.api.annotations.common.NonNull;
-import org.netbeans.modules.bamboo.glue.LookupContext;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.InstanceContent;
 

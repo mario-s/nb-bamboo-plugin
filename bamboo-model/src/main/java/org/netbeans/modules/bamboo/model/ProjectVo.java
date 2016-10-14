@@ -6,8 +6,6 @@ import java.util.Collection;
 import java.util.Optional;
 import lombok.Getter;
 import lombok.Setter;
-import org.netbeans.modules.bamboo.glue.TraverseDown;
-import org.netbeans.modules.bamboo.glue.TraverseUp;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;

@@ -19,7 +19,7 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
 
 /**

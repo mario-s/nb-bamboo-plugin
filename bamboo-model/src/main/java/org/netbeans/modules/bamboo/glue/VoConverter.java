@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.rest;
+package org.netbeans.modules.bamboo.glue;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,19 +18,24 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * Interface for class which convert class from the rest model to class for model to be used for the view.
+ *
+ * @param <S> the target to convert into
+ * @param <T> the source to convert from
+ *
  * @author spindizzy
  */
-interface VoConverter<S, T> {
+public interface VoConverter<S, T> {
 
     T convert(S src);
 
-    static class ProjectVoConverter implements VoConverter<Project, ProjectVo> {
+    public static class ProjectVoConverter implements VoConverter<Project, ProjectVo> {
+
         private final String serverUrl;
 
         public ProjectVoConverter(String serverUrl) {
             this.serverUrl = serverUrl;
         }
-        
+
         @Override
         public ProjectVo convert(Project src) {
             ProjectVo target = new ProjectVo(src.getKey());
@@ -40,14 +45,14 @@ interface VoConverter<S, T> {
         }
     }
 
-    static class PlanVoConverter implements VoConverter<Plan, PlanVo> {
-        
+    public static class PlanVoConverter implements VoConverter<Plan, PlanVo> {
+
         private final String serverUrl;
 
         public PlanVoConverter(String serverUrl) {
             this.serverUrl = serverUrl;
         }
-        
+
         @Override
         public PlanVo convert(Plan src) {
             PlanVo target = new PlanVo(src.getKey(), src.getName());
@@ -60,7 +65,6 @@ interface VoConverter<S, T> {
         }
     }
 
-    
     static class ResultVoConverter implements VoConverter<Result, ResultVo> {
 
         @Override
@@ -73,17 +77,16 @@ interface VoConverter<S, T> {
             return target;
         }
     }
-    
+
     @Log
     static class VersionInfoConverter implements VoConverter<Info, VersionInfo> {
-        
+
         private static final String BUILD_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
         @Override
         public VersionInfo convert(Info src) {
-            VersionInfo target = new VersionInfo();
-            target.setVersion(src.getVersion());
-            target.setBuildNumber(src.getBuildNumber());
+
+            VersionInfo target = VersionInfo.builder().version(src.getVersion()).buildNumber(src.getBuildNumber()).build();
 
             final String buildDate = src.getBuildDate();
 
@@ -100,6 +103,6 @@ interface VoConverter<S, T> {
             }
             return target;
         }
-        
+
     }
 }

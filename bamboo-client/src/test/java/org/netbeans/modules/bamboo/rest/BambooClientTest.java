@@ -15,7 +15,7 @@ import org.mockito.Mock;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
 import org.netbeans.modules.bamboo.model.rest.Info;
 import org.netbeans.modules.bamboo.model.rest.Plan;
@@ -45,16 +45,17 @@ import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.Projects;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 
 import org.netbeans.modules.bamboo.model.PlanVo;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 
 /**
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class BambooRestClientTest {
+public class BambooClientTest {
 
     private static final String FOO = "foo";
     private static final String BAR = "bar";
@@ -74,7 +75,7 @@ public class BambooRestClientTest {
     @Mock
     private ApiCaller<Info> infoCaller;
 
-    private BambooRestClient classUnderTest;
+    private DefaultBambooClient classUnderTest;
 
     @Before
     public void setUp() {
@@ -85,7 +86,7 @@ public class BambooRestClientTest {
         given(webTarget.request()).willReturn(invocationBuilder);
 
         classUnderTest
-                = new BambooRestClient() {
+                = new DefaultBambooClient(instanceValues) {
             @Override
             RepeatApiCaller<ProjectsResponse> createProjectCaller(InstanceValues values, Map<String, String> params) {
                 return projectsCaller;
@@ -152,50 +153,50 @@ public class BambooRestClientTest {
     }
 
     /**
-     * Test of getProjects method, of class BambooRestClient.
+     * Test of getProjects method, of class DefaultBambooClient.
      */
     @Test
     public void testGetProjects_ExpectNotEmpty() {
         trainMocks();
 
-        Collection<ProjectVo> buildProjects = classUnderTest.getProjects(instanceValues);
+        Collection<ProjectVo> buildProjects = classUnderTest.getProjects();
         assertThat(buildProjects.isEmpty(), is(false));
     }
     
      /**
-     * Test of getProjects method, of class BambooRestClient.
+     * Test of getProjects method, of class DefaultBambooClient.
      */
     @Test
     public void testGetProjects_ExpectNoParent() {
         trainMocks();
 
-        Collection<ProjectVo> buildProjects = classUnderTest.getProjects(instanceValues);
+        Collection<ProjectVo> buildProjects = classUnderTest.getProjects();
         buildProjects.forEach(pr -> { assertThat(pr.getParent().isPresent(), is(false));});
         
     }
     
     
     /**
-     * Test of getProjects method, of class BambooRestClient.
+     * Test of getProjects method, of class DefaultBambooClient.
      */
     @Test
     public void testGetProjects_TwoPlans() {
         trainMocks();
 
-        Collection<ProjectVo> buildProjects = classUnderTest.getProjects(instanceValues);
+        Collection<ProjectVo> buildProjects = classUnderTest.getProjects();
         Collection<PlanVo> plans = buildProjects.iterator().next().getChildren();
         assertThat(plans.size(), is(2));
     }
     
      /**
-     * Test of getProjects method, of class BambooRestClient.
+     * Test of getProjects method, of class DefaultBambooClient.
      */
     @Test
     public void testGetProjects_Equal() {
         trainMocks();
 
-        Collection<ProjectVo> first = classUnderTest.getProjects(instanceValues);
-        Collection<ProjectVo> second = classUnderTest.getProjects(instanceValues);
+        Collection<ProjectVo> first = classUnderTest.getProjects();
+        Collection<ProjectVo> second = classUnderTest.getProjects();
         
         assertThat(first, equalTo(second));
     }
@@ -208,7 +209,7 @@ public class BambooRestClientTest {
         given(infoCaller.createTarget()).willReturn(of(webTarget));
         given(infoCaller.get(webTarget)).willReturn(info);
 
-        VersionInfo result = classUnderTest.getVersionInfo(instanceValues);
+        VersionInfo result = classUnderTest.getVersionInfo();
         assertThat(result.getBuildDate(), notNullValue());
     }
     
@@ -216,7 +217,7 @@ public class BambooRestClientTest {
     public void testUpdate() {
         trainMocks();
         List<ProjectVo> toBeUpdated = new ArrayList<>();
-        classUnderTest.updateProjects(toBeUpdated, instanceValues);
+        classUnderTest.updateProjects(toBeUpdated);
         assertThat(toBeUpdated.isEmpty(), is(false));
     }
 }

@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.glue;
+package org.netbeans.modules.bamboo.model;
 
 import java.util.Collection;
 

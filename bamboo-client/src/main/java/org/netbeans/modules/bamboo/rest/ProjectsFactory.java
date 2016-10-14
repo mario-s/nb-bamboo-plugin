@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import org.netbeans.modules.bamboo.glue.InstanceValues;
+import org.netbeans.modules.bamboo.model.InstanceValues;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -16,9 +16,9 @@ import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.rest.Plan;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.Result;
-import org.netbeans.modules.bamboo.rest.VoConverter.PlanVoConverter;
-import org.netbeans.modules.bamboo.rest.VoConverter.ProjectVoConverter;
-import org.netbeans.modules.bamboo.rest.VoConverter.ResultVoConverter;
+import org.netbeans.modules.bamboo.glue.VoConverter.PlanVoConverter;
+import org.netbeans.modules.bamboo.glue.VoConverter.ProjectVoConverter;
+import org.netbeans.modules.bamboo.glue.VoConverter.ResultVoConverter;
 
 /**
  * This class constructs a new {@link ProjectVo} with all the children.

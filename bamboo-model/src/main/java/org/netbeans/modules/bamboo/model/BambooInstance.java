@@ -7,8 +7,6 @@ import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 
 import java.util.prefs.Preferences;
-import org.netbeans.modules.bamboo.glue.InstanceValues;
-import org.netbeans.modules.bamboo.glue.TraverseDown;
 import org.openide.util.Lookup;
 
 /**
