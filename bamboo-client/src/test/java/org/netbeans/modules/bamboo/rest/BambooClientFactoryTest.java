@@ -29,11 +29,16 @@ public class BambooClientFactoryTest {
     @Mock
     private InstanceValues values;
     
-    @InjectMocks
     private DefaultBambooClientFactory classUnderTest;
     
     @Before
     public void setUp() {
+        classUnderTest = new DefaultBambooClientFactory(){
+            @Override
+            HttpUtility newUtility() {
+                return httpUtility;
+            }
+        };
         given(values.getUrl()).willReturn(FOO);
     }
     
