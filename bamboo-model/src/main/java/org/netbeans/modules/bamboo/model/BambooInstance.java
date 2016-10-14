@@ -56,4 +56,12 @@ public interface BambooInstance extends
      */
     boolean isAvailable();
     
+    /**
+     * This method will queue the plan for a build on the server.
+     * 
+     * @param plan the {@link PlanVo} to queue for the build.
+     * @return <code>true</code> when the server response was a sucessful type, otherwhise <code>false</code>
+     */
+    boolean queue(PlanVo plan);
+    
 }
