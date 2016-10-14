@@ -44,6 +44,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 
 import org.netbeans.modules.bamboo.glue.BambooClient;
+import org.netbeans.modules.bamboo.model.PlanVo;
 
 import static java.lang.String.format;
 
@@ -57,6 +58,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
      * Use serialVersionUID for interoperability.
      */
     private static final long serialVersionUID = 1L;
+    
     private static final RequestProcessor RP = new RequestProcessor(
             DefaultBambooInstance.class);
 
@@ -250,6 +252,11 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     private boolean checkAvailability() {
         available = optClient.isPresent();
         return available;
+    }
+
+    @Override
+    public boolean queue(PlanVo plan) {
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     @Override
