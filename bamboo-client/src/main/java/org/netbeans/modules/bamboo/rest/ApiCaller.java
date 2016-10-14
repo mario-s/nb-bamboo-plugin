@@ -23,7 +23,6 @@ import javax.ws.rs.client.WebTarget;
 import lombok.extern.java.Log;
 
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
-import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
  * @author spindizzy
