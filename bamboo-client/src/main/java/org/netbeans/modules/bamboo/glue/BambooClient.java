@@ -2,6 +2,7 @@ package org.netbeans.modules.bamboo.glue;
 
 import org.netbeans.modules.bamboo.model.VersionInfo;
 import java.util.Collection;
+import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
 /**
@@ -10,6 +11,13 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
  * @author spindizzy
  */
 public interface BambooClient {
+    
+    /**
+     * This method returns <code>true</code> when the url can be reached, if not it returns <code>false</code>.
+     *
+     * @return <code>true</code> when server is present, otherwhise <code>false</code>
+     */
+    boolean existsService();
   
     /**
      * Return a collection of available {@link BuildProject}.

@@ -57,6 +57,13 @@ public class DefaultBambooClient implements BambooClient {
     }
 
     @Override
+    public boolean existsService() {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+    
+    
+
+    @Override
     public void updateProjects(Collection<ProjectVo> projects) {
         Collection<ProjectVo> source = getProjects();
         if (!source.isEmpty()) {
