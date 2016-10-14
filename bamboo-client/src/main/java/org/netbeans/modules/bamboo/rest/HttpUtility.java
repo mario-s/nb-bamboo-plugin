@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Optional;
 import lombok.extern.java.Log;
 
 import static java.lang.String.format;
@@ -40,18 +41,6 @@ public class HttpUtility {
     }
 
     private boolean isValid(int status) {
-        return isSuccessful(status) || isRedirect(status) || isUnauthorized(status);
-    }
-    
-    private boolean isSuccessful(int status) {
-        return status >= 200 && status <= 206;
-    }
-    
-    private boolean isRedirect(int status) {
-        return status >= 300 && status <= 308;
-    }
-    
-    private boolean isUnauthorized(int status) {
-        return status == 401;
+        return HttpResponseCode.getCode(status).isPresent();
     }
 }
