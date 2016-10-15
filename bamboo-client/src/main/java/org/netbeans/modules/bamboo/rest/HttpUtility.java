@@ -10,12 +10,13 @@ import lombok.extern.java.Log;
 import static java.lang.String.format;
 
 /**
- * This utility provides HTTP related functionality. 
+ * This utility provides HTTP related functionality.
+ *
  * @author spindizzy
  */
 @Log
 public class HttpUtility {
-    
+
     private static final String WRONG_URL = "url is wrong: %s";
 
     /**
@@ -41,6 +42,9 @@ public class HttpUtility {
     }
 
     private boolean isValid(int status) {
-        return HttpResponseCode.getCode(status).isPresent();
+        HttpResponseCode code = HttpResponseCode.getCode(status);
+        return code.equals(HttpResponseCode.Successful) || code.equals(HttpResponseCode.Redirect) || code.equals(
+                HttpResponseCode.Unauthorized);
+
     }
 }
