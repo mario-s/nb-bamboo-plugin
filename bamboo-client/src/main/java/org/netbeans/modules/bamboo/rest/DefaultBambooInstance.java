@@ -254,13 +254,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     }
 
     private boolean checkAvailability() {
-        if (optClient.isPresent()) {
-            optClient.ifPresent(client -> {
-                available = client.existsService();
-            });
-        } else {
-            available = false;
-        }
+        available = (optClient.isPresent()) ? optClient.get().existsService() : false;
+        
         return available;
     }
 
