@@ -12,9 +12,6 @@ import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 
 import static java.util.Collections.sort;
-import static java.util.Collections.sort;
-import static java.util.Collections.sort;
-import static java.util.Collections.sort;
 
 /**
  * @author spindizzy
