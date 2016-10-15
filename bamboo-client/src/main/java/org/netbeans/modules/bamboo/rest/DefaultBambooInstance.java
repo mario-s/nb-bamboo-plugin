@@ -234,10 +234,10 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
         Task task = RP.create(() -> {
             if (checkAvailability()) {
                 doSynchronization(true);
-                
-                if (synchronizationTask.isPresent() && (interval > 0)) {
-                    synchronizationTask.get().schedule(interval);
-                }
+            }
+
+            if (synchronizationTask.isPresent() && (interval > 0)) {
+                synchronizationTask.get().schedule(interval);
             }
         });
         synchronizationTask = of(task);
