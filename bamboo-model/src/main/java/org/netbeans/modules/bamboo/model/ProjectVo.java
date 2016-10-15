@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import lombok.Getter;

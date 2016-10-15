@@ -17,9 +17,12 @@ public class ProjectVoTest {
     
     private ProjectVo classUnderTest;
 
+    private PlanVo plan;
     
     @Before
     public void setUp() {
+        plan = new PlanVo("");
+        
         classUnderTest = newInstance();
     }
 
@@ -27,7 +30,7 @@ public class ProjectVoTest {
         ProjectVo instance = new ProjectVo("");
         
         List<PlanVo> plans = new ArrayList<>();
-        PlanVo plan = new PlanVo("");
+        
         plans.add(plan);
         instance.setChildren(plans);
                 
@@ -69,4 +72,11 @@ public class ProjectVoTest {
         PlanVo plan = new PlanVo("");
         classUnderTest.getChildren().add(plan);
     }
+    
+    @Test
+    public void testIsChild_ExistingPlan_ExpectTrue() {
+        boolean result = classUnderTest.isChild(plan);
+        assertThat(result, is(true));
+    }
+    
 }
