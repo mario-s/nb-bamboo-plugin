@@ -72,24 +72,23 @@ public class RepeatApiCallerTest {
      */
     @Test
     public void testCreateTarget() {
-        Optional<WebTarget> expResult = empty();
         Optional<WebTarget> result = classUnderTest.createTarget();
-        assertThat(result, equalTo(expResult));
+        assertThat(result.isPresent(), is(false));
     }
 
     /**
-     * Test of doSecondCall method, of class ApiCaller.
+     * Test of repeat method, of class ApiCaller.
      */
     @Test
     public void testDoSecondCall_SizeLessMax() {
         PlansResponse initial = new PlansResponse();
         Optional<PlansResponse> expResult = empty();
-        Optional<PlansResponse> result = classUnderTest.doSecondCall(initial);
+        Optional<PlansResponse> result = classUnderTest.repeat(initial);
         assertThat(result, equalTo(expResult));
     }
     
     @Test
-    public void testDoSecondCall_SizeGreaterMax() {
+    public void testDoSecondCall_SizeGreaterMax_ExpectPresent() {
         
         PlansResponse initial = new PlansResponse();
         Plans plans = new Plans();
@@ -100,7 +99,7 @@ public class RepeatApiCallerTest {
         given(target.request()).willReturn(builder);
         given(builder.get(PlansResponse.class)).willReturn(initial);
         
-        Optional<PlansResponse> result = classUnderTest.doSecondCall(initial);
+        Optional<PlansResponse> result = classUnderTest.repeat(initial);
         assertThat(result.isPresent(), is(true));
     }
 

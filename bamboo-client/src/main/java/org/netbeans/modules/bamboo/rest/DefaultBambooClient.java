@@ -177,7 +177,7 @@ public class DefaultBambooClient implements BambooClient {
             log.fine(String.format("got results for initial call: %s", initialResponse));
             results.addAll(initialResponse.asCollection());
 
-            Optional<? extends AbstractResponse> secondResponse = apiCaller.doSecondCall(initialResponse);
+            Optional<? extends AbstractResponse> secondResponse = apiCaller.repeat(initialResponse);
 
             if (secondResponse.isPresent()) {
                 results.addAll(secondResponse.get().asCollection());

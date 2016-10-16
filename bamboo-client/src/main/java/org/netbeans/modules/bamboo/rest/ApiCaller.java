@@ -95,7 +95,7 @@ class ApiCaller<T> {
         return target;
     }
 
-    protected WebTarget newTarget(final String url, final String path) {
+    private WebTarget newTarget(final String url, final String path) {
         return newTarget(url).path(REST_API).path(path);
     }
 

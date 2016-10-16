@@ -143,15 +143,15 @@ public class BambooClientTest {
         
         given(projectsCaller.createTarget()).willReturn(of(webTarget));
         given(projectsCaller.get(webTarget)).willReturn(projectsResponse);
-        given(projectsCaller.doSecondCall(projectsResponse)).willReturn(empty());
+        given(projectsCaller.repeat(projectsResponse)).willReturn(empty());
 
         given(plansCaller.createTarget()).willReturn(of(webTarget));
         given(plansCaller.get(webTarget)).willReturn(plansResponse);
-        given(plansCaller.doSecondCall(plansResponse)).willReturn(of(plansResponse));
+        given(plansCaller.repeat(plansResponse)).willReturn(of(plansResponse));
 
         given(resultsCaller.createTarget()).willReturn(of(webTarget));
         given(resultsCaller.get(webTarget)).willReturn(resultsResponse);
-        given(resultsCaller.doSecondCall(resultsResponse)).willReturn(of(resultsResponse));
+        given(resultsCaller.repeat(resultsResponse)).willReturn(of(resultsResponse));
     }
 
     /**
