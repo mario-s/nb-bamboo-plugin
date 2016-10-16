@@ -63,8 +63,6 @@ public class DefaultBambooClient implements BambooClient {
     public boolean existsService() {
         return utility.exists(values.getUrl());
     }
-    
-    
 
     @Override
     public void updateProjects(Collection<ProjectVo> projects) {
