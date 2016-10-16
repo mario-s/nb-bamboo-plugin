@@ -37,7 +37,7 @@ class RepeatApiCaller<T extends AbstractResponse> extends ApiCaller<T> {
 
         opt = empty();
         if (size > max) {
-            WebTarget target = newTarget(values, path);
+            WebTarget target = newTarget();
             target.queryParam(MAX, size);
             T response = get(target);
             log.fine(String.format("got all items: %s", response));

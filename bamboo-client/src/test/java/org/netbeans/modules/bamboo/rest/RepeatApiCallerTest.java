@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
+import java.util.Map;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 
 import static org.junit.Assert.*;
@@ -28,7 +30,6 @@ import java.util.Optional;
 
 import static java.util.Optional.empty;
 
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import org.netbeans.modules.bamboo.model.rest.Plans;
@@ -47,7 +48,7 @@ public class RepeatApiCallerTest {
     @Mock
     private InstanceValues values;
     @Mock
-    private Client client;
+    private WebTargetFactory webTargetFactory;
     @Mock
     private WebTarget target;
     @Mock
@@ -58,11 +59,11 @@ public class RepeatApiCallerTest {
     @Before
     public void setUp() {
         classUnderTest = new RepeatApiCaller<>(values, PlansResponse.class, FOO);
-        setInternalState(classUnderTest, "client", client);
+        setInternalState(classUnderTest, "webTargetFactory", webTargetFactory);
         
         given(values.getPassword()).willReturn(FOO.toCharArray());
         given(values.getUrl()).willReturn(FOO);
-        given(client.target(anyString())).willReturn(target);
+        given(webTargetFactory.newTarget(anyString(), any(Map.class))).willReturn(target);
         given(target.path(anyString())).willReturn(target);
         given(target.queryParam(anyString(), any())).willReturn(target);
     }
