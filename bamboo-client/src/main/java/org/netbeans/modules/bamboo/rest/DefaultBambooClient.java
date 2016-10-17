@@ -154,13 +154,12 @@ public class DefaultBambooClient implements BambooClient {
      * @param results
      */
     private void doSimpleCall(ApiCaller<? extends AbstractResponse> apiCaller, Set results) {
-        Optional<WebTarget> opt = apiCaller.createTarget();
 
-        if (opt.isPresent()) {
-            AbstractResponse initialResponse = apiCaller.get(opt.get());
+        apiCaller.createTarget().ifPresent( target -> {
+            AbstractResponse initialResponse = apiCaller.get(target);
             log.fine(String.format("got results for initial call: %s", initialResponse));
             results.addAll(initialResponse.asCollection());
-        }
+        });
     }
 
     /**
@@ -170,19 +169,16 @@ public class DefaultBambooClient implements BambooClient {
      * @param results
      */
     private void doRepeatableCall(RepeatApiCaller<? extends AbstractResponse> apiCaller, Set results) {
-        Optional<WebTarget> opt = apiCaller.createTarget();
 
-        if (opt.isPresent()) {
-            AbstractResponse initialResponse = apiCaller.get(opt.get());
+        apiCaller.createTarget().ifPresent( target -> {
+            AbstractResponse initialResponse = apiCaller.get(target);
             log.fine(String.format("got results for initial call: %s", initialResponse));
             results.addAll(initialResponse.asCollection());
 
-            Optional<? extends AbstractResponse> secondResponse = apiCaller.repeat(initialResponse);
-
-            if (secondResponse.isPresent()) {
-                results.addAll(secondResponse.get().asCollection());
-            }
-        }
+            apiCaller.repeat(initialResponse).ifPresent( response -> {
+                results.addAll(response.asCollection());
+            });
+        });
     }
 
     RepeatApiCaller<ResultsResponse> createResultsCaller(final InstanceValues values, Map<String, String> params) {
