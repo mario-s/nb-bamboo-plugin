@@ -14,7 +14,7 @@ import static java.util.Optional.of;
 import lombok.extern.java.Log;
 
 /**
- * This class can be used to perform a second call to the REST API. It is generall used in cases where we don't know the
+ * This class can be used to perform a second call to the REST API. It is used in cases where we don't know the
  * maximum of expected result upfront.
  *
  * @author spindizzy
