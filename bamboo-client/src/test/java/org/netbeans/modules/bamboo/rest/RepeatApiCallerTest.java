@@ -108,7 +108,7 @@ public class RepeatApiCallerTest {
      * Test of get method, of class ApiCaller.
      */
     @Test
-    public void testRequest() {
+    public void testGetRequest() {
         given(target.request()).willReturn(builder);
         classUnderTest.get(target);
         verify(builder).get(PlansResponse.class);

@@ -3,7 +3,6 @@ package org.netbeans.modules.bamboo.rest;
 import java.util.Map;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 
-
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
 
 import java.util.Optional;
@@ -15,6 +14,9 @@ import static java.util.Optional.of;
 import lombok.extern.java.Log;
 
 /**
+ * This class can be used to perform a second call to the REST API. It is generall used in cases where we don't know the
+ * maximum of expected result upfront.
+ *
  * @author spindizzy
  */
 @Log
@@ -32,6 +34,13 @@ class RepeatApiCaller<T extends AbstractResponse> extends ApiCaller<T> {
         super(values, clazz, path, params);
     }
 
+    /**
+     * Repeat a call to the endpoint based on the given initial response, if there are more items available (size >
+     * results of first call).
+     *
+     * @param initial the initial response.
+     * @return an empty {@link Optional} if there are no more result, otherwhise the complete amount of results.
+     */
     Optional<T> repeat(final AbstractResponse initial) {
         int max = initial.getMaxResult();
         int size = initial.getSize();
