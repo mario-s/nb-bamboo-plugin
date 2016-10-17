@@ -25,7 +25,7 @@ public class HttpResponseCodeTest {
      */
     @Test
     public void testGetCode_Unknown() {
-        HttpResponseCode result = HttpResponseCode.getCode(-1);
+        HttpResponseCode result = HttpResponseCode.getCode(-10);
         assertThat(result, is(HttpResponseCode.Unknown));
     }
     
