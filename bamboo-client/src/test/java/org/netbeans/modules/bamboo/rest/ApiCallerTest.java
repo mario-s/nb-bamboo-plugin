@@ -48,7 +48,7 @@ public class ApiCallerTest {
     public void setUp() {
         classUnderTest = new ApiCaller<>(values, Info.class, FOO);
         setInternalState(classUnderTest, "webTargetFactory", webTargetFactory);
-        
+
         given(values.getPassword()).willReturn(FOO.toCharArray());
         given(values.getUrl()).willReturn(FOO);
         given(webTargetFactory.newTarget(anyString(), any(Map.class))).willReturn(target);
@@ -60,9 +60,19 @@ public class ApiCallerTest {
      * Test of createTarget method, of class ApiCaller.
      */
     @Test
-    public void testCreateTarget() {
+    public void testCreateTarget_EmptyValues_ExpectNotPresent() {
         Optional<WebTarget> result = classUnderTest.createTarget();
         assertThat(result.isPresent(), is(false));
+    }
+
+    /**
+     * Test of createTarget method, of class ApiCaller.
+     */
+    @Test
+    public void testCreateTarget_Values_ExpectPresent() {
+        given(values.getUsername()).willReturn(FOO);
+        Optional<WebTarget> result = classUnderTest.createTarget();
+        assertThat(result.isPresent(), is(true));
     }
 
     /**
@@ -81,7 +91,7 @@ public class ApiCallerTest {
     public void testGetRequest_ExpectNotNull() {
         given(target.request()).willReturn(builder);
         given(builder.get(Info.class)).willReturn(new Info());
-        
+
         Info result = classUnderTest.get(target);
         assertThat(result, notNullValue());
     }
@@ -93,7 +103,7 @@ public class ApiCallerTest {
     public void testPostRequest_ExpectZero() {
         given(target.request()).willReturn(builder);
         given(builder.post(any(Entity.class))).willReturn(response);
-        
+
         int result = classUnderTest.post(target);
         assertEquals(0, result);
     }
