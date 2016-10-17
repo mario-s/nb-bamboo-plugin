@@ -25,9 +25,6 @@ import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 @Log
 class ApiCaller<T> {
 
-    static final String START = "start-index";
-    static final String MAX = "max-results";
-
     private final Class<T> clazz;
     private final String path;
     private final InstanceValues values;

@@ -3,7 +3,6 @@ package org.netbeans.modules.bamboo.rest;
 import java.util.Map;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 
-import static org.netbeans.modules.bamboo.rest.ApiCaller.MAX;
 
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
 
@@ -20,6 +19,8 @@ import lombok.extern.java.Log;
  */
 @Log
 class RepeatApiCaller<T extends AbstractResponse> extends ApiCaller<T> {
+
+    static final String MAX = "max-results";
 
     private Optional<T> opt = empty();
 
