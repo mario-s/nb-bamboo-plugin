@@ -128,7 +128,7 @@ public class DefaultBambooClient implements BambooClient {
         Set<Project> results = new HashSet<>();
         Map<String, String> params = new HashMap<>();
         params.put(EXPAND, PROJECT_PLANS);
-        params.put(ApiCaller.MAX, Integer.toString(max));
+        params.put(RepeatApiCaller.MAX, Integer.toString(max));
         doSimpleCall(createProjectCaller(values, params), results);
         return results;
     }
