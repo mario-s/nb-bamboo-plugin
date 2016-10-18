@@ -35,7 +35,7 @@ public class DefaultBambooInstanceFactory implements BambooInstanceProduceable {
         Optional<BambooClient> optClient = clientFactory.newClient(values);
         if(optClient.isPresent()){
             BambooClient client = optClient.get();
-            DefaultBambooInstance instance = new DefaultBambooInstance(values);
+            DefaultBambooInstance instance = new DefaultBambooInstance(values, optClient);
 
             VersionInfo info = client.getVersionInfo();
             instance.setVersionInfo(info);

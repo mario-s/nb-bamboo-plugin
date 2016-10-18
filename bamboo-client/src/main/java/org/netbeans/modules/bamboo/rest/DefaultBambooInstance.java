@@ -66,7 +66,7 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
 
     private final LookupContext lookupContext;
 
-    private transient Optional<BambooClient> optClient = empty();
+    private transient Optional<BambooClient> optClient;
 
     private transient Optional<Task> synchronizationTask = empty();
 
@@ -79,11 +79,12 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     private BambooInstanceProperties properties;
 
     public DefaultBambooInstance() {
-        this(null);
+        this(null, empty());
     }
 
-    public DefaultBambooInstance(final InstanceValues values) {
+    public DefaultBambooInstance(final InstanceValues values, final Optional<BambooClient> optClient) {
         super(values);
+        this.optClient = optClient;
         changeSupport = new PropertyChangeSupport(this);
         lookupContext = LookupContext.Instance;
     }
