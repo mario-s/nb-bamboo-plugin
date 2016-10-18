@@ -54,6 +54,8 @@ class DefaultBambooClient implements BambooClient {
     
     private final HttpUtility utility;
     
+    private final ApiCallerFactory apiCallerFactory;
+    
     DefaultBambooClient(InstanceValues values) {
         this(values, new HttpUtility());
     }
@@ -61,6 +63,7 @@ class DefaultBambooClient implements BambooClient {
     DefaultBambooClient(InstanceValues values, HttpUtility utility) {
         this.values = values;
         this.utility = utility;
+        apiCallerFactory = new ApiCallerFactory(values);
     }
 
     @Override
@@ -116,7 +119,7 @@ class DefaultBambooClient implements BambooClient {
     @Override
     public VersionInfo getVersionInfo() {
         VersionInfo versionInfo = new VersionInfo();
-        ApiCaller<Info> infoCaller = createInfoCaller(values);
+        ApiCaller<Info> infoCaller = createInfoCaller();
         Optional<WebTarget> opt = infoCaller.createTarget();
 
         if (opt.isPresent()) {
@@ -133,13 +136,13 @@ class DefaultBambooClient implements BambooClient {
         Map<String, String> params = new HashMap<>();
         params.put(EXPAND, PROJECT_PLANS);
         params.put(RepeatApiCaller.MAX, Integer.toString(max));
-        doSimpleCall(createProjectCaller(values, params), results);
+        doSimpleCall(createProjectCaller(params), results);
         return results;
     }
 
     private Collection<Plan> doPlansCall(final InstanceValues values) {
         Set<Plan> results = new HashSet<>();
-        doRepeatableCall(createPlansCaller(values), results);
+        doRepeatableCall(createPlansCaller(), results);
         return results;
     }
 
@@ -147,7 +150,7 @@ class DefaultBambooClient implements BambooClient {
         Set<Result> results = new HashSet<>();
         Map<String, String> params = new HashMap<>();
         params.put(EXPAND, RESULT_COMMENTS);
-        doRepeatableCall(createResultsCaller(values, params), results);
+        doRepeatableCall(createResultsCaller(params), results);
         return results;
     }
 
@@ -185,20 +188,20 @@ class DefaultBambooClient implements BambooClient {
         });
     }
 
-    RepeatApiCaller<ResultsResponse> createResultsCaller(final InstanceValues values, Map<String, String> params) {
-        return new RepeatApiCaller<>(values, ResultsResponse.class, RESULTS, params);
+    private RepeatApiCaller<ResultsResponse> createResultsCaller(Map<String, String> params) {
+        return apiCallerFactory.newRepeatCaller(ResultsResponse.class, RESULTS, params);
     }
 
-    RepeatApiCaller<PlansResponse> createPlansCaller(final InstanceValues values) {
-        return new RepeatApiCaller<>(values, PlansResponse.class, PLANS);
+    private RepeatApiCaller<PlansResponse> createPlansCaller() {
+        return apiCallerFactory.newRepeatCaller(PlansResponse.class, PLANS);
     }
 
-    ApiCaller<ProjectsResponse> createProjectCaller(final InstanceValues values, Map<String, String> params) {
-        return new ApiCaller<>(values, ProjectsResponse.class, PROJECTS, params);
+    private ApiCaller<ProjectsResponse> createProjectCaller(Map<String, String> params) {
+        return apiCallerFactory.newCaller(ProjectsResponse.class, PROJECTS, params);
     }
 
-    ApiCaller<Info> createInfoCaller(final InstanceValues values) {
-        return new ApiCaller<>(values, Info.class, INFO);
+    private ApiCaller<Info> createInfoCaller() {
+        return apiCallerFactory.newCaller(Info.class, INFO);
     }
 
 }
