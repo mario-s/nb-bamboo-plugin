@@ -7,7 +7,7 @@ import org.netbeans.modules.bamboo.model.InstanceValues;
 import static java.util.Collections.emptyMap;
 
 /**
- *
+ * This factory produces {@link ApiCaller} and subclasses.
  * @author spindizzy
  */
 @AllArgsConstructor

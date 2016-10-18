@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-
 import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
 import org.netbeans.modules.bamboo.model.rest.Info;
@@ -8,7 +7,6 @@ import org.netbeans.modules.bamboo.model.rest.Plan;
 import org.netbeans.modules.bamboo.model.rest.PlansResponse;
 import org.netbeans.modules.bamboo.model.rest.Result;
 import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
-
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,6 +28,9 @@ import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 import org.netbeans.modules.bamboo.glue.VoConverter.VersionInfoConverter;
 import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
 import org.netbeans.modules.bamboo.glue.BambooClient;
+import org.netbeans.modules.bamboo.model.rest.Entity;
+
+import static java.util.Collections.singletonMap;
 
 /**
  * @author spindizzy
@@ -51,11 +52,11 @@ class DefaultBambooClient implements BambooClient {
     private static final String PLAN = PLANS + "/{buildKey}.json";
 
     private final InstanceValues values;
-    
+
     private final HttpUtility utility;
-    
+
     private final ApiCallerFactory apiCallerFactory;
-    
+
     DefaultBambooClient(InstanceValues values) {
         this(values, new HttpUtility());
     }
@@ -85,8 +86,8 @@ class DefaultBambooClient implements BambooClient {
         ProjectsFactory factory = new ProjectsFactory(values);
         try {
 
-            Collection<Plan> plans = getPlans(values);
-            Collection<Project> projects = doProjectsCall(values, plans.size());
+            Collection<Plan> plans = getPlans();
+            Collection<Project> projects = doProjectsCall(plans.size());
 
             factory.setPlans(plans);
             factory.setProjects(projects);
@@ -103,9 +104,9 @@ class DefaultBambooClient implements BambooClient {
      * @param values {@link InstanceValues}
      * @return the avlailable plans
      */
-    private Collection<Plan> getPlans(final InstanceValues values) {
-        Collection<Plan> plans = doPlansCall(values);
-        Collection<Result> results = doResultsCall(values);
+    private Collection<Plan> getPlans() {
+        Collection<Plan> plans = doPlansCall();
+        Collection<Result> results = doResultsCall();
         results.forEach(result -> {
             plans.forEach(plan -> {
                 if (result.getPlan().getKey().equals(plan.getKey())) {
@@ -119,7 +120,7 @@ class DefaultBambooClient implements BambooClient {
     @Override
     public VersionInfo getVersionInfo() {
         VersionInfo versionInfo = new VersionInfo();
-        ApiCaller<Info> infoCaller = createInfoCaller();
+        ApiCaller<Info> infoCaller = apiCallerFactory.newCaller(Info.class, INFO);
         Optional<WebTarget> opt = infoCaller.createTarget();
 
         if (opt.isPresent()) {
@@ -131,26 +132,28 @@ class DefaultBambooClient implements BambooClient {
         return versionInfo;
     }
 
-    private Collection<Project> doProjectsCall(final InstanceValues values, int max) {
+    private Collection<Project> doProjectsCall(int max) {
         Set<Project> results = new HashSet<>();
         Map<String, String> params = new HashMap<>();
         params.put(EXPAND, PROJECT_PLANS);
         params.put(RepeatApiCaller.MAX, Integer.toString(max));
-        doSimpleCall(createProjectCaller(params), results);
+        ApiCaller caller = apiCallerFactory.newCaller(ProjectsResponse.class, PROJECTS, params);
+        doSimpleCall(caller, results);
         return results;
     }
 
-    private Collection<Plan> doPlansCall(final InstanceValues values) {
+    private Collection<Plan> doPlansCall() {
         Set<Plan> results = new HashSet<>();
-        doRepeatableCall(createPlansCaller(), results);
+        RepeatApiCaller caller = apiCallerFactory.newRepeatCaller(PlansResponse.class, PLANS);
+        doRepeatableCall(caller, results);
         return results;
     }
 
-    private Collection<Result> doResultsCall(final InstanceValues values) {
+    private Collection<Result> doResultsCall() {
         Set<Result> results = new HashSet<>();
-        Map<String, String> params = new HashMap<>();
-        params.put(EXPAND, RESULT_COMMENTS);
-        doRepeatableCall(createResultsCaller(params), results);
+        Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
+        RepeatApiCaller caller = apiCallerFactory.newRepeatCaller(ResultsResponse.class, RESULTS, params);
+        doRepeatableCall(caller, results);
         return results;
     }
 
@@ -162,7 +165,7 @@ class DefaultBambooClient implements BambooClient {
      */
     private void doSimpleCall(ApiCaller<? extends AbstractResponse> apiCaller, Set results) {
 
-        apiCaller.createTarget().ifPresent( target -> {
+        apiCaller.createTarget().ifPresent(target -> {
             AbstractResponse initialResponse = apiCaller.get(target);
             log.fine(String.format("got results for initial call: %s", initialResponse));
             results.addAll(initialResponse.asCollection());
@@ -175,33 +178,16 @@ class DefaultBambooClient implements BambooClient {
      * @param apiCaller
      * @param results
      */
-    private void doRepeatableCall(RepeatApiCaller<? extends AbstractResponse> apiCaller, Set results) {
+    private void doRepeatableCall(RepeatApiCaller<? extends AbstractResponse> apiCaller, Set<? extends Entity> results) {
 
-        apiCaller.createTarget().ifPresent( target -> {
+        apiCaller.createTarget().ifPresent(target -> {
             AbstractResponse initialResponse = apiCaller.get(target);
             log.fine(String.format("got results for initial call: %s", initialResponse));
             results.addAll(initialResponse.asCollection());
 
-            apiCaller.repeat(initialResponse).ifPresent( response -> {
+            apiCaller.repeat(initialResponse).ifPresent(response -> {
                 results.addAll(response.asCollection());
             });
         });
     }
-
-    private RepeatApiCaller<ResultsResponse> createResultsCaller(Map<String, String> params) {
-        return apiCallerFactory.newRepeatCaller(ResultsResponse.class, RESULTS, params);
-    }
-
-    private RepeatApiCaller<PlansResponse> createPlansCaller() {
-        return apiCallerFactory.newRepeatCaller(PlansResponse.class, PLANS);
-    }
-
-    private ApiCaller<ProjectsResponse> createProjectCaller(Map<String, String> params) {
-        return apiCallerFactory.newCaller(ProjectsResponse.class, PROJECTS, params);
-    }
-
-    private ApiCaller<Info> createInfoCaller() {
-        return apiCallerFactory.newCaller(Info.class, INFO);
-    }
-
 }
