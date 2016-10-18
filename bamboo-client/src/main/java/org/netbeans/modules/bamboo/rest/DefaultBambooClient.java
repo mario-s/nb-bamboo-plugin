@@ -35,7 +35,7 @@ import org.netbeans.modules.bamboo.glue.BambooClient;
  * @author spindizzy
  */
 @Log
-public class DefaultBambooClient implements BambooClient {
+class DefaultBambooClient implements BambooClient {
 
     static final String EXPAND = "expand";
     static final String PROJECT_PLANS = "projects.project.plans.plan";
@@ -54,11 +54,11 @@ public class DefaultBambooClient implements BambooClient {
     
     private final HttpUtility utility;
     
-    public DefaultBambooClient(InstanceValues values) {
+    DefaultBambooClient(InstanceValues values) {
         this(values, new HttpUtility());
     }
 
-    public DefaultBambooClient(InstanceValues values, HttpUtility utility) {
+    DefaultBambooClient(InstanceValues values, HttpUtility utility) {
         this.values = values;
         this.utility = utility;
     }

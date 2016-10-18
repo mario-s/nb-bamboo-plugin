@@ -10,7 +10,6 @@ import static java.util.Optional.of;
 
 import org.netbeans.modules.bamboo.glue.BambooClient;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  *
