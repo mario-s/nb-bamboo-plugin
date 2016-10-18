@@ -53,6 +53,10 @@ public class DefaultBambooClient implements BambooClient {
     private final InstanceValues values;
     
     private final HttpUtility utility;
+    
+    public DefaultBambooClient(InstanceValues values) {
+        this(values, new HttpUtility());
+    }
 
     public DefaultBambooClient(InstanceValues values, HttpUtility utility) {
         this.values = values;

@@ -156,9 +156,8 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
         try {
             BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
             props.loadPreferences(name);
-
-            instance = new DefaultBambooInstance();
-            instance.applyProperties(props);
+            //create a instance with a client anyway since the stored properties must have been valid
+            instance = new DefaultBambooInstance(props);
         } catch (IllegalStateException e) {
             log.warning(e.getMessage());
         }

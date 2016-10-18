@@ -10,7 +10,7 @@ import org.netbeans.modules.bamboo.model.InstanceValues;
 public interface BambooClientProduceable {
     
     /**
-     * This method supplies a new client when the server for the given arguments can bea accessed.
+     * This method supplies a new client when the server for the given arguments can be accessed.
      * If the server is not avialable the result is empty.
      * @param values the necessary values to access the server.
      * @return an {@link Optional} of {@link BambooClient}.

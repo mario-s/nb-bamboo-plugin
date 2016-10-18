@@ -6,7 +6,6 @@ import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
 
-import static org.openide.util.Lookup.getDefault;
 
 import org.openide.util.RequestProcessor;
 import org.openide.util.RequestProcessor.Task;
@@ -26,7 +25,6 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 import lombok.extern.java.Log;
-import org.netbeans.modules.bamboo.glue.BambooClientProduceable;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.LookupContext;
 
@@ -50,7 +48,7 @@ import static java.lang.String.format;
  * @author spindizzy
  */
 @Log
-public class DefaultBambooInstance extends DefaultInstanceValues implements BambooInstance {
+class DefaultBambooInstance extends DefaultInstanceValues implements BambooInstance {
 
     /**
      * Use serialVersionUID for interoperability.
@@ -78,11 +76,13 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
 
     private BambooInstanceProperties properties;
 
-    public DefaultBambooInstance() {
+    DefaultBambooInstance(final BambooInstanceProperties properties) {
         this(null, empty());
+        copyProperties(properties);
+        optClient = of(new DefaultBambooClient(this));
     }
 
-    public DefaultBambooInstance(final InstanceValues values, final Optional<BambooClient> optClient) {
+    DefaultBambooInstance(final InstanceValues values, final Optional<BambooClient> optClient) {
         super(values);
         this.optClient = optClient;
         changeSupport = new PropertyChangeSupport(this);
@@ -92,21 +92,6 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     @Override
     public void addPropertyChangeListener(final PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void applyProperties(final BambooInstanceProperties properties) {
-        this.properties = properties;
-        copyProperties(properties);
-        initClient();
-    }
-
-    private void initClient() {
-        BambooClientProduceable factory = getDefault().lookup(BambooClientProduceable.class);
-        optClient = factory.newClient(this);
-
-        if (log.isLoggable(Level.INFO)) {
-            log.info(format("initialized client, is present: %s", optClient.isPresent()));
-        }
     }
 
     @Override
@@ -135,6 +120,8 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
         if (isNotBlank(syncProp)) {
             setSyncInterval(Integer.parseInt(syncProp));
         }
+        
+        this.properties = props;
     }
 
     private void doSynchronization(boolean showProgress) {
@@ -255,8 +242,12 @@ public class DefaultBambooInstance extends DefaultInstanceValues implements Bamb
     }
 
     private boolean checkAvailability() {
+        if (log.isLoggable(Level.INFO)) {
+            log.info(format("client is present: %s", optClient.isPresent()));
+        }
+
         available = (optClient.isPresent()) ? optClient.get().existsService() : false;
-        
+
         return available;
     }
 

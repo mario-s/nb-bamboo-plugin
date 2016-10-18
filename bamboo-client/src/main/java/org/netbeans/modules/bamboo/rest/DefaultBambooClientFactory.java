@@ -23,11 +23,9 @@ public class DefaultBambooClientFactory implements BambooClientProduceable {
     public Optional<BambooClient> newClient(InstanceValues values) {
         Optional<BambooClient> opt = empty();
         String url = values.getUrl();
-        if (isNotBlank(url)) {
-            HttpUtility httpUtility = newUtility();
-            if (httpUtility.exists(url)) {
-                opt = of(new DefaultBambooClient(values, httpUtility));
-            }
+        HttpUtility httpUtility = newUtility();
+        if (httpUtility.exists(url)) {
+            opt = of(new DefaultBambooClient(values, httpUtility));
         }
         return opt;
     }

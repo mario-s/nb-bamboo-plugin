@@ -6,8 +6,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Optional;
 import lombok.extern.java.Log;
+import org.apache.commons.lang3.StringUtils;
 
 import static java.lang.String.format;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * This utility provides HTTP related functionality.
@@ -27,16 +29,18 @@ public class HttpUtility {
      */
     public boolean exists(String url) {
         boolean exists = false;
-        try {
-            URL endpoint = new URL(url);
-            URLConnection connection = endpoint.openConnection();
-            if (connection instanceof HttpURLConnection) {
-                HttpURLConnection httpConn = (HttpURLConnection) connection;
-                int status = httpConn.getResponseCode();
-                exists = isValid(status);
+        if (isNotBlank(url)) {
+            try {
+                URL endpoint = new URL(url);
+                URLConnection connection = endpoint.openConnection();
+                if (connection instanceof HttpURLConnection) {
+                    HttpURLConnection httpConn = (HttpURLConnection) connection;
+                    int status = httpConn.getResponseCode();
+                    exists = isValid(status);
+                }
+            } catch (IOException ex) {
+                log.info(format(WRONG_URL, ex.getMessage()));
             }
-        } catch (IOException ex) {
-            log.info(format(WRONG_URL, ex.getMessage()));
         }
         return exists;
     }

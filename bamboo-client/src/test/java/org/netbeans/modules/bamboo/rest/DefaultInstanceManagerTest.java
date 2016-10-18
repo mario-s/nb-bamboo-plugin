@@ -50,6 +50,8 @@ public class DefaultInstanceManagerTest {
     @Mock
     private Preferences preferences;
     @Mock
+    private BambooInstanceProperties properties;
+    @Mock
     private BuildStatusWatchable buildStatusWatcher;
 
     private DefaultInstanceManager classUnderTest;
@@ -90,7 +92,7 @@ public class DefaultInstanceManagerTest {
         values.setUrl("");
         values.setPassword(new char[]{'a'});
 
-        instance = new DefaultBambooInstance();
+        instance = new DefaultBambooInstance(properties);
         instance.setName(values.getName());
         instance.setUrl(values.getUrl());
 

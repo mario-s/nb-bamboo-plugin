@@ -32,6 +32,7 @@ public class DefaultBambooInstanceFactory implements BambooInstanceProduceable {
     @Override
     public Optional<BambooInstance> create(final InstanceValues values) {
         Optional<BambooInstance> optInstance = empty();
+        //create the client only when the url supplied by the values is valid
         Optional<BambooClient> optClient = clientFactory.newClient(values);
         if(optClient.isPresent()){
             BambooClient client = optClient.get();

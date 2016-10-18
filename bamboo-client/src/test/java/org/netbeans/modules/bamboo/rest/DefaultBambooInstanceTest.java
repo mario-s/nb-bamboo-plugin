@@ -83,8 +83,8 @@ public class DefaultBambooInstanceTest {
      */
     @Test
     public void testGetPreferences() {
-        classUnderTest.applyProperties(properties);
-        Preferences result = classUnderTest.getPreferences();
+        DefaultBambooInstance instance = new DefaultBambooInstance(properties);
+        Preferences result = instance.getPreferences();
         assertNotNull(result);
     }
 
@@ -94,8 +94,9 @@ public class DefaultBambooInstanceTest {
     @Test
     public void testSetProperties_WithSync() {
         given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn("5");
-        classUnderTest.applyProperties(properties);
-        assertEquals(5, classUnderTest.getSyncInterval());
+        
+        DefaultBambooInstance instance = new DefaultBambooInstance(properties);
+        assertEquals(5, instance.getSyncInterval());
     }
 
     /**
@@ -104,9 +105,10 @@ public class DefaultBambooInstanceTest {
     @Test
     public void testSetProjects_ShouldCreateTask() {
         given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn("5");
-        classUnderTest.applyProperties(properties);
-        classUnderTest.setChildren(projects);
-        assertThat(classUnderTest.getSynchronizationTask().isPresent(), is(true));
+        
+        DefaultBambooInstance instance = new DefaultBambooInstance(properties);
+        instance.setChildren(projects);
+        assertThat(instance.getSynchronizationTask().isPresent(), is(true));
     }
     
     /**
@@ -115,9 +117,10 @@ public class DefaultBambooInstanceTest {
     @Test
     public void testSetProjects_ExpectProjectsHaveParent() {
         given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn("5");
-        classUnderTest.applyProperties(properties);
-        classUnderTest.setChildren(projects);
-        projects.forEach(pr -> {assertThat(pr.getParent().get(), is(classUnderTest));});
+        
+        DefaultBambooInstance instance = new DefaultBambooInstance(properties);
+        instance.setChildren(projects);
+        projects.forEach(pr -> {assertThat(pr.getParent().get(), is(instance));});
     }
 
     @Test
@@ -133,9 +136,9 @@ public class DefaultBambooInstanceTest {
     
     @Test
     public void testUpdateSyncInterval() {
-        classUnderTest.applyProperties(properties);
-        classUnderTest.updateSyncInterval(1);
-        Optional<Task> task = classUnderTest.getSynchronizationTask();
+        DefaultBambooInstance instance = new DefaultBambooInstance(properties);
+        instance.updateSyncInterval(1);
+        Optional<Task> task = instance.getSynchronizationTask();
         assertThat(task.get().isFinished(), is(false));
     }
 }

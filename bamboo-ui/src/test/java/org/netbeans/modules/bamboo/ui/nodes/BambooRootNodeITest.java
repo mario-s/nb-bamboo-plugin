@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -13,22 +8,29 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.rest.DefaultBambooInstance;
 
 import org.openide.nodes.Node;
 
 import static org.openide.util.Lookup.getDefault;
 
 import javax.swing.Action;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 
 
 /**
  * @author spindizzy
  */
+@RunWith(MockitoJUnitRunner.class)
 public class BambooRootNodeITest {
     private BambooRootNode classUnderTest;
 
     private InstanceManageable manager;
+    
+    @Mock
+    private BambooInstance instance;
 
     @Before
     public void setUp() {
@@ -47,7 +49,7 @@ public class BambooRootNodeITest {
 
     @Test
     public void testCreateChild() {
-        manager.getContent().add(new DefaultBambooInstance());
+        manager.getContent().add(instance);
 
         Node[] result = classUnderTest.getChildren().getNodes();
         assertThat(result.length, is(1));
