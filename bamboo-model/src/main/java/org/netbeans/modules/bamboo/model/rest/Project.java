@@ -5,17 +5,18 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import java.util.Collection;
 import java.util.Collections;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  *
  * @author spindizzy
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @JsonRootName(value = "project")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Project {
+public class Project extends Entity{
 
-    private String key;
     private Link link;
     private String name;
     private transient Plans plans;

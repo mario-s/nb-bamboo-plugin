@@ -3,14 +3,15 @@ package org.netbeans.modules.bamboo.model.rest;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.netbeans.modules.bamboo.model.PlanType;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @JsonRootName(value = "plan")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Plan {
-
-    private String key;
+public class Plan extends Entity{
+    
     private Link link;
     private String name;
     private String shortKey;
