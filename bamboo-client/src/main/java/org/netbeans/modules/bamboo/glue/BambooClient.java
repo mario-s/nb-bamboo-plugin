@@ -42,9 +42,8 @@ public interface BambooClient {
     
     /**
      * Queues a plan for a build. The REST Api requires the key of the project and plan.
-     * @param project the project which contains the plan
      * @param plan the plan to build.
      * @return the server's response code.
      */
-    int queue(ProjectVo project, PlanVo plan);
+    int queue(PlanVo plan);
 }

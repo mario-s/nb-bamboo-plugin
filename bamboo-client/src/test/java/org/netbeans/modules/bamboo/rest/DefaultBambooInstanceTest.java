@@ -155,7 +155,7 @@ public class DefaultBambooInstanceTest {
     public void testQueue_ResponseCode200_ExpectTrue(){
         project.setChildren(singletonList(plan));
         classUnderTest.setChildren(singletonList(project));
-        given(client.queue(project, plan)).willReturn(200);
+        given(client.queue(plan)).willReturn(200);
         boolean result = classUnderTest.queue(plan);
         assertThat(result, is(true));
     }
@@ -164,7 +164,7 @@ public class DefaultBambooInstanceTest {
     public void testQueue_ResponseCode500_ExpectFalse(){
         project.setChildren(singletonList(plan));
         classUnderTest.setChildren(singletonList(project));
-        given(client.queue(project, plan)).willReturn(500);
+        given(client.queue(plan)).willReturn(500);
         boolean result = classUnderTest.queue(plan);
         assertThat(result, is(false));
     }

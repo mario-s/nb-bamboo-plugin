@@ -20,6 +20,7 @@ import javax.ws.rs.ProcessingException;
 import javax.ws.rs.ServerErrorException;
 
 import javax.ws.rs.client.WebTarget;
+import lombok.NonNull;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
@@ -109,12 +110,12 @@ class DefaultBambooClient implements BambooClient {
     }
 
     @Override
-    public int queue(ProjectVo project, PlanVo plan) {
+    public int queue(@NonNull PlanVo plan) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void updateProjects(Collection<ProjectVo> projects) {
+    public void updateProjects(@NonNull Collection<ProjectVo> projects) {
         Collection<ProjectVo> source = getProjects();
         if (!source.isEmpty()) {
             ProjectsUpdater updater = new ProjectsUpdater();

@@ -28,6 +28,7 @@ public class PlanVoConverterTest {
         classUnderTest = new PlanVoConverter(FOO);
         source = new Plan();
         source.setKey(FOO);
+        source.setName(FOO);
     }
 
     /**

@@ -257,7 +257,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         boolean queued = false;
         final Optional<ProjectVo> parent = plan.getParent();
         if (isChild(parent) && verifyAvailibility()) {
-            int status = optClient.get().queue(parent.get(), plan);
+            int status = optClient.get().queue(plan);
             HttpResponseCode code = HttpResponseCode.getCode(status);
             queued = code.equals(HttpResponseCode.Successful);
         }
