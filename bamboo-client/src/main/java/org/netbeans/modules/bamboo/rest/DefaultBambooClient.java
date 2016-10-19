@@ -77,20 +77,23 @@ class DefaultBambooClient extends AbstractBambooClient {
         doRepeatableCall(caller, results);
         return results;
     }
-    private void doRepeatableCall(RepeatApiCaller<? extends AbstractResponse> apiCaller, Set<? extends ServiceInfoProvideable> results) {
-        
+
+    private void doRepeatableCall(RepeatApiCaller<? extends AbstractResponse> apiCaller,
+            Set<? extends ServiceInfoProvideable> results) {
+
         apiCaller.createTarget().ifPresent(target -> {
             AbstractResponse initialResponse = apiCaller.get(target);
             log.fine(String.format("got results for initial call: %s", initialResponse));
             results.addAll(initialResponse.asCollection());
-            
+
             apiCaller.repeat(initialResponse).ifPresent(response -> {
                 results.addAll(response.asCollection());
             });
         });
     }
+
     private void doSimpleCall(ApiCaller<? extends AbstractResponse> apiCaller, Set results) {
-        
+
         apiCaller.createTarget().ifPresent(target -> {
             AbstractResponse initialResponse = apiCaller.get(target);
             log.fine(String.format("got results for initial call: %s", initialResponse));
@@ -99,12 +102,12 @@ class DefaultBambooClient extends AbstractBambooClient {
     }
 
     @Override
-    public int queue(@NonNull PlanVo plan) {
+    int queue(@NonNull PlanVo plan) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void updateProjects(@NonNull Collection<ProjectVo> projects) {
+    void updateProjects(@NonNull Collection<ProjectVo> projects) {
         Collection<ProjectVo> source = getProjects();
         if (!source.isEmpty()) {
             ProjectsUpdater updater = new ProjectsUpdater();
@@ -143,7 +146,7 @@ class DefaultBambooClient extends AbstractBambooClient {
      * Load the available plans and their results.
      *
      * @param values {@link InstanceValues}
-
+     *
      * @return the avlailable plans
      */
     private Collection<Plan> getPlans() {
