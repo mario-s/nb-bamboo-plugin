@@ -71,6 +71,7 @@ public class ProjectsFactoryTest {
     public void testCreate_ProjectPlans_ExpectNotEmpty() {
         Plan plan = new Plan();
         Project project = new Project();
+        project.setKey(FOO);
         classUnderTest.setProjects(singletonList(project));
         classUnderTest.setPlans(singletonList(plan));
         Collection<ProjectVo> result = classUnderTest.create();
@@ -84,11 +85,13 @@ public class ProjectsFactoryTest {
     public void testCreate_ProjectBasedOnSamePlans_ExpectException() {
         Plan plan = new Plan();
         plan.setKey(FOO);
+        plan.setName(FOO);
         List<Plan> planList = new ArrayList<>(1);
         planList.add(plan);
         Plans plans = new Plans();
         plans.setPlan(planList);
         Project project = new Project();
+        project.setKey(FOO);
         project.setPlans(plans);
         List<Project> projects = new ArrayList<>(1);
         projects.add(project);
