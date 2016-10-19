@@ -17,8 +17,6 @@ import static org.mockito.Matchers.anyString;
 
 import org.mockito.Mock;
 
-import static org.mockito.Mockito.verify;
-
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 import org.mockito.runners.MockitoJUnitRunner;
@@ -32,13 +30,14 @@ import static java.util.Optional.empty;
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import org.mockito.InOrder;
 import org.netbeans.modules.bamboo.model.rest.Plans;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
 
 
 /**
@@ -47,6 +46,7 @@ import static org.mockito.Matchers.any;
 @RunWith(MockitoJUnitRunner.class)
 public class RepeatApiCallerTest {
     private static final String FOO = "foo";
+    private static final int SIZE = 50;
 
     @Mock
     private InstanceValues values;
@@ -93,20 +93,25 @@ public class RepeatApiCallerTest {
     
     @Test
     public void testDoSecondCall_SizeGreaterMax_ExpectPresent() {
-        final int size = 50;
+        WebTarget newTarget = mock(WebTarget.class);
         
         PlansResponse initial = new PlansResponse();
         Plans plans = new Plans();
-        plans.setSize(size);
+        plans.setSize(SIZE);
         plans.setMaxResult(25);
         initial.setPlans(plans);
         
+        given(target.queryParam(RepeatApiCaller.MAX, SIZE)).willReturn(newTarget);
         given(target.request()).willReturn(builder);
+        given(newTarget.request()).willReturn(builder);
         given(builder.get(PlansResponse.class)).willReturn(initial);
         
         Optional<PlansResponse> result = classUnderTest.repeat(initial);
         assertThat(result.isPresent(), is(true));
-        verify(target).queryParam(RepeatApiCaller.MAX, size);
+        
+        InOrder order = inOrder(target, newTarget);
+        order.verify(target).queryParam(RepeatApiCaller.MAX, SIZE);
+        order.verify(newTarget).request();
     }
 
     /**
