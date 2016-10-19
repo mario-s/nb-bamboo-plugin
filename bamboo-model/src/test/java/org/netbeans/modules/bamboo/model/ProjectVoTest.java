@@ -6,6 +6,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
 
@@ -76,6 +78,18 @@ public class ProjectVoTest {
     @Test
     public void testIsChild_ExistingPlan_ExpectTrue() {
         boolean result = classUnderTest.isChild(plan);
+        assertThat(result, is(true));
+    }
+    
+    @Test
+    public void testIsChild_EmptyPlan_ExpectFalse() {
+        boolean result = classUnderTest.isChild(empty());
+        assertThat(result, is(false));
+    }
+    
+    @Test
+    public void testIsChild_PresentPlan_ExpectTrue() {
+        boolean result = classUnderTest.isChild(of(plan));
         assertThat(result, is(true));
     }
     
