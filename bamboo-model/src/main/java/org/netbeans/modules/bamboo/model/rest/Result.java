@@ -9,9 +9,10 @@ import org.netbeans.modules.bamboo.model.State;
 
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Result extends Entity{
+public class Result implements ServiceInfoProvideable{
+    
+    private String key;
     private Link link;
     private State state;
     private Plan plan;

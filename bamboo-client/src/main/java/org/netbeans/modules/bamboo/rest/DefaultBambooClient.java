@@ -28,7 +28,7 @@ import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 import org.netbeans.modules.bamboo.glue.VoConverter.VersionInfoConverter;
 import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
 import org.netbeans.modules.bamboo.glue.BambooClient;
-import org.netbeans.modules.bamboo.model.rest.Entity;
+import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 
 import static java.util.Collections.singletonMap;
 
@@ -93,7 +93,7 @@ class DefaultBambooClient implements BambooClient {
             factory.setProjects(projects);
 
         } catch (ServerErrorException | ProcessingException | NotFoundException exc) {
-            log.log(Level.FINE, exc.getMessage(), exc);
+            log.log(Level.WARNING, exc.getMessage(), exc);
         }
         return factory.create();
     }
@@ -178,7 +178,7 @@ class DefaultBambooClient implements BambooClient {
      * @param apiCaller
      * @param results
      */
-    private void doRepeatableCall(RepeatApiCaller<? extends AbstractResponse> apiCaller, Set<? extends Entity> results) {
+    private void doRepeatableCall(RepeatApiCaller<? extends AbstractResponse> apiCaller, Set<? extends ServiceInfoProvideable> results) {
 
         apiCaller.createTarget().ifPresent(target -> {
             AbstractResponse initialResponse = apiCaller.get(target);

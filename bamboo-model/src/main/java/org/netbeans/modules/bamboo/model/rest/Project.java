@@ -12,11 +12,11 @@ import lombok.EqualsAndHashCode;
  * @author spindizzy
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @JsonRootName(value = "project")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Project extends Entity{
+public class Project implements ServiceInfoProvideable{
 
+    private String key;
     private Link link;
     private String name;
     private transient Plans plans;

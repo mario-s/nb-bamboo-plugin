@@ -7,11 +7,11 @@ import lombok.EqualsAndHashCode;
 import org.netbeans.modules.bamboo.model.PlanType;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @JsonRootName(value = "plan")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Plan extends Entity{
+public class Plan implements ServiceInfoProvideable{
     
+    private String key;
     private Link link;
     private String name;
     private String shortKey;
