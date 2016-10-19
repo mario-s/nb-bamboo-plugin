@@ -6,7 +6,6 @@ import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
 
-
 import org.openide.util.RequestProcessor;
 import org.openide.util.RequestProcessor.Task;
 
@@ -19,6 +18,7 @@ import java.util.Optional;
 
 import java.util.logging.Level;
 import java.util.prefs.Preferences;
+import lombok.NonNull;
 import org.apache.commons.lang3.time.StopWatch;
 
 import static java.util.Optional.empty;
@@ -42,6 +42,7 @@ import static java.util.Collections.emptyList;
 import org.netbeans.modules.bamboo.glue.BambooClient;
 import org.netbeans.modules.bamboo.model.PlanVo;
 
+import static java.lang.String.format;
 import static java.lang.String.format;
 
 /**
@@ -120,7 +121,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         if (isNotBlank(syncProp)) {
             setSyncInterval(Integer.parseInt(syncProp));
         }
-        
+
         this.properties = props;
     }
 
@@ -220,7 +221,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     private void scheduleTask(int interval) {
         Task task = RP.create(() -> {
-            if (checkAvailability()) {
+            if (verifyAvailibility()) {
                 doSynchronization(true);
             }
 
@@ -241,7 +242,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         return available;
     }
 
-    private boolean checkAvailability() {
+    private boolean verifyAvailibility() {
         if (log.isLoggable(Level.INFO)) {
             log.info(format("client is present: %s", optClient.isPresent()));
         }
@@ -252,8 +253,16 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     @Override
-    public boolean queue(PlanVo plan) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean queue(@NonNull PlanVo plan) {
+        boolean queued = false;
+        final Optional<ProjectVo> parent = plan.getParent();
+        if (isChild(parent) && verifyAvailibility()) {
+            int status = optClient.get().queue(parent.get(), plan);
+            HttpResponseCode code = HttpResponseCode.getCode(status);
+            queued = code.equals(HttpResponseCode.Successful);
+        }
+
+        return queued;
     }
 
     @Override
@@ -272,7 +281,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     @Override
     public Task synchronize() {
         return RP.post(() -> {
-            if (checkAvailability()) {
+            if (verifyAvailibility()) {
                 synchronizeVersion();
                 doSynchronization(false);
                 prepareSynchronization();

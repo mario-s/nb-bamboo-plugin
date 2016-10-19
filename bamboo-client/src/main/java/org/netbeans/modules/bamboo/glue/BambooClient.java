@@ -2,6 +2,7 @@ package org.netbeans.modules.bamboo.glue;
 
 import org.netbeans.modules.bamboo.model.VersionInfo;
 import java.util.Collection;
+import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
 /**
@@ -38,4 +39,12 @@ public interface BambooClient {
      * @return information about the version.
      */
     VersionInfo getVersionInfo();
+    
+    /**
+     * Queues a plan for a build. The REST Api requires the key of the project and plan.
+     * @param project the project which contains the plan
+     * @param plan the plan to build.
+     * @return the server's response code.
+     */
+    int queue(ProjectVo project, PlanVo plan);
 }

@@ -34,6 +34,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 import org.netbeans.modules.bamboo.glue.BambooClient;
+import org.netbeans.modules.bamboo.model.PlanVo;
+
+import static java.util.Collections.singletonList;
 
 /**
  *
@@ -49,6 +52,9 @@ public class DefaultBambooInstanceTest {
     @Mock
     private BambooClient client;
     
+    private PlanVo plan;
+    private ProjectVo project;
+    
     private final PropertyChangeListener listener;
     
     @InjectMocks
@@ -62,6 +68,9 @@ public class DefaultBambooInstanceTest {
 
     @Before
     public void setUp() {       
+        plan = new PlanVo("");
+        project = new ProjectVo("");
+        
         classUnderTest.setSyncInterval(5);
         classUnderTest.addPropertyChangeListener(listener);
         
@@ -140,5 +149,23 @@ public class DefaultBambooInstanceTest {
         instance.updateSyncInterval(1);
         Optional<Task> task = instance.getSynchronizationTask();
         assertThat(task.get().isFinished(), is(false));
+    }
+    
+    @Test
+    public void testQueue_ResponseCode200_ExpectTrue(){
+        project.setChildren(singletonList(plan));
+        classUnderTest.setChildren(singletonList(project));
+        given(client.queue(project, plan)).willReturn(200);
+        boolean result = classUnderTest.queue(plan);
+        assertThat(result, is(true));
+    }
+    
+    @Test
+    public void testQueue_ResponseCode500_ExpectFalse(){
+        project.setChildren(singletonList(plan));
+        classUnderTest.setChildren(singletonList(project));
+        given(client.queue(project, plan)).willReturn(500);
+        boolean result = classUnderTest.queue(plan);
+        assertThat(result, is(false));
     }
 }

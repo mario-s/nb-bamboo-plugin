@@ -28,6 +28,7 @@ import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 import org.netbeans.modules.bamboo.glue.VoConverter.VersionInfoConverter;
 import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
 import org.netbeans.modules.bamboo.glue.BambooClient;
+import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 
 import static java.util.Collections.singletonMap;
@@ -67,9 +68,49 @@ class DefaultBambooClient implements BambooClient {
         apiCallerFactory = new ApiCallerFactory(values);
     }
 
+    private Collection<Plan> doPlansCall() {
+        Set<Plan> results = new HashSet<>();
+        RepeatApiCaller caller = apiCallerFactory.newRepeatCaller(PlansResponse.class, PLANS);
+        doRepeatableCall(caller, results);
+        return results;
+    }
+
+    private Collection<Result> doResultsCall() {
+        Set<Result> results = new HashSet<>();
+        Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
+        RepeatApiCaller caller = apiCallerFactory.newRepeatCaller(ResultsResponse.class, RESULTS, params);
+        doRepeatableCall(caller, results);
+        return results;
+    }
+    private void doRepeatableCall(RepeatApiCaller<? extends AbstractResponse> apiCaller, Set<? extends ServiceInfoProvideable> results) {
+        
+        apiCaller.createTarget().ifPresent(target -> {
+            AbstractResponse initialResponse = apiCaller.get(target);
+            log.fine(String.format("got results for initial call: %s", initialResponse));
+            results.addAll(initialResponse.asCollection());
+            
+            apiCaller.repeat(initialResponse).ifPresent(response -> {
+                results.addAll(response.asCollection());
+            });
+        });
+    }
+    private void doSimpleCall(ApiCaller<? extends AbstractResponse> apiCaller, Set results) {
+        
+        apiCaller.createTarget().ifPresent(target -> {
+            AbstractResponse initialResponse = apiCaller.get(target);
+            log.fine(String.format("got results for initial call: %s", initialResponse));
+            results.addAll(initialResponse.asCollection());
+        });
+    }
+
     @Override
     public boolean existsService() {
         return utility.exists(values.getUrl());
+    }
+
+    @Override
+    public int queue(ProjectVo project, PlanVo plan) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -98,10 +139,21 @@ class DefaultBambooClient implements BambooClient {
         return factory.create();
     }
 
+    private Collection<Project> doProjectsCall(int max) {
+        Set<Project> results = new HashSet<>();
+        Map<String, String> params = new HashMap<>();
+        params.put(EXPAND, PROJECT_PLANS);
+        params.put(RepeatApiCaller.MAX, Integer.toString(max));
+        ApiCaller caller = apiCallerFactory.newCaller(ProjectsResponse.class, PROJECTS, params);
+        doSimpleCall(caller, results);
+        return results;
+    }
+
     /**
      * Load the available plans and their results.
      *
      * @param values {@link InstanceValues}
+
      * @return the avlailable plans
      */
     private Collection<Plan> getPlans() {
@@ -132,62 +184,4 @@ class DefaultBambooClient implements BambooClient {
         return versionInfo;
     }
 
-    private Collection<Project> doProjectsCall(int max) {
-        Set<Project> results = new HashSet<>();
-        Map<String, String> params = new HashMap<>();
-        params.put(EXPAND, PROJECT_PLANS);
-        params.put(RepeatApiCaller.MAX, Integer.toString(max));
-        ApiCaller caller = apiCallerFactory.newCaller(ProjectsResponse.class, PROJECTS, params);
-        doSimpleCall(caller, results);
-        return results;
-    }
-
-    private Collection<Plan> doPlansCall() {
-        Set<Plan> results = new HashSet<>();
-        RepeatApiCaller caller = apiCallerFactory.newRepeatCaller(PlansResponse.class, PLANS);
-        doRepeatableCall(caller, results);
-        return results;
-    }
-
-    private Collection<Result> doResultsCall() {
-        Set<Result> results = new HashSet<>();
-        Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
-        RepeatApiCaller caller = apiCallerFactory.newRepeatCaller(ResultsResponse.class, RESULTS, params);
-        doRepeatableCall(caller, results);
-        return results;
-    }
-
-    /**
-     * Does a API call only once.
-     *
-     * @param apiCaller
-     * @param results
-     */
-    private void doSimpleCall(ApiCaller<? extends AbstractResponse> apiCaller, Set results) {
-
-        apiCaller.createTarget().ifPresent(target -> {
-            AbstractResponse initialResponse = apiCaller.get(target);
-            log.fine(String.format("got results for initial call: %s", initialResponse));
-            results.addAll(initialResponse.asCollection());
-        });
-    }
-
-    /**
-     * Repeats the API call.
-     *
-     * @param apiCaller
-     * @param results
-     */
-    private void doRepeatableCall(RepeatApiCaller<? extends AbstractResponse> apiCaller, Set<? extends ServiceInfoProvideable> results) {
-
-        apiCaller.createTarget().ifPresent(target -> {
-            AbstractResponse initialResponse = apiCaller.get(target);
-            log.fine(String.format("got results for initial call: %s", initialResponse));
-            results.addAll(initialResponse.asCollection());
-
-            apiCaller.repeat(initialResponse).ifPresent(response -> {
-                results.addAll(response.asCollection());
-            });
-        });
-    }
 }
