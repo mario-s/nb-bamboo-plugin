@@ -2,6 +2,7 @@ package org.netbeans.modules.bamboo.model;
 
 import java.util.Collection;
 import java.util.Optional;
+import lombok.NonNull;
 
 /**
  * A way to get the children of the instance.
@@ -11,7 +12,7 @@ public interface TraverseDown<C> {
     
     Collection<C> getChildren();
     
-    void setChildren(Collection<C> children);
+    void setChildren(@NonNull Collection<C> children);
     
     /**
      * This method verifies if the given child is part of the children.

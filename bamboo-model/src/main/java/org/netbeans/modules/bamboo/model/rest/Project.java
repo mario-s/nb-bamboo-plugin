@@ -7,6 +7,8 @@ import java.util.Collections;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import static java.util.Collections.emptyList;
+
 /**
  *
  * @author spindizzy
@@ -22,7 +24,7 @@ public class Project implements ServiceInfoProvideable{
     private transient Plans plans;
 
     public Collection<Plan> plansAsCollection() {
-        return (plans == null) ? Collections.emptyList() : plans.getPlan();
+        return (plans == null) ? emptyList() : plans.getPlan();
     }
 
 }

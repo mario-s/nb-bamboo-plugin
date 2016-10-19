@@ -1,7 +1,8 @@
 package org.netbeans.modules.bamboo.model;
 
-import java.util.Arrays;
 import lombok.Data;
+
+import static java.util.Arrays.copyOf;
 
 /**
  * A wrapper for all parameters to be used to create a new BambooInstance.
@@ -43,7 +44,7 @@ public class DefaultInstanceValues implements InstanceValues {
     }
 
     private char[] clonePassword(char[] passwd) {
-        return (passwd != null) ? Arrays.copyOf(passwd, passwd.length) : new char[0];
+        return (passwd != null) ? copyOf(passwd, passwd.length) : new char[0];
     }
     
 }

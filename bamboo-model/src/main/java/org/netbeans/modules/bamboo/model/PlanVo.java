@@ -2,8 +2,8 @@ package org.netbeans.modules.bamboo.model;
 
 import java.util.Optional;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
-import org.netbeans.api.annotations.common.NonNull;
 
 import static java.util.Optional.ofNullable;
 import static lombok.AccessLevel.NONE;
