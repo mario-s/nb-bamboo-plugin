@@ -36,6 +36,9 @@ import org.netbeans.modules.bamboo.model.rest.Plans;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Matchers.any;
 
 
 /**
@@ -90,10 +93,11 @@ public class RepeatApiCallerTest {
     
     @Test
     public void testDoSecondCall_SizeGreaterMax_ExpectPresent() {
+        final int size = 50;
         
         PlansResponse initial = new PlansResponse();
         Plans plans = new Plans();
-        plans.setSize(50);
+        plans.setSize(size);
         plans.setMaxResult(25);
         initial.setPlans(plans);
         
@@ -102,6 +106,7 @@ public class RepeatApiCallerTest {
         
         Optional<PlansResponse> result = classUnderTest.repeat(initial);
         assertThat(result.isPresent(), is(true));
+        verify(target).queryParam(RepeatApiCaller.MAX, size);
     }
 
     /**
