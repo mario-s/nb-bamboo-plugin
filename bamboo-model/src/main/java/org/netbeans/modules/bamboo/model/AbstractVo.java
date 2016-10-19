@@ -4,7 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NonNull;
+import org.netbeans.api.annotations.common.NonNull;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.InstanceContent;
 

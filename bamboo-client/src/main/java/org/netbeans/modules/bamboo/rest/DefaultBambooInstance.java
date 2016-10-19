@@ -18,7 +18,7 @@ import java.util.Optional;
 
 import java.util.logging.Level;
 import java.util.prefs.Preferences;
-import lombok.NonNull;
+import org.netbeans.api.annotations.common.NonNull;
 import org.apache.commons.lang3.time.StopWatch;
 
 import static java.util.Optional.empty;

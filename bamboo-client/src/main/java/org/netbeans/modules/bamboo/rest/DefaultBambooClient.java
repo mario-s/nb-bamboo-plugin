@@ -20,7 +20,7 @@ import javax.ws.rs.ProcessingException;
 import javax.ws.rs.ServerErrorException;
 
 import javax.ws.rs.client.WebTarget;
-import lombok.NonNull;
+import org.netbeans.api.annotations.common.NonNull;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;

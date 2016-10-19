@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.model;
 
 import java.util.Collection;
 import java.util.Optional;
-import lombok.NonNull;
+import org.netbeans.api.annotations.common.NonNull;
 
 /**
  * A way to get the children of the instance.
