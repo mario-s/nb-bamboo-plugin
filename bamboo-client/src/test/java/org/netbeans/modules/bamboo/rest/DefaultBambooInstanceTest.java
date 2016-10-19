@@ -50,14 +50,13 @@ public class DefaultBambooInstanceTest {
     @Mock
     private Preferences preferences;
     @Mock
-    private BambooClient client;
+    private AbstractBambooClient client;
     
     private PlanVo plan;
     private ProjectVo project;
     
     private final PropertyChangeListener listener;
     
-    @InjectMocks
     private DefaultBambooInstance classUnderTest;
 
     private Collection<ProjectVo> projects;
@@ -67,7 +66,9 @@ public class DefaultBambooInstanceTest {
     }
 
     @Before
-    public void setUp() {       
+    public void setUp() {     
+        classUnderTest = new DefaultBambooInstance(properties);
+        
         plan = new PlanVo("");
         project = new ProjectVo("");
         

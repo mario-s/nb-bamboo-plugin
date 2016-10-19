@@ -35,7 +35,7 @@ public class BambooInstanceFactoryTest {
     @Mock
     private InstanceValues values;
     @Mock
-    private BambooClient client;
+    private AbstractBambooClient client;
     
     
     private DefaultBambooInstanceFactory classUnderTest;

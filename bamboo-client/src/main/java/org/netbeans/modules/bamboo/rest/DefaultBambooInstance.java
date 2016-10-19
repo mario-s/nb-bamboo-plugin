@@ -44,6 +44,8 @@ import org.netbeans.modules.bamboo.model.PlanVo;
 
 import static java.lang.String.format;
 import static java.lang.String.format;
+import static java.lang.String.format;
+import static java.lang.String.format;
 
 /**
  * @author spindizzy
@@ -65,7 +67,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     private final LookupContext lookupContext;
 
-    private transient Optional<BambooClient> optClient;
+    private transient Optional<AbstractBambooClient> optClient;
 
     private transient Optional<Task> synchronizationTask = empty();
 
@@ -80,14 +82,21 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     DefaultBambooInstance(final BambooInstanceProperties properties) {
         this(null, empty());
         copyProperties(properties);
+
         optClient = of(new DefaultBambooClient(this));
     }
 
-    DefaultBambooInstance(final InstanceValues values, final Optional<BambooClient> optClient) {
+    DefaultBambooInstance(final InstanceValues values, final Optional<? extends BambooClient> opt) {
         super(values);
-        this.optClient = optClient;
         changeSupport = new PropertyChangeSupport(this);
         lookupContext = LookupContext.Instance;
+
+        if (opt.isPresent()) {
+            AbstractBambooClient updater = (AbstractBambooClient) opt.get();
+            optClient = of(updater);
+        } else {
+            optClient = empty();
+        }
     }
 
     @Override

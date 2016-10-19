@@ -28,7 +28,6 @@ import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 import org.netbeans.modules.bamboo.glue.VoConverter.VersionInfoConverter;
 import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
-import org.netbeans.modules.bamboo.glue.BambooClient;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 
@@ -38,7 +37,7 @@ import static java.util.Collections.singletonMap;
  * @author spindizzy
  */
 @Log
-class DefaultBambooClient implements BambooClient {
+class DefaultBambooClient extends AbstractBambooClient {
 
     static final String EXPAND = "expand";
     static final String PROJECT_PLANS = "projects.project.plans.plan";
@@ -53,10 +52,6 @@ class DefaultBambooClient implements BambooClient {
 
     private static final String PLAN = PLANS + "/{buildKey}.json";
 
-    private final InstanceValues values;
-
-    private final HttpUtility utility;
-
     private final ApiCallerFactory apiCallerFactory;
 
     DefaultBambooClient(InstanceValues values) {
@@ -64,8 +59,7 @@ class DefaultBambooClient implements BambooClient {
     }
 
     DefaultBambooClient(InstanceValues values, HttpUtility utility) {
-        this.values = values;
-        this.utility = utility;
+        super(values, utility);
         apiCallerFactory = new ApiCallerFactory(values);
     }
 
@@ -105,11 +99,6 @@ class DefaultBambooClient implements BambooClient {
     }
 
     @Override
-    public boolean existsService() {
-        return utility.exists(values.getUrl());
-    }
-
-    @Override
     public int queue(@NonNull PlanVo plan) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -125,7 +114,7 @@ class DefaultBambooClient implements BambooClient {
 
     @Override
     public Collection<ProjectVo> getProjects() {
-        ProjectsFactory factory = new ProjectsFactory(values);
+        ProjectsFactory factory = new ProjectsFactory(getValues());
         try {
 
             Collection<Plan> plans = getPlans();
