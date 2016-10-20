@@ -45,8 +45,11 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
 
     public void setResult(ResultVo result) {
         ResultVo old = this.result;
-        this.result = result;
-        firePropertyChange(ChangeEvents.Result.toString(), old, result);
+        //update only when the number is equal or higher
+        if(result.getNumber() >= old.getNumber()){
+            this.result = result;
+            firePropertyChange(ChangeEvents.Result.toString(), old, result);
+        }
     }
 
 }
