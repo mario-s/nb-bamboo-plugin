@@ -2,16 +2,13 @@ package org.netbeans.modules.bamboo.model;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
@@ -21,21 +18,20 @@ import static org.mockito.Mockito.verify;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class PlanVoTest {
-    
+
     private static final String FOO = "foo";
-    
+
     @Mock
     private PropertyChangeListener listener;
-    
+
     private PlanVo classUnderTest;
-    
-    
+
     @Before
     public void setUp() {
         classUnderTest = new PlanVo(FOO);
         ResultVo resultVo = newResult();
         classUnderTest.setResult(resultVo);
-        
+
         classUnderTest.addPropertyChangeListener(listener);
     }
 
@@ -55,8 +51,8 @@ public class PlanVoTest {
         classUnderTest.setResult(result);
         verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
-    
-     /**
+
+    /**
      * Test of setResult method, of class PlanVo.
      */
     @Test
@@ -68,5 +64,4 @@ public class PlanVoTest {
         verify(listener, never()).propertyChange(any(PropertyChangeEvent.class));
     }
 
-    
 }
