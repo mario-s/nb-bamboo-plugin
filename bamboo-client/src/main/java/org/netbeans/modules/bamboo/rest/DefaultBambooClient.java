@@ -127,7 +127,7 @@ class DefaultBambooClient extends AbstractBambooClient {
             factory.setProjects(projects);
 
         } catch (ServerErrorException | ProcessingException | NotFoundException exc) {
-            log.log(Level.WARNING, exc.getMessage(), exc);
+            log.log(Level.INFO, exc.getMessage(), exc);
         }
         return factory.create();
     }
