@@ -39,12 +39,8 @@ import org.netbeans.modules.bamboo.glue.InstanceConstants;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 
-import org.netbeans.modules.bamboo.glue.BambooClient;
 import org.netbeans.modules.bamboo.model.PlanVo;
 
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
 import static java.lang.String.format;
 
 /**
@@ -67,7 +63,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     private final LookupContext lookupContext;
 
-    private transient Optional<AbstractBambooClient> optClient;
+    private transient AbstractBambooClient client;
 
     private transient Optional<Task> synchronizationTask = empty();
 
@@ -80,23 +76,16 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     private BambooInstanceProperties properties;
 
     DefaultBambooInstance(final BambooInstanceProperties properties) {
-        this(null, empty());
+        this(null, null);
         copyProperties(properties);
-
-        optClient = of(new DefaultBambooClient(this));
+        this.client = new DefaultBambooClient(this);
     }
 
-    DefaultBambooInstance(final InstanceValues values, final Optional<? extends BambooClient> opt) {
+    DefaultBambooInstance(final InstanceValues values, final AbstractBambooClient client) {
         super(values);
         changeSupport = new PropertyChangeSupport(this);
         lookupContext = LookupContext.Instance;
-
-        if (opt.isPresent()) {
-            AbstractBambooClient updater = (AbstractBambooClient) opt.get();
-            optClient = of(updater);
-        } else {
-            optClient = empty();
-        }
+        this.client = client;
     }
 
     @Override
@@ -169,23 +158,20 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     private void synchronizeProjects() {
-        optClient.ifPresent(client -> {
-            Collection<ProjectVo> oldProjects = this.projects;
-            if (oldProjects == null || oldProjects.isEmpty()) {
-                Collection<ProjectVo> newProjects = client.getProjects();
-                this.projects = newProjects;
-                fireProjectsChanged(oldProjects, newProjects);
-            } else {
-                client.updateProjects(this.projects);
-                fireProjectsChanged(oldProjects, this.projects);
-            }
-        });
+        Collection<ProjectVo> oldProjects = this.projects;
+        if (oldProjects == null || oldProjects.isEmpty()) {
+            Collection<ProjectVo> newProjects = client.getProjects();
+            this.projects = newProjects;
+            fireProjectsChanged(oldProjects, newProjects);
+        } else {
+            client.updateProjects(this.projects);
+            fireProjectsChanged(oldProjects, this.projects);
+        }
     }
 
     private void synchronizeVersion() {
-        optClient.ifPresent(client -> {
-            version = client.getVersionInfo();
-        });
+
+        version = client.getVersionInfo();
     }
 
     private void fireProjectsChanged(Collection<ProjectVo> oldProjects, Collection<ProjectVo> newProjects) {
@@ -252,12 +238,11 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     private boolean verifyAvailibility() {
+        available = client.existsService();
+        
         if (log.isLoggable(Level.INFO)) {
-            log.info(format("client is present: %s", optClient.isPresent()));
+            log.info(format("service is available: %s", available));
         }
-
-        available = (optClient.isPresent()) ? optClient.get().existsService() : false;
-
         return available;
     }
 
@@ -266,7 +251,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         boolean queued = false;
         final Optional<ProjectVo> parent = plan.getParent();
         if (isChild(parent) && verifyAvailibility()) {
-            int status = optClient.get().queue(plan);
+            int status = client.queue(plan);
             HttpResponseCode code = HttpResponseCode.getCode(status);
             queued = code.equals(HttpResponseCode.Successful);
         }

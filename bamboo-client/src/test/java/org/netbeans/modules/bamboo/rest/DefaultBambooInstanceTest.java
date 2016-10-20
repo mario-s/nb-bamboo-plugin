@@ -10,7 +10,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.ProjectVo;
@@ -26,14 +25,12 @@ import static org.mockito.BDDMockito.given;
 import org.openide.util.RequestProcessor.Task;
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
 
-import static java.util.Optional.of;
 import static org.mockito.Mockito.inOrder;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
-import org.netbeans.modules.bamboo.glue.BambooClient;
 import org.netbeans.modules.bamboo.model.PlanVo;
 
 import static java.util.Collections.singletonList;
@@ -80,7 +77,7 @@ public class DefaultBambooInstanceTest {
         
         projects = emptyList();
         
-        setInternalState(classUnderTest, "optClient", of(client));
+        setInternalState(classUnderTest, "client", client);
     }
     
     @After
