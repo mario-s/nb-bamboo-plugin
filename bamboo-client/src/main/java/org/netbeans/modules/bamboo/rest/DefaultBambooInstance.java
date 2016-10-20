@@ -40,8 +40,11 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 
 import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.ResultVo;
 
 import static java.lang.String.format;
+import static org.netbeans.modules.bamboo.rest.QueuedResultFactory.newResult;
+
 
 /**
  * @author spindizzy
@@ -239,7 +242,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     private boolean verifyAvailibility() {
         available = client.existsService();
-        
+
         if (log.isLoggable(Level.INFO)) {
             log.info(format("service is available: %s", available));
         }
@@ -247,16 +250,20 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     @Override
-    public boolean queue(@NonNull PlanVo plan) {
-        boolean queued = false;
-        final Optional<ProjectVo> parent = plan.getParent();
-        if (isChild(parent) && verifyAvailibility()) {
-            int status = client.queue(plan);
-            HttpResponseCode code = HttpResponseCode.getCode(status);
-            queued = code.equals(HttpResponseCode.Successful);
-        }
-
-        return queued;
+    public void queue(@NonNull PlanVo plan) {
+        RP.post(() -> {
+            final Optional<ProjectVo> parent = plan.getParent();
+            if (isChild(parent) && verifyAvailibility()) {
+                int status = client.queue(plan);
+                HttpResponseCode code = HttpResponseCode.getCode(status);
+                if (code.equals(HttpResponseCode.Successful)) {
+                    ResultVo expected = newResult(plan.getResult());
+                    plan.setResult(expected);
+                } else if (log.isLoggable(Level.INFO)) {
+                    log.info(format("failed to queue the plan: %s", plan));
+                }
+            }
+        });
     }
 
     @Override

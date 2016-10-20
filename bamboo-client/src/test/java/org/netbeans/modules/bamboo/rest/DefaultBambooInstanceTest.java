@@ -42,18 +42,20 @@ import static java.util.Collections.singletonList;
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultBambooInstanceTest {
 
+    private static final String FOO = "foo";
+
     @Mock
     private BambooInstanceProperties properties;
     @Mock
     private Preferences preferences;
     @Mock
     private AbstractBambooClient client;
-    
+
     private PlanVo plan;
     private ProjectVo project;
-    
+
     private final PropertyChangeListener listener;
-    
+
     private DefaultBambooInstance classUnderTest;
 
     private Collection<ProjectVo> projects;
@@ -63,26 +65,32 @@ public class DefaultBambooInstanceTest {
     }
 
     @Before
-    public void setUp() {     
+    public void setUp() {
         classUnderTest = new DefaultBambooInstance(properties);
-        
-        plan = new PlanVo("");
-        project = new ProjectVo("");
-        
+
+        plan = new PlanVo(FOO);
+        project = new ProjectVo(FOO);
+
         classUnderTest.setSyncInterval(5);
         classUnderTest.addPropertyChangeListener(listener);
-        
+
         given(properties.getPreferences()).willReturn(preferences);
         given(client.existsService()).willReturn(true);
-        
+
         projects = emptyList();
-        
+
         setInternalState(classUnderTest, "client", client);
     }
-    
+
     @After
     public void shutDown() {
         classUnderTest.removePropertyChangeListener(listener);
+    }
+
+    private void waitForListener() throws InterruptedException {
+        synchronized (listener) {
+            listener.wait(1000);
+        }
     }
 
     /**
@@ -101,7 +109,7 @@ public class DefaultBambooInstanceTest {
     @Test
     public void testSetProperties_WithSync() {
         given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn("5");
-        
+
         DefaultBambooInstance instance = new DefaultBambooInstance(properties);
         assertEquals(5, instance.getSyncInterval());
     }
@@ -112,35 +120,35 @@ public class DefaultBambooInstanceTest {
     @Test
     public void testSetProjects_ShouldCreateTask() {
         given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn("5");
-        
+
         DefaultBambooInstance instance = new DefaultBambooInstance(properties);
         instance.setChildren(projects);
         assertThat(instance.getSynchronizationTask().isPresent(), is(true));
     }
-    
+
     /**
      * Test of setChildren method, of class DefaultBambooInstance.
      */
     @Test
     public void testSetProjects_ExpectProjectsHaveParent() {
         given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn("5");
-        
+
         DefaultBambooInstance instance = new DefaultBambooInstance(properties);
         instance.setChildren(projects);
-        projects.forEach(pr -> {assertThat(pr.getParent().get(), is(instance));});
+        projects.forEach(pr -> {
+            assertThat(pr.getParent().get(), is(instance));
+        });
     }
 
     @Test
     public void testSynchronize_ListenerShouldBeCalled() throws InterruptedException {
         classUnderTest.synchronize();
-        synchronized (listener) {
-            listener.wait(1000);
-        }
+        waitForListener();
         InOrder order = inOrder(client, listener);
         order.verify(client).getVersionInfo();
         order.verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
-    
+
     @Test
     public void testUpdateSyncInterval() {
         DefaultBambooInstance instance = new DefaultBambooInstance(properties);
@@ -148,22 +156,24 @@ public class DefaultBambooInstanceTest {
         Optional<Task> task = instance.getSynchronizationTask();
         assertThat(task.get().isFinished(), is(false));
     }
-    
+
     @Test
-    public void testQueue_ResponseCode200_ExpectTrue(){
+    public void testQueue_ResponseCode200_ExpectNewBuildNumber() throws InterruptedException {
         project.setChildren(singletonList(plan));
         classUnderTest.setChildren(singletonList(project));
         given(client.queue(plan)).willReturn(200);
-        boolean result = classUnderTest.queue(plan);
-        assertThat(result, is(true));
+        classUnderTest.queue(plan);
+        waitForListener();
+        assertThat(plan.getResult().getNumber(), is(1));
     }
-    
+
     @Test
-    public void testQueue_ResponseCode500_ExpectFalse(){
+    public void testQueue_ResponseCode500_ExpectOldBuildNumber() throws InterruptedException {
         project.setChildren(singletonList(plan));
         classUnderTest.setChildren(singletonList(project));
         given(client.queue(plan)).willReturn(500);
-        boolean result = classUnderTest.queue(plan);
-        assertThat(result, is(false));
+        classUnderTest.queue(plan);
+        waitForListener();
+        assertThat(plan.getResult().getNumber(), is(0));
     }
 }

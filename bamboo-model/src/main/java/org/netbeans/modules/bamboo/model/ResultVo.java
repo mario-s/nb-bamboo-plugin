@@ -11,7 +11,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true, of = {"number"})
+@EqualsAndHashCode(callSuper = true)
 public class ResultVo extends AbstractVo {
 
     private int number;

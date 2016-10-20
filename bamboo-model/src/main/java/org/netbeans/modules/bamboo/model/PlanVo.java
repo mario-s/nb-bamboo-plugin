@@ -4,6 +4,7 @@ import java.util.Optional;
 import lombok.Getter;
 import org.netbeans.api.annotations.common.NonNull;
 import lombok.Setter;
+import lombok.ToString;
 
 import static java.util.Optional.ofNullable;
 import static lombok.AccessLevel.NONE;
@@ -15,6 +16,7 @@ import static lombok.AccessLevel.NONE;
  */
 @Getter
 @Setter
+@ToString
 public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<ProjectVo>{
 
     private String name;
