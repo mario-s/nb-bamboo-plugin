@@ -31,6 +31,7 @@ import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 
+import static java.lang.String.format;
 import static java.util.Collections.singletonMap;
 
 /**
@@ -47,10 +48,9 @@ class DefaultBambooClient extends AbstractBambooClient {
     static final String RESULTS = "/result.json";
     static final String PLANS = "/plan.json";
     static final String INFO = "/info.json";
+    static final String QUEUE = "/queue/%s-%s";
 
     static final String RESULT = "/result/{buildKey}.json";
-
-    private static final String PLAN = PLANS + "/{buildKey}.json";
 
     private final ApiCallerFactory apiCallerFactory;
 
@@ -83,7 +83,7 @@ class DefaultBambooClient extends AbstractBambooClient {
 
         apiCaller.createTarget().ifPresent(target -> {
             AbstractResponse initialResponse = apiCaller.get(target);
-            log.fine(String.format("got results for initial call: %s", initialResponse));
+            logInitialResponse(initialResponse);
             results.addAll(initialResponse.asCollection());
 
             apiCaller.repeat(initialResponse).ifPresent(response -> {
@@ -96,14 +96,31 @@ class DefaultBambooClient extends AbstractBambooClient {
 
         apiCaller.createTarget().ifPresent(target -> {
             AbstractResponse initialResponse = apiCaller.get(target);
-            log.fine(String.format("got results for initial call: %s", initialResponse));
+            logInitialResponse(initialResponse);
             results.addAll(initialResponse.asCollection());
         });
     }
 
+    private void logInitialResponse(AbstractResponse initialResponse) {
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(format("got results for initial call: %s", initialResponse));
+        }
+    }
+
     @Override
     int queue(@NonNull PlanVo plan) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        int result = 0;
+        ProjectVo parent = plan.getParent().get();
+        String path = format(QUEUE, parent.getKey(), plan.getKey());
+        ApiCaller caller = apiCallerFactory.newCaller(Object.class, path);
+        Optional<WebTarget> target = caller.createTarget();
+        if (target.isPresent()) {
+            result = caller.post(target.get());
+            if (log.isLoggable(Level.INFO)) {
+                log.info(String.format("queued build for: %s...got response: %s", path, result));
+            }
+        }
+        return result;
     }
 
     @Override

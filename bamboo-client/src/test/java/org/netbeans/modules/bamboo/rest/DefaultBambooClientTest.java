@@ -47,17 +47,20 @@ import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 
 import org.netbeans.modules.bamboo.model.PlanVo;
 
+import static java.lang.String.format;
+import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class BambooClientTest {
+public class DefaultBambooClientTest {
 
     private static final String FOO = "foo";
     private static final String BAR = "bar";
@@ -77,9 +80,12 @@ public class BambooClientTest {
     @Mock
     private ApiCaller<Info> infoCaller;
     @Mock
+    private ApiCaller postCaller;
+    @Mock
     private HttpUtility httpUtility;
     @Mock
     private ApiCallerFactory apiCallerFactory;
+    @Mock
 
     private DefaultBambooClient classUnderTest;
 
@@ -143,13 +149,14 @@ public class BambooClientTest {
         given(resultsCaller.createTarget()).willReturn(of(webTarget));
         given(resultsCaller.get(webTarget)).willReturn(resultsResponse);
         given(resultsCaller.repeat(resultsResponse)).willReturn(of(resultsResponse));
-
-        trainApiCallerFactory(info);
-    }
-
-    private void trainApiCallerFactory(Info info) {
+        
         given(infoCaller.createTarget()).willReturn(of(webTarget));
         given(infoCaller.get(webTarget)).willReturn(info);
+        
+        trainApiCallerFactory();
+    }
+
+    private void trainApiCallerFactory() {
 
         given(apiCallerFactory.newCaller(eq(ProjectsResponse.class), eq(DefaultBambooClient.PROJECTS), any(
                 Map.class))).willReturn(
@@ -164,6 +171,9 @@ public class BambooClientTest {
         
         given(apiCallerFactory.newCaller(eq(Info.class), eq(DefaultBambooClient.INFO))).willReturn(
                 infoCaller);
+        
+        given(apiCallerFactory.newCaller(eq(Object.class), eq(format(DefaultBambooClient.QUEUE, FOO, FOO)))).willReturn(
+                postCaller);
     }
 
     /**
@@ -219,5 +229,30 @@ public class BambooClientTest {
         List<ProjectVo> toBeUpdated = new ArrayList<>();
         classUnderTest.updateProjects(toBeUpdated);
         assertThat(toBeUpdated.isEmpty(), is(false));
+    }
+    
+    @Test
+    public void testQueue_TargetPresent_Expect200() {
+        final int code = 200;
+        PlanVo plan = new PlanVo(FOO);
+        plan.setParent(new ProjectVo(FOO));
+        given(postCaller.createTarget()).willReturn(of(webTarget));
+        given(postCaller.post(webTarget)).willReturn(code);
+        
+        int result = classUnderTest.queue(plan);
+        assertThat(result, is(code));
+        verify(postCaller).post(webTarget);
+    }
+    
+     @Test
+    public void testQueue_TargetEmpty_Expect1() {
+        final int code = 0;
+        PlanVo plan = new PlanVo(FOO);
+        plan.setParent(new ProjectVo(FOO));
+        given(postCaller.createTarget()).willReturn(empty());
+        
+        int result = classUnderTest.queue(plan);
+        assertThat(result, is(code));
+        verify(postCaller, never()).post(webTarget);
     }
 }
