@@ -5,7 +5,6 @@ import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.ChangeEvents;
-import org.netbeans.modules.bamboo.model.LookupContext;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.QueueEvent;
 import org.netbeans.modules.bamboo.model.ResultVo;
@@ -61,8 +60,7 @@ class PlanResultNotify implements PropertyChangeListener, LookupListener {
 
     @Override
     public void resultChanged(LookupEvent ev) {
-        Collection<? extends QueueEvent> events = result.allInstances();
-        events.forEach(event -> {
+        result.allInstances().forEach(event -> {
             delegator.notify(event);
         });
     }
