@@ -39,7 +39,7 @@ public class BuildResultNotifyTest {
     @Spy
     private NotifyDelegator delegator;
     
-    private BuildResultNotify classUnderTest;
+    private PlanResultNotify classUnderTest;
     
     private PlanVo plan;
     
@@ -58,12 +58,12 @@ public class BuildResultNotifyTest {
         given(instance.getLookup()).willReturn(lookup);
         given(lookup.lookupResult(QueueEvent.class)).willReturn(result);
         
-        classUnderTest = new BuildResultNotify(instance);
+        classUnderTest = new PlanResultNotify(instance);
         classUnderTest.setDelegator(delegator);
     }
 
     /**
-     * Test of propertyChange method, of class BuildResultNotify.
+     * Test of propertyChange method, of class PlanResultNotify.
      */
     @Test
     public void testPropertyChange() {

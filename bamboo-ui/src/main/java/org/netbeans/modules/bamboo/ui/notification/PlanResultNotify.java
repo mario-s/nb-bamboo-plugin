@@ -18,7 +18,7 @@ import org.openide.util.LookupListener;
  *
  * @author spindizzy
  */
-public class BuildResultNotify implements PropertyChangeListener, LookupListener {
+class PlanResultNotify implements PropertyChangeListener, LookupListener {
 
     private final BambooInstance instance;
 
@@ -28,7 +28,7 @@ public class BuildResultNotify implements PropertyChangeListener, LookupListener
 
     private Lookup.Result<QueueEvent> result;
 
-    public BuildResultNotify(BambooInstance instance) {
+    PlanResultNotify(BambooInstance instance) {
         this.instance = instance;
         delegator = new NotifyDelegator();
         synchronizationListener = new SynchronizationListener(instance);
@@ -55,7 +55,7 @@ public class BuildResultNotify implements PropertyChangeListener, LookupListener
             PlanVo plan = (PlanVo) evt.getSource();
             ResultVo oldResult = (ResultVo) evt.getOldValue();
             ResultVo newResult = (ResultVo) evt.getNewValue();
-            notify(new BuildResult(plan, oldResult, newResult));
+            delegator.notify(new BuildResult(plan, oldResult, newResult));
         }
     }
 
@@ -63,12 +63,8 @@ public class BuildResultNotify implements PropertyChangeListener, LookupListener
     public void resultChanged(LookupEvent ev) {
         Collection<? extends QueueEvent> events = result.allInstances();
         events.forEach(event -> {
-            //TODO notify
+            delegator.notify(event);
         });
-    }
-
-    private void notify(BuildResult buildResult) {
-        delegator.notify(buildResult);
     }
 
     void setDelegator(NotifyDelegator delegator) {

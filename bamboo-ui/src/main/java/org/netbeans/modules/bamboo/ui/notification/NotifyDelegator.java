@@ -3,6 +3,7 @@ package org.netbeans.modules.bamboo.ui.notification;
 import java.awt.EventQueue;
 import javax.swing.Icon;
 import org.netbeans.api.annotations.common.StaticResource;
+import org.netbeans.modules.bamboo.model.QueueEvent;
 import org.openide.util.ImageUtilities;
 
 /**
@@ -18,6 +19,10 @@ class NotifyDelegator {
 
     void notify(BuildResult buildResult) {
         EventQueue.invokeLater(new BuildResultNotifyDisplayer(ICON, buildResult));
+    }
+    
+    void notify(QueueEvent event) {
+        EventQueue.invokeLater(new QueueResultNotifyDisplayer(ICON, event));
     }
     
 }

@@ -13,7 +13,7 @@ import org.netbeans.modules.bamboo.glue.BuildStatusWatchable;
 @ServiceProvider(service = BuildStatusWatchable.class, position = 1)
 public class DefaultBuildStatusWatcher implements BuildStatusWatchable {
     
-    private final Map<BambooInstance, BuildResultNotify> notifiers;
+    private final Map<BambooInstance, PlanResultNotify> notifiers;
 
     public DefaultBuildStatusWatcher() {
         this.notifiers = new HashMap<>();
@@ -21,7 +21,7 @@ public class DefaultBuildStatusWatcher implements BuildStatusWatchable {
 
     @Override
     public void addInstance(BambooInstance instance) {
-        notifiers.put(instance, new BuildResultNotify(instance));
+        notifiers.put(instance, new PlanResultNotify(instance));
     }
 
     @Override
