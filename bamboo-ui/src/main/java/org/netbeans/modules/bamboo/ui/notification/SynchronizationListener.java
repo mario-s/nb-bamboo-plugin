@@ -30,10 +30,9 @@ class SynchronizationListener implements PropertyChangeListener {
     SynchronizationListener(@NonNull BambooInstance instance) {
         this.instance = instance;
         progressHandle = empty();
-        init();
     }
 
-    private void init() {
+    final void registerListener() {
         instance.addPropertyChangeListener(this);
     }
 

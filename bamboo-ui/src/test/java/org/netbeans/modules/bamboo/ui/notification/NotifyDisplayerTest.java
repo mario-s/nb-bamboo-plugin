@@ -47,7 +47,7 @@ public class NotifyDisplayerTest {
     
     private ResultVo newResult;
 
-    private NotifyDisplayer classUnderTest;
+    private BuildResultNotifyDisplayer classUnderTest;
 
     @Before
     public void setUp() {
@@ -55,7 +55,7 @@ public class NotifyDisplayerTest {
         newResult = new ResultVo();
         plan = new PlanVo("test", "test");
         buildResult = new BuildResult(plan, oldResult, newResult);
-        classUnderTest = new NotifyDisplayer(instanceIcon, buildResult) {
+        classUnderTest = new BuildResultNotifyDisplayer(instanceIcon, buildResult) {
             @Override
             NotificationDisplayer getNotificationDisplayer() {
                 return notificationDisplayer;
@@ -64,7 +64,7 @@ public class NotifyDisplayerTest {
     }
 
     /**
-     * Test of run method, of class NotifyDisplayer.
+     * Test of run method, of class BuildResultNotifyDisplayer.
      */
     @Test
     public void testRun_ResultNormal_ExpectNotifyNormal() {
@@ -73,7 +73,7 @@ public class NotifyDisplayerTest {
     }
 
     /**
-     * Test of run method, of class NotifyDisplayer.
+     * Test of run method, of class BuildResultNotifyDisplayer.
      */
     @Test
     public void testRun_ResultFailed_ExpectNotifyHigh() {
@@ -85,7 +85,7 @@ public class NotifyDisplayerTest {
     }
     
     /**
-     * Test of run method, of class NotifyDisplayer.
+     * Test of run method, of class BuildResultNotifyDisplayer.
      */
     @Test
     public void testRun_ResultStillNormal_ExpectNoNotify() {
@@ -96,7 +96,7 @@ public class NotifyDisplayerTest {
     }
     
     /**
-     * Test of run method, of class NotifyDisplayer.
+     * Test of run method, of class BuildResultNotifyDisplayer.
      */
     @Test
     public void testRun_ResultQueued_ExpectNotify() {

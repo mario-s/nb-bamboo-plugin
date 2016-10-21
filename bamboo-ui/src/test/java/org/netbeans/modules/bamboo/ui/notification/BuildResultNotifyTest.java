@@ -18,8 +18,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.QueueEvent;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
+import org.openide.util.Lookup;
 
 /**
  *
@@ -29,6 +31,10 @@ import org.netbeans.modules.bamboo.model.State;
 public class BuildResultNotifyTest {
     @Mock
     private BambooInstance instance;
+    @Mock
+    private Lookup lookup;
+    @Mock
+    private Lookup.Result<QueueEvent> result;
     
     @Spy
     private NotifyDelegator delegator;
@@ -44,9 +50,14 @@ public class BuildResultNotifyTest {
         ResultVo resultVo = new ResultVo();
         resultVo.setNumber(1);
         plan.setResult(resultVo);
+        
         ProjectVo project = new ProjectVo("");
         project.setChildren(singletonList(plan));
+        
         given(instance.getChildren()).willReturn(singletonList(project));
+        given(instance.getLookup()).willReturn(lookup);
+        given(lookup.lookupResult(QueueEvent.class)).willReturn(result);
+        
         classUnderTest = new BuildResultNotify(instance);
         classUnderTest.setDelegator(delegator);
     }

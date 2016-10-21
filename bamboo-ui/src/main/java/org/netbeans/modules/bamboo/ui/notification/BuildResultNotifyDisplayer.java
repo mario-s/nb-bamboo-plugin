@@ -9,9 +9,6 @@ import org.netbeans.modules.bamboo.model.LifeCycleState;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
-import org.netbeans.modules.bamboo.ui.HtmlPane;
-
-import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.NotificationDisplayer.Category;
 import org.openide.awt.NotificationDisplayer.Priority;
 import org.openide.util.NbBundle;
@@ -21,7 +18,6 @@ import static org.netbeans.modules.bamboo.ui.notification.Bundle.Build;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Queued;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Failed;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Successful;
-import static org.openide.util.Pair.of;
 
 
 /**
@@ -30,18 +26,12 @@ import static org.openide.util.Pair.of;
  * @author spindizzy
  */
 @Log
-class NotifyDisplayer implements Runnable {
-
-    private static final Pair<Priority, Category> INFO = of(Priority.NORMAL, Category.INFO);
-
-    private static final Pair<Priority, Category> ERROR = of(Priority.HIGH, Category.ERROR);
-
-    private final Icon instanceIcon;
+class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer{
 
     private final BuildResult buildResult;
 
-    NotifyDisplayer(Icon instanceIcon, BuildResult buildResult) {
-        this.instanceIcon = instanceIcon;
+    BuildResultNotifyDisplayer(Icon icon, BuildResult buildResult) {
+        super(icon);
         this.buildResult = buildResult;
     }
 
@@ -54,21 +44,20 @@ class NotifyDisplayer implements Runnable {
             if (log.isLoggable(Level.INFO)) {
                 log.info(String.format("state of plan %s has changed", name));
             }
+            
             String summary = getSummary(plan);
+            String reason = getBuildReason();
+            
             JComponent balloonDetails = new JLabel(summary);
-            JComponent popupDetails = newDetailsPanel(summary);
+            JComponent popupDetails = newDetailsPanel(summary, reason);
             Pair<Priority, Category> cat = getCategory();
 
-            getNotificationDisplayer().notify(name, instanceIcon, balloonDetails, popupDetails, cat.first(), cat.second());
+            notify(name, balloonDetails, popupDetails, cat);
         }
     }
-
-    private JComponent newDetailsPanel(String summary) {
-        ResultVo resultVo = buildResult.getNewResult();
-        HtmlPane reasonComp = new HtmlPane();
-        reasonComp.setOpaque(true);
-        reasonComp.setText(resultVo.getBuildReason());
-        return new ResultDetailsPanel(summary, reasonComp);
+    
+    private String getBuildReason() {
+        return buildResult.getNewResult().getBuildReason();
     }
 
     private Pair<Priority, Category> getCategory() {
@@ -99,9 +88,10 @@ class NotifyDisplayer implements Runnable {
     }
 
     private boolean isStillSuccessful() {
-        ResultVo oldResult = buildResult.getOldResult();
-        ResultVo newResult = buildResult.getNewResult();
-        return State.Successful.equals(oldResult.getState()) && State.Successful.equals(newResult.getState());
+        
+        ResultVo oldRes = buildResult.getOldResult();
+        ResultVo newRes = buildResult.getNewResult();
+        return State.Successful.equals(oldRes.getState()) && State.Successful.equals(newRes.getState());
     }
     
     private boolean queued() {
@@ -147,7 +137,4 @@ class NotifyDisplayer implements Runnable {
         return State.Failed.equals(state);
     }
 
-    NotificationDisplayer getNotificationDisplayer() {
-        return NotificationDisplayer.getDefault();
-    }
 }
