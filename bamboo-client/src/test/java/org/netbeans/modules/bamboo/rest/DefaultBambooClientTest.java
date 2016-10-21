@@ -172,7 +172,7 @@ public class DefaultBambooClientTest {
         given(apiCallerFactory.newCaller(eq(Info.class), eq(DefaultBambooClient.INFO))).willReturn(
                 infoCaller);
         
-        given(apiCallerFactory.newCaller(eq(Object.class), eq(format(DefaultBambooClient.QUEUE, FOO, FOO)))).willReturn(
+        given(apiCallerFactory.newCaller(eq(Object.class), eq(format(DefaultBambooClient.QUEUE, FOO)))).willReturn(
                 postCaller);
     }
 

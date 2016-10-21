@@ -48,7 +48,7 @@ class DefaultBambooClient extends AbstractBambooClient {
     static final String RESULTS = "/result.json";
     static final String PLANS = "/plan.json";
     static final String INFO = "/info.json";
-    static final String QUEUE = "/queue/%s-%s";
+    static final String QUEUE = "/queue/%s";
 
     static final String RESULT = "/result/{buildKey}.json";
 
@@ -110,8 +110,7 @@ class DefaultBambooClient extends AbstractBambooClient {
     @Override
     int queue(@NonNull PlanVo plan) {
         int result = 0;
-        ProjectVo parent = plan.getParent().get();
-        String path = format(QUEUE, parent.getKey(), plan.getKey());
+        String path = format(QUEUE, plan.getKey());
         ApiCaller caller = apiCallerFactory.newCaller(Object.class, path);
         Optional<WebTarget> target = caller.createTarget();
         if (target.isPresent()) {
