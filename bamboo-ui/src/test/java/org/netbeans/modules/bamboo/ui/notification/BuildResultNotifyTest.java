@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.ui.notification;
 
-import java.util.Collection;
 import org.junit.After;
 
 import static java.util.Collections.singletonList;
