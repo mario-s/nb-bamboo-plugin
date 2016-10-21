@@ -11,7 +11,7 @@ import static org.netbeans.modules.bamboo.rest.Bundle.By_User;
  *
  * @author spindizzy
  */
-@Messages("By_User=The plan was invoked by the user.")
+@Messages("By_User=Manual run.")
 final class QueuedResultFactory {
 
     private QueuedResultFactory() {
