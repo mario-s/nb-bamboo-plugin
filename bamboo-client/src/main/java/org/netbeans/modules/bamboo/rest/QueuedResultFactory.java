@@ -26,7 +26,8 @@ final class QueuedResultFactory {
     static ResultVo newResult(ResultVo current) {
         ResultVo next = new ResultVo(current.getKey());
         int number = current.getNumber();
-        next.setNumber(++number);
+        int nextNum = ++number;
+        next.setNumber(nextNum);
         next.setLifeCycleState(LifeCycleState.Queued);
         next.setBuildReason(By_User());
         return next;

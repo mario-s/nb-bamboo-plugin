@@ -164,16 +164,25 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         Collection<ProjectVo> oldProjects = this.projects;
         if (oldProjects == null || oldProjects.isEmpty()) {
             Collection<ProjectVo> newProjects = client.getProjects();
-            this.projects = newProjects;
+            setChildren(newProjects);
             fireProjectsChanged(oldProjects, newProjects);
         } else {
             client.updateProjects(this.projects);
+            updateParent(this.projects);
             fireProjectsChanged(oldProjects, this.projects);
         }
     }
-
+    
+    //set the parent if not present
+    private void updateParent(Collection<ProjectVo> children){
+        children.parallelStream().forEach(child -> {
+            if(!child.getParent().isPresent()){
+                child.setParent(this);
+            }
+        });
+    }
+    
     private void synchronizeVersion() {
-
         version = client.getVersionInfo();
     }
 
@@ -204,7 +213,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     @Override
     public void setChildren(final Collection<ProjectVo> projects) {
         this.projects = projects;
-        this.projects.parallelStream().forEach(pr -> pr.setParent(this));
+        updateParent(projects);
         prepareSynchronization();
     }
 
@@ -285,7 +294,6 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             if (verifyAvailibility()) {
                 synchronizeVersion();
                 doSynchronization(false);
-                prepareSynchronization();
             }
         });
     }
