@@ -6,14 +6,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.PlanVo;
@@ -24,14 +21,19 @@ import org.openide.awt.NotificationDisplayer.Category;
 import org.openide.awt.NotificationDisplayer.Priority;
 
 import static org.mockito.Matchers.isA;
+
 import org.netbeans.modules.bamboo.model.LifeCycleState;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
 
 /**
  *
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class NotifyDisplayerTest {
+public class BuildResultNotifyDisplayerTest {
 
     @Mock
     private Icon instanceIcon;
@@ -93,18 +95,6 @@ public class NotifyDisplayerTest {
         newResult.setState(State.Successful);
         classUnderTest.run();
         verify(notificationDisplayer, never()).notify(anyString(), any(Icon.class), isA(JLabel.class), isA(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
-    }
-    
-    /**
-     * Test of run method, of class BuildResultNotifyDisplayer.
-     */
-    @Test
-    public void testRun_ResultQueued_ExpectNotify() {
-        oldResult.setState(State.Unknown);
-        newResult.setState(State.Successful);
-        plan.getResult().setLifeCycleState(LifeCycleState.Queued);
-        classUnderTest.run();
-        verify(notificationDisplayer).notify(anyString(), any(Icon.class), isA(JLabel.class), isA(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
     }
 
 }

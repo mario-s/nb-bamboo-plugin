@@ -5,7 +5,6 @@ import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import lombok.extern.java.Log;
-import org.netbeans.modules.bamboo.model.LifeCycleState;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
@@ -15,10 +14,8 @@ import org.openide.util.NbBundle;
 import org.openide.util.Pair;
 
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Build;
-import static org.netbeans.modules.bamboo.ui.notification.Bundle.Queued;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Failed;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Successful;
-
 
 /**
  * This class displays the notification in the status bar.
@@ -26,7 +23,11 @@ import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Successf
  * @author spindizzy
  */
 @Log
-class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer{
+@NbBundle.Messages({
+    "Result_Failed=failed",
+    "Result_Successful=was successful"
+})
+class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer {
 
     private final BuildResult buildResult;
 
@@ -44,10 +45,10 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer{
             if (log.isLoggable(Level.INFO)) {
                 log.info(String.format("state of plan %s has changed", name));
             }
-            
+
             String summary = getSummary(plan);
             String reason = getBuildReason();
-            
+
             JComponent balloonDetails = new JLabel(summary);
             JComponent popupDetails = newDetailsPanel(summary, reason);
             Pair<Priority, Category> cat = getCategory();
@@ -55,7 +56,7 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer{
             notify(name, balloonDetails, popupDetails, cat);
         }
     }
-    
+
     private String getBuildReason() {
         return buildResult.getNewResult().getBuildReason();
     }
@@ -69,62 +70,12 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer{
         return buildResult.getPlan();
     }
 
-    /**
-     * Is the result change relevant for a notification? We are not interested in a change from success to success.<br/>
-     * It is similar to Bamboo's "Failed Builds And First Successful" notification.
-     */
-    private boolean isRelevant() {
-        boolean relevant = true;
-
-        if (!queued() && isStillSuccessful()) {
-            relevant = false;
-        }
-
-        if (log.isLoggable(Level.INFO)) {
-            log.info(String.format("result change is relevant: %s", relevant));
-        }
-
-        return relevant;
-    }
-
-    private boolean isStillSuccessful() {
-        
-        ResultVo oldRes = buildResult.getOldResult();
-        ResultVo newRes = buildResult.getNewResult();
-        return State.Successful.equals(oldRes.getState()) && State.Successful.equals(newRes.getState());
-    }
-    
-    private boolean queued() {
-        return queued(buildResult.getNewResult());
-    }
-
-    private boolean queued(ResultVo newResult) {
-        return LifeCycleState.Queued.equals(newResult.getLifeCycleState());
-    }
-    
     private String getSummary(PlanVo plan) {
         ResultVo result = plan.getResult();
         int number = result.getNumber();
-        String strState = stateToString(plan);
+        String strState = (isFailed(plan)) ? Result_Failed() : Result_Successful();
 
         return String.format("%s %s %s", Build(), number, strState);
-    }
-    
-    @NbBundle.Messages({
-        "Build=The Build",
-        "Queued=is queued",
-        "Result_Failed=failed",
-        "Result_Successful=was successful"
-    })
-    private String stateToString(PlanVo plan) {
-        String state = "";
-        ResultVo result = plan.getResult();
-        if(queued(result)){
-            state = Queued();
-        } else {
-            state = (isFailed(plan)) ? Result_Failed() : Result_Successful();
-        }
-        return state;
     }
 
     private boolean isFailed(PlanVo plan) {
@@ -136,5 +87,26 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer{
         State state = result.getState();
         return State.Failed.equals(state);
     }
+
+    private boolean isRelevant() {
+        boolean relevant = true;
+
+        if (isStillSuccessful()) {
+            relevant = false;
+        }
+
+        if (log.isLoggable(Level.INFO)) {
+            log.info(String.format("result change is relevant: %s", relevant));
+        }
+
+        return relevant;
+    }
+
+    private boolean isStillSuccessful() {
+        ResultVo oldRes = buildResult.getOldResult();
+        ResultVo newRes = buildResult.getNewResult();
+        return State.Successful.equals(oldRes.getState()) && State.Successful.equals(newRes.getState());
+    }
+
 
 }

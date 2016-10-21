@@ -4,13 +4,18 @@ import javax.swing.Icon;
 import javax.swing.JComponent;
 import org.netbeans.modules.bamboo.ui.HtmlPane;
 import org.openide.awt.NotificationDisplayer;
+import org.openide.util.NbBundle;
 import org.openide.util.Pair;
+
 import static org.openide.util.Pair.of;
 
 /**
  *
  * @author spindizzy
  */
+@NbBundle.Messages({
+    "Build=The Build"
+})
 abstract class AbstractNotifyDisplayer implements Runnable {
 
     private final Icon icon;

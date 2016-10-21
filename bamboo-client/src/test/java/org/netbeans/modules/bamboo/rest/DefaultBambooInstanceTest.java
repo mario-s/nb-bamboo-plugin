@@ -32,6 +32,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.QueueEvent;
 
 import static java.util.Collections.singletonList;
 
@@ -67,6 +68,8 @@ public class DefaultBambooInstanceTest {
     @Before
     public void setUp() {
         classUnderTest = new DefaultBambooInstance(properties);
+        
+        
 
         plan = new PlanVo(FOO);
         project = new ProjectVo(FOO);
@@ -166,6 +169,7 @@ public class DefaultBambooInstanceTest {
         waitForListener();
         assertThat(plan.getResult().getNumber(), is(0));
     }
+    
 
     @Test
     public void testQueue_ResponseCode500_ExpectSameBuildNumber() throws InterruptedException {
@@ -175,5 +179,17 @@ public class DefaultBambooInstanceTest {
         classUnderTest.queue(plan);
         waitForListener();
         assertThat(plan.getResult().getNumber(), is(0));
+    }
+    
+    @Test
+    public void testQueue_ResponseCode200_ExpectEventInLookup() throws InterruptedException {
+        project.setChildren(singletonList(plan));
+        classUnderTest.setChildren(singletonList(project));
+        given(client.queue(plan)).willReturn(200);
+        classUnderTest.queue(plan);
+        waitForListener();
+        
+        Collection<? extends QueueEvent> events = classUnderTest.getLookup().lookupAll(QueueEvent.class);
+        assertThat(events.isEmpty(), is(false));
     }
 }
