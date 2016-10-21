@@ -18,7 +18,7 @@ final class QueuedResultFactory {
     }
 
     /**
-     * This method creates a new {@link ResultVo} based on the current.
+     * This method creates a new {@link ResultVo} based on the current. It indicates that the build is in the queue.
      * The number will be increased by one, and the {@link LifeCycleState} will be queued.
      * @param current the origin reason
      * @return the new expected result, which is similar to the result from the server.
