@@ -24,6 +24,7 @@ import org.openide.awt.NotificationDisplayer.Category;
 import org.openide.awt.NotificationDisplayer.Priority;
 
 import static org.mockito.Matchers.isA;
+import org.netbeans.modules.bamboo.model.LifeCycleState;
 
 /**
  *
@@ -66,7 +67,7 @@ public class NotifyDisplayerTest {
      * Test of run method, of class NotifyDisplayer.
      */
     @Test
-    public void testRunResultNormal_ExpectNotifyNormal() {
+    public void testRun_ResultNormal_ExpectNotifyNormal() {
         classUnderTest.run();
         verify(notificationDisplayer).notify(anyString(), any(Icon.class), isA(JLabel.class), isA(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
     }
@@ -75,7 +76,7 @@ public class NotifyDisplayerTest {
      * Test of run method, of class NotifyDisplayer.
      */
     @Test
-    public void testRunResultFailed_ExpectNotifyHigh() {
+    public void testRun_ResultFailed_ExpectNotifyHigh() {
         ResultVo result = new ResultVo();
         result.setState(State.Failed);
         plan.setResult(result);
@@ -87,11 +88,23 @@ public class NotifyDisplayerTest {
      * Test of run method, of class NotifyDisplayer.
      */
     @Test
-    public void testRunResultStillNormal_ExpectNoNotify() {
+    public void testRun_ResultStillNormal_ExpectNoNotify() {
         oldResult.setState(State.Successful);
         newResult.setState(State.Successful);
         classUnderTest.run();
         verify(notificationDisplayer, never()).notify(anyString(), any(Icon.class), isA(JLabel.class), isA(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
+    }
+    
+    /**
+     * Test of run method, of class NotifyDisplayer.
+     */
+    @Test
+    public void testRun_ResultQueued_ExpectNotify() {
+        oldResult.setState(State.Unknown);
+        newResult.setState(State.Successful);
+        plan.getResult().setLifeCycleState(LifeCycleState.Queued);
+        classUnderTest.run();
+        verify(notificationDisplayer).notify(anyString(), any(Icon.class), isA(JLabel.class), isA(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
     }
 
 }

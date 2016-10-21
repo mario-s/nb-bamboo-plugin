@@ -5,6 +5,7 @@ import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import lombok.extern.java.Log;
+import org.netbeans.modules.bamboo.model.LifeCycleState;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
@@ -17,6 +18,7 @@ import org.openide.util.NbBundle;
 import org.openide.util.Pair;
 
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Build;
+import static org.netbeans.modules.bamboo.ui.notification.Bundle.Queued;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Failed;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Successful;
 import static org.openide.util.Pair.of;
@@ -85,10 +87,7 @@ class NotifyDisplayer implements Runnable {
     private boolean isRelevant() {
         boolean relevant = true;
 
-        ResultVo oldResult = buildResult.getOldResult();
-        ResultVo newResult = buildResult.getNewResult();
-
-        if (State.Successful.equals(oldResult.getState()) && State.Successful.equals(newResult.getState())) {
+        if (!queued() && isStillSuccessful()) {
             relevant = false;
         }
 
@@ -99,17 +98,43 @@ class NotifyDisplayer implements Runnable {
         return relevant;
     }
 
-    @NbBundle.Messages({
-        "Build=The Build",
-        "Result_Failed=failed",
-        "Result_Successful=was successful"
-    })
+    private boolean isStillSuccessful() {
+        ResultVo oldResult = buildResult.getOldResult();
+        ResultVo newResult = buildResult.getNewResult();
+        return State.Successful.equals(oldResult.getState()) && State.Successful.equals(newResult.getState());
+    }
+    
+    private boolean queued() {
+        return queued(buildResult.getNewResult());
+    }
+
+    private boolean queued(ResultVo newResult) {
+        return LifeCycleState.Queued.equals(newResult.getLifeCycleState());
+    }
+    
     private String getSummary(PlanVo plan) {
         ResultVo result = plan.getResult();
         int number = result.getNumber();
-        String strState = (isFailed(plan)) ? Result_Failed() : Result_Successful();
+        String strState = stateToString(plan);
 
         return String.format("%s %s %s", Build(), number, strState);
+    }
+    
+    @NbBundle.Messages({
+        "Build=The Build",
+        "Queued=is queued",
+        "Result_Failed=failed",
+        "Result_Successful=was successful"
+    })
+    private String stateToString(PlanVo plan) {
+        String state = "";
+        ResultVo result = plan.getResult();
+        if(queued(result)){
+            state = Queued();
+        } else {
+            state = (isFailed(plan)) ? Result_Failed() : Result_Successful();
+        }
+        return state;
     }
 
     private boolean isFailed(PlanVo plan) {
