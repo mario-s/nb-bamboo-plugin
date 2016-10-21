@@ -104,8 +104,8 @@ public class ApiCallerTest {
         given(target.request()).willReturn(builder);
         given(builder.post(any(Entity.class))).willReturn(response);
 
-        int result = classUnderTest.post(target);
-        assertEquals(0, result);
+        Response result = classUnderTest.post(target);
+        assertThat(result.getStatus(), is(0));
     }
 
 }

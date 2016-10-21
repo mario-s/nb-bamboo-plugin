@@ -88,11 +88,10 @@ class ApiCaller<T> {
      * @param target the target to be called
      * @return the response code
      */
-    int post(WebTarget target) {
+    Response post(WebTarget target) {
         Form form = new Form();
         Entity<Form> entity = entity(form, MediaType.WILDCARD_TYPE);
-        Response response = target.request().post(entity);
-        return response.getStatus();
+        return target.request().post(entity);
     }
 
 }

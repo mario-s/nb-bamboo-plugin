@@ -37,6 +37,7 @@ import static java.util.Optional.of;
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
@@ -237,7 +238,7 @@ public class DefaultBambooClientTest {
         PlanVo plan = new PlanVo(FOO);
         plan.setParent(new ProjectVo(FOO));
         given(postCaller.createTarget()).willReturn(of(webTarget));
-        given(postCaller.post(webTarget)).willReturn(code);
+        given(postCaller.post(webTarget)).willReturn(Response.ok().build());
         
         int result = classUnderTest.queue(plan);
         assertThat(result, is(code));

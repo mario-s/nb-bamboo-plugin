@@ -40,12 +40,12 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 
 import org.netbeans.modules.bamboo.model.PlanVo;
-import org.netbeans.modules.bamboo.model.ResultVo;
 
-import static org.netbeans.modules.bamboo.rest.QueuedResultFactory.newResult;
 import static java.lang.String.format;
+
 import org.netbeans.modules.bamboo.model.LifeCycleState;
 import org.netbeans.modules.bamboo.model.QueueEvent;
+import org.netbeans.modules.bamboo.model.QueueEvent.QueueEventBuilder;
 
 
 /**
@@ -267,13 +267,11 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             if (isChild(parent) && verifyAvailibility()) {
                 int status = client.queue(plan);
                 HttpResponseCode code = HttpResponseCode.getCode(status);
-                
+                QueueEventBuilder eventBuilder = QueueEvent.builder().plan(plan);
                 if (code.equals(HttpResponseCode.Successful)) {
-                    ResultVo expected = newResult(plan.getResult());
-                    plan.setResult(expected);
+                    lookupContext.add(eventBuilder.lifeCycleState(LifeCycleState.Queued).build());
                 } else {
-                    QueueEvent event = QueueEvent.builder().plan(plan).lifeCycleState(LifeCycleState.NotBuilt).build();
-                    lookupContext.add(event);
+                    lookupContext.add(eventBuilder.lifeCycleState(LifeCycleState.NotBuilt).build());
                     if (log.isLoggable(Level.INFO)) {
                         log.info(format("failed to queue the plan: %s", plan));
                     }

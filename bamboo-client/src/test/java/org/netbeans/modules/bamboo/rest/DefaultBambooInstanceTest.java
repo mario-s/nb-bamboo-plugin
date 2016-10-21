@@ -158,17 +158,17 @@ public class DefaultBambooInstanceTest {
     }
 
     @Test
-    public void testQueue_ResponseCode200_ExpectNewBuildNumber() throws InterruptedException {
+    public void testQueue_ResponseCode200_ExpectSameBuildNumber() throws InterruptedException {
         project.setChildren(singletonList(plan));
         classUnderTest.setChildren(singletonList(project));
         given(client.queue(plan)).willReturn(200);
         classUnderTest.queue(plan);
         waitForListener();
-        assertThat(plan.getResult().getNumber(), is(1));
+        assertThat(plan.getResult().getNumber(), is(0));
     }
 
     @Test
-    public void testQueue_ResponseCode500_ExpectOldBuildNumber() throws InterruptedException {
+    public void testQueue_ResponseCode500_ExpectSameBuildNumber() throws InterruptedException {
         project.setChildren(singletonList(plan));
         classUnderTest.setChildren(singletonList(project));
         given(client.queue(plan)).willReturn(500);

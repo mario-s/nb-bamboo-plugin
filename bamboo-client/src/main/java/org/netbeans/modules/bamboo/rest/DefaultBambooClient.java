@@ -20,6 +20,7 @@ import javax.ws.rs.ProcessingException;
 import javax.ws.rs.ServerErrorException;
 
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 import org.netbeans.api.annotations.common.NonNull;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.ProjectVo;
@@ -114,9 +115,10 @@ class DefaultBambooClient extends AbstractBambooClient {
         ApiCaller caller = apiCallerFactory.newCaller(Object.class, path);
         Optional<WebTarget> target = caller.createTarget();
         if (target.isPresent()) {
-            result = caller.post(target.get());
+            Response response = caller.post(target.get());
+            result = response.getStatus();
             if (log.isLoggable(Level.INFO)) {
-                log.info(String.format("queued build for: %s...got response: %s", path, result));
+                log.info(String.format("queued build for: %s...got response: %s", path, response));
             }
         }
         return result;
