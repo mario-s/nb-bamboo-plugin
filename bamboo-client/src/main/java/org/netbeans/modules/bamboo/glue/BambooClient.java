@@ -12,7 +12,7 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 public interface BambooClient {
 
     /**
-     * Return a collection of available {@link BuildProject}.
+     * Return a collection of available {@link ProjectVo}.
      *
      * @return the projects.
      */

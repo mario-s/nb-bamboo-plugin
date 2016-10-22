@@ -10,7 +10,9 @@ import javax.swing.JComponent;
 public class ResultDetailsPanel extends javax.swing.JPanel {
 
     /**
-     * Creates new form BuildResultPanel
+     * Creates new form BuildResultPanel.
+     * @param summary the summary to display
+     * @param reasonComponent the component to use to display details
      */
     public ResultDetailsPanel(String summary, JComponent reasonComponent) {
         initComponents();

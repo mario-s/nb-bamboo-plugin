@@ -40,10 +40,10 @@ public class TextExtractor {
     }
 
     /**
-     * This method replaces all apearances of of links like '<a href="">link</a>' with the inner text.
+     * This method replaces all apearances of of links with the inner text.
      *
      * @param input text with possible links
-     * @return text with out tags of <a/>
+     * @return text with out tags
      */
     public String replaceLinksWithText(String input) {
         String txt = input;

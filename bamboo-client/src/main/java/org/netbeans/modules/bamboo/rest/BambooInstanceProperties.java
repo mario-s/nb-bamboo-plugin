@@ -143,8 +143,9 @@ public class BambooInstanceProperties extends HashMap<String, String> {
     }
 
     /**
-     * Get Preferences that this properties use as persistent storage, might
+     * Get Preferences used by the properties as persistent storage, might
      * return null.
+     * @return the {@link Preferences} for the instance
      */
     public Preferences getPreferences() {
         Preferences prefs = null;

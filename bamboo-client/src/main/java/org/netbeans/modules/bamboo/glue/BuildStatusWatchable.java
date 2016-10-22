@@ -10,13 +10,13 @@ public interface BuildStatusWatchable {
     
     /**
      * Add in instance to watch.
-     * @param projectsProvider 
+     * @param instance the bamboo instance
      */
-    void addInstance(BambooInstance projectsProvider);
+    void addInstance(BambooInstance instance);
     
     /**
      * Remove an instance from beeing watched.
-     * @param projectsProvider 
+     * @param instance the bamboo instance
      */
-    void removeInstance(BambooInstance projectsProvider);
+    void removeInstance(BambooInstance instance);
 }
