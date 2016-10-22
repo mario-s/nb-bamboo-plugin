@@ -13,13 +13,12 @@ import org.openide.awt.NotificationDisplayer.Priority;
 import org.openide.util.NbBundle.Messages;
 import org.openide.util.Pair;
 
-import static java.lang.String.format;
-import static org.apache.commons.lang3.StringUtils.LF;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Build;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.By_User;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Server_Response;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Start_Failed;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Start_Success;
+import static java.lang.String.format;
 
 /**
  *
@@ -49,23 +48,23 @@ class QueueResultNotifyDisplayer extends AbstractNotifyDisplayer {
         return event.getPlan();
     }
 
-    private boolean isInQueue() {
+    private boolean isOk() {
         return getResponse().getStatus() == Response.Status.OK.getStatusCode();
     }
 
     private Pair<Priority, Category> getCategory() {
-        return isInQueue() ? INFO : ERROR;
+        return isOk() ? INFO : ERROR;
     }
 
     private String getSummary() {
-        String state = (isInQueue()) ? Start_Success() : Start_Failed();
+        String state = (isOk()) ? Start_Success() : Start_Failed();
         return format("%s %s", Build(), state);
     }
 
     private String getDetails() {
         StringBuilder builder = new StringBuilder();
         builder.append(By_User());
-        if (!isInQueue()) {
+        if (!isOk()) {
             final StatusType statusInfo = getResponse().getStatusInfo();
             builder.append(BR).append(format("%s: %s", Server_Response(), statusInfo));
         }
