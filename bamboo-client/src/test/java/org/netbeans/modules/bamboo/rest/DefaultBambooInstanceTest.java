@@ -17,6 +17,7 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 import static java.util.Collections.emptyList;
 
 import java.util.Optional;
+import javax.ws.rs.core.Response;
 import org.mockito.InOrder;
 
 import static org.junit.Assert.*;
@@ -159,33 +160,12 @@ public class DefaultBambooInstanceTest {
         Optional<Task> task = instance.getSynchronizationTask();
         assertThat(task.get().isFinished(), is(false));
     }
-
-    @Test
-    public void testQueue_ResponseCode200_ExpectSameBuildNumber() throws InterruptedException {
-        project.setChildren(singletonList(plan));
-        classUnderTest.setChildren(singletonList(project));
-        given(client.queue(plan)).willReturn(200);
-        classUnderTest.queue(plan);
-        waitForListener();
-        assertThat(plan.getResult().getNumber(), is(0));
-    }
-    
-
-    @Test
-    public void testQueue_ResponseCode500_ExpectSameBuildNumber() throws InterruptedException {
-        project.setChildren(singletonList(plan));
-        classUnderTest.setChildren(singletonList(project));
-        given(client.queue(plan)).willReturn(500);
-        classUnderTest.queue(plan);
-        waitForListener();
-        assertThat(plan.getResult().getNumber(), is(0));
-    }
     
     @Test
     public void testQueue_ResponseCode200_ExpectEventInLookup() throws InterruptedException {
         project.setChildren(singletonList(plan));
         classUnderTest.setChildren(singletonList(project));
-        given(client.queue(plan)).willReturn(200);
+        given(client.queue(plan)).willReturn(Response.ok().build());
         classUnderTest.queue(plan);
         waitForListener();
         

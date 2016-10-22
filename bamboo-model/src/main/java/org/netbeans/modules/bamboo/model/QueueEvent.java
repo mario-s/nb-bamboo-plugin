@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.model;
 
+import javax.ws.rs.core.Response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,5 +16,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class QueueEvent {
     private PlanVo plan;
-    private LifeCycleState lifeCycleState;
+    private Response response;
 }

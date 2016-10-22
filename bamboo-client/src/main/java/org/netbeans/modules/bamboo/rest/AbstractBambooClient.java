@@ -1,6 +1,8 @@
 package org.netbeans.modules.bamboo.rest;
 
 import java.util.Collection;
+import java.util.Optional;
+import javax.ws.rs.core.Response;
 import org.netbeans.modules.bamboo.glue.BambooClient;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.PlanVo;
@@ -40,11 +42,11 @@ abstract class AbstractBambooClient implements BambooClient {
 
     /**
      * Queues a plan for a build. The REST Api requires the key of the project and plan.
-     *
+     * 
      * @param plan the plan to build.
-     * @return the server's response code.
+     * @return the server's response.
      */
-    abstract int queue(PlanVo plan);
+    abstract Response queue(PlanVo plan);
 
     InstanceValues getValues() {
         return values;

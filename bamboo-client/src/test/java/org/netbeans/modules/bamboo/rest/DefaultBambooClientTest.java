@@ -240,20 +240,20 @@ public class DefaultBambooClientTest {
         given(postCaller.createTarget()).willReturn(of(webTarget));
         given(postCaller.post(webTarget)).willReturn(Response.ok().build());
         
-        int result = classUnderTest.queue(plan);
-        assertThat(result, is(code));
+        Response result = classUnderTest.queue(plan);
+        assertThat(result.getStatus(), is(code));
         verify(postCaller).post(webTarget);
     }
     
      @Test
-    public void testQueue_TargetEmpty_Expect1() {
-        final int code = 0;
+    public void testQueue_TargetEmpty_ExpectNOtFound() {
+        final int code = 404;
         PlanVo plan = new PlanVo(FOO);
         plan.setParent(new ProjectVo(FOO));
         given(postCaller.createTarget()).willReturn(empty());
         
-        int result = classUnderTest.queue(plan);
-        assertThat(result, is(code));
+        Response result = classUnderTest.queue(plan);
+        assertThat(result.getStatus(), is(code));
         verify(postCaller, never()).post(webTarget);
     }
 }

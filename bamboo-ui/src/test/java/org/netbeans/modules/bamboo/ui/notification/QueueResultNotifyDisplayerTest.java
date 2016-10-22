@@ -2,12 +2,12 @@ package org.netbeans.modules.bamboo.ui.notification;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
+import javax.ws.rs.core.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.model.LifeCycleState;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.QueueEvent;
 import org.openide.awt.NotificationDisplayer;
@@ -55,8 +55,8 @@ public class QueueResultNotifyDisplayerTest {
      * Test of run method, of class QueueResultNotifyDisplayer.
      */
     @Test
-    public void testRun_ResultQueued_ExpectNotify() {
-        event.setLifeCycleState(LifeCycleState.Queued);
+    public void testRun_ResponseOk_ExpectNotify() {
+        event.setResponse(Response.ok().build());
         classUnderTest.run();
         verify(notificationDisplayer).notify(anyString(), any(Icon.class), isA(JLabel.class), isA(
                 ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
@@ -66,8 +66,8 @@ public class QueueResultNotifyDisplayerTest {
      * Test of run method, of class QueueResultNotifyDisplayer.
      */
     @Test
-    public void testRun_ResultNotQueued_ExpectNotify() {
-        event.setLifeCycleState(LifeCycleState.NotBuilt);
+    public void testRun_ResponseError_ExpectNotify() {
+        event.setResponse(Response.serverError().build());
         classUnderTest.run();
         verify(notificationDisplayer).notify(anyString(), any(Icon.class), isA(JLabel.class), isA(
                 ResultDetailsPanel.class), eq(Priority.HIGH), eq(Category.ERROR));

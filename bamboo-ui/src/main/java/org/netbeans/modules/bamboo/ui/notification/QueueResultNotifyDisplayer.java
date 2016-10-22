@@ -3,8 +3,9 @@ package org.netbeans.modules.bamboo.ui.notification;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.StatusType;
 import lombok.extern.java.Log;
-import org.netbeans.modules.bamboo.model.LifeCycleState;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.QueueEvent;
 import org.openide.awt.NotificationDisplayer.Category;
@@ -12,8 +13,11 @@ import org.openide.awt.NotificationDisplayer.Priority;
 import org.openide.util.NbBundle.Messages;
 import org.openide.util.Pair;
 
+import static java.lang.String.format;
+import static org.apache.commons.lang3.StringUtils.LF;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Build;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.By_User;
+import static org.netbeans.modules.bamboo.ui.notification.Bundle.Server_Response;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Start_Failed;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Start_Success;
 
@@ -24,9 +28,12 @@ import static org.netbeans.modules.bamboo.ui.notification.Bundle.Start_Success;
 @Log
 @Messages({"By_User=Manual run by user.",
     "Start_Success=started successful.",
-    "Start_Failed=could not be started."})
+    "Start_Failed=could not be started.",
+    "Server_Response=The server responded with"})
 class QueueResultNotifyDisplayer extends AbstractNotifyDisplayer {
 
+    private static final String BR = "<br/>";
+    
     private final QueueEvent event;
 
     QueueResultNotifyDisplayer(Icon icon, QueueEvent event) {
@@ -34,21 +41,35 @@ class QueueResultNotifyDisplayer extends AbstractNotifyDisplayer {
         this.event = event;
     }
 
-    private Pair<Priority, Category> getCategory() {
-        return isInQueue() ? INFO : ERROR;
-    }
-
-    private boolean isInQueue() {
-        return LifeCycleState.Queued.equals(event.getLifeCycleState());
+    private Response getResponse() {
+        return event.getResponse();
     }
 
     private PlanVo getPlan() {
         return event.getPlan();
     }
 
+    private boolean isInQueue() {
+        return getResponse().getStatus() == Response.Status.OK.getStatusCode();
+    }
+
+    private Pair<Priority, Category> getCategory() {
+        return isInQueue() ? INFO : ERROR;
+    }
+
     private String getSummary() {
         String state = (isInQueue()) ? Start_Success() : Start_Failed();
-        return String.format("%s %s", Build(), state);
+        return format("%s %s", Build(), state);
+    }
+
+    private String getDetails() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(By_User());
+        if (!isInQueue()) {
+            final StatusType statusInfo = getResponse().getStatusInfo();
+            builder.append(BR).append(format("%s: %s", Server_Response(), statusInfo));
+        }
+        return builder.toString();
     }
 
     @Override
@@ -58,7 +79,7 @@ class QueueResultNotifyDisplayer extends AbstractNotifyDisplayer {
         String summary = getSummary();
 
         JComponent balloonDetails = new JLabel(summary);
-        JComponent popupDetails = newDetailsPanel(summary, By_User());
+        JComponent popupDetails = newDetailsPanel(summary, getDetails());
         Pair<Priority, Category> cat = getCategory();
 
         notify(name, balloonDetails, popupDetails, cat);

@@ -21,6 +21,8 @@ import javax.ws.rs.ServerErrorException;
 
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.Response.StatusType;
 import org.netbeans.api.annotations.common.NonNull;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.ProjectVo;
@@ -109,19 +111,20 @@ class DefaultBambooClient extends AbstractBambooClient {
     }
 
     @Override
-    int queue(@NonNull PlanVo plan) {
-        int result = 0;
+    Response queue(@NonNull PlanVo plan) {
+        Response response = Response.status(Status.NOT_FOUND).build();
         String path = format(QUEUE, plan.getKey());
         ApiCaller caller = apiCallerFactory.newCaller(Object.class, path);
         Optional<WebTarget> target = caller.createTarget();
         if (target.isPresent()) {
-            Response response = caller.post(target.get());
-            result = response.getStatus();
+            response = caller.post(target.get());
             if (log.isLoggable(Level.INFO)) {
                 log.info(String.format("queued build for: %s...got response: %s", path, response));
             }
+        }else if(log.isLoggable(Level.INFO)){
+            log.info(String.format("did not queue the build for: %s", path));
         }
-        return result;
+        return response;
     }
 
     @Override

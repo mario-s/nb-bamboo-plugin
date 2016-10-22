@@ -18,6 +18,7 @@ import java.util.Optional;
 
 import java.util.logging.Level;
 import java.util.prefs.Preferences;
+import javax.ws.rs.core.Response;
 import org.netbeans.api.annotations.common.NonNull;
 import org.apache.commons.lang3.time.StopWatch;
 
@@ -43,10 +44,8 @@ import org.netbeans.modules.bamboo.model.PlanVo;
 
 import static java.lang.String.format;
 
-import org.netbeans.modules.bamboo.model.LifeCycleState;
 import org.netbeans.modules.bamboo.model.QueueEvent;
 import org.netbeans.modules.bamboo.model.QueueEvent.QueueEventBuilder;
-
 
 /**
  * @author spindizzy
@@ -174,16 +173,16 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             fireProjectsChanged(oldProjects, this.projects);
         }
     }
-    
+
     //set the parent if not present
-    private void updateParent(Collection<ProjectVo> children){
+    private void updateParent(Collection<ProjectVo> children) {
         children.parallelStream().forEach(child -> {
-            if(!child.getParent().isPresent()){
+            if (!child.getParent().isPresent()) {
                 child.setParent(this);
             }
         });
     }
-    
+
     private void synchronizeVersion() {
         version = client.getVersionInfo();
     }
@@ -265,18 +264,9 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         RP.post(() -> {
             final Optional<ProjectVo> parent = plan.getParent();
             if (isChild(parent) && verifyAvailibility()) {
-                int status = client.queue(plan);
-                HttpResponseCode code = HttpResponseCode.getCode(status);
-                QueueEventBuilder eventBuilder = QueueEvent.builder().plan(plan);
-                if (code.equals(HttpResponseCode.Successful)) {
-                    lookupContext.add(eventBuilder.lifeCycleState(LifeCycleState.Queued).build());
-                } else {
-                    lookupContext.add(eventBuilder.lifeCycleState(LifeCycleState.NotBuilt).build());
-                    if (log.isLoggable(Level.INFO)) {
-                        log.info(format("failed to queue the plan: %s", plan));
-                    }
-                }
-                
+                Response response = client.queue(plan);
+                QueueEventBuilder eventBuilder = QueueEvent.builder().plan(plan).response(response);
+                lookupContext.add(eventBuilder.build());
             }
         });
     }
