@@ -19,6 +19,7 @@ public class QueuePlanAction extends AbstractAction{
     public QueuePlanAction(PlanVo plan) {
         super(Bundle.CTL_QueuePlanAction());
         this.plan = plan;
+        setEnabled(plan.isEnabled());
     }
 
     @Override

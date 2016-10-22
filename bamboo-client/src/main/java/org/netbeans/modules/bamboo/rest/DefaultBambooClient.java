@@ -22,7 +22,6 @@ import javax.ws.rs.ServerErrorException;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.Response.StatusType;
 import org.netbeans.api.annotations.common.NonNull;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.ProjectVo;

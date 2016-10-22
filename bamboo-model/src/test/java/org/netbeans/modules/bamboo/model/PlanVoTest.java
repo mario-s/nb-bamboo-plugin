@@ -64,4 +64,9 @@ public class PlanVoTest {
         verify(listener, never()).propertyChange(any(PropertyChangeEvent.class));
     }
 
+    @Test
+    public void testSetEnable_ExpectListenerCalled() {
+        classUnderTest.setEnabled(true);
+        verify(listener).propertyChange(any(PropertyChangeEvent.class));
+    }
 }

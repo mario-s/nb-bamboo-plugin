@@ -66,6 +66,7 @@ abstract class AbstractVoUpdater<T extends AbstractVo> {
             target.setName(source.getName());
             target.setShortName(source.getShortName());
             target.setResult(source.getResult());
+            target.setEnabled(source.isEnabled());
         }
 
     }

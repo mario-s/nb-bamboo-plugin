@@ -79,7 +79,9 @@ public class PlanNode extends AbstractInstanceChildNode {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        log.info(String.format("result for plan %s changed", plan.getName()));
+        if(log.isLoggable(Level.INFO)){
+            log.info(String.format("plan changed: %s", plan));
+        }
         updateHtmlDisplayName();
         fireIconChange();
         firePropertySetsChange(null, getPropertySets());

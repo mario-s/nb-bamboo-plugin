@@ -2,11 +2,8 @@ package org.netbeans.modules.bamboo.glue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.netbeans.modules.bamboo.glue.VoConverter.ProjectVoConverter;
 import org.netbeans.modules.bamboo.glue.VoConverter.ResultVoConverter;
-import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
-import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.Result;
 
 import static org.hamcrest.CoreMatchers.equalTo;

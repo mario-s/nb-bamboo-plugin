@@ -37,10 +37,16 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
         this.name = name;
         this.result = new ResultVo();
     }
-
+    
     @Override
     public Optional<ProjectVo> getParent() {
        return ofNullable(parent);
+    }
+    
+    public void setEnabled(boolean enabled) {
+        boolean old = this.enabled;
+        this.enabled = enabled;
+        firePropertyChange(ChangeEvents.Plan.toString(), old, enabled);
     }
 
     public void setResult(ResultVo result) {
