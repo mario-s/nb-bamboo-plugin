@@ -36,7 +36,8 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_N
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Reason;
 
 /**
- *
+ * The UI for a {@link PlanVo}.
+ * 
  * @author spindizzy
  */
 @Log

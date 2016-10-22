@@ -14,6 +14,8 @@ import org.netbeans.modules.bamboo.model.BambooInstance;
 import static java.util.Collections.sort;
 
 /**
+ * This factory creates a new {@link ProjectNode}.
+ * 
  * @author spindizzy
  */
 @Log

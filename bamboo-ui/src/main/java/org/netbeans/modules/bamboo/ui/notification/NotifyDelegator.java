@@ -7,7 +7,7 @@ import org.netbeans.modules.bamboo.model.QueueEvent;
 import org.openide.util.ImageUtilities;
 
 /**
- *
+ * A delegator for the notification.
  * @author spindizzy
  */
 class NotifyDelegator {

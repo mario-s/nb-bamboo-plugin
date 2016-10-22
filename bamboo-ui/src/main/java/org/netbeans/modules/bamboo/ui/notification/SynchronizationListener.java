@@ -17,7 +17,7 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 /**
- * This calss listenes for changes on the sychronization.
+ * This class listens for changes on the sychronization.
  *
  * @author spindizzy
  */
@@ -32,6 +32,9 @@ class SynchronizationListener implements PropertyChangeListener {
         progressHandle = empty();
     }
 
+    /**
+     * This method registener the listener to the instance.
+     */
     final void registerListener() {
         instance.addPropertyChangeListener(this);
     }

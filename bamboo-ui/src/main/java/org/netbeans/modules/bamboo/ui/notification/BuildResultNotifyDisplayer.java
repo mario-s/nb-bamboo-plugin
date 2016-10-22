@@ -18,7 +18,7 @@ import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Failed;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Successful;
 
 /**
- * This class displays the notification in the status bar.
+ * This class displays the build result in the status bar.
  *
  * @author spindizzy
  */

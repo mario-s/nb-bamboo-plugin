@@ -6,7 +6,7 @@ import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 
 /**
- * This class encapsulates the necessary objects for the message when the result has changed.
+ * This class encapsulates the necessary objects for the message when the result of a plan has changed.
  * @author spindizzy
  */
 @Getter

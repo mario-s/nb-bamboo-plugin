@@ -17,6 +17,8 @@ import java.util.List;
 
 
 /**
+ * This is a factory for a {@link BambooInstanceNode}.
+ * 
  * @author spindizzy
  */
 class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>

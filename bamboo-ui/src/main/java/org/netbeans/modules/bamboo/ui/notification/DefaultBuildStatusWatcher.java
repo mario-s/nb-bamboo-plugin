@@ -7,7 +7,8 @@ import org.openide.util.lookup.ServiceProvider;
 import org.netbeans.modules.bamboo.glue.BuildStatusWatchable;
 
 /**
- *
+ * This class observes the plans of all the instances.
+ * 
  * @author spindizzy
  */
 @ServiceProvider(service = BuildStatusWatchable.class, position = 1)

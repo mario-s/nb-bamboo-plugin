@@ -26,6 +26,8 @@ import org.openide.util.actions.SystemAction;
 import org.openide.util.lookup.Lookups;
 
 /**
+ * The UI for a {@link ProjectVo}.
+ * 
  * @author spindizzy
  */
 public class ProjectNode extends AbstractInstanceChildNode {

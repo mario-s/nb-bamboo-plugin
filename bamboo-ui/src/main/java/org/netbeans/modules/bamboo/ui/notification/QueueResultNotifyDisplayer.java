@@ -5,7 +5,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.StatusType;
-import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.QueueEvent;
 import org.openide.awt.NotificationDisplayer.Category;
@@ -21,10 +20,9 @@ import static org.netbeans.modules.bamboo.ui.notification.Bundle.Start_Success;
 import static java.lang.String.format;
 
 /**
- *
+ * This class displays a ntification for manual build run.
  * @author spindizzy
  */
-@Log
 @Messages({"By_User=Manual run by user.",
     "Start_Success=started successful.",
     "Start_Failed=could not be started.",
@@ -32,7 +30,7 @@ import static java.lang.String.format;
 class QueueResultNotifyDisplayer extends AbstractNotifyDisplayer {
 
     private static final String BR = "<br/>";
-    
+
     private final QueueEvent event;
 
     QueueResultNotifyDisplayer(Icon icon, QueueEvent event) {

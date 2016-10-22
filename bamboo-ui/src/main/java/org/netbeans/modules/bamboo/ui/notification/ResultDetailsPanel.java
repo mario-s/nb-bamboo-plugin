@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import javax.swing.JComponent;
 
 /**
- *
+ * Component to show the details for a result.
  * @author spindizzy
  */
 public class ResultDetailsPanel extends javax.swing.JPanel {

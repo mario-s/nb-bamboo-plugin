@@ -14,6 +14,8 @@ import static java.util.Collections.sort;
 import lombok.extern.java.Log;
 
 /**
+ * This factory creates a new {@link PlanNode}.
+ * 
  * @author spindizzy
  */
 @Log

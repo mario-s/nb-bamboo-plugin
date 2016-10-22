@@ -12,7 +12,7 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 
 /**
- * Listnere for all plans related to a {@link BambooInstance}.
+ * Listener for all plans with their results related to a {@link BambooInstance}.
  *
  * @author spindizzy
  */
