@@ -49,7 +49,7 @@ public class ProjectVo extends AbstractOpenInBrowserVo implements TraverseDown<P
         Collection<PlanVo> old = this.children;
         this.children = plans;
         this.children.parallelStream().forEach(p -> p.setParent(this));
-        firePropertyChange(ChangeEvents.Plans.toString(), old, plans);
+        firePropertyChange(ModelChangedValues.Plans.toString(), old, plans);
     }
 
 }

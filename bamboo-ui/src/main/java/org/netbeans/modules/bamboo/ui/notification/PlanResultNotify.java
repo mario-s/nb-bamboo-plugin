@@ -3,9 +3,9 @@ package org.netbeans.modules.bamboo.ui.notification;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.ChangeEvents;
+import org.netbeans.modules.bamboo.model.ModelChangedValues;
 import org.netbeans.modules.bamboo.model.PlanVo;
-import org.netbeans.modules.bamboo.model.QueueEvent;
+import org.netbeans.modules.bamboo.model.event.QueueEvent;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
@@ -49,7 +49,7 @@ class PlanResultNotify implements PropertyChangeListener, LookupListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
-        if (ChangeEvents.Result.toString().equals(propertyName)) {
+        if (ModelChangedValues.Result.toString().equals(propertyName)) {
             PlanVo plan = (PlanVo) evt.getSource();
             ResultVo oldResult = (ResultVo) evt.getOldValue();
             ResultVo newResult = (ResultVo) evt.getNewValue();

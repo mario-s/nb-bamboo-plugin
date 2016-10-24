@@ -21,7 +21,7 @@ import java.util.List;
 
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.ChangeEvents;
+import org.netbeans.modules.bamboo.model.ModelChangedValues;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.ui.actions.ActionConstants;
 import org.openide.nodes.Sheet;
@@ -90,7 +90,7 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String eventName = evt.getPropertyName();
-        if (ChangeEvents.Projects.toString().equals(eventName)) {
+        if (ModelChangedValues.Projects.toString().equals(eventName)) {
             projectNodeFactory.refreshNodes();
         }
     }
@@ -142,7 +142,7 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
             }
         });
 
-        set.put(new IntReadPropertySupport(ChangeEvents.Projects.toString(), TXT_Instance_Prop_Projects(),
+        set.put(new IntReadPropertySupport(ModelChangedValues.Projects.toString(), TXT_Instance_Prop_Projects(),
                 DESC_Instance_Prop_Projects()) {
             @Override
             public Integer getValue() throws IllegalAccessException, InvocationTargetException {

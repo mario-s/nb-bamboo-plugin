@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.ui.notification;
 import java.awt.EventQueue;
 import javax.swing.Icon;
 import org.netbeans.api.annotations.common.StaticResource;
-import org.netbeans.modules.bamboo.model.QueueEvent;
+import org.netbeans.modules.bamboo.model.event.QueueEvent;
 import org.openide.util.ImageUtilities;
 
 /**

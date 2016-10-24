@@ -46,7 +46,7 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
     public void setEnabled(boolean enabled) {
         boolean old = this.enabled;
         this.enabled = enabled;
-        firePropertyChange(ChangeEvents.Plan.toString(), old, enabled);
+        firePropertyChange(ModelChangedValues.Plan.toString(), old, enabled);
     }
 
     public void setResult(ResultVo result) {
@@ -54,7 +54,7 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
         //update only when the number is equal or higher
         if(result.getNumber() >= old.getNumber()){
             this.result = result;
-            firePropertyChange(ChangeEvents.Result.toString(), old, result);
+            firePropertyChange(ModelChangedValues.Result.toString(), old, result);
         }
     }
 

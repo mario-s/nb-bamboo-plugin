@@ -7,7 +7,7 @@ import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.progress.ProgressHandleFactory;
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.ChangeEvents;
+import org.netbeans.modules.bamboo.model.ModelChangedValues;
 
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.TXT_SYNC;
 
@@ -42,7 +42,7 @@ class SynchronizationListener implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
-        if (ChangeEvents.Synchronizing.toString().equals(propertyName)) {
+        if (ModelChangedValues.Synchronizing.toString().equals(propertyName)) {
             boolean sync = (boolean) evt.getNewValue();
             if (sync) {
                 startProgress();

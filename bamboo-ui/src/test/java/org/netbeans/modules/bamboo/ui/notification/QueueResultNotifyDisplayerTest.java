@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.PlanVo;
-import org.netbeans.modules.bamboo.model.QueueEvent;
+import org.netbeans.modules.bamboo.model.event.QueueEvent;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.NotificationDisplayer.Category;
 import org.openide.awt.NotificationDisplayer.Priority;

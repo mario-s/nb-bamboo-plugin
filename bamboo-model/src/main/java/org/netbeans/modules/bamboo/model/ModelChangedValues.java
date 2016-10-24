@@ -1,11 +1,11 @@
 package org.netbeans.modules.bamboo.model;
 
 /**
- * This enum contains possible events fired during an update of the model.
+ * This enum contains values for properties which change during an update of the model.
  * 
  * @author spindizzy
  */
-public enum ChangeEvents {
+public enum ModelChangedValues {
     
     /**
      * This value indicates that the availability of the server has changed.
@@ -33,7 +33,7 @@ public enum ChangeEvents {
      */
     Result("result");
 
-    private ChangeEvents(String value){
+    private ModelChangedValues(String value){
         this.value = value;
                 
     }

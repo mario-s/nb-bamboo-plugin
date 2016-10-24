@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.ChangeEvents;
+import org.netbeans.modules.bamboo.model.ModelChangedValues;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -43,7 +43,7 @@ public class SynchronizationListenerTest {
     }
 
     private PropertyChangeEvent newChangeEvent(boolean val) {
-        return new PropertyChangeEvent(this, ChangeEvents.Synchronizing.toString(), !val, val);
+        return new PropertyChangeEvent(this, ModelChangedValues.Synchronizing.toString(), !val, val);
     }
     
       /**

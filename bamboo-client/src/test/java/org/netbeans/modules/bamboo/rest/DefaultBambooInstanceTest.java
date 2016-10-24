@@ -33,7 +33,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 import org.netbeans.modules.bamboo.model.PlanVo;
-import org.netbeans.modules.bamboo.model.QueueEvent;
+import org.netbeans.modules.bamboo.model.event.QueueEvent;
 
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.times;

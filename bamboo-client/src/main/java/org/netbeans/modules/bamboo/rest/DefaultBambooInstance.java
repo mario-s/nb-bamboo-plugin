@@ -31,7 +31,7 @@ import org.netbeans.modules.bamboo.model.LookupContext;
 
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 
-import org.netbeans.modules.bamboo.model.ChangeEvents;
+import org.netbeans.modules.bamboo.model.ModelChangedValues;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
 import org.openide.util.Lookup;
@@ -44,8 +44,10 @@ import org.netbeans.modules.bamboo.model.PlanVo;
 
 import static java.lang.String.format;
 
-import org.netbeans.modules.bamboo.model.QueueEvent;
-import org.netbeans.modules.bamboo.model.QueueEvent.QueueEventBuilder;
+import org.netbeans.modules.bamboo.model.event.QueueEvent;
+import org.netbeans.modules.bamboo.model.event.QueueEvent.QueueEventBuilder;
+
+import static java.lang.String.format;
 
 /**
  * @author spindizzy
@@ -158,7 +160,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     private void fireSynchronizationChange(boolean value) {
-        firePropertyChange(ChangeEvents.Synchronizing.toString(), !value, value);
+        firePropertyChange(ModelChangedValues.Synchronizing.toString(), !value, value);
     }
 
     private void synchronizeProjects() {
@@ -188,7 +190,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     private void fireProjectsChanged(Collection<ProjectVo> oldProjects, Collection<ProjectVo> newProjects) {
-        firePropertyChange(ChangeEvents.Projects.toString(), oldProjects,
+        firePropertyChange(ModelChangedValues.Projects.toString(), oldProjects,
                 newProjects);
     }
 
@@ -258,7 +260,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             log.info(format("service is available: %s", available));
         }
         
-        firePropertyChange(ChangeEvents.Availiable.name(), oldVal, available);
+        firePropertyChange(ModelChangedValues.Availiable.name(), oldVal, available);
         
         return available;
     }

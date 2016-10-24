@@ -1,10 +1,11 @@
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.model.event;
 
 import javax.ws.rs.core.Response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.netbeans.modules.bamboo.model.PlanVo;
 
 /**
  * This event is fired when a build was triggered manual.
