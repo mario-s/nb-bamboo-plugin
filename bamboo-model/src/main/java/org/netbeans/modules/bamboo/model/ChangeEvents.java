@@ -8,6 +8,11 @@ package org.netbeans.modules.bamboo.model;
 public enum ChangeEvents {
     
     /**
+     * This value indicates that the availability of the server has changed.
+     */
+    Availiable("available"),
+    
+    /**
      * This value indicates that sychronizing just started or stoped.
      */
     Synchronizing("synchronizing"), 
