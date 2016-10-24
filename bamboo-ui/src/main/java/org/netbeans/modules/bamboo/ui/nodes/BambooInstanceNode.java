@@ -114,6 +114,7 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
         super.destroy();
     }
 
+    @Override
     protected Sheet createSheet() {
         Sheet.Set set = Sheet.createPropertiesSet();
         set.setDisplayName(instance.getName());
