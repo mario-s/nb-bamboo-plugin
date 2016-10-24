@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.BambooInstance;
@@ -24,6 +24,11 @@ import org.netbeans.modules.bamboo.ui.actions.ActionConstants;
 import org.openide.nodes.Sheet;
 import org.openide.util.NbBundle.Messages;
 
+import org.openide.util.lookup.Lookups;
+import org.netbeans.modules.bamboo.glue.InstanceConstants;
+import org.openide.util.LookupEvent;
+
+import static java.util.Optional.of;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Projects;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_SyncInterval;
@@ -34,9 +39,6 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Proj
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_SnycInterval;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Url;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Version;
-
-import org.openide.util.lookup.Lookups;
-import org.netbeans.modules.bamboo.glue.InstanceConstants;
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.Disconnected;
@@ -77,7 +79,7 @@ public class BambooInstanceNode extends AbstractInstanceChildNode {
     private String htmlDisplayName;
 
     public BambooInstanceNode(final BambooInstance instance) {
-        super(Lookups.singleton(instance));
+        super(instance.getLookup());
         this.instance = instance;
         this.projectNodeFactory = new ProjectNodeFactory(instance);
         init();
@@ -99,19 +101,13 @@ public class BambooInstanceNode extends AbstractInstanceChildNode {
         String eventName = evt.getPropertyName();
         if (ModelChangedValues.Projects.toString().equals(eventName)) {
             projectNodeFactory.refreshNodes();
-        } else if (ModelChangedValues.Available.toString().equals(eventName)) {
-            toggleActions();
-            updateHtmlDisplayName();
         }
     }
 
-    private void toggleActions() {
-        toggleActions(findActions(ActionConstants.ACTION_PATH));
-        toggleActions(findActions(ActionConstants.PLAN_ACTION_PATH));
-    }
-
-    private void toggleActions(List<? extends Action> actions) {
-        actions.stream().filter(Objects::nonNull).forEach(ac -> ac.setEnabled(isAvailable()));
+    @Override
+    public void resultChanged(LookupEvent ev) {
+        super.resultChanged(ev);
+        updateHtmlDisplayName();
     }
 
     private boolean isAvailable() {
@@ -120,6 +116,16 @@ public class BambooInstanceNode extends AbstractInstanceChildNode {
 
     List<? extends Action> findActions(String path) {
         return actionsForPath(path);
+    }
+
+    @Override
+    protected Optional<BambooInstance> getInstance() {
+        return of(instance);
+    }
+
+    @Override
+    protected List<? extends Action> getToogleableActions() {
+        return findActions(ActionConstants.ACTION_PATH);
     }
 
     @Override

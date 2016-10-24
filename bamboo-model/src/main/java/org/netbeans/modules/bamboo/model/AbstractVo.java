@@ -42,6 +42,7 @@ public abstract class AbstractVo implements Lookup.Provider{
 
     @Override
     public Lookup getLookup() {
+        //TODO lookup per instance
         return lookupContext.getLookup();
     }
     

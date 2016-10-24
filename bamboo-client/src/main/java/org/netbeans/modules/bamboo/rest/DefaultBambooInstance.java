@@ -116,6 +116,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     @Override
     public Lookup getLookup() {
+        //TODO lookup per instance
         return lookupContext.getLookup();
     }
 

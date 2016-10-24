@@ -20,7 +20,10 @@ class InstanceConnectionListener implements PropertyChangeListener {
         String propName = pce.getPropertyName();
         if (ModelChangedValues.Available.toString().equals(propName)) {
             final BambooInstance source = (BambooInstance) pce.getSource();
-            ServerConnectionEvent event = new ServerConnectionEvent(source);
+            String name = source.getName();
+            boolean available = source.isAvailable();
+            ServerConnectionEvent event = new ServerConnectionEvent(name, available);
+            //TODO per instance
             LookupContext.Instance.add(event);
         }
     }

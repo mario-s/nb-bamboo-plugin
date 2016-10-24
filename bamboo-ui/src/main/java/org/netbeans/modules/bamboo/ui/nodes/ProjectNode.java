@@ -9,8 +9,10 @@ import org.openide.nodes.Children;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.ModelChangedValues;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
@@ -41,7 +43,7 @@ public class ProjectNode extends AbstractInstanceChildNode {
     private final PlanNodeFactory planNodeFactory;
 
     public ProjectNode(final ProjectVo project) {
-        super(Lookups.singleton(project));
+        super(project.getLookup());
         this.project = project;
         this.planNodeFactory = new PlanNodeFactory(project);
         init();
@@ -61,6 +63,16 @@ public class ProjectNode extends AbstractInstanceChildNode {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         planNodeFactory.refreshNodes();
+    }
+
+    @Override
+    protected Optional<BambooInstance> getInstance() {
+        return project.getParent();
+    }
+
+    @Override
+    protected List<? extends Action> getToogleableActions() {
+       return new ArrayList();
     }
 
     @Override

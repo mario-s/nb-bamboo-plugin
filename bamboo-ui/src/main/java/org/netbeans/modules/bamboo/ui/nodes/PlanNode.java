@@ -8,15 +8,18 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import javax.swing.Action;
 import lombok.extern.java.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.annotations.common.StaticResource;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.LifeCycleState;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
+import org.netbeans.modules.bamboo.ui.actions.ActionConstants;
 import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
 import org.netbeans.modules.bamboo.ui.actions.QueuePlanAction;
 
@@ -29,6 +32,7 @@ import org.openide.util.actions.SystemAction;
 import org.openide.util.lookup.Lookups;
 import org.openide.xml.XMLUtil;
 
+import static java.util.Optional.empty;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Number;
@@ -39,7 +43,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_R
 
 /**
  * The UI for a {@link PlanVo}.
- * 
+ *
  * @author spindizzy
  */
 @Log
@@ -54,7 +58,7 @@ public class PlanNode extends AbstractInstanceChildNode {
     private static final String ICON_ENABLED = "org/netbeans/modules/bamboo/resources/blue.png";
     @StaticResource
     private static final String ICON_FAILED = "org/netbeans/modules/bamboo/resources/red.png";
-    
+
     private static final String NO_CONTROL_SHADOW = "<font color='!controlShadow'>(%s)</font>";
 
     private final PlanVo plan;
@@ -64,7 +68,7 @@ public class PlanNode extends AbstractInstanceChildNode {
     private String htmlDisplayName;
 
     public PlanNode(final PlanVo plan) {
-        super(Lookups.singleton(plan));
+        super(plan.getLookup());
         this.plan = plan;
         this.buildReasonEditor = new BuildReasonEditor();
         init();
@@ -86,7 +90,7 @@ public class PlanNode extends AbstractInstanceChildNode {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(log.isLoggable(Level.INFO)){
+        if (log.isLoggable(Level.INFO)) {
             log.info(String.format("plan changed: %s", plan));
         }
         updateHtmlDisplayName();
@@ -111,17 +115,17 @@ public class PlanNode extends AbstractInstanceChildNode {
             log.log(Level.FINE, ex.getMessage(), ex);
         }
     }
-    
+
     private String lifeCycleStateToString() {
         StringBuilder builder = new StringBuilder();
         LifeCycleState lifeCycleState = getResult().getLifeCycleState();
         //no need to notify about a finished lifecycle since there is no way to figure out running plans (yet)
-        if(!LifeCycleState.Finished.equals(lifeCycleState)){
+        if (!LifeCycleState.Finished.equals(lifeCycleState)) {
             builder.append(SPACE).append(toGray(lifeCycleState.name()));
         }
         return builder.toString();
     }
-    
+
     private String stateToString() {
         StringBuilder builder = new StringBuilder();
         builder.append(SPACE).append(toGray(getResult().getState().name()));
@@ -139,6 +143,20 @@ public class PlanNode extends AbstractInstanceChildNode {
     }
 
     @Override
+    protected Optional<BambooInstance> getInstance() {
+        Optional<BambooInstance> instance = empty();
+        if(plan.getParent().isPresent()){
+            instance = plan.getParent().get().getParent();
+        }
+        return instance;
+    }
+
+    @Override
+    protected List<? extends Action> getToogleableActions() {
+        return new ArrayList();
+    }
+
+    @Override
     public Image getIcon(final int type) {
         Image icon = super.getIcon(type);
 
@@ -153,7 +171,6 @@ public class PlanNode extends AbstractInstanceChildNode {
 
         return icon;
     }
-
 
     @Override
     public Action[] getActions(final boolean context) {
@@ -188,7 +205,8 @@ public class PlanNode extends AbstractInstanceChildNode {
             }
         });
 
-        set.put(new StringReadPropertySupport(BUILD_REASON, TXT_Plan_Prop_Result_Reason(), DESC_Plan_Prop_Result_Reason()) {
+        set.put(new StringReadPropertySupport(BUILD_REASON, TXT_Plan_Prop_Result_Reason(),
+                DESC_Plan_Prop_Result_Reason()) {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
                 String buildReason = getResult().getBuildReason();
