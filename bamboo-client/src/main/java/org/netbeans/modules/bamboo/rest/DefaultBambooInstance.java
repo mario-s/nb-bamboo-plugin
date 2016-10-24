@@ -251,11 +251,15 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     private boolean verifyAvailibility() {
+        boolean oldVal = this.available;
         available = client.existsService();
 
         if (log.isLoggable(Level.INFO)) {
             log.info(format("service is available: %s", available));
         }
+        
+        firePropertyChange(ChangeEvents.Availiable.name(), oldVal, available);
+        
         return available;
     }
 

@@ -36,6 +36,7 @@ import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.QueueEvent;
 
 import static java.util.Collections.singletonList;
+import static org.mockito.Mockito.times;
 
 /**
  *
