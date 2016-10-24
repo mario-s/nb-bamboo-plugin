@@ -29,7 +29,7 @@ public interface InstanceValues extends OpenableInBrowser {
     /**
      * Get the password of the user.
      *
-     * @return password as String
+     * @return password as characters
      */
     char[] getPassword();
 }
