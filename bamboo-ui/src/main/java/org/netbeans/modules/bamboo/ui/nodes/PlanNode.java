@@ -13,6 +13,7 @@ import javax.swing.Action;
 import lombok.extern.java.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.annotations.common.StaticResource;
+import org.netbeans.modules.bamboo.model.LifeCycleState;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
@@ -28,6 +29,7 @@ import org.openide.util.actions.SystemAction;
 import org.openide.util.lookup.Lookups;
 import org.openide.xml.XMLUtil;
 
+import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Number;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Reason;
@@ -46,7 +48,6 @@ public class PlanNode extends AbstractInstanceChildNode {
     private static final String BUILD_REASON = "buildReason";
     private static final String RESULT_NUMBER = "resultNumber";
     private static final String STYLE = "<font color='!controlShadow'>(%s)</font>";
-    private static final String SPC = " ";
 
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/grey.png";
@@ -95,8 +96,8 @@ public class PlanNode extends AbstractInstanceChildNode {
             String escapedName = XMLUtil.toElementContent(plan.getShortName());
             StringBuilder builder = new StringBuilder(escapedName);
 
-            builder.append(SPC).append(toGray(getResult().getLifeCycleState().name()));
-            builder.append(SPC).append(toGray(getResult().getState().name()));
+            builder.append(lifeCycleStateToString());
+            builder.append(stateToString());
 
             htmlDisplayName = builder.toString();
 
@@ -104,6 +105,22 @@ public class PlanNode extends AbstractInstanceChildNode {
         } catch (CharConversionException ex) {
             log.log(Level.FINE, ex.getMessage(), ex);
         }
+    }
+    
+    private String lifeCycleStateToString() {
+        StringBuilder builder = new StringBuilder();
+        LifeCycleState lifeCycleState = getResult().getLifeCycleState();
+        //no need to notify about a finished lifecycle since there is no way to figure out running plans (yet)
+        if(!LifeCycleState.Finished.equals(lifeCycleState)){
+            builder.append(SPACE).append(toGray(lifeCycleState.name()));
+        }
+        return builder.toString();
+    }
+    
+    private String stateToString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(SPACE).append(toGray(getResult().getState().name()));
+        return builder.toString();
     }
 
     private ResultVo getResult() {
