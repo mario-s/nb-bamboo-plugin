@@ -13,7 +13,6 @@ import static org.openide.util.Lookup.getDefault;
 
 import org.openide.util.Utilities;
 
-
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
@@ -47,10 +46,22 @@ import org.netbeans.modules.bamboo.glue.InstanceConstants;
  *
  * @author spindizzy
  */
+@Messages({
+    "TXT_Instance_Prop_Name=Name",
+    "DESC_Instance_Prop_Name=Bamboo instance name",
+    "TXT_Instance_Prop_Url=URL",
+    "DESC_Instance_Prop_Url=Bamboo instance URL",
+    "TXT_Instance_Prop_Version=Version",
+    "DESC_Instance_Prop_Version=Bamboo Version",
+    "TXT_Instance_Prop_Projects=Projects",
+    "DESC_Instance_Prop_Projects=number of all available build projects",
+    "TXT_Instance_Prop_SnycInterval=Synchronization Interval",
+    "DESC_Instance_Prop_SyncInterval=minutes for the next synchronization of the instance with the server"
+})
 public class BambooInstanceNode extends AbstractNode implements PropertyChangeListener {
 
     private static final String VERSION = "version";
-    
+
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
 
@@ -72,14 +83,14 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
         setIconBaseWithExtension(ICON_BASE);
 
         setChildren(Children.create(projectNodeFactory, true));
-        
+
         instance.addPropertyChangeListener(this);
     }
-    
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String eventName = evt.getPropertyName();
-        if(ChangeEvents.Projects.toString().equals(eventName)){
+        if (ChangeEvents.Projects.toString().equals(eventName)) {
             projectNodeFactory.refreshNodes();
         }
     }
@@ -103,31 +114,20 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
         super.destroy();
     }
 
-    @Override
-    @Messages({
-        "TXT_Instance_Prop_Name=Name",
-        "DESC_Instance_Prop_Name=Bamboo instance name",
-        "TXT_Instance_Prop_Url=URL",
-        "DESC_Instance_Prop_Url=Bamboo instance URL",
-        "TXT_Instance_Prop_Version=Version",
-        "DESC_Instance_Prop_Version=Bamboo Version",
-        "TXT_Instance_Prop_Projects=Projects",
-        "DESC_Instance_Prop_Projects=number of all available build projects",
-        "TXT_Instance_Prop_SnycInterval=Synchronization Interval",
-        "DESC_Instance_Prop_SyncInterval=minutes for the next synchronization of the instance with the server"
-    })
     protected Sheet createSheet() {
         Sheet.Set set = Sheet.createPropertiesSet();
         set.setDisplayName(instance.getName());
 
-        set.put(new StringReadPropertySupport(InstanceConstants.PROP_NAME, TXT_Instance_Prop_Name(), DESC_Instance_Prop_Name()) {
+        set.put(new StringReadPropertySupport(InstanceConstants.PROP_NAME, TXT_Instance_Prop_Name(),
+                DESC_Instance_Prop_Name()) {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
                 return instance.getName();
             }
         });
 
-        set.put(new StringReadPropertySupport(InstanceConstants.PROP_URL, TXT_Instance_Prop_Url(), DESC_Instance_Prop_Url()) {
+        set.put(new StringReadPropertySupport(InstanceConstants.PROP_URL, TXT_Instance_Prop_Url(),
+                DESC_Instance_Prop_Url()) {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
                 return instance.getUrl();
@@ -140,16 +140,18 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
                 return (instance.getVersionInfo() != null) ? instance.getVersionInfo().getVersion() : "";
             }
         });
-        
-        set.put(new IntReadPropertySupport(ChangeEvents.Projects.toString(), TXT_Instance_Prop_Projects(), DESC_Instance_Prop_Projects()) {
+
+        set.put(new IntReadPropertySupport(ChangeEvents.Projects.toString(), TXT_Instance_Prop_Projects(),
+                DESC_Instance_Prop_Projects()) {
             @Override
             public Integer getValue() throws IllegalAccessException, InvocationTargetException {
                 final Collection<ProjectVo> projects = instance.getChildren();
                 return (projects != null) ? projects.size() : 0;
             }
         });
-        
-        set.put(new IntReadWritePropertySupport(InstanceConstants.PROP_SYNC_INTERVAL, TXT_Instance_Prop_SnycInterval(), DESC_Instance_Prop_SyncInterval()) {
+
+        set.put(new IntReadWritePropertySupport(InstanceConstants.PROP_SYNC_INTERVAL, TXT_Instance_Prop_SnycInterval(),
+                DESC_Instance_Prop_SyncInterval()) {
             @Override
             public Integer getValue() throws IllegalAccessException, InvocationTargetException {
                 return instance.getSyncInterval();
@@ -163,7 +165,7 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
 
         Sheet sheet = Sheet.createDefault();
         sheet.put(set);
-        
+
         return sheet;
     }
 
