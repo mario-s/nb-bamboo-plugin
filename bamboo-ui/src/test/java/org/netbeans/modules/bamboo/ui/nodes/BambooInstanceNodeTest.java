@@ -1,15 +1,17 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.beans.PropertyChangeEvent;
+import java.util.List;
+import javax.swing.Action;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.ModelChangedValues;
 
+import static java.util.Collections.emptyList;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
@@ -27,11 +29,16 @@ public class BambooInstanceNodeTest {
     @Mock
     private PropertyChangeEvent event;
 
-    @InjectMocks
     private BambooInstanceNode classUnderTest;
 
     @Before
     public void setUp() {
+        classUnderTest = new BambooInstanceNode(instance) {
+            @Override
+            List<? extends Action> findActions(String path) {
+                return emptyList();
+            }
+        };
     }
 
     /**
@@ -55,7 +62,7 @@ public class BambooInstanceNodeTest {
         assertThat(htmlDisplayName, notNullValue());
     }
 
-     /**
+    /**
      * Test of propertyChange method, of class BambooInstanceNode.
      */
     @Test

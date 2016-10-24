@@ -17,4 +17,8 @@ public interface ActionConstants {
      * used e.g. for the context menu of an instance node.
      */
     String ACTION_PATH = MODULE_NAME + "/Actions/instance";
+    
+    String PLAN_ACTION_PATH = MODULE_NAME + "Plan" + ACTION_PATH;
+    
+    
 }

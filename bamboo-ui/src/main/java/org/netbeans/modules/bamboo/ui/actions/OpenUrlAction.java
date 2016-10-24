@@ -22,7 +22,7 @@ import org.openide.util.NbBundle.Messages;
  * @author spindizzy
  */
 @ActionID(
-        category = "Team",
+        category = "Bamboo",
         id = "org.netbeans.modules.bamboo.ui.actions.OpenUrlAction"
 )
 @ActionRegistration(

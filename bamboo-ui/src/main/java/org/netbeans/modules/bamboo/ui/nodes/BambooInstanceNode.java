@@ -1,23 +1,20 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import org.netbeans.api.annotations.common.StaticResource;
 
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
-import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 
 import static org.openide.util.Lookup.getDefault;
-
-import org.openide.util.Utilities;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.BambooInstance;
@@ -41,7 +38,10 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Vers
 import org.openide.util.lookup.Lookups;
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
 
+import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.Disconnected;
+
+import static org.openide.util.Utilities.actionsForPath;
 
 /**
  * This class is the node of a Bamboo CI server.
@@ -67,7 +67,7 @@ public class BambooInstanceNode extends AbstractInstanceChildNode {
 
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
-    
+
     private static final String NO_CONTROL_SHADOW = "<font color='!controlShadow'>[%s]</font>";
 
     private final BambooInstance instance;
@@ -100,25 +100,43 @@ public class BambooInstanceNode extends AbstractInstanceChildNode {
         if (ModelChangedValues.Projects.toString().equals(eventName)) {
             projectNodeFactory.refreshNodes();
         } else if (ModelChangedValues.Available.toString().equals(eventName)) {
+            toggleActions();
             updateHtmlDisplayName();
         }
+    }
 
+    private void toggleActions() {
+        toggleActions(findActions(ActionConstants.ACTION_PATH));
+        toggleActions(findActions(ActionConstants.PLAN_ACTION_PATH));
+    }
+
+    private void toggleActions(List<? extends Action> actions) {
+        actions.stream().filter(Objects::nonNull).forEach(ac -> ac.setEnabled(isAvailable()));
+    }
+
+    private boolean isAvailable() {
+        return instance.isAvailable();
+    }
+
+    List<? extends Action> findActions(String path) {
+        return actionsForPath(path);
     }
 
     @Override
     public Action[] getActions(final boolean context) {
-        List<? extends Action> actions = Utilities.actionsForPath(ActionConstants.ACTION_PATH);
+        List<? extends Action> actions = findActions(ActionConstants.ACTION_PATH);
 
         return actions.toArray(new Action[actions.size()]);
     }
 
     private void updateHtmlDisplayName() {
         String oldDisplayName = getHtmlDisplayName();
-        if(!instance.isAvailable()) {
-            htmlDisplayName = String.format(NO_CONTROL_SHADOW, Disconnected());
-        }else{
-            htmlDisplayName = null;
+        StringBuilder builder = new StringBuilder(instance.getName());
+        if (!isAvailable()) {
+            builder.append(SPACE).append(String.format(NO_CONTROL_SHADOW, Disconnected()));
         }
+        htmlDisplayName = builder.toString();
+
         fireDisplayNameChange(oldDisplayName, htmlDisplayName);
     }
 
