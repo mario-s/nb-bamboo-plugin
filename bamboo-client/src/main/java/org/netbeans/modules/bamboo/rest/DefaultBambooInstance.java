@@ -48,6 +48,8 @@ import org.netbeans.modules.bamboo.model.event.QueueEvent;
 import org.netbeans.modules.bamboo.model.event.QueueEvent.QueueEventBuilder;
 
 import static java.lang.String.format;
+import static java.lang.String.format;
+import static java.lang.String.format;
 
 /**
  * @author spindizzy
@@ -80,6 +82,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     private transient boolean available;
 
     private BambooInstanceProperties properties;
+    
 
     DefaultBambooInstance(final BambooInstanceProperties properties) {
         this(null, null);
@@ -92,6 +95,13 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         changeSupport = new PropertyChangeSupport(this);
         lookupContext = LookupContext.Instance;
         this.client = client;
+        
+        addConnectionListener();
+    }
+    
+    private void addConnectionListener() {
+        InstanceConnectionListener listener = new InstanceConnectionListener();
+        addPropertyChangeListener(listener);
     }
 
     @Override
@@ -260,7 +270,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             log.info(format("service is available: %s", available));
         }
         
-        firePropertyChange(ModelChangedValues.Availiable.name(), oldVal, available);
+        firePropertyChange(ModelChangedValues.Available.toString(), oldVal, available);
         
         return available;
     }

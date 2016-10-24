@@ -10,7 +10,7 @@ public enum ModelChangedValues {
     /**
      * This value indicates that the availability of the server has changed.
      */
-    Availiable("available"),
+    Available("available"),
     
     /**
      * This value indicates that sychronizing just started or stoped.

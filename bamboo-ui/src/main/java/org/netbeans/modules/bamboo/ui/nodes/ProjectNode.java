@@ -34,6 +34,7 @@ public class ProjectNode extends AbstractInstanceChildNode {
 
     @StaticResource
     private static final String FOLDER = "org/netbeans/modules/bamboo/resources/folder.png";
+    protected static final String NO_CONTROL_SHADOW = "<font color='!controlShadow'>(%s)</font>";
 
     private final ProjectVo project;
     

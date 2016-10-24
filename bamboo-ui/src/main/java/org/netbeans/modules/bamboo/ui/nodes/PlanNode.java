@@ -47,7 +47,6 @@ public class PlanNode extends AbstractInstanceChildNode {
 
     private static final String BUILD_REASON = "buildReason";
     private static final String RESULT_NUMBER = "resultNumber";
-    private static final String STYLE = "<font color='!controlShadow'>(%s)</font>";
 
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/grey.png";
@@ -55,6 +54,8 @@ public class PlanNode extends AbstractInstanceChildNode {
     private static final String ICON_ENABLED = "org/netbeans/modules/bamboo/resources/blue.png";
     @StaticResource
     private static final String ICON_FAILED = "org/netbeans/modules/bamboo/resources/red.png";
+    
+    private static final String NO_CONTROL_SHADOW = "<font color='!controlShadow'>(%s)</font>";
 
     private final PlanVo plan;
 
@@ -77,6 +78,10 @@ public class PlanNode extends AbstractInstanceChildNode {
         updateHtmlDisplayName();
 
         plan.addPropertyChangeListener(this);
+    }
+
+    private String toGray(String text) {
+        return String.format(NO_CONTROL_SHADOW, text);
     }
 
     @Override
@@ -149,9 +154,6 @@ public class PlanNode extends AbstractInstanceChildNode {
         return icon;
     }
 
-    private String toGray(String text) {
-        return String.format(STYLE, text);
-    }
 
     @Override
     public Action[] getActions(final boolean context) {

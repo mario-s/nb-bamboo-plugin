@@ -41,12 +41,15 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Vers
 import org.openide.util.lookup.Lookups;
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
 
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.Disconnected;
+
 /**
  * This class is the node of a Bamboo CI server.
  *
  * @author spindizzy
  */
 @Messages({
+    "Disconnected=Disconnected",
     "TXT_Instance_Prop_Name=Name",
     "DESC_Instance_Prop_Name=Bamboo instance name",
     "TXT_Instance_Prop_Url=URL",
@@ -58,19 +61,23 @@ import org.netbeans.modules.bamboo.glue.InstanceConstants;
     "TXT_Instance_Prop_SnycInterval=Synchronization Interval",
     "DESC_Instance_Prop_SyncInterval=minutes for the next synchronization of the instance with the server"
 })
-public class BambooInstanceNode extends AbstractNode implements PropertyChangeListener {
+public class BambooInstanceNode extends AbstractInstanceChildNode {
 
     private static final String VERSION = "version";
 
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/instance.png";
+    
+    private static final String NO_CONTROL_SHADOW = "<font color='!controlShadow'>[%s]</font>";
 
     private final BambooInstance instance;
 
     private final ProjectNodeFactory projectNodeFactory;
 
+    private String htmlDisplayName;
+
     public BambooInstanceNode(final BambooInstance instance) {
-        super(Children.LEAF, Lookups.singleton(instance));
+        super(Lookups.singleton(instance));
         this.instance = instance;
         this.projectNodeFactory = new ProjectNodeFactory(instance);
         init();
@@ -92,7 +99,10 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
         String eventName = evt.getPropertyName();
         if (ModelChangedValues.Projects.toString().equals(eventName)) {
             projectNodeFactory.refreshNodes();
+        } else if (ModelChangedValues.Available.toString().equals(eventName)) {
+            updateHtmlDisplayName();
         }
+
     }
 
     @Override
@@ -100,6 +110,21 @@ public class BambooInstanceNode extends AbstractNode implements PropertyChangeLi
         List<? extends Action> actions = Utilities.actionsForPath(ActionConstants.ACTION_PATH);
 
         return actions.toArray(new Action[actions.size()]);
+    }
+
+    private void updateHtmlDisplayName() {
+        String oldDisplayName = getHtmlDisplayName();
+        if(!instance.isAvailable()) {
+            htmlDisplayName = String.format(NO_CONTROL_SHADOW, Disconnected());
+        }else{
+            htmlDisplayName = null;
+        }
+        fireDisplayNameChange(oldDisplayName, htmlDisplayName);
+    }
+
+    @Override
+    public String getHtmlDisplayName() {
+        return htmlDisplayName;
     }
 
     @Override
