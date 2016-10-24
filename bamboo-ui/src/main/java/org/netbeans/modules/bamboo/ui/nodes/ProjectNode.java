@@ -25,7 +25,6 @@ import org.openide.actions.PropertiesAction;
 import org.openide.nodes.Sheet;
 import org.openide.util.NbBundle;
 import org.openide.util.actions.SystemAction;
-import org.openide.util.lookup.Lookups;
 
 /**
  * The UI for a {@link ProjectVo}.
