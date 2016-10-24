@@ -40,7 +40,7 @@ public class TextExtractor {
     }
 
     /**
-     * This method replaces all apearances of of links with the inner text.
+     * This method replaces all apearances of links with the inner text.
      *
      * @param input text with possible links
      * @return text with out tags
