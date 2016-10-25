@@ -93,4 +93,10 @@ public class ProjectVoTest {
         assertThat(result, is(true));
     }
     
+    @Test
+    public void testIsAvailable_ParentNotPresent_ExpectFalse() {
+        boolean result = classUnderTest.isAvailable();
+        assertThat(result, is(false));
+    }
+   
 }

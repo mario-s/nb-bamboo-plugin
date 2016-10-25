@@ -42,13 +42,10 @@ import static java.util.Collections.emptyList;
 
 import org.netbeans.modules.bamboo.model.PlanVo;
 
-import static java.lang.String.format;
 
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
 import org.netbeans.modules.bamboo.model.event.QueueEvent.QueueEventBuilder;
 
-import static java.lang.String.format;
-import static java.lang.String.format;
 import static java.lang.String.format;
 
 /**

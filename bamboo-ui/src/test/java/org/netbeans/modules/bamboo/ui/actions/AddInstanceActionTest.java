@@ -38,7 +38,5 @@ public class AddInstanceActionTest {
         classUnderTest.actionPerformed(null);
         verify(dialogDisplayer).show();
     }
-
-   
     
 }

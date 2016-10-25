@@ -32,4 +32,9 @@ public interface InstanceValues extends OpenableInBrowser {
      * @return password as characters
      */
     char[] getPassword();
+    
+    @Override
+    default boolean isAvailable() {
+        return false;
+    }
 }

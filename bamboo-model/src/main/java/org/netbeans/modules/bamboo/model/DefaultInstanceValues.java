@@ -46,5 +46,4 @@ public class DefaultInstanceValues implements InstanceValues {
     private char[] clonePassword(char[] passwd) {
         return (passwd != null) ? copyOf(passwd, passwd.length) : new char[0];
     }
-    
 }

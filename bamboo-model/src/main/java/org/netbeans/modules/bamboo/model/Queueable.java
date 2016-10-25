@@ -4,7 +4,7 @@ package org.netbeans.modules.bamboo.model;
  * This interface defines a methods to queue something (normally a plan).
  * @author spindizzy
  */
-public interface Queueable {
+public interface Queueable extends OpenableInBrowser{
     
     /**
      * This method returns true if the plan is enabled.

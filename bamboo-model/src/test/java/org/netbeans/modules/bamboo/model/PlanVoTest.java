@@ -8,6 +8,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -79,5 +81,11 @@ public class PlanVoTest {
     public void testQueue_ExpectCallToInstance() {
         classUnderTest.queue();
         verify(instance).queue(classUnderTest);
+    }
+    
+     @Test
+    public void testIsAvailable_ParentNotPresent_ExpectFalse() {
+        boolean result = classUnderTest.isAvailable();
+        assertThat(result, is(false));
     }
 }

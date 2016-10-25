@@ -13,4 +13,11 @@ public interface OpenableInBrowser {
      * @return instance url
      */
     String getUrl();
+    
+        /**
+     * This method returns <code>true</code> when the url could be reached, if not it returns <code>false</code>.
+     *
+     * @return <code>true</code> when server is present, otherwhise <code>false</code>
+     */
+    boolean isAvailable();
 }

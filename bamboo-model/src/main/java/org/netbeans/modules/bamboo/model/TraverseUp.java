@@ -4,12 +4,13 @@ import java.util.Optional;
 
 /**
  * A way to navigate to the parent of the instance.
+ *
  * @author spindizzy
  * @param <P> the parent
  */
-public interface TraverseUp<P> {
-    
+public interface TraverseUp<P extends OpenableInBrowser> {
+
     Optional<P> getParent();
-    
+
     void setParent(P parent);
 }

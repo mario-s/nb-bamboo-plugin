@@ -59,6 +59,11 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
     }
 
     @Override
+    public boolean isAvailable() {
+       return AvailabilityVerifier.isAvailable(this);
+    }
+
+    @Override
     public void queue() {
        getParent().ifPresent(project ->{
             project.getParent().ifPresent(instance ->{

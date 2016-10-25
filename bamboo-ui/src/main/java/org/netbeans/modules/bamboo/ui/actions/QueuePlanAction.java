@@ -18,6 +18,7 @@ import org.openide.util.Utilities;
 
 /**
  * This action queues a plan for the next build.
+ *
  * @author spindizzy
  */
 @ActionID(
@@ -31,27 +32,27 @@ import org.openide.util.Utilities;
 @NbBundle.Messages({
     "CTL_QueuePlanAction=&Queue the Plan"
 })
-public class QueuePlanAction extends AbstractAction implements LookupListener, ContextAwareAction{
-    
+public class QueuePlanAction extends AbstractAction implements LookupListener, ContextAwareAction {
+
     private Lookup context;
-    
+
     private Lookup.Result<Queueable> result;
-    
+
     public QueuePlanAction() {
         this(Utilities.actionsGlobalContext());
     }
-    
-    private QueuePlanAction(Lookup context) {
+
+    QueuePlanAction(Lookup context) {
         super(Bundle.CTL_QueuePlanAction());
         this.context = context;
     }
-    
+
     void init() {
         result = context.lookupResult(Queueable.class);
         result.addLookupListener(this);
         resultChanged(null);
     }
-    
+
     @Override
     public boolean isEnabled() {
         init();
@@ -67,7 +68,7 @@ public class QueuePlanAction extends AbstractAction implements LookupListener, C
     @Override
     public void resultChanged(LookupEvent ev) {
         final Collection<? extends Queueable> plans = result.allInstances();
-        Optional<? extends Queueable> enabledPlan = plans.stream().filter(p -> p.isEnabled()).findAny();
+        Optional<? extends Queueable> enabledPlan = plans.stream().filter(p -> p.isAvailable() && p.isEnabled()).findAny();
         setEnabled(enabledPlan.isPresent());
     }
 
