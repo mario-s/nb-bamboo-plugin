@@ -21,7 +21,6 @@ import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
 import org.netbeans.modules.bamboo.ui.actions.ActionConstants;
 import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
-import org.netbeans.modules.bamboo.ui.actions.QueuePlanAction;
 
 import org.openide.actions.PropertiesAction;
 import org.openide.nodes.PropertySupport;
@@ -47,6 +46,14 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_R
  * @author spindizzy
  */
 @Log
+@NbBundle.Messages({
+    "TXT_Plan_Prop_Name=Plan Name",
+    "DESC_Plan_Prop_Name=The name of the build plan",
+    "TXT_Plan_Prop_Result_Number=Result Number",
+    "DESC_Plan_Prop_Result_Number=Number of the last result for this plan",
+    "TXT_Plan_Prop_Result_Reason=Build Reason",
+    "DESC_Plan_Prop_Result_Reason=The reason why this plan was built"
+})
 public class PlanNode extends AbstractInstanceChildNode {
 
     private static final String BUILD_REASON = "buildReason";
@@ -68,7 +75,7 @@ public class PlanNode extends AbstractInstanceChildNode {
     private String htmlDisplayName;
 
     public PlanNode(final PlanVo plan) {
-        super(plan.getLookup());
+        super(Lookups.singleton(plan));
         this.plan = plan;
         this.buildReasonEditor = new BuildReasonEditor();
         init();
@@ -145,7 +152,7 @@ public class PlanNode extends AbstractInstanceChildNode {
     @Override
     protected Optional<BambooInstance> getInstance() {
         Optional<BambooInstance> instance = empty();
-        if(plan.getParent().isPresent()){
+        if (plan.getParent().isPresent()) {
             instance = plan.getParent().get().getParent();
         }
         return instance;
@@ -174,24 +181,19 @@ public class PlanNode extends AbstractInstanceChildNode {
 
     @Override
     public Action[] getActions(final boolean context) {
+        List<? extends Action> planActions = findActions(ActionConstants.PLAN_ACTION_PATH);
+        toggle(planActions, plan.isEnabled());
         List<Action> actions = new ArrayList<>();
-
+        
         actions.add(OpenUrlAction.newAction(plan));
-        actions.add(new QueuePlanAction(plan));
+        actions.addAll(planActions);
         actions.add(null);
         actions.add(SystemAction.get(PropertiesAction.class));
+        
         return actions.toArray(new Action[actions.size()]);
     }
 
     @Override
-    @NbBundle.Messages({
-        "TXT_Plan_Prop_Name=Plan Name",
-        "DESC_Plan_Prop_Name=The name of the build plan",
-        "TXT_Plan_Prop_Result_Number=Result Number",
-        "DESC_Plan_Prop_Result_Number=Number of the last result for this plan",
-        "TXT_Plan_Prop_Result_Reason=Build Reason",
-        "DESC_Plan_Prop_Result_Reason=The reason why this plan was built"
-    })
     protected Sheet createSheet() {
         Sheet.Set set = Sheet.createPropertiesSet();
         set.setDisplayName(plan.getShortName());

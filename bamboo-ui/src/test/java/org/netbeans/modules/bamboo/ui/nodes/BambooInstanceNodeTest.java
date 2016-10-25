@@ -48,7 +48,7 @@ public class BambooInstanceNodeTest {
         
         classUnderTest = new BambooInstanceNode(instance) {
             @Override
-            List<? extends Action> findActions(String path) {
+            protected List<? extends Action> findActions(String path) {
                 return emptyList();
             }
         };

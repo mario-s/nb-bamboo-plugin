@@ -13,6 +13,7 @@ import org.openide.nodes.Children;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+import static org.openide.util.Utilities.actionsForPath;
 
 /**
  * This is a parant class for all nodes which a children of a bamboo instance.
@@ -45,12 +46,16 @@ abstract class AbstractInstanceChildNode extends AbstractNode implements Propert
         });
     }
 
-    private void toggle(List<? extends Action> actions, boolean enabled) {
+    protected void toggle(List<? extends Action> actions, boolean enabled) {
         actions.stream().filter(Objects::nonNull).forEach(ac -> ac.setEnabled(enabled));
     }
 
     protected abstract List<? extends Action> getToogleableActions();
 
     protected abstract Optional<BambooInstance> getInstance();
+
+    protected List<? extends Action> findActions(String path) {
+        return actionsForPath(path);
+    }
 
 }

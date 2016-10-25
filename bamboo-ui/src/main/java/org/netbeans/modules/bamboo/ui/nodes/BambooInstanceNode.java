@@ -24,7 +24,6 @@ import org.netbeans.modules.bamboo.ui.actions.ActionConstants;
 import org.openide.nodes.Sheet;
 import org.openide.util.NbBundle.Messages;
 
-import org.openide.util.lookup.Lookups;
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
 import org.openide.util.LookupEvent;
 
@@ -43,7 +42,6 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Vers
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.Disconnected;
 
-import static org.openide.util.Utilities.actionsForPath;
 
 /**
  * This class is the node of a Bamboo CI server.
@@ -112,10 +110,6 @@ public class BambooInstanceNode extends AbstractInstanceChildNode {
 
     private boolean isAvailable() {
         return instance.isAvailable();
-    }
-
-    List<? extends Action> findActions(String path) {
-        return actionsForPath(path);
     }
 
     @Override
