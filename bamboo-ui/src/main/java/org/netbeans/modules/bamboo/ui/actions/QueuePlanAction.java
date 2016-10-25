@@ -1,6 +1,8 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.Collection;
+import java.util.Optional;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.Queueable;
@@ -64,7 +66,9 @@ public class QueuePlanAction extends AbstractAction implements LookupListener, C
 
     @Override
     public void resultChanged(LookupEvent ev) {
-        setEnabled(!result.allInstances().isEmpty());
+        final Collection<? extends Queueable> plans = result.allInstances();
+        Optional<? extends Queueable> enabledPlan = plans.stream().filter(p -> p.isEnabled()).findAny();
+        setEnabled(enabledPlan.isPresent());
     }
 
     @Override
