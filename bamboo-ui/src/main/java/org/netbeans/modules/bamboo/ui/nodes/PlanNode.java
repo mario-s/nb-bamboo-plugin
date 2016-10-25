@@ -8,13 +8,11 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import javax.swing.Action;
 import lombok.extern.java.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.annotations.common.StaticResource;
-import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.LifeCycleState;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
@@ -31,7 +29,6 @@ import org.openide.util.actions.SystemAction;
 import org.openide.util.lookup.Lookups;
 import org.openide.xml.XMLUtil;
 
-import static java.util.Optional.empty;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Number;
@@ -149,19 +146,6 @@ public class PlanNode extends AbstractInstanceChildNode {
         return htmlDisplayName;
     }
 
-    @Override
-    protected Optional<BambooInstance> getInstance() {
-        Optional<BambooInstance> instance = empty();
-        if (plan.getParent().isPresent()) {
-            instance = plan.getParent().get().getParent();
-        }
-        return instance;
-    }
-
-    @Override
-    protected List<? extends Action> getToogleableActions() {
-        return new ArrayList();
-    }
 
     @Override
     public Image getIcon(final int type) {

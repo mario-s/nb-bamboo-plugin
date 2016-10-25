@@ -14,7 +14,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.BambooInstance;
@@ -25,9 +24,12 @@ import org.openide.nodes.Sheet;
 import org.openide.util.NbBundle.Messages;
 
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
+import org.netbeans.modules.bamboo.model.event.ServerConnectionEvent;
+import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
+import org.openide.util.LookupListener;
+import org.openide.util.lookup.Lookups;
 
-import static java.util.Optional.of;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Projects;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_SyncInterval;
@@ -41,7 +43,6 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Vers
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.Disconnected;
-
 
 /**
  * This class is the node of a Bamboo CI server.
@@ -61,7 +62,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.Disconnected;
     "TXT_Instance_Prop_SnycInterval=Synchronization Interval",
     "DESC_Instance_Prop_SyncInterval=minutes for the next synchronization of the instance with the server"
 })
-public class BambooInstanceNode extends AbstractInstanceChildNode {
+public class BambooInstanceNode extends AbstractInstanceChildNode implements LookupListener {
 
     private static final String VERSION = "version";
 
@@ -74,10 +75,12 @@ public class BambooInstanceNode extends AbstractInstanceChildNode {
 
     private final ProjectNodeFactory projectNodeFactory;
 
+    private Lookup.Result<ServerConnectionEvent> connectionLookupResult;
+
     private String htmlDisplayName;
 
     public BambooInstanceNode(final BambooInstance instance) {
-        super(instance.getLookup());
+        super(Lookups.singleton(instance));
         this.instance = instance;
         this.projectNodeFactory = new ProjectNodeFactory(instance);
         init();
@@ -90,6 +93,9 @@ public class BambooInstanceNode extends AbstractInstanceChildNode {
         setIconBaseWithExtension(ICON_BASE);
 
         setChildren(Children.create(projectNodeFactory, true));
+
+        connectionLookupResult = getLookup().lookupResult(ServerConnectionEvent.class);
+        connectionLookupResult.addLookupListener(this);
 
         instance.addPropertyChangeListener(this);
     }
@@ -104,22 +110,11 @@ public class BambooInstanceNode extends AbstractInstanceChildNode {
 
     @Override
     public void resultChanged(LookupEvent ev) {
-        super.resultChanged(ev);
         updateHtmlDisplayName();
     }
 
     private boolean isAvailable() {
         return instance.isAvailable();
-    }
-
-    @Override
-    protected Optional<BambooInstance> getInstance() {
-        return of(instance);
-    }
-
-    @Override
-    protected List<? extends Action> getToogleableActions() {
-        return findActions(ActionConstants.ACTION_PATH);
     }
 
     @Override

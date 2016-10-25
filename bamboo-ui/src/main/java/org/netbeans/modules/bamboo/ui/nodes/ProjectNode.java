@@ -9,10 +9,8 @@ import org.openide.nodes.Children;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
-import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.ModelChangedValues;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
@@ -25,23 +23,27 @@ import org.openide.actions.PropertiesAction;
 import org.openide.nodes.Sheet;
 import org.openide.util.NbBundle;
 import org.openide.util.actions.SystemAction;
+import org.openide.util.lookup.Lookups;
 
 /**
  * The UI for a {@link ProjectVo}.
- * 
+ *
  * @author spindizzy
  */
+@NbBundle.Messages({
+    "TXT_Instance_Prop_Plans=Plans",
+    "DESC_Instance_Prop_Plans=number of all available build plans"})
 public class ProjectNode extends AbstractInstanceChildNode {
 
     @StaticResource
     private static final String FOLDER = "org/netbeans/modules/bamboo/resources/folder.png";
 
     private final ProjectVo project;
-    
+
     private final PlanNodeFactory planNodeFactory;
 
     public ProjectNode(final ProjectVo project) {
-        super(project.getLookup());
+        super(Lookups.singleton(project));
         this.project = project;
         this.planNodeFactory = new PlanNodeFactory(project);
         init();
@@ -54,23 +56,13 @@ public class ProjectNode extends AbstractInstanceChildNode {
         setIconBaseWithExtension(FOLDER);
 
         setChildren(Children.create(planNodeFactory, true));
-        
+
         project.addPropertyChangeListener(this);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         planNodeFactory.refreshNodes();
-    }
-
-    @Override
-    protected Optional<BambooInstance> getInstance() {
-        return project.getParent();
-    }
-
-    @Override
-    protected List<? extends Action> getToogleableActions() {
-       return new ArrayList();
     }
 
     @Override
@@ -84,15 +76,13 @@ public class ProjectNode extends AbstractInstanceChildNode {
     }
 
     @Override
-    @NbBundle.Messages({
-        "TXT_Instance_Prop_Plans=Plans",
-        "DESC_Instance_Prop_Plans=number of all available build plans",})
     protected Sheet createSheet() {
-        
+
         Sheet.Set set = Sheet.createPropertiesSet();
         set.setDisplayName(project.getName());
 
-        set.put(new IntReadPropertySupport(ModelChangedValues.Plans.toString(), TXT_Instance_Prop_Plans(), DESC_Instance_Prop_Plans()) {
+        set.put(new IntReadPropertySupport(ModelChangedValues.Plans.toString(), TXT_Instance_Prop_Plans(),
+                DESC_Instance_Prop_Plans()) {
             @Override
             public Integer getValue() throws IllegalAccessException, InvocationTargetException {
                 final Collection<PlanVo> plans = project.getChildren();
