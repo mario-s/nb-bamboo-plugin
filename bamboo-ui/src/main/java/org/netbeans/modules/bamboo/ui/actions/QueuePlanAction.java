@@ -2,11 +2,17 @@ package org.netbeans.modules.bamboo.ui.actions;
 
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.Queueable;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
+import org.openide.util.ContextAwareAction;
+import org.openide.util.Lookup;
+import org.openide.util.LookupEvent;
+import org.openide.util.LookupListener;
 import org.openide.util.NbBundle;
+import org.openide.util.Utilities;
 
 /**
  * This action queues a plan for the next build.
@@ -23,22 +29,46 @@ import org.openide.util.NbBundle;
 @NbBundle.Messages({
     "CTL_QueuePlanAction=&Queue the Plan"
 })
-public class QueuePlanAction extends AbstractAction{
+public class QueuePlanAction extends AbstractAction implements LookupListener, ContextAwareAction{
     
-    private final Queueable plan;
-
-    public QueuePlanAction(Queueable plan) {
+    private Lookup context;
+    
+    private Lookup.Result<Queueable> result;
+    
+    public QueuePlanAction() {
+        this(Utilities.actionsGlobalContext());
+    }
+    
+    private QueuePlanAction(Lookup context) {
         super(Bundle.CTL_QueuePlanAction());
-        this.plan = plan;
+        this.context = context;
+    }
+    
+    void init() {
+        result = context.lookupResult(Queueable.class);
+        result.addLookupListener(this);
+        resultChanged(null);
+    }
+    
+    @Override
+    public boolean isEnabled() {
         init();
+        return super.isEnabled();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        plan.queue();
+        init();
+        result.allInstances().forEach(plan -> plan.queue());
     }
 
-    private void init() {
-        setEnabled(plan.isEnabled());
+    @Override
+    public void resultChanged(LookupEvent ev) {
+        setEnabled(!result.allInstances().isEmpty());
+    }
+
+    @Override
+    public Action createContextAwareInstance(Lookup actionContext) {
+        return new QueuePlanAction(actionContext);
     }
 }

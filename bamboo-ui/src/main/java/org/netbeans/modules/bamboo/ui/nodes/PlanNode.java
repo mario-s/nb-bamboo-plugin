@@ -181,12 +181,10 @@ public class PlanNode extends AbstractInstanceChildNode {
 
     @Override
     public Action[] getActions(final boolean context) {
-        List<? extends Action> planActions = findActions(ActionConstants.PLAN_ACTION_PATH);
-        toggle(planActions, plan.isEnabled());
         List<Action> actions = new ArrayList<>();
         
         actions.add(OpenUrlAction.newAction(plan));
-        actions.addAll(planActions);
+        actions.addAll(findActions(ActionConstants.PLAN_ACTION_PATH));
         actions.add(null);
         actions.add(SystemAction.get(PropertiesAction.class));
         
