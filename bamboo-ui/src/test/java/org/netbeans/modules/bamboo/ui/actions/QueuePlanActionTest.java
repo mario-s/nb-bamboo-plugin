@@ -6,11 +6,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.PlanVo;
-import org.netbeans.modules.bamboo.model.ProjectVo;
 
 import static org.mockito.Mockito.verify;
+import org.netbeans.modules.bamboo.model.Queueable;
 
 /**
  *
@@ -18,24 +16,17 @@ import static org.mockito.Mockito.verify;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class QueuePlanActionTest {
+
     private static final String FOO = "foo";
-    
+
     @Mock
-    private BambooInstance instance;
-    
-    private ProjectVo project;
-    
-    private PlanVo plan;
-    
+    private Queueable plan;
+
     private QueuePlanAction classUnderTest;
-    
+
     @Before
     public void setUp() {
-        plan = new PlanVo(FOO);
-        project = new ProjectVo(FOO);
-        plan.setParent(project);
-        project.setParent(instance);
-        
+
         classUnderTest = new QueuePlanAction(plan);
     }
 
@@ -45,7 +36,7 @@ public class QueuePlanActionTest {
     @Test
     public void testActionPerformed() {
         classUnderTest.actionPerformed(null);
-        verify(instance).queue(plan);
+        verify(plan).queue();
     }
-    
+
 }

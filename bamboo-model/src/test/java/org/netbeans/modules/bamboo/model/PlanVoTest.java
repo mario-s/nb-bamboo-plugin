@@ -20,6 +20,8 @@ import static org.mockito.Mockito.verify;
 public class PlanVoTest {
 
     private static final String FOO = "foo";
+    @Mock
+    private BambooInstance instance;
 
     @Mock
     private PropertyChangeListener listener;
@@ -29,6 +31,9 @@ public class PlanVoTest {
     @Before
     public void setUp() {
         classUnderTest = new PlanVo(FOO);
+        ProjectVo project = new ProjectVo(FOO);
+        project.setParent(instance);
+        classUnderTest.setParent(project);
         ResultVo resultVo = newResult();
         classUnderTest.setResult(resultVo);
 
@@ -68,5 +73,11 @@ public class PlanVoTest {
     public void testSetEnable_ExpectListenerCalled() {
         classUnderTest.setEnabled(true);
         verify(listener).propertyChange(any(PropertyChangeEvent.class));
+    }
+    
+    @Test
+    public void testQueue_ExpectCallToInstance() {
+        classUnderTest.queue();
+        verify(instance).queue(classUnderTest);
     }
 }

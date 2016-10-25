@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.ui.actions;
 
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
-import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.Queueable;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
@@ -25,20 +25,20 @@ import org.openide.util.NbBundle;
 })
 public class QueuePlanAction extends AbstractAction{
     
-    private final PlanVo plan;
+    private final Queueable plan;
 
-    public QueuePlanAction(PlanVo plan) {
+    public QueuePlanAction(Queueable plan) {
         super(Bundle.CTL_QueuePlanAction());
         this.plan = plan;
-        setEnabled(plan.isEnabled());
+        init();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        plan.getParent().ifPresent(project ->{
-            project.getParent().ifPresent(instance ->{
-                instance.queue(plan);
-            });
-        });
+        plan.queue();
+    }
+
+    private void init() {
+        setEnabled(plan.isEnabled());
     }
 }

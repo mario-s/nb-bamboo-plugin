@@ -17,7 +17,7 @@ import static lombok.AccessLevel.NONE;
 @Getter
 @Setter
 @ToString
-public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<ProjectVo>{
+public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<ProjectVo>, Queueable{
 
     private String name;
     private String shortKey;
@@ -56,6 +56,15 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
             this.result = result;
             firePropertyChange(ModelChangedValues.Result.toString(), old, result);
         }
+    }
+
+    @Override
+    public void queue() {
+       getParent().ifPresent(project ->{
+            project.getParent().ifPresent(instance ->{
+                instance.queue(this);
+            });
+        });
     }
 
 }
