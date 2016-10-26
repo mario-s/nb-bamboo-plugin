@@ -8,6 +8,8 @@ nb-bamboo-plugin
 NetBeans Plugin for Atlassian's Bamboo CI server
 ---
 
+![alt builder](src/site/resources/images/builder.png)
+
 The features of this plugin are similar to those of the Hudson Builders.
 
 Support for:
