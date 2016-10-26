@@ -11,9 +11,9 @@ final class AvailabilityVerifier {
     private AvailabilityVerifier() {
     }
     
-    static boolean isAvailable(TraverseUp<? extends OpenableInBrowser> entity) {
+    static boolean isAvailable(TraverseUp<? extends Availability> entity) {
        boolean available = false;
-       Optional<? extends OpenableInBrowser> instance = entity.getParent();
+       Optional<? extends Availability> instance = entity.getParent();
        if(instance.isPresent()){
           available = instance.get().isAvailable();
        }
