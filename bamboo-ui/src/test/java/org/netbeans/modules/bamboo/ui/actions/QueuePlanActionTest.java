@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.model.LookupContext;
+import org.netbeans.modules.bamboo.LookupContext;
 
 import static org.mockito.Mockito.verify;
 

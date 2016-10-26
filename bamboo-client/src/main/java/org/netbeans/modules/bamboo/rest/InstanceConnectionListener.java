@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.rest;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.LookupContext;
+import org.netbeans.modules.bamboo.LookupContext;
 import org.netbeans.modules.bamboo.model.ModelChangedValues;
 import org.netbeans.modules.bamboo.model.event.ServerConnectionEvent;
 

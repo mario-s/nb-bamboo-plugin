@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.model;
 
+import org.netbeans.modules.bamboo.LookupContext;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import lombok.EqualsAndHashCode;

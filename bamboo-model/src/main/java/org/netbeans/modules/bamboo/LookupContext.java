@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo;
 
 import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;

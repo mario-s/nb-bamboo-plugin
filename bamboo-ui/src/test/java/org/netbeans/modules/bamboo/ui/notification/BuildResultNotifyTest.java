@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.LookupContext;
+import org.netbeans.modules.bamboo.LookupContext;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
