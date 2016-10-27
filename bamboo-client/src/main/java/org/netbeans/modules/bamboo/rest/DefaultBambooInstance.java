@@ -76,7 +76,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     private transient VersionInfo version;
 
-    private transient boolean available;
+    private transient boolean available = true;
 
     private BambooInstanceProperties properties;
     
@@ -89,10 +89,9 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     DefaultBambooInstance(final InstanceValues values, final AbstractBambooClient client) {
         super(values);
-        changeSupport = new PropertyChangeSupport(this);
-        lookupContext = LookupContext.Instance;
+        this.changeSupport = new PropertyChangeSupport(this);
+        this.lookupContext = LookupContext.Instance;
         this.client = client;
-        
         addConnectionListener();
     }
     

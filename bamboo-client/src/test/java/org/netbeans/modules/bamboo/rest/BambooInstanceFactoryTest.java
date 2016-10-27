@@ -62,6 +62,15 @@ public class BambooInstanceFactoryTest {
         Optional<BambooInstance> result = classUnderTest.create(values);
         assertThat(result.get().getVersionInfo().getBuildNumber(), is(1));
     }
+    
+       /**
+     * Test of create method, of class DefaultBambooInstanceFactory.
+     */
+    @Test
+    public void testCreate_ValidValues_ExpectInstanceAvailable() {
+        Optional<BambooInstance> result = classUnderTest.create(values);
+        assertThat(result.get().isAvailable(), is(true));
+    }
 
     /**
      * Test of create method, of class DefaultBambooInstanceFactory.

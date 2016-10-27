@@ -36,7 +36,6 @@ import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
 
 import static java.util.Collections.singletonList;
-import static org.mockito.Mockito.times;
 
 /**
  *
@@ -69,9 +68,7 @@ public class DefaultBambooInstanceTest {
 
     @Before
     public void setUp() {
-        classUnderTest = new DefaultBambooInstance(properties);
-        
-        
+        classUnderTest = new DefaultBambooInstance(properties);       
 
         plan = new PlanVo(FOO);
         project = new ProjectVo(FOO);
@@ -96,6 +93,12 @@ public class DefaultBambooInstanceTest {
         synchronized (listener) {
             listener.wait(1000);
         }
+    }
+    
+    @Test
+    public void testIsAvailable_ShouldBeDefaultTrue() {
+        boolean available = classUnderTest.isAvailable();
+        assertThat(available, is(true));
     }
 
     /**
@@ -149,6 +152,8 @@ public class DefaultBambooInstanceTest {
     public void testSynchronize_ListenerShouldBeCalled() throws InterruptedException {
         classUnderTest.synchronize();
         waitForListener();
+        boolean available = classUnderTest.isAvailable();
+        assertThat(available, is(true));
         InOrder order = inOrder(client, listener);
         order.verify(client).getVersionInfo();
         order.verify(listener).propertyChange(any(PropertyChangeEvent.class));
