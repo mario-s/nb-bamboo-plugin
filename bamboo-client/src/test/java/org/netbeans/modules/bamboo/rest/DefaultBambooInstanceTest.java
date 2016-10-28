@@ -158,6 +158,15 @@ public class DefaultBambooInstanceTest {
         order.verify(client).getVersionInfo();
         order.verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
+    
+    @Test
+    public void testSynchronize_ServiceNotExisting_ExpectAvailableFalse() throws InterruptedException {
+        given(client.existsService()).willReturn(false);
+        classUnderTest.synchronize();
+        waitForListener();
+        boolean available = classUnderTest.isAvailable();
+        assertThat(available, is(false));
+    }
 
     @Test
     public void testUpdateSyncInterval() {
