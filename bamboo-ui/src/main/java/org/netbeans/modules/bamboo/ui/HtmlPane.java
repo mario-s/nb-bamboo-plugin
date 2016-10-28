@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.ui;
 
-import java.net.URL;
 import javax.swing.JEditorPane;
 import javax.swing.event.HyperlinkEvent;
 import org.openide.awt.HtmlBrowser.URLDisplayer;
