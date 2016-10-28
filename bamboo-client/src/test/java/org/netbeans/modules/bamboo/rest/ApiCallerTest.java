@@ -46,7 +46,7 @@ public class ApiCallerTest {
 
     @Before
     public void setUp() {
-        classUnderTest = new ApiCaller<>(values, Info.class, FOO);
+        classUnderTest = new ApiCaller<>(new CallParameters(Info.class, values));
         setInternalState(classUnderTest, "webTargetFactory", webTargetFactory);
 
         given(values.getPassword()).willReturn(FOO.toCharArray());

@@ -11,9 +11,6 @@ import org.junit.Test;
 
 import org.junit.runner.RunWith;
 
-import static org.mockito.BDDMockito.given;
-
-import static org.mockito.Matchers.anyString;
 
 import org.mockito.Mock;
 
@@ -63,7 +60,7 @@ public class RepeatApiCallerTest {
 
     @Before
     public void setUp() {
-        classUnderTest = new RepeatApiCaller<>(values, PlansResponse.class, FOO);
+        classUnderTest = new RepeatApiCaller<>(new CallParameters(PlansResponse.class, values));
         setInternalState(classUnderTest, "webTargetFactory", webTargetFactory);
         
         given(values.getPassword()).willReturn(FOO.toCharArray());

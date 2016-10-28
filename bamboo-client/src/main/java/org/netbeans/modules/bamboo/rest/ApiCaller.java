@@ -33,22 +33,17 @@ class ApiCaller<T> {
 
     private final Class<T> clazz;
     private final String path;
-    private final InstanceValues values;
     private Map<String, String> parameters;
+    private final InstanceValues values;
+    
+    private final WebTargetFactory webTargetFactory;
 
-    private WebTargetFactory webTargetFactory;
-
-    ApiCaller(final InstanceValues values, final Class<T> clazz, final String path) {
-        this(values, clazz, path, new HashMap<>());
-    }
-
-    ApiCaller(final InstanceValues values, final Class<T> clazz, final String path, final Map<String, String> params) {
-        this.values = values;
-        this.clazz = clazz;
-        this.path = path;
-        this.parameters = params;
-
-        webTargetFactory = new WebTargetFactory(values);
+    ApiCaller(final CallParameters<T> params) {
+        this.clazz = params.getResponseClass();
+        this.values = params.getValues();
+        this.path = params.getPath();
+        
+        webTargetFactory = new WebTargetFactory(this.values);
     }
 
     /**

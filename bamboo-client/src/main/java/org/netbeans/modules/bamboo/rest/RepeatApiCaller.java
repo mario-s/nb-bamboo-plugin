@@ -26,12 +26,8 @@ class RepeatApiCaller<T extends AbstractResponse> extends ApiCaller<T> {
 
     private Optional<T> opt = empty();
 
-    RepeatApiCaller(InstanceValues values, Class<T> clazz, String path) {
-        super(values, clazz, path);
-    }
-
-    RepeatApiCaller(InstanceValues values, Class<T> clazz, String path, Map<String, String> params) {
-        super(values, clazz, path, params);
+    RepeatApiCaller(CallParameters<T> params) {
+        super(params);
     }
 
     /**
