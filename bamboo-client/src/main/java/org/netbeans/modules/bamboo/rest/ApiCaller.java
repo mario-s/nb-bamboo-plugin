@@ -80,7 +80,7 @@ class ApiCaller<T> {
      * @return the result
      */
     T get(final WebTarget target) {
-        return target.request().get(clazz);
+        return target.request().accept(MediaType.APPLICATION_XML).get(clazz);
     }
 
     /**
