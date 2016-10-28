@@ -90,6 +90,7 @@ public class ApiCallerTest {
     @Test
     public void testGetRequest_ExpectNotNull() {
         given(target.request()).willReturn(builder);
+        given(builder.accept(anyString())).willReturn(builder);
         given(builder.get(Info.class)).willReturn(new Info());
 
         Info result = classUnderTest.get(target);

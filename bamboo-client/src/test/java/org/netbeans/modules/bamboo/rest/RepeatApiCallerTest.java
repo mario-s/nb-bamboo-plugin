@@ -35,7 +35,9 @@ import org.netbeans.modules.bamboo.model.rest.Plans;
 
 import static org.mockito.Mockito.verify;
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 
@@ -69,6 +71,9 @@ public class RepeatApiCallerTest {
         given(webTargetFactory.newTarget(anyString(), any(Map.class))).willReturn(target);
         given(target.path(anyString())).willReturn(target);
         given(target.queryParam(anyString(), any())).willReturn(target);
+        
+        given(target.request()).willReturn(builder);
+        given(builder.accept(anyString())).willReturn(builder);
     }
 
     /**
@@ -102,7 +107,6 @@ public class RepeatApiCallerTest {
         initial.setPlans(plans);
         
         given(target.queryParam(RepeatApiCaller.MAX, SIZE)).willReturn(newTarget);
-        given(target.request()).willReturn(builder);
         given(newTarget.request()).willReturn(builder);
         given(builder.get(PlansResponse.class)).willReturn(initial);
         
