@@ -45,23 +45,17 @@ public class QueuePlanAction extends AbstractAction implements LookupListener, C
     QueuePlanAction(Lookup context) {
         super(Bundle.CTL_QueuePlanAction());
         this.context = context;
+        init();
     }
 
-    void init() {
+    private void init() {
         result = context.lookupResult(Queueable.class);
         result.addLookupListener(this);
         resultChanged(null);
     }
 
     @Override
-    public boolean isEnabled() {
-        init();
-        return super.isEnabled();
-    }
-
-    @Override
     public void actionPerformed(ActionEvent e) {
-        init();
         result.allInstances().forEach(plan -> plan.queue());
     }
 
