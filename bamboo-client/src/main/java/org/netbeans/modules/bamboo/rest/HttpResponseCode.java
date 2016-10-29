@@ -9,8 +9,8 @@ enum HttpResponseCode {
 
     Successful(200, 206), Redirect(300, 308), Unauthorized(401, 401), Unknown(-1, -1);
 
-    private int min;
-    private int max;
+    private final int min;
+    private final int max;
 
     private HttpResponseCode(int min, int max) {
         this.min = min;
