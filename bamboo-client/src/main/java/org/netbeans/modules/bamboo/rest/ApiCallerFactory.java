@@ -11,6 +11,7 @@ import org.netbeans.modules.bamboo.model.InstanceValues;
  */
 @AllArgsConstructor
 class ApiCallerFactory {
+    static final String JSON_PATH = ".json";
 
     private final InstanceValues values;
 
@@ -39,6 +40,7 @@ class ApiCallerFactory {
     private CallParameters create(Class clazz, final String path) {
         CallParameters params = new CallParameters(clazz, values);
         params.setPath(path);
+        params.setJson(path.endsWith(JSON_PATH));
         return params;
     }
 

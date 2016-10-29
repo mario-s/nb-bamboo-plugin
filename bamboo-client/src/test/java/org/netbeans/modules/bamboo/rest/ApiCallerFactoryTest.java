@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 
+import static java.util.Collections.emptyMap;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
 
@@ -31,6 +32,24 @@ public class ApiCallerFactoryTest {
         ApiCaller result = classUnderTest.newCaller(BAR, FOO);
         assertThat(result, notNullValue());
     }
+    
+    /**
+     * Test of newCaller method, of class ApiCallerFactory.
+     */
+    @Test
+    public void testNewCaller_WithParams_ExpectNotNull() {
+        ApiCaller result = classUnderTest.newCaller(BAR, FOO, emptyMap());
+        assertThat(result, notNullValue());
+    }
+    
+     /**
+     * Test of newCaller method, of class ApiCallerFactory.
+     */
+    @Test
+    public void testNewCaller_JsonPath_ExpectNotNull() {
+        ApiCaller result = classUnderTest.newCaller(BAR, FOO + ApiCallerFactory.JSON_PATH);
+        assertThat(result, notNullValue());
+    }
 
 
     /**
@@ -39,6 +58,15 @@ public class ApiCallerFactoryTest {
     @Test
     public void testNewRepeatCaller_ClassAndString_ExpectNotNull() {
         RepeatApiCaller result = classUnderTest.newRepeatCaller(BAR, FOO);
+        assertThat(result, notNullValue());
+    }
+    
+    /**
+     * Test of newRepeatCaller method, of class ApiCallerFactory.
+     */
+    @Test
+    public void testNewRepeatCaller_WithParams_ExpectNotNull() {
+        RepeatApiCaller result = classUnderTest.newRepeatCaller(BAR, FOO, emptyMap());
         assertThat(result, notNullValue());
     }
     

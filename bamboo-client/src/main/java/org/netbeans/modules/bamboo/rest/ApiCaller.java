@@ -37,6 +37,8 @@ class ApiCaller<T> {
     private final InstanceValues values;
     
     private final WebTargetFactory webTargetFactory;
+    
+    private String media = MediaType.APPLICATION_XML;
 
     ApiCaller(final CallParameters<T> params) {
         this.clazz = params.getResponseClass();
@@ -44,6 +46,14 @@ class ApiCaller<T> {
         this.path = params.getPath();
         
         webTargetFactory = new WebTargetFactory(this.values);
+        
+        setMediaType(params.isJson());
+    }
+    
+    private void setMediaType(boolean isJson) {
+        if(isJson){
+            media = MediaType.APPLICATION_JSON;
+        }
     }
 
     /**
@@ -75,9 +85,9 @@ class ApiCaller<T> {
      * @return the result
      */
     T get(final WebTarget target) {
-        return target.request().accept(MediaType.APPLICATION_XML).get(clazz);
+        return target.request().accept(media).get(clazz);
     }
-
+    
     /**
      * Simple post without any values
      * @param target the target to be called

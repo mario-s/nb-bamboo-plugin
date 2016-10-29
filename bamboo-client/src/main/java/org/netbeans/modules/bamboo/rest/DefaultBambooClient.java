@@ -46,10 +46,10 @@ class DefaultBambooClient extends AbstractBambooClient {
     static final String PROJECT_PLANS = "projects.project.plans.plan";
     static final String RESULT_COMMENTS = "results.result.comments";
 
-    static final String PROJECTS = "/project";
+    static final String PROJECTS = "/project" + ApiCallerFactory.JSON_PATH;
+    static final String PLANS = "/plan" + ApiCallerFactory.JSON_PATH;
+    static final String INFO = "/info" + ApiCallerFactory.JSON_PATH;
     static final String RESULTS = "/result";
-    static final String PLANS = "/plan";
-    static final String INFO = "/info";
     static final String QUEUE = "/queue/%s";
 
     static final String RESULT = "/result/{buildKey}";

@@ -20,6 +20,8 @@ final class CallParameters<T> {
     private final Class<T> responseClass;
     private final InstanceValues values;
     @Setter
+    private boolean json;
+    @Setter
     private String path = "";
     @Setter
     private Map<String, String> parameters =  emptyMap();     
