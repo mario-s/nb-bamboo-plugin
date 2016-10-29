@@ -10,24 +10,24 @@ import org.netbeans.modules.bamboo.model.InstanceValues;
  * @author spindizzy
  */
 @AllArgsConstructor
-class ApiCallerFactory {
+public class ApiCallerFactory {
     static final String JSON_PATH = ".json";
 
     private final InstanceValues values;
 
-    ApiCaller newCaller(Class clazz, final String path) {
+    public ApiCallable newCaller(Class clazz, final String path) {
         return new ApiCaller<>(create(clazz, path));
     }
 
-    ApiCaller newCaller(Class clazz, final String path, final Map<String, String> params) {
+    public ApiCallable newCaller(Class clazz, final String path, final Map<String, String> params) {
         return new ApiCaller<>(create(clazz, path, params));
     }
 
-    ApiCallRepeater newRepeatCaller(Class clazz, final String path) {
+    public ApiCallRepeatable newRepeatCaller(Class clazz, final String path) {
         return new ApiCallRepeater<>(create(clazz, path));
     }
 
-    ApiCallRepeater newRepeatCaller(Class clazz, final String path, final Map<String, String> params) {
+    public ApiCallRepeatable newRepeatCaller(Class clazz, final String path, final Map<String, String> params) {
         return new ApiCallRepeater<>(create(clazz, path, params));
     }
 

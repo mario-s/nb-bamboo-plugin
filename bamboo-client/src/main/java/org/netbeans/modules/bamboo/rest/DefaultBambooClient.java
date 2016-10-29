@@ -67,7 +67,7 @@ class DefaultBambooClient extends AbstractBambooClient {
 
     private Collection<Plan> doPlansCall() {
         Set<Plan> results = new HashSet<>();
-        ApiCallRepeater caller = apiCallerFactory.newRepeatCaller(PlansResponse.class, PLANS);
+        ApiCallRepeatable caller = apiCallerFactory.newRepeatCaller(PlansResponse.class, PLANS);
         doRepeatableCall(caller, results);
         return results;
     }
@@ -75,15 +75,15 @@ class DefaultBambooClient extends AbstractBambooClient {
     private Collection<Result> doResultsCall() {
         Set<Result> results = new HashSet<>();
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
-        ApiCallRepeater caller = apiCallerFactory.newRepeatCaller(ResultsResponse.class, RESULTS, params);
+        ApiCallRepeatable caller = apiCallerFactory.newRepeatCaller(ResultsResponse.class, RESULTS, params);
         doRepeatableCall(caller, results);
         return results;
     }
 
-    private void doRepeatableCall(ApiCallRepeater<? extends AbstractResponse> apiCaller,
+    private void doRepeatableCall(ApiCallRepeatable<? extends AbstractResponse> apiCaller,
             Set<? extends ServiceInfoProvideable> results) {
-
-        apiCaller.createTarget().ifPresent(target -> {
+        final Optional<WebTarget> opt = apiCaller.createTarget();
+        opt.ifPresent(target -> {
             AbstractResponse initialResponse = apiCaller.doGet(target);
             logInitialResponse(initialResponse);
             results.addAll(initialResponse.asCollection());
@@ -94,7 +94,7 @@ class DefaultBambooClient extends AbstractBambooClient {
         });
     }
 
-    private void doSimpleCall(ApiCaller<? extends AbstractResponse> apiCaller, Set results) {
+    private void doSimpleCall(ApiCallable<? extends AbstractResponse> apiCaller, Set results) {
 
         apiCaller.createTarget().ifPresent(target -> {
             AbstractResponse initialResponse = apiCaller.doGet(target);
@@ -113,7 +113,7 @@ class DefaultBambooClient extends AbstractBambooClient {
     Response queue(@NonNull PlanVo plan) {
         Response response = Response.status(Status.NOT_FOUND).build();
         String path = format(QUEUE, plan.getKey());
-        ApiCaller caller = apiCallerFactory.newCaller(Object.class, path);
+        ApiCallable caller = apiCallerFactory.newCaller(Object.class, path);
         Optional<WebTarget> target = caller.createTarget();
         if (target.isPresent()) {
             response = caller.doPost(target.get());
@@ -157,7 +157,7 @@ class DefaultBambooClient extends AbstractBambooClient {
         Map<String, String> params = new HashMap<>();
         params.put(EXPAND, PROJECT_PLANS);
         params.put(ApiCallRepeater.MAX, Integer.toString(max));
-        ApiCaller caller = apiCallerFactory.newCaller(ProjectsResponse.class, PROJECTS, params);
+        ApiCallable caller = apiCallerFactory.newCaller(ProjectsResponse.class, PROJECTS, params);
         doSimpleCall(caller, results);
         return results;
     }
@@ -185,7 +185,7 @@ class DefaultBambooClient extends AbstractBambooClient {
     @Override
     public VersionInfo getVersionInfo() {
         VersionInfo versionInfo = new VersionInfo();
-        ApiCaller<Info> infoCaller = apiCallerFactory.newCaller(Info.class, INFO);
+        ApiCallable<Info> infoCaller = apiCallerFactory.newCaller(Info.class, INFO);
         Optional<WebTarget> opt = infoCaller.createTarget();
 
         if (opt.isPresent()) {

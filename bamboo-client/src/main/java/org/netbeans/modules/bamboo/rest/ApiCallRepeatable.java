@@ -7,7 +7,7 @@ import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
  * This interface describes a way to repeat the previous call to the API but with differerent parameters.
  * @author spindizzy
  */
-interface ApiCallRepeatable<T> extends ApiCallable{
+public interface ApiCallRepeatable<T extends AbstractResponse> extends ApiCallable<T>{
 
     /**
      * Repeat a call to the endpoint based on the given initial response, if there are more items available (size >

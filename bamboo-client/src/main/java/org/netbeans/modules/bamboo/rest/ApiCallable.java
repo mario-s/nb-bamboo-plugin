@@ -6,6 +6,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
 
 import static javax.ws.rs.client.Entity.entity;
 
@@ -14,7 +15,7 @@ import static javax.ws.rs.client.Entity.entity;
  *
  * @author spindizzy
  */
-interface ApiCallable<T> {
+public interface ApiCallable<T> {
 
     /**
      * This method creates a new target. It is empty if the required fields (url, user, password) are blank.

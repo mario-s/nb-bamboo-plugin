@@ -29,7 +29,7 @@ public class ApiCallerFactoryTest {
      */
     @Test
     public void testNewCaller_ClassAndString_ExpectNotNull() {
-        ApiCaller result = classUnderTest.newCaller(BAR, FOO);
+        ApiCallable result = classUnderTest.newCaller(BAR, FOO);
         assertThat(result, notNullValue());
     }
     
@@ -38,7 +38,7 @@ public class ApiCallerFactoryTest {
      */
     @Test
     public void testNewCaller_WithParams_ExpectNotNull() {
-        ApiCaller result = classUnderTest.newCaller(BAR, FOO, emptyMap());
+        ApiCallable result = classUnderTest.newCaller(BAR, FOO, emptyMap());
         assertThat(result, notNullValue());
     }
     
@@ -47,7 +47,7 @@ public class ApiCallerFactoryTest {
      */
     @Test
     public void testNewCaller_JsonPath_ExpectNotNull() {
-        ApiCaller result = classUnderTest.newCaller(BAR, FOO + ApiCallerFactory.JSON_PATH);
+        ApiCallable result = classUnderTest.newCaller(BAR, FOO + ApiCallerFactory.JSON_PATH);
         assertThat(result, notNullValue());
     }
 
@@ -57,7 +57,7 @@ public class ApiCallerFactoryTest {
      */
     @Test
     public void testNewRepeatCaller_ClassAndString_ExpectNotNull() {
-        ApiCallRepeater result = classUnderTest.newRepeatCaller(BAR, FOO);
+        ApiCallRepeatable result = classUnderTest.newRepeatCaller(BAR, FOO);
         assertThat(result, notNullValue());
     }
     
@@ -66,7 +66,7 @@ public class ApiCallerFactoryTest {
      */
     @Test
     public void testNewRepeatCaller_WithParams_ExpectNotNull() {
-        ApiCallRepeater result = classUnderTest.newRepeatCaller(BAR, FOO, emptyMap());
+        ApiCallRepeatable result = classUnderTest.newRepeatCaller(BAR, FOO, emptyMap());
         assertThat(result, notNullValue());
     }
     
