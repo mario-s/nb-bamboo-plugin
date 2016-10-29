@@ -56,6 +56,13 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static java.lang.String.format;
+import static java.lang.String.format;
+import static java.lang.String.format;
+import static java.lang.String.format;
+import static java.lang.String.format;
+import static java.lang.String.format;
+import static java.lang.String.format;
 
 /**
  * @author spindizzy
@@ -73,11 +80,11 @@ public class DefaultBambooClientTest {
     @Mock
     private Invocation.Builder invocationBuilder;
     @Mock
-    private RepeatApiCaller<ProjectsResponse> projectsCaller;
+    private ApiCallRepeater<ProjectsResponse> projectsCaller;
     @Mock
-    private RepeatApiCaller<PlansResponse> plansCaller;
+    private ApiCallRepeater<PlansResponse> plansCaller;
     @Mock
-    private RepeatApiCaller<ResultsResponse> resultsCaller;
+    private ApiCallRepeater<ResultsResponse> resultsCaller;
     @Mock
     private ApiCaller<Info> infoCaller;
     @Mock
@@ -140,19 +147,19 @@ public class DefaultBambooClientTest {
         info.setBuildDate("2014-12-02T07:43:02.000+01:00");
 
         given(projectsCaller.createTarget()).willReturn(of(webTarget));
-        given(projectsCaller.get(webTarget)).willReturn(projectsResponse);
+        given(projectsCaller.doGet(webTarget)).willReturn(projectsResponse);
         given(projectsCaller.repeat(projectsResponse)).willReturn(empty());
 
         given(plansCaller.createTarget()).willReturn(of(webTarget));
-        given(plansCaller.get(webTarget)).willReturn(plansResponse);
+        given(plansCaller.doGet(webTarget)).willReturn(plansResponse);
         given(plansCaller.repeat(plansResponse)).willReturn(of(plansResponse));
 
         given(resultsCaller.createTarget()).willReturn(of(webTarget));
-        given(resultsCaller.get(webTarget)).willReturn(resultsResponse);
+        given(resultsCaller.doGet(webTarget)).willReturn(resultsResponse);
         given(resultsCaller.repeat(resultsResponse)).willReturn(of(resultsResponse));
         
         given(infoCaller.createTarget()).willReturn(of(webTarget));
-        given(infoCaller.get(webTarget)).willReturn(info);
+        given(infoCaller.doGet(webTarget)).willReturn(info);
         
         trainApiCallerFactory();
     }
@@ -238,15 +245,15 @@ public class DefaultBambooClientTest {
         PlanVo plan = new PlanVo(FOO);
         plan.setParent(new ProjectVo(FOO));
         given(postCaller.createTarget()).willReturn(of(webTarget));
-        given(postCaller.post(webTarget)).willReturn(Response.ok().build());
+        given(postCaller.doPost(webTarget)).willReturn(Response.ok().build());
         
         Response result = classUnderTest.queue(plan);
         assertThat(result.getStatus(), is(code));
-        verify(postCaller).post(webTarget);
+        verify(postCaller).doPost(webTarget);
     }
     
      @Test
-    public void testQueue_TargetEmpty_ExpectNOtFound() {
+    public void testQueue_TargetEmpty_ExpectNotFound() {
         final int code = 404;
         PlanVo plan = new PlanVo(FOO);
         plan.setParent(new ProjectVo(FOO));
@@ -254,6 +261,6 @@ public class DefaultBambooClientTest {
         
         Response result = classUnderTest.queue(plan);
         assertThat(result.getStatus(), is(code));
-        verify(postCaller, never()).post(webTarget);
+        verify(postCaller, never()).doPost(webTarget);
     }
 }

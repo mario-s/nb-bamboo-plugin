@@ -23,12 +23,12 @@ class ApiCallerFactory {
         return new ApiCaller<>(create(clazz, path, params));
     }
 
-    RepeatApiCaller newRepeatCaller(Class clazz, final String path) {
-        return new RepeatApiCaller<>(create(clazz, path));
+    ApiCallRepeater newRepeatCaller(Class clazz, final String path) {
+        return new ApiCallRepeater<>(create(clazz, path));
     }
 
-    RepeatApiCaller newRepeatCaller(Class clazz, final String path, final Map<String, String> params) {
-        return new RepeatApiCaller<>(create(clazz, path, params));
+    ApiCallRepeater newRepeatCaller(Class clazz, final String path, final Map<String, String> params) {
+        return new ApiCallRepeater<>(create(clazz, path, params));
     }
 
     private CallParameters create(Class clazz, String path, Map<String, String> params) {

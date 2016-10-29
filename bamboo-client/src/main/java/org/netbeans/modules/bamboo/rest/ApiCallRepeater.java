@@ -20,31 +20,25 @@ import lombok.extern.java.Log;
  * @author spindizzy
  */
 @Log
-class RepeatApiCaller<T extends AbstractResponse> extends ApiCaller<T> {
+class ApiCallRepeater<T extends AbstractResponse> extends ApiCaller<T> implements ApiCallRepeatable{
 
     static final String MAX = "max-results";
 
     private Optional<T> opt = empty();
 
-    RepeatApiCaller(CallParameters<T> params) {
+    ApiCallRepeater(CallParameters<T> params) {
         super(params);
     }
 
-    /**
-     * Repeat a call to the endpoint based on the given initial response, if there are more items available (size >
-     * results of first call).
-     *
-     * @param initial the initial response.
-     * @return an empty {@link Optional} if there are no more result, otherwhise the complete amount of results.
-     */
-    Optional<T> repeat(final AbstractResponse initial) {
+    @Override
+    public Optional<T> repeat(final AbstractResponse initial) {
         int max = initial.getMaxResult();
         int size = initial.getSize();
 
         opt = empty();
         if (size > max) {
             WebTarget target = newTarget().queryParam(MAX, size);
-            T response = get(target);
+            T response = doGet(target);
             log.fine(String.format("got all items: %s", response));
             opt = of(response);
         }

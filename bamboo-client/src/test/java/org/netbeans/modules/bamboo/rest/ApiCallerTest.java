@@ -85,7 +85,7 @@ public class ApiCallerTest {
     }
 
     /**
-     * Test of get method, of class ApiCaller.
+     * Test of doGet method, of class ApiCaller.
      */
     @Test
     public void testGetRequest_ExpectNotNull() {
@@ -93,19 +93,19 @@ public class ApiCallerTest {
         given(builder.accept(anyString())).willReturn(builder);
         given(builder.get(Info.class)).willReturn(new Info());
 
-        Info result = classUnderTest.get(target);
+        Info result = classUnderTest.doGet(target);
         assertThat(result, notNullValue());
     }
 
     /**
-     * Test of post method, of class ApiCaller.
+     * Test of doPost method, of class ApiCaller.
      */
     @Test
     public void testPostRequest_ExpectZero() {
         given(target.request()).willReturn(builder);
         given(builder.post(any(Entity.class))).willReturn(response);
 
-        Response result = classUnderTest.post(target);
+        Response result = classUnderTest.doPost(target);
         assertThat(result.getStatus(), is(0));
     }
 

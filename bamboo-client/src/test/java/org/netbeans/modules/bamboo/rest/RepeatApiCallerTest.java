@@ -56,11 +56,11 @@ public class RepeatApiCallerTest {
     @Mock
     private Invocation.Builder builder;
 
-    private RepeatApiCaller<PlansResponse> classUnderTest;
+    private ApiCallRepeater<PlansResponse> classUnderTest;
 
     @Before
     public void setUp() {
-        classUnderTest = new RepeatApiCaller<>(new CallParameters(PlansResponse.class, values));
+        classUnderTest = new ApiCallRepeater<>(new CallParameters(PlansResponse.class, values));
         setInternalState(classUnderTest, "webTargetFactory", webTargetFactory);
         
         given(values.getPassword()).willReturn(FOO.toCharArray());
@@ -103,7 +103,7 @@ public class RepeatApiCallerTest {
         plans.setMaxResult(25);
         initial.setPlans(plans);
         
-        given(target.queryParam(RepeatApiCaller.MAX, SIZE)).willReturn(newTarget);
+        given(target.queryParam(ApiCallRepeater.MAX, SIZE)).willReturn(newTarget);
         given(newTarget.request()).willReturn(builder);
         given(builder.get(PlansResponse.class)).willReturn(initial);
         
@@ -111,17 +111,17 @@ public class RepeatApiCallerTest {
         assertThat(result.isPresent(), is(true));
         
         InOrder order = inOrder(target, newTarget);
-        order.verify(target).queryParam(RepeatApiCaller.MAX, SIZE);
+        order.verify(target).queryParam(ApiCallRepeater.MAX, SIZE);
         order.verify(newTarget).request();
     }
 
     /**
-     * Test of get method, of class ApiCaller.
+     * Test of doGet method, of class ApiCaller.
      */
     @Test
     public void testGetRequest() {
         given(target.request()).willReturn(builder);
-        classUnderTest.get(target);
+        classUnderTest.doGet(target);
         verify(builder).get(PlansResponse.class);
     }
 }

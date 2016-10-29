@@ -57,7 +57,7 @@ public class ApiCallerFactoryTest {
      */
     @Test
     public void testNewRepeatCaller_ClassAndString_ExpectNotNull() {
-        RepeatApiCaller result = classUnderTest.newRepeatCaller(BAR, FOO);
+        ApiCallRepeater result = classUnderTest.newRepeatCaller(BAR, FOO);
         assertThat(result, notNullValue());
     }
     
@@ -66,7 +66,7 @@ public class ApiCallerFactoryTest {
      */
     @Test
     public void testNewRepeatCaller_WithParams_ExpectNotNull() {
-        RepeatApiCaller result = classUnderTest.newRepeatCaller(BAR, FOO, emptyMap());
+        ApiCallRepeater result = classUnderTest.newRepeatCaller(BAR, FOO, emptyMap());
         assertThat(result, notNullValue());
     }
     

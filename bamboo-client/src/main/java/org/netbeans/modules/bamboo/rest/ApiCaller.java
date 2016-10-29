@@ -23,13 +23,19 @@ import lombok.extern.java.Log;
 
 import static javax.ws.rs.client.Entity.entity;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
+import static javax.ws.rs.client.Entity.entity;
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
+import static javax.ws.rs.client.Entity.entity;
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
+import static javax.ws.rs.client.Entity.entity;
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
  * This class performs a a call to the REST API of Bamboo.
  * @author spindizzy
  */
 @Log
-class ApiCaller<T> {
+class ApiCaller<T> implements ApiCallable{
 
     private final Class<T> clazz;
     private final String path;
@@ -79,24 +85,8 @@ class ApiCaller<T> {
         return webTargetFactory.newTarget(path, parameters);
     }
 
-    /**
-     * Performs a GET request and returns the expected object of T.
-     * @param target the target to be called
-     * @return the result
-     */
-    T get(final WebTarget target) {
+    @Override
+    public T doGet(final WebTarget target) {
         return target.request().accept(media).get(clazz);
     }
-    
-    /**
-     * Simple post without any values
-     * @param target the target to be called
-     * @return the response code
-     */
-    Response post(WebTarget target) {
-        Form form = new Form();
-        Entity<Form> entity = entity(form, MediaType.WILDCARD_TYPE);
-        return target.request().post(entity);
-    }
-
 }
