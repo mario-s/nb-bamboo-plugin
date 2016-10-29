@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -13,21 +12,11 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 import java.util.logging.Level;
-import javax.ws.rs.client.Entity;
 
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import lombok.extern.java.Log;
 
-import static javax.ws.rs.client.Entity.entity;
-import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
-import static javax.ws.rs.client.Entity.entity;
-import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
-import static javax.ws.rs.client.Entity.entity;
-import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
-import static javax.ws.rs.client.Entity.entity;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
