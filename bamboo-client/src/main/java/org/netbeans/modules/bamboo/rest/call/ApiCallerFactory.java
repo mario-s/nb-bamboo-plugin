@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.rest;
+package org.netbeans.modules.bamboo.rest.call;
 
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import org.netbeans.modules.bamboo.model.InstanceValues;
  */
 @AllArgsConstructor
 public class ApiCallerFactory {
-    static final String JSON_PATH = ".json";
+    public static final String JSON_PATH = ".json";
 
     private final InstanceValues values;
 

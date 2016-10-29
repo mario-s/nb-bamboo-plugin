@@ -21,10 +21,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import lombok.extern.java.Log;
 import org.glassfish.jersey.logging.LoggingFeature;
-import static org.netbeans.modules.bamboo.rest.WebTargetFactory.AUTH_TYPE;
-import static org.netbeans.modules.bamboo.rest.WebTargetFactory.BASIC;
-import static org.netbeans.modules.bamboo.rest.WebTargetFactory.PASS;
-import static org.netbeans.modules.bamboo.rest.WebTargetFactory.USER;
+
 import org.netbeans.modules.bamboo.model.rest.Plans;
 
 /**
@@ -36,6 +33,10 @@ public class BambooCaller {
       private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://bamboo:8085/rest/api/latest";
+    static final String AUTH_TYPE = "os_authType";
+    static final String BASIC = "basic";
+    static final String USER = "os_username";
+    static final String PASS = "os_password";
 
     public BambooCaller() {
         client = javax.ws.rs.client.ClientBuilder.newClient();

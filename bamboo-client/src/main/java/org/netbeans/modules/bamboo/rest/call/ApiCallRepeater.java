@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.rest;
+package org.netbeans.modules.bamboo.rest.call;
 
 
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
@@ -19,8 +19,6 @@ import lombok.extern.java.Log;
  */
 @Log
 class ApiCallRepeater<T extends AbstractResponse> extends ApiCaller<T> implements ApiCallRepeatable{
-
-    static final String MAX = "max-results";
 
     private Optional<T> opt = empty();
 

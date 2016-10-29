@@ -1,5 +1,8 @@
-package org.netbeans.modules.bamboo.rest;
+package org.netbeans.modules.bamboo.rest.call;
 
+import org.netbeans.modules.bamboo.rest.call.ApiCallRepeater;
+import org.netbeans.modules.bamboo.rest.call.CallParameters;
+import org.netbeans.modules.bamboo.rest.call.WebTargetFactory;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.equalTo;

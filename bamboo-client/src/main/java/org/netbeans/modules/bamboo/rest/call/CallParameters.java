@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.rest;
+package org.netbeans.modules.bamboo.rest.call;
 
 import java.util.Map;
 import lombok.AllArgsConstructor;

@@ -1,5 +1,8 @@
 package org.netbeans.modules.bamboo.rest;
 
+import org.netbeans.modules.bamboo.rest.call.ApiCallRepeatable;
+import org.netbeans.modules.bamboo.rest.call.ApiCallable;
+import org.netbeans.modules.bamboo.rest.call.ApiCallerFactory;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.VersionInfo;
 import org.netbeans.modules.bamboo.model.rest.Info;
@@ -156,7 +159,7 @@ class DefaultBambooClient extends AbstractBambooClient {
         Set<Project> results = new HashSet<>();
         Map<String, String> params = new HashMap<>();
         params.put(EXPAND, PROJECT_PLANS);
-        params.put(ApiCallRepeater.MAX, Integer.toString(max));
+        params.put(ApiCallRepeatable.MAX, Integer.toString(max));
         ApiCallable caller = apiCallerFactory.newCaller(ProjectsResponse.class, PROJECTS, params);
         doSimpleCall(caller, results);
         return results;

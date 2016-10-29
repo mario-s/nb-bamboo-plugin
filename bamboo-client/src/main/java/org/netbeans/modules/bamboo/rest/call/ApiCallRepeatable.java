@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.rest;
+package org.netbeans.modules.bamboo.rest.call;
 
 import java.util.Optional;
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
@@ -8,6 +8,11 @@ import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
  * @author spindizzy
  */
 public interface ApiCallRepeatable<T extends AbstractResponse> extends ApiCallable<T>{
+    
+    /**
+     * Max number of results.
+     */
+    String MAX = "max-results";
 
     /**
      * Repeat a call to the endpoint based on the given initial response, if there are more items available (size >

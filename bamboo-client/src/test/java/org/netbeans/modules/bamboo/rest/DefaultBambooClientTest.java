@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
+
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -47,8 +48,10 @@ import org.netbeans.modules.bamboo.model.rest.Projects;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 
 import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.rest.call.ApiCallRepeatable;
+import org.netbeans.modules.bamboo.rest.call.ApiCallable;
+import org.netbeans.modules.bamboo.rest.call.ApiCallerFactory;
 
-import static java.lang.String.format;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -57,12 +60,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
+import static org.mockito.Matchers.anyString;
 
 /**
  * @author spindizzy
@@ -80,15 +78,15 @@ public class DefaultBambooClientTest {
     @Mock
     private Invocation.Builder invocationBuilder;
     @Mock
-    private ApiCallRepeater<ProjectsResponse> projectsCaller;
+    private ApiCallRepeatable<ProjectsResponse> projectsCaller;
     @Mock
-    private ApiCallRepeater<PlansResponse> plansCaller;
+    private ApiCallRepeatable<PlansResponse> plansCaller;
     @Mock
-    private ApiCallRepeater<ResultsResponse> resultsCaller;
+    private ApiCallRepeatable<ResultsResponse> resultsCaller;
     @Mock
-    private ApiCaller<Info> infoCaller;
+    private ApiCallable<Info> infoCaller;
     @Mock
-    private ApiCaller postCaller;
+    private ApiCallable postCaller;
     @Mock
     private HttpUtility httpUtility;
     @Mock
@@ -102,7 +100,7 @@ public class DefaultBambooClientTest {
         given(instanceValues.getUrl()).willReturn("http://foo.bar");
         given(instanceValues.getUsername()).willReturn(FOO);
         given(instanceValues.getPassword()).willReturn(new char[]{'b', 'a', 'z'});
-        given(webTarget.path(WebTargetFactory.REST_API)).willReturn(webTarget);
+        given(webTarget.path(anyString())).willReturn(webTarget);
         given(webTarget.request()).willReturn(invocationBuilder);
 
         classUnderTest

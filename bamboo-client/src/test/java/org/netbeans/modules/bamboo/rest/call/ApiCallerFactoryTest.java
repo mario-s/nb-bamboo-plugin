@@ -1,5 +1,8 @@
-package org.netbeans.modules.bamboo.rest;
+package org.netbeans.modules.bamboo.rest.call;
 
+import org.netbeans.modules.bamboo.rest.call.ApiCallable;
+import org.netbeans.modules.bamboo.rest.call.ApiCallerFactory;
+import org.netbeans.modules.bamboo.rest.call.ApiCallRepeatable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

@@ -1,5 +1,8 @@
-package org.netbeans.modules.bamboo.rest;
+package org.netbeans.modules.bamboo.rest.call;
 
+import org.netbeans.modules.bamboo.rest.call.ApiCaller;
+import org.netbeans.modules.bamboo.rest.call.CallParameters;
+import org.netbeans.modules.bamboo.rest.call.WebTargetFactory;
 import java.util.Map;
 import java.util.Optional;
 import javax.ws.rs.client.Entity;
