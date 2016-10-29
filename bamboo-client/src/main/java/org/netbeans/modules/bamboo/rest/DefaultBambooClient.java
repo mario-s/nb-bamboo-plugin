@@ -33,14 +33,7 @@ import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 
-import static java.lang.String.format;
 import static java.util.Collections.singletonMap;
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
 import static java.lang.String.format;
 
 /**

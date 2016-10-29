@@ -51,11 +51,8 @@ class ApiCaller<T> implements ApiCallable{
         }
     }
 
-    /**
-     * This method creates a new target. It is empty if the required fields (url, user, password) are blank.
-     * @return a possible new {@link WebTarget}
-     */
-    Optional<WebTarget> createTarget() {
+    @Override
+    public Optional<WebTarget> createTarget() {
         Optional<WebTarget> opt = empty();
         String url = values.getUrl();
         String user = values.getUsername();
