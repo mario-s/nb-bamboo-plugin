@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class AbstractResponse<T> {
+public abstract class AbstractResponse<T> implements Responseable{
     private String expand;
     private Link link;
     
@@ -26,6 +26,4 @@ public abstract class AbstractResponse<T> {
     }
     
     protected abstract Metrics getMetrics();
-    
-    public abstract Collection<T> asCollection();
 }

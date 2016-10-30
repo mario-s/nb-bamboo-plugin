@@ -34,6 +34,7 @@ import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 import org.netbeans.modules.bamboo.glue.VoConverter.VersionInfoConverter;
 import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
 import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.rest.Responseable;
 import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 
 import static java.util.Collections.singletonMap;
@@ -83,7 +84,7 @@ class DefaultBambooClient extends AbstractBambooClient {
         return results;
     }
 
-    private void doRepeatableCall(ApiCallRepeatable<? extends AbstractResponse> apiCaller,
+    private void doRepeatableCall(ApiCallRepeatable<? extends Responseable> apiCaller,
             Set<? extends ServiceInfoProvideable> results) {
         final Optional<WebTarget> opt = apiCaller.createTarget();
         opt.ifPresent(target -> {
