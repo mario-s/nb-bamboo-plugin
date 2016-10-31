@@ -3,7 +3,6 @@ package org.netbeans.modules.bamboo.model.rest;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import javax.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,6 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@XmlRootElement
 public class PlansResponse extends AbstractResponse<Plan> {
     private Plans plans;
 

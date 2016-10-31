@@ -3,9 +3,7 @@ package org.netbeans.modules.bamboo.model.rest;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import java.util.Collection;
-import java.util.Collections;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static java.util.Collections.emptyList;
 
