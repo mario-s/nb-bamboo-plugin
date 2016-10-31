@@ -1,8 +1,6 @@
 package org.netbeans.modules.bamboo.rest.call;
 
-import org.netbeans.modules.bamboo.rest.call.ApiCaller;
-import org.netbeans.modules.bamboo.rest.call.CallParameters;
-import org.netbeans.modules.bamboo.rest.call.WebTargetFactory;
+import static java.util.Collections.singletonMap;
 import java.util.Map;
 import java.util.Optional;
 import javax.ws.rs.client.Entity;
@@ -23,6 +21,8 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 /**
@@ -33,6 +33,8 @@ import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 public class ApiCallerTest {
 
     private static final String FOO = "foo";
+    
+    private static final Map<String, String> FOO_MAP = singletonMap(FOO,FOO);
 
     @Mock
     private InstanceValues values;
@@ -49,7 +51,9 @@ public class ApiCallerTest {
 
     @Before
     public void setUp() {
-        classUnderTest = new ApiCaller<>(new CallParameters(Info.class, values));
+        final CallParameters callParameters = new CallParameters(Info.class, values);
+        callParameters.setParameters(FOO_MAP);
+        classUnderTest = new ApiCaller<>(callParameters);
         setInternalState(classUnderTest, "webTargetFactory", webTargetFactory);
 
         given(values.getPassword()).willReturn(FOO.toCharArray());
@@ -66,6 +70,16 @@ public class ApiCallerTest {
     public void testCreateTarget_EmptyValues_ExpectNotPresent() {
         Optional<WebTarget> result = classUnderTest.createTarget();
         assertThat(result.isPresent(), is(false));
+    }
+    
+     /**
+     * Test of createTarget method, of class ApiCaller.
+     */
+    @Test
+    public void testCreateTarget_EmptyValues_ExpectParameterPresent() {
+        given(values.getUsername()).willReturn(FOO);
+        classUnderTest.createTarget();
+        verify(webTargetFactory).newTarget(anyString(), eq(FOO_MAP));
     }
 
     /**

@@ -28,7 +28,7 @@ class ApiCaller<T> implements ApiCallable{
 
     private final Class<T> clazz;
     private final String path;
-    private Map<String, String> parameters;
+    private final Map<String, String> parameters;
     private final InstanceValues values;
     
     private final WebTargetFactory webTargetFactory;
@@ -39,6 +39,7 @@ class ApiCaller<T> implements ApiCallable{
         this.clazz = params.getResponseClass();
         this.values = params.getValues();
         this.path = params.getPath();
+        this.parameters = params.getParameters();
         
         webTargetFactory = new WebTargetFactory(this.values);
         
