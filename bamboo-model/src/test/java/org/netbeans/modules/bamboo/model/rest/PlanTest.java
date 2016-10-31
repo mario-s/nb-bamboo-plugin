@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.model.rest;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.netbeans.modules.bamboo.model.PlanType;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
