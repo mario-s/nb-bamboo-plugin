@@ -92,7 +92,6 @@
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-modules-xml-jaxb-api</artifactId>
-            <version>${netbeans.version}</version>
         </dependency>
     </dependencies>
 </project>
