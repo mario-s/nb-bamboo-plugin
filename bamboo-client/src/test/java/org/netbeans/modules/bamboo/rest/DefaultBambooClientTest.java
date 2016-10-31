@@ -171,7 +171,7 @@ public class DefaultBambooClientTest {
         given(apiCallerFactory.newRepeatCaller(eq(PlansResponse.class), eq(DefaultBambooClient.PLANS))).willReturn(
                 plansCaller);
 
-        given(apiCallerFactory.newRepeatCaller(eq(ResultsResponse.class), eq(DefaultBambooClient.RESULTS),
+        given(apiCallerFactory.newRepeatCaller(eq(Results.class), eq(DefaultBambooClient.RESULTS),
                 any(Map.class))).willReturn(
                         resultsCaller);
         
