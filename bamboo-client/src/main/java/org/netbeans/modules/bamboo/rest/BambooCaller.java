@@ -52,7 +52,7 @@ public class BambooCaller {
      * @return response object (instance of responseType class)
      */
     public Results getCategories() throws ClientErrorException {
-        return webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(Results.class);
+        return webTarget.request().get(Results.class);
     }
 
     public void close() {

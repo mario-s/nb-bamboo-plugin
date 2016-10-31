@@ -8,4 +8,8 @@ import java.util.Collection;
  */
 public interface Responseable<T>{
     Collection<T> asCollection();
+    
+    int getMaxResult();
+    
+    int getSize();
 }

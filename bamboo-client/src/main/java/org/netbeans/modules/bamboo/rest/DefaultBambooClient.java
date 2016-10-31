@@ -39,6 +39,7 @@ import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 
 import static java.util.Collections.singletonMap;
 import static java.lang.String.format;
+import org.netbeans.modules.bamboo.model.rest.Results;
 
 /**
  * @author spindizzy
@@ -53,7 +54,7 @@ class DefaultBambooClient extends AbstractBambooClient {
     static final String PROJECTS = "/project" + ApiCallerFactory.JSON_PATH;
     static final String PLANS = "/plan" + ApiCallerFactory.JSON_PATH;
     static final String INFO = "/info" + ApiCallerFactory.JSON_PATH;
-    static final String RESULTS = "/result"+ ApiCallerFactory.JSON_PATH;
+    static final String RESULTS = "/result";
     static final String QUEUE = "/queue/%s";
 
     static final String RESULT = "/result/{buildKey}";
@@ -79,7 +80,7 @@ class DefaultBambooClient extends AbstractBambooClient {
     private Collection<Result> doResultsCall() {
         Set<Result> results = new HashSet<>();
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
-        ApiCallRepeatable caller = apiCallerFactory.newRepeatCaller(ResultsResponse.class, RESULTS, params);
+        ApiCallRepeatable caller = apiCallerFactory.newRepeatCaller(Results.class, RESULTS, params);
         doRepeatableCall(caller, results);
         return results;
     }
@@ -88,7 +89,7 @@ class DefaultBambooClient extends AbstractBambooClient {
             Set<? extends ServiceInfoProvideable> results) {
         final Optional<WebTarget> opt = apiCaller.createTarget();
         opt.ifPresent(target -> {
-            AbstractResponse initialResponse = apiCaller.doGet(target);
+            Responseable initialResponse = apiCaller.doGet(target);
             logInitialResponse(initialResponse);
             results.addAll(initialResponse.asCollection());
 
@@ -107,7 +108,7 @@ class DefaultBambooClient extends AbstractBambooClient {
         });
     }
 
-    private void logInitialResponse(AbstractResponse initialResponse) {
+    private void logInitialResponse(Responseable initialResponse) {
         if (log.isLoggable(Level.FINE)) {
             log.fine(format("got results for initial call: %s", initialResponse));
         }

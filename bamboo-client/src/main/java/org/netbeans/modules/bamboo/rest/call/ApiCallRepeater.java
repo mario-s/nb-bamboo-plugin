@@ -10,6 +10,7 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 import lombok.extern.java.Log;
+import org.netbeans.modules.bamboo.model.rest.Responseable;
 
 /**
  * This class can be used to perform a second call to the REST API. It is used in cases where we don't know the
@@ -18,7 +19,7 @@ import lombok.extern.java.Log;
  * @author spindizzy
  */
 @Log
-class ApiCallRepeater<T extends AbstractResponse> extends ApiCaller<T> implements ApiCallRepeatable{
+class ApiCallRepeater<T extends Responseable> extends ApiCaller<T> implements ApiCallRepeatable{
 
     private Optional<T> opt = empty();
 
@@ -27,7 +28,7 @@ class ApiCallRepeater<T extends AbstractResponse> extends ApiCaller<T> implement
     }
 
     @Override
-    public Optional<T> repeat(final AbstractResponse initial) {
+    public Optional<T> repeat(final Responseable initial) {
         int max = initial.getMaxResult();
         int size = initial.getSize();
 

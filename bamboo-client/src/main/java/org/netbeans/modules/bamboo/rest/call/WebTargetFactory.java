@@ -32,7 +32,7 @@ class WebTargetFactory {
         this.values = values;
         
         client = ClientBuilder.newClient();
-        client = client.register(new LoggingFeature(log, Level.FINE, null, null));
+        client = client.register(new LoggingFeature(log, Level.INFO, null, null));
     }
     
     WebTarget newTarget(final String path, final Map<String,String> params) {
