@@ -23,6 +23,7 @@ import lombok.extern.java.Log;
 import org.glassfish.jersey.logging.LoggingFeature;
 
 import org.netbeans.modules.bamboo.model.rest.Plans;
+import org.netbeans.modules.bamboo.model.rest.Results;
 
 /**
  *
@@ -41,19 +42,17 @@ public class BambooCaller {
     public BambooCaller() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
         client = client.register(new LoggingFeature(log, Level.INFO, null, null));
-        webTarget = client.target(BASE_URI).path("plan").queryParam(AUTH_TYPE, BASIC).queryParam(USER, "schroeder").queryParam(
+        webTarget = client.target(BASE_URI).path("result").queryParam(AUTH_TYPE, BASIC).queryParam(USER, "schroeder").queryParam(
                 PASS,
                 "schroeder");
     }
 
 
     /**
-     * @param responseType Class representing the response
-     * @param key query parameter[REQUIRED]
      * @return response object (instance of responseType class)
      */
-    public Plans getCategories() throws ClientErrorException {
-        return webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(Plans.class);
+    public Results getCategories() throws ClientErrorException {
+        return webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(Results.class);
     }
 
     public void close() {
@@ -63,7 +62,7 @@ public class BambooCaller {
 
     public static void main(String[] args) {
         BambooCaller caller = new BambooCaller();
-        Plans response = caller.getCategories();
+        Results response = caller.getCategories();
         System.out.println("org.netbeans.modules.bamboo.rest.BambooCaller.main() " + response);
     }
 }
