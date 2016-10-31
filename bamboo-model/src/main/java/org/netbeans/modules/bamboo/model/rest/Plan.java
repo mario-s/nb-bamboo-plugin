@@ -26,8 +26,10 @@ public class Plan implements ServiceInfoProvideable{
     private String shortKey;
     @XmlAttribute
     private String shortName;
+    @XmlAttribute
+    private boolean enabled;
+    
     private transient PlanType type;
-    private transient boolean enabled;
     private transient Result result;
     
 }

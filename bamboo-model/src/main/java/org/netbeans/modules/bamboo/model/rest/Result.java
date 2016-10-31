@@ -6,12 +6,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.netbeans.modules.bamboo.model.LifeCycleState;
 import org.netbeans.modules.bamboo.model.State;
 
 
 
 @Data
+@EqualsAndHashCode(of = "key")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Result implements ServiceInfoProvideable{
@@ -27,8 +29,9 @@ public class Result implements ServiceInfoProvideable{
     private LifeCycleState lifeCycleState;
     @XmlAttribute
     private int number;
-    private int id;
+    @XmlElement(name = "buildReason")
     private String buildReason;
+    private int id;
     
     public Result() {
         state = State.Unknown;

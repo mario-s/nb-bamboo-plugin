@@ -17,5 +17,6 @@ public class Metrics {
     @JsonProperty(value = "max-result")
     @XmlAttribute
     private int maxResult;
+    @XmlAttribute
     private int size;
 }
