@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import lombok.extern.java.Log;
 import org.glassfish.jersey.logging.LoggingFeature;
 
@@ -52,7 +53,7 @@ public class BambooCaller {
      * @return response object (instance of responseType class)
      */
     public Results getCategories() throws ClientErrorException {
-        return webTarget.request().get(Results.class);
+        return webTarget.request().accept(MediaType.APPLICATION_XML).get(Results.class);
     }
 
     public void close() {
