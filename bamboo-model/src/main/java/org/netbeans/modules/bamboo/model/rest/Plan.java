@@ -7,9 +7,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.netbeans.modules.bamboo.model.PlanType;
 
 @Data
+@EqualsAndHashCode(of = "key")
 @JsonRootName(value = "plan")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlAccessorType(XmlAccessType.FIELD)
