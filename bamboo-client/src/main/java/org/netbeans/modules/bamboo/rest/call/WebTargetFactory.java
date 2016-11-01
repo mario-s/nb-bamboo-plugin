@@ -29,10 +29,14 @@ class WebTargetFactory {
     private Client client;
 
     public WebTargetFactory(InstanceValues values) {
+        this(values, Level.FINE);
+    }
+    
+    WebTargetFactory(InstanceValues values, Level level) {
         this.values = values;
         
         client = ClientBuilder.newClient();
-        client = client.register(new LoggingFeature(log, Level.INFO, null, null));
+        client = client.register(new LoggingFeature(log, level, null, null));
     }
     
     WebTarget newTarget(final String path, final Map<String,String> params) {
