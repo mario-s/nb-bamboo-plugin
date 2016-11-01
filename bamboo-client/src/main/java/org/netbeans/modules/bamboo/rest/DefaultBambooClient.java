@@ -47,7 +47,6 @@ import org.netbeans.modules.bamboo.model.rest.Results;
 @Log
 class DefaultBambooClient extends AbstractBambooClient {
 
-    static final String EXPAND = "expand";
     static final String PROJECT_PLANS = "projects.project.plans.plan";
     static final String RESULT_COMMENTS = "results.result.comments";
 

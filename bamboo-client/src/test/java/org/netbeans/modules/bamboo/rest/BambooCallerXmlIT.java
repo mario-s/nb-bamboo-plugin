@@ -26,6 +26,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import org.junit.After;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.netbeans.modules.bamboo.model.rest.Results;
@@ -37,7 +38,6 @@ import org.netbeans.modules.bamboo.model.rest.Results;
 @Log
 public class BambooCallerXmlIT {
 
-    private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://bamboo:8085/rest/api/latest";
     static final String AUTH_TYPE = "os_authType";
@@ -49,9 +49,6 @@ public class BambooCallerXmlIT {
     public void setUp() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
         client = client.register(new LoggingFeature(log, Level.INFO, null, null));
-        webTarget = client.target(BASE_URI).path("result").queryParam(AUTH_TYPE, BASIC).queryParam(USER, "schroeder").queryParam(
-                PASS,
-                "schroeder");
     }
 
     @After
@@ -60,10 +57,13 @@ public class BambooCallerXmlIT {
     }
 
     @Test
+    @Ignore
     public void testGetResults() throws ClientErrorException {
-        Results response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Results.class);
+        WebTarget webTarget = client.target(BASE_URI).path("result").queryParam(AUTH_TYPE, BASIC).queryParam(USER, "schroeder").queryParam(
+                PASS,
+                "schroeder");
+        Results response = webTarget.queryParam("expand", "results.result.comments").request().accept(MediaType.APPLICATION_XML).get(Results.class);
         assertThat(response, notNullValue());
     }
-
 
 }

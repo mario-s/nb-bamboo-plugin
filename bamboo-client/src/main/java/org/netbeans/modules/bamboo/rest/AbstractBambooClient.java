@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
 import java.util.Collection;
-import java.util.Optional;
 import javax.ws.rs.core.Response;
 import org.netbeans.modules.bamboo.glue.BambooClient;
 import org.netbeans.modules.bamboo.model.InstanceValues;
@@ -14,6 +13,8 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
  * @author spindizzy
  */
 abstract class AbstractBambooClient implements BambooClient {
+
+    static final String EXPAND = "expand";
 
     private final InstanceValues values;
 

@@ -29,7 +29,7 @@ public class Result implements ServiceInfoProvideable{
     private LifeCycleState lifeCycleState;
     @XmlAttribute
     private int number;
-    @XmlElement(name = "buildReason")
+    @XmlElement(name = "buildReason", type = String.class)
     private String buildReason;
     private int id;
     
