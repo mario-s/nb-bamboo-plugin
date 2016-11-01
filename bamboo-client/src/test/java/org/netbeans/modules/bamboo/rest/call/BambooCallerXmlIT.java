@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
-import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import lombok.extern.java.Log;
