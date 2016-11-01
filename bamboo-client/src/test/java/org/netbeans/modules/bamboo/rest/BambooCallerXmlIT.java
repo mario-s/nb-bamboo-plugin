@@ -22,8 +22,12 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import lombok.extern.java.Log;
 import org.glassfish.jersey.logging.LoggingFeature;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import org.junit.After;
+import static org.junit.Assert.assertThat;
+import org.junit.Before;
+import org.junit.Test;
 
-import org.netbeans.modules.bamboo.model.rest.Plans;
 import org.netbeans.modules.bamboo.model.rest.Results;
 
 /**
@@ -31,8 +35,9 @@ import org.netbeans.modules.bamboo.model.rest.Results;
  * @author schroeder
  */
 @Log
-public class BambooCaller {
-      private WebTarget webTarget;
+public class BambooCallerXmlIT {
+
+    private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://bamboo:8085/rest/api/latest";
     static final String AUTH_TYPE = "os_authType";
@@ -40,7 +45,8 @@ public class BambooCaller {
     static final String USER = "os_username";
     static final String PASS = "os_password";
 
-    public BambooCaller() {
+    @Before
+    public void setUp() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
         client = client.register(new LoggingFeature(log, Level.INFO, null, null));
         webTarget = client.target(BASE_URI).path("result").queryParam(AUTH_TYPE, BASIC).queryParam(USER, "schroeder").queryParam(
@@ -48,22 +54,16 @@ public class BambooCaller {
                 "schroeder");
     }
 
-
-    /**
-     * @return response object (instance of responseType class)
-     */
-    public Results getCategories() throws ClientErrorException {
-        return webTarget.request().accept(MediaType.APPLICATION_XML).get(Results.class);
-    }
-
+    @After
     public void close() {
         client.close();
     }
 
-
-    public static void main(String[] args) {
-        BambooCaller caller = new BambooCaller();
-        Results response = caller.getCategories();
-        System.out.println("org.netbeans.modules.bamboo.rest.BambooCaller.main() " + response);
+    @Test
+    public void testGetResults() throws ClientErrorException {
+        Results response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Results.class);
+        assertThat(response, notNullValue());
     }
+
+
 }
