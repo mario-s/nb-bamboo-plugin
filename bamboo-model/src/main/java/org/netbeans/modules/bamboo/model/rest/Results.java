@@ -8,7 +8,6 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +17,6 @@ import lombok.Setter;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Results extends Metrics implements Responseable<Result> {
 
-    @XmlElement(name = "results")
     private List<Result> result;
     @XmlAttribute
     private String expand;
