@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.model.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,7 +14,7 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Results extends Metrics implements Responseable<Result> {
+public class Results extends Metrics {
 
     private List<Result> result;
     @XmlAttribute
@@ -23,11 +22,6 @@ public class Results extends Metrics implements Responseable<Result> {
 
     public Results() {
         result = new ArrayList<>();
-    }
-
-    @Override
-    public Collection<Result> asCollection() {
-        return result;
     }
 
 }
