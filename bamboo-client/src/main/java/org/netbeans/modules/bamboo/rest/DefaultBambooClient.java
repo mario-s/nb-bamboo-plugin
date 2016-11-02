@@ -79,7 +79,7 @@ class DefaultBambooClient extends AbstractBambooClient {
     private Collection<Result> doResultsCall() {
         Set<Result> results = new HashSet<>();
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
-        ApiCallRepeatable caller = apiCallerFactory.newRepeatCaller(Results.class, RESULTS, params);
+        ApiCallRepeatable caller = apiCallerFactory.newRepeatCaller(ResultsResponse.class, RESULTS, params);
         doRepeatableCall(caller, results);
         return results;
     }

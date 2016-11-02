@@ -2,6 +2,7 @@ package org.netbeans.modules.bamboo.rest.call;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -22,7 +23,9 @@ import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 import org.netbeans.modules.bamboo.rest.HttpUtility;
 
 import static java.util.Collections.singletonMap;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assume.assumeTrue;
+import org.netbeans.modules.bamboo.model.rest.Result;
 
 /**
  *
@@ -71,13 +74,23 @@ public class BambooCallerXmlIT {
     }
 
     @Test
-    public void testGetResults() {
+    public void testGetResults_SizeGtZero() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap("expand", "results.result.comments");
         WebTarget webTarget = factory.newTarget("result", params);
         ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
         final int size = response.getResults().getSize();
         assertThat(size, not(0));
+    }
+
+    @Test
+    public void testGetResults_ResultsNotEmpty() {
+        assumeTrue(existsUrl());
+        Map<String, String> params = singletonMap("expand", "results.result.comments");
+        WebTarget webTarget = factory.newTarget("result", params);
+        ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
+        Collection<Result> results = response.asCollection();
+        assertThat(results.isEmpty(), is(false));
     }
 
 }
