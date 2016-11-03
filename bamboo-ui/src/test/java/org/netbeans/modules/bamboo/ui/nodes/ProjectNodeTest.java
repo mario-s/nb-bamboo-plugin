@@ -4,7 +4,6 @@ import java.awt.Image;
 
 import static java.util.Collections.singletonList;
 
-import javax.swing.Action;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -43,15 +42,6 @@ public class ProjectNodeTest {
         Image result = classUnderTest.getIcon(1);
         assertThat(result, notNullValue());
 
-    }
-
-    /**
-     * Test of getActions method, of class ProjectNode.
-     */
-    @Test
-    public void testGetActions_ExpectThree() {
-        Action[] result = classUnderTest.getActions(true);
-        assertThat(result.length, is(3));
     }
     
      /**

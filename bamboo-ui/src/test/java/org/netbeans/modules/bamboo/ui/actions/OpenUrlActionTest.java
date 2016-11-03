@@ -1,8 +1,8 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
 import java.net.URL;
+import org.junit.After;
 
-import static java.util.Collections.singletonList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,36 +17,74 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 
 import org.mockito.runners.MockitoJUnitRunner;
+import org.netbeans.modules.bamboo.LookupContext;
 import org.netbeans.modules.bamboo.model.OpenableInBrowser;
 import org.openide.awt.HtmlBrowser.URLDisplayer;
+import org.openide.util.Lookup;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.never;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OpenUrlActionTest {
-    
+
     private OpenUrlAction classUnderTest;
-    
+
     @Mock
     private OpenableInBrowser openableInBrowser;
-    
+
     @Mock
     private URLDisplayer urlDisplayer;
-    
+
     @Captor
     private ArgumentCaptor<URL> urlCaptor;
-    
+
     @Before
     public void setUp() {
-        classUnderTest = new OpenUrlAction(singletonList(openableInBrowser));
+        Lookup lookup = LookupContext.Instance.getLookup();
+        classUnderTest = new OpenUrlAction(lookup);
         classUnderTest.setUrlDisplayer(urlDisplayer);
         given(openableInBrowser.getUrl()).willReturn("http://netbeans.org");
     }
-    
+
+    @After
+    public void shutDown() {
+        LookupContext.Instance.remove(openableInBrowser);
+    }
+
     /**
      * Test of actionPerformed method, of class OpenUrlAction.
      */
     @Test
-    public void testActionPerformed() {
+    public void testActionPerformed_NoInstance_UrlShouldNotBecalled() {
+        classUnderTest.actionPerformed(null);
+        verify(urlDisplayer, never()).showURL(urlCaptor.capture());
+    }
+
+    /**
+     * Test of actionPerformed method, of class OpenUrlAction.
+     */
+    @Test
+    public void testActionPerformed_Instance_UrlShouldBecalled() {
+        LookupContext.Instance.add(openableInBrowser);
         classUnderTest.actionPerformed(null);
         verify(urlDisplayer).showURL(urlCaptor.capture());
+    }
+
+    @Test
+    public void testIsEnabled_InstanceAvailable_ShouldBeTrue() {
+        given(openableInBrowser.isAvailable()).willReturn(true);
+        LookupContext.Instance.add(openableInBrowser);
+        boolean result = classUnderTest.isEnabled();
+        assertThat(result, is(true));
+    }
+    
+    @Test
+    public void testIsEnabled_InstanceNotAvailable_ShouldBeFalse() {
+        given(openableInBrowser.isAvailable()).willReturn(false);
+        LookupContext.Instance.add(openableInBrowser);
+        boolean result = classUnderTest.isEnabled();
+        assertThat(result, is(false));
     }
 }

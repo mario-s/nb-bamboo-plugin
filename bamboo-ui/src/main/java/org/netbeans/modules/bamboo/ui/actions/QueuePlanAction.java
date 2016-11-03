@@ -48,26 +48,28 @@ public class QueuePlanAction extends AbstractAction implements LookupListener, C
         init();
     }
 
-    private void init() {
-        result = context.lookupResult(Queueable.class);
-        result.addLookupListener(this);
-        resultChanged(null);
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
-        result.allInstances().forEach(plan -> plan.queue());
+        allInstances().forEach(plan -> plan.queue());
     }
 
     @Override
     public void resultChanged(LookupEvent ev) {
-        final Collection<? extends Queueable> plans = result.allInstances();
-        Optional<? extends Queueable> enabledPlan = plans.stream().filter(p -> p.isAvailable() && p.isEnabled()).findAny();
-        setEnabled(enabledPlan.isPresent());
+        Optional<? extends Queueable> opt = allInstances().stream().filter(p -> p.isAvailable() && p.isEnabled()).findAny();
+        setEnabled(opt.isPresent());
+    }
+    private Collection<? extends Queueable> allInstances() {
+        return result.allInstances();
     }
 
     @Override
     public Action createContextAwareInstance(Lookup actionContext) {
         return new QueuePlanAction(actionContext);
+    }
+
+    private void init() {
+        result = context.lookupResult(Queueable.class);
+        result.addLookupListener(this);
+        resultChanged(null);
     }
 }

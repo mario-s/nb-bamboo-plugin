@@ -14,6 +14,7 @@ import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.modules.bamboo.model.ModelChangedValues;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.ui.actions.ActionConstants;
 import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
 
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Plans;
@@ -69,7 +70,7 @@ public class ProjectNode extends AbstractInstanceChildNode {
     public Action[] getActions(final boolean context) {
         List<Action> actions = new ArrayList<>();
 
-        actions.add(OpenUrlAction.newAction(project));
+        actions.addAll(findActions(ActionConstants.ACTION_PATH));
         actions.add(null);
         actions.add(SystemAction.get(PropertiesAction.class));
         return actions.toArray(new Action[actions.size()]);
