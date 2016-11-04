@@ -16,6 +16,7 @@ import static org.hamcrest.CoreMatchers.is;
  * @author spindizzy
  */
 public class ProjectVoTest {
+    private static final String FOO = "foo";
     
     private ProjectVo classUnderTest;
 
@@ -23,13 +24,14 @@ public class ProjectVoTest {
     
     @Before
     public void setUp() {
-        plan = new PlanVo("");
+        plan = new PlanVo(FOO);
         
         classUnderTest = newInstance();
     }
 
     private ProjectVo newInstance() {
-        ProjectVo instance = new ProjectVo("");
+        ProjectVo instance = new ProjectVo(FOO);
+        instance.setName(FOO);
         
         List<PlanVo> plans = new ArrayList<>();
         
