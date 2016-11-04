@@ -26,7 +26,7 @@ import org.openide.util.Utilities;
         id = "org.netbeans.modules.bamboo.ui.actions.QueuePlanAction"
 )
 @ActionRegistration(
-        displayName = "#CTL_QueuePlanAction", lazy = true
+        displayName = "#CTL_QueuePlanAction", lazy = false
 )
 @ActionReference(path = ActionConstants.PLAN_ACTION_PATH, position = 700)
 @NbBundle.Messages({

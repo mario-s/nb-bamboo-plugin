@@ -1,6 +1,8 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
 import java.net.URL;
+import javax.swing.Action;
+import static org.hamcrest.CoreMatchers.equalTo;
 import org.junit.After;
 
 
@@ -51,6 +53,12 @@ public class OpenUrlActionTest {
     @After
     public void shutDown() {
         LookupContext.Instance.remove(openableInBrowser);
+    }
+    
+    @Test
+    public void testGetName_ExpectBundle() {
+        String name = (String) classUnderTest.getValue(Action.NAME);
+        assertThat(name, equalTo(Bundle.CTL_OpenUrlAction()));
     }
 
     /**

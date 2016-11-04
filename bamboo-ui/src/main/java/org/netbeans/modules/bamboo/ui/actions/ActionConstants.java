@@ -18,7 +18,8 @@ public interface ActionConstants {
      */
     String ACTION_PATH = MODULE_NAME + "/Actions/instance";
     
-    String PLAN_ACTION_PATH = MODULE_NAME + "Plan" + ACTION_PATH;
+    String PLAN_ACTION_PATH = MODULE_NAME + ACTION_PATH + "Plan";
     
+    String COMMON_ACTION_PATH = MODULE_NAME + ACTION_PATH + "Common";
     
 }

@@ -31,9 +31,9 @@ import org.openide.util.Utilities;
         id = "org.netbeans.modules.bamboo.ui.actions.OpenUrlAction"
 )
 @ActionRegistration(
-        displayName = "#CTL_OpenUrlAction", lazy = true
+        displayName = "#CTL_OpenUrlAction", lazy = false
 )
-@ActionReference(path = ActionConstants.ACTION_PATH, position = 600)
+@ActionReference(path = ActionConstants.COMMON_ACTION_PATH, position = 600)
 @Messages("CTL_OpenUrlAction=&Open in Browser")
 public final class OpenUrlAction extends AbstractAction implements LookupListener, ContextAwareAction {
 
@@ -48,7 +48,7 @@ public final class OpenUrlAction extends AbstractAction implements LookupListene
     }
 
     OpenUrlAction(Lookup context) {
-        super(Bundle.CTL_QueuePlanAction());
+        super(Bundle.CTL_OpenUrlAction());
         this.context = context;
         urlDisplayer = URLDisplayer.getDefault();
         init();

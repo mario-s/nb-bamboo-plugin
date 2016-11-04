@@ -1,5 +1,7 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
+import javax.swing.Action;
+import static org.hamcrest.CoreMatchers.equalTo;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -41,6 +43,12 @@ public class QueuePlanActionTest {
     @After
     public void shutDown() {
         LookupContext.Instance.remove(plan);
+    }
+    
+    @Test
+    public void testGetName_ExpectBundle() {
+        String name = (String) classUnderTest.getValue(Action.NAME);
+        assertThat(name, equalTo(Bundle.CTL_QueuePlanAction()));
     }
     
     @Test

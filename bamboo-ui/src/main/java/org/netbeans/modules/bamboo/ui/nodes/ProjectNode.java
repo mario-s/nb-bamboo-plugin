@@ -70,7 +70,7 @@ public class ProjectNode extends AbstractInstanceChildNode {
     public Action[] getActions(final boolean context) {
         List<Action> actions = new ArrayList<>();
 
-        actions.addAll(findActions(ActionConstants.ACTION_PATH));
+        actions.addAll(findActions(ActionConstants.COMMON_ACTION_PATH));
         actions.add(null);
         actions.add(SystemAction.get(PropertiesAction.class));
         return actions.toArray(new Action[actions.size()]);

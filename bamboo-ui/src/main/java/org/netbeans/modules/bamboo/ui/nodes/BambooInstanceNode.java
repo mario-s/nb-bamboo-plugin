@@ -11,6 +11,7 @@ import static org.openide.util.Lookup.getDefault;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import java.util.List;
@@ -119,7 +120,10 @@ public class BambooInstanceNode extends AbstractInstanceChildNode implements Loo
 
     @Override
     public Action[] getActions(final boolean context) {
-        List<? extends Action> actions = findActions(ActionConstants.ACTION_PATH);
+        List<Action> actions = new ArrayList<>();
+        
+        actions.addAll(findActions(ActionConstants.COMMON_ACTION_PATH));
+        actions.addAll(findActions(ActionConstants.ACTION_PATH));
 
         return actions.toArray(new Action[actions.size()]);
     }
