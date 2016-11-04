@@ -29,5 +29,9 @@ public class DefaultBuildStatusWatcher implements BuildStatusWatchable {
     public void removeInstance(BambooInstance instance) {
         notifiers.remove(instance);
     }
+
+    Map<BambooInstance, PlanResultNotify> getNotifiers() {
+        return notifiers;
+    }
     
 }
