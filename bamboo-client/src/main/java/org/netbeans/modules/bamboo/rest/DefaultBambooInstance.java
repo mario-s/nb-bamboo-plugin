@@ -27,7 +27,6 @@ import static java.util.Optional.of;
 
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.LookupContext;
 
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 
@@ -45,6 +44,8 @@ import org.netbeans.modules.bamboo.model.PlanVo;
 
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
 import org.netbeans.modules.bamboo.model.event.QueueEvent.QueueEventBuilder;
+import org.openide.util.lookup.AbstractLookup;
+import org.openide.util.lookup.InstanceContent;
 
 import static java.lang.String.format;
 
@@ -66,7 +67,9 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     private final PropertyChangeSupport changeSupport;
 
-    private final LookupContext lookupContext;
+    private final Lookup lookup;
+    
+    private final InstanceContent content;
 
     private transient AbstractBambooClient client;
 
@@ -90,7 +93,8 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     DefaultBambooInstance(final InstanceValues values, final AbstractBambooClient client) {
         super(values);
         this.changeSupport = new PropertyChangeSupport(this);
-        this.lookupContext = LookupContext.Instance;
+        this.content = new InstanceContent();
+        this.lookup = new AbstractLookup(content);
         this.client = client;
         addConnectionListener();
     }
@@ -112,8 +116,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     @Override
     public Lookup getLookup() {
-        //TODO lookup per instance
-        return lookupContext.getLookup();
+        return lookup;
     }
 
     private void copyProperties(final BambooInstanceProperties props) throws NumberFormatException {
@@ -279,7 +282,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             if (isChild(parent) && verifyAvailibility()) {
                 Response response = client.queue(plan);
                 QueueEventBuilder eventBuilder = QueueEvent.builder().plan(plan).response(response);
-                lookupContext.add(eventBuilder.build());
+                content.add(eventBuilder.build());
             }
         });
     }
