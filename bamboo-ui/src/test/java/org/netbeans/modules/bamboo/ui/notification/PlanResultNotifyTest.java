@@ -30,6 +30,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.never;
 
 /**
  *
@@ -37,18 +38,19 @@ import static org.mockito.Matchers.eq;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class PlanResultNotifyTest {
+
     @Mock
     private BambooInstance instance;
 
     @Spy
     private NotifyDelegator delegator;
-    
+
     private PlanResultNotify classUnderTest;
-    
+
     private PlanVo plan;
-    
+
     private QueueEvent event;
-    
+
     @Before
     public void setUp() {
         plan = new PlanVo("a");
@@ -56,24 +58,31 @@ public class PlanResultNotifyTest {
         ResultVo resultVo = new ResultVo();
         resultVo.setNumber(1);
         plan.setResult(resultVo);
-        
+
         event = new QueueEvent();
-        
+
         ProjectVo project = new ProjectVo("");
         project.setChildren(singletonList(plan));
-        
+
         given(instance.getChildren()).willReturn(singletonList(project));
-        
+
         Lookup lookup = LookupContext.Instance.getLookup();
         given(instance.getLookup()).willReturn(lookup);
-        
+
         classUnderTest = new PlanResultNotify(instance);
         classUnderTest.setDelegator(delegator);
     }
-    
+
     @After
     public void shutDown() {
         LookupContext.Instance.remove(event);
+    }
+
+    private ResultVo newFailedResult() {
+        ResultVo resultVo = new ResultVo();
+        resultVo.setNumber(2);
+        resultVo.setState(State.Failed);
+        return resultVo;
     }
 
     /**
@@ -81,17 +90,26 @@ public class PlanResultNotifyTest {
      */
     @Test
     public void testPropertyChange_ExpectNotify() {
-        ResultVo resultVo = new ResultVo();
-        resultVo.setNumber(2);
-        resultVo.setState(State.Failed);
+        ResultVo resultVo = newFailedResult();
         plan.setResult(resultVo);
         verify(delegator).notify(any(BuildResult.class));
     }
     
+     /**
+     * Test of propertyChange method, of class PlanResultNotify.
+     */
+    @Test
+    public void testPropertyChange_PlanIgnore_ExpectNoNotify() {
+        plan.setIgnore(true);
+        ResultVo resultVo = newFailedResult();
+        plan.setResult(resultVo);
+        verify(delegator, never()).notify(any(BuildResult.class));
+    }
+
     @Test
     public void testResultChanged_ExpectNotify() {
         LookupContext.Instance.add(event);
         verify(delegator).notify(eq(event));
     }
-    
+
 }
