@@ -23,6 +23,7 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
     private String shortKey;
     private String shortName;
     private boolean enabled;
+    private boolean ignore;
     private ResultVo result;
     private PlanType type;
     @Getter(NONE)
