@@ -27,13 +27,16 @@ import org.netbeans.modules.bamboo.model.State;
 import org.openide.util.Lookup;
 
 import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Matchers.eq;
 
 /**
  *
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class BuildResultNotifyTest {
+public class PlanResultNotifyTest {
     @Mock
     private BambooInstance instance;
 
