@@ -25,6 +25,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
+import static org.openide.util.Lookup.getDefault;
+
 /**
  * @author spindizzy
  */
@@ -53,7 +55,7 @@ public class ProjectNodeFactoryTest {
         projects = Arrays.asList(vos);
 
         given(instance.getChildren()).willReturn(projects);
-        given(instance.getLookup()).willReturn(project.getLookup());
+        given(instance.getLookup()).willReturn(getDefault());
 
         classUnderTest = new ProjectNodeFactory(instance);
     }

@@ -1,22 +1,17 @@
 package org.netbeans.modules.bamboo.model;
 
-import org.netbeans.modules.bamboo.LookupContext;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.netbeans.api.annotations.common.NonNull;
-import org.openide.util.Lookup;
-import org.openide.util.lookup.InstanceContent;
 
 /**
  *
  * @author spindizzy
  */
 @EqualsAndHashCode(of = "key")
-public abstract class AbstractVo implements Lookup.Provider{
-    
-    private final LookupContext lookupContext;
+public abstract class AbstractVo {
     
     @Getter
     private final String key;
@@ -26,7 +21,6 @@ public abstract class AbstractVo implements Lookup.Provider{
     public AbstractVo(@NonNull String key) {
         this.key = key;
         this.changeSupport = new PropertyChangeSupport(this);
-        lookupContext = LookupContext.Instance;
     }
     
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -39,15 +33,5 @@ public abstract class AbstractVo implements Lookup.Provider{
 
     public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
-    }    
-
-    @Override
-    public Lookup getLookup() {
-        //TODO lookup per instance
-        return lookupContext.getLookup();
-    }
-    
-    protected InstanceContent getContent() {
-        return lookupContext.getContent();
-    }   
+    }     
 }
