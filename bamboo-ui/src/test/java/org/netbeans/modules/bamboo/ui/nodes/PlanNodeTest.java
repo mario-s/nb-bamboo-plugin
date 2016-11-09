@@ -35,6 +35,7 @@ public class PlanNodeTest {
         ResultVo resultVo = new ResultVo(FOO);
         resultVo.setNumber(1);
         plan.setResult(resultVo);
+        plan.setIgnore(true);
         classUnderTest = new PlanNode(plan);
     }
 
@@ -65,7 +66,6 @@ public class PlanNodeTest {
      */
     @Test
     public void testChange_Watching() {
-        plan.setIgnore(true);
         String htmlDisplayName = classUnderTest.getHtmlDisplayName();
         assertTrue(htmlDisplayName.contains(Bundle.TXT_Plan_Not_Watched()));
     }
