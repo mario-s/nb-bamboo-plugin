@@ -59,6 +59,16 @@ public class PlanNodeTest {
         String htmlDisplayName = classUnderTest.getHtmlDisplayName();
         assertTrue(htmlDisplayName.contains(State.Failed.toString()));
     }
+    
+     /**
+     * Test of propertyChange method, of class PlanNode.
+     */
+    @Test
+    public void testChange_Watching() {
+        plan.setIgnore(true);
+        String htmlDisplayName = classUnderTest.getHtmlDisplayName();
+        assertTrue(htmlDisplayName.contains(Bundle.TXT_Plan_Not_Watched()));
+    }
 
     /**
      * Test of propertyChange method, of class PlanNode.
