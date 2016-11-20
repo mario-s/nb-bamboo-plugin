@@ -9,12 +9,9 @@ import java.util.List;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
-import static java.util.Collections.sort;
 
 import lombok.extern.java.Log;
 
-import static java.util.Collections.sort;
-import static java.util.Collections.sort;
 import static java.util.Collections.sort;
 
 /**
