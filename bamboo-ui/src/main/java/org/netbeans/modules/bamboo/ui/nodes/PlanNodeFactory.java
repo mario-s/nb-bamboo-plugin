@@ -13,16 +13,20 @@ import static java.util.Collections.sort;
 
 import lombok.extern.java.Log;
 
+import static java.util.Collections.sort;
+import static java.util.Collections.sort;
+import static java.util.Collections.sort;
+
 /**
  * This factory creates a new {@link PlanNode}.
- * 
+ *
  * @author spindizzy
  */
 @Log
 class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {
 
     private static final PlanComparator COMPARATOR = new PlanComparator();
-    
+
     private final ProjectVo project;
 
     private Collection<PlanVo> plans;
@@ -62,13 +66,17 @@ class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {
     private static class PlanComparator implements Comparator<PlanVo>, Serializable {
 
         private static final long serialVersionUID = 1L;
-        
+
         @Override
         public int compare(final PlanVo o1, final PlanVo o2) {
-            final String left = o1.getName();
-            final String right = o2.getName();
+            if (o1.isIgnore() != o2.isIgnore()) {
+                return o1.isIgnore() ? 1 : -1;
+            } else {
+                final String leftName = o1.getName();
+                final String rightName = o2.getName();
 
-            return left.compareToIgnoreCase(right);
+                return leftName.compareToIgnoreCase(rightName);
+            }
         }
     }
 }

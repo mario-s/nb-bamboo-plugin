@@ -22,6 +22,7 @@ public class PlanNodeFactoryTest {
 
     private static final String FOO = "foo";
     private static final String BAR = "bar";
+    private static final String BAZ = "baz";
     
     private ProjectVo project;
 
@@ -55,12 +56,27 @@ public class PlanNodeFactoryTest {
      * Test of createKeys method, of class PlanNodeFactory.
      */
     @Test
-    public void testCreateKeys() {
+    public void testCreateKeys_NoneIgnore_ExpectSorted() {
         List<PlanVo> toPopulate = new ArrayList<>();
         toPopulate.add(new PlanVo(FOO, FOO));
         toPopulate.add(new PlanVo(BAR, BAR));
         classUnderTest.createKeys(toPopulate);
         assertThat(toPopulate.get(0).getName(), equalTo(BAR));
+    }
+    
+     /**
+     * Test of createKeys method, of class PlanNodeFactory.
+     */
+    @Test
+    public void testCreateKeys_OneIgnore_ExpectSorted() {
+        List<PlanVo> toPopulate = new ArrayList<>();
+        PlanVo fooPlan = new PlanVo(FOO, FOO);
+        fooPlan.setIgnore(true);
+        toPopulate.add(fooPlan);
+        toPopulate.add(new PlanVo(BAZ, BAZ));
+        toPopulate.add(new PlanVo(BAR, BAR));
+        classUnderTest.createKeys(toPopulate);
+        assertThat(toPopulate.get(2).getName(), equalTo(FOO));
     }
 
 }
