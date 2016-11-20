@@ -18,7 +18,6 @@ import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
 import org.netbeans.modules.bamboo.ui.actions.ActionConstants;
-import org.netbeans.modules.bamboo.ui.actions.OpenUrlAction;
 
 import org.openide.actions.PropertiesAction;
 import org.openide.nodes.PropertySupport;
@@ -33,6 +32,7 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Number;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Reason;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Not_Watched;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Number;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Reason;
@@ -49,7 +49,8 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_R
     "TXT_Plan_Prop_Result_Number=Result Number",
     "DESC_Plan_Prop_Result_Number=Number of the last result for this plan",
     "TXT_Plan_Prop_Result_Reason=Build Reason",
-    "DESC_Plan_Prop_Result_Reason=The reason why this plan was built"
+    "DESC_Plan_Prop_Result_Reason=The reason why this plan was built",
+    "TXT_Plan_Not_Watched=not watched"
 })
 public class PlanNode extends AbstractInstanceChildNode {
 
@@ -111,6 +112,7 @@ public class PlanNode extends AbstractInstanceChildNode {
 
             builder.append(lifeCycleStateToString());
             builder.append(stateToString());
+            builder.append(watching());
 
             htmlDisplayName = builder.toString();
 
@@ -131,9 +133,19 @@ public class PlanNode extends AbstractInstanceChildNode {
     }
 
     private String stateToString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(SPACE).append(toGray(getResult().getState().name()));
+        StringBuilder builder = new StringBuilder(SPACE);
+        builder.append(toGray(getResult().getState().name()));
         return builder.toString();
+    }
+
+    private String watching() {
+        String res = StringUtils.EMPTY;
+        if (plan.isIgnore()) {
+            StringBuilder builder = new StringBuilder(SPACE);
+            builder.append(toGray(TXT_Plan_Not_Watched()));
+            res = builder.toString();
+        }
+        return res;
     }
 
     private ResultVo getResult() {
@@ -145,7 +157,6 @@ public class PlanNode extends AbstractInstanceChildNode {
     public String getHtmlDisplayName() {
         return htmlDisplayName;
     }
-
 
     @Override
     public Image getIcon(final int type) {
@@ -166,12 +177,12 @@ public class PlanNode extends AbstractInstanceChildNode {
     @Override
     public Action[] getActions(final boolean context) {
         List<Action> actions = new ArrayList<>();
-        
+
         actions.addAll(findActions(ActionConstants.COMMON_ACTION_PATH));
         actions.addAll(findActions(ActionConstants.PLAN_ACTION_PATH));
         actions.add(null);
         actions.add(SystemAction.get(PropertiesAction.class));
-        
+
         return actions.toArray(new Action[actions.size()]);
     }
 

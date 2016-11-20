@@ -76,14 +76,20 @@ public class PlanVoTest {
         classUnderTest.setEnabled(true);
         verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
-    
+
+    @Test
+    public void testSetIgnore_ExpectListenerCalled() {
+        classUnderTest.setIgnore(true);
+        verify(listener).propertyChange(any(PropertyChangeEvent.class));
+    }
+
     @Test
     public void testQueue_ExpectCallToInstance() {
         classUnderTest.queue();
         verify(instance).queue(classUnderTest);
     }
-    
-     @Test
+
+    @Test
     public void testIsAvailable_ParentNotPresent_ExpectFalse() {
         boolean result = classUnderTest.isAvailable();
         assertThat(result, is(false));

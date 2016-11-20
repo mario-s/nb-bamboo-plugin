@@ -44,6 +44,12 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
        return ofNullable(parent);
     }
     
+    public void setIgnore(boolean ignore) {
+        boolean old = this.ignore;
+        this.ignore = ignore;
+        firePropertyChange(ModelChangedValues.Plan.toString(), old, ignore);
+    }
+    
     public void setEnabled(boolean enabled) {
         boolean old = this.enabled;
         this.enabled = enabled;
