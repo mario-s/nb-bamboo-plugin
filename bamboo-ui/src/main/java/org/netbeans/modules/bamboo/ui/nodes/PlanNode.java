@@ -30,10 +30,12 @@ import org.openide.xml.XMLUtil;
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Name;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Notify;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Number;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Reason;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Not_Watched;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Name;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Notify;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Number;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Reason;
 
@@ -51,13 +53,14 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_R
     "TXT_Plan_Prop_Result_Reason=Build Reason",
     "DESC_Plan_Prop_Result_Reason=The reason why this plan was built",
     "TXT_Plan_Not_Watched=not watched",
-    "TXT_Plan_Prop_Ignore=Notify",
-    "DESC_Plan_Prop_Ignore=Show notifications when the build has failed"
+    "TXT_Plan_Prop_Notify=Notify",
+    "DESC_Plan_Prop_Notify=Show notifications when the build has failed"
 })
 public class PlanNode extends AbstractInstanceChildNode {
 
     private static final String BUILD_REASON = "buildReason";
     private static final String RESULT_NUMBER = "resultNumber";
+    private static final String NOTIFY = "notify";
 
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/grey.png";
@@ -213,6 +216,18 @@ public class PlanNode extends AbstractInstanceChildNode {
             @Override
             public PropertyEditor getPropertyEditor() {
                 return buildReasonEditor;
+            }
+        });
+        
+        set.put(new BooleanReadWritePropertySupport(NOTIFY, TXT_Plan_Prop_Notify(), DESC_Plan_Prop_Notify()){
+            @Override
+            public Boolean getValue() throws IllegalAccessException, InvocationTargetException {
+                return plan.isNotify();
+            }
+
+            @Override
+            public void setValue(Boolean val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+                plan.setNotify(val);
             }
         });
 
