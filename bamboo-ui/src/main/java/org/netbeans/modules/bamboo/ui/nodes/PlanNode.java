@@ -50,7 +50,9 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_R
     "DESC_Plan_Prop_Result_Number=Number of the last result for this plan",
     "TXT_Plan_Prop_Result_Reason=Build Reason",
     "DESC_Plan_Prop_Result_Reason=The reason why this plan was built",
-    "TXT_Plan_Not_Watched=not watched"
+    "TXT_Plan_Not_Watched=not watched",
+    "TXT_Plan_Prop_Ignore=Notify",
+    "DESC_Plan_Prop_Ignore=Show notifications when the build has failed"
 })
 public class PlanNode extends AbstractInstanceChildNode {
 
@@ -140,7 +142,7 @@ public class PlanNode extends AbstractInstanceChildNode {
 
     private String watching() {
         String res = StringUtils.EMPTY;
-        if (plan.isIgnore()) {
+        if (!plan.isNotify()) {
             StringBuilder builder = new StringBuilder(SPACE);
             builder.append(toGray(TXT_Plan_Not_Watched()));
             res = builder.toString();

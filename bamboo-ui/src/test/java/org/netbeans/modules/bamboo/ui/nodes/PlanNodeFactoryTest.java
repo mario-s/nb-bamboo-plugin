@@ -71,7 +71,7 @@ public class PlanNodeFactoryTest {
     public void testCreateKeys_OneIgnore_ExpectSorted() {
         List<PlanVo> toPopulate = new ArrayList<>();
         PlanVo fooPlan = new PlanVo(FOO, FOO);
-        fooPlan.setIgnore(true);
+        fooPlan.setNotify(true);
         toPopulate.add(fooPlan);
         toPopulate.add(new PlanVo(BAZ, BAZ));
         toPopulate.add(new PlanVo(BAR, BAR));

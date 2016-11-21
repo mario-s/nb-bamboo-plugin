@@ -100,7 +100,7 @@ public class PlanResultNotifyTest {
      */
     @Test
     public void testPropertyChange_PlanIgnore_ExpectNoNotify() {
-        plan.setIgnore(true);
+        plan.setNotify(false);
         ResultVo resultVo = newFailedResult();
         plan.setResult(resultVo);
         verify(delegator, never()).notify(any(BuildResult.class));

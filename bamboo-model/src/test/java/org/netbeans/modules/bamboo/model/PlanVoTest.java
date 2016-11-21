@@ -78,8 +78,8 @@ public class PlanVoTest {
     }
 
     @Test
-    public void testSetIgnore_ExpectListenerCalled() {
-        classUnderTest.setIgnore(true);
+    public void testSetNotify_False_ExpectListenerCalled() {
+        classUnderTest.setNotify(false);
         verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
 

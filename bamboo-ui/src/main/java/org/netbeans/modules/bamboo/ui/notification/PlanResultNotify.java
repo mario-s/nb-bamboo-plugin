@@ -51,7 +51,7 @@ class PlanResultNotify implements PropertyChangeListener, LookupListener {
         String propertyName = evt.getPropertyName();
         if (ModelChangedValues.Result.toString().equals(propertyName)) {
             PlanVo plan = (PlanVo) evt.getSource();
-            if (!plan.isIgnore()) {
+            if (plan.isNotify()) {
                 ResultVo oldResult = (ResultVo) evt.getOldValue();
                 ResultVo newResult = (ResultVo) evt.getNewValue();
                 delegator.notify(new BuildResult(plan, oldResult, newResult));

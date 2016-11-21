@@ -35,7 +35,7 @@ public class PlanNodeTest {
         ResultVo resultVo = new ResultVo(FOO);
         resultVo.setNumber(1);
         plan.setResult(resultVo);
-        plan.setIgnore(true);
+        plan.setNotify(true);
         classUnderTest = new PlanNode(plan);
     }
 

@@ -23,7 +23,7 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
     private String shortKey;
     private String shortName;
     private boolean enabled;
-    private boolean ignore;
+    private boolean notify;
     private ResultVo result;
     private PlanType type;
     @Getter(NONE)
@@ -37,6 +37,7 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
         super(key);
         this.name = name;
         this.result = new ResultVo();
+        this.notify = true;
     }
     
     @Override
@@ -44,10 +45,10 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
        return ofNullable(parent);
     }
     
-    public void setIgnore(boolean ignore) {
-        boolean old = this.ignore;
-        this.ignore = ignore;
-        firePropertyChange(ModelChangedValues.Plan.toString(), old, ignore);
+    public void setNotify(boolean notify) {
+        boolean old = this.notify;
+        this.notify = notify;
+        firePropertyChange(ModelChangedValues.Plan.toString(), old, notify);
     }
     
     public void setEnabled(boolean enabled) {

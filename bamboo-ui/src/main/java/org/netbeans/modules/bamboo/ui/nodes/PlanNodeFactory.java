@@ -66,8 +66,8 @@ class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {
 
         @Override
         public int compare(final PlanVo o1, final PlanVo o2) {
-            if (o1.isIgnore() != o2.isIgnore()) {
-                return o1.isIgnore() ? 1 : -1;
+            if (o1.isNotify()!= o2.isNotify()) {
+                return o1.isNotify() ? 1 : -1;
             } else {
                 final String leftName = o1.getName();
                 final String rightName = o2.getName();
