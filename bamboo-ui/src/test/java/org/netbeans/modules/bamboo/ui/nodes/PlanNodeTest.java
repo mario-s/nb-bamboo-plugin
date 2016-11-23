@@ -1,28 +1,43 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
 
 import static org.hamcrest.CoreMatchers.is;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.LifeCycleState;
+import org.netbeans.modules.bamboo.model.ModelChangedValues;
 
 import static org.junit.Assert.*;
 
 import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
 import org.openide.nodes.Node;
 import org.openide.nodes.Node.Property;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+
 /**
  *
  * @author spindizzy
  */
+@RunWith(MockitoJUnitRunner.class)
 public class PlanNodeTest {
 
     private static final String FOO = "foo";
+
+    @Mock
+    private PropertyChangeListener listener;
 
     private PlanVo plan;
 
@@ -36,6 +51,10 @@ public class PlanNodeTest {
         resultVo.setNumber(1);
         plan.setResult(resultVo);
         plan.setNotify(false);
+        
+        ProjectVo project = new ProjectVo(FOO);
+        plan.setParent(project);
+        
         classUnderTest = new PlanNode(plan);
     }
 
@@ -97,4 +116,10 @@ public class PlanNodeTest {
         return oldPropSet.getProperties();
     }
 
+    @Test
+    public void testSetSilent_ExpectFirePropertyChange() {
+        plan.getParent().ifPresent(p -> {p.addPropertyChangeListener(listener);});
+        plan.setNotify(true);
+        verify(listener).propertyChange(any(PropertyChangeEvent.class));
+    }
 }

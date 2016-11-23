@@ -48,7 +48,7 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
     public void setNotify(boolean notify) {
         boolean old = this.notify;
         this.notify = notify;
-        firePropertyChange(ModelChangedValues.Plan.toString(), old, notify);
+        firePropertyChange(ModelChangedValues.Silent.toString(), old, notify);
     }
     
     public void setEnabled(boolean enabled) {

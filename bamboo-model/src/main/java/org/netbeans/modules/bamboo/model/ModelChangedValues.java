@@ -29,6 +29,10 @@ public enum ModelChangedValues {
      */
     Plan("plan"), 
     /**
+     * This values is fired when a the notification should be ignored or not.
+     */
+    Silent("silent"),
+    /**
      * This value is associated with a change of the result of one plan.
      */
     Result("result");

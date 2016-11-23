@@ -14,6 +14,7 @@ import lombok.extern.java.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.modules.bamboo.model.LifeCycleState;
+import org.netbeans.modules.bamboo.model.ModelChangedValues;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
@@ -103,9 +104,17 @@ public class PlanNode extends AbstractInstanceChildNode {
         if (log.isLoggable(Level.INFO)) {
             log.info(String.format("plan changed: %s", plan));
         }
-        updateHtmlDisplayName();
-        fireIconChange();
-        firePropertySetsChange(null, getPropertySets());
+
+        String propName = evt.getPropertyName();
+        if (ModelChangedValues.Silent.toString().equals(propName)) {
+            plan.getParent().ifPresent(vo -> {
+                vo.firePropertyChange(propName, null, plan);
+            });
+        } else {
+            updateHtmlDisplayName();
+            fireIconChange();
+            firePropertySetsChange(null, getPropertySets());
+        }
     }
 
     private void updateHtmlDisplayName() {
@@ -218,8 +227,8 @@ public class PlanNode extends AbstractInstanceChildNode {
                 return buildReasonEditor;
             }
         });
-        
-        set.put(new BooleanReadWritePropertySupport(NOTIFY, TXT_Plan_Prop_Notify(), DESC_Plan_Prop_Notify()){
+
+        set.put(new BooleanReadWritePropertySupport(NOTIFY, TXT_Plan_Prop_Notify(), DESC_Plan_Prop_Notify()) {
             @Override
             public Boolean getValue() throws IllegalAccessException, InvocationTargetException {
                 return plan.isNotify();
