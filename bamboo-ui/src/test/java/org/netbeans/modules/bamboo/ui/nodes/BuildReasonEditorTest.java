@@ -4,11 +4,8 @@ import java.awt.Component;
 import javax.swing.JPanel;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.openide.explorer.propertysheet.PropertyEnv;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -16,19 +13,23 @@ import static org.junit.Assert.*;
  *
  * @author spindizzy
  */
-@RunWith(MockitoJUnitRunner.class)
 public class BuildReasonEditorTest {
-    
-    @Mock
-    private PropertyEnv env;
-    
+
     private BuildReasonEditor classUnderTest;
-    
+
     @Before
     public void setUp() {
         classUnderTest = new BuildReasonEditor();
     }
-    
+
+    /**
+     * Test of supportsCustomEditor method, of class BuildReasonEditor.
+     */
+    @Test
+    public void testSupportsCustomEditor_ExpectTrue() {
+        assertThat(classUnderTest.supportsCustomEditor(), is(true));
+    }
+
     /**
      * Test of getCustomEditor method, of class BuildReasonEditor.
      */
@@ -38,5 +39,13 @@ public class BuildReasonEditorTest {
         assertThat(result instanceof JPanel, is(true));
     }
 
-
+    /**
+     * Test of getAsText method, of class BuildReasonEditor.
+     */
+    @Test
+    public void testGetAsText_HtmlText_ExpectClearText() {
+        String input = "<b>foo</b>";
+        classUnderTest.setValue(input);
+        assertThat(classUnderTest.getAsText(), equalTo("foo"));
+    }
 }
