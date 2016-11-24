@@ -9,7 +9,6 @@ import java.util.List;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 
-
 import lombok.extern.java.Log;
 
 import static java.util.Collections.sort;
@@ -66,8 +65,8 @@ class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {
 
         @Override
         public int compare(final PlanVo o1, final PlanVo o2) {
-            if (o1.isNotify()!= o2.isNotify()) {
-                return o1.isNotify() ? 1 : -1;
+            if (o1.isNotify() != o2.isNotify()) {
+                return o1.isNotify() ? -1 : 1;
             } else {
                 final String leftName = o1.getName();
                 final String rightName = o2.getName();
