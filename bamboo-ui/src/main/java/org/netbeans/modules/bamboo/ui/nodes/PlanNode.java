@@ -48,14 +48,14 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_R
 @Log
 @NbBundle.Messages({
     "TXT_Plan_Prop_Name=Plan Name",
-    "DESC_Plan_Prop_Name=The name of the build plan",
+    "DESC_Plan_Prop_Name=The name of the build plan.",
     "TXT_Plan_Prop_Result_Number=Result Number",
-    "DESC_Plan_Prop_Result_Number=Number of the last result for this plan",
+    "DESC_Plan_Prop_Result_Number=Number of the last result for this plan.",
     "TXT_Plan_Prop_Result_Reason=Build Reason",
-    "DESC_Plan_Prop_Result_Reason=The reason why this plan was built",
+    "DESC_Plan_Prop_Result_Reason=The reason why this plan was built.",
     "TXT_Plan_Not_Watched=not watched",
-    "TXT_Plan_Prop_Notify=Notify",
-    "DESC_Plan_Prop_Notify=Show notifications when the build has failed"
+    "TXT_Plan_Prop_Watched=Watched",
+    "DESC_Plan_Prop_Notify=Whether you wish to be notified of failures in this plan."
 })
 public class PlanNode extends AbstractInstanceChildNode {
 
