@@ -31,14 +31,14 @@ import org.openide.xml.XMLUtil;
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Name;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Notify;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Number;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Reason;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Watched;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Not_Watched;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Name;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Notify;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Number;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Reason;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Watched;
 
 /**
  * The UI for a {@link PlanVo}.
@@ -55,7 +55,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_R
     "DESC_Plan_Prop_Result_Reason=The reason why this plan was built.",
     "TXT_Plan_Not_Watched=not watched",
     "TXT_Plan_Prop_Watched=Watched",
-    "DESC_Plan_Prop_Notify=Whether you wish to be notified of failures in this plan."
+    "DESC_Plan_Prop_Watched=Whether you wish to be notified of failures in this plan."
 })
 public class PlanNode extends AbstractInstanceChildNode {
 
@@ -229,7 +229,7 @@ public class PlanNode extends AbstractInstanceChildNode {
             }
         });
 
-        set.put(new BooleanReadWritePropertySupport(NOTIFY, TXT_Plan_Prop_Notify(), DESC_Plan_Prop_Notify()) {
+        set.put(new BooleanReadWritePropertySupport(NOTIFY, TXT_Plan_Prop_Watched(), DESC_Plan_Prop_Watched()) {
             @Override
             public Boolean getValue() throws IllegalAccessException, InvocationTargetException {
                 return plan.isNotify();
