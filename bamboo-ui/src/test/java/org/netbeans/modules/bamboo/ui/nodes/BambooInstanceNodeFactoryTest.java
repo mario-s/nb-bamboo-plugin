@@ -17,13 +17,22 @@ import org.openide.util.lookup.InstanceContent;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 
 
 /**
  * @author spindizzy
  */
+@RunWith(MockitoJUnitRunner.class)
 public class BambooInstanceNodeFactoryTest {
+    
+    @Mock
+    private InstanceManageable manager;
+    
     private InstanceContent content;
 
     private BambooInstanceNodeFactory classUnderTest;
@@ -33,8 +42,9 @@ public class BambooInstanceNodeFactoryTest {
         content = new InstanceContent();
 
         Lookup lookup = new AbstractLookup(content);
+        given(manager.getLookup()).willReturn(lookup);
 
-        classUnderTest = new BambooInstanceNodeFactory(lookup);
+        classUnderTest = new BambooInstanceNodeFactory(manager);
     }
 
     /**

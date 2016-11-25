@@ -14,6 +14,7 @@ import static java.util.Collections.sort;
 
 import java.util.Comparator;
 import java.util.List;
+import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
 
 /**
@@ -28,8 +29,8 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
 
     private Lookup.Result<BambooInstance> result;
 
-    public BambooInstanceNodeFactory(final Lookup lookup) {
-        this.lookup = lookup;
+    public BambooInstanceNodeFactory(InstanceManageable manager) {
+        this.lookup = manager.getLookup();
         lookupResult();
     }
 

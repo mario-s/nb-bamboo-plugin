@@ -9,7 +9,6 @@ import org.netbeans.modules.bamboo.ui.actions.AddInstanceAction;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.*;
 
 import org.openide.nodes.AbstractNode;
-import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Children;
 
 import static org.openide.util.Lookup.getDefault;
@@ -17,7 +16,6 @@ import static org.openide.util.Lookup.getDefault;
 import org.openide.util.NbBundle.Messages;
 
 import javax.swing.Action;
-import org.netbeans.modules.bamboo.model.BambooInstance;
 
 /**
  * Root node for the Bamboo Builder
@@ -43,7 +41,7 @@ public final class BambooRootNode extends AbstractNode {
     }
     
     BambooRootNode(boolean lazy) {
-        super(Children.create(new BambooInstanceNodeFactory(getDefault().lookup(InstanceManageable.class).getLookup()), lazy));
+        super(Children.create(new BambooInstanceNodeFactory(getDefault().lookup(InstanceManageable.class)), lazy));
         init();
     }
 
