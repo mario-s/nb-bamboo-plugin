@@ -16,9 +16,20 @@ import static org.openide.util.Utilities.actionsForPath;
  * @author spindizzy
  */
 abstract class AbstractInstanceChildNode extends AbstractNode implements PropertyChangeListener {
+    
+    private AbstractRefreshChildFactory factory;
 
     AbstractInstanceChildNode(Lookup lookup) {
         super(Children.LEAF, lookup);
+    }
+    
+    AbstractInstanceChildNode(AbstractRefreshChildFactory factory) {
+        super(Children.create(factory, true));
+        this.factory = factory;
+    }
+    
+    void refreshChildren() {
+        factory.refreshNodes();
     }
 
     protected List<? extends Action> findActions(String path) {

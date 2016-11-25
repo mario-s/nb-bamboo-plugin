@@ -21,26 +21,29 @@ import org.netbeans.modules.bamboo.model.BambooInstance;
 
 /**
  * Root node for the Bamboo Builder
+ *
  * @author spindizzy
  */
 @ServicesTabNodeRegistration(
-    name = BambooRootNode.BAMBOO_NODE_NAME, displayName = "#LBL_BambooNode",
-    shortDescription = "#TIP_BambooNode", iconResource = BambooRootNode.ICON_BASE, position = 450
+        name = BambooRootNode.BAMBOO_NODE_NAME, displayName = "#LBL_BambooNode",
+        shortDescription = "#TIP_BambooNode", iconResource = BambooRootNode.ICON_BASE, position = 450
 )
 @Messages(
-    { "LBL_BambooNode=Bamboo Builders", "TIP_BambooNode=Bamboo continuous integration servers." }
+        {"LBL_BambooNode=Bamboo Builders", "TIP_BambooNode=Bamboo continuous integration servers."}
 )
 public final class BambooRootNode extends AbstractNode {
+
     static final String BAMBOO_NODE_NAME = "bamboo";
 
     @StaticResource
     static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/ci.png";
     
-    private final ChildFactory<BambooInstance> instanceNodeFactory;
-
     BambooRootNode() {
-        super(Children.LEAF, getDefault().lookup(InstanceManageable.class).getLookup());
-        instanceNodeFactory = new BambooInstanceNodeFactory(getLookup());
+        this(true);
+    }
+    
+    BambooRootNode(boolean lazy) {
+        super(Children.create(new BambooInstanceNodeFactory(getDefault().lookup(InstanceManageable.class).getLookup()), lazy));
         init();
     }
 
@@ -50,12 +53,10 @@ public final class BambooRootNode extends AbstractNode {
         setShortDescription(TIP_BambooNode());
         setIconBaseWithExtension(ICON_BASE);
 
-        Children children = Children.create(instanceNodeFactory, false);
-        setChildren(children);
     }
 
     @Override
     public Action[] getActions(final boolean context) {
-        return new Action[] { new AddInstanceAction() };
+        return new Action[]{new AddInstanceAction()};
     }
 }

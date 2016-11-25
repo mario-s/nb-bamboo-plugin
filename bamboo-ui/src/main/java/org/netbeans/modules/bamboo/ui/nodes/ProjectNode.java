@@ -4,7 +4,6 @@ import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import org.openide.nodes.Children;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,12 +39,9 @@ public class ProjectNode extends AbstractInstanceChildNode {
 
     private final ProjectVo project;
 
-    private final PlanNodeFactory planNodeFactory;
-
     public ProjectNode(final ProjectVo project) {
-        super(Lookups.singleton(project));
+        super(new PlanNodeFactory(project));
         this.project = project;
-        this.planNodeFactory = new PlanNodeFactory(project);
         init();
     }
 
@@ -55,14 +51,12 @@ public class ProjectNode extends AbstractInstanceChildNode {
         setShortDescription(project.getName());
         setIconBaseWithExtension(FOLDER);
 
-        setChildren(Children.create(planNodeFactory, true));
-
         project.addPropertyChangeListener(this);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        planNodeFactory.refreshNodes();
+        refreshChildren();
     }
 
     @Override

@@ -5,8 +5,6 @@ import org.netbeans.api.annotations.common.StaticResource;
 
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
-import org.openide.nodes.Children;
-
 import static org.openide.util.Lookup.getDefault;
 
 import java.io.IOException;
@@ -74,16 +72,13 @@ public class BambooInstanceNode extends AbstractInstanceChildNode implements Loo
 
     private final BambooInstance instance;
 
-    private final ProjectNodeFactory projectNodeFactory;
-
     private Lookup.Result<ServerConnectionEvent> connectionLookupResult;
 
     private String htmlDisplayName;
 
     public BambooInstanceNode(final BambooInstance instance) {
-        super(Lookups.singleton(instance));
+        super(new ProjectNodeFactory(instance));
         this.instance = instance;
-        this.projectNodeFactory = new ProjectNodeFactory(instance);
         init();
     }
 
@@ -92,8 +87,6 @@ public class BambooInstanceNode extends AbstractInstanceChildNode implements Loo
         setDisplayName(instance.getName());
         setShortDescription(instance.getUrl());
         setIconBaseWithExtension(ICON_BASE);
-
-        setChildren(Children.create(projectNodeFactory, true));
 
         connectionLookupResult = getLookup().lookupResult(ServerConnectionEvent.class);
         connectionLookupResult.addLookupListener(this);
@@ -105,7 +98,7 @@ public class BambooInstanceNode extends AbstractInstanceChildNode implements Loo
     public void propertyChange(PropertyChangeEvent evt) {
         String eventName = evt.getPropertyName();
         if (ModelChangedValues.Projects.toString().equals(eventName)) {
-            projectNodeFactory.refreshNodes();
+            refreshChildren();
         }
     }
 

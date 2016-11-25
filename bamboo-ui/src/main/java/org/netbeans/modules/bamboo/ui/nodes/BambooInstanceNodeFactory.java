@@ -53,7 +53,7 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
 
     @Override
     public void resultChanged(final LookupEvent ev) {
-        refresh(true);
+        refresh(false);
     }
 
     private static class BambooInstanceComparator implements Comparator<BambooInstance>, Serializable {

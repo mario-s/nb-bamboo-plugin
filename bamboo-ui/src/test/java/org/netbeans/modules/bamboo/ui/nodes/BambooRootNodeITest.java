@@ -34,7 +34,7 @@ public class BambooRootNodeITest {
 
     @Before
     public void setUp() {
-        classUnderTest = new BambooRootNode();
+        classUnderTest = new BambooRootNode(false);
         manager = getDefault().lookup(InstanceManageable.class);
     }
 
