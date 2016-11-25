@@ -77,7 +77,7 @@ public class BambooInstanceNode extends AbstractInstanceChildNode implements Loo
     private String htmlDisplayName;
 
     public BambooInstanceNode(final BambooInstance instance) {
-        super(new ProjectNodeFactory(instance));
+        super(new ProjectNodeFactory(instance), Lookups.singleton(instance));
         this.instance = instance;
         init();
     }

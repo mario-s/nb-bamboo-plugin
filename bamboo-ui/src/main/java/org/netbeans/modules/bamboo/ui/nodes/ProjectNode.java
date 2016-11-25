@@ -40,7 +40,7 @@ public class ProjectNode extends AbstractInstanceChildNode {
     private final ProjectVo project;
 
     public ProjectNode(final ProjectVo project) {
-        super(new PlanNodeFactory(project));
+        super(new PlanNodeFactory(project), Lookups.singleton(project));
         this.project = project;
         init();
     }

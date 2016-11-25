@@ -41,7 +41,7 @@ public final class BambooRootNode extends AbstractNode {
     }
     
     BambooRootNode(boolean lazy) {
-        super(Children.create(new BambooInstanceNodeFactory(getDefault().lookup(InstanceManageable.class)), lazy));
+        super(Children.create(new BambooInstanceNodeFactory(getDefault().lookup(InstanceManageable.class)), lazy), getDefault());
         init();
     }
 

@@ -23,8 +23,8 @@ abstract class AbstractInstanceChildNode extends AbstractNode implements Propert
         super(Children.LEAF, lookup);
     }
     
-    AbstractInstanceChildNode(AbstractRefreshChildFactory factory) {
-        super(Children.create(factory, true));
+    AbstractInstanceChildNode(AbstractRefreshChildFactory factory, Lookup lookup) {
+        super(Children.create(factory, true), lookup);
         this.factory = factory;
     }
     
