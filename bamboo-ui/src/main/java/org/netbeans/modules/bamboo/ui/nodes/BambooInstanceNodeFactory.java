@@ -48,7 +48,9 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
     protected boolean createKeys(final List<BambooInstance> toPopulate) {
         toPopulate.addAll(result.allInstances());
         sort(toPopulate, COMPARATOR);
-
+        
+        //TODO wait here when the instances are loaded
+        
         return true;
     }
 
