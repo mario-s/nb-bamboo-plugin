@@ -25,11 +25,15 @@ import org.netbeans.modules.bamboo.glue.InstanceManageable;
 class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
     implements LookupListener {
     private static final BambooInstanceComparator COMPARATOR = new BambooInstanceComparator();
+    
+    private final InstanceManageable manager;
+    
     private final Lookup lookup;
-
+    
     private Lookup.Result<BambooInstance> result;
 
     public BambooInstanceNodeFactory(InstanceManageable manager) {
+        this.manager = manager;
         this.lookup = manager.getLookup();
         lookupResult();
     }
@@ -46,10 +50,11 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
 
     @Override
     protected boolean createKeys(final List<BambooInstance> toPopulate) {
-        toPopulate.addAll(result.allInstances());
-        sort(toPopulate, COMPARATOR);
         
         //TODO wait here when the instances are loaded
+        
+        toPopulate.addAll(result.allInstances());
+        sort(toPopulate, COMPARATOR);
         
         return true;
     }
