@@ -38,7 +38,7 @@ public interface InstanceManageable extends Lookup.Provider {
 
     /**
      * This method returns <code>true</code> when an instance with the given name exist in the user's preferences, if
-     * not <code>false</coe>.
+     * not <code>false</code>.
      *
      * @param name the name of the instance
      * @return boolean
