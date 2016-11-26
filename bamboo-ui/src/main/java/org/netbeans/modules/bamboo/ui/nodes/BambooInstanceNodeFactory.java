@@ -1,6 +1,7 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.io.Serializable;
+import java.util.Collection;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 
 import org.openide.nodes.ChildFactory;
@@ -14,7 +15,10 @@ import static java.util.Collections.sort;
 
 import java.util.Comparator;
 import java.util.List;
+import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
+import org.netbeans.modules.bamboo.model.event.InstancesLoadEvent;
+import org.openide.util.Exceptions;
 
 
 /**
@@ -22,25 +26,28 @@ import org.netbeans.modules.bamboo.glue.InstanceManageable;
  * 
  * @author spindizzy
  */
+@Log
 class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
     implements LookupListener {
-    private static final BambooInstanceComparator COMPARATOR = new BambooInstanceComparator();
+    private static final long SEC = 1000l;
     
-    private final InstanceManageable manager;
+    private static final BambooInstanceComparator COMPARATOR = new BambooInstanceComparator();
     
     private final Lookup lookup;
     
-    private Lookup.Result<BambooInstance> result;
+    private Lookup.Result<BambooInstance> instanceResult;
+    
+    private Lookup.Result<InstancesLoadEvent> eventResult;
 
     public BambooInstanceNodeFactory(InstanceManageable manager) {
-        this.manager = manager;
         this.lookup = manager.getLookup();
         lookupResult();
     }
 
     private void lookupResult() {
-        result = lookup.lookupResult(BambooInstance.class);
-        result.addLookupListener(this);
+        instanceResult = lookup.lookupResult(BambooInstance.class);
+        eventResult = lookup.lookupResult(InstancesLoadEvent.class);
+        instanceResult.addLookupListener(this);
     }
 
     @Override
@@ -51,13 +58,30 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
     @Override
     protected boolean createKeys(final List<BambooInstance> toPopulate) {
         
-        //TODO wait here when the instances are loaded
+        try {
+            tryToWait();
+        } catch (InterruptedException ex) {
+            log.info(ex.getMessage());
+        }
         
-        toPopulate.addAll(result.allInstances());
+        toPopulate.addAll(instanceResult.allInstances());
         sort(toPopulate, COMPARATOR);
         
         return true;
     }
+    
+    private void tryToWait() throws InterruptedException {
+        Collection<? extends InstancesLoadEvent> events = eventResult.allInstances();
+        if(!events.isEmpty()){
+            int loadSize = events.size();
+            int syncSize;
+            do {
+                syncSize = instanceResult.allInstances().size();
+                Thread.sleep(SEC);
+            }while(loadSize != syncSize);
+        }
+    }
+    
 
     @Override
     public void resultChanged(final LookupEvent ev) {

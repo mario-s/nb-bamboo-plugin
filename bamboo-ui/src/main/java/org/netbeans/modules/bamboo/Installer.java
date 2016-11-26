@@ -11,6 +11,7 @@ import org.openide.util.TaskListener;
 import org.openide.windows.OnShowing;
 
 import java.util.Collection;
+import org.netbeans.modules.bamboo.model.event.InstancesLoadEvent;
 
 
 @OnShowing
@@ -21,6 +22,8 @@ public final class Installer implements Runnable {
         Collection<BambooInstance> instances = manager.loadInstances();
 
         if (!instances.isEmpty()) {
+            manager.getContent().add(new InstancesLoadEvent(instances));
+            
             instances.parallelStream().forEach(instance -> {
                     TaskListener listener = new SyncTaskListener(manager, instance);
                     Task task = instance.synchronize();
