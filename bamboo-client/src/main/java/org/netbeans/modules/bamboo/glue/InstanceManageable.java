@@ -51,7 +51,7 @@ public interface InstanceManageable extends Lookup.Provider {
      * @return a collection of the instances
      */
     Collection<BambooInstance> loadInstances();
-
+    
     /**
      * Persist the instance in the user's preferences.
      *

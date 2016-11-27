@@ -34,7 +34,7 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
     private final BuildStatusWatchable buildStatusWatcher;
 
     private final LookupContext lookupContext;
-
+    
     public DefaultInstanceManager() {
         lookupContext = LookupContext.Instance;
         buildStatusWatcher = getDefault().lookup(BuildStatusWatchable.class);
@@ -146,7 +146,7 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
-
+        
         return instances;
     }
 
