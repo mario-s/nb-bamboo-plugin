@@ -9,8 +9,6 @@ import org.junit.Test;
 
 import static org.mockito.BDDMockito.given;
 
-import static org.mockito.Mockito.mock;
-
 import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
@@ -23,8 +21,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mock;
 
 
