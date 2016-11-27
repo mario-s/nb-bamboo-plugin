@@ -23,6 +23,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mock;
+
 
 /**
  * @author spindizzy
@@ -52,14 +56,14 @@ public class BambooInstanceNodeFactoryTest {
      */
     @Test
     public void testCreateKeys_ExpectSorted() {
-        BambooInstance plan1 = mock(BambooInstance.class);
-        BambooInstance plan2 = mock(BambooInstance.class);
+        BambooInstance instance1 = mock(BambooInstance.class);
+        BambooInstance instance2 = mock(BambooInstance.class);
 
-        given(plan1.getName()).willReturn("b");
-        given(plan2.getName()).willReturn("a");
+        given(instance1.getName()).willReturn("b");
+        given(instance2.getName()).willReturn("a");
 
-        content.add(plan1);
-        content.add(plan2);
+        content.add(instance1);
+        content.add(instance2);
 
         List<BambooInstance> toPopulate = new ArrayList<>();
 
