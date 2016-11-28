@@ -15,6 +15,7 @@ import javax.swing.AbstractButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -271,6 +272,12 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
             inform(getMessage("MSG_EmptyName"));
             return;
         }
+        
+        InstanceManageable manager = getDefault().lookup(InstanceManageable.class);
+        if (manager.existsInstance(name)) {
+            error(getMessage("MSG_ExistName"));
+            return;
+        }
 
         if (url.isEmpty() || url.endsWith("//")) {
             inform(getMessage("MSG_EmptyUrl"));
@@ -284,13 +291,6 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
 
         if (getPassword().length == 0) {
             inform(getMessage("MSG_EmptyPassword"));
-            return;
-        }
-
-        InstanceManageable manager = getDefault().lookup(InstanceManageable.class);
-
-        if (manager.existsInstance(name)) {
-            error(getMessage("MSG_ExistName"));
             return;
         }
 
@@ -333,4 +333,10 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
     JProgressBar getProgressBar() {
         return progressBar;
     }
+
+    JTextField getTxtName() {
+        return txtName;
+    }
+    
+    
 }

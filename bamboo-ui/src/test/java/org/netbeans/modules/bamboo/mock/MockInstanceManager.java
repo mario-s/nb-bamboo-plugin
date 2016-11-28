@@ -37,6 +37,9 @@ public class MockInstanceManager extends DefaultInstanceManager {
 
     @Override
     public boolean existsInstance(final String name) {
+        if(delegate != null) {
+            return delegate.existsInstance(name);
+        }
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
