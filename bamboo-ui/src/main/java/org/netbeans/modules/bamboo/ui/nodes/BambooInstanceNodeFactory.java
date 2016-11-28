@@ -19,10 +19,9 @@ import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
-import org.netbeans.modules.bamboo.model.event.InstancesLoadEvent;
 
 import static java.util.Optional.empty;
-import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
 
 /**
  * This is a factory for a {@link BambooInstanceNode}.
@@ -33,15 +32,11 @@ import static java.util.Optional.of;
 class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
         implements LookupListener {
 
-    private static final long SEC = 1000l;
-
     private static final BambooInstanceComparator COMPARATOR = new BambooInstanceComparator();
 
     private final Lookup lookup;
 
     private Lookup.Result<BambooInstance> instanceResult;
-
-    private Lookup.Result<InstancesLoadEvent> eventResult;
 
     private Optional<CountDownLatch> blocker;
 
@@ -51,9 +46,15 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
         lookupResult();
     }
 
+    private void updateBlocker() {
+        Collection<? extends BambooInstance> instances = instanceResult.allInstances();
+        if (!instances.isEmpty()) {
+            blocker.ifPresent(c -> instances.forEach(i -> c.countDown()));
+        }
+    }
+
     private void lookupResult() {
         instanceResult = lookup.lookupResult(BambooInstance.class);
-        eventResult = lookup.lookupResult(InstancesLoadEvent.class);
         instanceResult.addLookupListener(this);
     }
 
@@ -64,6 +65,8 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
 
     @Override
     protected boolean createKeys(final List<BambooInstance> toPopulate) {
+
+        updateBlocker();
 
         blocker.ifPresent(c -> {
             try {
@@ -83,19 +86,17 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
 
     @Override
     public void resultChanged(final LookupEvent ev) {
-        Collection<? extends InstancesLoadEvent> events = eventResult.allInstances();
-        if (!events.isEmpty() && !blocker.isPresent()) {
-            InstancesLoadEvent first = events.iterator().next();
-            CountDownLatch countDown = new CountDownLatch(first.getInstances().size());
-            blocker = of(countDown);
-        }
+        updateBlocker();
 
-        Collection<? extends BambooInstance> instances = instanceResult.allInstances();
-        if(!instances.isEmpty()) {
-            blocker.ifPresent(c -> instances.forEach(i -> c.countDown()));
-        }
-        
-         refresh(false);
+        refresh(false);
+    }
+
+    Optional<CountDownLatch> getBlocker() {
+        return blocker;
+    }
+
+    void setBlocker(CountDownLatch blocker) {
+        this.blocker = ofNullable(blocker);
     }
 
     private static class BambooInstanceComparator implements Comparator<BambooInstance>, Serializable {

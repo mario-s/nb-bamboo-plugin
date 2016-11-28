@@ -14,16 +14,13 @@ import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.event.InstancesLoadEvent;
-
-import static java.util.Collections.singletonList;
+import java.util.concurrent.CountDownLatch;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.mock;
 
@@ -79,10 +76,10 @@ public class BambooInstanceNodeFactoryTest {
     
     @Test
     public void testCreateKeys_WithLoadEvent() {
-        BambooInstance instance = newInstance("foo");
-        InstancesLoadEvent loadEvent = new InstancesLoadEvent(singletonList(instance));
+        classUnderTest.setBlocker(new CountDownLatch(1));
         
-        content.add(loadEvent);
+        BambooInstance instance = newInstance("foo");
+        
         content.add(instance);
         
         classUnderTest.resultChanged(null);

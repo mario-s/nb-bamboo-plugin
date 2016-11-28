@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
 
 import static org.junit.Assert.*;
@@ -18,13 +19,17 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.event.InstancesLoadEvent;
+import org.openide.util.Lookup;
+import org.openide.util.lookup.AbstractLookup;
+import org.openide.util.lookup.InstanceContent;
 
 
 /**
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class BambooRootNodeITest {
+public class BambooRootNodeTest {
     private BambooRootNode classUnderTest;
 
     private InstanceManageable manager;
@@ -53,5 +58,15 @@ public class BambooRootNodeITest {
 
         Node[] result = classUnderTest.getChildren().getNodes();
         assertThat(result.length, is(1));
+    }
+    
+    @Test
+    public void testResultChanged() {
+        InstancesLoadEvent loadEvent = new InstancesLoadEvent(singletonList(instance));
+        manager.getContent().add(loadEvent);
+        
+        classUnderTest.resultChanged(null);
+        
+        assertThat(classUnderTest.getNodeFactory().getBlocker().isPresent(), is(true));
     }
 }
