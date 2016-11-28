@@ -85,7 +85,8 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
     public void resultChanged(final LookupEvent ev) {
         Collection<? extends InstancesLoadEvent> events = eventResult.allInstances();
         if (!events.isEmpty() && !blocker.isPresent()) {
-            CountDownLatch countDown = new CountDownLatch(events.size());
+            InstancesLoadEvent first = events.iterator().next();
+            CountDownLatch countDown = new CountDownLatch(first.getInstances().size());
             blocker = of(countDown);
         }
 
@@ -94,7 +95,7 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
             blocker.ifPresent(c -> instances.forEach(i -> c.countDown()));
         }
         
-        refresh(false);
+         refresh(false);
     }
 
     private static class BambooInstanceComparator implements Comparator<BambooInstance>, Serializable {

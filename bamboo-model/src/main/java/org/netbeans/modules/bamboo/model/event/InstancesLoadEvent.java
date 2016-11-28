@@ -3,6 +3,7 @@ package org.netbeans.modules.bamboo.model.event;
 import java.util.Collection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 
 /**
@@ -12,7 +13,8 @@ import org.netbeans.modules.bamboo.model.BambooInstance;
  */
 @Getter
 @AllArgsConstructor
-public class InstancesLoadEvent {
+public final class InstancesLoadEvent {
 
-    Collection<BambooInstance> instances;
+    @NonNull
+    private final Collection<BambooInstance> instances;
 }
