@@ -38,14 +38,14 @@ import static org.mockito.Mockito.atLeast;
 import org.openide.NotifyDescriptor;
 
 import static org.mockito.Matchers.isA;
-
-
+import static org.mockito.Mockito.never;
 
 /**
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AddInstanceWorkerTest {
+
     @Mock
     private AbstractDialogAction action;
     @Mock
@@ -63,14 +63,14 @@ public class AddInstanceWorkerTest {
 
     @Before
     public void setUp() {
-        MockInstanceFactory factory =
-            (MockInstanceFactory) getDefault().lookup(BambooInstanceProduceable.class);
+        MockInstanceFactory factory
+                = (MockInstanceFactory) getDefault().lookup(BambooInstanceProduceable.class);
         factory.setDelegate(producer);
 
         given(action.getInstanceManager()).willReturn(instanceManager);
         given(form.getInstanceName()).willReturn("test");
-        
-        classUnderTest = new AddInstanceWorker(action){
+
+        classUnderTest = new AddInstanceWorker(action) {
             @Override
             Runner newRunner(DefaultInstanceValues values) {
                 return runner;
@@ -88,13 +88,26 @@ public class AddInstanceWorkerTest {
 
     @Test
     public void testPropertyChangeEvent_InstanceCreated() {
-        PropertyChangeEvent ev =
-            new PropertyChangeEvent(this, WorkerEvents.INSTANCE_CREATED.name(), null, instance);
-        classUnderTest.propertyChange(ev);
+        String eventName = WorkerEvents.INSTANCE_CREATED.name();
+        classUnderTest.propertyChange(newEvent(eventName));
 
         InOrder order = inOrder(instanceManager, action);
         order.verify(instanceManager).addInstance(instance);
-        order.verify(action).firePropertyChange(WorkerEvents.INSTANCE_CREATED.name(), null, NotifyDescriptor.OK_OPTION);
+        order.verify(action).firePropertyChange(eventName, null, NotifyDescriptor.OK_OPTION);
+    }
+    
+    @Test
+    public void testPropertyChangeEvent_InvalidUrl() {
+        String eventName = WorkerEvents.INVALID_URL.name();
+        PropertyChangeEvent event = newEvent(eventName);
+        classUnderTest.propertyChange(event);
+
+        verify(instanceManager, never()).addInstance(instance);
+        verify(action).firePropertyChange(event);
+    }
+
+    private PropertyChangeEvent newEvent(String eventName) {
+        return new PropertyChangeEvent(this, eventName, null, instance);
     }
 
     @Test
