@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.util.Collection;
-import static java.util.Optional.of;
 import java.util.concurrent.CountDownLatch;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.core.ide.ServicesTabNodeRegistration;
@@ -19,7 +18,6 @@ import static org.openide.util.Lookup.getDefault;
 import org.openide.util.NbBundle.Messages;
 
 import javax.swing.Action;
-import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.event.InstancesLoadEvent;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
