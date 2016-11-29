@@ -1,6 +1,8 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import static java.util.Collections.singletonList;
+import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
 import static org.hamcrest.CoreMatchers.is;
 
 import static org.junit.Assert.*;
@@ -17,6 +19,7 @@ import static org.openide.util.Lookup.getDefault;
 import javax.swing.Action;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import static org.mockito.internal.util.reflection.Whitebox.getInternalState;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.event.InstancesLoadEvent;
@@ -58,12 +61,15 @@ public class BambooRootNodeTest {
     }
     
     @Test
-    public void testResultChanged() {
+    public void testResultChanged_ExpectBlockerInFactory() {
         InstancesLoadEvent loadEvent = new InstancesLoadEvent(singletonList(instance));
         manager.getContent().add(loadEvent);
         
         classUnderTest.resultChanged(null);
         
-        assertThat(classUnderTest.getNodeFactory().getBlocker().isPresent(), is(true));
+        BambooInstanceNodeFactory nodeFactory = (BambooInstanceNodeFactory) getInternalState(classUnderTest, "nodeFactory");
+        Optional<CountDownLatch> blocker = (Optional<CountDownLatch>) getInternalState(nodeFactory, "blocker");
+        
+        assertThat(blocker.isPresent(), is(true));
     }
 }

@@ -59,7 +59,7 @@ public final class BambooRootNode extends AbstractNode implements LookupListener
         this.lazy = lazy;
 
         instanceManager = getDefault().lookup(InstanceManageable.class);
-        nodeFactory = new BambooInstanceNodeFactory(instanceManager);
+        nodeFactory = new BambooInstanceNodeFactory(instanceManager.getLookup());
 
         init();
     }
@@ -67,10 +67,6 @@ public final class BambooRootNode extends AbstractNode implements LookupListener
     @Override
     public Action[] getActions(final boolean context) {
         return new Action[]{new AddInstanceAction()};
-    }
-
-    BambooInstanceNodeFactory getNodeFactory() {
-        return nodeFactory;
     }
 
     private void init() {

@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import lombok.extern.java.Log;
-import org.netbeans.modules.bamboo.glue.InstanceManageable;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
@@ -40,9 +39,9 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
 
     private Optional<CountDownLatch> blocker;
 
-    public BambooInstanceNodeFactory(InstanceManageable manager) {
+    public BambooInstanceNodeFactory(Lookup lookup) {
         this.blocker = empty();
-        this.lookup = manager.getLookup();
+        this.lookup = lookup;
         lookupResult();
     }
 
@@ -89,10 +88,6 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
         updateBlocker();
 
         refresh(false);
-    }
-
-    Optional<CountDownLatch> getBlocker() {
-        return blocker;
     }
 
     void setBlocker(CountDownLatch blocker) {
