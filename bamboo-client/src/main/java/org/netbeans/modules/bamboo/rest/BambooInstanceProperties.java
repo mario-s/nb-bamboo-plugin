@@ -64,7 +64,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
      */
     public void loadPreferences(final String instanceName) {
         putAndFireChange(PROP_NAME, instanceName);
-        BambooInstanceProperties.this.loadPreferences();
+        loadPreferences();
     }
 
     @Override
