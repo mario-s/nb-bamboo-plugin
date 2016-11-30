@@ -1,8 +1,6 @@
 package org.netbeans.modules.bamboo.rest.call;
 
 import java.util.Map;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
