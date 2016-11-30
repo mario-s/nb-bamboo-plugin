@@ -25,6 +25,8 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  * @author spindizzy
  */
 public interface VoConverter<S, T> {
+    
+    String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
     T convert(S src);
 
@@ -81,8 +83,6 @@ public interface VoConverter<S, T> {
     @Log
     static class VersionInfoConverter implements VoConverter<Info, VersionInfo> {
 
-        private static final String BUILD_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-
         @Override
         public VersionInfo convert(Info src) {
 
@@ -93,7 +93,7 @@ public interface VoConverter<S, T> {
             if (isNotBlank(buildDate)) {
                 try {
                     DateTimeFormatter formater = new DateTimeFormatterBuilder()
-                            .appendPattern(BUILD_DATE_PATTERN)
+                            .appendPattern(DATE_PATTERN)
                             .appendOffset("+HH:MM", "+00:00")
                             .toFormatter();
                     target.setBuildDate(LocalDate.parse(buildDate, formater));

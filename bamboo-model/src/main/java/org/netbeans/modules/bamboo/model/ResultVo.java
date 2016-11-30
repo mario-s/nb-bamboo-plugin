@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.model;
 
+import java.time.LocalDate;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,9 @@ public class ResultVo extends AbstractVo {
     private String buildReason;
     private State state = State.Unknown;
     private LifeCycleState lifeCycleState = LifeCycleState.Finished;
+    private long buildDurationInSeconds;
+    private LocalDate buildStartedTime;
+    private LocalDate buildCompletedTime;
 
     public ResultVo() {
         this("");

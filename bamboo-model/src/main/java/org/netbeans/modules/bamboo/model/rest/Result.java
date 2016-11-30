@@ -32,6 +32,9 @@ public class Result implements ServiceInfoProvideable{
     @XmlElement(name = "buildReason", type = String.class)
     private String buildReason;
     private int id;
+    private long buildDurationInSeconds;
+    private String buildStartedTime;
+    private String buildCompletedTime;
     
     public Result() {
         state = State.Unknown;
