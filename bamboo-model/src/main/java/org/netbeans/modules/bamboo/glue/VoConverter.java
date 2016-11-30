@@ -97,6 +97,9 @@ public interface VoConverter<S, T> {
 
     }
 
+    /**
+     * Convert a a string to a {@link LocalDate}. The result will be empty if convert failed.
+     */
     @Log
     static class DateConverter implements VoConverter<String, Optional<LocalDate>> {
 
