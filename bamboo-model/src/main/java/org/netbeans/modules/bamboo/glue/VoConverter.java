@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
+import java.util.Optional;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
@@ -14,6 +15,8 @@ import org.netbeans.modules.bamboo.model.rest.Plan;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.Result;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
@@ -25,8 +28,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  * @author spindizzy
  */
 public interface VoConverter<S, T> {
-    
-    String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
     T convert(S src);
 
@@ -80,7 +81,6 @@ public interface VoConverter<S, T> {
         }
     }
 
-    @Log
     static class VersionInfoConverter implements VoConverter<Info, VersionInfo> {
 
         @Override
@@ -89,19 +89,34 @@ public interface VoConverter<S, T> {
             VersionInfo target = VersionInfo.builder().version(src.getVersion()).buildNumber(src.getBuildNumber()).build();
 
             final String buildDate = src.getBuildDate();
+            DateConverter dateConverter = new DateConverter();
+            dateConverter.convert(buildDate).ifPresent(date -> target.setBuildDate(date));
 
-            if (isNotBlank(buildDate)) {
+            return target;
+        }
+
+    }
+
+    @Log
+    static class DateConverter implements VoConverter<String, Optional<LocalDate>> {
+
+        private static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+
+        @Override
+        public Optional<LocalDate> convert(String src) {
+            Optional<LocalDate> opt = empty();
+            if (isNotBlank(src)) {
                 try {
                     DateTimeFormatter formater = new DateTimeFormatterBuilder()
                             .appendPattern(DATE_PATTERN)
                             .appendOffset("+HH:MM", "+00:00")
                             .toFormatter();
-                    target.setBuildDate(LocalDate.parse(buildDate, formater));
+                    opt = of(LocalDate.parse(src, formater));
                 } catch (DateTimeParseException ex) {
                     log.fine(ex.getMessage());
                 }
             }
-            return target;
+            return opt;
         }
 
     }
