@@ -39,7 +39,6 @@ import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 
 import static java.util.Collections.singletonMap;
 import static java.lang.String.format;
-import org.netbeans.modules.bamboo.model.rest.Results;
 
 /**
  * @author spindizzy
