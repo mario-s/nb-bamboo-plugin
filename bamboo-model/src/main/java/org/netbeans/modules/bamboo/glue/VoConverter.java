@@ -73,10 +73,17 @@ public interface VoConverter<S, T> {
         @Override
         public ResultVo convert(Result src) {
             ResultVo target = new ResultVo(src.getKey());
+            
             target.setNumber(src.getNumber());
             target.setBuildReason(src.getBuildReason());
             target.setState(src.getState());
             target.setLifeCycleState(src.getLifeCycleState());
+            
+            DateConverter dateConverter = new DateConverter();
+            dateConverter.convert(src.getBuildStartedTime()).ifPresent(date -> target.setBuildStartedTime(date));
+            dateConverter.convert(src.getBuildCompletedTime()).ifPresent(date -> target.setBuildCompletedTime(date));
+            target.setBuildDurationInSeconds(src.getBuildDurationInSeconds());
+            
             return target;
         }
     }

@@ -27,9 +27,18 @@ public class DefaultInstanceValuesTest {
      * Test of getName method, of class DefaultInstanceValues.
      */
     @Test
-    public void testCopyConstructor() {
+    public void testCopyConstructor_NotNull() {
         DefaultInstanceValues result = new DefaultInstanceValues(classUnderTest);
         assertThat(result.getPassword().length, is(1));
+    }
+    
+    /**
+     * Test of getName method, of class DefaultInstanceValues.
+     */
+    @Test
+    public void testCopyConstructor_Null() {
+        DefaultInstanceValues result = new DefaultInstanceValues(null);
+        assertThat(result.getPassword().length, is(0));
     }
 
    
