@@ -55,7 +55,13 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Watched;
     "DESC_Plan_Prop_Result_Reason=The reason why this plan was built.",
     "TXT_Plan_Not_Watched=not watched",
     "TXT_Plan_Prop_Watched=Watched",
-    "DESC_Plan_Prop_Watched=Whether you wish to be notified of failures in this plan."
+    "DESC_Plan_Prop_Watched=Whether you wish to be notified of failures in this plan.",
+    "TXT_Plan_Prop_Reason_StartTime=Build Started Time",
+    "DESC_Plan_Prop_Reason_StartTime=When the build for the last plan started.",
+    "TXT_Plan_Prop_Reason_CompletTime=Build Completed Time",
+    "DESC_Plan_Prop_Reason_CompleteTime=When the build for the last plan completed.",
+    "TXT_Plan_Prop_Reason_Duration=Build Duration",
+    "DESC_Plan_Prop_Reason_Duration=Duration in seconds for the last build."
 })
 public class PlanNode extends AbstractInstanceChildNode {
 
