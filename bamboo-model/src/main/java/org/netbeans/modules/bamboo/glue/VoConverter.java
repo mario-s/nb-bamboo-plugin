@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.glue;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
@@ -73,17 +73,17 @@ public interface VoConverter<S, T> {
         @Override
         public ResultVo convert(Result src) {
             ResultVo target = new ResultVo(src.getKey());
-            
+
             target.setNumber(src.getNumber());
             target.setBuildReason(src.getBuildReason());
             target.setState(src.getState());
             target.setLifeCycleState(src.getLifeCycleState());
-            
-            DateConverter dateConverter = new DateConverter();
+
+            LocalDateTimeConverter dateConverter = new LocalDateTimeConverter();
             dateConverter.convert(src.getBuildStartedTime()).ifPresent(date -> target.setBuildStartedTime(date));
             dateConverter.convert(src.getBuildCompletedTime()).ifPresent(date -> target.setBuildCompletedTime(date));
             target.setBuildDurationInSeconds(src.getBuildDurationInSeconds());
-            
+
             return target;
         }
     }
@@ -96,7 +96,7 @@ public interface VoConverter<S, T> {
             VersionInfo target = VersionInfo.builder().version(src.getVersion()).buildNumber(src.getBuildNumber()).build();
 
             final String buildDate = src.getBuildDate();
-            DateConverter dateConverter = new DateConverter();
+            LocalDateTimeConverter dateConverter = new LocalDateTimeConverter();
             dateConverter.convert(buildDate).ifPresent(date -> target.setBuildDate(date));
 
             return target;
@@ -105,28 +105,32 @@ public interface VoConverter<S, T> {
     }
 
     /**
-     * Convert a a string to a {@link LocalDate}. The result will be empty if convert failed.
+     * Convert a a string to a {@link LocalDateTime}. The result will be empty if convert failed.
      */
     @Log
-    static class DateConverter implements VoConverter<String, Optional<LocalDate>> {
+    static class LocalDateTimeConverter implements VoConverter<String, Optional<LocalDateTime>> {
 
         private static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
         @Override
-        public Optional<LocalDate> convert(String src) {
-            Optional<LocalDate> opt = empty();
+        public Optional<LocalDateTime> convert(String src) {
+            Optional<LocalDateTime> opt = empty();
             if (isNotBlank(src)) {
                 try {
-                    DateTimeFormatter formater = new DateTimeFormatterBuilder()
-                            .appendPattern(DATE_PATTERN)
-                            .appendOffset("+HH:MM", "+00:00")
-                            .toFormatter();
-                    opt = of(LocalDate.parse(src, formater));
+                    DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder()
+                            .appendPattern(DATE_PATTERN);
+                    getOffset(src).ifPresent(offset -> builder.appendOffset("+HH:MM", offset));
+                    opt = of(LocalDateTime.parse(src, builder.toFormatter()));
                 } catch (DateTimeParseException ex) {
                     log.fine(ex.getMessage());
                 }
             }
             return opt;
+        }
+        
+        private Optional<String> getOffset(String src) {
+            int pos = src.lastIndexOf("+");
+            return (pos > 0) ? of(src.substring(pos, src.length())) : empty();
         }
 
     }

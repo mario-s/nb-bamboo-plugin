@@ -1,6 +1,7 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
 import java.util.List;
 import javax.swing.Action;
 import org.openide.nodes.AbstractNode;
@@ -44,7 +45,6 @@ abstract class AbstractInstanceChildNode extends AbstractNode implements Propert
         public StringReadPropertySupport(String name, String displayName, String shortDescription) {
             super(name, String.class, displayName, shortDescription);
         }
-
     }
 
     /**
@@ -58,6 +58,9 @@ abstract class AbstractInstanceChildNode extends AbstractNode implements Propert
 
     }
 
+    /**
+     * Abstract parent for read only support of longs.
+     */
     abstract class LongReadPropertySupport extends PropertySupport.ReadOnly<Long> {
 
         public LongReadPropertySupport(String name, String displayName, String shortDescription) {

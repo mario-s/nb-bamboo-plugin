@@ -31,13 +31,17 @@ import org.openide.xml.XMLUtil;
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Name;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Reason_CompletedTime;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Reason_Duration;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Reason_StartedTime;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Number;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Reason;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Watched;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Not_Watched;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Name;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Reason_CompletedTime;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Reason_Duration;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Reason_StartedTime;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Number;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Reason;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Watched;
@@ -58,24 +62,33 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Watched;
     "TXT_Plan_Not_Watched=not watched",
     "TXT_Plan_Prop_Watched=Watched",
     "DESC_Plan_Prop_Watched=Whether you wish to be notified of failures in this plan.",
-    "TXT_Plan_Prop_Reason_StartTime=Build Started Time",
-    "DESC_Plan_Prop_Reason_StartTime=When the build for the last plan started.",
-    "TXT_Plan_Prop_Reason_CompletTime=Build Completed Time",
-    "DESC_Plan_Prop_Reason_CompleteTime=When the build for the last plan completed.",
+    "TXT_Plan_Prop_Reason_StartedTime=Build Started Time",
+    "DESC_Plan_Prop_Reason_StartedTime=When the build for the last plan started.",
+    "TXT_Plan_Prop_Reason_CompletedTime=Build Completed Time",
+    "DESC_Plan_Prop_Reason_CompletedTime=When the build for the last plan completed.",
     "TXT_Plan_Prop_Reason_Duration=Build Duration",
     "DESC_Plan_Prop_Reason_Duration=Duration in seconds for the last build."
 })
 public class PlanNode extends AbstractInstanceChildNode {
 
     private static final String BUILD_REASON = "buildReason";
+
     private static final String RESULT_NUMBER = "resultNumber";
+
     private static final String NOTIFY = "notify";
+
     private static final String DURATION = "buildDurationInSeconds";
+
+    private static final String STARTED_TIME = "buildStartedTime";
+    
+    private static final String COMPLETED_TIME = "buildCompletedTime";
 
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/grey.png";
+
     @StaticResource
     private static final String ICON_ENABLED = "org/netbeans/modules/bamboo/resources/blue.png";
+
     @StaticResource
     private static final String ICON_FAILED = "org/netbeans/modules/bamboo/resources/red.png";
 
@@ -115,7 +128,7 @@ public class PlanNode extends AbstractInstanceChildNode {
         }
 
         updateHtmlDisplayName();
-        
+
         String propName = evt.getPropertyName();
         if (ModelChangedValues.Silent.toString().equals(propName)) {
             plan.getParent().ifPresent(vo -> {
@@ -237,13 +250,29 @@ public class PlanNode extends AbstractInstanceChildNode {
                 return buildReasonEditor;
             }
         });
-        
-        set.put(new LongReadPropertySupport(DURATION, TXT_Plan_Prop_Reason_Duration(), DESC_Plan_Prop_Reason_Duration()){
+
+        set.put(new StringReadPropertySupport(STARTED_TIME, TXT_Plan_Prop_Reason_StartedTime(), DESC_Plan_Prop_Reason_StartedTime()) {
+            @Override
+            public String getValue() throws IllegalAccessException, InvocationTargetException {
+                return getResult().getFormatedBuildStartedTime();
+            }
+
+        });
+
+        set.put(new StringReadPropertySupport(COMPLETED_TIME, TXT_Plan_Prop_Reason_CompletedTime(), DESC_Plan_Prop_Reason_CompletedTime()) {
+            @Override
+            public String getValue() throws IllegalAccessException, InvocationTargetException {
+                return getResult().getFormatedBuildCompletedTime();
+            }
+
+        });
+
+        set.put(new LongReadPropertySupport(DURATION, TXT_Plan_Prop_Reason_Duration(), DESC_Plan_Prop_Reason_Duration()) {
             @Override
             public Long getValue() throws IllegalAccessException, InvocationTargetException {
                 return getResult().getBuildDurationInSeconds();
             }
-            
+
         });
 
         set.put(new BooleanReadWritePropertySupport(NOTIFY, TXT_Plan_Prop_Watched(), DESC_Plan_Prop_Watched()) {

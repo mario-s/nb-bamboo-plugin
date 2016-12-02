@@ -59,4 +59,14 @@ public class ResultVoConverterTest {
         assertThat(result.getBuildStartedTime(), notNullValue());
     }
 
+    /**
+     * Test of convert method, of class VoConverter.
+     */
+    @Test
+    public void testConvert_NoOffset_ExpectFormatedStartTime() {
+        source.setBuildStartedTime("2016-12-02T07:43:02.000");
+        ResultVo result = classUnderTest.convert(source);
+        assertThat(result.getFormatedBuildStartedTime(), notNullValue());
+    }
+
 }
