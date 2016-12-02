@@ -16,18 +16,18 @@ import static org.openide.util.Utilities.actionsForPath;
  * @author spindizzy
  */
 abstract class AbstractInstanceChildNode extends AbstractNode implements PropertyChangeListener {
-    
+
     private AbstractRefreshChildFactory factory;
 
     AbstractInstanceChildNode(Lookup lookup) {
         super(Children.LEAF, lookup);
     }
-    
+
     AbstractInstanceChildNode(AbstractRefreshChildFactory factory, Lookup lookup) {
         super(Children.create(factory, true), lookup);
         this.factory = factory;
     }
-    
+
     void refreshChildren() {
         factory.refreshNodes();
     }
@@ -56,6 +56,13 @@ abstract class AbstractInstanceChildNode extends AbstractNode implements Propert
             super(name, Integer.class, displayName, shortDescription);
         }
 
+    }
+
+    abstract class LongReadPropertySupport extends PropertySupport.ReadOnly<Long> {
+
+        public LongReadPropertySupport(String name, String displayName, String shortDescription) {
+            super(name, Long.class, displayName, shortDescription);
+        }
     }
 
     /**
