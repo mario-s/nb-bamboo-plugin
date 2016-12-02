@@ -19,6 +19,7 @@ import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
 import org.netbeans.modules.bamboo.ui.actions.ActionConstants;
+import org.netbeans.modules.bamboo.util.DateFormatter;
 
 import org.openide.actions.PropertiesAction;
 import org.openide.nodes.PropertySupport;
@@ -254,7 +255,7 @@ public class PlanNode extends AbstractInstanceChildNode {
         set.put(new StringReadPropertySupport(STARTED_TIME, TXT_Plan_Prop_Reason_StartedTime(), DESC_Plan_Prop_Reason_StartedTime()) {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
-                return getResult().getFormatedBuildStartedTime();
+                return DateFormatter.format(getResult().getBuildStartedTime());
             }
 
         });
@@ -262,7 +263,7 @@ public class PlanNode extends AbstractInstanceChildNode {
         set.put(new StringReadPropertySupport(COMPLETED_TIME, TXT_Plan_Prop_Reason_CompletedTime(), DESC_Plan_Prop_Reason_CompletedTime()) {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
-                return getResult().getFormatedBuildCompletedTime();
+                return DateFormatter.format(getResult().getBuildCompletedTime());
             }
 
         });
