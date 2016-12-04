@@ -1,6 +1,9 @@
 package org.netbeans.modules.bamboo.model;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Optional;
+import java.util.function.Consumer;
 import lombok.Getter;
 import org.netbeans.api.annotations.common.NonNull;
 import lombok.Setter;
@@ -17,7 +20,7 @@ import static lombok.AccessLevel.NONE;
 @Getter
 @Setter
 @ToString
-public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<ProjectVo>, Queueable{
+public class PlanVo extends AbstractOpenInBrowserVo implements PropertyChangeListener, TraverseUp<ProjectVo>, Queueable {
 
     private String name;
     private String shortKey;
@@ -28,7 +31,7 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
     private PlanType type;
     @Getter(NONE)
     private ProjectVo parent;
-    
+
     public PlanVo(String key) {
         this(key, "");
     }
@@ -38,19 +41,24 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
         this.name = name;
         this.result = new ResultVo();
         this.notify = true;
+        init();
     }
     
+    private void init() {
+        addPropertyChangeListener(this);
+    }
+
     @Override
     public Optional<ProjectVo> getParent() {
-       return ofNullable(parent);
+        return ofNullable(parent);
     }
-    
+
     public void setNotify(boolean notify) {
         boolean old = this.notify;
         this.notify = notify;
         firePropertyChange(ModelChangedValues.Silent.toString(), old, notify);
     }
-    
+
     public void setEnabled(boolean enabled) {
         boolean old = this.enabled;
         this.enabled = enabled;
@@ -60,7 +68,7 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
     public void setResult(ResultVo result) {
         ResultVo old = this.result;
         //update only when the number is equal or higher
-        if(result.getNumber() >= old.getNumber()){
+        if (result.getNumber() >= old.getNumber()) {
             this.result = result;
             firePropertyChange(ModelChangedValues.Result.toString(), old, result);
         }
@@ -68,15 +76,25 @@ public class PlanVo extends AbstractOpenInBrowserVo implements TraverseUp<Projec
 
     @Override
     public boolean isAvailable() {
-       return AvailabilityVerifier.isAvailable(this);
+        return AvailabilityVerifier.isAvailable(this);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String propName = evt.getPropertyName();
+        if (ModelChangedValues.Silent.toString().equals(propName)) {
+            invoke(instance -> instance.updateNotify(this));
+        }
     }
 
     @Override
     public void queue() {
-       getParent().ifPresent(project ->{
-            project.getParent().ifPresent(instance ->{
-                instance.queue(this);
-            });
+        invoke(instance -> instance.queue(this));
+    }
+
+    private void invoke(final Consumer<BambooInstance> action) {
+        getParent().ifPresent(project -> {
+            project.getParent().ifPresent(action);
         });
     }
 
