@@ -10,9 +10,7 @@ import org.openide.util.RequestProcessor;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
