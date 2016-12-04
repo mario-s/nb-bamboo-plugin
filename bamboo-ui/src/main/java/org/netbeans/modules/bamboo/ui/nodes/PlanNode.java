@@ -132,8 +132,9 @@ public class PlanNode extends AbstractInstanceChildNode {
 
         String propName = evt.getPropertyName();
         if (ModelChangedValues.Silent.toString().equals(propName)) {
-            plan.getParent().ifPresent(vo -> {
-                vo.firePropertyChange(propName, null, plan);
+            plan.getParent().ifPresent(project -> {
+                project.getParent().ifPresent(inst -> inst.updateNotify(plan));
+                project.firePropertyChange(propName, null, plan);
             });
         } else {
             fireIconChange();
