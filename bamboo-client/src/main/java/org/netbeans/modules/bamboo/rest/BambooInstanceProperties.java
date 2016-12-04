@@ -109,38 +109,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
         return Arrays.asList(pcs.getPropertyChangeListeners());
     }
 
-    public static List<String> split(final String prop) {
-        if ((prop != null) && (prop.trim().length() > 0)) {
-            String[] escaped = prop.split("(?<!/)/(?!/)");
-            List<String> list = new ArrayList<>(escaped.length);
-
-            for (String e : escaped) {
-                list.add(e.replace("//", "/"));
-            }
-
-            return list;
-        } else {
-            return Collections.<String>emptyList();
-        }
-    }
-
-    public static String join(final List<String> pieces) {
-        StringBuilder b = new StringBuilder();
-
-        for (String piece : pieces) {
-            assert !piece.startsWith("/") && !piece.endsWith("/") : piece;
-
-            String escaped = piece.replace("/", "//");
-
-            if (b.length() > 0) {
-                b.append('/');
-            }
-
-            b.append(escaped);
-        }
-
-        return b.toString();
-    }
+    
 
     /**
      * Get Preferences used by the properties as persistent storage, might

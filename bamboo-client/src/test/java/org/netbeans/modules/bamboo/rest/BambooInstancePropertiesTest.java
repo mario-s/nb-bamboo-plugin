@@ -88,29 +88,6 @@ public class BambooInstancePropertiesTest {
     }
 
     /**
-     * Test of split method, of class BambooInstanceProperties.
-     */
-    @Test
-    public void testSplit() {
-        String prop = "a/b";
-        List<String> result = BambooInstanceProperties.split(prop);
-        assertEquals(2, result.size());
-    }
-
-    /**
-     * Test of join method, of class BambooInstanceProperties.
-     */
-    @Test
-    public void testJoin() {
-        List<String> pieces = new ArrayList<>();
-        pieces.add("a");
-        pieces.add("b");
-        String expResult = "a/b";
-        String result = BambooInstanceProperties.join(pieces);
-        assertEquals(expResult, result);
-    }
-
-    /**
      * Test of getPreferences method, of class BambooInstanceProperties.
      */
     @Test

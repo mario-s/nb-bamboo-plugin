@@ -301,6 +301,11 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     @Override
+    public void silent(PlanVo plan) {
+        
+    }
+
+    @Override
     public Task synchronize() {
         return RP.post(() -> {
             if (verifyAvailibility()) {

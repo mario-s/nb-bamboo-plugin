@@ -57,4 +57,9 @@ public interface BambooInstance extends
      */
     void queue(PlanVo plan);
     
+    /**
+     * Persist the silent state of the plan.
+     * @param plan the plan which is silent or not.
+     */
+    void silent(PlanVo plan);
 }
