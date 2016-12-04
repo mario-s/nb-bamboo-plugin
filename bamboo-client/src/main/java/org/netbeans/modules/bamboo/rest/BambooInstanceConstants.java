@@ -18,9 +18,9 @@ final class BambooInstanceConstants {
     static final String INSTANCE_PREF_JOBS = "pref_jobs";
 
     /**
-     * Nonsalient jobs for the instance, list of job names, separated by |
+     * Nonsalient plans for the instance, list of plan keys, separated by |
      */
-    static final String INSTANCE_SUPPRESSED_JOBS = "suppressed_jobs";
+    static final String INSTANCE_SUPPRESSED_PLANS = "suppressed_plans";
 
     static final String INSTANCE_PERSISTED = "persisted";
 

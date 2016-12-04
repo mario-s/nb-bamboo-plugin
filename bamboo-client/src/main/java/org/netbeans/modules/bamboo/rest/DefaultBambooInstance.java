@@ -11,8 +11,10 @@ import org.openide.util.RequestProcessor.Task;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 
 import java.util.Collection;
+import java.util.List;
 
 import java.util.Optional;
 
@@ -41,12 +43,12 @@ import static java.util.Collections.emptyList;
 
 import org.netbeans.modules.bamboo.model.PlanVo;
 
-
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
 import org.netbeans.modules.bamboo.model.event.QueueEvent.QueueEventBuilder;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 
+import static org.netbeans.modules.bamboo.rest.BambooInstanceConstants.INSTANCE_SUPPRESSED_PLANS;
 import static java.lang.String.format;
 
 /**
@@ -68,7 +70,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     private final PropertyChangeSupport changeSupport;
 
     private final Lookup lookup;
-    
+
     private final InstanceContent content;
 
     private transient AbstractBambooClient client;
@@ -82,7 +84,6 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     private transient boolean available = true;
 
     private BambooInstanceProperties properties;
-    
 
     DefaultBambooInstance(final BambooInstanceProperties properties) {
         this(null, null);
@@ -98,7 +99,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         this.client = client;
         addConnectionListener();
     }
-    
+
     private void addConnectionListener() {
         InstanceConnectionListener listener = new InstanceConnectionListener();
         addPropertyChangeListener(listener);
@@ -269,9 +270,9 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         if (log.isLoggable(Level.INFO)) {
             log.info(format("service is available: %s", available));
         }
-        
+
         firePropertyChange(ModelChangedValues.Available.toString(), oldVal, available);
-        
+
         return available;
     }
 
@@ -301,8 +302,20 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     @Override
-    public void silent(PlanVo plan) {
-        
+    public void updateNotify(PlanVo plan) {
+        String saved = properties.get(INSTANCE_SUPPRESSED_PLANS);
+        List<String> suppressed = new ArrayList<>(StringUtil.split(saved));
+
+        String key = plan.getKey();
+        boolean notify = plan.isNotify();
+
+        if (notify) {
+            suppressed.remove(key);
+        } else if (!suppressed.contains(key)) {
+            suppressed.add(key);
+        }
+
+        properties.put(INSTANCE_SUPPRESSED_PLANS, StringUtil.join(suppressed));
     }
 
     @Override
