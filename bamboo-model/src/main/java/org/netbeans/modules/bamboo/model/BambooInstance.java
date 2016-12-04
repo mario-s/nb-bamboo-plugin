@@ -43,7 +43,7 @@ public interface BambooInstance extends
     void removePropertyChangeListener(PropertyChangeListener listener);
 
     /**
-     * This methos updates the synchronization interval and restart any scheduled synchronization tasks.
+     * This method updates the synchronization interval and restart any scheduled synchronization tasks.
      *
      * @param minutes time in minutes
      */
@@ -58,8 +58,8 @@ public interface BambooInstance extends
     void queue(PlanVo plan);
     
     /**
-     * Persist the silent state of the plan.
+     * Persist the notification state of the plan.
      * @param plan the plan which is silent or not.
      */
-    void silent(PlanVo plan);
+    void updateNotify(PlanVo plan);
 }
