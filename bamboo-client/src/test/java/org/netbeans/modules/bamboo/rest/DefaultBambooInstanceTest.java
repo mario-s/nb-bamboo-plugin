@@ -36,6 +36,10 @@ import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
 
 import static java.util.Collections.singletonList;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.netbeans.modules.bamboo.rest.BambooInstanceConstants.INSTANCE_SUPPRESSED_PLANS;
 
 /**
  *
@@ -68,7 +72,7 @@ public class DefaultBambooInstanceTest {
 
     @Before
     public void setUp() {
-        classUnderTest = new DefaultBambooInstance(properties);       
+        classUnderTest = new DefaultBambooInstance(properties);
 
         plan = new PlanVo(FOO);
         project = new ProjectVo(FOO);
@@ -94,7 +98,7 @@ public class DefaultBambooInstanceTest {
             listener.wait(1000);
         }
     }
-    
+
     @Test
     public void testIsAvailable_ShouldBeDefaultTrue() {
         boolean available = classUnderTest.isAvailable();
@@ -158,7 +162,7 @@ public class DefaultBambooInstanceTest {
         order.verify(client).getVersionInfo();
         order.verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
-    
+
     @Test
     public void testSynchronize_ServiceNotExisting_ExpectAvailableFalse() throws InterruptedException {
         given(client.existsService()).willReturn(false);
@@ -175,7 +179,7 @@ public class DefaultBambooInstanceTest {
         Optional<Task> task = instance.getSynchronizationTask();
         assertThat(task.get().isFinished(), is(false));
     }
-    
+
     @Test
     public void testQueue_ResponseCode200_ExpectEventInLookup() throws InterruptedException {
         project.setChildren(singletonList(plan));
@@ -183,8 +187,23 @@ public class DefaultBambooInstanceTest {
         given(client.queue(plan)).willReturn(Response.ok().build());
         classUnderTest.queue(plan);
         waitForListener();
-        
+
         Collection<? extends QueueEvent> events = classUnderTest.getLookup().lookupAll(QueueEvent.class);
         assertThat(events.isEmpty(), is(false));
+    }
+
+    @Test
+    public void testUpdateNotify_NoNotify_ExpectProperties() {
+        plan.setNotify(false);
+        classUnderTest.updateNotify(plan);
+
+        verify(properties).put(eq(INSTANCE_SUPPRESSED_PLANS), anyString());
+    }
+
+    @Test
+    public void testUpdateNotify_Notify_ExpectProperties() {
+        classUnderTest.updateNotify(plan);
+
+        verify(properties).put(eq(INSTANCE_SUPPRESSED_PLANS), anyString());
     }
 }
