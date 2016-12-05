@@ -1,6 +1,7 @@
 package org.netbeans.modules.bamboo.rest;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,7 +20,7 @@ final class StringUtil {
      * @param str the string to split
      * @return a collection
      */
-    static List<String> split(final String str) {
+    static Collection<String> split(final String str) {
         if ((str != null) && (str.trim().length() > 0)) {
             String[] escaped = str.split("(?<!/)/(?!/)");
             List<String> list = new ArrayList<>(escaped.length);
@@ -30,7 +31,7 @@ final class StringUtil {
 
             return list;
         } else {
-            return Collections.<String>emptyList();
+            return Collections.emptyList();
         }
     }
 
@@ -39,7 +40,7 @@ final class StringUtil {
      * @param pieces the collection to join
      * @return a new string
      */
-    static String join(final List<String> pieces) {
+    static String join(final Collection<String> pieces) {
         StringBuilder b = new StringBuilder();
 
         for (String piece : pieces) {
