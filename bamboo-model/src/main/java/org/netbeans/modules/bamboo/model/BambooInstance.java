@@ -5,6 +5,7 @@ import org.openide.util.Task;
 import java.beans.PropertyChangeListener;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import java.util.prefs.Preferences;
 import org.openide.util.Lookup;
@@ -62,4 +63,10 @@ public interface BambooInstance extends
      * @param plan the plan which is silent or not.
      */
     void updateNotify(PlanVo plan);
+    
+    /**
+     * This method returns the keys for those plans which are silent.
+     * @return a collection of the plan keys.
+     */
+    Collection<String> getSurpressedPlans();
 }

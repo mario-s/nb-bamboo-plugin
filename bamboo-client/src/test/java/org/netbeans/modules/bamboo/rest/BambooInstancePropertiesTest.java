@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.rest;
 
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
 import org.junit.Before;
@@ -19,8 +18,8 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.glue.InstanceConstants;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 
 /**
  *
@@ -30,7 +29,7 @@ import org.netbeans.modules.bamboo.glue.InstanceConstants;
 public class BambooInstancePropertiesTest {
     
     @Mock
-    private InstanceValues values;
+    private BambooInstance instance;
     @Mock
     private Preferences preferences;
     @Mock
@@ -41,7 +40,7 @@ public class BambooInstancePropertiesTest {
     
     @Before
     public void setUp() {
-        given(values.getPassword()).willReturn(new char[]{'a'});
+        given(instance.getPassword()).willReturn(new char[]{'a'});
     }
 
     /**
@@ -49,8 +48,8 @@ public class BambooInstancePropertiesTest {
      */
     @Test
     public void testCopyProperties() {
-        classUnderTest.copyProperties(values);
-        verify(values).getName();
+        classUnderTest.copyProperties(instance);
+        verify(instance).getName();
     }
 
     /**

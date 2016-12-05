@@ -82,6 +82,8 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     private transient VersionInfo version;
 
     private transient boolean available = true;
+    
+    private final List<String> surpressedPlans;
 
     private BambooInstanceProperties properties;
 
@@ -93,11 +95,19 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     DefaultBambooInstance(final InstanceValues values, final AbstractBambooClient client) {
         super(values);
+        
         this.changeSupport = new PropertyChangeSupport(this);
         this.content = new InstanceContent();
         this.lookup = new AbstractLookup(content);
+        this.surpressedPlans = new ArrayList<>();
         this.client = client;
+        
         addConnectionListener();
+    }
+
+    @Override
+    public Collection<String> getSurpressedPlans() {
+        return surpressedPlans;
     }
 
     private void addConnectionListener() {
@@ -136,6 +146,9 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         if (isNotBlank(syncProp)) {
             setSyncInterval(Integer.parseInt(syncProp));
         }
+        
+        String saved = props.get(INSTANCE_SUPPRESSED_PLANS);
+        surpressedPlans.addAll(StringUtil.split(saved));
 
         this.properties = props;
     }
@@ -303,19 +316,14 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     @Override
     public void updateNotify(PlanVo plan) {
-        String saved = properties.get(INSTANCE_SUPPRESSED_PLANS);
-        List<String> suppressed = new ArrayList<>(StringUtil.split(saved));
-
         String key = plan.getKey();
         boolean notify = plan.isNotify();
 
         if (notify) {
-            suppressed.remove(key);
-        } else if (!suppressed.contains(key)) {
-            suppressed.add(key);
+            surpressedPlans.remove(key);
+        } else if (!surpressedPlans.contains(key)) {
+            surpressedPlans.add(key);
         }
-
-        properties.put(INSTANCE_SUPPRESSED_PLANS, StringUtil.join(suppressed));
     }
 
     @Override

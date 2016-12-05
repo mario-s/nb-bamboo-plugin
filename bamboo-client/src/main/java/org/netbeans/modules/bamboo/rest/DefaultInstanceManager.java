@@ -22,6 +22,7 @@ import org.netbeans.modules.bamboo.glue.BuildStatusWatchable;
 import org.netbeans.modules.bamboo.LookupContext;
 
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTERVAL;
+import static org.netbeans.modules.bamboo.rest.BambooInstanceConstants.INSTANCE_SUPPRESSED_PLANS;
 import static org.openide.util.Lookup.getDefault;
 
 /**
@@ -43,7 +44,7 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propName = evt.getPropertyName();
-        if(PROP_SYNC_INTERVAL.equals(propName)){
+        if(PROP_SYNC_INTERVAL.equals(propName) || INSTANCE_SUPPRESSED_PLANS.equals(propName)){
             BambooInstance instance = (BambooInstance) evt.getSource();
             persist(instance);
         }

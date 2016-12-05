@@ -52,12 +52,15 @@ public class DefaultBambooInstanceTest {
 
     @Mock
     private BambooInstanceProperties properties;
+
     @Mock
     private Preferences preferences;
+
     @Mock
     private AbstractBambooClient client;
 
     private PlanVo plan;
+
     private ProjectVo project;
 
     private final PropertyChangeListener listener;
@@ -193,17 +196,19 @@ public class DefaultBambooInstanceTest {
     }
 
     @Test
-    public void testUpdateNotify_NoNotify_ExpectProperties() {
+    public void testUpdateNotify_NoNotify_ExpectSurpressed() {
         plan.setNotify(false);
         classUnderTest.updateNotify(plan);
 
-        verify(properties).put(eq(INSTANCE_SUPPRESSED_PLANS), anyString());
+        Collection<String> surpressed = classUnderTest.getSurpressedPlans();
+        assertThat(surpressed.isEmpty(), is(false));
     }
 
     @Test
-    public void testUpdateNotify_Notify_ExpectProperties() {
+    public void testUpdateNotify_Notify_ExpectEmptySurpressed() {
         classUnderTest.updateNotify(plan);
-
-        verify(properties).put(eq(INSTANCE_SUPPRESSED_PLANS), anyString());
+        
+        Collection<String> surpressed = classUnderTest.getSurpressedPlans();
+        assertThat(surpressed.isEmpty(), is(true));
     }
 }

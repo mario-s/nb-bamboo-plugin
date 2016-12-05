@@ -21,6 +21,7 @@ import lombok.extern.java.Log;
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_NAME;
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_URL;
+import org.netbeans.modules.bamboo.model.BambooInstance;
 
 
 /**
@@ -47,12 +48,13 @@ public class BambooInstanceProperties extends HashMap<String, String> {
      *
      * @param values {@link InstanceValues}
      */
-    public void copyProperties(final InstanceValues values) {
+    public void copyProperties(final BambooInstance values) {
         put(PROP_NAME, values.getName());
         put(PROP_URL, values.getUrl());
         put(PROP_SYNC_INTERVAL, Integer.toString(values.getSyncInterval()));
         put(INSTANCE_USER, values.getUsername());
         put(INSTANCE_PASSWORD, new String(values.getPassword()));
+         //TODO persist the surpressed: String joined = StringUtil.join(surpressedPlans);
     }
 
     /**
