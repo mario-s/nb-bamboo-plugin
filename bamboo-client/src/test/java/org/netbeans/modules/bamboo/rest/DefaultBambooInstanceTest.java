@@ -36,10 +36,8 @@ import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
 
 import static java.util.Collections.singletonList;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.netbeans.modules.bamboo.rest.BambooInstanceConstants.INSTANCE_SUPPRESSED_PLANS;
 
 /**
  *
@@ -202,6 +200,7 @@ public class DefaultBambooInstanceTest {
 
         Collection<String> surpressed = classUnderTest.getSurpressedPlans();
         assertThat(surpressed.isEmpty(), is(false));
+        verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
 
     @Test
@@ -210,5 +209,6 @@ public class DefaultBambooInstanceTest {
         
         Collection<String> surpressed = classUnderTest.getSurpressedPlans();
         assertThat(surpressed.isEmpty(), is(true));
+        verify(listener, never()).propertyChange(any(PropertyChangeEvent.class));
     }
 }

@@ -316,7 +316,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     @Override
     public void updateNotify(PlanVo plan) {
-        List<String> old = this.surpressedPlans;
+        List<String> old = new ArrayList<>(surpressedPlans);
         String key = plan.getKey();
         boolean notify = plan.isNotify();
 
