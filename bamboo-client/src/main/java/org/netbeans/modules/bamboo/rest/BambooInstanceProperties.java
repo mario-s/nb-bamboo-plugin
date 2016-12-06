@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.rest;
 
-import org.netbeans.modules.bamboo.model.InstanceValues;
 
 import static org.netbeans.modules.bamboo.rest.BambooInstanceConstants.*;
 
@@ -21,19 +20,21 @@ import lombok.extern.java.Log;
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_NAME;
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_URL;
-import org.netbeans.modules.bamboo.model.BambooInstance;
 
+import org.netbeans.modules.bamboo.model.BambooInstance;
 
 /**
  * Instance properties for Bamboo instance.
  */
 @Log
 public class BambooInstanceProperties extends HashMap<String, String> {
-    /** Use serialVersionUID for interoperability. */
+
+    /**
+     * Use serialVersionUID for interoperability.
+     */
     private static final long serialVersionUID = 1L;
 
     private static final RequestProcessor RP = new RequestProcessor(BambooInstanceProperties.class);
-
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
@@ -46,15 +47,15 @@ public class BambooInstanceProperties extends HashMap<String, String> {
     /**
      * Puts all the values into the Properties and updates preferences.
      *
-     * @param values {@link InstanceValues}
+     * @param instance {@link BambooInstance}
      */
-    public void copyProperties(final BambooInstance values) {
-        put(PROP_NAME, values.getName());
-        put(PROP_URL, values.getUrl());
-        put(PROP_SYNC_INTERVAL, Integer.toString(values.getSyncInterval()));
-        put(INSTANCE_USER, values.getUsername());
-        put(INSTANCE_PASSWORD, new String(values.getPassword()));
-         //TODO persist the surpressed: String joined = StringUtil.join(surpressedPlans);
+    public void copyProperties(final BambooInstance instance) {
+        put(PROP_NAME, instance.getName());
+        put(PROP_URL, instance.getUrl());
+        put(PROP_SYNC_INTERVAL, Integer.toString(instance.getSyncInterval()));
+        put(INSTANCE_USER, instance.getUsername());
+        put(INSTANCE_PASSWORD, new String(instance.getPassword()));
+        put(INSTANCE_SUPPRESSED_PLANS, StringUtil.join(instance.getSurpressedPlans()));
     }
 
     /**
@@ -109,11 +110,9 @@ public class BambooInstanceProperties extends HashMap<String, String> {
         return Arrays.asList(pcs.getPropertyChangeListeners());
     }
 
-    
-
     /**
-     * Get Preferences used by the properties as persistent storage, might
-     * return null.
+     * Get Preferences used by the properties as persistent storage, might return null.
+     *
      * @return the {@link Preferences} for the instance
      */
     public Preferences getPreferences() {
@@ -173,24 +172,24 @@ public class BambooInstanceProperties extends HashMap<String, String> {
      */
     private void updatePreferences(final String... keys) {
         RP.post(() -> {
-                Preferences prefs = getPreferences();
+            Preferences prefs = getPreferences();
 
-                if (prefs != null) {
-                    for (String key : keys) {
-                        String val = get(key);
+            if (prefs != null) {
+                for (String key : keys) {
+                    String val = get(key);
 
-                        if (val == null) {
-                            prefs.remove(key);
-                        } else {
-                            if (INSTANCE_PASSWORD.equals(key)) {
-                                val = Encrypter.getInstance().encrypt(val);
-                            }
-
-                            prefs.put(key, val);
+                    if (val == null) {
+                        prefs.remove(key);
+                    } else {
+                        if (INSTANCE_PASSWORD.equals(key)) {
+                            val = Encrypter.getInstance().encrypt(val);
                         }
+
+                        prefs.put(key, val);
                     }
                 }
-            });
+            }
+        });
     }
 
     /**

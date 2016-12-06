@@ -1,8 +1,8 @@
 package org.netbeans.modules.bamboo.rest;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -19,7 +19,7 @@ public class StringUtilTest {
     @Test
     public void testSplit() {
         String prop = "a/b";
-        List<String> result = StringUtil.split(prop);
+        Collection<String> result = StringUtil.split(prop);
         assertEquals(2, result.size());
     }
 
