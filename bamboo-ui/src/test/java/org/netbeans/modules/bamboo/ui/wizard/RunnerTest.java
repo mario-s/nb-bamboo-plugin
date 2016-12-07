@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import org.netbeans.modules.bamboo.rest.HttpUtility;
 import org.junit.Before;
 import org.junit.Test;
 

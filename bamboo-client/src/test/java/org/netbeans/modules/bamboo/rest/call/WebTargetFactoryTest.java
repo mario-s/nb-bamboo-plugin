@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.rest.call;
 
-import org.netbeans.modules.bamboo.rest.call.WebTargetFactory;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.client.Client;

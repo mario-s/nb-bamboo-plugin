@@ -22,7 +22,6 @@ import static org.openide.util.Lookup.getDefault;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Matchers.any;
 
-import org.netbeans.modules.bamboo.glue.BambooClient;
 
 /**
  *

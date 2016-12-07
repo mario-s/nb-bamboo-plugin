@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.util;
 
 import java.time.LocalDateTime;
-import org.junit.Before;
 import org.junit.Test;
 
 import static java.time.LocalDateTime.now;

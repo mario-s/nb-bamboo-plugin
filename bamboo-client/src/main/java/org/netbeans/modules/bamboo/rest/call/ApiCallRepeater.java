@@ -1,8 +1,6 @@
 package org.netbeans.modules.bamboo.rest.call;
 
 
-import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
-
 import java.util.Optional;
 import javax.ws.rs.client.WebTarget;
 

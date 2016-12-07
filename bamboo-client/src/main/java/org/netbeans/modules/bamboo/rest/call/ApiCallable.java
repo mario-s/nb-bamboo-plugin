@@ -6,7 +6,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
 
 import static javax.ws.rs.client.Entity.entity;
 

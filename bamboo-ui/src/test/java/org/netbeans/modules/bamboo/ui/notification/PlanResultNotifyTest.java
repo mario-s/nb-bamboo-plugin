@@ -9,11 +9,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 
 import org.mockito.Mock;
-
-import static org.mockito.Mockito.verify;
 
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -26,7 +23,6 @@ import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
 import org.openide.util.Lookup;
 
-import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Matchers.eq;

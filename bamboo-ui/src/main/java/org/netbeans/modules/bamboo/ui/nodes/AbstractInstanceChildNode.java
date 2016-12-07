@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.beans.PropertyChangeListener;
-import java.time.LocalDate;
 import java.util.List;
 import javax.swing.Action;
 import org.openide.nodes.AbstractNode;

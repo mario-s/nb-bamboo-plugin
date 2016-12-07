@@ -22,8 +22,6 @@ import org.openide.awt.NotificationDisplayer.Priority;
 
 import static org.mockito.Matchers.isA;
 
-import org.netbeans.modules.bamboo.model.LifeCycleState;
-
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
