@@ -240,6 +240,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     @Override
     public void setChildren(final Collection<ProjectVo> projects) {
         this.projects = projects;
+        //TODO set the plans surpressed whose keys are saved -> surpressedPlans
         updateParent(projects);
         prepareSynchronization();
     }
