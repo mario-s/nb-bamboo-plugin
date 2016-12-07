@@ -55,7 +55,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
         put(PROP_SYNC_INTERVAL, Integer.toString(instance.getSyncInterval()));
         put(INSTANCE_USER, instance.getUsername());
         put(INSTANCE_PASSWORD, new String(instance.getPassword()));
-        put(INSTANCE_SUPPRESSED_PLANS, StringUtil.join(instance.getSurpressedPlans()));
+        put(INSTANCE_SUPPRESSED_PLANS, StringUtil.join(instance.getSuppressedPlans()));
     }
 
     /**

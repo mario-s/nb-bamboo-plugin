@@ -2,6 +2,7 @@ package org.netbeans.modules.bamboo.rest;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import java.util.prefs.Preferences;
@@ -84,7 +85,7 @@ public class DefaultBambooInstanceTest {
         given(properties.getPreferences()).willReturn(preferences);
         given(client.existsService()).willReturn(true);
 
-        projects = emptyList();
+        projects = new ArrayList<>();
 
         setInternalState(classUnderTest, "client", client);
     }
@@ -131,19 +132,35 @@ public class DefaultBambooInstanceTest {
      * Test of setChildren method, of class DefaultBambooInstance.
      */
     @Test
-    public void testSetProjects_ShouldCreateTask() {
+    public void testSetChildren_ShouldCreateTask() {
         given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn("5");
 
         DefaultBambooInstance instance = new DefaultBambooInstance(properties);
         instance.setChildren(projects);
         assertThat(instance.getSynchronizationTask().isPresent(), is(true));
     }
+    
+     /**
+     * Test of setChildren method, of class DefaultBambooInstance.
+     */
+    @Test
+    public void testSetChildren_WithSuppressedPlans_ExpectPlanNotifyFalse() {
+        given(properties.get(BambooInstanceConstants.INSTANCE_SUPPRESSED_PLANS)).willReturn(FOO);
+        DefaultBambooInstance instance = new DefaultBambooInstance(properties);
+        
+        project.setChildren(singletonList(plan));
+        projects.add(project);
+        
+        instance.setChildren(projects);
+        
+        assertThat(plan.isNotify(), is(false));
+    }
 
     /**
      * Test of setChildren method, of class DefaultBambooInstance.
      */
     @Test
-    public void testSetProjects_ExpectProjectsHaveParent() {
+    public void testSetChildren_ExpectProjectsHaveParent() {
         given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn("5");
 
         DefaultBambooInstance instance = new DefaultBambooInstance(properties);
@@ -198,7 +215,7 @@ public class DefaultBambooInstanceTest {
         plan.setNotify(false);
         classUnderTest.updateNotify(plan);
 
-        Collection<String> surpressed = classUnderTest.getSurpressedPlans();
+        Collection<String> surpressed = classUnderTest.getSuppressedPlans();
         assertThat(surpressed.isEmpty(), is(false));
         verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
@@ -207,7 +224,7 @@ public class DefaultBambooInstanceTest {
     public void testUpdateNotify_Notify_ExpectEmptySurpressed() {
         classUnderTest.updateNotify(plan);
         
-        Collection<String> surpressed = classUnderTest.getSurpressedPlans();
+        Collection<String> surpressed = classUnderTest.getSuppressedPlans();
         assertThat(surpressed.isEmpty(), is(true));
         verify(listener, never()).propertyChange(any(PropertyChangeEvent.class));
     }

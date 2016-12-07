@@ -68,5 +68,5 @@ public interface BambooInstance extends
      * This method returns the keys for those plans which are silent.
      * @return a collection of the plan keys.
      */
-    Collection<String> getSurpressedPlans();
+    Collection<String> getSuppressedPlans();
 }
