@@ -103,7 +103,7 @@ public class PlanNodeTest {
 
         Property[] newProps = getProperties(0);
 
-        Object newValue = newProps[1].getValue();
+        Object newValue = newProps[2].getValue();
 
         assertThat(oldValue.equals(newValue), is(false));
     }

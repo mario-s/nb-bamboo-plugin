@@ -31,6 +31,7 @@ import org.openide.util.lookup.Lookups;
 import org.openide.xml.XMLUtil;
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Key;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Reason_CompletedTime;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Reason_Duration;
@@ -39,6 +40,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Reason;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Watched;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Not_Watched;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Key;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Reason_CompletedTime;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Reason_Duration;
@@ -54,6 +56,8 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Watched;
  */
 @Log
 @NbBundle.Messages({
+    "TXT_Plan_Prop_Key=Plan Key",
+    "DESC_Plan_Prop_Key=The key of the plan",
     "TXT_Plan_Prop_Name=Plan Name",
     "DESC_Plan_Prop_Name=The name of the build plan.",
     "TXT_Plan_Prop_Result_Number=Result Number",
@@ -71,6 +75,8 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Watched;
     "DESC_Plan_Prop_Reason_Duration=Duration in seconds for the last build."
 })
 public class PlanNode extends AbstractInstanceChildNode {
+    
+    private static final String KEY = "key";
 
     private static final String BUILD_REASON = "buildReason";
 
@@ -81,7 +87,7 @@ public class PlanNode extends AbstractInstanceChildNode {
     private static final String DURATION = "buildDurationInSeconds";
 
     private static final String STARTED_TIME = "buildStartedTime";
-    
+
     private static final String COMPLETED_TIME = "buildCompletedTime";
 
     @StaticResource
@@ -228,6 +234,13 @@ public class PlanNode extends AbstractInstanceChildNode {
     protected Sheet createSheet() {
         Sheet.Set set = Sheet.createPropertiesSet();
         set.setDisplayName(plan.getShortName());
+        
+        set.put(new StringReadPropertySupport(KEY, TXT_Plan_Prop_Key(), DESC_Plan_Prop_Key()) {
+            @Override
+            public String getValue() throws IllegalAccessException, InvocationTargetException {
+                return plan.getKey();
+            }
+        });
 
         set.put(new PropertySupport.Name(this, TXT_Plan_Prop_Name(), DESC_Plan_Prop_Name()));
 
