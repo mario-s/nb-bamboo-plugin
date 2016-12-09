@@ -49,12 +49,16 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer {
             String summary = getSummary(plan);
             String reason = getBuildReason();
 
-            JComponent balloonDetails = new JLabel(summary);
-            JComponent popupDetails = newDetailsPanel(summary, reason);
+            JComponent balloonDetails = newBalloonComponent(summary);
+            JComponent popupDetails = newDetailsComponent(summary, reason);
             Pair<Priority, Category> cat = getCategory();
 
             notify(name, balloonDetails, popupDetails, cat);
         }
+    }
+
+    private JComponent newBalloonComponent(String summary) {
+        return new JLabel(summary);
     }
 
     private String getBuildReason() {

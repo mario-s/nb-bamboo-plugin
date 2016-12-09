@@ -18,6 +18,7 @@ import static org.netbeans.modules.bamboo.ui.notification.Bundle.Server_Response
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Start_Failed;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Start_Success;
 import static java.lang.String.format;
+import static java.lang.String.format;
 
 /**
  * This class displays a ntification for manual build run.
@@ -76,7 +77,7 @@ class QueueResultNotifyDisplayer extends AbstractNotifyDisplayer {
         String summary = getSummary();
 
         JComponent balloonDetails = new JLabel(summary);
-        JComponent popupDetails = newDetailsPanel(summary, getDetails());
+        JComponent popupDetails = newDetailsComponent(summary, getDetails());
         Pair<Priority, Category> cat = getCategory();
 
         notify(name, balloonDetails, popupDetails, cat);
