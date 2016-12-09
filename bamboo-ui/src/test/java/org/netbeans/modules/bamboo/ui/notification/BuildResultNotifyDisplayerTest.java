@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.ui.notification;
 
 import javax.swing.Icon;
-import javax.swing.JLabel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,7 +68,7 @@ public class BuildResultNotifyDisplayerTest {
     @Test
     public void testRun_ResultNormal_ExpectNotifyNormal() {
         classUnderTest.run();
-        verify(notificationDisplayer).notify(anyString(), any(Icon.class), isA(JLabel.class), isA(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
+        verify(notificationDisplayer).notify(anyString(), any(Icon.class), isA(BuildResultBalloonPanel.class), isA(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
     }
 
     /**
@@ -81,7 +80,7 @@ public class BuildResultNotifyDisplayerTest {
         result.setState(State.Failed);
         plan.setResult(result);
         classUnderTest.run();
-        verify(notificationDisplayer).notify(anyString(), any(Icon.class), isA(JLabel.class), isA(ResultDetailsPanel.class), eq(Priority.HIGH), eq(Category.ERROR));
+        verify(notificationDisplayer).notify(anyString(), any(Icon.class), isA(BuildResultBalloonPanel.class), isA(ResultDetailsPanel.class), eq(Priority.HIGH), eq(Category.ERROR));
     }
     
     /**
@@ -92,7 +91,7 @@ public class BuildResultNotifyDisplayerTest {
         oldResult.setState(State.Successful);
         newResult.setState(State.Successful);
         classUnderTest.run();
-        verify(notificationDisplayer, never()).notify(anyString(), any(Icon.class), isA(JLabel.class), isA(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
+        verify(notificationDisplayer, never()).notify(anyString(), any(Icon.class), isA(BuildResultBalloonPanel.class), isA(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
     }
 
 }
