@@ -9,10 +9,10 @@ import java.util.Optional;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.OpenableInBrowser;
+import org.netbeans.modules.bamboo.ui.BrowserInstance;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
-import org.openide.awt.HtmlBrowser.URLDisplayer;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
@@ -40,8 +40,8 @@ public final class OpenUrlAction extends AbstractAction implements LookupListene
     private Lookup context;
 
     private Lookup.Result<OpenableInBrowser> result;
-
-    private URLDisplayer urlDisplayer;
+    
+    private BrowserInstance browser;
 
     public OpenUrlAction() {
         this(Utilities.actionsGlobalContext());
@@ -50,7 +50,7 @@ public final class OpenUrlAction extends AbstractAction implements LookupListene
     OpenUrlAction(Lookup context) {
         super(Bundle.CTL_OpenUrlAction());
         this.context = context;
-        urlDisplayer = URLDisplayer.getDefault();
+        browser = BrowserInstance.Instance;
         init();
     }
 
@@ -58,7 +58,7 @@ public final class OpenUrlAction extends AbstractAction implements LookupListene
     public void actionPerformed(ActionEvent ev) {
         allInstances().forEach(o -> {
             try {
-                urlDisplayer.showURL(new URL(o.getUrl()));
+                browser.showURL(new URL(o.getUrl()));
             } catch (MalformedURLException ex) {
                 Exceptions.printStackTrace(ex);
             }
@@ -85,9 +85,4 @@ public final class OpenUrlAction extends AbstractAction implements LookupListene
         Optional<? extends OpenableInBrowser> opt = allInstances().stream().filter(p -> p.isAvailable()).findAny();
         setEnabled(opt.isPresent());
     }
-
-    void setUrlDisplayer(URLDisplayer urlDisplayer) {
-        this.urlDisplayer = urlDisplayer;
-    }
-
 }

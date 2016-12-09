@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.ui;
 
 import javax.swing.JEditorPane;
 import javax.swing.event.HyperlinkEvent;
-import org.openide.awt.HtmlBrowser.URLDisplayer;
 
 /**
  * This component displays HTML content and supplies action for hyperlinks
@@ -27,7 +26,7 @@ public class HtmlPane extends JEditorPane {
 
         addHyperlinkListener((HyperlinkEvent evt) -> {
             if (HyperlinkEvent.EventType.ACTIVATED.equals(evt.getEventType())) {
-                URLDisplayer.getDefault().showURL(evt.getURL());
+                BrowserInstance.Instance.showURL(evt.getURL());
             }
         });
     }

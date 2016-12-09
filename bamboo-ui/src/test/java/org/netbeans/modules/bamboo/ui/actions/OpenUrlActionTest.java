@@ -2,7 +2,9 @@ package org.netbeans.modules.bamboo.ui.actions;
 
 import java.net.URL;
 import javax.swing.Action;
+
 import static org.hamcrest.CoreMatchers.equalTo;
+
 import org.junit.After;
 
 
@@ -21,14 +23,19 @@ import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.LookupContext;
 import org.netbeans.modules.bamboo.model.OpenableInBrowser;
+import org.netbeans.modules.bamboo.ui.BrowserInstance;
 import org.openide.awt.HtmlBrowser.URLDisplayer;
 import org.openide.util.Lookup;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.never;
+import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ BrowserInstance.class})
 public class OpenUrlActionTest {
 
     private OpenUrlAction classUnderTest;
@@ -37,7 +44,7 @@ public class OpenUrlActionTest {
     private OpenableInBrowser openableInBrowser;
 
     @Mock
-    private URLDisplayer urlDisplayer;
+    private BrowserInstance browserInstance;
 
     @Captor
     private ArgumentCaptor<URL> urlCaptor;
@@ -46,7 +53,7 @@ public class OpenUrlActionTest {
     public void setUp() {
         Lookup lookup = LookupContext.Instance.getLookup();
         classUnderTest = new OpenUrlAction(lookup);
-        classUnderTest.setUrlDisplayer(urlDisplayer);
+        setInternalState(classUnderTest, "browser", browserInstance);
         given(openableInBrowser.getUrl()).willReturn("http://netbeans.org");
     }
 
@@ -67,7 +74,7 @@ public class OpenUrlActionTest {
     @Test
     public void testActionPerformed_NoInstance_UrlShouldNotBecalled() {
         classUnderTest.actionPerformed(null);
-        verify(urlDisplayer, never()).showURL(urlCaptor.capture());
+        verify(browserInstance, never()).showURL(urlCaptor.capture());
     }
 
     /**
@@ -77,7 +84,7 @@ public class OpenUrlActionTest {
     public void testActionPerformed_Instance_UrlShouldBecalled() {
         LookupContext.Instance.add(openableInBrowser);
         classUnderTest.actionPerformed(null);
-        verify(urlDisplayer).showURL(urlCaptor.capture());
+        verify(browserInstance).showURL(urlCaptor.capture());
     }
 
     @Test
