@@ -19,6 +19,7 @@ Support for:
 * open in browser
 * synchronization
 * notification when a build failed and is back to successful
+* disable notification
 * queue a build
 
 
