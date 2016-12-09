@@ -42,6 +42,7 @@ public class IgnoreButton extends JButton implements ActionListener{
         setFocusPainted(false);
         setFocusable(false);
         setHorizontalAlignment(SwingConstants.LEFT);
+        addActionListener(this);
     }
     
     public final void setPlan(PlanVo plan) {
