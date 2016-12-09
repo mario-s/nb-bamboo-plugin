@@ -21,6 +21,8 @@ import static org.netbeans.modules.bamboo.ui.Bundle.Ignore;
 })
 public class IgnoreButton extends JButton implements ActionListener{
     
+    private static final String TXT = "<html><a href=\"#\">" + Ignore();
+    
     private Optional<PlanVo> plan;
     
     public IgnoreButton() {
@@ -28,7 +30,7 @@ public class IgnoreButton extends JButton implements ActionListener{
     }
 
     public IgnoreButton(PlanVo plan) {
-        super(Ignore());
+        super(TXT);
         init();
         setPlan(plan);
     }
