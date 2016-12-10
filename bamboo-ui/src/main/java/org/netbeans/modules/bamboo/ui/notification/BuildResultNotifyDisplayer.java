@@ -3,7 +3,6 @@ package org.netbeans.modules.bamboo.ui.notification;
 import java.util.logging.Level;
 import javax.swing.Icon;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
