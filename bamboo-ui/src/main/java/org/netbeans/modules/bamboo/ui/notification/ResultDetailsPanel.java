@@ -47,6 +47,8 @@ public class ResultDetailsPanel extends javax.swing.JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(lblSummary, org.openide.util.NbBundle.getMessage(ResultDetailsPanel.class, "ResultDetailsPanel.lblSummary.text")); // NOI18N
 
+        panelReason.setOpaque(false);
+
         javax.swing.GroupLayout panelReasonLayout = new javax.swing.GroupLayout(panelReason);
         panelReason.setLayout(panelReasonLayout);
         panelReasonLayout.setHorizontalGroup(

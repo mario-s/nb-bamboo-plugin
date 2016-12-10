@@ -7,6 +7,7 @@ import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
+import org.netbeans.modules.bamboo.ui.IgnoreButton;
 import org.openide.awt.NotificationDisplayer.Category;
 import org.openide.awt.NotificationDisplayer.Priority;
 import org.openide.util.NbBundle;
@@ -57,7 +58,8 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer {
     }
 
     private JComponent newBalloonComponent(String summary, PlanVo plan) {
-        return new BuildResultBalloonPanel(summary, plan);
+        IgnoreButton btn = new IgnoreButton(plan);
+        return new ResultDetailsPanel(summary, btn);
     }
 
     private String getBuildReason() {
