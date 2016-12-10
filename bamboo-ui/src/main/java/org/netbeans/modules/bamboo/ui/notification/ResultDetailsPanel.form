@@ -40,7 +40,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="lblSummary" pref="220" max="32767" attributes="0"/>
-                  <Component id="panelReason" max="32767" attributes="0"/>
+                  <Component id="detailsPanel" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -51,7 +51,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="lblSummary" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="panelReason" min="-2" max="-2" attributes="0"/>
+              <Component id="detailsPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -64,13 +64,17 @@
           <ResourceString bundle="org/netbeans/modules/bamboo/ui/notification/Bundle.properties" key="ResultDetailsPanel.lblSummary.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="18"/>
+      </AuxValues>
     </Component>
-    <Container class="javax.swing.JPanel" name="panelReason">
+    <Container class="javax.swing.JPanel" name="detailsPanel">
       <Properties>
         <Property name="opaque" type="boolean" value="false"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="panelReason.setLayout(new BorderLayout());"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="detailsPanel.setLayout(new BorderLayout());"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="18"/>
       </AuxValues>
 
       <Layout>

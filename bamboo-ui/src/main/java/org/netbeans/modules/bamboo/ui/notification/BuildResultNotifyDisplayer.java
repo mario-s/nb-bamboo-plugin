@@ -1,7 +1,10 @@
 package org.netbeans.modules.bamboo.ui.notification;
 
+import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.util.logging.Level;
 import javax.swing.Icon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.PlanVo;
@@ -47,19 +50,22 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer {
             }
 
             String summary = getSummary(plan);
-            String reason = getBuildReason();
-
-            JComponent balloonDetails = newBalloonComponent(summary, plan);
-            JComponent popupDetails = newDetailsComponent(summary, reason);
+            
+            JComponent balloonDetails = new ResultDetailsPanel(summary, new IgnoreButton(plan));       
+            JComponent popupDetails = newDetailsComponent(summary, new IgnoreButton(plan));
+            
             Pair<Priority, Category> cat = getCategory();
 
             notify(name, balloonDetails, popupDetails, cat);
         }
     }
 
-    private JComponent newBalloonComponent(String summary, PlanVo plan) {
-        IgnoreButton btn = new IgnoreButton(plan);
-        return new ResultDetailsPanel(summary, btn);
+    private JComponent newDetailsComponent(String summary, JButton btn) {
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        String reason = getBuildReason();
+        ResultDetailsPanel panel = (ResultDetailsPanel) newDetailsComponent(summary, reason);
+        panel.getDetailsPanel().add(btn, BorderLayout.SOUTH);
+        return panel;
     }
 
     private String getBuildReason() {
@@ -112,6 +118,5 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer {
         ResultVo newRes = buildResult.getNewResult();
         return State.Successful.equals(oldRes.getState()) && State.Successful.equals(newRes.getState());
     }
-
 
 }
