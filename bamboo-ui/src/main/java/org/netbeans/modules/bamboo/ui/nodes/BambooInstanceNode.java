@@ -29,6 +29,9 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import org.openide.util.lookup.Lookups;
 
+import static org.apache.commons.lang3.StringUtils.SPACE;
+import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTERVAL;
+
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Projects;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_SyncInterval;
@@ -39,8 +42,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Proj
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_SnycInterval;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Url;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Instance_Prop_Version;
-
-import static org.apache.commons.lang3.StringUtils.SPACE;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.Unavailable;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.Disconnected;
 
 /**
@@ -49,6 +51,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.Disconnected;
  * @author spindizzy
  */
 @Messages({
+    "Unavailable=Not Available",
     "Disconnected=Disconnected",
     "TXT_Instance_Prop_Name=Name",
     "DESC_Instance_Prop_Name=Bamboo instance name",
@@ -96,15 +99,21 @@ public class BambooInstanceNode extends AbstractInstanceChildNode implements Loo
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        String eventName = evt.getPropertyName();
-        if (ModelChangedValues.Projects.toString().equals(eventName)) {
+        String propName = evt.getPropertyName();
+        if (ModelChangedValues.Projects.toString().equals(propName)) {
             refreshChildren();
+        }else if(PROP_SYNC_INTERVAL.equals(propName)) {
+            updateHtmlDisplayName();
         }
     }
 
     @Override
     public void resultChanged(LookupEvent ev) {
         updateHtmlDisplayName();
+    }
+    
+    private boolean isConnected() {
+        return instance.getSyncInterval() > 0;
     }
 
     private boolean isAvailable() {
@@ -124,12 +133,19 @@ public class BambooInstanceNode extends AbstractInstanceChildNode implements Loo
     private void updateHtmlDisplayName() {
         String oldDisplayName = getHtmlDisplayName();
         StringBuilder builder = new StringBuilder(instance.getName());
-        if (!isAvailable()) {
-            builder.append(SPACE).append(String.format(NO_CONTROL_SHADOW, Disconnected()));
+        
+        if(!isConnected()) {
+            builder.append(SPACE).append(format(Disconnected()));
+        } else if (!isAvailable()) {
+            builder.append(SPACE).append(format(Unavailable()));
         }
         htmlDisplayName = builder.toString();
 
         fireDisplayNameChange(oldDisplayName, htmlDisplayName);
+    }
+
+    private String format(String state) {
+        return String.format(NO_CONTROL_SHADOW, state);
     }
 
     @Override

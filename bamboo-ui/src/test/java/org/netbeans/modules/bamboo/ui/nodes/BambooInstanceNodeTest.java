@@ -16,10 +16,15 @@ import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 
 import static java.util.Collections.emptyList;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
+import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTERVAL;
+
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.Unavailable;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.Disconnected;
 
 /**
  *
@@ -45,6 +50,7 @@ public class BambooInstanceNodeTest {
         Lookup lookup = new AbstractLookup(content);
         given(instance.getLookup()).willReturn(lookup);
         given(instance.getName()).willReturn(FOO);
+        given(instance.getSyncInterval()).willReturn(1);
         
         classUnderTest = new BambooInstanceNode(instance) {
             @Override
@@ -68,11 +74,23 @@ public class BambooInstanceNodeTest {
      * Test of propertyChange method, of class BambooInstanceNode.
      */
     @Test
-    public void testPropertyChange_AvailabilityPropertyFalse_ExpectNoEmptyHtml() {
+    public void testPropertyChange_AvailabilityPropertyFalse_ExpectUnavailable() {
         content.add(new ServerConnectionEvent(FOO, false));
         classUnderTest.resultChanged(null);
         String htmlDisplayName = classUnderTest.getHtmlDisplayName();
-        assertThat(htmlDisplayName, notNullValue());
+        assertThat(htmlDisplayName, containsString(Unavailable()));
+    }
+    
+    /**
+     * Test of propertyChange method, of class BambooInstanceNode.
+     */
+    @Test
+    public void testPropertyChange_SyncIntervalZero_ExpectDisconnected() {
+        given(event.getPropertyName()).willReturn(PROP_SYNC_INTERVAL);
+        given(instance.getSyncInterval()).willReturn(0);
+        classUnderTest.propertyChange(event);
+        String htmlDisplayName = classUnderTest.getHtmlDisplayName();
+        assertThat(htmlDisplayName, containsString(Disconnected()));
     }
 
     /**
