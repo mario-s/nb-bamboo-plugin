@@ -36,6 +36,8 @@ public class Result implements ServiceInfoProvideable{
     private String buildStartedTime;
     private String buildCompletedTime;
     
+    private Changes changes;
+    
     public Result() {
         state = State.Unknown;
         lifeCycleState = LifeCycleState.NotBuilt;
