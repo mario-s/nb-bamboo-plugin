@@ -2,10 +2,12 @@ package org.netbeans.modules.bamboo.ui.notification;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
+import java.awt.FlowLayout;
 import java.util.logging.Level;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
@@ -52,7 +54,7 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer {
             String summary = getSummary(plan);
             
             JComponent balloonDetails = new ResultDetailsPanel(summary, new IgnoreButton(plan));       
-            JComponent popupDetails = newDetailsComponent(summary, new IgnoreButton(plan));
+            JComponent popupDetails = newDetailsComponent(summary);
             
             Pair<Priority, Category> cat = getCategory();
 
@@ -60,16 +62,9 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer {
         }
     }
 
-    private JComponent newDetailsComponent(String summary, JButton btn) {
-        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        String reason = getBuildReason();
-        ResultDetailsPanel panel = (ResultDetailsPanel) newDetailsComponent(summary, reason);
-        panel.getDetailsPanel().add(btn, BorderLayout.SOUTH);
-        return panel;
-    }
-
-    private String getBuildReason() {
-        return buildResult.getNewResult().getBuildReason();
+    private JComponent newDetailsComponent(String summary) {
+        ResultDetailsPanelFactory factory = new ResultDetailsPanelFactory();
+        return factory.create(summary, buildResult);
     }
 
     private Pair<Priority, Category> getCategory() {

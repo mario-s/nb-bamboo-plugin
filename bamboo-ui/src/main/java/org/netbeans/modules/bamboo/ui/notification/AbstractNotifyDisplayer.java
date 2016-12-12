@@ -51,10 +51,8 @@ abstract class AbstractNotifyDisplayer implements Runnable {
      * @return a new {@link JComponent}
      */
     protected JComponent newDetailsComponent(String summary, String buildReason) {
-        HtmlPane reasonComp = new HtmlPane();
-        reasonComp.setOpaque(true);
-        reasonComp.setText(buildReason);
-        return new ResultDetailsPanel(summary, reasonComp);
+        ResultDetailsPanelFactory factory = new ResultDetailsPanelFactory();
+        return factory.create(summary, buildReason);
     }
 
     /**
