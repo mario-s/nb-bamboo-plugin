@@ -1,13 +1,8 @@
 package org.netbeans.modules.bamboo.ui.notification;
 
-import java.awt.BorderLayout;
-import java.awt.Cursor;
-import java.awt.FlowLayout;
 import java.util.logging.Level;
 import javax.swing.Icon;
-import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
@@ -44,14 +39,14 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer {
     @Override
     public void run() {
         if (isRelevant()) {
-            PlanVo plan = getPlan();
-            String name = plan.getName();
+            final PlanVo plan = getPlan();
+            final String name = plan.getName();
 
             if (log.isLoggable(Level.INFO)) {
                 log.info(String.format("state of plan %s has changed", name));
             }
 
-            String summary = getSummary(plan);
+            final String summary = getSummary(plan);
             
             JComponent balloonDetails = new ResultDetailsPanel(summary, new IgnoreButton(plan));       
             JComponent popupDetails = newDetailsComponent(summary);
