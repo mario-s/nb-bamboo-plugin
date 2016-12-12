@@ -3,9 +3,6 @@ package org.netbeans.modules.bamboo.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Optional;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.openide.util.NbBundle.Messages;
 
@@ -19,9 +16,7 @@ import static org.netbeans.modules.bamboo.ui.Bundle.Ignore;
 @Messages({
     "Ignore=Ignore"
 })
-public class IgnoreButton extends JButton implements ActionListener{
-    
-    private static final String TXT = "<html><a href=\"#\">" + Ignore();
+public class IgnoreButton extends LinkButton implements ActionListener{
     
     private Optional<PlanVo> plan;
     
@@ -30,18 +25,12 @@ public class IgnoreButton extends JButton implements ActionListener{
     }
 
     public IgnoreButton(PlanVo plan) {
-        super(TXT);
+        super(Ignore());
         init();
         setPlan(plan);
     }
     
     private void init() {
-        setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        setBorderPainted(false);
-        setContentAreaFilled(false);
-        setFocusPainted(false);
-        setFocusable(false);
-        setHorizontalAlignment(SwingConstants.LEFT);
         addActionListener(this);
     }
     
