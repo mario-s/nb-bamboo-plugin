@@ -39,15 +39,15 @@ import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 
 import static java.util.Collections.singletonMap;
 import static java.lang.String.format;
+import static org.netbeans.modules.bamboo.rest.ExpandParameter.EXPAND;
+import static org.netbeans.modules.bamboo.rest.ExpandParameter.PROJECT_PLANS;
+import static org.netbeans.modules.bamboo.rest.ExpandParameter.RESULT_COMMENTS;
 
 /**
  * @author spindizzy
  */
 @Log
 class DefaultBambooClient extends AbstractBambooClient {
-
-    static final String PROJECT_PLANS = "projects.project.plans.plan";
-    static final String RESULT_COMMENTS = "results.result.comments";
 
     static final String PROJECTS = "/project" + ApiCallerFactory.JSON_PATH;
     static final String PLANS = "/plan" + ApiCallerFactory.JSON_PATH;

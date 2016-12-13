@@ -14,8 +14,6 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
  */
 abstract class AbstractBambooClient implements BambooClient {
 
-    static final String EXPAND = "expand";
-
     private final InstanceValues values;
 
     private final HttpUtility utility;

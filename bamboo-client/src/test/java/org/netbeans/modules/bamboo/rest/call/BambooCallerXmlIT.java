@@ -22,10 +22,14 @@ import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 import org.netbeans.modules.bamboo.rest.HttpUtility;
 
-import static java.util.Collections.singletonMap;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assume.assumeTrue;
+
 import org.netbeans.modules.bamboo.model.rest.Result;
+
+import static java.util.Collections.singletonMap;
+import static org.netbeans.modules.bamboo.rest.ExpandParameter.EXPAND;
+import static org.netbeans.modules.bamboo.rest.ExpandParameter.RESULT_COMMENTS;
 
 /**
  *
@@ -38,8 +42,6 @@ public class BambooCallerXmlIT {
     
     private static final String URL = "url";
     
-    private static final String RESULT_COMMENTS = "results.result.comments";
-
     private WebTargetFactory factory;
 
     private static Properties props;
@@ -81,7 +83,7 @@ public class BambooCallerXmlIT {
     @Test
     public void testGetResults_SizeGtZero() {
         assumeTrue(existsUrl());
-        Map<String, String> params = singletonMap("expand", RESULT_COMMENTS);
+        Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
         WebTarget webTarget = factory.newTarget("result", params);
         ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
         final int size = response.getResults().getSize();
@@ -91,7 +93,7 @@ public class BambooCallerXmlIT {
     @Test
     public void testGetResults_ResultsNotEmpty() {
         assumeTrue(existsUrl());
-        Map<String, String> params = singletonMap("expand", RESULT_COMMENTS);
+        Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
         WebTarget webTarget = factory.newTarget("result", params);
         ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
         Collection<Result> results = response.asCollection();
