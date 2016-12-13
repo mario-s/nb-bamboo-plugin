@@ -35,6 +35,10 @@ import org.netbeans.modules.bamboo.model.rest.Result;
 public class BambooCallerXmlIT {
 
     private static final String FOO = "foo";
+    
+    private static final String URL = "url";
+    
+    private static final String RESULT_COMMENTS = "results.result.comments";
 
     private WebTargetFactory factory;
 
@@ -62,21 +66,22 @@ public class BambooCallerXmlIT {
 
         DefaultInstanceValues values = new DefaultInstanceValues();
         values.setName(FOO);
-        values.setUrl(props.getProperty("url"));
+        values.setUrl(props.getProperty(URL));
         values.setUsername(props.getProperty("user"));
         values.setPassword(props.getProperty("password").toCharArray());
 
         factory = new WebTargetFactory(values, Level.INFO);
     }
+    
 
     private boolean existsUrl() {
-        return httpUtility.exists(props.getProperty("url"));
+        return httpUtility.exists(props.getProperty(URL));
     }
 
     @Test
     public void testGetResults_SizeGtZero() {
         assumeTrue(existsUrl());
-        Map<String, String> params = singletonMap("expand", "results.result.comments");
+        Map<String, String> params = singletonMap("expand", RESULT_COMMENTS);
         WebTarget webTarget = factory.newTarget("result", params);
         ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
         final int size = response.getResults().getSize();
@@ -86,7 +91,7 @@ public class BambooCallerXmlIT {
     @Test
     public void testGetResults_ResultsNotEmpty() {
         assumeTrue(existsUrl());
-        Map<String, String> params = singletonMap("expand", "results.result.comments");
+        Map<String, String> params = singletonMap("expand", RESULT_COMMENTS);
         WebTarget webTarget = factory.newTarget("result", params);
         ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
         Collection<Result> results = response.asCollection();
