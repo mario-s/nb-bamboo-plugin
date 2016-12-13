@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.util.Collection;
-import java.util.concurrent.CountDownLatch;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.core.ide.ServicesTabNodeRegistration;
 
@@ -85,9 +84,7 @@ public final class BambooRootNode extends AbstractNode implements LookupListener
     public void resultChanged(final LookupEvent ev) {
         Collection<? extends InstancesLoadEvent> events = eventResult.allInstances();
         if (!events.isEmpty()) {
-            InstancesLoadEvent first = events.iterator().next();
-            CountDownLatch countDown = new CountDownLatch(first.getInstances().size());
-            nodeFactory.setBlocker(countDown);
+            nodeFactory.block();
         }
     }
     

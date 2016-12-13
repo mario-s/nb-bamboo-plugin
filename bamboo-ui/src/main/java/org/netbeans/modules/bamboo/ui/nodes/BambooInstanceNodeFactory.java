@@ -20,7 +20,7 @@ import java.util.concurrent.CountDownLatch;
 import lombok.extern.java.Log;
 
 import static java.util.Optional.empty;
-import static java.util.Optional.ofNullable;
+import static java.util.Optional.of;
 
 /**
  * This is a factory for a {@link BambooInstanceNode}.
@@ -37,7 +37,7 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
 
     private Lookup.Result<BambooInstance> instanceResult;
 
-    private Optional<CountDownLatch> blocker;
+    private volatile Optional<CountDownLatch> blocker;
 
     public BambooInstanceNodeFactory(Lookup lookup) {
         this.blocker = empty();
@@ -48,7 +48,7 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
     private void updateBlocker() {
         Collection<? extends BambooInstance> instances = instanceResult.allInstances();
         if (!instances.isEmpty()) {
-            blocker.ifPresent(c -> instances.forEach(i -> c.countDown()));
+            blocker.ifPresent(c -> c.countDown());
         }
     }
 
@@ -89,9 +89,9 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
 
         refresh(false);
     }
-
-    void setBlocker(CountDownLatch blocker) {
-        this.blocker = ofNullable(blocker);
+    
+    void block() {
+        this.blocker = of(new CountDownLatch(1));
     }
 
     private static class BambooInstanceComparator implements Comparator<BambooInstance>, Serializable {

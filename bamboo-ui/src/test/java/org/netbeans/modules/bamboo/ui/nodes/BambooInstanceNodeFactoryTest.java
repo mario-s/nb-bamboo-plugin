@@ -16,7 +16,6 @@ import org.openide.util.lookup.InstanceContent;
 import java.util.ArrayList;
 import java.util.List;
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import java.util.concurrent.CountDownLatch;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.mock;
 
@@ -67,7 +66,7 @@ public class BambooInstanceNodeFactoryTest {
     
     @Test
     public void testCreateKeys_WithLoadEvent() {
-        classUnderTest.setBlocker(new CountDownLatch(1));
+        classUnderTest.block();
         
         BambooInstance instance = newInstance("foo");
         
