@@ -29,6 +29,7 @@ class ResultDetailsPanelFactory {
         ResultDetailsPanel panel = create(summary, reason);
         
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        btnPanel.setOpaque(false);
         JButton ignoreButton = new IgnoreButton(result.getPlan());
         ignoreButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnPanel.add(ignoreButton);
