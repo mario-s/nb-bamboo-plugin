@@ -13,5 +13,5 @@ public final class RestResources {
     public static final String INFO = "/info" + JSON_PATH;
     public static final String RESULTS = "/result";
     public static final String QUEUE = "/queue/%s";
-    public static final String RESULT = "/result/{buildKey}";
+    public static final String RESULT = "/result/";
 }
