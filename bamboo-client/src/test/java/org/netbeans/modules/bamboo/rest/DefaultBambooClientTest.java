@@ -61,6 +61,11 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static java.lang.String.format;
 import static org.mockito.Matchers.anyString;
+import static org.netbeans.modules.bamboo.glue.RestResources.INFO;
+import static org.netbeans.modules.bamboo.glue.RestResources.PLANS;
+import static org.netbeans.modules.bamboo.glue.RestResources.PROJECTS;
+import static org.netbeans.modules.bamboo.glue.RestResources.QUEUE;
+import static org.netbeans.modules.bamboo.glue.RestResources.RESULTS;
 
 /**
  * @author spindizzy
@@ -164,21 +169,21 @@ public class DefaultBambooClientTest {
 
     private void trainApiCallerFactory() {
 
-        given(apiCallerFactory.newCaller(eq(ProjectsResponse.class), eq(DefaultBambooClient.PROJECTS), any(
+        given(apiCallerFactory.newCaller(eq(ProjectsResponse.class), eq(PROJECTS), any(
                 Map.class))).willReturn(
                         projectsCaller);
 
-        given(apiCallerFactory.newRepeatCaller(eq(PlansResponse.class), eq(DefaultBambooClient.PLANS))).willReturn(
+        given(apiCallerFactory.newRepeatCaller(eq(PlansResponse.class), eq(PLANS))).willReturn(
                 plansCaller);
 
-        given(apiCallerFactory.newRepeatCaller(eq(ResultsResponse.class), eq(DefaultBambooClient.RESULTS),
+        given(apiCallerFactory.newRepeatCaller(eq(ResultsResponse.class), eq(RESULTS),
                 any(Map.class))).willReturn(
                         resultsCaller);
         
-        given(apiCallerFactory.newCaller(eq(Info.class), eq(DefaultBambooClient.INFO))).willReturn(
+        given(apiCallerFactory.newCaller(eq(Info.class), eq(INFO))).willReturn(
                 infoCaller);
         
-        given(apiCallerFactory.newCaller(eq(Object.class), eq(format(DefaultBambooClient.QUEUE, FOO)))).willReturn(
+        given(apiCallerFactory.newCaller(eq(Object.class), eq(format(QUEUE, FOO)))).willReturn(
                 postCaller);
     }
 

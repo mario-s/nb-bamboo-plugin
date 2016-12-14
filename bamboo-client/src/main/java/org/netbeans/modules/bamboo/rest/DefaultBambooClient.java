@@ -39,23 +39,20 @@ import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 
 import static java.util.Collections.singletonMap;
 import static java.lang.String.format;
-import static org.netbeans.modules.bamboo.rest.ExpandParameter.EXPAND;
-import static org.netbeans.modules.bamboo.rest.ExpandParameter.PROJECT_PLANS;
-import static org.netbeans.modules.bamboo.rest.ExpandParameter.RESULT_COMMENTS;
+import static org.netbeans.modules.bamboo.glue.ExpandParameter.EXPAND;
+import static org.netbeans.modules.bamboo.glue.ExpandParameter.PROJECT_PLANS;
+import static org.netbeans.modules.bamboo.glue.ExpandParameter.RESULT_COMMENTS;
+import static org.netbeans.modules.bamboo.glue.RestResources.INFO;
+import static org.netbeans.modules.bamboo.glue.RestResources.PLANS;
+import static org.netbeans.modules.bamboo.glue.RestResources.PROJECTS;
+import static org.netbeans.modules.bamboo.glue.RestResources.QUEUE;
+import static org.netbeans.modules.bamboo.glue.RestResources.RESULTS;
 
 /**
  * @author spindizzy
  */
 @Log
 class DefaultBambooClient extends AbstractBambooClient {
-
-    static final String PROJECTS = "/project" + ApiCallerFactory.JSON_PATH;
-    static final String PLANS = "/plan" + ApiCallerFactory.JSON_PATH;
-    static final String INFO = "/info" + ApiCallerFactory.JSON_PATH;
-    static final String RESULTS = "/result";
-    static final String QUEUE = "/queue/%s";
-
-    static final String RESULT = "/result/{buildKey}";
 
     private final ApiCallerFactory apiCallerFactory;
 

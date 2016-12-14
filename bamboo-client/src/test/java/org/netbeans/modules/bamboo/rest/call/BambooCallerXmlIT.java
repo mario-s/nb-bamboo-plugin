@@ -28,8 +28,9 @@ import static org.junit.Assume.assumeTrue;
 import org.netbeans.modules.bamboo.model.rest.Result;
 
 import static java.util.Collections.singletonMap;
-import static org.netbeans.modules.bamboo.rest.ExpandParameter.EXPAND;
-import static org.netbeans.modules.bamboo.rest.ExpandParameter.RESULT_COMMENTS;
+import static org.netbeans.modules.bamboo.glue.ExpandParameter.CHANGED_FILES;
+import static org.netbeans.modules.bamboo.glue.ExpandParameter.EXPAND;
+import static org.netbeans.modules.bamboo.glue.ExpandParameter.RESULT_COMMENTS;
 
 /**
  *
@@ -94,6 +95,17 @@ public class BambooCallerXmlIT {
     public void testGetResults_ResultsNotEmpty() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
+        WebTarget webTarget = factory.newTarget("result", params);
+        ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
+        Collection<Result> results = response.asCollection();
+        assertThat(results.isEmpty(), is(false));
+    }
+    
+     @Test
+    public void testGetChanges_ResultsNotEmpty() {
+        assumeTrue(existsUrl());
+        Map<String, String> params = singletonMap(EXPAND, CHANGED_FILES);
+        //TODO write test for changes
         WebTarget webTarget = factory.newTarget("result", params);
         ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
         Collection<Result> results = response.asCollection();

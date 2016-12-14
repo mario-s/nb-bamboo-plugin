@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.rest;
+package org.netbeans.modules.bamboo.glue;
 
 /**
  * This interface contains parameters which can be added to a rest call to extend the content of entities.

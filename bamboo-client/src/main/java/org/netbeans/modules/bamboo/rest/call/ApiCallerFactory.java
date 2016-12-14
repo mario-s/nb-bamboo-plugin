@@ -4,6 +4,8 @@ import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 
+import static org.netbeans.modules.bamboo.glue.RestResources.JSON_PATH;
+
 /**
  * This factory produces {@link ApiCaller} and subclasses.
  *
@@ -11,7 +13,6 @@ import org.netbeans.modules.bamboo.model.InstanceValues;
  */
 @AllArgsConstructor
 public class ApiCallerFactory {
-    public static final String JSON_PATH = ".json";
 
     private final InstanceValues values;
 

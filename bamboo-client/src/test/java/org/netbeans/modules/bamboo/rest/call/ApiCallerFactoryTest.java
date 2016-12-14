@@ -10,6 +10,7 @@ import org.netbeans.modules.bamboo.model.InstanceValues;
 import static java.util.Collections.emptyMap;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
+import static org.netbeans.modules.bamboo.glue.RestResources.JSON_PATH;
 
 /**
  *
@@ -47,7 +48,7 @@ public class ApiCallerFactoryTest {
      */
     @Test
     public void testNewCaller_JsonPath_ExpectNotNull() {
-        ApiCallable result = classUnderTest.newCaller(BAR, FOO + ApiCallerFactory.JSON_PATH);
+        ApiCallable result = classUnderTest.newCaller(BAR, FOO + JSON_PATH);
         assertThat(result, notNullValue());
     }
 
