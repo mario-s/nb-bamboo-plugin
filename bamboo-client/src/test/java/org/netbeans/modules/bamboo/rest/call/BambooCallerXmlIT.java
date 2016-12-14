@@ -31,6 +31,7 @@ import static java.util.Collections.singletonMap;
 import static org.netbeans.modules.bamboo.glue.ExpandParameter.CHANGED_FILES;
 import static org.netbeans.modules.bamboo.glue.ExpandParameter.EXPAND;
 import static org.netbeans.modules.bamboo.glue.ExpandParameter.RESULT_COMMENTS;
+import static org.netbeans.modules.bamboo.glue.RestResources.RESULTS;
 
 /**
  *
@@ -85,7 +86,7 @@ public class BambooCallerXmlIT {
     public void testGetResults_SizeGtZero() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
-        WebTarget webTarget = factory.newTarget("result", params);
+        WebTarget webTarget = factory.newTarget(RESULTS, params);
         ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
         final int size = response.getResults().getSize();
         assertThat(size, not(0));
@@ -95,7 +96,7 @@ public class BambooCallerXmlIT {
     public void testGetResults_ResultsNotEmpty() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
-        WebTarget webTarget = factory.newTarget("result", params);
+        WebTarget webTarget = factory.newTarget(RESULTS, params);
         ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
         Collection<Result> results = response.asCollection();
         assertThat(results.isEmpty(), is(false));
@@ -106,7 +107,7 @@ public class BambooCallerXmlIT {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, CHANGED_FILES);
         //TODO write test for changes
-        WebTarget webTarget = factory.newTarget("result", params);
+        WebTarget webTarget = factory.newTarget(RESULTS, params);
         ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
         Collection<Result> results = response.asCollection();
         assertThat(results.isEmpty(), is(false));
