@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.netbeans.modules.bamboo.model.LifeCycleState;
@@ -16,6 +17,7 @@ import org.netbeans.modules.bamboo.model.State;
 @EqualsAndHashCode(of = "key")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement
 public class Result implements ServiceInfoProvideable{
     @XmlAttribute
     private String key;
@@ -35,7 +37,7 @@ public class Result implements ServiceInfoProvideable{
     private long buildDurationInSeconds;
     private String buildStartedTime;
     private String buildCompletedTime;
-    
+    @XmlElement
     private Changes changes;
     
     public Result() {

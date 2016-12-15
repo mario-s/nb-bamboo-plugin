@@ -33,6 +33,7 @@ import static org.netbeans.modules.bamboo.glue.ExpandParameter.EXPAND;
 import static org.netbeans.modules.bamboo.glue.ExpandParameter.RESULT_COMMENTS;
 import static org.netbeans.modules.bamboo.glue.RestResources.RESULT;
 import static org.netbeans.modules.bamboo.glue.RestResources.RESULTS;
+import org.netbeans.modules.bamboo.model.rest.Changes;
 
 /**
  *
@@ -103,15 +104,15 @@ public class BambooCallerXmlIT {
         assertThat(results.isEmpty(), is(false));
     }
     
-     @Test
+    @Test
     public void testGetChanges_ResultsNotEmpty() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, CHANGED_FILES);
-        //TODO write test for changes
         String key = props.getProperty("result.key");
         WebTarget webTarget = factory.newTarget(RESULT + key, params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
-        assertThat(response.getChanges().getChanges().isEmpty(), is(false));
+        Changes changes = response.getChanges();
+        assertThat(changes.getChange().isEmpty(), is(false));
     }
 
 }

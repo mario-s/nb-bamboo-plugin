@@ -11,5 +11,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Changes extends Metrics{
-    private List<Change> changes;
+    private List<Change> change;
 }
