@@ -33,7 +33,6 @@ import static org.netbeans.modules.bamboo.glue.ExpandParameter.EXPAND;
 import static org.netbeans.modules.bamboo.glue.ExpandParameter.RESULT_COMMENTS;
 import static org.netbeans.modules.bamboo.glue.RestResources.RESULT;
 import static org.netbeans.modules.bamboo.glue.RestResources.RESULTS;
-import org.netbeans.modules.bamboo.model.rest.Changes;
 
 /**
  *
@@ -111,8 +110,7 @@ public class BambooCallerXmlIT {
         String key = props.getProperty("result.key");
         WebTarget webTarget = factory.newTarget(RESULT + key, params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
-        Changes changes = response.getChanges();
-        assertThat(changes.getChange().isEmpty(), is(false));
+        assertThat(response.getChanges().asCollection().isEmpty(), is(false));
     }
 
 }
