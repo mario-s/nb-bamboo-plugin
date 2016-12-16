@@ -37,6 +37,7 @@ public class Result implements ServiceInfoProvideable{
     private long buildDurationInSeconds;
     private String buildStartedTime;
     private String buildCompletedTime;
+    
     @XmlElement
     private Changes changes;
     

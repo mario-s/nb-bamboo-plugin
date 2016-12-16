@@ -35,7 +35,7 @@ public class ChangesTest {
      */
     @Test
     public void testAsCollection_Change_ExpectNonEmptyCollection() {
-        classUnderTest.setChange(singletonList(new Change()));
+        classUnderTest.setChanges(singletonList(new Change()));
         Collection<Change> result = classUnderTest.asCollection();
         assertThat(result.isEmpty(), is(false));
     }

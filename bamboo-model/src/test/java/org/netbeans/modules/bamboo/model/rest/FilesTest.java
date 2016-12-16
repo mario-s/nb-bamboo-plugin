@@ -35,7 +35,7 @@ public class FilesTest {
      */
     @Test
     public void testAsCollection_Change_ExpectNonEmptyCollection() {
-        classUnderTest.setFile(singletonList(new File()));
+        classUnderTest.setFiles(singletonList(new File()));
         Collection<File> result = classUnderTest.asCollection();
         assertThat(result.isEmpty(), is(false));
     }

@@ -29,6 +29,7 @@ import org.netbeans.modules.bamboo.model.rest.Result;
 
 import static java.util.Collections.singletonMap;
 import static org.junit.Assume.assumeFalse;
+import org.junit.Ignore;
 import static org.netbeans.modules.bamboo.glue.ExpandParameter.CHANGED_FILES;
 import static org.netbeans.modules.bamboo.glue.ExpandParameter.EXPAND;
 import static org.netbeans.modules.bamboo.glue.ExpandParameter.RESULT_COMMENTS;
@@ -107,7 +108,7 @@ public class BambooCallerXmlIT {
     }
     
     @Test
-    public void testGetChanges_ResultsNotEmpty() {
+    public void testGetChanges_FilesNotEmpty() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, CHANGED_FILES);
         String key = props.getProperty("result.key");
@@ -117,6 +118,19 @@ public class BambooCallerXmlIT {
         assumeFalse(changes.isEmpty());
         Files files = changes.iterator().next().getFiles();
         assertThat(files.asCollection().isEmpty(), is(false));
+    }
+    
+    @Test
+    public void testGetChanges_ChangeSetIdNotEmpty() {
+        assumeTrue(existsUrl());
+        Map<String, String> params = singletonMap(EXPAND, CHANGED_FILES);
+        String key = props.getProperty("result.key");
+        WebTarget webTarget = factory.newTarget(RESULT + key, params);
+        Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
+        Collection<Change> changes = response.getChanges().asCollection();
+        assumeFalse(changes.isEmpty());
+        Change first = changes.iterator().next();
+        assertThat(first.getChangesetId().isEmpty(), is(false));
     }
 
 }
