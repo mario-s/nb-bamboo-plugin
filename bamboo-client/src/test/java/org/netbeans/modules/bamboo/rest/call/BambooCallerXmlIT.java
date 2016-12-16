@@ -28,11 +28,14 @@ import static org.junit.Assume.assumeTrue;
 import org.netbeans.modules.bamboo.model.rest.Result;
 
 import static java.util.Collections.singletonMap;
+import static org.junit.Assume.assumeFalse;
 import static org.netbeans.modules.bamboo.glue.ExpandParameter.CHANGED_FILES;
 import static org.netbeans.modules.bamboo.glue.ExpandParameter.EXPAND;
 import static org.netbeans.modules.bamboo.glue.ExpandParameter.RESULT_COMMENTS;
 import static org.netbeans.modules.bamboo.glue.RestResources.RESULT;
 import static org.netbeans.modules.bamboo.glue.RestResources.RESULTS;
+import org.netbeans.modules.bamboo.model.rest.Change;
+import org.netbeans.modules.bamboo.model.rest.Files;
 
 /**
  *
@@ -110,7 +113,10 @@ public class BambooCallerXmlIT {
         String key = props.getProperty("result.key");
         WebTarget webTarget = factory.newTarget(RESULT + key, params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
-        assertThat(response.getChanges().asCollection().isEmpty(), is(false));
+        Collection<Change> changes = response.getChanges().asCollection();
+        assumeFalse(changes.isEmpty());
+        Files files = changes.iterator().next().getFiles();
+        assertThat(files.asCollection().isEmpty(), is(false));
     }
 
 }

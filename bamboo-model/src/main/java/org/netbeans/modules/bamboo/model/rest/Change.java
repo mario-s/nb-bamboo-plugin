@@ -14,6 +14,8 @@ public class Change {
     private String fullName;
     
     private String comment;
+    private String commitUrl;
+    
     private String date;
     
     private Files files;
