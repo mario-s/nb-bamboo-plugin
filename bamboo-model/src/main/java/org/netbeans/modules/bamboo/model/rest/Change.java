@@ -15,10 +15,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = "changesetId")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Change {
+public class Change implements ServiceInfoProvideable{
     
     @XmlAttribute(name = "changesetId")
     private String changesetId;
+    @XmlAttribute
     private String author;
     
     private String userName;
