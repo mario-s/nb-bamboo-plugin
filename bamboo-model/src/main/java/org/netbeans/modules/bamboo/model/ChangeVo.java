@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.model;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,7 +25,7 @@ public class ChangeVo {
 
     private String commitUrl;
 
-    private String date;
-    
+    private LocalDateTime date;
+
     private Collection<FileVo> files;
 }

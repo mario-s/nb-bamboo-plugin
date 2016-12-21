@@ -3,12 +3,17 @@ package org.netbeans.modules.bamboo.glue;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.extern.java.Log;
+import org.netbeans.modules.bamboo.model.ChangeVo;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.VersionInfo;
+import org.netbeans.modules.bamboo.model.rest.Change;
+import org.netbeans.modules.bamboo.model.rest.Changes;
 import org.netbeans.modules.bamboo.model.rest.Info;
 import org.netbeans.modules.bamboo.model.rest.Plan;
 import org.netbeans.modules.bamboo.model.rest.Project;
@@ -83,8 +88,41 @@ public interface VoConverter<S, T> {
             dateConverter.convert(src.getBuildCompletedTime()).ifPresent(date -> target.setBuildCompletedTime(date));
             target.setBuildDurationInSeconds(src.getBuildDurationInSeconds());
 
+            final Changes srcChanges = src.getChanges();
+            if (srcChanges != null) {
+                Collection<ChangeVo> changes = srcChanges.asCollection().stream().map(c -> {
+                    ChangeVoConverter converter = new ChangeVoConverter();
+                    return converter.convert(c);
+                }).collect(Collectors.toList());
+
+                target.setChanges(changes);
+            }
+
             return target;
         }
+    }
+
+    static class ChangeVoConverter implements VoConverter<Change, ChangeVo> {
+
+        @Override
+        public ChangeVo convert(Change src) {
+            ChangeVo target = new ChangeVo();
+            
+            target.setChangesetId(src.getChangesetId());
+            target.setAuthor(src.getAuthor());
+            target.setFullName(src.getFullName());
+            target.setUserName(src.getUserName());
+            target.setComment(src.getComment());
+            target.setCommitUrl(src.getCommitUrl());
+            
+            LocalDateTimeConverter dateConverter = new LocalDateTimeConverter();
+            dateConverter.convert(src.getDate()).ifPresent(date -> target.setDate(date));
+            
+            //TODO convert files
+            
+            return target;
+        }
+
     }
 
     static class VersionInfoConverter implements VoConverter<Info, VersionInfo> {
@@ -126,7 +164,7 @@ public interface VoConverter<S, T> {
             }
             return opt;
         }
-        
+
         private Optional<String> getOffset(String src) {
             int pos = src.lastIndexOf("+");
             return (pos > 0) ? of(src.substring(pos, src.length())) : empty();
