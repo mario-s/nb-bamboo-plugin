@@ -31,7 +31,7 @@ import org.netbeans.modules.bamboo.model.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
-import org.netbeans.modules.bamboo.glue.VoConverter.VersionInfoConverter;
+import org.netbeans.modules.bamboo.convert.VersionInfoConverter;
 import org.netbeans.modules.bamboo.rest.AbstractVoUpdater.ProjectsUpdater;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.rest.Responseable;

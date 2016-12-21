@@ -1,10 +1,10 @@
-package org.netbeans.modules.bamboo.glue;
+package org.netbeans.modules.bamboo.convert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.netbeans.modules.bamboo.glue.VoConverter.PlanVoConverter;
-import org.netbeans.modules.bamboo.model.PlanVo;
-import org.netbeans.modules.bamboo.model.rest.Plan;
+import org.netbeans.modules.bamboo.convert.ProjectVoConverter;
+import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.rest.Project;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
@@ -13,19 +13,18 @@ import static org.junit.Assert.*;
  *
  * @author spindizzy
  */
-public class PlanVoConverterTest {
+public class ProjectVoConverterTest {
     private static final String FOO = "foo";
     
-    private PlanVoConverter classUnderTest;
+    private ProjectVoConverter classUnderTest;
     
-    private Plan source;
+    private Project source;
     
     @Before
     public void setUp() {
-        classUnderTest = new PlanVoConverter(FOO);
-        source = new Plan();
+        classUnderTest = new ProjectVoConverter(FOO);
+        source = new Project();
         source.setKey(FOO);
-        source.setName(FOO);
     }
 
     /**
@@ -33,7 +32,7 @@ public class PlanVoConverterTest {
      */
     @Test
     public void testConvert() {
-        PlanVo result = classUnderTest.convert(source);
+        ProjectVo result = classUnderTest.convert(source);
         assertThat(result.getKey(), equalTo(FOO));
     }
 

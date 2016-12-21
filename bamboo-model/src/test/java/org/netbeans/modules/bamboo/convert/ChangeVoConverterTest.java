@@ -1,8 +1,7 @@
-package org.netbeans.modules.bamboo.glue;
+package org.netbeans.modules.bamboo.convert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.netbeans.modules.bamboo.glue.VoConverter.ChangeVoConverter;
 import org.netbeans.modules.bamboo.model.ChangeVo;
 import org.netbeans.modules.bamboo.model.rest.Change;
 
