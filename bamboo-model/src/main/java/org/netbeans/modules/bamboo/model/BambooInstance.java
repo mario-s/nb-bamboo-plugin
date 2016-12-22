@@ -69,4 +69,12 @@ public interface BambooInstance extends
      * @return a collection of the plan keys.
      */
     Collection<String> getSuppressedPlans();
+    
+    /**
+     * This method attaches the changes to the result.
+     * The property changes will be replaced no mater if is present or not.
+     * 
+     * @param result the result where the changes should be set.
+     */
+    void attachChanges(ResultVo result);
 }

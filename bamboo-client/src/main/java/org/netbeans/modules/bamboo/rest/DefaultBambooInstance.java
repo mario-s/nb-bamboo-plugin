@@ -52,6 +52,7 @@ import org.openide.util.lookup.InstanceContent;
 
 import static org.netbeans.modules.bamboo.rest.BambooInstanceConstants.INSTANCE_SUPPRESSED_PLANS;
 import static java.lang.String.format;
+import org.netbeans.modules.bamboo.model.ResultVo;
 
 /**
  * @author spindizzy
@@ -105,6 +106,11 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         this.client = client;
         
         addConnectionListener();
+    }
+
+    @Override
+    public void attachChanges(ResultVo result) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     @Override
