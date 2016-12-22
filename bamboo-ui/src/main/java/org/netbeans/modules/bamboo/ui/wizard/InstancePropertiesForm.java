@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.ui.wizard;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.netbeans.modules.bamboo.glue.InstanceManageable;
+import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 
 import org.openide.NotificationLineSupport;
 

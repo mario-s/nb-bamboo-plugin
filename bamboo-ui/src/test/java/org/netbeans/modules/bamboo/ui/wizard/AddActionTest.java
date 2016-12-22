@@ -15,7 +15,7 @@ import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.netbeans.modules.bamboo.glue.InstanceManageable;
+import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;

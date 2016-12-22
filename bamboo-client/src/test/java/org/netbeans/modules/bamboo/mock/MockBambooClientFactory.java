@@ -3,12 +3,12 @@ package org.netbeans.modules.bamboo.mock;
 import java.util.Optional;
 import org.openide.util.lookup.ServiceProvider;
 
-import org.netbeans.modules.bamboo.glue.BambooClientProduceable;
+import org.netbeans.modules.bamboo.client.glue.BambooClientProduceable;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 
 import static java.util.Optional.empty;
 
-import org.netbeans.modules.bamboo.glue.BambooClient;
+import org.netbeans.modules.bamboo.client.glue.BambooClient;
 
 /**
  * @author spindizzy

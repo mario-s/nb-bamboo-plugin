@@ -20,7 +20,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.mock.MockInstanceFactory;
-import org.netbeans.modules.bamboo.glue.BambooInstanceProduceable;
+import org.netbeans.modules.bamboo.client.glue.BambooInstanceProduceable;
 
 import static org.openide.util.Lookup.getDefault;
 

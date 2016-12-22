@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import org.netbeans.modules.bamboo.glue.InstancePropertiesDisplayable;
+import org.netbeans.modules.bamboo.client.glue.InstancePropertiesDisplayable;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.*;
 
 import org.openide.DialogDescriptor;

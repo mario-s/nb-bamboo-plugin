@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import org.netbeans.modules.bamboo.glue.InstanceManageable;
+import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 
 import org.openide.NotifyDescriptor;

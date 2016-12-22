@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.ui.wizard;
 
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
-import org.netbeans.modules.bamboo.glue.InstanceManageable;
+import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 
 import org.openide.NotifyDescriptor;
 

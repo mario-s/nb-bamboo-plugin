@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo;
 
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.glue.InstanceManageable;
+import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 import org.openide.util.Task;
 import org.openide.util.TaskListener;
 

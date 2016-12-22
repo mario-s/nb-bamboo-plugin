@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.netbeans.modules.bamboo.model.BambooInstance;
 import org.openide.util.lookup.ServiceProvider;
-import org.netbeans.modules.bamboo.glue.BuildStatusWatchable;
+import org.netbeans.modules.bamboo.client.glue.BuildStatusWatchable;
 
 /**
  * This class observes the plans of all the instances.

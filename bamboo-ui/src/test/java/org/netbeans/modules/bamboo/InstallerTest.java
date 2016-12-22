@@ -15,7 +15,7 @@ import static org.mockito.Mockito.inOrder;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.glue.InstanceManageable;
+import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.mock.MockInstanceManager;
 
 import static org.openide.util.Lookup.getDefault;

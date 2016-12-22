@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.ui.nodes;
 import java.beans.PropertyChangeEvent;
 import org.netbeans.api.annotations.common.StaticResource;
 
-import org.netbeans.modules.bamboo.glue.InstanceManageable;
+import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 
 import static org.openide.util.Lookup.getDefault;
 
@@ -22,7 +22,7 @@ import org.netbeans.modules.bamboo.ui.actions.ActionConstants;
 import org.openide.nodes.Sheet;
 import org.openide.util.NbBundle.Messages;
 
-import org.netbeans.modules.bamboo.glue.InstanceConstants;
+import org.netbeans.modules.bamboo.client.glue.InstanceConstants;
 import org.netbeans.modules.bamboo.model.event.ServerConnectionEvent;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
@@ -30,7 +30,7 @@ import org.openide.util.LookupListener;
 import org.openide.util.lookup.Lookups;
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
-import static org.netbeans.modules.bamboo.glue.InstanceConstants.PROP_SYNC_INTERVAL;
+import static org.netbeans.modules.bamboo.client.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Name;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Projects;

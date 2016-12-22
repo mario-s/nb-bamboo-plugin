@@ -1,12 +1,12 @@
 package org.netbeans.modules.bamboo.mock;
 
 import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.glue.InstanceManageable;
+import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 
 import org.openide.util.lookup.ServiceProvider;
 
 import java.util.Collection;
-import org.netbeans.modules.bamboo.rest.DefaultInstanceManager;
+import org.netbeans.modules.bamboo.client.rest.DefaultInstanceManager;
 
 
 /**
