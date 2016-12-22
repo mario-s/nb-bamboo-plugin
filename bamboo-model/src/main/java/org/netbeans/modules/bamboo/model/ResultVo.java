@@ -1,14 +1,18 @@
 package org.netbeans.modules.bamboo.model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * This class represent the result for a plan.
+ * <br/>
+ * If the property changes is empty, that means there was no request to the server to get this information.
  *
  * @author spindizzy
  */
@@ -25,7 +29,7 @@ public class ResultVo extends AbstractVo {
     private LocalDateTime buildStartedTime;
     private LocalDateTime buildCompletedTime;
 
-    private Collection<ChangeVo> changes;
+    private Optional<Collection<ChangeVo>> changes;
 
     public ResultVo() {
         this("");
@@ -33,12 +37,13 @@ public class ResultVo extends AbstractVo {
 
     public ResultVo(String key) {
         super(key);
-        changes = new ArrayList<>();
+        changes = empty();
     }
 
+    
     public void setChanges(Collection<ChangeVo> changes) {
         if (changes != null) {
-            this.changes = changes;
+            this.changes = of(changes);
         }
     }
 }
