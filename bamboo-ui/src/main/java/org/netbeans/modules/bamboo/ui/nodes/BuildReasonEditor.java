@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.ui.nodes;
 import java.awt.Component;
 import java.beans.PropertyEditorSupport;
 import org.netbeans.modules.bamboo.ui.HtmlPane;
-import org.netbeans.modules.bamboo.util.TextExtractor;
+import org.netbeans.modules.bamboo.ui.util.TextExtractor;
 
 /**
  * This is a custom editor for the build reason of a plan.

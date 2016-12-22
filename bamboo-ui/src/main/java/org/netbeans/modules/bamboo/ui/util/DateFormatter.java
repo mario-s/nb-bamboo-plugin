@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.util;
+package org.netbeans.modules.bamboo.ui.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

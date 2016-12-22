@@ -19,7 +19,7 @@ import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
 import org.netbeans.modules.bamboo.ui.actions.ActionConstants;
-import org.netbeans.modules.bamboo.util.DateFormatter;
+import org.netbeans.modules.bamboo.ui.util.DateFormatter;
 
 import org.openide.actions.PropertiesAction;
 import org.openide.nodes.PropertySupport;
