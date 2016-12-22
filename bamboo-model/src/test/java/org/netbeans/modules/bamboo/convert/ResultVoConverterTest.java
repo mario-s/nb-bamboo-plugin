@@ -2,15 +2,10 @@ package org.netbeans.modules.bamboo.convert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.netbeans.modules.bamboo.convert.ResultVoConverter;
 import org.netbeans.modules.bamboo.model.ResultVo;
-import org.netbeans.modules.bamboo.model.rest.Change;
-import org.netbeans.modules.bamboo.model.rest.Changes;
 import org.netbeans.modules.bamboo.model.rest.Result;
 
-import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
 
@@ -71,16 +66,6 @@ public class ResultVoConverterTest {
         source.setBuildStartedTime("2016-12-02T07:43:02.000");
         ResultVo result = classUnderTest.convert(source);
         assertThat(result.getBuildStartedTime(), notNullValue());
-    }
-    
-    @Test
-    public void testConvert_WithChanges_ExpectChangesVo() {
-        Change change = new Change();
-        Changes changes = new Changes();
-        changes.setChanges(singletonList(change));
-        source.setChanges(changes);
-        ResultVo result = classUnderTest.convert(source);
-        assertThat(result.getChanges().isEmpty(), is(false));
     }
 
 }

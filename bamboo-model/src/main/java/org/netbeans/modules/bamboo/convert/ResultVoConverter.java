@@ -1,10 +1,6 @@
 package org.netbeans.modules.bamboo.convert;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
-import org.netbeans.modules.bamboo.model.ChangeVo;
 import org.netbeans.modules.bamboo.model.ResultVo;
-import org.netbeans.modules.bamboo.model.rest.Changes;
 import org.netbeans.modules.bamboo.model.rest.Result;
 
 /**
@@ -24,8 +20,6 @@ public class ResultVoConverter implements VoConverter<Result, ResultVo> {
 
         convertDates(src, target);
 
-        convertChanges(src, target);
-        
         return target;
     }
 
@@ -34,18 +28,6 @@ public class ResultVoConverter implements VoConverter<Result, ResultVo> {
         dateConverter.convert(src.getBuildStartedTime()).ifPresent((date) -> target.setBuildStartedTime(date));
         dateConverter.convert(src.getBuildCompletedTime()).ifPresent((date) -> target.setBuildCompletedTime(date));
         target.setBuildDurationInSeconds(src.getBuildDurationInSeconds());
-    }
-
-    private void convertChanges(Result src, ResultVo target) {
-        final Changes srcChanges = src.getChanges();
-        if (srcChanges != null) {
-            Collection<ChangeVo> changes = srcChanges.asCollection().stream().map(
-                    (org.netbeans.modules.bamboo.model.rest.Change c) -> {
-                        ChangeVoConverter converter = new ChangeVoConverter();
-                        return converter.convert(c);
-                    }).collect(Collectors.toList());
-            target.setChanges(changes);
-        }
     }
 
 }
