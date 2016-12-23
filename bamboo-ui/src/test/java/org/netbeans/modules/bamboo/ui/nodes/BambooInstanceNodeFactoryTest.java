@@ -15,7 +15,8 @@ import org.openide.util.lookup.InstanceContent;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.mock;
 

@@ -1,5 +1,6 @@
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.model.rcp;
 
+import org.netbeans.modules.bamboo.model.LifeCycleState;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.junit.Before;

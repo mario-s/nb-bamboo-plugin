@@ -2,11 +2,14 @@ package org.netbeans.modules.bamboo.ui.notification;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
-import org.netbeans.modules.bamboo.model.PlanVo;
-import org.netbeans.modules.bamboo.model.ResultVo;
+
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 /**
  *

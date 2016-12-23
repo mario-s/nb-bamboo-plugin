@@ -22,8 +22,8 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
-import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 
 import static org.openide.util.Lookup.getDefault;
 

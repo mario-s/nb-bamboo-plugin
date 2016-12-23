@@ -2,12 +2,14 @@ package org.netbeans.modules.bamboo.client.rest;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.netbeans.modules.bamboo.client.rest.AbstractVoUpdater.ProjectsUpdater;
 
 /**

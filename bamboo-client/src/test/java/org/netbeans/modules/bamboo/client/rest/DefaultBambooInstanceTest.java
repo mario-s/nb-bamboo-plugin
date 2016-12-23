@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 
 
 import java.util.Optional;
@@ -32,14 +32,15 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
-import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
 
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+
 import org.netbeans.modules.bamboo.client.glue.ExpandParameter;
-import org.netbeans.modules.bamboo.model.ResultVo;
+import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 /**
  *

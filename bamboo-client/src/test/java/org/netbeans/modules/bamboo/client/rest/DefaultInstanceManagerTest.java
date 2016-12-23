@@ -1,8 +1,8 @@
 package org.netbeans.modules.bamboo.client.rest;
 
 import java.beans.PropertyChangeEvent;
-import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
 import java.util.Collection;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;

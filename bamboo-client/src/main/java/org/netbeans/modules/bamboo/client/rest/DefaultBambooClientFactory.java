@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.client.rest;
 
 import java.util.Optional;
 import org.netbeans.modules.bamboo.client.glue.BambooClientProduceable;
-import org.netbeans.modules.bamboo.model.InstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import org.openide.util.lookup.ServiceProvider;
 
 import static java.util.Optional.empty;

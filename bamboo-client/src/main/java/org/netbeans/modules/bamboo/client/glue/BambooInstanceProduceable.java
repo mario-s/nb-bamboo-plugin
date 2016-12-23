@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.client.glue;
 
-import org.netbeans.modules.bamboo.model.InstanceValues;
-import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import java.util.Optional;
 
 

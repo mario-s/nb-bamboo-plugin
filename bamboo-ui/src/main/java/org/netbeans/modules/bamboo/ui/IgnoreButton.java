@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Optional;
-import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.openide.util.NbBundle.Messages;
 
 import static java.util.Optional.ofNullable;

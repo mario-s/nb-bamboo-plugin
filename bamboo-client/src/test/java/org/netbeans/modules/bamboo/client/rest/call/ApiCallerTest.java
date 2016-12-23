@@ -1,6 +1,7 @@
 package org.netbeans.modules.bamboo.client.rest.call;
 
 import static java.util.Collections.singletonMap;
+
 import java.util.Map;
 import java.util.Optional;
 import javax.ws.rs.client.Entity;
@@ -12,7 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.model.InstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import org.netbeans.modules.bamboo.model.rest.Info;
 
 import static org.hamcrest.CoreMatchers.is;

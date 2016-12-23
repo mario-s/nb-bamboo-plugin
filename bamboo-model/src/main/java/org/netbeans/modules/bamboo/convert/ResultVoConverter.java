@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.convert;
 
-import org.netbeans.modules.bamboo.model.ResultVo;
+import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 import org.netbeans.modules.bamboo.model.rest.Result;
 
 /**

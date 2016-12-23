@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.convert;
 import org.junit.Before;
 import org.junit.Test;
 import org.netbeans.modules.bamboo.convert.ProjectVoConverter;
-import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.Project;
 
 import static org.hamcrest.CoreMatchers.equalTo;

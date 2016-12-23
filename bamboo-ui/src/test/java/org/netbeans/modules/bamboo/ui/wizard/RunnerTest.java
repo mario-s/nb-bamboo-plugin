@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.mock.MockInstanceFactory;
 import org.netbeans.modules.bamboo.client.glue.BambooInstanceProduceable;
 
@@ -26,7 +26,7 @@ import static org.openide.util.Lookup.getDefault;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;

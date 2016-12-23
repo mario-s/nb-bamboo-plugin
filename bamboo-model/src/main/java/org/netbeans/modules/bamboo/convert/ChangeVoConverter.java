@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.convert;
 
-import org.netbeans.modules.bamboo.model.ChangeVo;
+import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
 import org.netbeans.modules.bamboo.model.rest.Change;
 
 /**

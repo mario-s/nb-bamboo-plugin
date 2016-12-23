@@ -2,11 +2,11 @@ package org.netbeans.modules.bamboo.ui.notification;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.ModelChangedValues;
-import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.ModelChangedValues;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
-import org.netbeans.modules.bamboo.model.ResultVo;
+import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;

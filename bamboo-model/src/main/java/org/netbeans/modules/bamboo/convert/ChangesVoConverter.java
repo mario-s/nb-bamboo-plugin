@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.convert;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-import org.netbeans.modules.bamboo.model.ChangeVo;
+import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
 import org.netbeans.modules.bamboo.model.rest.Changes;
 
 import static java.util.Collections.emptyList;

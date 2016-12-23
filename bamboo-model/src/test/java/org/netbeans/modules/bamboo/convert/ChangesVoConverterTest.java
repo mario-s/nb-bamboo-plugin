@@ -1,14 +1,17 @@
 package org.netbeans.modules.bamboo.convert;
 
 import java.util.Collection;
+
 import static java.util.Collections.singletonList;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.netbeans.modules.bamboo.model.ChangeVo;
+import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
 import org.netbeans.modules.bamboo.model.rest.Change;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+
 import org.netbeans.modules.bamboo.model.rest.Changes;
 
 /**

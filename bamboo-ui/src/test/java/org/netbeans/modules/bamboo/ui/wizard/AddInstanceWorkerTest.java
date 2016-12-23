@@ -20,7 +20,7 @@ import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.mock.MockInstanceFactory;
 import org.netbeans.modules.bamboo.client.glue.BambooInstanceProduceable;
@@ -31,7 +31,7 @@ import org.openide.util.Task;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
 
 import static org.mockito.Mockito.atLeast;
 

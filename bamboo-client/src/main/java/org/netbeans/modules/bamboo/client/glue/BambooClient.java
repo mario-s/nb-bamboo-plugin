@@ -1,8 +1,8 @@
 package org.netbeans.modules.bamboo.client.glue;
 
-import org.netbeans.modules.bamboo.model.VersionInfo;
+import org.netbeans.modules.bamboo.model.rcp.VersionInfo;
 import java.util.Collection;
-import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 
 /**
  * This interface defines methods to access the Bamboo server.

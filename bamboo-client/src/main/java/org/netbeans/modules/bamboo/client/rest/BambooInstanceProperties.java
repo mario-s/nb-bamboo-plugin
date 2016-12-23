@@ -21,7 +21,7 @@ import static org.netbeans.modules.bamboo.client.glue.InstanceConstants.PROP_NAM
 import static org.netbeans.modules.bamboo.client.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 import static org.netbeans.modules.bamboo.client.glue.InstanceConstants.PROP_URL;
 
-import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 
 /**
  * Instance properties for Bamboo instance.

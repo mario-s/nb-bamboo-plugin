@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.convert;
 
-import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rest.Plan;
 
 /**

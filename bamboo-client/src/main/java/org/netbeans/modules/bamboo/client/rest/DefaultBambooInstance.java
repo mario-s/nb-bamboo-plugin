@@ -2,10 +2,9 @@ package org.netbeans.modules.bamboo.client.rest;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
-import org.netbeans.modules.bamboo.model.InstanceValues;
-import org.netbeans.modules.bamboo.model.VersionInfo;
-
+import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.VersionInfo;
 import org.openide.util.RequestProcessor;
 import org.openide.util.RequestProcessor.Task;
 
@@ -30,21 +29,19 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 import lombok.extern.java.Log;
-import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 
 import static org.netbeans.modules.bamboo.client.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 
-import org.netbeans.modules.bamboo.model.ModelChangedValues;
-import org.netbeans.modules.bamboo.model.ProjectVo;
-
+import org.netbeans.modules.bamboo.model.rcp.ModelChangedValues;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.openide.util.Lookup;
 import org.netbeans.modules.bamboo.client.glue.InstanceConstants;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 
-import org.netbeans.modules.bamboo.model.PlanVo;
-
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
 import org.netbeans.modules.bamboo.model.event.QueueEvent.QueueEventBuilder;
 import org.openide.util.lookup.AbstractLookup;
@@ -52,8 +49,9 @@ import org.openide.util.lookup.InstanceContent;
 
 import static org.netbeans.modules.bamboo.client.rest.BambooInstanceConstants.INSTANCE_SUPPRESSED_PLANS;
 import static java.lang.String.format;
+
 import org.netbeans.modules.bamboo.client.glue.ExpandParameter;
-import org.netbeans.modules.bamboo.model.ResultVo;
+import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 /**
  * @author spindizzy

@@ -3,10 +3,10 @@ package org.netbeans.modules.bamboo.client.rest;
 import java.util.Collection;
 import javax.ws.rs.core.Response;
 import org.netbeans.modules.bamboo.client.glue.BambooClient;
-import org.netbeans.modules.bamboo.model.InstanceValues;
-import org.netbeans.modules.bamboo.model.PlanVo;
-import org.netbeans.modules.bamboo.model.ProjectVo;
-import org.netbeans.modules.bamboo.model.ResultVo;
+import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
+import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 /**
  * Abstract parent for bamboo client which extends the interface for not public exposed methods.

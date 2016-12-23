@@ -1,6 +1,6 @@
 package org.netbeans.modules.bamboo.convert;
 
-import org.netbeans.modules.bamboo.model.VersionInfo;
+import org.netbeans.modules.bamboo.model.rcp.VersionInfo;
 import org.netbeans.modules.bamboo.model.rest.Info;
 
 /**

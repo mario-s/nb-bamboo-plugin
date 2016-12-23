@@ -3,8 +3,8 @@ package org.netbeans.modules.bamboo.client.rest;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallRepeatable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallerFactory;
-import org.netbeans.modules.bamboo.model.InstanceValues;
-import org.netbeans.modules.bamboo.model.VersionInfo;
+import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.VersionInfo;
 import org.netbeans.modules.bamboo.model.rest.Info;
 import org.netbeans.modules.bamboo.model.rest.Plan;
 import org.netbeans.modules.bamboo.model.rest.PlansResponse;
@@ -27,19 +27,21 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import org.netbeans.api.annotations.common.NonNull;
 import lombok.extern.java.Log;
-import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 import org.netbeans.modules.bamboo.convert.VersionInfoConverter;
 import org.netbeans.modules.bamboo.client.rest.AbstractVoUpdater.ProjectsUpdater;
-import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rest.Responseable;
 import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 
 import static java.util.Collections.singletonMap;
 import static java.lang.String.format;
+
 import java.util.ArrayList;
+
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.EXPAND;
@@ -51,9 +53,10 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.PROJECTS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.QUEUE;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
+
 import org.netbeans.modules.bamboo.convert.ChangesVoConverter;
-import org.netbeans.modules.bamboo.model.ChangeVo;
-import org.netbeans.modules.bamboo.model.ResultVo;
+import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
+import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 import org.netbeans.modules.bamboo.model.rest.Change;
 import org.netbeans.modules.bamboo.model.rest.Changes;
 

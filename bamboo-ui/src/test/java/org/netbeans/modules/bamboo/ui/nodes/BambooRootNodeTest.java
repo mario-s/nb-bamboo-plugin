@@ -1,8 +1,10 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import static java.util.Collections.singletonList;
+
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
+
 import static org.hamcrest.CoreMatchers.is;
 
 import static org.junit.Assert.*;
@@ -19,9 +21,11 @@ import static org.openide.util.Lookup.getDefault;
 import javax.swing.Action;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+
 import static org.mockito.internal.util.reflection.Whitebox.getInternalState;
+
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.model.event.InstancesLoadEvent;
 
 

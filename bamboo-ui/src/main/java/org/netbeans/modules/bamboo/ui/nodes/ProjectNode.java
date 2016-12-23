@@ -10,9 +10,9 @@ import java.util.Collection;
 import java.util.List;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
-import org.netbeans.modules.bamboo.model.ModelChangedValues;
-import org.netbeans.modules.bamboo.model.PlanVo;
-import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.rcp.ModelChangedValues;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.netbeans.modules.bamboo.ui.actions.ActionConstants;
 
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Instance_Prop_Plans;

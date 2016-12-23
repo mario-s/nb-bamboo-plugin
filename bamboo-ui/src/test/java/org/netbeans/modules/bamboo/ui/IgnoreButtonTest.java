@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.ui;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;

@@ -1,10 +1,14 @@
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.model.rcp;
 
+import org.netbeans.modules.bamboo.model.LifeCycleState;
+import org.netbeans.modules.bamboo.model.State;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
+
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

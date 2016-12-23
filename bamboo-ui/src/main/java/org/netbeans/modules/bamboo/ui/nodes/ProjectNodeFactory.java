@@ -7,9 +7,9 @@ import org.openide.nodes.Node;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import lombok.extern.java.Log;
-import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 
 import static java.util.Collections.sort;
 

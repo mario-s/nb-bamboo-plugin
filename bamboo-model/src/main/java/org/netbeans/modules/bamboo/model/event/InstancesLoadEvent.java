@@ -4,7 +4,7 @@ import java.util.Collection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
-import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 
 /**
  * This event is fired when the saved {@link BambooInstance} are loaded from the user's preferences.

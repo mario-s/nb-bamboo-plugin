@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.io.Serializable;
 import java.util.Collection;
-import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;

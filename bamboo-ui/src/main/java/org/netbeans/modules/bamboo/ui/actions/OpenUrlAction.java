@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Optional;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import org.netbeans.modules.bamboo.model.OpenableInBrowser;
+import org.netbeans.modules.bamboo.model.rcp.OpenableInBrowser;
 import org.netbeans.modules.bamboo.ui.BrowserInstance;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;

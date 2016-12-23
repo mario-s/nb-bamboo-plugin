@@ -1,14 +1,19 @@
 package org.netbeans.modules.bamboo.ui.notification;
 
 import static org.hamcrest.CoreMatchers.is;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import org.junit.runner.RunWith;
+
 import static org.mockito.BDDMockito.given;
+
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.openide.util.Lookup;
 
 /**

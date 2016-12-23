@@ -2,9 +2,9 @@ package org.netbeans.modules.bamboo.client.rest;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.netbeans.modules.bamboo.model.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.LookupContext;
-import org.netbeans.modules.bamboo.model.ModelChangedValues;
+import org.netbeans.modules.bamboo.model.rcp.ModelChangedValues;
 import org.netbeans.modules.bamboo.model.event.ServerConnectionEvent;
 
 /**

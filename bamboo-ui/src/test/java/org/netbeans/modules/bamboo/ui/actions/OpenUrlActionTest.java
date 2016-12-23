@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.LookupContext;
-import org.netbeans.modules.bamboo.model.OpenableInBrowser;
+import org.netbeans.modules.bamboo.model.rcp.OpenableInBrowser;
 import org.netbeans.modules.bamboo.ui.BrowserInstance;
 import org.openide.awt.HtmlBrowser.URLDisplayer;
 import org.openide.util.Lookup;

@@ -15,8 +15,8 @@ import org.mockito.Mock;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.netbeans.modules.bamboo.model.InstanceValues;
-import org.netbeans.modules.bamboo.model.VersionInfo;
+import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.VersionInfo;
 import org.netbeans.modules.bamboo.model.rest.Info;
 import org.netbeans.modules.bamboo.model.rest.Plan;
 import org.netbeans.modules.bamboo.model.rest.Plans;
@@ -41,12 +41,12 @@ import javax.ws.rs.core.Response;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
-import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.Projects;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
 
-import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallRepeatable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallerFactory;
@@ -60,13 +60,16 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static java.lang.String.format;
 import static org.mockito.Matchers.anyString;
+
 import org.netbeans.modules.bamboo.client.glue.ExpandParameter;
+
 import static org.netbeans.modules.bamboo.client.glue.RestResources.INFO;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PLANS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PROJECTS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.QUEUE;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
-import org.netbeans.modules.bamboo.model.ResultVo;
+
+import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 /**
  * @author spindizzy

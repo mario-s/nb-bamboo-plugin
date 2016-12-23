@@ -1,5 +1,6 @@
 
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.model.rcp;
+
 
 
 import static org.hamcrest.CoreMatchers.is;

@@ -17,7 +17,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.netbeans.modules.bamboo.model.DefaultInstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
 
 import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 import org.netbeans.modules.bamboo.client.rest.HttpUtility;
@@ -34,6 +34,7 @@ import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.EXPAND;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.RESULT_COMMENTS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
+
 import org.netbeans.modules.bamboo.model.rest.Change;
 import org.netbeans.modules.bamboo.model.rest.Files;
 

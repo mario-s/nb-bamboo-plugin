@@ -4,7 +4,7 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.netbeans.modules.bamboo.model.InstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
 import static java.util.Collections.emptyMap;
 

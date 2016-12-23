@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.client.rest.call;
 
 import java.util.Map;
 import lombok.AllArgsConstructor;
-import org.netbeans.modules.bamboo.model.InstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
 import static org.netbeans.modules.bamboo.client.glue.RestResources.JSON_PATH;
 

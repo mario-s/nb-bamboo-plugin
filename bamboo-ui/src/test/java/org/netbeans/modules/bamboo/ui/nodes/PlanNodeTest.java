@@ -15,9 +15,9 @@ import org.netbeans.modules.bamboo.model.LifeCycleState;
 
 import static org.junit.Assert.*;
 
-import org.netbeans.modules.bamboo.model.PlanVo;
-import org.netbeans.modules.bamboo.model.ProjectVo;
-import org.netbeans.modules.bamboo.model.ResultVo;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
+import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
 import org.openide.nodes.Node;
 import org.openide.nodes.Node.Property;

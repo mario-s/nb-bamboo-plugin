@@ -4,8 +4,7 @@ import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import org.netbeans.modules.bamboo.model.InstanceValues;
-
+import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import java.util.Optional;
 
 import static java.util.Optional.empty;

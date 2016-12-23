@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.client.glue;
 
 import java.util.Optional;
-import org.netbeans.modules.bamboo.model.InstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
 /**
  * Create a new client for a bamboo instance.

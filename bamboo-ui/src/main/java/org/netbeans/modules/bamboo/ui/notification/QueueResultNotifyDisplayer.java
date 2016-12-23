@@ -5,7 +5,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.StatusType;
-import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
 import org.openide.awt.NotificationDisplayer.Category;
 import org.openide.awt.NotificationDisplayer.Priority;

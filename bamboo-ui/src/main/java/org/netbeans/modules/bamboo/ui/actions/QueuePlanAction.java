@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Optional;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import org.netbeans.modules.bamboo.model.Queueable;
+import org.netbeans.modules.bamboo.model.rcp.Queueable;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;

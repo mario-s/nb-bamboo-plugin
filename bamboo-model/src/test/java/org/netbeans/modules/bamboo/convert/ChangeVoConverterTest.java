@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.convert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.netbeans.modules.bamboo.model.ChangeVo;
+import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
 import org.netbeans.modules.bamboo.model.rest.Change;
 
 import static org.hamcrest.CoreMatchers.equalTo;

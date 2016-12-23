@@ -1,8 +1,8 @@
 package org.netbeans.modules.bamboo.client.rest;
 
 import org.netbeans.modules.bamboo.client.glue.BambooInstanceProduceable;
-import org.netbeans.modules.bamboo.model.InstanceValues;
-import org.netbeans.modules.bamboo.model.VersionInfo;
+import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.VersionInfo;
 
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
@@ -10,8 +10,8 @@ import org.openide.util.lookup.ServiceProvider;
 import java.util.Collection;
 import java.util.Optional;
 import org.netbeans.modules.bamboo.client.glue.BambooClientProduceable;
-import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;

@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.progress.ProgressHandleFactory;
-import org.netbeans.modules.bamboo.model.BambooInstance;
-import org.netbeans.modules.bamboo.model.ModelChangedValues;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.ModelChangedValues;
 
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.TXT_SYNC;
 

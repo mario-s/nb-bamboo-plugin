@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.convert;
 import org.junit.Before;
 import org.junit.Test;
 import org.netbeans.modules.bamboo.convert.VersionInfoConverter;
-import org.netbeans.modules.bamboo.model.VersionInfo;
+import org.netbeans.modules.bamboo.model.rcp.VersionInfo;
 import org.netbeans.modules.bamboo.model.rest.Info;
 
 import static org.hamcrest.CoreMatchers.equalTo;

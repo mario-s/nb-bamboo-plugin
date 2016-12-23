@@ -3,9 +3,9 @@ package org.netbeans.modules.bamboo.client.rest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
-import org.netbeans.modules.bamboo.model.AbstractVo;
-import org.netbeans.modules.bamboo.model.PlanVo;
-import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.rcp.AbstractVo;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 
 /**
  * This class updates all the ValueObjects (vo).

@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.convert;
 import org.junit.Before;
 import org.junit.Test;
 import org.netbeans.modules.bamboo.convert.PlanVoConverter;
-import org.netbeans.modules.bamboo.model.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rest.Plan;
 
 import static org.hamcrest.CoreMatchers.equalTo;

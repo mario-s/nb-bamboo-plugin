@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.model.rcp;
 
 /**
  * This interface defines a methods to queue something (normally a plan).

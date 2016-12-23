@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.model;
+package org.netbeans.modules.bamboo.model.rcp;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

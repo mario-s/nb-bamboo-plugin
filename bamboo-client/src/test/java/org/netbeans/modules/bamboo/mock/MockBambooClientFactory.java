@@ -4,7 +4,7 @@ import java.util.Optional;
 import org.openide.util.lookup.ServiceProvider;
 
 import org.netbeans.modules.bamboo.client.glue.BambooClientProduceable;
-import org.netbeans.modules.bamboo.model.InstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
 import static java.util.Optional.empty;
 

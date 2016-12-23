@@ -13,8 +13,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import org.netbeans.modules.bamboo.model.PlanVo;
-import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.openide.nodes.Sheet;
 
 /**
