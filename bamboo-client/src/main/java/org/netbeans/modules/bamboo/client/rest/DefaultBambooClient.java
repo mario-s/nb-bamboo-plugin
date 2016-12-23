@@ -31,7 +31,7 @@ import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
-import org.netbeans.modules.bamboo.convert.VersionInfoConverter;
+import org.netbeans.modules.bamboo.model.convert.VersionInfoConverter;
 import org.netbeans.modules.bamboo.client.rest.AbstractVoUpdater.ProjectsUpdater;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rest.Responseable;
@@ -54,7 +54,7 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.QUEUE;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 
-import org.netbeans.modules.bamboo.convert.ChangesVoConverter;
+import org.netbeans.modules.bamboo.model.convert.ChangesVoConverter;
 import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 import org.netbeans.modules.bamboo.model.rest.Change;

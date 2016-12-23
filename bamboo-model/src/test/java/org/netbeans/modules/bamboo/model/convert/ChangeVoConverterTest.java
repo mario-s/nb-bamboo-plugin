@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.convert;
+package org.netbeans.modules.bamboo.model.convert;
 
 import org.junit.Before;
 import org.junit.Test;

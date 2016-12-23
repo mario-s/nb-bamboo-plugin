@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.convert;
+package org.netbeans.modules.bamboo.model.convert;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatterBuilder;

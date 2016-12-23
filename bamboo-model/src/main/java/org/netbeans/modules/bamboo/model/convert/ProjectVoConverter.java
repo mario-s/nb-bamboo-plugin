@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.convert;
+package org.netbeans.modules.bamboo.model.convert;
 
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.Project;
