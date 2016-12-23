@@ -7,14 +7,13 @@ import org.netbeans.modules.bamboo.model.rest.Info;
  *
  * @author spindizzy
  */
-public class VersionInfoConverter implements VoConverter<Info, VersionInfo> {
+public class VersionInfoConverter extends AbstractVoConverter<Info, VersionInfo> {
     
     @Override
     public VersionInfo convert(Info src) {
         VersionInfo target = VersionInfo.builder().version(src.getVersion()).buildNumber(src.getBuildNumber()).build();
         final String buildDate = src.getBuildDate();
-        LocalDateTimeConverter dateConverter = new LocalDateTimeConverter();
-        dateConverter.convert(buildDate).ifPresent((date) -> target.setBuildDate(date));
+        toDate(buildDate).ifPresent((date) -> target.setBuildDate(date));
         return target;
     }
     

@@ -7,7 +7,7 @@ import org.netbeans.modules.bamboo.model.rest.Change;
  *
  * @author spindizzy
  */
-class ChangeVoConverter implements VoConverter<Change, ChangeVo> {
+class ChangeVoConverter extends AbstractVoConverter<Change, ChangeVo> {
     
     @Override
     public ChangeVo convert(Change src) {
@@ -18,8 +18,7 @@ class ChangeVoConverter implements VoConverter<Change, ChangeVo> {
         target.setUserName(src.getUserName());
         target.setComment(src.getComment());
         target.setCommitUrl(src.getCommitUrl());
-        LocalDateTimeConverter dateConverter = new LocalDateTimeConverter();
-        dateConverter.convert(src.getDate()).ifPresent((date) -> target.setDate(date));
+        toDate(src.getDate()).ifPresent((date) -> target.setDate(date));
         //TODO convert files
         return target;
     }

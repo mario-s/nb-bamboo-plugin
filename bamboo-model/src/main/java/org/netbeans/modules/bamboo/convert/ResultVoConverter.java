@@ -5,9 +5,9 @@ import org.netbeans.modules.bamboo.model.rest.Result;
 
 /**
  *
- * @author Mario
+ * @author spindizzy
  */
-public class ResultVoConverter implements VoConverter<Result, ResultVo> {
+public class ResultVoConverter extends AbstractVoConverter<Result, ResultVo> {
 
     @Override
     public ResultVo convert(Result src) {
@@ -17,6 +17,7 @@ public class ResultVoConverter implements VoConverter<Result, ResultVo> {
         target.setBuildReason(src.getBuildReason());
         target.setState(src.getState());
         target.setLifeCycleState(src.getLifeCycleState());
+        target.setBuildDurationInSeconds(src.getBuildDurationInSeconds());
 
         convertDates(src, target);
 
@@ -24,10 +25,8 @@ public class ResultVoConverter implements VoConverter<Result, ResultVo> {
     }
 
     private void convertDates(Result src, ResultVo target) {
-        LocalDateTimeConverter dateConverter = new LocalDateTimeConverter();
-        dateConverter.convert(src.getBuildStartedTime()).ifPresent((date) -> target.setBuildStartedTime(date));
-        dateConverter.convert(src.getBuildCompletedTime()).ifPresent((date) -> target.setBuildCompletedTime(date));
-        target.setBuildDurationInSeconds(src.getBuildDurationInSeconds());
+        toDate(src.getBuildStartedTime()).ifPresent((date) -> target.setBuildStartedTime(date));
+        toDate(src.getBuildCompletedTime()).ifPresent((date) -> target.setBuildCompletedTime(date));
     }
 
 }
