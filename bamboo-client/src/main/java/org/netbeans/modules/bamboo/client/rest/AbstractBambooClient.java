@@ -6,6 +6,7 @@ import org.netbeans.modules.bamboo.client.glue.BambooClient;
 import org.netbeans.modules.bamboo.model.InstanceValues;
 import org.netbeans.modules.bamboo.model.PlanVo;
 import org.netbeans.modules.bamboo.model.ProjectVo;
+import org.netbeans.modules.bamboo.model.ResultVo;
 
 /**
  * Abstract parent for bamboo client which extends the interface for not public exposed methods.
@@ -46,6 +47,13 @@ abstract class AbstractBambooClient implements BambooClient {
      * @return the server's response.
      */
     abstract Response queue(PlanVo plan);
+    
+    /**
+     * Attaches a property to the given result.
+     * @param vo the result to attach the property
+     * @param expandParameter the expand paramter for the server call
+     */
+    abstract void attach(ResultVo vo, String expandParameter);
 
     InstanceValues getValues() {
         return values;

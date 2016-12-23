@@ -38,6 +38,8 @@ import org.netbeans.modules.bamboo.model.event.QueueEvent;
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import org.netbeans.modules.bamboo.client.glue.ExpandParameter;
+import org.netbeans.modules.bamboo.model.ResultVo;
 
 /**
  *
@@ -226,5 +228,12 @@ public class DefaultBambooInstanceTest {
         Collection<String> surpressed = classUnderTest.getSuppressedPlans();
         assertThat(surpressed.isEmpty(), is(true));
         verify(listener, never()).propertyChange(any(PropertyChangeEvent.class));
+    }
+    
+    @Test
+    public void testAttachChanges_ExpectClientCall() {
+        ResultVo result = new ResultVo();
+        classUnderTest.attachChanges(result);
+        verify(client).attach(result, ExpandParameter.CHANGED_FILES);
     }
 }

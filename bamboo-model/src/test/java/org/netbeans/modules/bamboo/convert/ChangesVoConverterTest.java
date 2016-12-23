@@ -36,4 +36,10 @@ public class ChangesVoConverterTest {
         Collection<ChangeVo> result = classUnderTest.convert(source);
         assertThat(result.isEmpty(), is(false));
     }
+    
+     @Test
+    public void testConvert_NullChanges_ExpectEmpty() {
+        Collection<ChangeVo> result = classUnderTest.convert(null);
+        assertThat(result.isEmpty(), is(true));
+    }
 }

@@ -39,6 +39,9 @@ import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 
 import static java.util.Collections.singletonMap;
 import static java.lang.String.format;
+import java.util.ArrayList;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.EXPAND;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.PROJECT_PLANS;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.RESULT_COMMENTS;
@@ -46,7 +49,13 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.INFO;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PLANS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PROJECTS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.QUEUE;
+import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
+import org.netbeans.modules.bamboo.convert.ChangesVoConverter;
+import org.netbeans.modules.bamboo.model.ChangeVo;
+import org.netbeans.modules.bamboo.model.ResultVo;
+import org.netbeans.modules.bamboo.model.rest.Change;
+import org.netbeans.modules.bamboo.model.rest.Changes;
 
 /**
  * @author spindizzy
@@ -110,6 +119,33 @@ class DefaultBambooClient extends AbstractBambooClient {
     }
 
     @Override
+    void attach(ResultVo vo, String expandParameter) {
+        String key = "TODO";
+        Optional<Result> result = doResultCall(key, expandParameter);
+
+        result.ifPresent(res -> {
+            ChangesVoConverter converter = new ChangesVoConverter();
+            vo.setChanges(converter.convert(res.getChanges()));
+        });
+
+    }
+
+    private Optional<Result> doResultCall(String resultKey, String expandParameter) {
+        Optional<Result> result = empty();
+
+        String path = format(RESULT, resultKey);
+        Map<String, String> params = singletonMap(EXPAND, expandParameter);
+        ApiCallable<Result> caller = apiCallerFactory.newCaller(Result.class, path, params);
+        Optional<WebTarget> target = caller.createTarget();
+        if (target.isPresent()) {
+            Result response = caller.doGet(target.get());
+            result = of(response);
+        }
+
+        return result;
+    }
+
+    @Override
     Response queue(@NonNull PlanVo plan) {
         Response response = Response.status(Status.NOT_FOUND).build();
         String path = format(QUEUE, plan.getKey());
@@ -120,7 +156,7 @@ class DefaultBambooClient extends AbstractBambooClient {
             if (log.isLoggable(Level.INFO)) {
                 log.info(String.format("queued build for: %s...got response: %s", path, response));
             }
-        }else if(log.isLoggable(Level.INFO)){
+        } else if (log.isLoggable(Level.INFO)) {
             log.info(String.format("did not queue the build for: %s", path));
         }
         return response;

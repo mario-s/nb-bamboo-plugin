@@ -18,7 +18,7 @@ final class CallParameters<T> {
     private final Class<T> responseClass;
     private final InstanceValues values;
     @Setter
-    private boolean json;
+    private boolean json; //if the path ends with json it is true
     @Setter
     private String path = "";
     @Setter

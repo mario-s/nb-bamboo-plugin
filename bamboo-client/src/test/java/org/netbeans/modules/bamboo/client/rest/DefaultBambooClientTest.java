@@ -1,6 +1,5 @@
 package org.netbeans.modules.bamboo.client.rest;
 
-
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -61,11 +60,13 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static java.lang.String.format;
 import static org.mockito.Matchers.anyString;
+import org.netbeans.modules.bamboo.client.glue.ExpandParameter;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.INFO;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PLANS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PROJECTS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.QUEUE;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
+import org.netbeans.modules.bamboo.model.ResultVo;
 
 /**
  * @author spindizzy
@@ -74,28 +75,42 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 public class DefaultBambooClientTest {
 
     private static final String FOO = "foo";
+
     private static final String BAR = "bar";
 
     @Mock
     private InstanceValues instanceValues;
+
     @Mock
     private WebTarget webTarget;
+
     @Mock
     private Invocation.Builder invocationBuilder;
+
     @Mock
     private ApiCallRepeatable<ProjectsResponse> projectsCaller;
+
     @Mock
     private ApiCallRepeatable<PlansResponse> plansCaller;
+
     @Mock
     private ApiCallRepeatable<ResultsResponse> resultsCaller;
+
+    @Mock
+    private ApiCallable<Result> resultCaller;
+
     @Mock
     private ApiCallable<Info> infoCaller;
+
     @Mock
     private ApiCallable postCaller;
+
     @Mock
     private HttpUtility httpUtility;
+
     @Mock
     private ApiCallerFactory apiCallerFactory;
+
     @Mock
 
     private DefaultBambooClient classUnderTest;
@@ -160,10 +175,13 @@ public class DefaultBambooClientTest {
         given(resultsCaller.createTarget()).willReturn(of(webTarget));
         given(resultsCaller.doGet(webTarget)).willReturn(resultsResponse);
         given(resultsCaller.repeat(resultsResponse)).willReturn(of(resultsResponse));
-        
+
         given(infoCaller.createTarget()).willReturn(of(webTarget));
         given(infoCaller.doGet(webTarget)).willReturn(info);
         
+        given(resultCaller.createTarget()).willReturn(of(webTarget));
+        given(resultCaller.doGet(webTarget)).willReturn(result);
+
         trainApiCallerFactory();
     }
 
@@ -178,13 +196,16 @@ public class DefaultBambooClientTest {
 
         given(apiCallerFactory.newRepeatCaller(eq(ResultsResponse.class), eq(RESULTS),
                 any(Map.class))).willReturn(
-                        resultsCaller);
-        
+                resultsCaller);
+
         given(apiCallerFactory.newCaller(eq(Info.class), eq(INFO))).willReturn(
                 infoCaller);
-        
+
         given(apiCallerFactory.newCaller(eq(Object.class), eq(format(QUEUE, FOO)))).willReturn(
                 postCaller);
+        
+        given(apiCallerFactory.newCaller(eq(Result.class), anyString(), any(Map.class))).willReturn(
+                resultCaller);
     }
 
     /**
@@ -241,7 +262,7 @@ public class DefaultBambooClientTest {
         classUnderTest.updateProjects(toBeUpdated);
         assertThat(toBeUpdated.isEmpty(), is(false));
     }
-    
+
     @Test
     public void testQueue_TargetPresent_Expect200() {
         final int code = 200;
@@ -249,21 +270,28 @@ public class DefaultBambooClientTest {
         plan.setParent(new ProjectVo(FOO));
         given(postCaller.createTarget()).willReturn(of(webTarget));
         given(postCaller.doPost(webTarget)).willReturn(Response.ok().build());
-        
+
         Response result = classUnderTest.queue(plan);
         assertThat(result.getStatus(), is(code));
         verify(postCaller).doPost(webTarget);
     }
-    
-     @Test
+
+    @Test
     public void testQueue_TargetEmpty_ExpectNotFound() {
         final int code = 404;
         PlanVo plan = new PlanVo(FOO);
         plan.setParent(new ProjectVo(FOO));
         given(postCaller.createTarget()).willReturn(empty());
-        
+
         Response result = classUnderTest.queue(plan);
         assertThat(result.getStatus(), is(code));
         verify(postCaller, never()).doPost(webTarget);
+    }
+
+    @Test
+    public void testAttach_Changes() {
+        ResultVo vo = new ResultVo();
+
+        classUnderTest.attach(vo, ExpandParameter.CHANGED_FILES);
     }
 }

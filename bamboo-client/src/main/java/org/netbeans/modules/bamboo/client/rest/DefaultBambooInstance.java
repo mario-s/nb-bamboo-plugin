@@ -52,6 +52,7 @@ import org.openide.util.lookup.InstanceContent;
 
 import static org.netbeans.modules.bamboo.client.rest.BambooInstanceConstants.INSTANCE_SUPPRESSED_PLANS;
 import static java.lang.String.format;
+import org.netbeans.modules.bamboo.client.glue.ExpandParameter;
 import org.netbeans.modules.bamboo.model.ResultVo;
 
 /**
@@ -64,137 +65,132 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
      * Use serialVersionUID for interoperability.
      */
     private static final long serialVersionUID = 1L;
-    
+
     private static final RequestProcessor RP = new RequestProcessor(
             DefaultBambooInstance.class);
-    
+
     private final transient StopWatch stopWatch = new StopWatch();
-    
+
     private final PropertyChangeSupport changeSupport;
-    
+
     private final Lookup lookup;
-    
+
     private final InstanceContent content;
-    
+
     private transient AbstractBambooClient client;
-    
+
     private transient Optional<Task> synchronizationTask = empty();
-    
+
     private transient Collection<ProjectVo> projects;
-    
+
     private transient VersionInfo version;
-    
+
     private transient boolean available = true;
-    
+
     private final List<String> suppressedPlans;
-    
+
     private BambooInstanceProperties properties;
-    
+
     DefaultBambooInstance(final BambooInstanceProperties properties) {
         this(null, null);
         copyProperties(properties);
         this.client = new DefaultBambooClient(this);
     }
-    
+
     DefaultBambooInstance(final InstanceValues values, final AbstractBambooClient client) {
         super(values);
-        
+
         this.changeSupport = new PropertyChangeSupport(this);
         this.content = new InstanceContent();
         this.lookup = new AbstractLookup(content);
         this.suppressedPlans = new ArrayList<>();
         this.client = client;
-        
+
         addConnectionListener();
     }
 
     @Override
-    public void attachChanges(ResultVo result) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    @Override
     public Collection<String> getSuppressedPlans() {
         return suppressedPlans;
     }
-    
+
     private void addConnectionListener() {
         InstanceConnectionListener listener = new InstanceConnectionListener();
         addPropertyChangeListener(listener);
     }
-    
+
     @Override
     public void addPropertyChangeListener(final PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
     }
-    
+
     @Override
     public VersionInfo getVersionInfo() {
         return version;
     }
-    
+
     @Override
     public Lookup getLookup() {
         return lookup;
     }
-    
+
     private void copyProperties(final BambooInstanceProperties props) throws NumberFormatException {
         setName(props.get(InstanceConstants.PROP_NAME));
         setUrl(props.get(InstanceConstants.PROP_URL));
         setUsername(props.get(BambooInstanceConstants.INSTANCE_USER));
-        
+
         String passwd = props.get(BambooInstanceConstants.INSTANCE_PASSWORD);
-        
+
         if (isNotBlank(passwd)) {
             setPassword(passwd.toCharArray());
         }
-        
+
         String syncProp = props.get(InstanceConstants.PROP_SYNC_INTERVAL);
-        
+
         if (isNotBlank(syncProp)) {
             setSyncInterval(Integer.parseInt(syncProp));
         }
-        
+
         String saved = props.get(INSTANCE_SUPPRESSED_PLANS);
         suppressedPlans.addAll(StringUtil.split(saved));
-        
+
         this.properties = props;
     }
-    
+
     private void doSynchronization(boolean showProgress) {
         if (log.isLoggable(Level.INFO)) {
             stopWatch.start();
         }
-        
+
         if (showProgress) {
             fireSynchronizationChange(true);
         }
-        
+
         try {
             synchronizeProjects();
         } finally {
-            
+
             if (showProgress) {
                 fireSynchronizationChange(false);
             }
-            
+
             if (log.isLoggable(Level.INFO)) {
                 stopWatch.stop();
                 log.info(
                         String.format("synchronized %s in %s", getName(), stopWatch));
                 stopWatch.reset();
             }
-            
+
             synchronized (this) {
                 notifyAll();
             }
         }
     }
-    
+
     private void fireSynchronizationChange(boolean value) {
         firePropertyChange(ModelChangedValues.Synchronizing.toString(), !value, value);
     }
-    
+
     private void synchronizeProjects() {
         Collection<ProjectVo> oldProjects = this.projects;
         if (oldProjects == null || oldProjects.isEmpty()) {
@@ -216,16 +212,16 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             }
         });
     }
-    
+
     private void synchronizeVersion() {
         version = client.getVersionInfo();
     }
-    
+
     private void fireProjectsChanged(Collection<ProjectVo> oldProjects, Collection<ProjectVo> newProjects) {
         firePropertyChange(ModelChangedValues.Projects.toString(), oldProjects,
                 newProjects);
     }
-    
+
     @Override
     public Preferences getPreferences() {
         return properties.getPreferences();
@@ -240,11 +236,11 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     public Collection<ProjectVo> getChildren() {
         return (projects == null) ? emptyList() : asList(projects.toArray(new ProjectVo[projects.size()]));
     }
-    
+
     Optional<Task> getSynchronizationTask() {
         return synchronizationTask;
     }
-    
+
     @Override
     public void setChildren(final Collection<ProjectVo> projects) {
         this.projects = projects;
@@ -252,36 +248,36 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         updateParent(projects);
         prepareSynchronization();
     }
-    
+
     private void suppress(Collection<ProjectVo> projects) {
         if (!suppressedPlans.isEmpty()) {
             final Set<String> keys = new HashSet<>(suppressedPlans);
             projects.forEach(project -> {
                 project.getChildren().forEach(plan -> {
                     String key = plan.getKey();
-                    if(keys.contains(key)){
+                    if (keys.contains(key)) {
                         plan.setNotify(false);
                     }
                 });
             });
         }
     }
-    
+
     private void prepareSynchronization() {
         int interval = getSyncIntervalInMillis();
-        
+
         log.info(String.format("interval: %s", interval));
         if (interval > 0) {
             scheduleTask(interval);
         }
     }
-    
+
     private void scheduleTask(int interval) {
         Task task = RP.create(() -> {
             if (verifyAvailibility()) {
                 doSynchronization(true);
             }
-            
+
             if (synchronizationTask.isPresent() && (interval > 0)) {
                 synchronizationTask.get().schedule(interval);
             }
@@ -289,29 +285,29 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         synchronizationTask = of(task);
         task.schedule(interval);
     }
-    
+
     private int getSyncIntervalInMillis() {
         return toMillis(getSyncInterval());
     }
-    
+
     @Override
     public boolean isAvailable() {
         return available;
     }
-    
+
     private boolean verifyAvailibility() {
         boolean oldVal = this.available;
         available = client.existsService();
-        
+
         if (log.isLoggable(Level.INFO)) {
             log.info(format("service is available: %s", available));
         }
-        
+
         firePropertyChange(ModelChangedValues.Available.toString(), oldVal, available);
-        
+
         return available;
     }
-    
+
     @Override
     public void queue(@NonNull PlanVo plan) {
         RP.post(() -> {
@@ -323,35 +319,40 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             }
         });
     }
-    
+
+    @Override
+    public void attachChanges(ResultVo result) {
+        client.attach(result, ExpandParameter.CHANGED_FILES);
+    }
+
     @Override
     public void remove() {
         if (properties != null) {
             properties.clear();
         }
     }
-    
+
     @Override
     public void removePropertyChangeListener(
             final PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
     }
-    
+
     @Override
     public void updateNotify(PlanVo plan) {
         List<String> old = new ArrayList<>(suppressedPlans);
         String key = plan.getKey();
         boolean notify = plan.isNotify();
-        
+
         if (notify) {
             suppressedPlans.remove(key);
         } else if (!suppressedPlans.contains(key)) {
             suppressedPlans.add(key);
         }
-        
+
         firePropertyChange(INSTANCE_SUPPRESSED_PLANS, old, suppressedPlans);
     }
-    
+
     @Override
     public Task synchronize() {
         return RP.post(() -> {
@@ -361,21 +362,21 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             }
         });
     }
-    
+
     private int toMillis(final int minutes) {
         return minutes * 60000;
     }
-    
+
     protected void firePropertyChange(final String propertyName,
             final Object oldValue,
             final Object newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
-    
+
     void setVersionInfo(final VersionInfo version) {
         this.version = version;
     }
-    
+
     @Override
     public void updateSyncInterval(int minutes) {
         int oldInterval = getSyncInterval();

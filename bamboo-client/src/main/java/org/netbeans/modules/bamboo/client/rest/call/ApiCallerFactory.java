@@ -38,6 +38,13 @@ public class ApiCallerFactory {
         return callParams;
     }
 
+    /**
+     * This method creates a new instance of {@link CallParameters}. If the given path ends with json, it is a 
+     * request to a json resource.
+     * @param clazz the class tu use
+     * @param path REST path
+     * @return a new instance.
+     */
     private CallParameters create(Class clazz, final String path) {
         CallParameters params = new CallParameters(clazz, values);
         params.setPath(path);
