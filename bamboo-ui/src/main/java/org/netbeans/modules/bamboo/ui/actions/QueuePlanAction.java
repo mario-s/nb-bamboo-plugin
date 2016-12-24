@@ -3,18 +3,14 @@ package org.netbeans.modules.bamboo.ui.actions;
 import java.awt.event.ActionEvent;
 import java.util.Collection;
 import java.util.Optional;
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.rcp.Queueable;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
-import org.openide.util.ContextAwareAction;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
-import org.openide.util.LookupListener;
 import org.openide.util.NbBundle;
-import org.openide.util.Utilities;
 
 /**
  * This action queues a plan for the next build.
@@ -32,19 +28,15 @@ import org.openide.util.Utilities;
 @NbBundle.Messages({
     "CTL_QueuePlanAction=&Queue the Plan"
 })
-public class QueuePlanAction extends AbstractAction implements LookupListener, ContextAwareAction {
-
-    private Lookup context;
+public class QueuePlanAction extends AbstractContextAction {
 
     private Lookup.Result<Queueable> result;
 
     public QueuePlanAction() {
-        this(Utilities.actionsGlobalContext());
     }
 
     QueuePlanAction(Lookup context) {
-        super(Bundle.CTL_QueuePlanAction());
-        this.context = context;
+        super(Bundle.CTL_QueuePlanAction(), context);
         init();
     }
 
@@ -58,6 +50,7 @@ public class QueuePlanAction extends AbstractAction implements LookupListener, C
         Optional<? extends Queueable> opt = allInstances().stream().filter(p -> p.isAvailable() && p.isEnabled()).findAny();
         setEnabled(opt.isPresent());
     }
+
     private Collection<? extends Queueable> allInstances() {
         return result.allInstances();
     }
@@ -68,7 +61,7 @@ public class QueuePlanAction extends AbstractAction implements LookupListener, C
     }
 
     private void init() {
-        result = context.lookupResult(Queueable.class);
+        result = getContext().lookupResult(Queueable.class);
         result.addLookupListener(this);
         resultChanged(null);
     }
