@@ -12,6 +12,7 @@ class ChangeVoConverter extends AbstractVoConverter<Change, ChangeVo> {
     @Override
     public ChangeVo convert(Change src) {
         ChangeVo target = new ChangeVo();
+        
         target.setChangesetId(src.getChangesetId());
         target.setAuthor(src.getAuthor());
         target.setFullName(src.getFullName());
@@ -19,7 +20,10 @@ class ChangeVoConverter extends AbstractVoConverter<Change, ChangeVo> {
         target.setComment(src.getComment());
         target.setCommitUrl(src.getCommitUrl());
         toDate(src.getDate()).ifPresent((date) -> target.setDate(date));
-        //TODO convert files
+        
+        FilesVoConverter converter = new FilesVoConverter();
+        target.setFiles(converter.convert(src.getFiles()));
+        
         return target;
     }
     
