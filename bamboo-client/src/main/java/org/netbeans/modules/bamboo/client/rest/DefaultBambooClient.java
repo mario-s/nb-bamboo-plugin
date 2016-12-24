@@ -40,7 +40,6 @@ import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 import static java.util.Collections.singletonMap;
 import static java.lang.String.format;
 
-import java.util.ArrayList;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -55,10 +54,7 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 
 import org.netbeans.modules.bamboo.model.convert.ChangesVoConverter;
-import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
-import org.netbeans.modules.bamboo.model.rest.Change;
-import org.netbeans.modules.bamboo.model.rest.Changes;
 
 /**
  * @author spindizzy
