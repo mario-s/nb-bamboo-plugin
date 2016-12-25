@@ -93,7 +93,8 @@ public class PlanVo extends AbstractOpenInBrowserVo implements PropertyChangeLis
         invoke(instance -> instance.queue(this));
     }
 
-    private void invoke(final Consumer<BambooInstance> action) {
+    @Override
+    public void invoke(final Consumer<BambooInstance> action) {
         getParent().ifPresent(project -> {
             project.getParent().ifPresent(action);
         });
