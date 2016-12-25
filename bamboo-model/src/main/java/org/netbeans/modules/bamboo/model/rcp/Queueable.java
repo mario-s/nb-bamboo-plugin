@@ -1,7 +1,7 @@
 package org.netbeans.modules.bamboo.model.rcp;
 
 /**
- * This interface defines a methods to queue something (normally a plan).
+ * This interface defines methods to queue a plan.
  * @author spindizzy
  */
 public interface Queueable extends Availability{
