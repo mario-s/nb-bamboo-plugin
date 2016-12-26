@@ -15,6 +15,10 @@ import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.NbBundle;
 import org.openide.util.RequestProcessor;
+import org.openide.windows.IOProvider;
+import org.openide.windows.InputOutput;
+import org.openide.windows.OutputListener;
+import org.openide.windows.OutputWriter;
 
 import static java.util.Optional.empty;
 
@@ -31,7 +35,8 @@ import static java.util.Optional.empty;
 )
 @ActionReference(path = ActionConstants.PLAN_ACTION_PATH, position = 720)
 @NbBundle.Messages({
-    "CTL_ShowChangesAction=&Show Changes"
+    "CTL_ShowChangesAction=&Show Changes",
+    "Changes_Output_Title=Changes for result {0} number {1}"
 })
 public class ShowChangesAction extends AbstractContextAction implements Runnable {
 
@@ -86,10 +91,14 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
             p.invoke(instance -> instance.attachChanges(r));
         }
         
-        optChanges.ifPresent(changes -> printChanges(changes));
+        Object [] args = new Object[]{p.getName(), r.getNumber()};
+        String name = NbBundle.getMessage(ShowChangesAction.class, "Changes_Output_Title", args);
+        
+        optChanges.ifPresent(changes -> printChanges(name, changes));
     }
 
-    private void printChanges(Collection<ChangeVo> changes) {
-        //TODO
+    private void printChanges(String name, Collection<ChangeVo> changes) {
+        InputOutput io = IOProvider.getDefault().getIO(name, new Action[0]);
+        io.select();
     }
 }
