@@ -6,20 +6,16 @@ import java.net.URL;
 import java.util.Collection;
 
 import java.util.Optional;
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.rcp.OpenableInBrowser;
 import org.netbeans.modules.bamboo.ui.BrowserInstance;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
-import org.openide.util.ContextAwareAction;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
-import org.openide.util.LookupListener;
 import org.openide.util.NbBundle.Messages;
-import org.openide.util.Utilities;
 
 /**
  * This action opens the url of the give openable in the prefered browser.
@@ -35,21 +31,18 @@ import org.openide.util.Utilities;
 )
 @ActionReference(path = ActionConstants.COMMON_ACTION_PATH, position = 600)
 @Messages("CTL_OpenUrlAction=&Open in Browser")
-public final class OpenUrlAction extends AbstractAction implements LookupListener, ContextAwareAction {
+public final class OpenUrlAction extends AbstractContextAction {
 
-    private Lookup context;
 
     private Lookup.Result<OpenableInBrowser> result;
     
     private BrowserInstance browser;
 
     public OpenUrlAction() {
-        this(Utilities.actionsGlobalContext());
     }
 
     OpenUrlAction(Lookup context) {
-        super(Bundle.CTL_OpenUrlAction());
-        this.context = context;
+        super(Bundle.CTL_OpenUrlAction(), context);
         browser = BrowserInstance.Instance;
         init();
     }
@@ -75,14 +68,13 @@ public final class OpenUrlAction extends AbstractAction implements LookupListene
     }
 
     private void init() {
-        result = context.lookupResult(OpenableInBrowser.class);
+        result = getContext().lookupResult(OpenableInBrowser.class);
         result.addLookupListener(this);
         resultChanged(null);
     }
 
     @Override
     public void resultChanged(LookupEvent ev) {
-        Optional<? extends OpenableInBrowser> opt = allInstances().stream().filter(p -> p.isAvailable()).findAny();
-        setEnabled(opt.isPresent());
+        enableIfAvailable(allInstances());
     }
 }

@@ -1,6 +1,10 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
+import java.util.Collection;
+import java.util.Optional;
 import javax.swing.AbstractAction;
+import org.netbeans.modules.bamboo.model.rcp.Availability;
+import org.netbeans.modules.bamboo.model.rcp.OpenableInBrowser;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.Lookup;
 import org.openide.util.LookupListener;
@@ -27,4 +31,8 @@ abstract class AbstractContextAction extends AbstractAction implements LookupLis
         return context;
     }
 
+    protected void enableIfAvailable(Collection<? extends Availability> instances) {
+        Optional<? extends Availability> opt = instances.stream().filter(p -> p.isAvailable()).findAny();
+        setEnabled(opt.isPresent());
+    }
 }
