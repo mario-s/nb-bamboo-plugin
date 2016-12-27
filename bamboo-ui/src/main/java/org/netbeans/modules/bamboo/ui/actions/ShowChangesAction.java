@@ -8,6 +8,7 @@ import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
 import org.netbeans.modules.bamboo.model.rcp.InstanceInvokeable;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
+import org.netbeans.modules.bamboo.ui.util.DateFormatter;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
@@ -97,12 +98,12 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
     }
 
     private void printChanges(String name, Collection<ChangeVo> changes) {
-        InputOutput io = IOProvider.getDefault().getIO(name, new Action[0]);
+        InputOutput io = getInputOutput(name);
         io.select();
         OutputWriter out = io.getOut();
         changes.forEach(change -> {
             StringBuilder builder = new StringBuilder();
-            builder.append(change.getDate()).append(": ");
+            builder.append(DateFormatter.format(change.getDate())).append(": ");
             builder.append(change.getAuthor()).append(": ").append(change.getComment());
             out.println(builder.toString());
             out.println(change.getCommitUrl());
@@ -112,5 +113,9 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
             });
         });
         out.close();
+    }
+
+    InputOutput getInputOutput(String name) {
+        return IOProvider.getDefault().getIO(name, new Action[0]);
     }
 }
