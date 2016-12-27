@@ -5,6 +5,8 @@ import java.util.Collection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import static java.util.Collections.emptyList;
+
 /**
  *
  * @author spindizzy
@@ -28,4 +30,8 @@ public class ChangeVo {
     private LocalDateTime date;
 
     private Collection<FileVo> files;
+    
+    public Collection<FileVo> getFiles() {
+        return (files != null) ? files : emptyList();
+    }
 }

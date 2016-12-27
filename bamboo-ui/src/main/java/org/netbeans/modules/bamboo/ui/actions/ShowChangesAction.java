@@ -17,7 +17,6 @@ import org.openide.util.NbBundle;
 import org.openide.util.RequestProcessor;
 import org.openide.windows.IOProvider;
 import org.openide.windows.InputOutput;
-import org.openide.windows.OutputListener;
 import org.openide.windows.OutputWriter;
 
 import static java.util.Optional.empty;
@@ -90,15 +89,28 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
         if (!optChanges.isPresent()) {
             p.invoke(instance -> instance.attachChanges(r));
         }
-        
-        Object [] args = new Object[]{p.getName(), r.getNumber()};
+
+        Object[] args = new Object[]{p.getName(), r.getNumber()};
         String name = NbBundle.getMessage(ShowChangesAction.class, "Changes_Output_Title", args);
-        
+
         optChanges.ifPresent(changes -> printChanges(name, changes));
     }
 
     private void printChanges(String name, Collection<ChangeVo> changes) {
         InputOutput io = IOProvider.getDefault().getIO(name, new Action[0]);
         io.select();
+        OutputWriter out = io.getOut();
+        changes.forEach(change -> {
+            StringBuilder builder = new StringBuilder();
+            builder.append(change.getDate()).append(": ");
+            builder.append(change.getAuthor()).append(": ").append(change.getComment());
+            out.println(builder.toString());
+            out.println(change.getCommitUrl());
+            
+            change.getFiles().forEach(file -> {
+                out.println(file.getName());
+            });
+        });
+        out.close();
     }
 }
