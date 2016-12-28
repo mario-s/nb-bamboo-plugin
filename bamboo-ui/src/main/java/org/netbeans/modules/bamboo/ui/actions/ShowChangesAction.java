@@ -41,7 +41,7 @@ import static java.util.Optional.empty;
     "No_Changes=No changes. Build reason: {0}"
 })
 public class ShowChangesAction extends AbstractContextAction implements Runnable {
-
+    
     private static final RequestProcessor RP = new RequestProcessor(
             ShowChangesAction.class);
 
@@ -144,6 +144,7 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
     }
 
     InputOutput getInputOutput(String name) {
-        return IOProvider.getDefault().getIO(name, new Action[0]);
+        return IOProvider.getDefault().getIO(name, false);
     }
+    
 }
