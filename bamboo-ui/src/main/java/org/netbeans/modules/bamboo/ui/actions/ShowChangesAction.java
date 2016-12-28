@@ -2,6 +2,7 @@ package org.netbeans.modules.bamboo.ui.actions;
 
 import java.awt.event.ActionEvent;
 import java.util.Collection;
+import java.util.MissingResourceException;
 import java.util.Optional;
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
@@ -36,7 +37,8 @@ import static java.util.Optional.empty;
 @ActionReference(path = ActionConstants.PLAN_ACTION_PATH, position = 720)
 @NbBundle.Messages({
     "CTL_ShowChangesAction=&Show Changes",
-    "Changes_Output_Title=Changes for result {0} number {1}"
+    "Changes_Output_Title=Changes for result {0} number {1}",
+    "No_Changes=No changes. Build reason: {0}"
 })
 public class ShowChangesAction extends AbstractContextAction implements Runnable {
 
@@ -84,35 +86,61 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
 
     @Override
     public void run() {
-        PlanVo p = plan.get();
-        ResultVo r = p.getResult();
-        Optional<Collection<ChangeVo>> optChanges = r.getChanges();
-        if (!optChanges.isPresent()) {
-            p.invoke(instance -> instance.attachChanges(r));
-        }
+        PlanVo pVo = plan.get();
+        Optional<Collection<ChangeVo>> optChanges = attachChangesIfAbsent(pVo);
 
-        Object[] args = new Object[]{p.getName(), r.getNumber()};
+        printResult(pVo, optChanges);
+    }
+
+    private void printResult(PlanVo pVo, Optional<Collection<ChangeVo>> optChanges) {
+        ResultVo rVo = pVo.getResult();
+        Object[] args = new Object[]{pVo.getName(), rVo.getNumber()};
         String name = NbBundle.getMessage(ShowChangesAction.class, "Changes_Output_Title", args);
 
-        optChanges.ifPresent(changes -> printChanges(name, changes));
+        if (optChanges.isPresent()) {
+            printChanges(name, optChanges.get());
+        } else {
+            printBuildReason(name, rVo); //print build reason when there are no changes
+        }
+    }
+
+    private Optional<Collection<ChangeVo>> attachChangesIfAbsent(PlanVo pVo) {
+        ResultVo rVo = pVo.getResult();
+        Optional<Collection<ChangeVo>> optChanges = rVo.getChanges();
+        if (!optChanges.isPresent()) {
+            pVo.invoke(instance -> instance.attachChanges(rVo));
+        }
+        return optChanges;
     }
 
     private void printChanges(String name, Collection<ChangeVo> changes) {
-        InputOutput io = getInputOutput(name);
-        io.select();
-        OutputWriter out = io.getOut();
+        OutputWriter out = getOut(name);
         changes.forEach(change -> {
             StringBuilder builder = new StringBuilder();
             builder.append(DateFormatter.format(change.getDate())).append(": ");
             builder.append(change.getAuthor()).append(": ").append(change.getComment());
             out.println(builder.toString());
             out.println(change.getCommitUrl());
-            
+
             change.getFiles().forEach(file -> {
                 out.println(file.getName());
             });
         });
         out.close();
+    }
+
+    private void printBuildReason(String name, ResultVo result) {
+        OutputWriter out = getOut(name);
+        Object[] args = new Object[]{result.getBuildReason()};
+        String reason = NbBundle.getMessage(ShowChangesAction.class, "No_Changes", args);
+        out.println(reason);
+        out.close();
+    }
+
+    private OutputWriter getOut(String name) {
+        InputOutput io = getInputOutput(name);
+        io.select();
+        return io.getOut();
     }
 
     InputOutput getInputOutput(String name) {

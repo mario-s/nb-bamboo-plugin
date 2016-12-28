@@ -320,7 +320,13 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     @Override
     public void attachChanges(ResultVo result) {
-        client.attach(result, ExpandParameter.CHANGED_FILES);
+        attach(result, ExpandParameter.CHANGED_FILES);
+    }
+    
+    private void attach(ResultVo result, String expandParam) {
+        if(verifyAvailibility()){
+            client.attach(result, expandParam);
+        }
     }
 
     @Override

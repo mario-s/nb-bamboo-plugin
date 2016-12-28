@@ -25,7 +25,7 @@ import javax.ws.rs.ServerErrorException;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import org.netbeans.api.annotations.common.NonNull;
+import lombok.NonNull;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
@@ -118,15 +118,14 @@ class DefaultBambooClient extends AbstractBambooClient {
     }
 
     @Override
-    void attach(ResultVo vo, String expandParameter) {
-        String key = "TODO";
+    void attach(@NonNull ResultVo vo, String expandParameter) {
+        String key = format("%s/%s", vo.getKey(), vo.getNumber());
         Optional<Result> result = doResultCall(key, expandParameter);
 
         result.ifPresent(res -> {
             ChangesVoConverter converter = new ChangesVoConverter();
             vo.setChanges(converter.convert(res.getChanges()));
         });
-
     }
 
     private Optional<Result> doResultCall(String resultKey, String expandParameter) {
@@ -153,10 +152,10 @@ class DefaultBambooClient extends AbstractBambooClient {
         if (target.isPresent()) {
             response = caller.doPost(target.get());
             if (log.isLoggable(Level.INFO)) {
-                log.info(String.format("queued build for: %s...got response: %s", path, response));
+                log.info(format("queued build for: %s...got response: %s", path, response));
             }
         } else if (log.isLoggable(Level.INFO)) {
-            log.info(String.format("did not queue the build for: %s", path));
+            log.info(format("did not queue the build for: %s", path));
         }
         return response;
     }

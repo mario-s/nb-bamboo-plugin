@@ -6,7 +6,9 @@ import java.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
 
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 /**
@@ -15,13 +17,15 @@ import static org.junit.Assert.*;
  */
 public class ResultVoTest {
     
+    private static final String FOO = "foo";
+    
     private ResultVo classUnderTest;
     
     private LocalDateTime now;
     
     @Before
     public void setUp() {
-        classUnderTest = new ResultVo();
+        classUnderTest = new ResultVo(FOO);
         now = LocalDateTime.now();
     }
 
@@ -33,6 +37,13 @@ public class ResultVoTest {
         classUnderTest.setBuildCompletedTime(now);
         LocalDateTime result = classUnderTest.getBuildCompletedTime();
         assertThat(result, equalTo(now));
+    }
+    
+    @Test
+    public void testEquals_AddChanges_ShouldBeEqual() {
+        ResultVo other = new ResultVo(FOO);
+        other.setChanges(singletonList(new ChangeVo()));
+        assertThat(classUnderTest.equals(other), is(true));
     }
 
 }

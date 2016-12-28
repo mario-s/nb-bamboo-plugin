@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.LookupContext;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
+import org.netbeans.modules.bamboo.model.rcp.FileVo;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
@@ -22,10 +24,10 @@ import static org.mockito.Mockito.verify;
 
 import org.openide.util.Lookup;
 
+import static java.util.Collections.singletonList;
 import static java.util.Optional.of;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.internal.util.reflection.Whitebox.getInternalState;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
@@ -107,7 +109,7 @@ public class ShowChangesActionTest {
     }
 
     @Test
-    public void testRun_ExpectInvoke() {
+    public void testRun_ChangesNotPresent_ExpectInvoke() {
         ProjectVo project = new ProjectVo(FOO);
         project.setParent(instance);
         plan.setParent(project);
@@ -118,5 +120,28 @@ public class ShowChangesActionTest {
         classUnderTest.run();
         
         verify(instance).attachChanges(result);
+    }
+    
+    
+    @Test
+    public void testRun_ChangesPresent_NotExpectInvoke() {
+        ProjectVo project = new ProjectVo(FOO);
+        project.setParent(instance);
+        plan.setParent(project);
+        
+        FileVo file = new FileVo();
+        file.setName(FOO);
+        ChangeVo change = new ChangeVo();
+        change.setComment(FOO);
+        change.setFiles(singletonList(file));
+        ResultVo result = new ResultVo();
+        result.setChanges(singletonList(change));
+        
+        plan.setResult(result);
+        
+        setInternalState(classUnderTest, "plan", of(plan));
+        classUnderTest.run();
+        
+        verify(instance, never()).attachChanges(result);
     }
 }
