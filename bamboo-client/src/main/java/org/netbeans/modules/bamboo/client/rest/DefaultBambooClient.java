@@ -119,7 +119,7 @@ class DefaultBambooClient extends AbstractBambooClient {
 
     @Override
     void attach(@NonNull ResultVo vo, String expandParameter) {
-        String key = format("%s/%s", vo.getKey(), vo.getNumber());
+        String key = vo.getKey();
         Optional<Result> result = doResultCall(key, expandParameter);
 
         result.ifPresent(res -> {
