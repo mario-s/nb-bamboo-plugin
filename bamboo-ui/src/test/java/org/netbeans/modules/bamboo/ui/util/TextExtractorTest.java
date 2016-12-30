@@ -59,7 +59,7 @@ public class TextExtractorTest {
     @Test
     public void testRemoveTags_LongLink_ShouldBeNoMarkup() {
         String text = "Changes by <a href=\"http://192.168.99.100:32771/authors/viewAuthor.action?authorName=Foo-BarS%20%3Cfoo%40bar.com%3E\">Foo-Bar &lt;foo@bar.com&gt;</a>";
-        String expected = "Changes by <foo@bar.com>";
+        String expected = "Changes by Foo-Bar <foo@bar.com>";
         String result = classUnderTest.removeTags(text);
         assertThat(result, equalTo(expected));
     }

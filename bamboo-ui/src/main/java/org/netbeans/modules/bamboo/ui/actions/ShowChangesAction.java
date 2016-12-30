@@ -10,6 +10,7 @@ import org.netbeans.modules.bamboo.model.rcp.InstanceInvokeable;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 import org.netbeans.modules.bamboo.ui.util.DateFormatter;
+import org.netbeans.modules.bamboo.ui.util.TextExtractor;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
@@ -22,6 +23,7 @@ import org.openide.windows.InputOutput;
 import org.openide.windows.OutputWriter;
 
 import static java.util.Optional.empty;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  *
@@ -100,7 +102,7 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
         if (optChanges.isPresent()) {
             printChanges(name, optChanges.get());
         } else {
-            printBuildReason(name, rVo); //print build reason when there are no changes
+            printBuildReason(name, rVo); //print build msg when there are no changes
         }
     }
 
@@ -130,10 +132,12 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
     }
 
     private void printBuildReason(String name, ResultVo result) {
+        TextExtractor extractor = new TextExtractor();
+        String reason = result.getBuildReason();
+        String normalized = (isBlank(reason)) ? "" : extractor.removeTags(reason);
+        String msg = NbBundle.getMessage(ShowChangesAction.class, "No_Changes", new Object[]{normalized});
         OutputWriter out = getOut(name);
-        Object[] args = new Object[]{result.getBuildReason()};
-        String reason = NbBundle.getMessage(ShowChangesAction.class, "No_Changes", args);
-        out.println(reason);
+        out.println(msg);
         out.close();
     }
 

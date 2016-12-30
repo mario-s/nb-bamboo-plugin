@@ -135,6 +135,7 @@ public class ShowChangesActionTest {
         change.setComment(FOO);
         change.setFiles(singletonList(file));
         ResultVo result = new ResultVo();
+        result.setBuildReason(FOO);
         result.setChanges(singletonList(change));
         
         plan.setResult(result);
