@@ -23,6 +23,7 @@ import org.openide.windows.OutputWriter;
 
 import static java.util.Optional.empty;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.openide.util.NbBundle.getMessage;
 
 /**
  *
@@ -96,7 +97,7 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
     private void printResult(PlanVo pVo, Optional<Collection<ChangeVo>> optChanges) {
         ResultVo rVo = pVo.getResult();
         Object[] args = new Object[]{pVo.getName(), rVo.getNumber()};
-        String name = NbBundle.getMessage(ShowChangesAction.class, "Changes_Output_Title", args);
+        String name = getMessage(ShowChangesAction.class, "Changes_Output_Title", args);
 
         if (optChanges.isPresent()) {
             printChanges(name, optChanges.get());
@@ -133,8 +134,8 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
     private void printBuildReason(String name, ResultVo result) {
         TextExtractor extractor = new TextExtractor();
         String reason = result.getBuildReason();
-        String normalized = (isBlank(reason)) ? "" : extractor.removeTags(reason);
-        String msg = NbBundle.getMessage(ShowChangesAction.class, "No_Changes", new Object[]{normalized});
+        String normalized = (!isBlank(reason)) ? extractor.removeTags(reason) : "";
+        String msg = getMessage(ShowChangesAction.class, "No_Changes", new Object[]{normalized});
         OutputWriter out = getOut(name);
         out.println(msg);
         out.close();
