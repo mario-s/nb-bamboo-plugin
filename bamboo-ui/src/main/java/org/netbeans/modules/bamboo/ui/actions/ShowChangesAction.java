@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.ui.actions;
 
 import java.awt.event.ActionEvent;
 import java.util.Collection;
-import java.util.MissingResourceException;
 import java.util.Optional;
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
