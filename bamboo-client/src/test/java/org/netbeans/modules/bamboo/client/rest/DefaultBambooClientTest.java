@@ -295,6 +295,6 @@ public class DefaultBambooClientTest {
     public void testAttach_Changes() {
         ResultVo vo = new ResultVo();
 
-        classUnderTest.attach(vo, ExpandParameter.CHANGED_FILES);
+        classUnderTest.attach(vo, ExpandParameter.RESULT_CHANGED_FILES);
     }
 }

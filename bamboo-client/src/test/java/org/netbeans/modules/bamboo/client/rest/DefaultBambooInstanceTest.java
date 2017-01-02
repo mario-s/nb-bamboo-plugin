@@ -235,6 +235,6 @@ public class DefaultBambooInstanceTest {
     public void testAttachChanges_ExpectClientCall() {
         ResultVo result = new ResultVo();
         classUnderTest.attachChanges(result);
-        verify(client).attach(result, ExpandParameter.CHANGED_FILES);
+        verify(client).attach(result, ExpandParameter.RESULT_CHANGED_FILES);
     }
 }
