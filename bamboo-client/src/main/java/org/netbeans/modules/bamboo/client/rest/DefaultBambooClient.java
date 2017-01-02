@@ -53,7 +53,6 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 
 import org.netbeans.modules.bamboo.model.convert.ChangesVoConverter;
-import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
@@ -119,18 +118,16 @@ class DefaultBambooClient extends AbstractBambooClient {
     }
 
     @Override
-    void attach(@NonNull ResultVo vo, String expandParameter) {
-        ResultExpandParameter.getByValue(expandParameter).ifPresent(param -> {
-            String key = vo.getKey();
-            Optional<Result> result = doResultCall(key, expandParameter);
+    void attach(@NonNull ResultVo vo, @NonNull ResultExpandParameter expandParameter) {
+        String key = vo.getKey();
+        Optional<Result> result = doResultCall(key, expandParameter.toString());
 
-            result.ifPresent(res -> {
-                if(ResultExpandParameter.Changes.equals(param)){
-                    vo.setChanges(new ChangesVoConverter().convert(res.getChanges()));
-                }else if(ResultExpandParameter.Jira.equals(param)) {
-                    throw new UnsupportedOperationException("not yet implemented");
-                }
-            });
+        result.ifPresent(res -> {
+            if (ResultExpandParameter.Changes.equals(expandParameter)) {
+                vo.setChanges(new ChangesVoConverter().convert(res.getChanges()));
+            } else if (ResultExpandParameter.Jira.equals(expandParameter)) {
+                throw new UnsupportedOperationException("not yet implemented");
+            }
         });
     }
 

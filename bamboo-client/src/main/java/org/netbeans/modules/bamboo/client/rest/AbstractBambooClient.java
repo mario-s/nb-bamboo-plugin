@@ -6,6 +6,7 @@ import org.netbeans.modules.bamboo.client.glue.BambooClient;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
+import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 /**
@@ -53,7 +54,7 @@ abstract class AbstractBambooClient implements BambooClient {
      * @param vo the result to attach the property
      * @param expandParameter the expand paramter for the server call
      */
-    abstract void attach(ResultVo vo, String expandParameter);
+    abstract void attach(ResultVo vo, ResultExpandParameter expandParameter);
 
     InstanceValues getValues() {
         return values;

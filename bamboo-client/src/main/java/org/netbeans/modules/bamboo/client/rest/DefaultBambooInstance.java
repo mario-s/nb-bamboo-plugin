@@ -50,7 +50,6 @@ import org.openide.util.lookup.InstanceContent;
 import static org.netbeans.modules.bamboo.client.rest.BambooInstanceConstants.INSTANCE_SUPPRESSED_PLANS;
 import static java.lang.String.format;
 
-import org.netbeans.modules.bamboo.client.glue.ExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
@@ -321,12 +320,8 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     @Override
     public void expand(ResultVo result, ResultExpandParameter param) {
-        attach(result, param.toString());
-    }
-    
-    private void attach(ResultVo result, String expandParam) {
         if(verifyAvailibility()){
-            client.attach(result, expandParam);
+            client.attach(result, param);
         }
     }
 

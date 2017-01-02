@@ -1,12 +1,7 @@
 package org.netbeans.modules.bamboo.model.rcp;
 
-import java.util.Optional;
-
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
-
 /**
- * This enum contains parameters to expand the conten of a build result.
+ * This enum contains parameters to expand the content of a build result.
  *
  * @author spindizzy
  */
@@ -30,15 +25,6 @@ public enum ResultExpandParameter {
     @Override
     public String toString() {
         return value;
-    }
-
-    public static Optional<ResultExpandParameter> getByValue(String val) {
-        for (ResultExpandParameter param : ResultExpandParameter.values()) {
-            if (param.toString().equals(val)) {
-                return of(param);
-            }
-        }
-        return empty();
     }
 
 }
