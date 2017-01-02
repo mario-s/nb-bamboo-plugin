@@ -39,8 +39,9 @@ import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-import org.netbeans.modules.bamboo.client.glue.ExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
+
+import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Changes;
 
 /**
  *
@@ -234,7 +235,7 @@ public class DefaultBambooInstanceTest {
     @Test
     public void testAttachChanges_ExpectClientCall() {
         ResultVo result = new ResultVo();
-        classUnderTest.attachChanges(result);
-        verify(client).attach(result, ExpandParameter.RESULT_CHANGED_FILES);
+        classUnderTest.expand(result, Changes);
+        verify(client).attach(result, Changes.toString());
     }
 }

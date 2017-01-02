@@ -51,6 +51,7 @@ import static org.netbeans.modules.bamboo.client.rest.BambooInstanceConstants.IN
 import static java.lang.String.format;
 
 import org.netbeans.modules.bamboo.client.glue.ExpandParameter;
+import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 /**
@@ -319,8 +320,8 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     @Override
-    public void attachChanges(ResultVo result) {
-        attach(result, ExpandParameter.RESULT_CHANGED_FILES);
+    public void expand(ResultVo result, ResultExpandParameter param) {
+        attach(result, param.toString());
     }
     
     private void attach(ResultVo result, String expandParam) {

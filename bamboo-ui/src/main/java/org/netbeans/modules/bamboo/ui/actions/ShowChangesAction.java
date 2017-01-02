@@ -1,11 +1,15 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
 import java.awt.event.ActionEvent;
+
 import static java.lang.String.format;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
+
 import static java.util.Collections.emptyList;
+
 import java.util.Optional;
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
@@ -23,11 +27,16 @@ import org.openide.util.NbBundle;
 import org.openide.util.RequestProcessor;
 
 import static java.util.Optional.empty;
+
 import lombok.extern.java.Log;
+
 import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import org.netbeans.api.io.Hyperlink;
 import org.netbeans.api.io.OutputWriter;
 import org.netbeans.modules.bamboo.ui.BrowserInstance;
+
+import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Changes;
 import static org.openide.util.NbBundle.getMessage;
 
 /**
@@ -115,7 +124,7 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
     private Collection<ChangeVo> attachChangesIfAbsent(PlanVo pVo) {
         ResultVo rVo = pVo.getResult();
         if (!rVo.getChanges().isPresent()) {
-            pVo.invoke(instance -> instance.attachChanges(rVo));
+            pVo.invoke(instance -> instance.expand(rVo, Changes));
         }
         return (rVo.getChanges().isPresent()) ? rVo.getChanges().get() : emptyList();
     }

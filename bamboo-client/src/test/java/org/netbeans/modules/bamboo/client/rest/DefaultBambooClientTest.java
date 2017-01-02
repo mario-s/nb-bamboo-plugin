@@ -61,7 +61,7 @@ import static org.mockito.Mockito.verify;
 import static java.lang.String.format;
 import static org.mockito.Matchers.anyString;
 
-import org.netbeans.modules.bamboo.client.glue.ExpandParameter;
+import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
 
 import static org.netbeans.modules.bamboo.client.glue.RestResources.INFO;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PLANS;
@@ -295,6 +295,6 @@ public class DefaultBambooClientTest {
     public void testAttach_Changes() {
         ResultVo vo = new ResultVo();
 
-        classUnderTest.attach(vo, ExpandParameter.RESULT_CHANGED_FILES);
+        classUnderTest.attach(vo, ResultExpandParameter.Changes.toString());
     }
 }

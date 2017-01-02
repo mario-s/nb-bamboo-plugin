@@ -31,6 +31,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.internal.util.reflection.Whitebox.getInternalState;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
+import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Changes;
 
 /**
  *
@@ -119,7 +120,7 @@ public class ShowChangesActionTest {
         setInternalState(classUnderTest, "plan", of(plan));
         classUnderTest.run();
         
-        verify(instance).attachChanges(result);
+        verify(instance).expand(result, Changes);
     }
     
     
@@ -143,6 +144,6 @@ public class ShowChangesActionTest {
         setInternalState(classUnderTest, "plan", of(plan));
         classUnderTest.run();
         
-        verify(instance, never()).attachChanges(result);
+        verify(instance, never()).expand(result, Changes);
     }
 }

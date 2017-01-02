@@ -70,11 +70,12 @@ public interface BambooInstance extends
      */
     Collection<String> getSuppressedPlans();
     
-    /**
-     * This method attaches the changes to the result.
-     * The property changes will be replaced no mater if is present or not.
+     /**
+     * This expands the given result.
+     * The property which maps to the parameter will be replaced no mater if is present or not.
      * 
      * @param result the result where the changes should be set.
+     * @param param the parameter to get more information from the server.
      */
-    void attachChanges(ResultVo result);
+    void expand(ResultVo result, ResultExpandParameter param);
 }
