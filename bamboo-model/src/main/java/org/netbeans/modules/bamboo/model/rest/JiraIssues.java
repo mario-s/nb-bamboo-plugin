@@ -18,17 +18,18 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Changes extends Metrics implements Responseable<Change> {
-
-    @XmlElement(name = "change")
-    private List<Change> changes;
+public class JiraIssues extends Metrics implements Responseable<Issue>{
+    
+    @XmlElement(name = "issue")
+    private List<Issue> issues;
 
     @Override
-    public Collection<Change> asCollection() {
-        List<Change> coll = new ArrayList<>();
-        if (changes != null) {
-            coll.addAll(changes);
+    public Collection<Issue> asCollection() {
+        List<Issue> coll = new ArrayList<>();
+        if (issues != null) {
+            coll.addAll(issues);
         }
         return coll;
     }
+    
 }

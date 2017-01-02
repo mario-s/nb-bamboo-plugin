@@ -41,6 +41,9 @@ public class Result implements ServiceInfoProvideable{
     @XmlElement
     private Changes changes;
     
+    @XmlElement
+    private JiraIssues jiraIssues;
+    
     public Result() {
         state = State.Unknown;
         lifeCycleState = LifeCycleState.NotBuilt;
