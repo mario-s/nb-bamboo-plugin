@@ -1,8 +1,9 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 import static java.lang.String.format;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Optional;
 import javax.swing.Action;
@@ -20,12 +21,13 @@ import org.openide.util.LookupEvent;
 import org.openide.util.NbBundle;
 import org.openide.util.RequestProcessor;
 
-
 import static java.util.Optional.empty;
 import lombok.extern.java.Log;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import org.netbeans.api.io.InputOutput;
+import org.netbeans.api.io.Hyperlink;
 import org.netbeans.api.io.OutputWriter;
+import org.netbeans.modules.bamboo.ui.BrowserInstance;
+import org.openide.util.Exceptions;
 import static org.openide.util.NbBundle.getMessage;
 
 /**
@@ -50,66 +52,66 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
     
     private static final RequestProcessor RP = new RequestProcessor(
             ShowChangesAction.class);
-
+    
     private Lookup.Result<InstanceInvokeable> result;
-
+    
     private Optional<PlanVo> plan;
-
+    
     public ShowChangesAction() {
     }
-
+    
     public ShowChangesAction(Lookup context) {
         super(Bundle.CTL_ShowChangesAction(), context);
         init();
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent ae) {
         plan = (Optional<PlanVo>) allInstances().stream().findFirst();
         plan.ifPresent(p -> RP.post(this));
     }
-
+    
     @Override
     public Action createContextAwareInstance(Lookup actionContext) {
         return new ShowChangesAction(actionContext);
     }
-
+    
     @Override
     public void resultChanged(LookupEvent ev) {
         enableIfAvailable(allInstances());
     }
-
+    
     private Collection<? extends InstanceInvokeable> allInstances() {
         return result.allInstances();
     }
-
+    
     private void init() {
         result = getContext().lookupResult(InstanceInvokeable.class);
         result.addLookupListener(this);
         resultChanged(null);
         plan = empty();
     }
-
+    
     @Override
     public void run() {
         PlanVo pVo = plan.get();
         Optional<Collection<ChangeVo>> optChanges = attachChangesIfAbsent(pVo);
-
+        
         printResult(pVo, optChanges);
     }
-
+    
     private void printResult(PlanVo pVo, Optional<Collection<ChangeVo>> optChanges) {
         ResultVo rVo = pVo.getResult();
         Object[] args = new Object[]{pVo.getName(), rVo.getNumber()};
         String name = getMessage(ShowChangesAction.class, "Changes_Output_Title", args);
-
+        
         if (optChanges.isPresent()) {
             printChanges(name, optChanges.get());
         } else {
             printBuildReason(name, rVo); //print build msg when there are no changes
         }
     }
-
+    
     private Optional<Collection<ChangeVo>> attachChangesIfAbsent(PlanVo pVo) {
         ResultVo rVo = pVo.getResult();
         if (!rVo.getChanges().isPresent()) {
@@ -117,7 +119,7 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
         }
         return rVo.getChanges();
     }
-
+    
     private void printChanges(String name, Collection<ChangeVo> changes) {
         OutputWriter out = getOut(name);
         changes.forEach(change -> {
@@ -125,16 +127,25 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
             builder.append(DateFormatter.format(change.getDate())).append(": ");
             builder.append(change.getAuthor()).append(": ").append(change.getComment());
             out.println(builder.toString());
-            out.println(change.getCommitUrl());
+            
+            final String commitUrl = change.getCommitUrl();
+            out.println(commitUrl, Hyperlink.from(() -> {
+                try {
+                    BrowserInstance.Instance.showURL(new URL(commitUrl));
+                } catch (MalformedURLException ex) {
+                    log.warning(ex.getMessage());
+                }
+            }));
             out.println();
-
+            
             change.getFiles().forEach(file -> {
                 out.println(format(" %s", file.getName()));
             });
+            out.println("\n");
         });
         out.close();
     }
-
+    
     private void printBuildReason(String name, ResultVo result) {
         TextExtractor extractor = new TextExtractor();
         String reason = result.getBuildReason();
@@ -144,16 +155,10 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
         out.println(msg);
         out.close();
     }
-
-    private OutputWriter getOut(String name) {
-        InputOutput io = getInputOutput(name);
-        io.reset();
-        io.show();
-        return io.getOut();
-    }
-
-    InputOutput getInputOutput(String name) {
-        return InputOutput.get(name, false);
-    }
     
+    private OutputWriter getOut(String name) {
+        InputOutputProvider provider = new InputOutputProvider();
+        return provider.getOut(name);
+    }
+        
 }
