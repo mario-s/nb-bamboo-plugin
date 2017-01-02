@@ -5,6 +5,7 @@ import static java.lang.String.format;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
+import static java.util.Collections.emptyList;
 import java.util.Optional;
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
@@ -94,29 +95,29 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
     @Override
     public void run() {
         PlanVo pVo = plan.get();
-        Optional<Collection<ChangeVo>> optChanges = attachChangesIfAbsent(pVo);
+        Collection<ChangeVo> changes = attachChangesIfAbsent(pVo);
         
-        printResult(pVo, optChanges);
+        printResult(pVo, changes);
     }
     
-    private void printResult(PlanVo pVo, Optional<Collection<ChangeVo>> optChanges) {
+    private void printResult(PlanVo pVo, Collection<ChangeVo> changes) {
         ResultVo rVo = pVo.getResult();
         Object[] args = new Object[]{pVo.getName(), rVo.getNumber()};
         String name = getMessage(ShowChangesAction.class, "Changes_Output_Title", args);
         
-        if (optChanges.isPresent()) {
-            printChanges(name, optChanges.get());
+        if (!changes.isEmpty()) {
+            printChanges(name, changes);
         } else {
             printBuildReason(name, rVo); //print build msg when there are no changes
         }
     }
     
-    private Optional<Collection<ChangeVo>> attachChangesIfAbsent(PlanVo pVo) {
+    private Collection<ChangeVo> attachChangesIfAbsent(PlanVo pVo) {
         ResultVo rVo = pVo.getResult();
         if (!rVo.getChanges().isPresent()) {
             pVo.invoke(instance -> instance.attachChanges(rVo));
         }
-        return rVo.getChanges();
+        return (rVo.getChanges().isPresent()) ? rVo.getChanges().get() : emptyList();
     }
     
     private void printChanges(String name, Collection<ChangeVo> changes) {
