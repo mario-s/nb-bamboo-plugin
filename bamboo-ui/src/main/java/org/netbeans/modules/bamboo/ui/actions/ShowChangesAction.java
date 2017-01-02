@@ -43,7 +43,7 @@ import static org.openide.util.NbBundle.getMessage;
 @ActionReference(path = ActionConstants.PLAN_ACTION_PATH, position = 720)
 @NbBundle.Messages({
     "CTL_ShowChangesAction=&Show Changes",
-    "Changes_Output_Title=Changes for result {0} number {1}",
+    "Changes_Output_Title=Changes for result {0} #{1}",
     "No_Changes=No changes. Build reason: {0}"
 })
 @Log
