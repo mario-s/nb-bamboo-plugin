@@ -19,14 +19,13 @@ import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.NbBundle;
 import org.openide.util.RequestProcessor;
-import org.openide.windows.IOProvider;
-import org.openide.windows.InputOutput;
-import org.openide.windows.OutputWriter;
+
 
 import static java.util.Optional.empty;
 import lombok.extern.java.Log;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import org.openide.util.Exceptions;
+import org.netbeans.api.io.InputOutput;
+import org.netbeans.api.io.OutputWriter;
 import static org.openide.util.NbBundle.getMessage;
 
 /**
@@ -148,18 +147,13 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
 
     private OutputWriter getOut(String name) {
         InputOutput io = getInputOutput(name);
-        io.select();
-        OutputWriter out = io.getOut();
-        try {
-            out.reset();
-        } catch (IOException ex) {
-            log.fine(ex.getMessage());
-        }
-        return out;
+        io.reset();
+        io.show();
+        return io.getOut();
     }
 
     InputOutput getInputOutput(String name) {
-        return IOProvider.getDefault().getIO(name, false);
+        return InputOutput.get(name, false);
     }
     
 }
