@@ -40,7 +40,6 @@ import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 import static java.util.Collections.singletonMap;
 import static java.lang.String.format;
 
-
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.EXPAND;
@@ -55,6 +54,7 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 
 import org.netbeans.modules.bamboo.model.convert.ChangesVoConverter;
 import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
+import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 /**
@@ -120,13 +120,17 @@ class DefaultBambooClient extends AbstractBambooClient {
 
     @Override
     void attach(@NonNull ResultVo vo, String expandParameter) {
-        String key = vo.getKey();
-        Optional<Result> result = doResultCall(key, expandParameter);
+        ResultExpandParameter.getByValue(expandParameter).ifPresent(param -> {
+            String key = vo.getKey();
+            Optional<Result> result = doResultCall(key, expandParameter);
 
-        result.ifPresent(res -> {
-            ChangesVoConverter converter = new ChangesVoConverter();
-            Collection<ChangeVo> changes = converter.convert(res.getChanges());
-            vo.setChanges(changes);
+            result.ifPresent(res -> {
+                if(ResultExpandParameter.Changes.equals(param)){
+                    vo.setChanges(new ChangesVoConverter().convert(res.getChanges()));
+                }else if(ResultExpandParameter.Jira.equals(param)) {
+                    throw new UnsupportedOperationException("not yet implemented");
+                }
+            });
         });
     }
 
