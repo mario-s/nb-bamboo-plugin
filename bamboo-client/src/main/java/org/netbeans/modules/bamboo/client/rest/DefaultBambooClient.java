@@ -54,6 +54,7 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 
 import org.netbeans.modules.bamboo.model.convert.ChangesVoConverter;
+import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 /**
@@ -124,7 +125,8 @@ class DefaultBambooClient extends AbstractBambooClient {
 
         result.ifPresent(res -> {
             ChangesVoConverter converter = new ChangesVoConverter();
-            vo.setChanges(converter.convert(res.getChanges()));
+            Collection<ChangeVo> changes = converter.convert(res.getChanges());
+            vo.setChanges(changes);
         });
     }
 

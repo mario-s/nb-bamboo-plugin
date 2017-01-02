@@ -1,6 +1,8 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import static java.lang.String.format;
 import java.util.Collection;
 import java.util.Optional;
 import javax.swing.Action;
@@ -22,7 +24,9 @@ import org.openide.windows.InputOutput;
 import org.openide.windows.OutputWriter;
 
 import static java.util.Optional.empty;
+import lombok.extern.java.Log;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import org.openide.util.Exceptions;
 import static org.openide.util.NbBundle.getMessage;
 
 /**
@@ -42,6 +46,7 @@ import static org.openide.util.NbBundle.getMessage;
     "Changes_Output_Title=Changes for result {0} number {1}",
     "No_Changes=No changes. Build reason: {0}"
 })
+@Log
 public class ShowChangesAction extends AbstractContextAction implements Runnable {
     
     private static final RequestProcessor RP = new RequestProcessor(
@@ -108,11 +113,10 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
 
     private Optional<Collection<ChangeVo>> attachChangesIfAbsent(PlanVo pVo) {
         ResultVo rVo = pVo.getResult();
-        Optional<Collection<ChangeVo>> optChanges = rVo.getChanges();
-        if (!optChanges.isPresent()) {
+        if (!rVo.getChanges().isPresent()) {
             pVo.invoke(instance -> instance.attachChanges(rVo));
         }
-        return optChanges;
+        return rVo.getChanges();
     }
 
     private void printChanges(String name, Collection<ChangeVo> changes) {
@@ -123,9 +127,10 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
             builder.append(change.getAuthor()).append(": ").append(change.getComment());
             out.println(builder.toString());
             out.println(change.getCommitUrl());
+            out.println();
 
             change.getFiles().forEach(file -> {
-                out.println(file.getName());
+                out.println(format(" %s", file.getName()));
             });
         });
         out.close();
@@ -144,7 +149,13 @@ public class ShowChangesAction extends AbstractContextAction implements Runnable
     private OutputWriter getOut(String name) {
         InputOutput io = getInputOutput(name);
         io.select();
-        return io.getOut();
+        OutputWriter out = io.getOut();
+        try {
+            out.reset();
+        } catch (IOException ex) {
+            log.fine(ex.getMessage());
+        }
+        return out;
     }
 
     InputOutput getInputOutput(String name) {
