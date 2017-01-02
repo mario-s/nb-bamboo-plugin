@@ -27,7 +27,6 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import org.netbeans.api.io.Hyperlink;
 import org.netbeans.api.io.OutputWriter;
 import org.netbeans.modules.bamboo.ui.BrowserInstance;
-import org.openide.util.Exceptions;
 import static org.openide.util.NbBundle.getMessage;
 
 /**
