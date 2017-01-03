@@ -1,0 +1,27 @@
+package org.netbeans.modules.bamboo.model.convert;
+
+import org.netbeans.modules.bamboo.model.rcp.IssueVo;
+import org.netbeans.modules.bamboo.model.rest.Issue;
+import org.netbeans.modules.bamboo.model.rest.Link;
+
+/**
+ *
+ * @author spindizzy
+ */
+public class IssueVoConverter extends AbstractVoConverter<Issue, IssueVo>{
+
+    @Override
+    public IssueVo convert(Issue src) {
+        IssueVo target = new IssueVo(src.getKey());
+
+        target.setAssignee(src.getAssignee());
+        target.setSummary(src.getSummary());
+        target.setIconUrl(src.getIconUrl());
+        
+        Link link = src.getLink();
+        target.setLink(link.getHref());
+        
+        return target;
+    }
+    
+}
