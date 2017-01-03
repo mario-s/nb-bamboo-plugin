@@ -37,6 +37,7 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 
 import org.netbeans.modules.bamboo.model.rest.Change;
 import org.netbeans.modules.bamboo.model.rest.Files;
+import org.netbeans.modules.bamboo.model.rest.Issue;
 
 /**
  *
@@ -46,9 +47,9 @@ import org.netbeans.modules.bamboo.model.rest.Files;
 public class BambooCallerXmlIT {
 
     private static final String FOO = "foo";
-    
+
     private static final String URL = "url";
-    
+
     private WebTargetFactory factory;
 
     private static Properties props;
@@ -81,7 +82,6 @@ public class BambooCallerXmlIT {
 
         factory = new WebTargetFactory(values, Level.INFO);
     }
-    
 
     private boolean existsUrl() {
         return httpUtility.exists(props.getProperty(URL));
@@ -106,7 +106,7 @@ public class BambooCallerXmlIT {
         Collection<Result> results = response.asCollection();
         assertThat(results.isEmpty(), is(false));
     }
-    
+
     @Test
     public void testGetChanges_FilesNotEmpty() {
         assumeTrue(existsUrl());
@@ -119,7 +119,7 @@ public class BambooCallerXmlIT {
         Files files = changes.iterator().next().getFiles();
         assertThat(files.asCollection().isEmpty(), is(false));
     }
-    
+
     @Test
     public void testGetChanges_ChangeSetIdNotEmpty() {
         assumeTrue(existsUrl());
@@ -131,6 +131,17 @@ public class BambooCallerXmlIT {
         assumeFalse(changes.isEmpty());
         Change first = changes.iterator().next();
         assertThat(first.getChangesetId().isEmpty(), is(false));
+    }
+
+    @Test
+    public void testGetJiraIssues_ResultNotEmpty() {
+        assumeTrue(existsUrl());
+        Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Jira.toString());
+        String key = props.getProperty("result.key");
+        WebTarget webTarget = factory.newTarget(RESULT + key, params);
+        Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
+        Collection<Issue> issues = response.getJiraIssues().asCollection();
+        assertThat(issues.isEmpty(), is(false));
     }
 
 }
