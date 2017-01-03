@@ -52,7 +52,8 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.QUEUE;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 
-import org.netbeans.modules.bamboo.model.convert.ChangesVoConverter;
+import org.netbeans.modules.bamboo.model.convert.CollectionVoConverter;
+import org.netbeans.modules.bamboo.model.convert.ChangeVoConverter;
 import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
@@ -124,7 +125,8 @@ class DefaultBambooClient extends AbstractBambooClient {
 
         result.ifPresent(res -> {
             if (ResultExpandParameter.Changes.equals(expandParameter)) {
-                vo.setChanges(new ChangesVoConverter().convert(res.getChanges()));
+                CollectionVoConverter converter = new CollectionVoConverter(new ChangeVoConverter());
+                vo.setChanges(converter.convert(res.getChanges()));
             } else if (ResultExpandParameter.Jira.equals(expandParameter)) {
                 throw new UnsupportedOperationException("not yet implemented");
             }

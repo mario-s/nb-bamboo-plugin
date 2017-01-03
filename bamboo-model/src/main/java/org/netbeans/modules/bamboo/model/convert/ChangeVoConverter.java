@@ -7,7 +7,7 @@ import org.netbeans.modules.bamboo.model.rest.Change;
  *
  * @author spindizzy
  */
-class ChangeVoConverter extends AbstractVoConverter<Change, ChangeVo> {
+public class ChangeVoConverter extends AbstractVoConverter<Change, ChangeVo> {
     
     @Override
     public ChangeVo convert(Change src) {
