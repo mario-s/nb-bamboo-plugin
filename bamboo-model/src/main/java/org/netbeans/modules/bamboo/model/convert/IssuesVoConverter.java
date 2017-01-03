@@ -1,23 +1,21 @@
 package org.netbeans.modules.bamboo.model.convert;
 
 import java.util.Collection;
-
-import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
-import org.netbeans.modules.bamboo.model.rest.Changes;
-
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
+import org.netbeans.modules.bamboo.model.rcp.IssueVo;
+import org.netbeans.modules.bamboo.model.rest.JiraIssues;
 
 /**
  *
  * @author spindizzy
  */
-public class ChangesVoConverter implements VoConverter<Changes, Collection<ChangeVo>> {
+public class IssuesVoConverter implements VoConverter<JiraIssues, Collection<IssueVo>>{
 
     @Override
-    public Collection<ChangeVo> convert(Changes src) {
+    public Collection<IssueVo> convert(JiraIssues src) {
         if (src != null) {
-            ChangeVoConverter converter = new ChangeVoConverter();
+            IssueVoConverter converter = new IssueVoConverter();
             return src.asCollection().stream().map(
                     c -> {
                         return converter.convert(c);
@@ -25,4 +23,5 @@ public class ChangesVoConverter implements VoConverter<Changes, Collection<Chang
         }
         return emptyList();
     }
+    
 }

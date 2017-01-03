@@ -1,11 +1,11 @@
 package org.netbeans.modules.bamboo.model.convert;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 import org.netbeans.modules.bamboo.model.rcp.FileVo;
 import org.netbeans.modules.bamboo.model.rest.Files;
 
 import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 /**
  *
@@ -16,11 +16,11 @@ public class FilesVoConverter implements VoConverter<Files, Collection<FileVo>> 
     @Override
     public Collection<FileVo> convert(Files src) {
         if (src != null) {
+            FileVoConverter converter = new FileVoConverter();
             return src.asCollection().stream().map(
                     f -> {
-                        FileVoConverter converter = new FileVoConverter();
                         return converter.convert(f);
-                    }).collect(Collectors.toList());
+                    }).collect(toList());
         }
         return emptyList();
     }

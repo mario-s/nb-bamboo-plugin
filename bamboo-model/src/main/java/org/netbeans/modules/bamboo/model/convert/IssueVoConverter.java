@@ -8,7 +8,7 @@ import org.netbeans.modules.bamboo.model.rest.Link;
  *
  * @author spindizzy
  */
-public class IssueVoConverter extends AbstractVoConverter<Issue, IssueVo>{
+public class IssueVoConverter extends AbstractVoConverter<Issue, IssueVo> {
 
     @Override
     public IssueVo convert(Issue src) {
@@ -17,11 +17,13 @@ public class IssueVoConverter extends AbstractVoConverter<Issue, IssueVo>{
         target.setAssignee(src.getAssignee());
         target.setSummary(src.getSummary());
         target.setIconUrl(src.getIconUrl());
-        
+
         Link link = src.getLink();
-        target.setLink(link.getHref());
-        
+        if (link != null) {
+            target.setLink(link.getHref());
+        }
+
         return target;
     }
-    
+
 }
