@@ -80,11 +80,16 @@ public class BambooCallerXmlIT {
         values.setUsername(props.getProperty("user"));
         values.setPassword(props.getProperty("password").toCharArray());
 
-        factory = new WebTargetFactory(values, Level.INFO);
+        factory = new WebTargetFactory(values, Level.FINE);
     }
 
     private boolean existsUrl() {
         return httpUtility.exists(props.getProperty(URL));
+    }
+    
+    private  String newResultPath() {
+        String key = props.getProperty("result.key");
+        return String.format(RESULT, key);
     }
 
     @Test
@@ -111,8 +116,7 @@ public class BambooCallerXmlIT {
     public void testGetChanges_FilesNotEmpty() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Changes.toString());
-        String key = props.getProperty("result.key");
-        WebTarget webTarget = factory.newTarget(RESULT + key, params);
+        WebTarget webTarget = factory.newTarget(newResultPath(), params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
         Collection<Change> changes = response.getChanges().asCollection();
         assumeFalse(changes.isEmpty());
@@ -124,8 +128,7 @@ public class BambooCallerXmlIT {
     public void testGetChanges_ChangeSetIdNotEmpty() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Changes.toString());
-        String key = props.getProperty("result.key");
-        WebTarget webTarget = factory.newTarget(RESULT + key, params);
+        WebTarget webTarget = factory.newTarget(newResultPath(), params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
         Collection<Change> changes = response.getChanges().asCollection();
         assumeFalse(changes.isEmpty());
@@ -137,8 +140,7 @@ public class BambooCallerXmlIT {
     public void testGetJiraIssues_ResultNotEmpty() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Jira.toString());
-        String key = props.getProperty("result.key");
-        WebTarget webTarget = factory.newTarget(RESULT + key, params);
+        WebTarget webTarget = factory.newTarget(newResultPath(), params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
         Collection<Issue> issues = response.getJiraIssues().asCollection();
         assertThat(issues.isEmpty(), is(false));
