@@ -21,10 +21,14 @@ class ChangeVoConverter extends AbstractVoConverter<Change, ChangeVo> {
         target.setCommitUrl(src.getCommitUrl());
         toDate(src.getDate()).ifPresent((date) -> target.setDate(date));
         
-        FilesVoConverter converter = new FilesVoConverter();
-        target.setFiles(converter.convert(src.getFiles()));
+        convertFiles(src, target);
         
         return target;
+    }
+
+    private void convertFiles(Change src, ChangeVo target) {
+        CollectionVoConverter converter = new CollectionVoConverter(new FileVoConverter());
+        target.setFiles(converter.convert(src.getFiles()));
     }
     
 }

@@ -22,13 +22,14 @@ public class FilessVoConverterTest {
 
     private static final String FOO = "foo";
 
-    private FilesVoConverter classUnderTest;
+    private CollectionVoConverter classUnderTest;
 
     private Files source;
 
     @Before
     public void setUp() {
-        classUnderTest = new FilesVoConverter();
+        
+        classUnderTest = new CollectionVoConverter(new FileVoConverter());
         source = new Files();
     }
 
