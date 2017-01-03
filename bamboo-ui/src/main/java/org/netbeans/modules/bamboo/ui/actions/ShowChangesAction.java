@@ -57,49 +57,29 @@ import static org.openide.util.NbBundle.getMessage;
     "No_Changes=No changes. Build reason: {0}"
 })
 @Log
-public class ShowChangesAction extends AbstractContextAction implements Runnable {
+public class ShowChangesAction extends AbstractResultAction {
     
     private static final RequestProcessor RP = new RequestProcessor(
             ShowChangesAction.class);
     
-    private Lookup.Result<InstanceInvokeable> result;
-    
-    private Optional<PlanVo> plan;
     
     public ShowChangesAction() {
     }
     
     public ShowChangesAction(Lookup context) {
         super(Bundle.CTL_ShowChangesAction(), context);
-        init();
     }
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-        plan = (Optional<PlanVo>) allInstances().stream().findFirst();
+        plan = findFirst();
         plan.ifPresent(p -> RP.post(this));
     }
     
     @Override
     public Action createContextAwareInstance(Lookup actionContext) {
         return new ShowChangesAction(actionContext);
-    }
-    
-    @Override
-    public void resultChanged(LookupEvent ev) {
-        enableIfAvailable(allInstances());
-    }
-    
-    private Collection<? extends InstanceInvokeable> allInstances() {
-        return result.allInstances();
-    }
-    
-    private void init() {
-        result = getContext().lookupResult(InstanceInvokeable.class);
-        result.addLookupListener(this);
-        resultChanged(null);
-        plan = empty();
-    }
+    } 
     
     @Override
     public void run() {
