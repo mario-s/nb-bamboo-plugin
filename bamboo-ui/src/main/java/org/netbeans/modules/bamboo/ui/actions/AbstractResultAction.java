@@ -3,6 +3,7 @@ package org.netbeans.modules.bamboo.ui.actions;
 import java.util.Collection;
 import java.util.Optional;
 import static java.util.Optional.empty;
+import org.netbeans.api.io.OutputWriter;
 import org.netbeans.modules.bamboo.model.rcp.InstanceInvokeable;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.openide.util.Lookup;
@@ -48,6 +49,11 @@ abstract class AbstractResultAction extends AbstractContextAction implements Run
 
     protected Optional<PlanVo> findFirst() {
         return (Optional<PlanVo>) allInstances().stream().findFirst();
+    }
+
+    protected OutputWriter getOut(String name) {
+        InputOutputProvider provider = new InputOutputProvider();
+        return provider.getOut(name);
     }
 
 }

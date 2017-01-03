@@ -1,6 +1,8 @@
 package org.netbeans.modules.bamboo.ui;
 
+import java.net.MalformedURLException;
 import java.net.URL;
+import lombok.extern.java.Log;
 import org.openide.awt.HtmlBrowser.URLDisplayer;
 
 import static org.openide.awt.HtmlBrowser.URLDisplayer.getDefault;
@@ -10,6 +12,7 @@ import static org.openide.awt.HtmlBrowser.URLDisplayer.getDefault;
  * 
  * @author spindizzy
  */
+@Log
 public enum BrowserInstance {
     Instance;
     
@@ -21,5 +24,13 @@ public enum BrowserInstance {
     
     public void showURL(URL url) {
         urlDisplayer.showURL(url);
+    }
+    
+    public void showURL(String url) {
+        try {
+            showURL(new URL(url));
+        } catch (MalformedURLException ex) {
+            log.warning(ex.getMessage());
+        }
     }
 }
