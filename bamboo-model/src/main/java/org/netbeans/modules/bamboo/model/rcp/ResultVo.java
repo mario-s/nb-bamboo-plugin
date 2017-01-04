@@ -50,4 +50,12 @@ public class ResultVo extends AbstractVo {
             this.changes = of(changes);
         }
     }
+    
+    /**
+     * This method returns <code>true</code> when the changes are not empty, otherwhise <code>false</code>
+     * @return <code>true</code> when changes otherwhise <code>false</code>.
+     */
+    public boolean hasChanges() {
+        return getChanges().isPresent();
+    }
 }

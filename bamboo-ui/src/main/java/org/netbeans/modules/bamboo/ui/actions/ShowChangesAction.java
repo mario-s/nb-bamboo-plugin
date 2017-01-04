@@ -91,10 +91,10 @@ public class ShowChangesAction extends AbstractResultAction {
 
     private Collection<ChangeVo> attachChangesIfAbsent(PlanVo pVo) {
         ResultVo rVo = pVo.getResult();
-        if (!rVo.getChanges().isPresent()) {
+        if (!rVo.hasChanges()) {
             pVo.invoke(instance -> instance.expand(rVo, Changes));
         }
-        return (rVo.getChanges().isPresent()) ? rVo.getChanges().get() : emptyList();
+        return (rVo.hasChanges()) ? rVo.getChanges().get() : emptyList();
     }
 
     private void printChanges(String name, Collection<ChangeVo> changes) {
