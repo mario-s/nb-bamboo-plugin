@@ -22,7 +22,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true, exclude = {"changes"})
+@EqualsAndHashCode(callSuper = true, exclude = {"changes", "issues"})
 public class ResultVo extends AbstractVo {
 
     private int number;
