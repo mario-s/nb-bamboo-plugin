@@ -54,9 +54,14 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 
 import org.netbeans.modules.bamboo.model.convert.CollectionVoConverter;
 import org.netbeans.modules.bamboo.model.convert.ChangeVoConverter;
+import org.netbeans.modules.bamboo.model.convert.IssueVoConverter;
 import org.netbeans.modules.bamboo.model.convert.VoConverter;
 import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
+
+import static java.lang.String.format;
+import static java.lang.String.format;
+import static java.lang.String.format;
 
 /**
  * @author spindizzy
@@ -128,7 +133,7 @@ class DefaultBambooClient extends AbstractBambooClient {
             if (ResultExpandParameter.Changes.equals(expandParameter)) {
                 vo.setChanges(newCollectionConverter(new ChangeVoConverter()).convert(res.getChanges()));
             } else if (ResultExpandParameter.Jira.equals(expandParameter)) {
-                throw new UnsupportedOperationException("not yet implemented");
+                vo.setIssues(newCollectionConverter(new IssueVoConverter()).convert(res.getJiraIssues()));
             }
         });
     }

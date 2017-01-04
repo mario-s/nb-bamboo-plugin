@@ -60,18 +60,20 @@ public class ResultVo extends AbstractVo {
     }
     
     /**
-     * This method returns <code>true</code> when the changes are not empty, otherwhise <code>false</code>
+     * This method returns <code>true</code> when the changes are not empty, otherwhise <code>false</code>.
+     * If <code>true<code> it means that the server was already contacted.
      * @return <code>true</code> when changes otherwhise <code>false</code>.
      */
-    public boolean hasChanges() {
+    public boolean hasChangesRequested() {
         return getChanges().isPresent();
     }
     
     /**
      * This method returns <code>true</code> when the issues are not empty, otherwhise <code>false</code>
+     * If <code>true<code> it means that the server was already contacted.
      * @return <code>true</code> when issues otherwhise <code>false</code>.
      */
-    public boolean hasIssues() {
+    public boolean hasIssuesRequested() {
         return getIssues().isPresent();
     }
 }

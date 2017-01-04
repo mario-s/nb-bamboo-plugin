@@ -58,7 +58,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static java.lang.String.format;
 import static org.mockito.Matchers.anyString;
 
 import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
@@ -70,6 +69,12 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.QUEUE;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
+import org.netbeans.modules.bamboo.model.rest.Change;
+import org.netbeans.modules.bamboo.model.rest.Changes;
+import org.netbeans.modules.bamboo.model.rest.Issue;
+import org.netbeans.modules.bamboo.model.rest.JiraIssues;
+
+import static java.lang.String.format;
 
 /**
  * @author spindizzy
@@ -181,7 +186,7 @@ public class DefaultBambooClientTest {
 
         given(infoCaller.createTarget()).willReturn(of(webTarget));
         given(infoCaller.doGet(webTarget)).willReturn(info);
-        
+
         given(resultCaller.createTarget()).willReturn(of(webTarget));
         given(resultCaller.doGet(webTarget)).willReturn(result);
 
@@ -206,7 +211,7 @@ public class DefaultBambooClientTest {
 
         given(apiCallerFactory.newCaller(eq(Object.class), eq(format(QUEUE, FOO)))).willReturn(
                 postCaller);
-        
+
         given(apiCallerFactory.newCaller(eq(Result.class), anyString(), any(Map.class))).willReturn(
                 resultCaller);
     }
@@ -255,8 +260,8 @@ public class DefaultBambooClientTest {
 
     @Test
     public void testGetVersion() {
-        VersionInfo result = classUnderTest.getVersionInfo();
-        assertThat(result.getBuildDate(), notNullValue());
+        VersionInfo info = classUnderTest.getVersionInfo();
+        assertThat(info.getBuildDate(), notNullValue());
     }
 
     @Test
@@ -274,8 +279,8 @@ public class DefaultBambooClientTest {
         given(postCaller.createTarget()).willReturn(of(webTarget));
         given(postCaller.doPost(webTarget)).willReturn(Response.ok().build());
 
-        Response result = classUnderTest.queue(plan);
-        assertThat(result.getStatus(), is(code));
+        Response response = classUnderTest.queue(plan);
+        assertThat(response.getStatus(), is(code));
         verify(postCaller).doPost(webTarget);
     }
 
@@ -286,15 +291,54 @@ public class DefaultBambooClientTest {
         plan.setParent(new ProjectVo(FOO));
         given(postCaller.createTarget()).willReturn(empty());
 
-        Response result = classUnderTest.queue(plan);
-        assertThat(result.getStatus(), is(code));
+        Response response = classUnderTest.queue(plan);
+        assertThat(response.getStatus(), is(code));
         verify(postCaller, never()).doPost(webTarget);
     }
 
     @Test
-    public void testAttach_Changes() {
+    public void testAttach_ChangesNoResult_ShouldNotHaveChanges() {
         ResultVo vo = new ResultVo();
 
         classUnderTest.attach(vo, ResultExpandParameter.Changes);
+        assertThat(vo.getChanges().get().isEmpty(), is(true));
+    }
+
+    @Test
+    public void testAttach_Changes_ShouldHaveChanges() {
+        Result result = new Result();
+        Changes changes = new Changes();
+        Change change = new Change();
+        changes.setChanges(singletonList(change));
+        result.setChanges(changes);
+
+        given(resultCaller.doGet(webTarget)).willReturn(result);
+        ResultVo vo = new ResultVo();
+
+        classUnderTest.attach(vo, ResultExpandParameter.Changes);
+        assertThat(vo.getChanges().get().isEmpty(), is(false));
+    }
+
+    @Test
+    public void testAttach_IssuesNoResult_ShouldNotHaveIssues() {
+        ResultVo vo = new ResultVo();
+
+        classUnderTest.attach(vo, ResultExpandParameter.Jira);
+        assertThat(vo.getIssues().get().isEmpty(), is(true));
+    }
+
+    @Test
+    public void testAttach_IssuesResult_ShouldHaveIssues() {
+        Result result = new Result();
+        JiraIssues issues = new JiraIssues();
+        Issue issue = new Issue();
+        issues.setIssues(singletonList(issue));
+        result.setJiraIssues(issues);
+
+        given(resultCaller.doGet(webTarget)).willReturn(result);
+        ResultVo vo = new ResultVo();
+
+        classUnderTest.attach(vo, ResultExpandParameter.Jira);
+        assertThat(vo.getIssues().get().isEmpty(), is(false));
     }
 }

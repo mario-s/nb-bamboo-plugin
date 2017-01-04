@@ -28,6 +28,12 @@ import org.netbeans.modules.bamboo.ui.BrowserInstance;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Changes;
 import static org.openide.util.NbBundle.getMessage;
+import static java.lang.String.format;
+import static org.openide.util.NbBundle.getMessage;
+import static java.lang.String.format;
+import static org.openide.util.NbBundle.getMessage;
+import static java.lang.String.format;
+import static org.openide.util.NbBundle.getMessage;
 
 /**
  *
@@ -91,10 +97,10 @@ public class ShowChangesAction extends AbstractResultAction {
 
     private Collection<ChangeVo> attachChangesIfAbsent(PlanVo pVo) {
         ResultVo rVo = pVo.getResult();
-        if (!rVo.hasChanges()) {
+        if (!rVo.hasChangesRequested()) {
             pVo.invoke(instance -> instance.expand(rVo, Changes));
         }
-        return (rVo.hasChanges()) ? rVo.getChanges().get() : emptyList();
+        return (rVo.hasChangesRequested()) ? rVo.getChanges().get() : emptyList();
     }
 
     private void printChanges(String name, Collection<ChangeVo> changes) {
