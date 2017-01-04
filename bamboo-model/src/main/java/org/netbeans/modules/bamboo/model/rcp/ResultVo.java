@@ -34,6 +34,8 @@ public class ResultVo extends AbstractVo {
     private LocalDateTime buildCompletedTime;
 
     private Optional<Collection<ChangeVo>> changes;
+    
+    private Optional<Collection<IssueVo>> issues;
 
     public ResultVo() {
         this("");
@@ -42,12 +44,18 @@ public class ResultVo extends AbstractVo {
     public ResultVo(String key) {
         super(key);
         changes = empty();
+        issues = empty();
     }
 
-    
     public void setChanges(Collection<ChangeVo> changes) {
         if (changes != null) {
             this.changes = of(changes);
+        }
+    }
+    
+    public void setIssues(Collection<IssueVo> issues) {
+        if (issues != null) {
+            this.issues = of(issues);
         }
     }
     
@@ -57,5 +65,13 @@ public class ResultVo extends AbstractVo {
      */
     public boolean hasChanges() {
         return getChanges().isPresent();
+    }
+    
+    /**
+     * This method returns <code>true</code> when the issues are not empty, otherwhise <code>false</code>
+     * @return <code>true</code> when issues otherwhise <code>false</code>.
+     */
+    public boolean hasIssues() {
+        return getIssues().isPresent();
     }
 }
