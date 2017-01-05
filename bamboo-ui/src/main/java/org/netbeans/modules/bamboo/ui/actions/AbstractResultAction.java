@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
+import java.awt.event.ActionEvent;
 import java.util.Collection;
 import java.util.Optional;
 import static java.util.Optional.empty;
@@ -16,12 +17,9 @@ import org.openide.util.RequestProcessor;
  */
 abstract class AbstractResultAction extends AbstractContextAction implements Runnable {
 
-    private static final RequestProcessor RP = new RequestProcessor(
-            ShowChangesAction.class);
-
     private Lookup.Result<InstanceInvokeable> result;
 
-    protected Optional<PlanVo> plan = empty();
+    private Optional<PlanVo> plan = empty();
 
     public AbstractResultAction() {
     }
@@ -55,5 +53,19 @@ abstract class AbstractResultAction extends AbstractContextAction implements Run
         InputOutputProvider provider = new InputOutputProvider();
         return provider.getOut(name);
     }
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        plan = findFirst();
+        plan.ifPresent(p -> new RequestProcessor(getClass()).post(this));
+    }
+    
+    @Override
+    public void run() {
+        plan.ifPresent(p -> doRun(p));
+    }
+    
+    protected abstract void doRun(PlanVo p);
+
 
 }

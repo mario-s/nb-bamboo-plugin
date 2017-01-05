@@ -1,8 +1,5 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
-import java.awt.event.ActionEvent;
-
-import static java.lang.String.format;
 
 import java.util.Collection;
 
@@ -19,7 +16,6 @@ import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
-import org.openide.util.RequestProcessor;
 
 import org.netbeans.api.io.Hyperlink;
 import org.netbeans.api.io.OutputWriter;
@@ -27,11 +23,6 @@ import org.netbeans.modules.bamboo.ui.BrowserInstance;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Changes;
-import static org.openide.util.NbBundle.getMessage;
-import static java.lang.String.format;
-import static org.openide.util.NbBundle.getMessage;
-import static java.lang.String.format;
-import static org.openide.util.NbBundle.getMessage;
 import static java.lang.String.format;
 import static org.openide.util.NbBundle.getMessage;
 
@@ -54,9 +45,6 @@ import static org.openide.util.NbBundle.getMessage;
 })
 public class ShowChangesAction extends AbstractResultAction {
 
-    private static final RequestProcessor RP = new RequestProcessor(
-            ShowChangesAction.class);
-
     public ShowChangesAction() {
     }
 
@@ -65,22 +53,15 @@ public class ShowChangesAction extends AbstractResultAction {
     }
 
     @Override
-    public void actionPerformed(ActionEvent ae) {
-        plan = findFirst();
-        plan.ifPresent(p -> RP.post(this));
-    }
-
-    @Override
     public Action createContextAwareInstance(Lookup actionContext) {
         return new ShowChangesAction(actionContext);
     }
 
     @Override
-    public void run() {
-        PlanVo pVo = plan.get();
-        Collection<ChangeVo> changes = attachChangesIfAbsent(pVo);
+    protected void doRun(PlanVo p) {
+        Collection<ChangeVo> changes = attachChangesIfAbsent(p);
 
-        printResult(pVo, changes);
+        printResult(p, changes);
     }
 
     private void printResult(PlanVo pVo, Collection<ChangeVo> changes) {
