@@ -38,7 +38,6 @@ import org.netbeans.modules.bamboo.model.rest.Responseable;
 import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 
 import static java.util.Collections.singletonMap;
-import static java.lang.String.format;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -59,8 +58,6 @@ import org.netbeans.modules.bamboo.model.convert.VoConverter;
 import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
-import static java.lang.String.format;
-import static java.lang.String.format;
 import static java.lang.String.format;
 
 /**
