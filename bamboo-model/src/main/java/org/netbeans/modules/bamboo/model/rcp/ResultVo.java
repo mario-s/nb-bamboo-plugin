@@ -64,7 +64,7 @@ public class ResultVo extends AbstractVo {
      * If <code>true<code> it means that the server was already contacted.
      * @return <code>true</code> when changes otherwhise <code>false</code>.
      */
-    public boolean hasChangesRequested() {
+    public boolean requestedChanges() {
         return getChanges().isPresent();
     }
     
@@ -73,7 +73,7 @@ public class ResultVo extends AbstractVo {
      * If <code>true<code> it means that the server was already contacted.
      * @return <code>true</code> when issues otherwhise <code>false</code>.
      */
-    public boolean hasIssuesRequested() {
+    public boolean requestedIssues() {
         return getIssues().isPresent();
     }
 }
