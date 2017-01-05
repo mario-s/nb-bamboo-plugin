@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.ui.notification;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
-import org.netbeans.modules.bamboo.ui.HtmlPane;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.util.NbBundle;
 import org.openide.util.Pair;

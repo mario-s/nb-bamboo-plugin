@@ -27,6 +27,7 @@ import org.openide.util.Lookup;
 import static java.util.Collections.singletonList;
 import static java.util.Optional.of;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.internal.util.reflection.Whitebox.getInternalState;
@@ -68,6 +69,11 @@ public class ShowChangesActionTest {
     @After
     public void shutDown() {
         LookupContext.Instance.remove(plan);
+    }
+    
+    @Test
+    public void testCreateContextAwareAction_ExpectNotNull() {
+        assertThat(new ShowChangesAction().createContextAwareInstance(Lookup.EMPTY), notNullValue());
     }
     
     @Test

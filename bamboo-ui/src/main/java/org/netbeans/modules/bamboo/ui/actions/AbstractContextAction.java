@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Optional;
 import javax.swing.AbstractAction;
 import org.netbeans.modules.bamboo.model.rcp.Availability;
-import org.netbeans.modules.bamboo.model.rcp.OpenableInBrowser;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.Lookup;
 import org.openide.util.LookupListener;

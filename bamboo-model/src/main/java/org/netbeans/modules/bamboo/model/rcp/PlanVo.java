@@ -71,6 +71,7 @@ public class PlanVo extends AbstractOpenInBrowserVo implements PropertyChangeLis
         //update only when the number is equal or higher
         if (result.getNumber() >= old.getNumber()) {
             this.result = result;
+            this.result.setParent(this);
             firePropertyChange(ModelChangedValues.Result.toString(), old, result);
         }
     }

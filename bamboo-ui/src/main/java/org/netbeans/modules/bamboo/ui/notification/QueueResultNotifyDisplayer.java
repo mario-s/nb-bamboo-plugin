@@ -18,7 +18,6 @@ import static org.netbeans.modules.bamboo.ui.notification.Bundle.Server_Response
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Start_Failed;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Start_Success;
 import static java.lang.String.format;
-import static java.lang.String.format;
 
 /**
  * This class displays a ntification for manual build run.

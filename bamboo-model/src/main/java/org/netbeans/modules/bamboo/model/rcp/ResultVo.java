@@ -13,6 +13,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import static java.util.Optional.ofNullable;
+import static lombok.AccessLevel.NONE;
+
 /**
  * This class represent the result for a plan.
  * <br/>
@@ -22,8 +25,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true, exclude = {"changes", "issues"})
-public class ResultVo extends AbstractVo {
+@EqualsAndHashCode(callSuper = true, exclude = {"parent", "changes", "issues"})
+public class ResultVo extends AbstractVo implements TraverseUp<PlanVo>{
 
     private int number;
     private String buildReason;
@@ -32,6 +35,9 @@ public class ResultVo extends AbstractVo {
     private long buildDurationInSeconds;
     private LocalDateTime buildStartedTime;
     private LocalDateTime buildCompletedTime;
+    
+    @Getter(NONE)
+    private PlanVo parent;
 
     private Optional<Collection<ChangeVo>> changes;
     
@@ -57,6 +63,11 @@ public class ResultVo extends AbstractVo {
         if (issues != null) {
             this.issues = of(issues);
         }
+    }
+
+    @Override
+    public Optional<PlanVo> getParent() {
+        return ofNullable(parent);
     }
     
     /**

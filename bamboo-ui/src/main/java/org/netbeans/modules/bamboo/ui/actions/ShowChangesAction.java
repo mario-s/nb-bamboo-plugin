@@ -1,13 +1,11 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
-
 import java.util.Collection;
 
 import static java.util.Collections.emptyList;
 
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
-import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 import org.netbeans.modules.bamboo.ui.util.DateFormatter;
 import org.netbeans.modules.bamboo.ui.util.TextExtractor;
@@ -58,30 +56,35 @@ public class ShowChangesAction extends AbstractResultAction {
     }
 
     @Override
-    protected void doRun(PlanVo p) {
-        Collection<ChangeVo> changes = attachChangesIfAbsent(p);
+    protected void doRun(ResultVo res) {
+        attachChangesIfAbsent(res);
 
-        printResult(p, changes);
+        printResult(res);
     }
 
-    private void printResult(PlanVo pVo, Collection<ChangeVo> changes) {
-        ResultVo rVo = pVo.getResult();
-        Object[] args = new Object[]{pVo.getName(), rVo.getNumber()};
-        String name = getMessage(ShowChangesAction.class, "Changes_Output_Title", args);
-
-        if (!changes.isEmpty()) {
-            printChanges(name, changes);
-        } else {
-            printBuildReason(name, rVo); //print build msg when there are no changes
+    private void attachChangesIfAbsent(ResultVo res) {
+        if (!res.requestedChanges()) {
+            res.getParent().ifPresent(p -> p.invoke(instance -> instance.expand(res, Changes)));
         }
     }
 
-    private Collection<ChangeVo> attachChangesIfAbsent(PlanVo pVo) {
-        ResultVo rVo = pVo.getResult();
-        if (!rVo.requestedChanges()) {
-            pVo.invoke(instance -> instance.expand(rVo, Changes));
-        }
-        return (rVo.requestedChanges()) ? rVo.getChanges().get() : emptyList();
+    private void printResult(ResultVo res) {
+        res.getParent().ifPresent(plan -> {
+            Object[] args = new Object[]{plan.getName(), res.getNumber()};
+            String title = getMessage(ShowChangesAction.class, "Changes_Output_Title", args);
+            Collection<ChangeVo> changes = getChanges(res);
+
+            if (!changes.isEmpty()) {
+                printChanges(title, changes);
+            } else {
+                printBuildReason(title, res); //print build msg when there are no changes
+            }
+
+        });
+    }
+
+    private Collection<ChangeVo> getChanges(ResultVo res) {
+        return (res.requestedChanges()) ? res.getChanges().get() : emptyList();
     }
 
     private void printChanges(String name, Collection<ChangeVo> changes) {

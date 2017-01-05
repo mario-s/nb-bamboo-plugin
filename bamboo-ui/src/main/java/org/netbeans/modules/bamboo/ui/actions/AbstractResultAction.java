@@ -3,10 +3,13 @@ package org.netbeans.modules.bamboo.ui.actions;
 import java.awt.event.ActionEvent;
 import java.util.Collection;
 import java.util.Optional;
+
 import static java.util.Optional.empty;
+
 import org.netbeans.api.io.OutputWriter;
 import org.netbeans.modules.bamboo.model.rcp.InstanceInvokeable;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.RequestProcessor;
@@ -62,10 +65,10 @@ abstract class AbstractResultAction extends AbstractContextAction implements Run
     
     @Override
     public void run() {
-        plan.ifPresent(p -> doRun(p));
+        plan.ifPresent(p -> doRun(p.getResult()));
     }
     
-    protected abstract void doRun(PlanVo p);
+    protected abstract void doRun(ResultVo res);
 
 
 }

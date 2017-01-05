@@ -7,7 +7,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 import org.junit.After;
 
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,22 +19,21 @@ import org.mockito.Mock;
 
 import static org.mockito.Mockito.verify;
 
-import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.LookupContext;
 import org.netbeans.modules.bamboo.model.rcp.OpenableInBrowser;
 import org.netbeans.modules.bamboo.ui.BrowserInstance;
-import org.openide.awt.HtmlBrowser.URLDisplayer;
 import org.openide.util.Lookup;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ BrowserInstance.class})
+@PrepareForTest({BrowserInstance.class})
 public class OpenUrlActionTest {
 
     private OpenUrlAction classUnderTest;
@@ -61,7 +59,12 @@ public class OpenUrlActionTest {
     public void shutDown() {
         LookupContext.Instance.remove(openableInBrowser);
     }
-    
+
+    @Test
+    public void testCreateContextAwareAction_ExpectNotNull() {
+        assertThat(new OpenUrlAction().createContextAwareInstance(Lookup.EMPTY), notNullValue());
+    }
+
     @Test
     public void testGetName_ExpectBundle() {
         String name = (String) classUnderTest.getValue(Action.NAME);
@@ -94,7 +97,7 @@ public class OpenUrlActionTest {
         boolean result = classUnderTest.isEnabled();
         assertThat(result, is(true));
     }
-    
+
     @Test
     public void testIsEnabled_InstanceNotAvailable_ShouldBeFalse() {
         given(openableInBrowser.isAvailable()).willReturn(false);

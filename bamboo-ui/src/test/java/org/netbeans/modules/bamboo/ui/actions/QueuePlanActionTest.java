@@ -19,6 +19,7 @@ import org.netbeans.modules.bamboo.model.rcp.Queueable;
 import org.openide.util.Lookup;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
@@ -29,7 +30,7 @@ import static org.mockito.Mockito.never;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class QueuePlanActionTest {
-   
+
     @Mock
     private Queueable plan;
 
@@ -40,18 +41,23 @@ public class QueuePlanActionTest {
         Lookup lookup = LookupContext.Instance.getLookup();
         classUnderTest = new QueuePlanAction(lookup);
     }
-    
+
     @After
     public void shutDown() {
         LookupContext.Instance.remove(plan);
     }
-    
+
+    @Test
+    public void testCreateContextAwareAction_ExpectNotNull() {
+        assertThat(new QueuePlanAction().createContextAwareInstance(Lookup.EMPTY), notNullValue());
+    }
+
     @Test
     public void testGetName_ExpectBundle() {
         String name = (String) classUnderTest.getValue(Action.NAME);
         assertThat(name, equalTo(Bundle.CTL_QueuePlanAction()));
     }
-    
+
     @Test
     public void testIsEnabled_NoPlan_ExpectFalse() {
         boolean result = classUnderTest.isEnabled();
@@ -66,31 +72,31 @@ public class QueuePlanActionTest {
         classUnderTest.actionPerformed(null);
         verify(plan, never()).queue();
     }
-    
-     /**
+
+    /**
      * Test of actionPerformed method, of class QueuePlanAction.
      */
     @Test
     public void testActionPerformed_PlanEnabled_ExpectCall() {
-        
+
         given(plan.isAvailable()).willReturn(true);
         given(plan.isEnabled()).willReturn(true);
         LookupContext.Instance.add(plan);
-        
+
         classUnderTest.actionPerformed(null);
         verify(plan).queue();
     }
-    
-     /**
+
+    /**
      * Test of actionPerformed method, of class QueuePlanAction.
      */
     @Test
     public void testResultChanged_PlanEnabled_ExpectEnabled() {
-        
+
         given(plan.isAvailable()).willReturn(true);
         given(plan.isEnabled()).willReturn(true);
         LookupContext.Instance.add(plan);
-        
+
         boolean result = classUnderTest.isEnabled();
         assertThat(result, is(true));
     }
