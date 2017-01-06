@@ -3,6 +3,7 @@ package org.netbeans.modules.bamboo.model.convert;
 import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
 import org.netbeans.modules.bamboo.model.rest.Change;
 
+
 /**
  *
  * @author spindizzy
@@ -13,12 +14,8 @@ public class ChangeVoConverter extends AbstractVoConverter<Change, ChangeVo> {
     public ChangeVo convert(Change src) {
         ChangeVo target = new ChangeVo();
         
-        target.setChangesetId(src.getChangesetId());
-        target.setAuthor(src.getAuthor());
-        target.setFullName(src.getFullName());
-        target.setUserName(src.getUserName());
-        target.setComment(src.getComment());
-        target.setCommitUrl(src.getCommitUrl());
+        copyProperties(src, target);
+               
         toDate(src.getDate()).ifPresent((date) -> target.setDate(date));
         
         convertFiles(src, target);

@@ -7,13 +7,12 @@ import org.netbeans.modules.bamboo.model.rest.File;
  *
  * @author spindizzy
  */
-public class FileVoConverter implements VoConverter<File, FileVo>{
+public class FileVoConverter extends AbstractVoConverter<File, FileVo>{
 
     @Override
     public FileVo convert(File src) {
         FileVo target = new FileVo();
-        target.setName(src.getName());
-        target.setRevision(src.getRevision());
+        copyProperties(src, target);
         return target;
     }
     

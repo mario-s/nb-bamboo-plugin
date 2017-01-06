@@ -285,6 +285,12 @@
                 <artifactId>lombok</artifactId>
                 <version>1.16.8</version>
             </dependency>
+            
+            <dependency>
+                <groupId>org.jodd</groupId>
+                <artifactId>jodd-bean</artifactId>
+                <version>3.8.1</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.apache.commons</groupId>
