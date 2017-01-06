@@ -34,7 +34,8 @@ import static org.openide.util.NbBundle.getMessage;
 @ActionReference(path = ActionConstants.PLAN_ACTION_PATH, position = 725)
 @NbBundle.Messages({
     "CTL_ShowIssuesAction=&Show Issues",
-    "Issues_Output_Title=Issues for {0} #{1}"
+    "Issues_Output_Title=Issues for {0} #{1}",
+    "Issue_Text={0}: {1}"
 })
 public class ShowIssuesAction extends AbstractResultAction {
 
@@ -85,13 +86,9 @@ public class ShowIssuesAction extends AbstractResultAction {
     private void printIssues(String name, Collection<IssueVo> changes) {
         OutputWriter out = getOut(name);
         changes.forEach(issue -> {
-            StringBuilder builder = new StringBuilder();
-            builder.append(issue.getKey()).append(SPC).append(issue.getSummary()).append(" -> ").append(issue.getAssignee());
-            out.println(builder.toString());
-
-            final String link = issue.getLink();
-            out.println(link, Hyperlink.from(() -> BrowserInstance.Instance.showURL(link)));
-            out.println("\n");
+            String issueText = getMessage(ShowIssuesAction.class, "Issue_Text", new Object[]{issue.getKey(), issue.getSummary()});
+            String link = issue.getLink();
+            out.println(issueText, Hyperlink.from(() -> BrowserInstance.Instance.showURL(link)));
         });
         out.close();
     }
