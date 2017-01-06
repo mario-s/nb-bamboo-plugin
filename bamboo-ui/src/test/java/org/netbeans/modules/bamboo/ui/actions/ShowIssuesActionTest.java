@@ -28,14 +28,16 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.never;
+import org.netbeans.modules.bamboo.model.rcp.IssueVo;
 import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Changes;
+import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Jira;
 
 /**
  *
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ShowChangesActionTest {
+public class ShowIssuesActionTest {
     
     private static final String FOO = "foo";
     
@@ -44,7 +46,7 @@ public class ShowChangesActionTest {
    
     private PlanVo plan;
 
-    private ShowChangesAction classUnderTest;
+    private ShowIssuesAction classUnderTest;
     
     private boolean available;
 
@@ -59,7 +61,7 @@ public class ShowChangesActionTest {
         };
         
         Lookup lookup = LookupContext.Instance.getLookup();
-        classUnderTest = new ShowChangesAction(lookup);
+        classUnderTest = new ShowIssuesAction(lookup);
     }
     
     @After
@@ -75,7 +77,7 @@ public class ShowChangesActionTest {
     @Test
     public void testGetName_ExpectBundle() {
         String name = (String) classUnderTest.getValue(Action.NAME);
-        assertThat(name, equalTo(Bundle.CTL_ShowChangesAction()));
+        assertThat(name, equalTo(Bundle.CTL_ShowIssuesAction()));
     }
     
     @Test
@@ -110,7 +112,7 @@ public class ShowChangesActionTest {
     }
 
     @Test
-    public void testRun_ChangesNotPresent_ExpectInvoke() {
+    public void testRun_IssuesNotPresent_ExpectInvoke() {
         ProjectVo project = new ProjectVo(FOO);
         project.setParent(instance);
         plan.setParent(project);
@@ -119,29 +121,25 @@ public class ShowChangesActionTest {
         
         classUnderTest.doRun(result);
         
-        verify(instance).expand(result, Changes);
+        verify(instance).expand(result, Jira);
     }
     
     
     @Test
-    public void testRun_ChangesPresent_NotExpectInvoke() {
+    public void testRun_IssuesPresent_NotExpectInvoke() {
         ProjectVo project = new ProjectVo(FOO);
         project.setParent(instance);
         plan.setParent(project);
         
-        FileVo file = new FileVo();
-        file.setName(FOO);
-        ChangeVo change = new ChangeVo();
-        change.setComment(FOO);
-        change.setFiles(singletonList(file));
+        IssueVo issue = new IssueVo();
+        issue.setKey(FOO);
         ResultVo result = new ResultVo();
-        result.setBuildReason(FOO);
-        result.setChanges(singletonList(change));
+        result.setIssues(singletonList(issue));
         
         plan.setResult(result);
         
         classUnderTest.doRun(result);
         
-        verify(instance, never()).expand(result, Changes);
+        verify(instance, never()).expand(result, Jira);
     }
 }

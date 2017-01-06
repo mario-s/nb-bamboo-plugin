@@ -3,26 +3,33 @@ package org.netbeans.modules.bamboo.ui.actions;
 import java.awt.event.ActionEvent;
 import java.util.Collection;
 import java.util.Optional;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
-import static java.util.Optional.empty;
 
 import org.netbeans.api.io.OutputWriter;
 import org.netbeans.modules.bamboo.model.rcp.InstanceInvokeable;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
+import org.netbeans.modules.bamboo.ui.util.TextExtractor;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
+import org.openide.util.NbBundle;
+import static org.openide.util.NbBundle.getMessage;
 import org.openide.util.RequestProcessor;
 
 /**
  *
  * @author spindizzy
  */
-abstract class AbstractResultAction extends AbstractContextAction implements Runnable {
+@NbBundle.Messages({
+    "No_Changes=No changes. Build reason: {0}",
+    "No_Issues=No issues. Build reason: {0}"
+})
+abstract class AbstractResultAction extends AbstractContextAction {
+
+    protected static final String SPC = ": ";
 
     private Lookup.Result<InstanceInvokeable> result;
-
-    private Optional<PlanVo> plan = empty();
 
     public AbstractResultAction() {
     }
@@ -36,7 +43,6 @@ abstract class AbstractResultAction extends AbstractContextAction implements Run
         result = getContext().lookupResult(InstanceInvokeable.class);
         result.addLookupListener(this);
         resultChanged(null);
-        plan = empty();
     }
 
     @Override
@@ -59,16 +65,27 @@ abstract class AbstractResultAction extends AbstractContextAction implements Run
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        plan = findFirst();
-        plan.ifPresent(p -> new RequestProcessor(getClass()).post(this));
-    }
-    
-    @Override
-    public void run() {
-        plan.ifPresent(p -> doRun(p.getResult()));
+        findFirst().ifPresent(p -> new RequestProcessor(getClass()).post(() -> {
+            doRun(p.getResult());
+        }));
     }
     
     protected abstract void doRun(ResultVo res);
+
+    /**
+     * Prints only the build reason
+     * @param name name for the output tab
+     * @param result result with build reason
+     */
+    protected void printBuildReason(String name, String messageKey, ResultVo result) {
+        TextExtractor extractor = new TextExtractor();
+        String reason = result.getBuildReason();
+        String normalized = (!isBlank(reason)) ? extractor.removeTags(reason) : "";
+        String msg = getMessage(AbstractResultAction.class, messageKey, new Object[]{normalized});
+        OutputWriter out = getOut(name);
+        out.println(msg);
+        out.close();
+    }
 
 
 }

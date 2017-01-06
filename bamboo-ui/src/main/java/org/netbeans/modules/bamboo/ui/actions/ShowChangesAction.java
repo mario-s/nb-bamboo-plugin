@@ -8,7 +8,6 @@ import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 import org.netbeans.modules.bamboo.ui.util.DateFormatter;
-import org.netbeans.modules.bamboo.ui.util.TextExtractor;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
@@ -19,7 +18,6 @@ import org.netbeans.api.io.Hyperlink;
 import org.netbeans.api.io.OutputWriter;
 import org.netbeans.modules.bamboo.ui.BrowserInstance;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Changes;
 import static java.lang.String.format;
 import static org.openide.util.NbBundle.getMessage;
@@ -38,8 +36,7 @@ import static org.openide.util.NbBundle.getMessage;
 @ActionReference(path = ActionConstants.PLAN_ACTION_PATH, position = 720)
 @NbBundle.Messages({
     "CTL_ShowChangesAction=&Show Changes",
-    "Changes_Output_Title=Changes for result {0} #{1}",
-    "No_Changes=No changes. Build reason: {0}"
+    "Changes_Output_Title=Changes for {0} #{1}"
 })
 public class ShowChangesAction extends AbstractResultAction {
 
@@ -77,9 +74,8 @@ public class ShowChangesAction extends AbstractResultAction {
             if (!changes.isEmpty()) {
                 printChanges(title, changes);
             } else {
-                printBuildReason(title, res); //print build msg when there are no changes
+                printBuildReason(title, "No_Changes", res);
             }
-
         });
     }
 
@@ -91,8 +87,8 @@ public class ShowChangesAction extends AbstractResultAction {
         OutputWriter out = getOut(name);
         changes.forEach(change -> {
             StringBuilder builder = new StringBuilder();
-            builder.append(DateFormatter.format(change.getDate())).append(": ");
-            builder.append(change.getAuthor()).append(": ").append(change.getComment());
+            builder.append(DateFormatter.format(change.getDate())).append(SPC);
+            builder.append(change.getAuthor()).append(SPC).append(change.getComment());
             out.println(builder.toString());
 
             final String commitUrl = change.getCommitUrl();
@@ -107,14 +103,5 @@ public class ShowChangesAction extends AbstractResultAction {
         out.close();
     }
 
-    private void printBuildReason(String name, ResultVo result) {
-        TextExtractor extractor = new TextExtractor();
-        String reason = result.getBuildReason();
-        String normalized = (!isBlank(reason)) ? extractor.removeTags(reason) : "";
-        String msg = getMessage(ShowChangesAction.class, "No_Changes", new Object[]{normalized});
-        OutputWriter out = getOut(name);
-        out.println(msg);
-        out.close();
-    }
 
 }

@@ -223,6 +223,7 @@ public class PlanNode extends AbstractInstanceChildNode {
         List<Action> actions = new ArrayList<>();
 
         actions.addAll(findActions(ActionConstants.COMMON_ACTION_PATH));
+        actions.add(null);
         actions.addAll(findActions(ActionConstants.PLAN_ACTION_PATH));
         actions.add(null);
         actions.add(SystemAction.get(PropertiesAction.class));
