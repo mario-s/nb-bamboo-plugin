@@ -77,7 +77,7 @@ public class ShowIssuesAction extends AbstractResultAction {
     }
 
     private Collection<IssueVo> getIssues(ResultVo res) {
-        return (res.requestedIssues()) ? res.getIssues().get() : emptyList();
+        return res.getIssues().orElse(emptyList());
     }
 
     private void printIssues(String name, Collection<IssueVo> changes) {
