@@ -78,13 +78,5 @@ public class ResultVo extends AbstractVo implements TraverseUp<PlanVo>{
     public boolean requestedChanges() {
         return getChanges().isPresent();
     }
-    
-    /**
-     * This method returns <code>true</code> when the issues are not empty, otherwhise <code>false</code>
-     * If <code>true<code> it means that the server was already contacted.
-     * @return <code>true</code> when issues otherwhise <code>false</code>.
-     */
-    public boolean requestedIssues() {
-        return getIssues().isPresent();
-    }
+
 }
