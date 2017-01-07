@@ -53,15 +53,13 @@ public class ShowIssuesAction extends AbstractResultAction {
 
     @Override
     protected void doRun(ResultVo res) {
-        attachIssuesIfAbsent(res);
+        attachIssues(res);
 
         printResult(res);
     }
 
-    private void attachIssuesIfAbsent(ResultVo res) {
-        if (!res.requestedIssues()) {
-            res.getParent().ifPresent(p -> p.invoke(instance -> instance.expand(res, Jira)));
-        }
+    private void attachIssues(ResultVo res) {
+        res.getParent().ifPresent(p -> p.invoke(instance -> instance.expand(res, Jira)));
     }
 
     private void printResult(ResultVo res) {

@@ -112,7 +112,7 @@ public class ShowIssuesActionTest {
     }
 
     @Test
-    public void testRun_IssuesNotPresent_ExpectInvoke() {
+    public void testRun_Issues_ExpectInvoke() {
         ProjectVo project = new ProjectVo(FOO);
         project.setParent(instance);
         plan.setParent(project);
@@ -124,22 +124,4 @@ public class ShowIssuesActionTest {
         verify(instance).expand(result, Jira);
     }
     
-    
-    @Test
-    public void testRun_IssuesPresent_NotExpectInvoke() {
-        ProjectVo project = new ProjectVo(FOO);
-        project.setParent(instance);
-        plan.setParent(project);
-        
-        IssueVo issue = new IssueVo();
-        issue.setKey(FOO);
-        ResultVo result = new ResultVo();
-        result.setIssues(singletonList(issue));
-        
-        plan.setResult(result);
-        
-        classUnderTest.doRun(result);
-        
-        verify(instance, never()).expand(result, Jira);
-    }
 }
