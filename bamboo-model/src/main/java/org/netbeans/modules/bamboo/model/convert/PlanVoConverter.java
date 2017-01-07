@@ -7,7 +7,7 @@ import org.netbeans.modules.bamboo.model.rest.Plan;
  *
  * @author spindizzy
  */
-public class PlanVoConverter implements VoConverter<Plan, PlanVo> {
+public class PlanVoConverter extends AbstractVoConverter<Plan, PlanVo> {
     
     private final String serverUrl;
 
@@ -18,11 +18,11 @@ public class PlanVoConverter implements VoConverter<Plan, PlanVo> {
     @Override
     public PlanVo convert(Plan src) {
         PlanVo target = new PlanVo(src.getKey(), src.getName());
-        target.setShortKey(src.getShortKey());
-        target.setShortName(src.getShortName());
-        target.setEnabled(src.isEnabled());
-        target.setType(src.getType());
+        
+        copyProperties(src, target);
+        
         target.setServerUrl(serverUrl);
+
         return target;
     }
     

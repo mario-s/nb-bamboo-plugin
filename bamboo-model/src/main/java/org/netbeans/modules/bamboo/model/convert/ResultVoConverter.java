@@ -13,11 +13,7 @@ public class ResultVoConverter extends AbstractVoConverter<Result, ResultVo> {
     public ResultVo convert(Result src) {
         ResultVo target = new ResultVo(src.getKey());
         
-        target.setNumber(src.getNumber());
-        target.setBuildReason(src.getBuildReason());
-        target.setState(src.getState());
-        target.setLifeCycleState(src.getLifeCycleState());
-        target.setBuildDurationInSeconds(src.getBuildDurationInSeconds());
+        copyProperties(src, target);
 
         convertDates(src, target);
 
