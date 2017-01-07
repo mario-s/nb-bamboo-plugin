@@ -21,6 +21,8 @@ Support for:
 * notification when a build failed and is back to successful
 * disable notification
 * queue a build
+* show changes
+* show Jira issues
 
 
 
