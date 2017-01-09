@@ -80,7 +80,7 @@ public class ShowChangesAction extends AbstractResultAction {
     }
 
     private Collection<ChangeVo> getChanges(ResultVo res) {
-        return (res.requestedChanges()) ? res.getChanges().get() : emptyList();
+        return res.getChanges().orElse(emptyList());
     }
 
     private void printChanges(String name, Collection<ChangeVo> changes) {

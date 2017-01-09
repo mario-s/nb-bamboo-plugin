@@ -7,7 +7,7 @@ import org.netbeans.modules.bamboo.model.rest.Project;
  *
  * @author spindizzy
  */
-public class ProjectVoConverter implements VoConverter<Project, ProjectVo> {
+public class ProjectVoConverter extends AbstractVoConverter<Project, ProjectVo> {
     
     private final String serverUrl;
 
@@ -18,7 +18,9 @@ public class ProjectVoConverter implements VoConverter<Project, ProjectVo> {
     @Override
     public ProjectVo convert(Project src) {
         ProjectVo target = new ProjectVo(src.getKey());
-        target.setName(src.getName());
+        
+        copyProperties(src, target);
+        
         target.setServerUrl(serverUrl);
         return target;
     }
