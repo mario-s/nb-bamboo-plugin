@@ -35,6 +35,8 @@ public class ResultVo extends AbstractVo implements TraverseUp<PlanVo>{
     private long buildDurationInSeconds;
     private LocalDateTime buildStartedTime;
     private LocalDateTime buildCompletedTime;
+    private int failedTestCount;
+    private int successfulTestCount;
     
     @Getter(NONE)
     private PlanVo parent;
