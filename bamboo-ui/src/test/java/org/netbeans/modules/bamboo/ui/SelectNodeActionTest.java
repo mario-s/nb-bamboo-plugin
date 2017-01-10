@@ -1,20 +1,23 @@
 package org.netbeans.modules.bamboo.ui;
 
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.mockito.BDDMockito.given;
 import org.mockito.Mock;
+
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.openide.explorer.ExplorerManager;
+import org.openide.windows.TopComponent;
+
 
 /**
  *
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SelectNodeButtonTest {
+public class SelectNodeActionTest {
 
     private static final String FOO = "foo";
     private PlanVo plan;
@@ -22,23 +25,22 @@ public class SelectNodeButtonTest {
     private ExplorerManager explorerManager;
     
     @Mock
-    private ExplorerManager.Provider servicesTab;
+    private TopComponent servicesTab;
     
-    private SelectNodeButton classUnderTest;
+    private SelectNodeAction classUnderTest;
     
     @Before
     public void setUp() {
         plan = new PlanVo(FOO);
         explorerManager = new ExplorerManager();
         
-        classUnderTest = new SelectNodeButton(plan) {
+        classUnderTest = new SelectNodeAction(plan) {
             @Override
-            ExplorerManager.Provider findServicesTab() {
-                return servicesTab;
+            Optional<TopComponent> findServicesTab() {
+                return Optional.of(servicesTab);
             }
         };
         
-        given(servicesTab.getExplorerManager()).willReturn(explorerManager);
     }
 
     /**
