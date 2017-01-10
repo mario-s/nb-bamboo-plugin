@@ -3,9 +3,10 @@ package org.netbeans.modules.bamboo.ui;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.mockito.BDDMockito.given;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.openide.windows.TopComponent;
+import org.openide.explorer.ExplorerManager;
 
 /**
  *
@@ -14,20 +15,26 @@ import org.openide.windows.TopComponent;
 @RunWith(MockitoJUnitRunner.class)
 public class SelectNodeButtonTest {
     
+
+    private ExplorerManager explorerManager;
+    
     @Mock
-    private TopComponent servicesTab;
+    private ExplorerManager.Provider servicesTab;
     
     private SelectNodeButton classUnderTest;
     
     @Before
     public void setUp() {
+        explorerManager = new ExplorerManager();
+        
         classUnderTest = new SelectNodeButton() {
             @Override
-            TopComponent findServicesTab() {
+            ExplorerManager.Provider findServicesTab() {
                 return servicesTab;
             }
-            
         };
+        
+        given(servicesTab.getExplorerManager()).willReturn(explorerManager);
     }
 
     /**

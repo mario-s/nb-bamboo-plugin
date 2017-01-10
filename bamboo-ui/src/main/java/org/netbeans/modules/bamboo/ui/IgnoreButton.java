@@ -8,13 +8,15 @@ import org.openide.util.NbBundle.Messages;
 
 import static java.util.Optional.ofNullable;
 import static org.netbeans.modules.bamboo.ui.Bundle.Ignore;
+import static org.netbeans.modules.bamboo.ui.Bundle.Ignore_Tooltip;
 
 /**
  *
  * @author spindizzy
  */
 @Messages({
-    "Ignore=Ignore"
+    "Ignore=Ignore",
+    "Ignore_Tooltip=Stop watching changes of the plan"
 })
 public class IgnoreButton extends LinkButton implements ActionListener{
     
@@ -31,6 +33,7 @@ public class IgnoreButton extends LinkButton implements ActionListener{
     }
     
     private void init() {
+        setToolTipText(Ignore_Tooltip());
         addActionListener(this);
     }
     
