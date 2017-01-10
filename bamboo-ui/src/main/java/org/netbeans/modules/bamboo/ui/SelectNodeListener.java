@@ -34,6 +34,7 @@ class SelectNodeListener implements ActionListener {
         plan.ifPresent(p -> {
             findServicesTab().ifPresent(tab -> {
                 tab.open();
+                tab.requestActive();
                 if (tab instanceof ExplorerManager.Provider) {
                     selectNodes((ExplorerManager.Provider) tab, p);
                 }
