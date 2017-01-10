@@ -14,6 +14,7 @@ import org.openide.windows.WindowManager;
 
 import static org.netbeans.modules.bamboo.ui.Bundle.Select;
 import static org.netbeans.modules.bamboo.ui.Bundle.Select_ToolTip;
+import org.openide.windows.TopComponent;
 
 /**
  *
@@ -28,7 +29,7 @@ public class SelectNodeButton extends LinkButton implements ActionListener {
 
     static final String TAB_ID = "services";
 
-    private Optional<PlanVo> plan;
+    private final Optional<PlanVo> plan;
 
     public SelectNodeButton(PlanVo plan) {
         super(Select());
@@ -54,7 +55,9 @@ public class SelectNodeButton extends LinkButton implements ActionListener {
     }
 
     ExplorerManager.Provider findServicesTab() {
-        return (ExplorerManager.Provider) WindowManager.getDefault().findTopComponent(TAB_ID);
+        final TopComponent servicesTab = WindowManager.getDefault().findTopComponent(TAB_ID);
+        servicesTab.open();
+        return (ExplorerManager.Provider) servicesTab;
     }
 
 }

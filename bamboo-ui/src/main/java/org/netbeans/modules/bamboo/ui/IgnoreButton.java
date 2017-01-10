@@ -20,11 +20,7 @@ import static org.netbeans.modules.bamboo.ui.Bundle.Ignore_Tooltip;
 })
 public class IgnoreButton extends LinkButton implements ActionListener{
     
-    private Optional<PlanVo> plan;
-    
-    public IgnoreButton() {
-        this(null);
-    }
+    private final Optional<PlanVo> plan;
 
     public IgnoreButton(PlanVo plan) {
         super(Ignore());
