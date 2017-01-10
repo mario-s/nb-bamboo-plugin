@@ -26,6 +26,8 @@ import static org.netbeans.modules.bamboo.ui.Bundle.Select_ToolTip;
 })
 public class SelectNodeButton extends LinkButton implements ActionListener {
 
+    static final String TAB_ID = "services";
+
     private Optional<PlanVo> plan;
 
     public SelectNodeButton(PlanVo plan) {
@@ -52,7 +54,7 @@ public class SelectNodeButton extends LinkButton implements ActionListener {
     }
 
     ExplorerManager.Provider findServicesTab() {
-        return (ExplorerManager.Provider) WindowManager.getDefault().findTopComponent("Services");
+        return (ExplorerManager.Provider) WindowManager.getDefault().findTopComponent(TAB_ID);
     }
 
 }
