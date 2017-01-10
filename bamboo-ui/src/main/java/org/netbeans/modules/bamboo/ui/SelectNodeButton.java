@@ -3,7 +3,10 @@ package org.netbeans.modules.bamboo.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import java.util.Optional;
+import static java.util.Optional.ofNullable;
 import lombok.extern.java.Log;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.openide.explorer.ExplorerManager;
 import org.openide.nodes.Node;
 import org.openide.util.NbBundle;
@@ -23,8 +26,11 @@ import static org.netbeans.modules.bamboo.ui.Bundle.Select_ToolTip;
 })
 public class SelectNodeButton extends LinkButton implements ActionListener {
 
-    public SelectNodeButton() {
+    private Optional<PlanVo> plan;
+
+    public SelectNodeButton(PlanVo plan) {
         super(Select());
+        this.plan = ofNullable(plan);
         init();
     }
 
@@ -35,16 +41,18 @@ public class SelectNodeButton extends LinkButton implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            ExplorerManager manager = findServicesTab().getExplorerManager();
-            manager.setSelectedNodes(new Node[]{});
-        } catch (PropertyVetoException ex) {
-            log.warning(ex.getMessage());
-        }
+        plan.ifPresent(p -> {
+            try {
+                ExplorerManager manager = findServicesTab().getExplorerManager();
+                manager.setSelectedNodes(new Node[]{});
+            } catch (PropertyVetoException ex) {
+                log.warning(ex.getMessage());
+            }
+        });
     }
 
     ExplorerManager.Provider findServicesTab() {
-        return (ExplorerManager.Provider)WindowManager.getDefault().findTopComponent("Services");
+        return (ExplorerManager.Provider) WindowManager.getDefault().findTopComponent("Services");
     }
 
 }

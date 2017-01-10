@@ -28,17 +28,13 @@ public class IgnoreButton extends LinkButton implements ActionListener{
 
     public IgnoreButton(PlanVo plan) {
         super(Ignore());
+        this.plan = ofNullable(plan);
         init();
-        setPlan(plan);
     }
     
     private void init() {
         setToolTipText(Ignore_Tooltip());
         addActionListener(this);
-    }
-    
-    public final void setPlan(PlanVo plan) {
-        this.plan = ofNullable(plan);
     }
 
     @Override

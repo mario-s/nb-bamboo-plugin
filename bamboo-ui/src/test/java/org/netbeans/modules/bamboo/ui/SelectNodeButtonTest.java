@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.openide.explorer.ExplorerManager;
 
 /**
@@ -14,7 +15,9 @@ import org.openide.explorer.ExplorerManager;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class SelectNodeButtonTest {
-    
+
+    private static final String FOO = "foo";
+    private PlanVo plan;
 
     private ExplorerManager explorerManager;
     
@@ -25,9 +28,10 @@ public class SelectNodeButtonTest {
     
     @Before
     public void setUp() {
+        plan = new PlanVo(FOO);
         explorerManager = new ExplorerManager();
         
-        classUnderTest = new SelectNodeButton() {
+        classUnderTest = new SelectNodeButton(plan) {
             @Override
             ExplorerManager.Provider findServicesTab() {
                 return servicesTab;
