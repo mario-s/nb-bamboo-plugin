@@ -25,7 +25,7 @@ public class SelectNodeButton extends LinkButton {
     }
 
     private void init(PlanVo plan) {
-        setAction(new SelectNodeAction(plan));
+        addActionListener(new SelectNodeListener(plan));
         setToolTipText(Select_ToolTip());
     }
 }

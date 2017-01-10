@@ -1,9 +1,9 @@
 package org.netbeans.modules.bamboo.ui;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import java.util.Optional;
-import javax.swing.AbstractAction;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.openide.explorer.ExplorerManager;
@@ -19,13 +19,13 @@ import static java.util.Optional.ofNullable;
  * @author spindizzy
  */
 @Log
-class SelectNodeAction extends AbstractAction {
+class SelectNodeListener implements ActionListener {
     
     static final String TAB_ID = "services";
 
     private final Optional<PlanVo> plan;
 
-    SelectNodeAction(PlanVo plan) {
+    SelectNodeListener(PlanVo plan) {
         this.plan = ofNullable(plan);
     }
 

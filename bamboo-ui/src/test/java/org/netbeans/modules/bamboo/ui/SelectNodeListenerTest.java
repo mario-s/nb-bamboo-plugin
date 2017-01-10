@@ -17,7 +17,7 @@ import org.openide.windows.TopComponent;
  * @author spindizzy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SelectNodeActionTest {
+public class SelectNodeListenerTest {
 
     private static final String FOO = "foo";
     private PlanVo plan;
@@ -27,14 +27,14 @@ public class SelectNodeActionTest {
     @Mock
     private TopComponent servicesTab;
     
-    private SelectNodeAction classUnderTest;
+    private SelectNodeListener classUnderTest;
     
     @Before
     public void setUp() {
         plan = new PlanVo(FOO);
         explorerManager = new ExplorerManager();
         
-        classUnderTest = new SelectNodeAction(plan) {
+        classUnderTest = new SelectNodeListener(plan) {
             @Override
             Optional<TopComponent> findServicesTab() {
                 return Optional.of(servicesTab);
