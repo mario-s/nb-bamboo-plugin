@@ -13,6 +13,8 @@ import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 
 import static java.util.Optional.ofNullable;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import static org.netbeans.modules.bamboo.ui.RootNodeConstants.BAMBOO_NODE_NAME;
 
 /**
@@ -45,23 +47,38 @@ class SelectNodeListener implements ActionListener {
 
     final void selectNodes(Provider provider, PlanVo pl) {
         ExplorerManager em = provider.getExplorerManager();
-        Node root = em.getRootContext();
 
         pl.getParent().ifPresent(project -> {
-            findNode(root, BAMBOO_NODE_NAME).ifPresent(builderNode -> {
+            log.fine("project is present");
+            project.getParent().ifPresent(instance -> {
+                log.fine("instance is present");
+                findNodes(em, instance, project, pl);
+            });
 
-                findNode(builderNode, project.getName()).ifPresent(projectNode -> {
+        });
+
+    }
+
+    private void findNodes(ExplorerManager em, BambooInstance instance, ProjectVo project, PlanVo pl) {
+        Node root = em.getRootContext();
+        
+        findNode(root, BAMBOO_NODE_NAME).ifPresent(builderNode -> {
+            log.fine("builder node is present");
+
+            findNode(builderNode, instance.getName()).ifPresent(instanceNode -> {
+                log.fine("instance node is present");
+                findNode(instanceNode, project.getName()).ifPresent(projectNode -> {
+                    log.fine("project node is present");
 
                     findNode(projectNode, pl.getName()).ifPresent(planNode -> {
+                        log.fine("plan node is present");
 
                         Node[] nodes = new Node[]{builderNode, projectNode, planNode};
                         selectNodes(em, nodes);
-
                     });
                 });
             });
         });
-
     }
 
     private Optional<Node> findNode(Node root, String childName) {
