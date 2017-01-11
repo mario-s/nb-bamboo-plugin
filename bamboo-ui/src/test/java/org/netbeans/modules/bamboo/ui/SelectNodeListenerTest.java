@@ -105,10 +105,17 @@ public class SelectNodeListenerTest {
     }
 
     @Test
-    public void testSelectNodes() {
+    public void testSelectNodes_AllSameNames_ExpectFour() {
         classUnderTest.selectNodes(provider, plan);
         Node[] selected = explorerManager.getSelectedNodes();
         assertThat(selected.length, is(4));
     }
 
+    @Test
+    public void testSelectNodes_OneFidderentName_ExpectThree() {
+        plan.setName("bar");
+        classUnderTest.selectNodes(provider, plan);
+        Node[] selected = explorerManager.getSelectedNodes();
+        assertThat(selected.length, is(3));
+    }
 }

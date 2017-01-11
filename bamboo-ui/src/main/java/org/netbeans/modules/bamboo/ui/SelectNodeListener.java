@@ -15,7 +15,9 @@ import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 
 import static java.util.Optional.ofNullable;
+
 import java.util.logging.Level;
+
 import static org.netbeans.modules.bamboo.ui.RootNodeConstants.BAMBOO_NODE_NAME;
 
 /**
@@ -54,15 +56,17 @@ class SelectNodeListener implements ActionListener {
             project.getParent().ifPresent(instance -> {
                 log.fine("instance is present");
                 String [] names = new String[]{BAMBOO_NODE_NAME, instance.getName(), project.getName(), pl.getName()};
-                Node [] nodes = findNodes(em, names);
-                selectNodes(em, nodes);
+                List<Node> nodes = findNodes(em, names);
+                if(!nodes.isEmpty()) {
+                    selectNodes(em, nodes);
+                }
             });
 
         });
 
     }
 
-    private Node[] findNodes(ExplorerManager em, String [] names) {
+    private List<Node> findNodes(ExplorerManager em, String [] names) {
         List<Node> nodes = new ArrayList<>(names.length);
         Node root = em.getRootContext();
         
@@ -76,19 +80,19 @@ class SelectNodeListener implements ActionListener {
                 nodes.add(ch);
                 root = ch;
             }else{
-                break;
+                return nodes;
             }
         }
         
-        return nodes.toArray(new Node[nodes.size()]);
+        return nodes;
     }
 
     private Optional<Node> findNode(Node root, String childName) {
         return ofNullable(root.getChildren().findChild(childName));
     }
 
-    private void selectNodes(ExplorerManager em, Node[] nodes) {
-
+    private void selectNodes(ExplorerManager em, List<Node> nodeList) {
+        Node[] nodes = nodeList.toArray(new Node[nodeList.size()]);
         try {
             em.setSelectedNodes(nodes);
         } catch (PropertyVetoException ex) {
