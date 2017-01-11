@@ -16,8 +16,6 @@ import org.openide.windows.WindowManager;
 
 import static java.util.Optional.ofNullable;
 import java.util.logging.Level;
-import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
-import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import static org.netbeans.modules.bamboo.ui.RootNodeConstants.BAMBOO_NODE_NAME;
 
 /**
