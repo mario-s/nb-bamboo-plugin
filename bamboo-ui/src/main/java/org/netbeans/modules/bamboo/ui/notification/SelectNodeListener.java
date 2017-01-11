@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.ui;
+package org.netbeans.modules.bamboo.ui.notification;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

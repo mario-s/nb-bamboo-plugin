@@ -1,11 +1,13 @@
-package org.netbeans.modules.bamboo.ui;
+package org.netbeans.modules.bamboo.ui.notification;
 
 
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
+import org.netbeans.modules.bamboo.ui.LinkButton;
 import org.openide.util.NbBundle;
 
-import static org.netbeans.modules.bamboo.ui.Bundle.Select;
-import static org.netbeans.modules.bamboo.ui.Bundle.Select_ToolTip;
+import static org.netbeans.modules.bamboo.ui.notification.Bundle.Select;
+import static org.netbeans.modules.bamboo.ui.notification.Bundle.Select_ToolTip;
+
 
 
 /**
@@ -16,9 +18,9 @@ import static org.netbeans.modules.bamboo.ui.Bundle.Select_ToolTip;
     "Select=Select",
     "Select_ToolTip=Select the Plan in the builder tree"
 })
-public class SelectNodeButton extends LinkButton {
+final class SelectNodeButton extends LinkButton {
 
-    public SelectNodeButton(PlanVo plan) {
+    SelectNodeButton(PlanVo plan) {
         super(Select());
         
         init(plan);

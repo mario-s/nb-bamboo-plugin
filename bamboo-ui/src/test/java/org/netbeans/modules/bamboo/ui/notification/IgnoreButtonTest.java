@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.ui;
+package org.netbeans.modules.bamboo.ui.notification;
 
 import org.junit.Before;
 import org.junit.Test;

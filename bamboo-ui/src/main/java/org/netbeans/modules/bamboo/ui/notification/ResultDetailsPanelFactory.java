@@ -7,8 +7,6 @@ import javax.swing.AbstractButton;
 import javax.swing.JPanel;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.ui.HtmlPane;
-import org.netbeans.modules.bamboo.ui.IgnoreButton;
-import org.netbeans.modules.bamboo.ui.SelectNodeButton;
 
 /**
  * Factory for {@link ResultDetailsPanel}

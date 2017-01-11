@@ -1,24 +1,32 @@
-package org.netbeans.modules.bamboo.ui;
+package org.netbeans.modules.bamboo.ui.notification;
 
 import java.util.Optional;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.mockito.BDDMockito.given;
+
 import org.mockito.Mock;
-import static org.mockito.Mockito.verify;
+
 
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
+
 import static org.netbeans.modules.bamboo.ui.RootNodeConstants.BAMBOO_NODE_NAME;
+
 import org.openide.explorer.ExplorerManager;
 import org.openide.nodes.IndexedNode;
 import org.openide.nodes.Node;
 import org.openide.windows.TopComponent;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.verify;
 
 /**
  *

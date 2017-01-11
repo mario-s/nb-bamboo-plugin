@@ -1,14 +1,15 @@
-package org.netbeans.modules.bamboo.ui;
+package org.netbeans.modules.bamboo.ui.notification;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Optional;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
+import org.netbeans.modules.bamboo.ui.LinkButton;
 import org.openide.util.NbBundle.Messages;
 
 import static java.util.Optional.ofNullable;
-import static org.netbeans.modules.bamboo.ui.Bundle.Ignore;
-import static org.netbeans.modules.bamboo.ui.Bundle.Ignore_Tooltip;
+import static org.netbeans.modules.bamboo.ui.notification.Bundle.Ignore;
+import static org.netbeans.modules.bamboo.ui.notification.Bundle.Ignore_Tooltip;
 
 /**
  *
@@ -18,11 +19,11 @@ import static org.netbeans.modules.bamboo.ui.Bundle.Ignore_Tooltip;
     "Ignore=Ignore",
     "Ignore_Tooltip=Stop watching changes of the plan"
 })
-public class IgnoreButton extends LinkButton implements ActionListener{
+final class IgnoreButton extends LinkButton implements ActionListener{
     
     private final Optional<PlanVo> plan;
 
-    public IgnoreButton(PlanVo plan) {
+    IgnoreButton(PlanVo plan) {
         super(Ignore());
         this.plan = ofNullable(plan);
         init();
