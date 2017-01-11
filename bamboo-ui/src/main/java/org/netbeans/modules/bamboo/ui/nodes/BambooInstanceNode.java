@@ -86,7 +86,7 @@ public class BambooInstanceNode extends AbstractInstanceChildNode implements Loo
     }
 
     private void init() {
-        setName(instance.getUrl());
+        setName(instance.getName());
         setDisplayName(instance.getName());
         setShortDescription(instance.getUrl());
         setIconBaseWithExtension(ICON_BASE);
