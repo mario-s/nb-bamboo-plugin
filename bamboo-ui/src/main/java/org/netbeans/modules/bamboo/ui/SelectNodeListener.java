@@ -3,6 +3,8 @@ package org.netbeans.modules.bamboo.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
@@ -13,6 +15,7 @@ import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 
 import static java.util.Optional.ofNullable;
+import java.util.logging.Level;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import static org.netbeans.modules.bamboo.ui.RootNodeConstants.BAMBOO_NODE_NAME;
@@ -52,34 +55,34 @@ class SelectNodeListener implements ActionListener {
             log.fine("project is present");
             project.getParent().ifPresent(instance -> {
                 log.fine("instance is present");
-                String [] names = new String[]{instance.getName(), project.getName(), pl.getName()};
-                findNodes(em, names);
+                String [] names = new String[]{BAMBOO_NODE_NAME, instance.getName(), project.getName(), pl.getName()};
+                Node [] nodes = findNodes(em, names);
+                selectNodes(em, nodes);
             });
 
         });
 
     }
 
-    private void findNodes(ExplorerManager em, String [] names) {
+    private Node[] findNodes(ExplorerManager em, String [] names) {
+        List<Node> nodes = new ArrayList<>(names.length);
         Node root = em.getRootContext();
         
-        findNode(root, BAMBOO_NODE_NAME).ifPresent(builderNode -> {
-            log.fine("builder node is present");
-
-            findNode(builderNode, names[0]).ifPresent(instanceNode -> {
-                log.fine("instance node is present");
-                findNode(instanceNode, names[1]).ifPresent(projectNode -> {
-                    log.fine("project node is present");
-
-                    findNode(projectNode, names[2]).ifPresent(planNode -> {
-                        log.fine("plan node is present");
-
-                        Node[] nodes = new Node[]{builderNode, projectNode, planNode};
-                        selectNodes(em, nodes);
-                    });
-                });
-            });
-        });
+        for(String name : names) {
+            Optional<Node> child = findNode(root, name);
+            if(child.isPresent()) {
+                if(log.isLoggable(Level.FINE)) {
+                    log.fine(String.format("found node: %s", name));
+                }
+                Node ch = child.get();
+                nodes.add(ch);
+                root = ch;
+            }else{
+                break;
+            }
+        }
+        
+        return nodes.toArray(new Node[nodes.size()]);
     }
 
     private Optional<Node> findNode(Node root, String childName) {
