@@ -46,9 +46,10 @@ public class ProjectNode extends AbstractInstanceChildNode {
     }
 
     private void init() {
-        setName(project.getKey());
-        setDisplayName(project.getName());
-        setShortDescription(project.getName());
+        String name = project.getName();
+        setName(name);
+        setDisplayName(name);
+        setShortDescription(name);
         setIconBaseWithExtension(FOLDER);
 
         project.addPropertyChangeListener(this);

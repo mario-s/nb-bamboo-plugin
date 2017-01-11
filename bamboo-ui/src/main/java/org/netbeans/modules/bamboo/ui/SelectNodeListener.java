@@ -52,25 +52,26 @@ class SelectNodeListener implements ActionListener {
             log.fine("project is present");
             project.getParent().ifPresent(instance -> {
                 log.fine("instance is present");
-                findNodes(em, instance, project, pl);
+                String [] names = new String[]{instance.getName(), project.getName(), pl.getName()};
+                findNodes(em, names);
             });
 
         });
 
     }
 
-    private void findNodes(ExplorerManager em, BambooInstance instance, ProjectVo project, PlanVo pl) {
+    private void findNodes(ExplorerManager em, String [] names) {
         Node root = em.getRootContext();
         
         findNode(root, BAMBOO_NODE_NAME).ifPresent(builderNode -> {
             log.fine("builder node is present");
 
-            findNode(builderNode, instance.getName()).ifPresent(instanceNode -> {
+            findNode(builderNode, names[0]).ifPresent(instanceNode -> {
                 log.fine("instance node is present");
-                findNode(instanceNode, project.getName()).ifPresent(projectNode -> {
+                findNode(instanceNode, names[1]).ifPresent(projectNode -> {
                     log.fine("project node is present");
 
-                    findNode(projectNode, pl.getName()).ifPresent(planNode -> {
+                    findNode(projectNode, names[2]).ifPresent(planNode -> {
                         log.fine("plan node is present");
 
                         Node[] nodes = new Node[]{builderNode, projectNode, planNode};
