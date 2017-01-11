@@ -1,7 +1,6 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.util.Collection;
-import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.core.ide.ServicesTabNodeRegistration;
 
 import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
@@ -12,15 +11,17 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.*;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 
-import static org.openide.util.Lookup.getDefault;
-
 import org.openide.util.NbBundle.Messages;
 
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.event.InstancesLoadEvent;
+
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+
+import static org.openide.util.Lookup.getDefault;
+import static org.netbeans.modules.bamboo.ui.RootNodeConstants.*;
 
 /**
  * Root node for the Bamboo Builder
@@ -28,18 +29,13 @@ import org.openide.util.LookupListener;
  * @author spindizzy
  */
 @ServicesTabNodeRegistration(
-        name = BambooRootNode.BAMBOO_NODE_NAME, displayName = "#LBL_BambooNode",
-        shortDescription = "#TIP_BambooNode", iconResource = BambooRootNode.ICON_BASE, position = 450
+        name = BAMBOO_NODE_NAME, displayName = "#LBL_BambooNode",
+        shortDescription = "#TIP_BambooNode", iconResource = ICON_BASE, position = 450
 )
 @Messages(
         {"LBL_BambooNode=Bamboo Builders", "TIP_BambooNode=Bamboo continuous integration servers."}
 )
 public final class BambooRootNode extends AbstractNode implements LookupListener {
-
-    static final String BAMBOO_NODE_NAME = "bamboo";
-
-    @StaticResource
-    static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/ci.png";
 
     private final BambooInstanceNodeFactory nodeFactory;
 

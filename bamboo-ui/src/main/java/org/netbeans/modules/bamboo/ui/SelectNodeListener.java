@@ -13,6 +13,7 @@ import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 
 import static java.util.Optional.ofNullable;
+import static org.netbeans.modules.bamboo.ui.RootNodeConstants.BAMBOO_NODE_NAME;
 
 /**
  *
@@ -20,7 +21,7 @@ import static java.util.Optional.ofNullable;
  */
 @Log
 class SelectNodeListener implements ActionListener {
-    
+
     static final String TAB_ID = "services";
 
     private final Optional<PlanVo> plan;
@@ -42,10 +43,35 @@ class SelectNodeListener implements ActionListener {
         });
     }
 
-    void selectNodes(Provider provider, PlanVo pl) {
-        ExplorerManager manager = provider.getExplorerManager();
+    final void selectNodes(Provider provider, PlanVo pl) {
+        ExplorerManager em = provider.getExplorerManager();
+        Node root = em.getRootContext();
+
+        pl.getParent().ifPresent(project -> {
+            findNode(root, BAMBOO_NODE_NAME).ifPresent(builderNode -> {
+
+                findNode(builderNode, project.getName()).ifPresent(projectNode -> {
+
+                    findNode(projectNode, pl.getName()).ifPresent(planNode -> {
+
+                        Node[] nodes = new Node[]{builderNode, projectNode, planNode};
+                        selectNodes(em, nodes);
+
+                    });
+                });
+            });
+        });
+
+    }
+
+    private Optional<Node> findNode(Node root, String childName) {
+        return ofNullable(root.getChildren().findChild(childName));
+    }
+
+    private void selectNodes(ExplorerManager em, Node[] nodes) {
+
         try {
-            manager.setSelectedNodes(new Node[]{});
+            em.setSelectedNodes(nodes);
         } catch (PropertyVetoException ex) {
             log.warning(ex.getMessage());
         }
@@ -53,7 +79,6 @@ class SelectNodeListener implements ActionListener {
 
     Optional<TopComponent> findServicesTab() {
         return ofNullable(WindowManager.getDefault().findTopComponent(TAB_ID));
-
     }
 
 }

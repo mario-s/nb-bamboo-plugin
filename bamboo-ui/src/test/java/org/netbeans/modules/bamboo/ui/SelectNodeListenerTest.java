@@ -4,10 +4,13 @@ import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.mockito.BDDMockito.given;
 import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
 
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.openide.explorer.ExplorerManager;
 import org.openide.windows.TopComponent;
 
@@ -25,6 +28,9 @@ public class SelectNodeListenerTest {
     private ExplorerManager explorerManager;
     
     @Mock
+    private ExplorerManager.Provider provider;
+    
+    @Mock
     private TopComponent servicesTab;
     
     private SelectNodeListener classUnderTest;
@@ -32,6 +38,10 @@ public class SelectNodeListenerTest {
     @Before
     public void setUp() {
         plan = new PlanVo(FOO);
+        ProjectVo project = new ProjectVo("FOO");
+        plan.setParent(project);
+        
+        
         explorerManager = new ExplorerManager();
         
         classUnderTest = new SelectNodeListener(plan) {
@@ -41,6 +51,7 @@ public class SelectNodeListenerTest {
             }
         };
         
+        given(provider.getExplorerManager()).willReturn(explorerManager);
     }
 
     /**
@@ -49,7 +60,11 @@ public class SelectNodeListenerTest {
     @Test
     public void testActionPerformed() {
         classUnderTest.actionPerformed(null);
+        verify(servicesTab).requestActive();
     }
 
-    
+    @Test
+    public void testSelectNodes() {
+        classUnderTest.selectNodes(provider, plan);
+    }
 }
