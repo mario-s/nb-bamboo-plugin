@@ -209,6 +209,25 @@
                         <author>Mario Schroeder</author>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>external.atlassian.jgitflow</groupId>
+                    <artifactId>jgitflow-maven-plugin</artifactId>
+                    <version>1.0-m5.1</version>
+                    <configuration>
+                        <pushFeatures>true</pushFeatures>
+                        <noDeploy>true</noDeploy>
+                        <squash>true</squash>
+                        <scmCommentPrefix>[RELEASE] </scmCommentPrefix>
+                        <flowInitContext>
+                            <masterBranchName>master</masterBranchName>
+                            <developBranchName>development</developBranchName>
+                            <releaseBranchPrefix>release-</releaseBranchPrefix>
+                            <featureBranchPrefix>feature-</featureBranchPrefix>
+                            <hotfixBranchPrefix>hotfix-</hotfixBranchPrefix>
+                            <versionTagPrefix>version-</versionTagPrefix>
+                        </flowInitContext>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -242,6 +261,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>external.atlassian.jgitflow</groupId>
+                <artifactId>jgitflow-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
