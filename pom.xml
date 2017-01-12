@@ -340,6 +340,12 @@
                 <groupId>org.glassfish.jersey.media</groupId>
                 <artifactId>jersey-media-moxy</artifactId>
                 <version>2.23.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.eclipse.persistence</groupId>
+                        <artifactId>org.eclipse.persistence.asm</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             
             <dependency>
