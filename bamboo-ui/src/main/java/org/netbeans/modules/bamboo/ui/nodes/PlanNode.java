@@ -31,33 +31,19 @@ import org.openide.util.lookup.Lookups;
 import org.openide.xml.XMLUtil;
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Key;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Name;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Reason_CompletedTime;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Reason_Duration;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Reason_StartedTime;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Number;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Result_Reason;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.DESC_Plan_Prop_Watched;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Not_Watched;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Key;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Name;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Reason_CompletedTime;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Reason_Duration;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Reason_StartedTime;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Number;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Result_Reason;
-import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Watched;
+import static org.netbeans.modules.bamboo.ui.nodes.Bundle.*;
 
 /**
  * The UI for a {@link PlanVo}.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 @NbBundle.Messages({
     "TXT_Plan_Prop_Key=Plan Key",
     "DESC_Plan_Prop_Key=The key of the plan",
+    "TXT_Plan_Prop_DisplayName=Display Name",
+    "DESC_Plan_Prop_DisplayName=The display name of the plan, as shown as in the tree",
     "TXT_Plan_Prop_Name=Plan Name",
     "DESC_Plan_Prop_Name=The name of the build plan.",
     "TXT_Plan_Prop_Result_Number=Result Number",
@@ -75,8 +61,10 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.TXT_Plan_Prop_Watched;
     "DESC_Plan_Prop_Reason_Duration=Duration in seconds for the last build."
 })
 public class PlanNode extends AbstractInstanceChildNode {
-    
+
     private static final String KEY = "key";
+
+    private static final String SHORT_NAME = "shortName";
 
     private static final String BUILD_REASON = "buildReason";
 
@@ -130,9 +118,7 @@ public class PlanNode extends AbstractInstanceChildNode {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (log.isLoggable(Level.INFO)) {
-            log.info(String.format("plan changed: %s", plan));
-        }
+        log.log(Level.INFO, "plan changed: {0}", plan);
 
         updateHtmlDisplayName();
 
@@ -234,8 +220,16 @@ public class PlanNode extends AbstractInstanceChildNode {
     @Override
     protected Sheet createSheet() {
         Sheet.Set set = Sheet.createPropertiesSet();
-        set.setDisplayName(plan.getShortName());
-        
+        String shortName = plan.getShortName();
+        set.setDisplayName(shortName);
+
+        set.put(new StringReadPropertySupport(SHORT_NAME, TXT_Plan_Prop_DisplayName(), DESC_Plan_Prop_DisplayName()) {
+            @Override
+            public String getValue() throws IllegalAccessException, InvocationTargetException {
+                return shortName;
+            }
+        });
+
         set.put(new StringReadPropertySupport(KEY, TXT_Plan_Prop_Key(), DESC_Plan_Prop_Key()) {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
@@ -266,7 +260,8 @@ public class PlanNode extends AbstractInstanceChildNode {
             }
         });
 
-        set.put(new StringReadPropertySupport(STARTED_TIME, TXT_Plan_Prop_Reason_StartedTime(), DESC_Plan_Prop_Reason_StartedTime()) {
+        set.put(new StringReadPropertySupport(STARTED_TIME, TXT_Plan_Prop_Reason_StartedTime(),
+                DESC_Plan_Prop_Reason_StartedTime()) {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
                 return DateFormatter.format(getResult().getBuildStartedTime());
@@ -274,7 +269,8 @@ public class PlanNode extends AbstractInstanceChildNode {
 
         });
 
-        set.put(new StringReadPropertySupport(COMPLETED_TIME, TXT_Plan_Prop_Reason_CompletedTime(), DESC_Plan_Prop_Reason_CompletedTime()) {
+        set.put(new StringReadPropertySupport(COMPLETED_TIME, TXT_Plan_Prop_Reason_CompletedTime(),
+                DESC_Plan_Prop_Reason_CompletedTime()) {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
                 return DateFormatter.format(getResult().getBuildCompletedTime());

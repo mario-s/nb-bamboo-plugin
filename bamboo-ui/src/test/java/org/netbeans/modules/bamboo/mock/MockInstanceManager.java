@@ -10,7 +10,7 @@ import org.netbeans.modules.bamboo.client.rest.DefaultInstanceManager;
 
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @ServiceProvider(service = InstanceManageable.class, position = 10)
 public class MockInstanceManager extends DefaultInstanceManager {
@@ -36,9 +36,9 @@ public class MockInstanceManager extends DefaultInstanceManager {
     }
 
     @Override
-    public boolean existsInstance(final String name) {
+    public boolean existsInstanceName(final String name) {
         if(delegate != null) {
-            return delegate.existsInstance(name);
+            return delegate.existsInstanceName(name);
         }
         throw new UnsupportedOperationException("Not supported yet.");
     }

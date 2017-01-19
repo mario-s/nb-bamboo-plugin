@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Data
 @EqualsAndHashCode(of = "revision")

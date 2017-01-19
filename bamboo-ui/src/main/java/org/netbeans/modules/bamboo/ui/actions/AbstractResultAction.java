@@ -19,7 +19,7 @@ import org.openide.util.RequestProcessor;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @NbBundle.Messages({
     "No_Changes=No changes. Build reason: {0}",

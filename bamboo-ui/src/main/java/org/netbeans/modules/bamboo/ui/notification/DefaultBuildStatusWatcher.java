@@ -9,7 +9,7 @@ import org.netbeans.modules.bamboo.client.glue.BuildStatusWatchable;
 /**
  * This class observes the plans of all the instances.
  * 
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @ServiceProvider(service = BuildStatusWatchable.class, position = 1)
 public class DefaultBuildStatusWatcher implements BuildStatusWatchable {

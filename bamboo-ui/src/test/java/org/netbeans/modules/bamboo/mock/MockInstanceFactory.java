@@ -9,7 +9,7 @@ import org.openide.util.lookup.ServiceProvider;
 
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @ServiceProvider(service = BambooInstanceProduceable.class, position = 10)
 public class MockInstanceFactory implements BambooInstanceProduceable {

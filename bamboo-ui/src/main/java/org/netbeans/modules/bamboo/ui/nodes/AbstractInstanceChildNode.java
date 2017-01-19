@@ -13,7 +13,7 @@ import static org.openide.util.Utilities.actionsForPath;
 /**
  * This is a parant class for all nodes which a children of a bamboo instance.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 abstract class AbstractInstanceChildNode extends AbstractNode implements PropertyChangeListener {
 

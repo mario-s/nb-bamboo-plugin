@@ -20,7 +20,7 @@ import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
  * This class performs a a call to the REST API of Bamboo.
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 class ApiCaller<T> implements ApiCallable{

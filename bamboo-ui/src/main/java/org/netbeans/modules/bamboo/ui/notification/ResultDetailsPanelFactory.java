@@ -10,7 +10,7 @@ import org.netbeans.modules.bamboo.ui.HtmlPane;
 
 /**
  * Factory for {@link ResultDetailsPanel}
- * @author spindizzy
+ * @author Mario Schroeder
  */
 class ResultDetailsPanelFactory {
     

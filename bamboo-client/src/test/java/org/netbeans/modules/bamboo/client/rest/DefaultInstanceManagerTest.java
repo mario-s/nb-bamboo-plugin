@@ -38,10 +38,14 @@ import org.netbeans.modules.bamboo.client.glue.InstanceConstants;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultInstanceManagerTest {
+    
+    private static final String FOO_URL = "http://foo.com";
+    
+    private static final String BAR_URL = "http://bar.com";
 
     @Mock
     private LookupListener listener;
@@ -74,13 +78,7 @@ public class DefaultInstanceManagerTest {
         MockBuildStateWatcher watcher = (MockBuildStateWatcher) getDefault().lookup(BuildStatusWatchable.class);
         watcher.setDelegate(buildStatusWatcher);
 
-        classUnderTest = new DefaultInstanceManager() {
-            @Override
-            Preferences instancesPrefs() {
-                return preferences;
-            }
-
-        };
+        classUnderTest = createInstance();
 
         result = classUnderTest.getLookup().lookupResult(
                 BambooInstance.class);
@@ -89,7 +87,7 @@ public class DefaultInstanceManagerTest {
 
         values = new DefaultInstanceValues();
         values.setName(name);
-        values.setUrl("");
+        values.setUrl(FOO_URL);
         values.setPassword(new char[]{'a'});
 
         instance = new DefaultBambooInstance(properties);
@@ -97,6 +95,18 @@ public class DefaultInstanceManagerTest {
         instance.setUrl(values.getUrl());
 
         given(preferences.childrenNames()).willReturn(new String[]{values.getName()});
+    }
+    
+    private DefaultInstanceManager createInstance() {
+        return new DefaultInstanceManager() {
+            @Override
+            Preferences instancesPrefs() {
+                return preferences;
+            }
+
+        };
+        
+        
     }
 
     @After
@@ -138,7 +148,24 @@ public class DefaultInstanceManagerTest {
     public void testExistsInstance() throws BackingStoreException {
         given(preferences.nodeExists(name)).willReturn(true);
         classUnderTest.addInstance(instance);
-        assertThat(classUnderTest.existsInstance(name), is(true));
+        assertThat(classUnderTest.existsInstanceName(name), is(true));
+    }
+    
+    @Test
+    public void testExistsInstanceByUrl_NoUrl_ExpectFalse() throws BackingStoreException {
+        assertThat(classUnderTest.existsInstanceUrl(""), is(false));
+    }
+    
+    @Test
+    public void testExistsInstanceByUrl_OtherUrl_ExpectFalse() throws BackingStoreException {
+        classUnderTest.addInstance(instance);
+        assertThat(classUnderTest.existsInstanceUrl(BAR_URL), is(false));
+    }
+    
+    @Test
+    public void testExistsInstanceByUrl_SameUrl_ExpectTrue() throws BackingStoreException {
+        classUnderTest.addInstance(instance);
+        assertThat(classUnderTest.existsInstanceUrl(FOO_URL), is(true));
     }
     
     @Test

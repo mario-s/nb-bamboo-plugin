@@ -32,7 +32,7 @@ import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Change
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ShowChangesActionTest {

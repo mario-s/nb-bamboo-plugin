@@ -4,7 +4,7 @@ import java.util.Collection;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public interface Responseable<T>{
     Collection<T> asCollection();

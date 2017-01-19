@@ -5,7 +5,7 @@ import org.netbeans.modules.bamboo.model.rest.File;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class FileVoConverter extends AbstractVoConverter<File, FileVo>{
 

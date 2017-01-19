@@ -15,7 +15,7 @@ import java.util.List;
 
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class AllPlansResponseITest {
     private PlansResponse classUnderTest;

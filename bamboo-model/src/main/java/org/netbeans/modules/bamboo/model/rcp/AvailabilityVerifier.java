@@ -4,7 +4,7 @@ import java.util.Optional;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 final class AvailabilityVerifier {
     

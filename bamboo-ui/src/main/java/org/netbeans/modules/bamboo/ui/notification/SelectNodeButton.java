@@ -12,11 +12,11 @@ import static org.netbeans.modules.bamboo.ui.notification.Bundle.Select_ToolTip;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @NbBundle.Messages({
     "Select=Select",
-    "Select_ToolTip=Select the Plan in the builder tree"
+    "Select_ToolTip=Select the plan in the builder tree"
 })
 final class SelectNodeButton extends LinkButton {
 

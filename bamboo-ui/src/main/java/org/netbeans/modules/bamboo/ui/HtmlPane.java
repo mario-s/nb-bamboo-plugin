@@ -6,7 +6,7 @@ import javax.swing.event.HyperlinkEvent;
 /**
  * This component displays HTML content and supplies action for hyperlinks
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class HtmlPane extends JEditorPane {
 

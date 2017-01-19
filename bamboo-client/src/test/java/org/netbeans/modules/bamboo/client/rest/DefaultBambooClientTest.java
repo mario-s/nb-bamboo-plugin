@@ -9,21 +9,10 @@ import org.junit.Test;
 
 import org.junit.runner.RunWith;
 
-import static org.mockito.BDDMockito.given;
-
 import org.mockito.Mock;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
-import org.netbeans.modules.bamboo.model.rcp.VersionInfo;
-import org.netbeans.modules.bamboo.model.rest.Info;
-import org.netbeans.modules.bamboo.model.rest.Plan;
-import org.netbeans.modules.bamboo.model.rest.Plans;
-import org.netbeans.modules.bamboo.model.rest.PlansResponse;
-import org.netbeans.modules.bamboo.model.rest.Result;
-import org.netbeans.modules.bamboo.model.rest.Results;
-import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 
 import java.util.Collection;
 
@@ -39,18 +28,35 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.Project;
 import org.netbeans.modules.bamboo.model.rest.Projects;
 import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
-
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
+import org.netbeans.modules.bamboo.model.rcp.ResultVo;
+import org.netbeans.modules.bamboo.model.rest.Change;
+import org.netbeans.modules.bamboo.model.rest.Changes;
+import org.netbeans.modules.bamboo.model.rest.Issue;
+import org.netbeans.modules.bamboo.model.rest.JiraIssues;
+import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
+import org.netbeans.modules.bamboo.model.rcp.VersionInfo;
+import org.netbeans.modules.bamboo.model.rest.Info;
+import org.netbeans.modules.bamboo.model.rest.Plan;
+import org.netbeans.modules.bamboo.model.rest.Plans;
+import org.netbeans.modules.bamboo.model.rest.PlansResponse;
+import org.netbeans.modules.bamboo.model.rest.Result;
+import org.netbeans.modules.bamboo.model.rest.Results;
+import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
+
+
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallRepeatable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallerFactory;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+
+import static org.mockito.BDDMockito.given;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -60,7 +66,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Matchers.anyString;
 
-import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
+import static java.lang.String.format;
 
 import static org.netbeans.modules.bamboo.client.glue.RestResources.INFO;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PLANS;
@@ -68,16 +74,8 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.PROJECTS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.QUEUE;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 
-import org.netbeans.modules.bamboo.model.rcp.ResultVo;
-import org.netbeans.modules.bamboo.model.rest.Change;
-import org.netbeans.modules.bamboo.model.rest.Changes;
-import org.netbeans.modules.bamboo.model.rest.Issue;
-import org.netbeans.modules.bamboo.model.rest.JiraIssues;
-
-import static java.lang.String.format;
-
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultBambooClientTest {
@@ -114,13 +112,8 @@ public class DefaultBambooClientTest {
     private ApiCallable postCaller;
 
     @Mock
-    private HttpUtility httpUtility;
-
-    @Mock
     private ApiCallerFactory apiCallerFactory;
-
-    @Mock
-
+    
     private DefaultBambooClient classUnderTest;
 
     @Before
@@ -132,7 +125,7 @@ public class DefaultBambooClientTest {
         given(webTarget.request()).willReturn(invocationBuilder);
 
         classUnderTest
-                = new DefaultBambooClient(instanceValues, httpUtility);
+                = new DefaultBambooClient(instanceValues);
 
         setInternalState(classUnderTest, "apiCallerFactory", apiCallerFactory);
 

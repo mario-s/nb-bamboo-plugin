@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 final class BuildResultPanel extends JPanel {
 

@@ -4,7 +4,7 @@ import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 
 /**
  * Interface to watch the build state.
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public interface BuildStatusWatchable {
     

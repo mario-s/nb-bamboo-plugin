@@ -6,7 +6,7 @@ import org.netbeans.modules.bamboo.model.rest.Link;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class IssueVoConverter extends AbstractVoConverter<Issue, IssueVo> {
 

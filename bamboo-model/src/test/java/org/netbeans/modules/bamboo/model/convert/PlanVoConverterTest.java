@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class PlanVoConverterTest {
     private static final String FOO = "foo";

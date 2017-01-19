@@ -6,7 +6,7 @@ import org.netbeans.api.annotations.common.NonNull;
 
 /**
  * A way to get the children of the instance.
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public interface TraverseDown<C> {
     

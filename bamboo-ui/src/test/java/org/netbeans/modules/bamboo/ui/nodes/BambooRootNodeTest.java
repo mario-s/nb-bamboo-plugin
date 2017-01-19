@@ -30,7 +30,7 @@ import org.netbeans.modules.bamboo.model.event.InstancesLoadEvent;
 
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BambooRootNodeTest {

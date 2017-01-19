@@ -18,10 +18,9 @@ import static lombok.AccessLevel.NONE;
 
 /**
  * This class represent the result for a plan.
- * <br/>
  * If the property changes is empty, that means there was no request to the server to get this information.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Getter
 @Setter
@@ -73,9 +72,9 @@ public class ResultVo extends AbstractVo implements TraverseUp<PlanVo>{
     }
     
     /**
-     * This method returns <code>true</code> when the changes are not empty, otherwhise <code>false</code>.
-     * If <code>true<code> it means that the server was already contacted.
-     * @return <code>true</code> when changes otherwhise <code>false</code>.
+     * This method returns <code>true</code> when the changes are not empty, otherwhise false.
+     * If true it means that the server was already contacted.
+     * @return true when changes otherwhise false.
      */
     public boolean requestedChanges() {
         return getChanges().isPresent();

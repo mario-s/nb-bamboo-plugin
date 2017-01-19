@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * This class provides utility methods to deal with strings.
- * @author spindizzy
+ * @author Mario Schroeder
  */
 final class StringUtil {
     

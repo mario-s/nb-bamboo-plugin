@@ -11,7 +11,7 @@ import static java.util.Optional.empty;
 import org.netbeans.modules.bamboo.client.glue.BambooClient;
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @ServiceProvider(service = BambooClientProduceable.class, position = 10)
 public class MockBambooClientFactory implements BambooClientProduceable {

@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.client.glue;
 /**
  * Paths to REST Resources
  * 
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public final class RestResources {
     

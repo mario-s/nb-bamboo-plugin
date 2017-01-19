@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.client.rest;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 final class BambooInstanceConstants {
 

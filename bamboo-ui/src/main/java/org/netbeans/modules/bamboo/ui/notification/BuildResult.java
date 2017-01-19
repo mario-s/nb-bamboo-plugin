@@ -7,7 +7,7 @@ import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 /**
  * This class encapsulates the necessary objects for the message when the result of a plan has changed.
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Getter
 @AllArgsConstructor

@@ -19,7 +19,7 @@ import org.openide.nodes.Sheet;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class ProjectNodeTest {
     

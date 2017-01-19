@@ -8,7 +8,7 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 /**
  * This class formats dates to a string suitable for this module.
  * 
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public final class DateFormatter {
     

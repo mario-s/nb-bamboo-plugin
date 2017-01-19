@@ -15,7 +15,7 @@ import org.openide.util.NbBundle;
 /**
  * This action queues a plan for the next build.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @ActionID(
         category = "Bamboo",

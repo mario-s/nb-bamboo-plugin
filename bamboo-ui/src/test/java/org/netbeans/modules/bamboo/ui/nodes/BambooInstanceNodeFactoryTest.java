@@ -22,7 +22,7 @@ import static org.mockito.Mockito.mock;
 
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class BambooInstanceNodeFactoryTest {
     

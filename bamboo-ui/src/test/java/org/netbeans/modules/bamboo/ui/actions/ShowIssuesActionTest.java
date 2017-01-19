@@ -34,7 +34,7 @@ import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Jira;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ShowIssuesActionTest {

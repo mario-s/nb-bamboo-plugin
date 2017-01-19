@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * This interface provides methods to to deal with {@link BambooInstance}.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public interface InstanceManageable extends Lookup.Provider {
 
@@ -43,7 +43,16 @@ public interface InstanceManageable extends Lookup.Provider {
      * @param name the name of the instance
      * @return boolean
      */
-    boolean existsInstance(final String name);
+    boolean existsInstanceName(final String name);
+    
+    /**
+     * This method returns <code>true</code> when an instance with the given url exist in the user's preferences, if
+     * not <code>false</code>.
+     *
+     * @param url the url of the instance
+     * @return boolean
+     */
+    boolean existsInstanceUrl(final String url);
 
     /**
      * Load all persisted instances from the user's preferences.

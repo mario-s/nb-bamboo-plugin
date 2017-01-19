@@ -15,6 +15,8 @@ import org.openide.util.lookup.ServiceProvider;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import lombok.extern.java.Log;
@@ -26,7 +28,7 @@ import static org.netbeans.modules.bamboo.client.rest.BambooInstanceConstants.IN
 import static org.openide.util.Lookup.getDefault;
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 @ServiceProvider(service = InstanceManageable.class)
@@ -35,8 +37,14 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
     private final BuildStatusWatchable buildStatusWatcher;
 
     private final LookupContext lookupContext;
-    
+
+    /**
+     * Holds all shown instances.
+     */
+    private final Map<String, String> instanceMap;
+
     public DefaultInstanceManager() {
+        instanceMap = new HashMap<>();
         lookupContext = LookupContext.Instance;
         buildStatusWatcher = getDefault().lookup(BuildStatusWatchable.class);
     }
@@ -44,7 +52,7 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propName = evt.getPropertyName();
-        if(PROP_SYNC_INTERVAL.equals(propName) || INSTANCE_SUPPRESSED_PLANS.equals(propName)){
+        if (PROP_SYNC_INTERVAL.equals(propName) || INSTANCE_SUPPRESSED_PLANS.equals(propName)) {
             BambooInstance instance = (BambooInstance) evt.getSource();
             persist(instance);
         }
@@ -55,7 +63,19 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
             instance.addPropertyChangeListener(this);
             lookupContext.add(instance);
             buildStatusWatcher.addInstance(instance);
+
+            putInMap(instance);
         }
+    }
+
+    private BambooInstanceProperties loadInstanceProperties(final String name) {
+        BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
+        props.loadPreferences(name);
+        return props;
+    }
+
+    private void putInMap(BambooInstance instance) {
+        instanceMap.put(instance.getName(), instance.getUrl());
     }
 
     private void remove(final BambooInstance instance) {
@@ -63,6 +83,8 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
             instance.removePropertyChangeListener(this);
             lookupContext.remove(instance);
             buildStatusWatcher.removeInstance(instance);
+
+            instanceMap.remove(instance.getName());
         }
     }
 
@@ -118,18 +140,21 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
     }
 
     @Override
-    public boolean existsInstance(final String name) {
-        boolean exists = false;
-
-        try {
-            if (isNotBlank(name)) {
-                exists = instancesPrefs().nodeExists(name);
-            }
-        } catch (BackingStoreException ex) {
-            Exceptions.printStackTrace(ex);
+    public boolean existsInstanceUrl(String url) {
+        if (isNotBlank(url)) {
+            return instanceMap.containsValue(url);
         }
 
-        return exists;
+        return false;
+    }
+
+    @Override
+    public boolean existsInstanceName(final String name) {
+        if (isNotBlank(name)) {
+            return instanceMap.containsKey(name);
+        }
+
+        return false;
     }
 
     @Override
@@ -147,7 +172,7 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
-        
+
         return instances;
     }
 
@@ -155,10 +180,11 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
         DefaultBambooInstance instance = null;
 
         try {
-            BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
-            props.loadPreferences(name);
+            BambooInstanceProperties props = loadInstanceProperties(name);
             //create a instance with a client anyway since the stored properties must have been valid
             instance = new DefaultBambooInstance(props);
+
+            putInMap(instance);
         } catch (IllegalStateException e) {
             log.warning(e.getMessage());
         }

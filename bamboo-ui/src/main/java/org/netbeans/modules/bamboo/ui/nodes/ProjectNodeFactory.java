@@ -16,7 +16,7 @@ import static java.util.Collections.sort;
 /**
  * This factory creates a new {@link ProjectNode}.
  * 
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 class ProjectNodeFactory extends AbstractRefreshChildFactory<ProjectVo> {

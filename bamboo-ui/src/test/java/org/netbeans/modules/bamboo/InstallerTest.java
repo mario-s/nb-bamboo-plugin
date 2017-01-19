@@ -23,6 +23,7 @@ import static org.openide.util.Lookup.getDefault;
 import org.openide.util.Task;
 
 import static java.util.Collections.singletonList;
+import static org.mockito.Matchers.anyBoolean;
 
 
 /**
@@ -48,7 +49,7 @@ public class InstallerTest {
         task = new Task(null);
 
         given(delegate.loadInstances()).willReturn(singletonList(instance));
-        given(instance.synchronize()).willReturn(task);
+        given(instance.synchronize(anyBoolean())).willReturn(task);
 
         classUnderTest = new Installer();
     }
@@ -61,7 +62,7 @@ public class InstallerTest {
         classUnderTest.run();
 
         InOrder order = inOrder(instance, delegate);
-        order.verify(instance).synchronize();
+        order.verify(instance).synchronize(false);
         order.verify(delegate).addInstance(instance);
     }
 }

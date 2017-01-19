@@ -16,7 +16,7 @@ import static lombok.AccessLevel.NONE;
 /**
  * This class is the plan related to a project.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Getter
 @Setter

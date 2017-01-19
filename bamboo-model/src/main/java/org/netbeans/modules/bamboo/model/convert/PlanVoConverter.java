@@ -5,7 +5,7 @@ import org.netbeans.modules.bamboo.model.rest.Plan;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class PlanVoConverter extends AbstractVoConverter<Plan, PlanVo> {
     

@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.client.rest;
 
+import org.netbeans.modules.bamboo.client.glue.HttpUtility;
 import java.util.Optional;
 import org.netbeans.modules.bamboo.client.glue.BambooClientProduceable;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
@@ -13,7 +14,7 @@ import org.netbeans.modules.bamboo.client.glue.BambooClient;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @ServiceProvider(service = BambooClientProduceable.class)
 public class DefaultBambooClientFactory implements BambooClientProduceable {

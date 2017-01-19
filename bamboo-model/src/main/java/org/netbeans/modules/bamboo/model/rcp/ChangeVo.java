@@ -9,7 +9,7 @@ import static java.util.Collections.emptyList;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Data
 @EqualsAndHashCode(of = "changesetId")

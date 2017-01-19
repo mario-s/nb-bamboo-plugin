@@ -17,7 +17,7 @@ import static org.mockito.internal.util.reflection.Whitebox.getInternalState;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class SynchronizationListenerTest {

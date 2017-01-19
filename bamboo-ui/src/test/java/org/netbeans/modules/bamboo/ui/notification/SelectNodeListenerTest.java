@@ -30,7 +30,7 @@ import static org.mockito.Mockito.verify;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class SelectNodeListenerTest {
@@ -113,17 +113,25 @@ public class SelectNodeListenerTest {
     }
 
     @Test
-    public void testSelectNodes_AllSameNames_ExpectFour() {
+    public void testSelectNodes_AllSameNames_ExpectOne() {
         classUnderTest.selectNodes(provider, plan);
         Node[] selected = explorerManager.getSelectedNodes();
-        assertThat(selected.length, is(4));
+        assertThat(selected.length, is(1));
     }
 
     @Test
-    public void testSelectNodes_OneFidderentName_ExpectThree() {
+    public void testSelectNodes_OneDifferentName_ExpectNone() {
         plan.setName("bar");
         classUnderTest.selectNodes(provider, plan);
         Node[] selected = explorerManager.getSelectedNodes();
-        assertThat(selected.length, is(3));
+        assertThat(selected.length, is(0));
+    }
+    
+     @Test
+    public void testSelectNodes_NoMatchingRoot_ExpectZero() {
+        explorerManager.setRootContext(Node.EMPTY);
+        classUnderTest.selectNodes(provider, plan);
+        Node[] selected = explorerManager.getSelectedNodes();
+        assertThat(selected.length, is(0));
     }
 }

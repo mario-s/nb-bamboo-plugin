@@ -6,7 +6,7 @@ import org.openide.util.lookup.ServiceProvider;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @ServiceProvider(service = BuildStatusWatchable.class, position = 10)
 public class MockBuildStateWatcher implements BuildStatusWatchable {

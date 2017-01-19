@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * This event is fired when the connection to a CI server is lost or it comes back to live.
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Data
 @AllArgsConstructor

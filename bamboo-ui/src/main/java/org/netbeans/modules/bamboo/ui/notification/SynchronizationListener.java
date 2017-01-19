@@ -19,7 +19,7 @@ import static java.util.Optional.of;
 /**
  * This class listens for changes on the sychronization.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 class SynchronizationListener implements PropertyChangeListener {
 

@@ -26,7 +26,7 @@ public final class Installer implements Runnable {
             
             instances.parallelStream().forEach(instance -> {
                     TaskListener listener = new SyncTaskListener(manager, instance);
-                    Task task = instance.synchronize();
+                    Task task = instance.synchronize(false); //silent synchonize
                     task.addTaskListener(listener);
                 });
         }

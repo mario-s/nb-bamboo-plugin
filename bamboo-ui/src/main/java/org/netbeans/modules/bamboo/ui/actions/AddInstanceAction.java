@@ -9,7 +9,7 @@ import org.openide.util.NbBundle.Messages;
 
 /**
  * This action shows the dialog to add a new Bamboo instance.
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Messages({
     "LBL_Add_Instance=Add New Instance..."

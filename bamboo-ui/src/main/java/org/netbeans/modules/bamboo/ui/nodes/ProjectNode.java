@@ -27,7 +27,7 @@ import org.openide.util.lookup.Lookups;
 /**
  * The UI for a {@link ProjectVo}.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @NbBundle.Messages({
     "TXT_Instance_Prop_Plans=Plans",

@@ -23,7 +23,7 @@ import org.netbeans.modules.bamboo.model.convert.ResultVoConverter;
 /**
  * This class constructs a new {@link ProjectVo} with all the children.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 final class ProjectsFactory {
 

@@ -13,7 +13,7 @@ import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class ResultDetailsPanelFactoryTest {
     private static final String FOO = "foo";

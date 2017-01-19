@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class ResultVoTest {
     

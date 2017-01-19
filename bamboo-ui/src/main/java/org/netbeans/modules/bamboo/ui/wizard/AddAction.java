@@ -7,7 +7,7 @@ import org.openide.util.NbBundle;
 
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @NbBundle.Messages({ "TXT_ADD=OK" })
 class AddAction extends AbstractDialogAction {

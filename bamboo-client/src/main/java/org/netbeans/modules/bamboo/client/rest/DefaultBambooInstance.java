@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.client.rest;
 
+import static java.lang.String.format;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
@@ -8,8 +9,6 @@ import org.netbeans.modules.bamboo.model.rcp.VersionInfo;
 import org.openide.util.RequestProcessor;
 import org.openide.util.RequestProcessor.Task;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 import java.util.Collection;
@@ -48,13 +47,12 @@ import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 
 import static org.netbeans.modules.bamboo.client.rest.BambooInstanceConstants.INSTANCE_SUPPRESSED_PLANS;
-import static java.lang.String.format;
 
 import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 class DefaultBambooInstance extends DefaultInstanceValues implements BambooInstance {
@@ -68,8 +66,6 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             DefaultBambooInstance.class);
 
     private final transient StopWatch stopWatch = new StopWatch();
-
-    private final PropertyChangeSupport changeSupport;
 
     private final Lookup lookup;
 
@@ -98,7 +94,6 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     DefaultBambooInstance(final InstanceValues values, final AbstractBambooClient client) {
         super(values);
 
-        this.changeSupport = new PropertyChangeSupport(this);
         this.content = new InstanceContent();
         this.lookup = new AbstractLookup(content);
         this.suppressedPlans = new ArrayList<>();
@@ -115,11 +110,6 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     private void addConnectionListener() {
         InstanceConnectionListener listener = new InstanceConnectionListener();
         addPropertyChangeListener(listener);
-    }
-
-    @Override
-    public void addPropertyChangeListener(final PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
     }
 
     @Override
@@ -156,9 +146,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     private void doSynchronization(boolean showProgress) {
-        if (log.isLoggable(Level.INFO)) {
-            stopWatch.start();
-        }
+        startWatch();
 
         if (showProgress) {
             fireSynchronizationChange(true);
@@ -172,16 +160,26 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
                 fireSynchronizationChange(false);
             }
 
-            if (log.isLoggable(Level.INFO)) {
-                stopWatch.stop();
-                log.info(
-                        String.format("synchronized %s in %s", getName(), stopWatch));
-                stopWatch.reset();
-            }
-
             synchronized (this) {
                 notifyAll();
             }
+
+        }
+
+        stopWatch();
+    }
+
+    private void startWatch() {
+        if (log.isLoggable(Level.INFO)) {
+            stopWatch.start();
+        }
+    }
+
+    private void stopWatch() {
+        if (log.isLoggable(Level.INFO)) {
+            stopWatch.stop();
+            log.info(format("synchronized %s in %s", getName(), stopWatch));
+            stopWatch.reset();
         }
     }
 
@@ -235,7 +233,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         return (projects == null) ? emptyList() : asList(projects.toArray(new ProjectVo[projects.size()]));
     }
 
-    Optional<Task> getSynchronizationTask() {
+    final Optional<Task> getSynchronizationTask() {
         return synchronizationTask;
     }
 
@@ -263,8 +261,8 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     private void prepareSynchronization() {
         int interval = getSyncIntervalInMillis();
+        log.info(format("interval: %s ms", interval));
 
-        log.info(String.format("interval: %s", interval));
         if (interval > 0) {
             scheduleTask(interval);
         }
@@ -276,16 +274,12 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
                 doSynchronization(true);
             }
 
-            if (synchronizationTask.isPresent() && (interval > 0)) {
-                synchronizationTask.get().schedule(interval);
+            if (interval > 0) {
+                synchronizationTask.ifPresent(t -> t.schedule(interval));
             }
         });
         synchronizationTask = of(task);
         task.schedule(interval);
-    }
-
-    private int getSyncIntervalInMillis() {
-        return toMillis(getSyncInterval());
     }
 
     @Override
@@ -297,9 +291,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         boolean oldVal = this.available;
         available = client.existsService();
 
-        if (log.isLoggable(Level.INFO)) {
-            log.info(format("service is available: %s", available));
-        }
+        log.log(Level.INFO, "service is available: {0}", available);
 
         firePropertyChange(ModelChangedValues.Available.toString(), oldVal, available);
 
@@ -320,7 +312,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     @Override
     public void expand(ResultVo result, ResultExpandParameter param) {
-        if(verifyAvailibility()){
+        if (verifyAvailibility()) {
             client.attach(result, param);
         }
     }
@@ -330,12 +322,6 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         if (properties != null) {
             properties.clear();
         }
-    }
-
-    @Override
-    public void removePropertyChangeListener(
-            final PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
     }
 
     @Override
@@ -354,23 +340,13 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     @Override
-    public Task synchronize() {
+    public Task synchronize(boolean showProgress) {
         return RP.post(() -> {
             if (verifyAvailibility()) {
                 synchronizeVersion();
-                doSynchronization(false);
+                doSynchronization(showProgress);
             }
         });
-    }
-
-    private int toMillis(final int minutes) {
-        return minutes * 60000;
-    }
-
-    protected void firePropertyChange(final String propertyName,
-            final Object oldValue,
-            final Object newValue) {
-        changeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 
     void setVersionInfo(final VersionInfo version) {
@@ -381,9 +357,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     public void updateSyncInterval(int minutes) {
         int oldInterval = getSyncInterval();
         setSyncInterval(minutes);
-        if (synchronizationTask.isPresent()) {
-            synchronizationTask.get().cancel();
-        }
+        synchronizationTask.ifPresent(task -> task.cancel());
         firePropertyChange(PROP_SYNC_INTERVAL, oldInterval, minutes);
         prepareSynchronization();
     }

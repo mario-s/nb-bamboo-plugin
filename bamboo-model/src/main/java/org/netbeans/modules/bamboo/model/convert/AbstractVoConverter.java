@@ -6,7 +6,7 @@ import static jodd.bean.BeanCopy.beans;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 abstract class AbstractVoConverter<S, T> implements VoConverter<S, T> {
 

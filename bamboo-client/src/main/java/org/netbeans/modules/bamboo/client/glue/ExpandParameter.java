@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.client.glue;
 /**
  * This interface contains parameters which can be added to a rest call to extend the content of entities.
  * 
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public final class ExpandParameter {
     

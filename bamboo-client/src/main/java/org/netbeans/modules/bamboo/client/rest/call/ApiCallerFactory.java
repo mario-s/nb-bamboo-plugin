@@ -9,7 +9,7 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.JSON_PATH;
 /**
  * This factory produces {@link ApiCaller} and subclasses.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @AllArgsConstructor
 public class ApiCallerFactory {

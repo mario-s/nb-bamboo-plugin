@@ -16,7 +16,7 @@ import org.netbeans.modules.bamboo.model.rest.Files;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class FilessVoConverterTest {
 

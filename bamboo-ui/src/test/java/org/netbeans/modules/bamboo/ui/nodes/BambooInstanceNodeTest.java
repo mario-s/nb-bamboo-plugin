@@ -28,7 +28,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.Disconnected;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BambooInstanceNodeTest {

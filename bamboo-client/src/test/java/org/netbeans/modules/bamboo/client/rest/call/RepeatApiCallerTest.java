@@ -40,7 +40,7 @@ import static org.mockito.Mockito.mock;
 
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class RepeatApiCallerTest {

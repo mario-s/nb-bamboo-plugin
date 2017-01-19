@@ -13,7 +13,7 @@ import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 class WebTargetFactory {

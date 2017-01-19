@@ -8,7 +8,7 @@ import org.openide.windows.IOProvider;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 class InputOutputProvider {

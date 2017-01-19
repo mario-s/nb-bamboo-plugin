@@ -14,7 +14,7 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.JSON_PATH;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ApiCallerFactoryTest {

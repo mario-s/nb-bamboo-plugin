@@ -2,7 +2,6 @@ package org.netbeans.modules.bamboo.model.rcp;
 
 import org.openide.util.Task;
 
-import java.beans.PropertyChangeListener;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -13,7 +12,7 @@ import org.openide.util.Lookup;
 /**
  * This interface represents a bamboo server.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public interface BambooInstance extends 
         InstanceValues, Lookup.Provider, Serializable, TraverseDown<ProjectVo> {
@@ -33,15 +32,15 @@ public interface BambooInstance extends
     void remove();
 
     /**
-     * Synchonize this instance with the server.
+     * Synchonize this instance with the server. It may also fire start/stop events which can be consumed
+     * to show progress.
+     * 
+     * @param showProgress if set to true events will be fired when synchonization starts and stops.
      *
      * @return the sychronize task
      */
-    Task synchronize();
+    Task synchronize(boolean showProgress);
     
-    void addPropertyChangeListener(PropertyChangeListener listener);
-    
-    void removePropertyChangeListener(PropertyChangeListener listener);
 
     /**
      * This method updates the synchronization interval and restart any scheduled synchronization tasks.

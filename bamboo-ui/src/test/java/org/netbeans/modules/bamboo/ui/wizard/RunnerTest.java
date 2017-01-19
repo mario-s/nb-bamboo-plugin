@@ -33,7 +33,7 @@ import static java.util.Optional.of;
 
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class RunnerTest {

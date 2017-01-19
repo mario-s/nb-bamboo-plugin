@@ -7,7 +7,7 @@ import javax.swing.SwingConstants;
 /**
  * This button looks and feels like a hyper link.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class LinkButton extends JButton {
     

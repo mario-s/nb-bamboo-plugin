@@ -22,7 +22,7 @@ import static org.openide.util.NbBundle.getMessage;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @ActionID(
         category = "Bamboo",

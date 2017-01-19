@@ -23,7 +23,7 @@ import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BambooInstancePropertiesTest {

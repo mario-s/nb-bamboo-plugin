@@ -9,7 +9,7 @@ import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 /**
  * This event is fired when the saved {@link BambooInstance} are loaded from the user's preferences.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Getter
 @AllArgsConstructor

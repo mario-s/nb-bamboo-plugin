@@ -3,9 +3,9 @@ package org.netbeans.modules.bamboo.ui.notification;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.openide.explorer.ExplorerManager;
@@ -16,13 +16,14 @@ import org.openide.windows.WindowManager;
 
 import static java.util.Optional.ofNullable;
 
-import java.util.logging.Level;
 
 import static org.netbeans.modules.bamboo.ui.RootNodeConstants.BAMBOO_NODE_NAME;
+import org.openide.nodes.NodeNotFoundException;
+import org.openide.nodes.NodeOp;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 class SelectNodeListener implements ActionListener {
@@ -55,46 +56,29 @@ class SelectNodeListener implements ActionListener {
             log.fine("project is present");
             project.getParent().ifPresent(instance -> {
                 log.fine("instance is present");
-                String [] names = new String[]{BAMBOO_NODE_NAME, instance.getName(), project.getName(), pl.getName()};
-                List<Node> nodes = findNodes(em, names);
-                if(!nodes.isEmpty()) {
-                    selectNodes(em, nodes);
-                }
+                String[] names = new String[]{BAMBOO_NODE_NAME, instance.getName(), project.getName(), pl.getName()};
+                findPath(em, names).ifPresent(node -> selectNode(em, node));
             });
-
         });
-
     }
 
-    private List<Node> findNodes(ExplorerManager em, String [] names) {
-        List<Node> nodes = new ArrayList<>(names.length);
+    private Optional<Node> findPath(ExplorerManager em, String[] names) {
+        Optional<Node> path = empty();
         Node root = em.getRootContext();
         
-        for(String name : names) {
-            Optional<Node> child = findNode(root, name);
-            if(child.isPresent()) {
-                if(log.isLoggable(Level.FINE)) {
-                    log.fine(String.format("found node: %s", name));
-                }
-                Node ch = child.get();
-                nodes.add(ch);
-                root = ch;
-            }else{
-                return nodes;
-            }
-        }
-        
-        return nodes;
-    }
-
-    private Optional<Node> findNode(Node root, String childName) {
-        return ofNullable(root.getChildren().findChild(childName));
-    }
-
-    private void selectNodes(ExplorerManager em, List<Node> nodeList) {
-        Node[] nodes = nodeList.toArray(new Node[nodeList.size()]);
         try {
-            em.setSelectedNodes(nodes);
+            path = of(NodeOp.findPath(root, names));
+        } catch (NodeNotFoundException ex) {
+            log.warning(ex.getMessage());
+        }
+
+        return path;
+    }
+
+    private void selectNode(ExplorerManager em, Node node) {
+        
+        try {
+            em.setSelectedNodes(new Node[] {node});
         } catch (PropertyVetoException ex) {
             log.warning(ex.getMessage());
         }

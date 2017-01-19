@@ -8,7 +8,7 @@ import org.netbeans.modules.bamboo.ui.util.TextExtractor;
 /**
  * This is a custom editor for the build reason of a plan.
  * 
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class BuildReasonEditor extends PropertyEditorSupport {
 

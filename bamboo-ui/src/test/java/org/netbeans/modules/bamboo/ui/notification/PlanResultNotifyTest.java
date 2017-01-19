@@ -30,7 +30,7 @@ import static org.mockito.Mockito.never;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class PlanResultNotifyTest {

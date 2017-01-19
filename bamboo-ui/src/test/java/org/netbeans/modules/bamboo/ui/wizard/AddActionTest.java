@@ -24,7 +24,7 @@ import org.mockito.InjectMocks;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AddActionTest {

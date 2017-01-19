@@ -23,7 +23,7 @@ import static org.mockito.Mockito.inOrder;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class InstancePropertiesFormTest {
@@ -127,7 +127,7 @@ public class InstancePropertiesFormTest {
         
         InOrder order = inOrder(applyAction, delegate, observer);
         order.verify(applyAction).setEnabled(false);
-        order.verify(delegate).existsInstance(FOO);
+        order.verify(delegate).existsInstanceName(FOO);
         order.verify(observer).update(eq(observable), anyString());
     }
 }

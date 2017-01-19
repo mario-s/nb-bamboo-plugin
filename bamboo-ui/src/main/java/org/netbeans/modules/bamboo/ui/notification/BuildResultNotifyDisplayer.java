@@ -19,7 +19,7 @@ import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Successf
 /**
  * This class displays the build result in the status bar.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 @NbBundle.Messages({
@@ -41,15 +41,13 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer {
             final PlanVo plan = getPlan();
             final String name = plan.getName();
 
-            if (log.isLoggable(Level.INFO)) {
-                log.info(String.format("state of plan %s has changed", name));
-            }
+            log.log(Level.INFO, "state of plan {0} has changed", name);
 
             final String summary = getSummary(plan);
-            
-            JComponent balloonDetails = new ResultDetailsPanel(summary, new IgnoreButton(plan));       
+
+            JComponent balloonDetails = new ResultDetailsPanel(summary, new IgnoreButton(plan));
             JComponent popupDetails = newDetailsComponent(summary);
-            
+
             Pair<Priority, Category> cat = getCategory();
 
             notify(name, balloonDetails, popupDetails, cat);
@@ -95,9 +93,7 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer {
             relevant = false;
         }
 
-        if (log.isLoggable(Level.INFO)) {
-            log.info(String.format("result change is relevant: %s", relevant));
-        }
+        log.log(Level.INFO, "result change is relevant: {0}", relevant);
 
         return relevant;
     }

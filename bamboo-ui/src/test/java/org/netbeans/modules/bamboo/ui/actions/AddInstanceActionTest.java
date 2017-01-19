@@ -10,7 +10,7 @@ import org.netbeans.modules.bamboo.client.glue.InstancePropertiesDisplayable;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AddInstanceActionTest {

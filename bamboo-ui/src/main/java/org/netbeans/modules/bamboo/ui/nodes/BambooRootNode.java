@@ -26,7 +26,7 @@ import static org.netbeans.modules.bamboo.ui.RootNodeConstants.*;
 /**
  * Root node for the Bamboo Builder
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @ServicesTabNodeRegistration(
         name = BAMBOO_NODE_NAME, displayName = "#LBL_BambooNode",

@@ -9,7 +9,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * A converter for collection.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  * @param <S> the source
  * @param <T> the target
  */
