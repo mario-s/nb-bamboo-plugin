@@ -3,7 +3,7 @@
 
     <groupId>org.netbeans.modules</groupId>
     <artifactId>bamboo</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>NetBeans Bamboo plugin</name>
     <description>Bamboo CI plugin for the NetBeans IDE</description>
