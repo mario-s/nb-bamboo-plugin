@@ -13,8 +13,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.LookupContext;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
-import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
-import org.netbeans.modules.bamboo.model.rcp.FileVo;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
@@ -23,13 +21,9 @@ import static org.mockito.Mockito.verify;
 
 import org.openide.util.Lookup;
 
-import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.never;
-import org.netbeans.modules.bamboo.model.rcp.IssueVo;
-import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Changes;
 import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Jira;
 
 /**
