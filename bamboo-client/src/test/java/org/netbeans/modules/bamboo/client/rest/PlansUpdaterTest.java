@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class PlansUpdaterTest {

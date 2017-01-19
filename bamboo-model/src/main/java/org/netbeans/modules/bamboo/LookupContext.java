@@ -6,7 +6,7 @@ import org.openide.util.lookup.InstanceContent;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public enum LookupContext implements Lookup.Provider{
     Instance;

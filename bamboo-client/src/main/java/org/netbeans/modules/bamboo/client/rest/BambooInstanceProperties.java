@@ -61,7 +61,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
     /**
      * Loads the preferences for the instance.
      *
-     * @param instanceName
+     * @param instanceName the name of the instance to load
      */
     public void loadPreferences(final String instanceName) {
         putAndFireChange(PROP_NAME, instanceName);

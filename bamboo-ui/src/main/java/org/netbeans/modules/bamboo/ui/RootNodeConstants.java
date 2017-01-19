@@ -4,7 +4,7 @@ import org.netbeans.api.annotations.common.StaticResource;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public final class RootNodeConstants {
     

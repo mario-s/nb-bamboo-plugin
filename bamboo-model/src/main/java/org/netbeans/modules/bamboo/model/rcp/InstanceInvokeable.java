@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 
 /**
  * This interface provides methods to invoke another method of the instance.
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public interface InstanceInvokeable extends Availability{
     

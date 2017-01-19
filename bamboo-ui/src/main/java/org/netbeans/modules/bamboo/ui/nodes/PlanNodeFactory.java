@@ -16,7 +16,7 @@ import static java.util.Collections.sort;
 /**
  * This factory creates a new {@link PlanNode}.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {

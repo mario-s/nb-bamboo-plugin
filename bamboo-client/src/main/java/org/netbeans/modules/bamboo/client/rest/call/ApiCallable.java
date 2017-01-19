@@ -12,7 +12,7 @@ import static javax.ws.rs.client.Entity.entity;
 /**
  * This interface describes a way to access the API.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public interface ApiCallable<T> {
 

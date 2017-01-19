@@ -13,7 +13,7 @@ import static org.hamcrest.CoreMatchers.is;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class ProjectVoTest {
     private static final String FOO = "foo";

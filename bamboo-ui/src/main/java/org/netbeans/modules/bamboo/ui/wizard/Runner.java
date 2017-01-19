@@ -12,7 +12,7 @@ import lombok.extern.java.Log;
 
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 class Runner extends PropertyChangeSupport implements Runnable {

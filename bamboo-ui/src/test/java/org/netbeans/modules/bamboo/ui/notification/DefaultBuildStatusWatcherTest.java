@@ -18,7 +18,7 @@ import org.openide.util.Lookup;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultBuildStatusWatcherTest {

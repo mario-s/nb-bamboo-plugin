@@ -21,7 +21,7 @@ import static java.lang.String.format;
 
 /**
  * This class displays a ntification for manual build run.
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Messages({"By_User=Manual run by user.",
     "Start_Success=started successful.",

@@ -11,7 +11,7 @@ import org.openide.util.Utilities;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 abstract class AbstractContextAction extends AbstractAction implements LookupListener, ContextAwareAction {
 

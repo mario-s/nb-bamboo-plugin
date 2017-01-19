@@ -6,7 +6,7 @@ import org.netbeans.modules.bamboo.model.rest.Change;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class ChangeVoConverter extends AbstractVoConverter<Change, ChangeVo> {
     

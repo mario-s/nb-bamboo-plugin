@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.client.rest;
+package org.netbeans.modules.bamboo.client.glue;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -12,10 +12,10 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 /**
  * This utility provides HTTP related functionality.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
-public class HttpUtility {
+public final class HttpUtility {
 
     private static final String WRONG_URL = "url is wrong: %s";
 

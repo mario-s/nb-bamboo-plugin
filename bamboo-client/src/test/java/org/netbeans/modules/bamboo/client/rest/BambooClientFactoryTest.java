@@ -1,11 +1,11 @@
 package org.netbeans.modules.bamboo.client.rest;
 
+import org.netbeans.modules.bamboo.client.glue.HttpUtility;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -13,12 +13,15 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 
 import org.netbeans.modules.bamboo.client.glue.BambooClient;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(HttpUtility.class)
 public class BambooClientFactoryTest {
     private static final String FOO = "foo";
     

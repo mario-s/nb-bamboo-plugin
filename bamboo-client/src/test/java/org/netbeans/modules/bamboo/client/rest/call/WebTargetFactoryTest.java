@@ -20,7 +20,7 @@ import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class WebTargetFactoryTest {
@@ -39,6 +39,7 @@ public class WebTargetFactoryTest {
         setInternalState(classUnderTest, "client", client);
         
         given(values.getUrl()).willReturn(FOO);
+        given(values.getUsername()).willReturn(FOO);
         given(values.getPassword()).willReturn(new char[]{'a'});
         
         given(client.target(FOO)).willReturn(target);

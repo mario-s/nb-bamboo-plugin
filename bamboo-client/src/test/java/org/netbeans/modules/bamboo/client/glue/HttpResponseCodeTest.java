@@ -1,4 +1,4 @@
-package org.netbeans.modules.bamboo.client.rest;
+package org.netbeans.modules.bamboo.client.glue;
 
 import org.junit.Test;
 
@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class HttpResponseCodeTest {
 

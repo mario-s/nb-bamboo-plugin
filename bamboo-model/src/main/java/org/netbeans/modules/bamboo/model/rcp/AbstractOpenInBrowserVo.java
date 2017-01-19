@@ -5,7 +5,7 @@ import static java.lang.String.format;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public abstract class AbstractOpenInBrowserVo extends AbstractVo implements OpenableInBrowser {
 

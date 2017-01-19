@@ -8,7 +8,7 @@ import org.netbeans.api.io.OutputWriter;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class InputOutputProviderTest {
     

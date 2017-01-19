@@ -11,7 +11,7 @@ import org.netbeans.modules.bamboo.model.event.ServerConnectionEvent;
  * Listener when the connection to an instance changes.
  * It fires that a event using the lookup.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 class InstanceConnectionListener implements PropertyChangeListener {
 

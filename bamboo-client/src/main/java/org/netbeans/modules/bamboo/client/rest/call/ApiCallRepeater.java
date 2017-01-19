@@ -14,7 +14,7 @@ import org.netbeans.modules.bamboo.model.rest.Responseable;
  * This class can be used to perform a second call to the REST API. It is used in cases where we don't know the
  * maximum of expected result upfront.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 class ApiCallRepeater<T extends Responseable> extends ApiCaller<T> implements ApiCallRepeatable{

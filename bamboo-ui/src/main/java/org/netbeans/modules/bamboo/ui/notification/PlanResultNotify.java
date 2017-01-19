@@ -14,7 +14,7 @@ import org.openide.util.LookupListener;
 /**
  * Listener for all plans with their results related to a {@link BambooInstance}.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 class PlanResultNotify implements PropertyChangeListener, LookupListener {
 

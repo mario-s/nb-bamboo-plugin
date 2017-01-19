@@ -25,7 +25,7 @@ import static java.util.Optional.of;
 /**
  * This is a factory for a {@link BambooInstanceNode}.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>

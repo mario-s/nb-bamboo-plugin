@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.client.rest;
 
+import org.netbeans.modules.bamboo.client.glue.HttpUtility;
 import java.util.Collection;
 import javax.ws.rs.core.Response;
 import org.netbeans.modules.bamboo.client.glue.BambooClient;
@@ -12,7 +13,7 @@ import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 /**
  * Abstract parent for bamboo client which extends the interface for not public exposed methods.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 abstract class AbstractBambooClient implements BambooClient {
 

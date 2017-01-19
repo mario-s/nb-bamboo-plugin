@@ -20,7 +20,7 @@ import javax.crypto.spec.DESKeySpec;
 /**
  * This is a simple de/encrypter.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 final class Encrypter {
     private static final String PASS = "org.netbeans.modules.bamboo";

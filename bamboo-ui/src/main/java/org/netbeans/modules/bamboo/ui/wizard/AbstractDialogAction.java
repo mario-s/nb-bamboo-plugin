@@ -16,7 +16,7 @@ import javax.swing.AbstractAction;
 
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 abstract class AbstractDialogAction extends AbstractAction implements PropertyChangeListener {
     private final InstanceManageable instanceManager;

@@ -1,13 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.netbeans.modules</groupId>
     <artifactId>bamboo</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>netbeans-bamboo-plugin</name>
+    <name>NetBeans Bamboo plugin</name>
     <description>Bamboo CI plugin for the NetBeans IDE</description>
     <inceptionYear>2016</inceptionYear>
     <organization>
@@ -51,7 +49,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <netbeans.version>RELEASE81</netbeans.version>
-        <netbeans.run.params.ide/>
+        <netbeans.run.params.ide />
         <netbeans.run.params>${netbeans.run.params.ide}</netbeans.run.params>
     </properties>
 
@@ -159,12 +157,12 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>1.2</version>
+                    <version>1.4.1</version>
                     <dependencies>
                         <dependency>
                             <groupId>de.andrena.tools.nopackagecycles</groupId>
                             <artifactId>no-package-cycles-enforcer-rule</artifactId>
-                            <version>1.0.4</version>
+                            <version>1.0.7</version>
                         </dependency>
                     </dependencies>
                     <executions>
@@ -176,7 +174,8 @@
                             <phase>test</phase>
                             <configuration>
                                 <rules>
-                                    <NoPackageCyclesRule implementation="de.andrena.tools.nopackagecycles.NoPackageCyclesRule" />
+                                    <NoPackageCyclesRule implementation="de.andrena.tools.nopackagecycles.NoPackageCyclesRule">
+                                    </NoPackageCyclesRule>
                                 </rules>
                             </configuration>
                         </execution>

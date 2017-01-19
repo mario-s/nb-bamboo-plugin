@@ -13,7 +13,7 @@ import static org.jsoup.Jsoup.parse;
 /**
  * This class provides methods to handle strings with HTML markup.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class TextExtractor {
 

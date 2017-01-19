@@ -11,7 +11,7 @@ import static org.openide.util.Pair.of;
 /**
  * Parent for classes which want to show a notification related to the Bamboo instance.
  * 
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @NbBundle.Messages({
     "Build=The Build"

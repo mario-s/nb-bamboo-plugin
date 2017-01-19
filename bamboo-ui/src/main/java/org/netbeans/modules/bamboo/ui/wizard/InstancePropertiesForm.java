@@ -274,13 +274,18 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         }
         
         InstanceManageable manager = getDefault().lookup(InstanceManageable.class);
-        if (manager.existsInstance(name)) {
+        if (manager.existsInstanceName(name)) {
             error(getMessage("MSG_ExistName"));
             return;
         }
 
         if (url.isEmpty() || url.endsWith("//")) {
             inform(getMessage("MSG_EmptyUrl"));
+            return;
+        }
+        
+        if(manager.existsInstanceUrl(url)){
+            error(getMessage("MSG_ExistUrl"));
             return;
         }
 

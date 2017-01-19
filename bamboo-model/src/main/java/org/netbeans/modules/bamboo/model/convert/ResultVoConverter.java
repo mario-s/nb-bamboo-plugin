@@ -5,7 +5,7 @@ import org.netbeans.modules.bamboo.model.rest.Result;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class ResultVoConverter extends AbstractVoConverter<Result, ResultVo> {
 

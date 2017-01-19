@@ -10,7 +10,7 @@ import org.netbeans.modules.bamboo.model.rest.Link;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class IssueVoConverterTest {
     private static final String FOO = "foo";

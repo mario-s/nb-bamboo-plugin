@@ -14,7 +14,7 @@ import static lombok.AccessLevel.NONE;
 /**
  * A class which represent the project.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Getter
 @Setter

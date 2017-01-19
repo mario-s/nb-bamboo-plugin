@@ -16,7 +16,7 @@ import org.openide.nodes.Node;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class PlanNodeFactoryTest {
 

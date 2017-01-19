@@ -2,7 +2,7 @@ package org.netbeans.modules.bamboo.ui.actions;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public interface ActionConstants {
     

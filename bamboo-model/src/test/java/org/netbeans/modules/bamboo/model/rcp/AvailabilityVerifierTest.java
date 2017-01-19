@@ -12,7 +12,7 @@ import static org.mockito.BDDMockito.given;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AvailabilityVerifierTest {

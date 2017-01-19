@@ -29,7 +29,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  * @param <S> the target to convert into
  * @param <T> the source to convert from
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public interface VoConverter<S, T> {
 

@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.model.rcp;
 /**
  * this interface defines a way to determine if a endpoint is available
  * 
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public interface Availability {
 

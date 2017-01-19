@@ -8,7 +8,7 @@ import org.netbeans.api.annotations.common.NonNull;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @EqualsAndHashCode(of = "key")
 public abstract class AbstractVo {

@@ -9,7 +9,7 @@ import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 
 /**
  * This event is fired when a build was triggered manual.
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Data
 @Builder

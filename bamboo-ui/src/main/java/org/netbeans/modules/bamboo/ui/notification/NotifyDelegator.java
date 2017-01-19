@@ -8,7 +8,7 @@ import org.openide.util.ImageUtilities;
 
 /**
  * A delegator for the notification.
- * @author spindizzy
+ * @author Mario Schroeder
  */
 class NotifyDelegator {
     

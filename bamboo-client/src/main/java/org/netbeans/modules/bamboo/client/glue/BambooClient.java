@@ -7,7 +7,7 @@ import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 /**
  * This interface defines methods to access the Bamboo server.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public interface BambooClient {
 

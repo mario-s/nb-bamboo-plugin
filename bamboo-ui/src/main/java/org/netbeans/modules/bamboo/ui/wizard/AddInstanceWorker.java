@@ -24,7 +24,7 @@ import static java.util.Optional.ofNullable;
  * This worker does the call to the server and creation of nodes in a
  * background task.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 class AddInstanceWorker implements PropertyChangeListener, TaskListener {
     private static final RequestProcessor RP = new RequestProcessor("interrupt", 1, true);

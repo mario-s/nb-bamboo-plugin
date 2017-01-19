@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 /**
  * Component to show the details for a result.
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class ResultDetailsPanel extends javax.swing.JPanel {
 

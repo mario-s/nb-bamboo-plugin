@@ -5,7 +5,7 @@ import org.netbeans.modules.bamboo.model.rest.Info;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class VersionInfoConverter extends AbstractVoConverter<Info, VersionInfo> {
     

@@ -13,7 +13,7 @@ import static org.netbeans.modules.bamboo.ui.notification.Bundle.Ignore_Tooltip;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Messages({
     "Ignore=Ignore",

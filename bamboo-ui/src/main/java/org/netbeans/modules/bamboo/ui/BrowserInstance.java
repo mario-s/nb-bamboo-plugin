@@ -10,7 +10,7 @@ import static org.openide.awt.HtmlBrowser.URLDisplayer.getDefault;
 /**
  * Singleton for {@link URLDisplayer}.
  * 
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 public enum BrowserInstance {

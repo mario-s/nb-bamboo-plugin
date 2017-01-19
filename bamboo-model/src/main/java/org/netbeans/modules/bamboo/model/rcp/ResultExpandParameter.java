@@ -3,7 +3,7 @@ package org.netbeans.modules.bamboo.model.rcp;
 /**
  * This enum contains parameters to expand the content of a build result.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public enum ResultExpandParameter {
 

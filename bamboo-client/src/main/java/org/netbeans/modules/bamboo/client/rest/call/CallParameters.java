@@ -10,7 +10,7 @@ import static java.util.Collections.emptyMap;
 
 /**
  * This class keeps the necessary values for an Api call together.
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Getter
 @RequiredArgsConstructor

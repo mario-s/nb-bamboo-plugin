@@ -5,7 +5,7 @@ import org.netbeans.modules.bamboo.model.rest.Project;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class ProjectVoConverter extends AbstractVoConverter<Project, ProjectVo> {
     

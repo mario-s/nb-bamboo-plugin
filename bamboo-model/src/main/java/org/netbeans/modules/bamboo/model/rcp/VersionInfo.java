@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Data
 @Builder

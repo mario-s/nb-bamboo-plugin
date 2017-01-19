@@ -28,7 +28,7 @@ import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ApiCallerTest {

@@ -48,7 +48,7 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.Disconnected;
 /**
  * This class is the node of a Bamboo CI server.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Messages({
     "Unavailable=Not Available",

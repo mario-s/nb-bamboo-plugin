@@ -14,7 +14,7 @@ import org.netbeans.modules.bamboo.client.rest.AbstractVoUpdater.ProjectsUpdater
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 public class ProjectsUpdaterTest {
     private static final String FOO = "foo";

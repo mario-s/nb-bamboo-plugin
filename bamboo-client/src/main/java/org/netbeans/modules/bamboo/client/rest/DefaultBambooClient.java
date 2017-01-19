@@ -1,5 +1,6 @@
 package org.netbeans.modules.bamboo.client.rest;
 
+import org.netbeans.modules.bamboo.client.glue.HttpUtility;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallRepeatable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallerFactory;
@@ -61,7 +62,7 @@ import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 import static java.lang.String.format;
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 class DefaultBambooClient extends AbstractBambooClient {
@@ -97,7 +98,7 @@ class DefaultBambooClient extends AbstractBambooClient {
         final Optional<WebTarget> opt = apiCaller.createTarget();
         opt.ifPresent(target -> {
             Responseable initialResponse = apiCaller.doGet(target);
-            logInitialResponse(initialResponse);
+            logResponse(initialResponse);
             results.addAll(initialResponse.asCollection());
 
             apiCaller.repeat(initialResponse).ifPresent(response -> {
@@ -110,15 +111,13 @@ class DefaultBambooClient extends AbstractBambooClient {
 
         apiCaller.createTarget().ifPresent(target -> {
             AbstractResponse initialResponse = apiCaller.doGet(target);
-            logInitialResponse(initialResponse);
+            logResponse(initialResponse);
             results.addAll(initialResponse.asCollection());
         });
     }
 
-    private void logInitialResponse(Responseable initialResponse) {
-        if (log.isLoggable(Level.FINE)) {
-            log.fine(format("got results for initial call: %s", initialResponse));
-        }
+    private void logResponse(Responseable response) {
+        log.log(Level.FINE, "got results for call: {0}", response);
     }
 
     @Override

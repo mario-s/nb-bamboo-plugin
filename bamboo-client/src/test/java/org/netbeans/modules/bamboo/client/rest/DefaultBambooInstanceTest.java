@@ -15,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 
-
 import java.util.Optional;
 import javax.ws.rs.core.Response;
 import org.mockito.InOrder;
@@ -45,7 +44,7 @@ import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Change
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultBambooInstanceTest {
@@ -77,20 +76,25 @@ public class DefaultBambooInstanceTest {
 
     @Before
     public void setUp() {
-        classUnderTest = new DefaultBambooInstance(properties);
+        classUnderTest = newInstance();
 
         plan = new PlanVo(FOO);
         project = new ProjectVo(FOO);
-
-        classUnderTest.setSyncInterval(5);
-        classUnderTest.addPropertyChangeListener(listener);
 
         given(properties.getPreferences()).willReturn(preferences);
         given(client.existsService()).willReturn(true);
 
         projects = new ArrayList<>();
+    }
 
-        setInternalState(classUnderTest, "client", client);
+    private DefaultBambooInstance newInstance() {
+        DefaultBambooInstance instance = new DefaultBambooInstance(properties);
+
+        instance.setSyncInterval(5);
+        instance.addPropertyChangeListener(listener);
+        setInternalState(instance, "client", client);
+
+        return instance;
     }
 
     @After
@@ -99,8 +103,12 @@ public class DefaultBambooInstanceTest {
     }
 
     private void waitForListener() throws InterruptedException {
+        waitForListener(1000);
+    }
+
+    private void waitForListener(long timeout) throws InterruptedException {
         synchronized (listener) {
-            listener.wait(1000);
+            listener.wait(timeout);
         }
     }
 
@@ -142,20 +150,20 @@ public class DefaultBambooInstanceTest {
         instance.setChildren(projects);
         assertThat(instance.getSynchronizationTask().isPresent(), is(true));
     }
-    
-     /**
+
+    /**
      * Test of setChildren method, of class DefaultBambooInstance.
      */
     @Test
     public void testSetChildren_WithSuppressedPlans_ExpectPlanNotifyFalse() {
         given(properties.get(BambooInstanceConstants.INSTANCE_SUPPRESSED_PLANS)).willReturn(FOO);
         DefaultBambooInstance instance = new DefaultBambooInstance(properties);
-        
+
         project.setChildren(singletonList(plan));
         projects.add(project);
-        
+
         instance.setChildren(projects);
-        
+
         assertThat(plan.isNotify(), is(false));
     }
 
@@ -175,7 +183,7 @@ public class DefaultBambooInstanceTest {
 
     @Test
     public void testSynchronize_ListenerShouldBeCalled() throws InterruptedException {
-        classUnderTest.synchronize();
+        classUnderTest.synchronize(false);
         waitForListener();
         boolean available = classUnderTest.isAvailable();
         assertThat(available, is(true));
@@ -187,7 +195,7 @@ public class DefaultBambooInstanceTest {
     @Test
     public void testSynchronize_ServiceNotExisting_ExpectAvailableFalse() throws InterruptedException {
         given(client.existsService()).willReturn(false);
-        classUnderTest.synchronize();
+        classUnderTest.synchronize(false);
         waitForListener();
         boolean available = classUnderTest.isAvailable();
         assertThat(available, is(false));
@@ -226,12 +234,12 @@ public class DefaultBambooInstanceTest {
     @Test
     public void testUpdateNotify_Notify_ExpectEmptySurpressed() {
         classUnderTest.updateNotify(plan);
-        
+
         Collection<String> surpressed = classUnderTest.getSuppressedPlans();
         assertThat(surpressed.isEmpty(), is(true));
         verify(listener, never()).propertyChange(any(PropertyChangeEvent.class));
     }
-    
+
     @Test
     public void testAttachChanges_ExpectClientCall() {
         ResultVo result = new ResultVo();

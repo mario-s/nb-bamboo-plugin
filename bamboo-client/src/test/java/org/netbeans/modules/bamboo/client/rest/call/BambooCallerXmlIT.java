@@ -17,16 +17,19 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
 
-import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
-import org.netbeans.modules.bamboo.client.rest.HttpUtility;
+import org.netbeans.modules.bamboo.client.glue.HttpUtility;
+
+import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
+import org.netbeans.modules.bamboo.model.rest.Change;
+import org.netbeans.modules.bamboo.model.rest.Files;
+import org.netbeans.modules.bamboo.model.rest.Issue;
+import org.netbeans.modules.bamboo.model.rest.Result;
+import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assume.assumeTrue;
-
-import org.netbeans.modules.bamboo.model.rest.Result;
 
 import static java.util.Collections.singletonMap;
 import static org.junit.Assume.assumeFalse;
@@ -35,13 +38,10 @@ import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.RESULT_COM
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 
-import org.netbeans.modules.bamboo.model.rest.Change;
-import org.netbeans.modules.bamboo.model.rest.Files;
-import org.netbeans.modules.bamboo.model.rest.Issue;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Log
 public class BambooCallerXmlIT {

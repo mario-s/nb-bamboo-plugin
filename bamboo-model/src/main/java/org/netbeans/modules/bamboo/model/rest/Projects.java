@@ -6,7 +6,7 @@ import lombok.Setter;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @Getter
 @Setter

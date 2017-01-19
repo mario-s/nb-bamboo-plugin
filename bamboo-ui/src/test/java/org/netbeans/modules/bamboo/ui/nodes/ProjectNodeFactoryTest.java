@@ -28,7 +28,7 @@ import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import static org.openide.util.Lookup.getDefault;
 
 /**
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ProjectNodeFactoryTest {

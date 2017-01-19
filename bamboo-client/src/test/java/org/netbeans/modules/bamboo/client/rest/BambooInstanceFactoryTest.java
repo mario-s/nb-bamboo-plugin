@@ -25,7 +25,7 @@ import static org.mockito.Matchers.any;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BambooInstanceFactoryTest {

@@ -7,7 +7,7 @@ import org.openide.util.TaskListener;
 
 /**
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 final class SyncTaskListener implements TaskListener {
     

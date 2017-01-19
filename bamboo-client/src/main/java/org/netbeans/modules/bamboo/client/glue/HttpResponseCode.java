@@ -1,9 +1,9 @@
-package org.netbeans.modules.bamboo.client.rest;
+package org.netbeans.modules.bamboo.client.glue;
 
 /**
  * This enum contains a range of valid HTTP response codes.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 enum HttpResponseCode {
 

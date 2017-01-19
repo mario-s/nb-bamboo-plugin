@@ -19,7 +19,7 @@ import org.openide.util.NbBundle.Messages;
 /**
  * This action opens the url of the give openable in the prefered browser.
  *
- * @author spindizzy
+ * @author Mario Schroeder
  */
 @ActionID(
         category = "Bamboo",
