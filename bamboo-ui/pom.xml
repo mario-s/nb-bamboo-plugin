@@ -4,12 +4,12 @@
     <parent>
         <groupId>org.netbeans.modules</groupId>
         <artifactId>bamboo</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>org.netbeans.modules</groupId>
     <artifactId>bamboo-ui</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>nbm</packaging>
     <name>NetBeans Bamboo plugin UI</name>
 
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>org.netbeans.modules</groupId>
             <artifactId>bamboo-client</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
