@@ -18,19 +18,24 @@ import org.netbeans.modules.bamboo.client.glue.BambooClient;
  */
 @ServiceProvider(service = BambooClientProduceable.class)
 public class DefaultBambooClientFactory implements BambooClientProduceable {
+    
+    private final HttpUtility httpUtility;
+
+    public DefaultBambooClientFactory() {
+        this(new HttpUtility());
+    }
+
+    DefaultBambooClientFactory(HttpUtility httpUtility) {
+        this.httpUtility = httpUtility;
+    }
 
     @Override
     public Optional<BambooClient> newClient(InstanceValues values) {
         Optional<BambooClient> opt = empty();
         String url = values.getUrl();
-        HttpUtility httpUtility = newUtility();
         if (httpUtility.exists(url)) {
             opt = of(new DefaultBambooClient(values, httpUtility));
         }
         return opt;
-    }
-
-    HttpUtility newUtility() {
-        return new HttpUtility();
     }
 }

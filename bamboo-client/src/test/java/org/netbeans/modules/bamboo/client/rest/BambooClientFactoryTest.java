@@ -11,6 +11,7 @@ import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
+import org.mockito.InjectMocks;
 
 import org.netbeans.modules.bamboo.client.glue.BambooClient;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -31,16 +32,11 @@ public class BambooClientFactoryTest {
     @Mock
     private InstanceValues values;
     
+    @InjectMocks
     private DefaultBambooClientFactory classUnderTest;
     
     @Before
     public void setUp() {
-        classUnderTest = new DefaultBambooClientFactory(){
-            @Override
-            HttpUtility newUtility() {
-                return httpUtility;
-            }
-        };
         given(values.getUrl()).willReturn(FOO);
     }
     
