@@ -196,6 +196,8 @@ public class DefaultBambooInstanceTest {
 
     @Test
     public void testSynchronize_ListenerShouldBeCalled() throws InterruptedException {
+        projects.add(project);
+        given(client.getProjects()).willReturn(projects);
         classUnderTest.synchronize(false);
         waitForListener();
         boolean available = classUnderTest.isAvailable();

@@ -201,16 +201,28 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     private void synchronizeProjects() {
-        List<ProjectVo> oldProjects = new ArrayList<>(this.projects);
-        if (oldProjects.isEmpty()) {
+        Collection<ProjectVo> previous = copyProjects();
+        
+        if (previous.isEmpty()) {
             Collection<ProjectVo> newProjects = client.getProjects();
             setChildren(newProjects);
-            fireProjectsChanged(oldProjects, newProjects);
+            fireProjectsChanged(previous, newProjects);
         } else {
             client.updateProjects(this.projects);
             updateParent(this.projects);
-            fireProjectsChanged(oldProjects, this.projects);
+            fireProjectsChanged(previous, this.projects);
         }
+    }
+
+    /**
+     * Copy the previous synchronized projects into a new collection.
+     */
+    private Collection<ProjectVo> copyProjects() {
+        Collection<ProjectVo> oldProjects = new ArrayList<>();
+        if(this.projects != null) {
+            oldProjects.addAll(this.projects);
+        }
+        return oldProjects;
     }
 
     //set the parent if not present
