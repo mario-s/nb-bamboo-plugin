@@ -201,8 +201,8 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     private void synchronizeProjects() {
-        Collection<ProjectVo> oldProjects = this.projects;
-        if (oldProjects == null || oldProjects.isEmpty()) {
+        List<ProjectVo> oldProjects = new ArrayList<>(this.projects);
+        if (oldProjects.isEmpty()) {
             Collection<ProjectVo> newProjects = client.getProjects();
             setChildren(newProjects);
             fireProjectsChanged(oldProjects, newProjects);
