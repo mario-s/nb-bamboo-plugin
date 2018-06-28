@@ -49,6 +49,7 @@ import org.netbeans.modules.bamboo.model.event.QueueEvent;
 
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import org.mockito.internal.util.reflection.Whitebox;
 
@@ -94,9 +95,12 @@ public class DefaultBambooInstanceTest {
 
         plan = new PlanVo(FOO);
         project = new ProjectVo(FOO);
+        
+        reset(properties, preferences, client);
 
         given(properties.getPreferences()).willReturn(preferences);
         given(client.existsService()).willReturn(true);
+        given(client.queue(plan)).willReturn(Response.ok().build());
 
         projects = new ArrayList<>();
     }
@@ -238,15 +242,30 @@ public class DefaultBambooInstanceTest {
     }
 
     @Test
-    public void queue_ResponseCode200_ExpectEventInLookup() throws InterruptedException {
+    public void queue_Once_ExpectOneEventInLookup() throws InterruptedException {
         project.setChildren(singletonList(plan));
         classUnderTest.setChildren(singletonList(project));
-        given(client.queue(plan)).willReturn(Response.ok().build());
         classUnderTest.queue(plan);
         waitForListener();
 
+        assertOneEvent();
+    }
+    
+    @Test
+    public void queue_Twice_ExpectOneEventInLookup() throws InterruptedException {
+        project.setChildren(singletonList(plan));
+        classUnderTest.setChildren(singletonList(project));
+        classUnderTest.queue(plan);
+        waitForListener();
+        classUnderTest.queue(plan);
+        waitForListener();
+
+        assertOneEvent();
+    }
+
+    private void assertOneEvent() {
         Collection<? extends QueueEvent> events = classUnderTest.getLookup().lookupAll(QueueEvent.class);
-        assertThat(events.isEmpty(), is(false));
+        assertThat(events.size(), is(1));
     }
 
     @Test

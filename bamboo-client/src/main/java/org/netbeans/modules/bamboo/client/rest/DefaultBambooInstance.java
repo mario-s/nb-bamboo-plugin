@@ -97,6 +97,8 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     private final List<String> suppressedPlans;
 
     private BambooInstanceProperties properties;
+    
+    private Optional<QueueEvent> previousEvent;
 
     DefaultBambooInstance(final BambooInstanceProperties properties) {
         this(null, null);
@@ -110,7 +112,8 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         this.content = new InstanceContent();
         this.lookup = new AbstractLookup(content);
         this.suppressedPlans = new ArrayList<>();
-        this.client = client;
+        this.previousEvent = empty();
+        this.client = client;     
 
         addConnectionListener();
     }
@@ -329,8 +332,10 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             final Optional<ProjectVo> parent = plan.getParent();
             if (isChild(parent) && verifyAvailibility()) {
                 Response response = client.queue(plan);
-                QueueEventBuilder eventBuilder = QueueEvent.builder().plan(plan).response(response);
-                content.add(eventBuilder.build());
+                QueueEvent event = QueueEvent.builder().plan(plan).response(response).build();
+                previousEvent.ifPresent(content::remove);
+                content.add(event);
+                previousEvent = of(event);
             }
         });
     }
