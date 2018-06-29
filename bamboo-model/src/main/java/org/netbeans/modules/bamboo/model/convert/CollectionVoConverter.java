@@ -44,10 +44,7 @@ public class CollectionVoConverter<S extends Responseable, T> extends AbstractVo
     }
 
     private <S, T> Collection<T> convert(final Collection<S> collection, VoConverter<S, T> converter) {
-        return collection.stream().map(
-                c -> {
-                    return converter.convert(c);
-                }).collect(toList());
+        return collection.stream().map(converter::convert).collect(toList());
     }
 
 }

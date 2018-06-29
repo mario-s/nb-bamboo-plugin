@@ -97,6 +97,8 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     private final List<String> suppressedPlans;
 
     private BambooInstanceProperties properties;
+    
+    private Optional<QueueEvent> previousEvent;
 
     DefaultBambooInstance(final BambooInstanceProperties properties) {
         this(null, null);
@@ -110,7 +112,8 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         this.content = new InstanceContent();
         this.lookup = new AbstractLookup(content);
         this.suppressedPlans = new ArrayList<>();
-        this.client = client;
+        this.previousEvent = empty();
+        this.client = client;     
 
         addConnectionListener();
     }
@@ -201,16 +204,28 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     private void synchronizeProjects() {
-        Collection<ProjectVo> oldProjects = this.projects;
-        if (oldProjects == null || oldProjects.isEmpty()) {
+        Collection<ProjectVo> previous = copyProjects();
+        
+        if (previous.isEmpty()) {
             Collection<ProjectVo> newProjects = client.getProjects();
             setChildren(newProjects);
-            fireProjectsChanged(oldProjects, newProjects);
+            fireProjectsChanged(previous, newProjects);
         } else {
             client.updateProjects(this.projects);
             updateParent(this.projects);
-            fireProjectsChanged(oldProjects, this.projects);
+            fireProjectsChanged(previous, this.projects);
         }
+    }
+
+    /**
+     * Copy the previous synchronized projects into a new collection.
+     */
+    private Collection<ProjectVo> copyProjects() {
+        Collection<ProjectVo> oldProjects = new ArrayList<>();
+        if(this.projects != null) {
+            oldProjects.addAll(this.projects);
+        }
+        return oldProjects;
     }
 
     //set the parent if not present
@@ -317,8 +332,10 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             final Optional<ProjectVo> parent = plan.getParent();
             if (isChild(parent) && verifyAvailibility()) {
                 Response response = client.queue(plan);
-                QueueEventBuilder eventBuilder = QueueEvent.builder().plan(plan).response(response);
-                content.add(eventBuilder.build());
+                QueueEvent event = QueueEvent.builder().plan(plan).response(response).build();
+                previousEvent.ifPresent(content::remove);
+                content.add(event);
+                previousEvent = of(event);
             }
         });
     }

@@ -189,6 +189,8 @@ class DefaultBambooClient extends AbstractBambooClient {
         if (!source.isEmpty()) {
             ProjectsUpdater updater = new ProjectsUpdater();
             updater.update(source, projects);
+        }else{
+            projects.clear();
         }
     }
 
