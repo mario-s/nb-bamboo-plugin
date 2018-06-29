@@ -4,12 +4,12 @@
     <parent>
         <groupId>org.netbeans.modules</groupId>
         <artifactId>bamboo</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.2-SNAPSHOT</version>
     </parent>
 
     <groupId>org.netbeans.modules</groupId>
     <artifactId>bamboo-client</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>NetBeans Bamboo plugin client</name>
 
@@ -17,7 +17,7 @@
         <dependency>
             <groupId>org.netbeans.modules</groupId>
             <artifactId>bamboo-model</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.2-SNAPSHOT</version>
         </dependency>
 
         <dependency>
