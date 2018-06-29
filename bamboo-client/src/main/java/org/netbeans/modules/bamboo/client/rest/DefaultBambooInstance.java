@@ -55,7 +55,6 @@ import static java.util.Collections.emptyList;
 
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
-import org.netbeans.modules.bamboo.model.event.QueueEvent.QueueEventBuilder;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 

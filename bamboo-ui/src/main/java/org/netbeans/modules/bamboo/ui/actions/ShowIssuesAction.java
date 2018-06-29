@@ -52,7 +52,6 @@ import static org.openide.util.NbBundle.getMessage;
 })
 public class ShowIssuesAction extends AbstractResultAction {
 
-
     public ShowIssuesAction() {
     }
 
@@ -95,14 +94,13 @@ public class ShowIssuesAction extends AbstractResultAction {
     }
 
     private void printIssues(String name, Collection<IssueVo> changes) {
-        OutputWriter out = getOut(name);
-        changes.forEach(issue -> {
-            String issueText = getMessage(ShowIssuesAction.class, "Issue_Text", new Object[]{issue.getKey(), issue.getSummary()});
-            String link = issue.getLink();
-            out.println(issueText, Hyperlink.from(() -> BrowserInstance.Instance.showURL(link)));
-        });
-        out.close();
+        try (OutputWriter out = getOut(name)) {
+            changes.forEach(issue -> {
+                String issueText = getMessage(ShowIssuesAction.class, "Issue_Text", new Object[]{issue.getKey(), issue.getSummary()});
+                String link = issue.getLink();
+                out.println(issueText, Hyperlink.from(() -> BrowserInstance.Instance.showURL(link)));
+            });
+        }
     }
-
 
 }

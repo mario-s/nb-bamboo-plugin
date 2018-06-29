@@ -95,9 +95,10 @@ abstract class AbstractResultAction extends AbstractContextAction {
         String reason = result.getBuildReason();
         String normalized = (!isBlank(reason)) ? extractor.removeTags(reason) : "";
         String msg = getMessage(AbstractResultAction.class, messageKey, new Object[]{normalized});
-        OutputWriter out = getOut(name);
-        out.println(msg);
-        out.close();
+        
+        try(OutputWriter out = getOut(name)){
+            out.println(msg);
+        }
     }
 
 

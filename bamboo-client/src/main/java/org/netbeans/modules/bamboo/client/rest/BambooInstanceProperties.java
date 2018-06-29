@@ -105,6 +105,10 @@ public class BambooInstanceProperties extends HashMap<String, String> {
         return o;
     }
 
+    /**
+     * This method returns <code>true</code> if the instance is persisted.
+     * @return boolean
+     */
     public final boolean isPersisted() {
         String pers = get(INSTANCE_PERSISTED);
 
@@ -119,6 +123,10 @@ public class BambooInstanceProperties extends HashMap<String, String> {
         pcs.removePropertyChangeListener(l);
     }
 
+    /**
+     * Returns all listeners which are currently registered.
+     * @return a collection of property change listeners.
+     */
     public List<PropertyChangeListener> getCurrentListeners() {
         return Arrays.asList(pcs.getPropertyChangeListeners());
     }

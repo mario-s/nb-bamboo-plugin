@@ -25,7 +25,12 @@ import java.util.Collection;
  * @author Mario Schroeder
  */
 public interface InstanceManageable extends Lookup.Provider {
-
+    
+    /**
+     * Get the content from this provider.
+     * 
+     * @return {@link InstanceContent}
+     */
     InstanceContent getContent();
 
     /**

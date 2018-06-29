@@ -97,24 +97,23 @@ public class ShowChangesAction extends AbstractResultAction {
     }
 
     private void printChanges(String name, Collection<ChangeVo> changes) {
-        OutputWriter out = getOut(name);
-        changes.forEach(change -> {
-            StringBuilder builder = new StringBuilder();
-            builder.append(DateFormatter.format(change.getDate())).append(SPC);
-            builder.append(change.getAuthor()).append(SPC).append(change.getComment());
-            out.println(builder.toString());
+        try (OutputWriter out = getOut(name)) {
+            changes.forEach(change -> {
+                StringBuilder builder = new StringBuilder();
+                builder.append(DateFormatter.format(change.getDate())).append(SPC);
+                builder.append(change.getAuthor()).append(SPC).append(change.getComment());
+                out.println(builder.toString());
 
-            final String commitUrl = change.getCommitUrl();
-            out.println(commitUrl, Hyperlink.from(() -> BrowserInstance.Instance.showURL(commitUrl)));
-            out.println();
+                final String commitUrl = change.getCommitUrl();
+                out.println(commitUrl, Hyperlink.from(() -> BrowserInstance.Instance.showURL(commitUrl)));
+                out.println();
 
-            change.getFiles().forEach(file -> {
-                out.println(format(" %s", file.getName()));
+                change.getFiles().forEach(file -> {
+                    out.println(format(" %s", file.getName()));
+                });
+                out.println("\n");
             });
-            out.println("\n");
-        });
-        out.close();
+        }
     }
-
 
 }

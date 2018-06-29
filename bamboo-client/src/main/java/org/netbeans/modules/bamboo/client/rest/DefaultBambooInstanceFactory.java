@@ -32,6 +32,9 @@ import static java.util.Optional.of;
 import org.netbeans.modules.bamboo.client.glue.BambooClient;
 
 /**
+ * Factory for a new {@link BambooInstance}.
+ * 
+ * @author Mario Schroeder
  */
 @ServiceProvider(service = BambooInstanceProduceable.class)
 public class DefaultBambooInstanceFactory implements BambooInstanceProduceable {
