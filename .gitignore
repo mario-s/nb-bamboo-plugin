@@ -3,3 +3,12 @@ target/
 /bamboo-ui/nbproject/
 /bamboo-model/nbproject/
 /bamboo-client/nbproject/
+
+.DS_Store
+
+.classpath
+.factorypath
+.project
+.settings/
+
+.vscode/
