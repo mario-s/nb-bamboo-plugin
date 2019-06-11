@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.netbeans.modules.bamboo.client.glue.BuildStatusWatchable;
 import org.netbeans.modules.bamboo.LookupContext;
 
@@ -43,7 +43,7 @@ import static org.openide.util.Lookup.getDefault;
 /**
  * @author Mario Schroeder
  */
-@Log
+@Slf4j
 @ServiceProvider(service = InstanceManageable.class)
 public class DefaultInstanceManager implements InstanceManageable, PropertyChangeListener {
 
@@ -181,7 +181,7 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
                 instances.add(loadInstance(name));
             }
 
-            log.finer(String.format("loaded nodes: %s", names.length));
+            log.debug("loaded nodes: {}", names.length);
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
@@ -199,7 +199,7 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
 
             putInMap(instance);
         } catch (IllegalStateException e) {
-            log.warning(e.getMessage());
+            log.warn(e.getMessage());
         }
 
         return instance;

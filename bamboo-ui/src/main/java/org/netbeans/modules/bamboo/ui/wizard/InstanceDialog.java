@@ -79,7 +79,7 @@ public class InstanceDialog extends DialogDescriptor implements InstanceProperti
 
                 if (WorkerEvents.INSTANCE_CREATED.name().equals(propName) && dialog.isVisible()) {
                     dialog.dispose();
-                }else if(WorkerEvents.INVALID_URL.name().equals(propName)) {
+                } else if (WorkerEvents.INVALID_URL.name().equals(propName)) {
                     notificationLineSupport.setErrorMessage(ERR_URL());
                     form.unblock();
                     form.setFocus(1);

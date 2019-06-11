@@ -66,7 +66,7 @@ public class ShowChangesAction extends AbstractResultAction {
     }
 
     @Override
-    protected void doRun(ResultVo res) {
+    protected void process(ResultVo res) {
         attachChangesIfAbsent(res);
 
         printResult(res);

@@ -286,6 +286,12 @@
             </dependency>
             
             <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-jdk14</artifactId>
+                <version>1.7.26</version>
+            </dependency>
+            
+            <dependency>
                 <groupId>org.jodd</groupId>
                 <artifactId>jodd-bean</artifactId>
                 <version>3.8.1</version>
@@ -434,6 +440,11 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
         </dependency>
 
         <dependency>

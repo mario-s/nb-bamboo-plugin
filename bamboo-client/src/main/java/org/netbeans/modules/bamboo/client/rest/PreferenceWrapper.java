@@ -15,14 +15,14 @@ package org.netbeans.modules.bamboo.client.rest;
 
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 import org.openide.util.NbPreferences;
 
 /**
  *
  */
-@Log
+@Slf4j
 class PreferenceWrapper {
     
     private PreferenceWrapper(){}

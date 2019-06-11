@@ -16,6 +16,7 @@ package org.netbeans.modules.bamboo.ui.actions;
 import java.awt.event.ActionEvent;
 import java.util.Collection;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 
@@ -34,6 +35,7 @@ import org.openide.util.RequestProcessor;
  *
  * @author Mario Schroeder
  */
+@Slf4j
 @NbBundle.Messages({
     "No_Changes=No changes. Build reason: {0}",
     "No_Issues=No issues. Build reason: {0}"
@@ -79,11 +81,13 @@ abstract class AbstractResultAction extends AbstractContextAction {
     @Override
     public void actionPerformed(ActionEvent ae) {
         findFirst().ifPresent(p -> new RequestProcessor(getClass()).post(() -> {
-            doRun(p.getResult());
+            ResultVo r = p.getResult();
+            log.debug("result to process: {}", r);
+            process(r);
         }));
     }
     
-    protected abstract void doRun(ResultVo res);
+    protected abstract void process(ResultVo res);
 
     /**
      * Prints only the build reason
@@ -100,6 +104,4 @@ abstract class AbstractResultAction extends AbstractContextAction {
             out.println(msg);
         }
     }
-
-
 }

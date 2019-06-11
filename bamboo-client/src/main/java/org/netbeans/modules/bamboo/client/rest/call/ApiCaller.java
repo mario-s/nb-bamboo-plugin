@@ -13,7 +13,6 @@
  */
 package org.netbeans.modules.bamboo.client.rest.call;
 
-import static java.lang.String.format;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -24,12 +23,11 @@ import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
-import java.util.logging.Level;
 import javax.ws.rs.WebApplicationException;
 
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
@@ -38,7 +36,7 @@ import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
  *
  * @author Mario Schroeder
  */
-@Log
+@Slf4j
 class ApiCaller<T> implements ApiCallable {
 
     private final Class<T> clazz;
@@ -76,8 +74,8 @@ class ApiCaller<T> implements ApiCallable {
 
         if (isNotBlank(url) && isNotBlank(user) && isNotEmpty(chars)) {
             opt = of(newTarget());
-        } else if (log.isLoggable(Level.WARNING)) {
-            log.warning("Invalid values for instance");
+        } else {
+            log.warn("Invalid values for instance");
         }
 
         return opt;
@@ -92,12 +90,10 @@ class ApiCaller<T> implements ApiCallable {
         T response = null;
         
         try {
-            if (log.isLoggable(Level.INFO)) {
-                log.info(format("calling URI: %s", target.getUri()));
-            }
+            log.debug("calling URI: {}", target.getUri());
             response = target.request().accept(media).get(clazz);
         } catch (WebApplicationException ex) {
-            log.warning(ex.toString());
+            log.warn(ex.getMessage());
         }
         
         return response;

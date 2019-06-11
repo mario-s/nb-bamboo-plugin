@@ -13,25 +13,22 @@
  */
 package org.netbeans.modules.bamboo.client.rest.call;
 
-
 import java.util.Optional;
 import javax.ws.rs.client.WebTarget;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
-import java.util.logging.Level;
-
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.netbeans.modules.bamboo.model.rest.Responseable;
 
 /**
- * This class can be used to perform a second call to the REST API. It is used in cases where we don't know the
- * maximum of expected result upfront.
+ * This class can be used to perform a second call to the REST API. It is used
+ * in cases where we don't know the maximum of expected result upfront.
  *
  * @author Mario Schroeder
  */
-@Log
-class ApiCallRepeater<T extends Responseable> extends ApiCaller<T> implements ApiCallRepeatable{
+@Slf4j
+class ApiCallRepeater<T extends Responseable> extends ApiCaller<T> implements ApiCallRepeatable {
 
     private Optional<T> opt = empty();
 
@@ -48,11 +45,9 @@ class ApiCallRepeater<T extends Responseable> extends ApiCaller<T> implements Ap
         if (size > max) {
             WebTarget target = newTarget().queryParam(MAX, size);
             T response = doGet(target);
-            
-            if(log.isLoggable(Level.FINE)) {
-                log.fine(String.format("got all items: %s", response));
-            }
-            
+
+            log.debug("got all items: {}", response);
+
             opt = ofNullable(response);
         }
 

@@ -21,5 +21,9 @@ import java.util.function.Consumer;
  */
 public interface InstanceInvokeable extends Availability{
     
+    /**
+     * Invokes an action on the instance.
+     * @param action an action that returns the BambooInstance.
+     */
     void invoke(final Consumer<BambooInstance> action);
 }

@@ -65,7 +65,7 @@ public class ShowIssuesAction extends AbstractResultAction {
     }
 
     @Override
-    protected void doRun(ResultVo res) {
+    protected void process(ResultVo res) {
         attachIssues(res);
 
         printResult(res);

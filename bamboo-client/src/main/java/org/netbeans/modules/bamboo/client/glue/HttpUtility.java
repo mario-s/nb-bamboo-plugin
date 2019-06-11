@@ -17,9 +17,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import lombok.extern.java.Log;
-
-import static java.lang.String.format;
+import lombok.extern.slf4j.Slf4j;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
@@ -27,10 +25,10 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  *
  * @author Mario Schroeder
  */
-@Log
+@Slf4j
 public final class HttpUtility {
 
-    private static final String WRONG_URL = "url is wrong: %s";
+    private static final String WRONG_URL = "url is wrong: {}";
 
     /**
      * Checks if the server behind the url answers with a valid http response.
@@ -50,7 +48,7 @@ public final class HttpUtility {
                     exists = isValid(status);
                 }
             } catch (IOException ex) {
-                log.info(format(WRONG_URL, ex.getMessage()));
+                log.info(WRONG_URL, ex.getMessage());
             }
         }
         return exists;
