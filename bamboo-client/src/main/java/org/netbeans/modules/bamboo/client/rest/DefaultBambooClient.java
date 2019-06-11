@@ -73,6 +73,7 @@ import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 import static java.lang.String.format;
+import static java.util.Optional.ofNullable;
 
 /**
  * @author Mario Schroeder
@@ -160,7 +161,7 @@ class DefaultBambooClient extends AbstractBambooClient {
         Optional<WebTarget> target = caller.createTarget();
         if (target.isPresent()) {
             Result response = caller.doGet(target.get());
-            result = of(response);
+            result = ofNullable(response);
         }
 
         return result;
