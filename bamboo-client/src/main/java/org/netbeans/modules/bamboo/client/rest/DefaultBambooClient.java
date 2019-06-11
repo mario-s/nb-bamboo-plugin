@@ -72,12 +72,15 @@ import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 import static java.lang.String.format;
+import java.util.function.Function;
 
 /**
  * @author Mario Schroeder
  */
 @Log
 class DefaultBambooClient extends AbstractBambooClient {
+    
+    private Function<VoConverter, CollectionVoConverter> conv = CollectionVoConverter::new;
 
     private final ApiCallerFactory apiCallerFactory;
 
@@ -91,6 +94,7 @@ class DefaultBambooClient extends AbstractBambooClient {
     }
 
     private Collection<Plan> doPlansCall() {
+        log.info("requesting plans...");
         Set<Plan> results = new HashSet<>();
         ApiCallRepeatable caller = apiCallerFactory.newRepeatCaller(PlansResponse.class, PLANS);
         doRepeatableCall(caller, results);
@@ -98,6 +102,7 @@ class DefaultBambooClient extends AbstractBambooClient {
     }
 
     private Collection<Result> doResultsCall() {
+        log.info("requesting results...");
         Set<Result> results = new HashSet<>();
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
         ApiCallRepeatable caller = apiCallerFactory.newRepeatCaller(ResultsResponse.class, RESULTS, params);
@@ -141,29 +146,19 @@ class DefaultBambooClient extends AbstractBambooClient {
 
         result.ifPresent(res -> {
             if (ResultExpandParameter.Changes.equals(expandParameter)) {
-                vo.setChanges(newCollectionConverter(new ChangeVoConverter()).convert(res.getChanges()));
+                vo.setChanges(conv.apply(new ChangeVoConverter()).convert(res.getChanges()));
             } else if (ResultExpandParameter.Jira.equals(expandParameter)) {
-                vo.setIssues(newCollectionConverter(new IssueVoConverter()).convert(res.getJiraIssues()));
+                vo.setIssues(conv.apply(new IssueVoConverter()).convert(res.getJiraIssues()));
             }
         });
     }
 
-    private CollectionVoConverter newCollectionConverter(VoConverter converter) {
-        return new CollectionVoConverter(converter);
-    }
 
     private Optional<Result> doResultCall(String resultKey, String expandParameter) {
-        Optional<Result> result = empty();
-
         String path = format(RESULT, resultKey);
         Map<String, String> params = singletonMap(EXPAND, expandParameter);
-        ApiCallable<Result> caller = apiCallerFactory.newCaller(Result.class, path, params);
-        Optional<WebTarget> target = caller.createTarget();
-        if (target.isPresent()) {
-            result = caller.doGet(target.get());
-        }
-
-        return result;
+        ApiCallable<Result> caller = apiCallerFactory.newCaller(Result.class, path, params);        
+        return caller.createTarget().map(caller::doGet).orElse(empty());
     }
 
     @Override
