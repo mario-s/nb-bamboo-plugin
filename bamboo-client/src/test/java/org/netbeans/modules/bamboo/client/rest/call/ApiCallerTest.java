@@ -17,6 +17,7 @@ import static java.util.Collections.singletonMap;
 
 import java.util.Map;
 import java.util.Optional;
+import static java.util.Optional.of;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
@@ -119,13 +120,13 @@ public class ApiCallerTest {
      * Test of doGet method, of class ApiCaller.
      */
     @Test
-    public void testGetRequest_ExpectNotNull() {
+    public void testGetRequest_ExpectPresent() {
         given(target.request()).willReturn(builder);
         given(builder.accept(anyString())).willReturn(builder);
         given(builder.get(Info.class)).willReturn(new Info());
 
-        Info result = classUnderTest.doGet(target);
-        assertThat(result, notNullValue());
+        Optional<Info> result = classUnderTest.doGet(target);
+        assertThat(result.isPresent(), is(true));
     }
 
     /**

@@ -54,7 +54,6 @@ import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
 import static java.util.Collections.singletonMap;
 
 import static java.util.Optional.empty;
-import static java.util.Optional.of;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.EXPAND;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.PROJECT_PLANS;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.RESULT_COMMENTS;
@@ -73,7 +72,6 @@ import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 import static java.lang.String.format;
-import static java.util.Optional.ofNullable;
 
 /**
  * @author Mario Schroeder
@@ -111,12 +109,13 @@ class DefaultBambooClient extends AbstractBambooClient {
             Set<? extends ServiceInfoProvideable> results) {
         final Optional<WebTarget> opt = apiCaller.createTarget();
         opt.ifPresent(target -> {
-            Responseable initialResponse = apiCaller.doGet(target);
-            logResponse(initialResponse);
-            results.addAll(initialResponse.asCollection());
+            apiCaller.doGet(target).ifPresent(initialResponse -> {
+                logResponse(initialResponse);
+                results.addAll(initialResponse.asCollection());
 
-            apiCaller.repeat(initialResponse).ifPresent(response -> {
-                results.addAll(response.asCollection());
+                apiCaller.repeat(initialResponse).ifPresent(response -> {
+                    results.addAll(response.asCollection());
+                });
             });
         });
     }
@@ -124,9 +123,10 @@ class DefaultBambooClient extends AbstractBambooClient {
     private void doSimpleCall(ApiCallable<? extends AbstractResponse> apiCaller, Set results) {
 
         apiCaller.createTarget().ifPresent(target -> {
-            AbstractResponse initialResponse = apiCaller.doGet(target);
-            logResponse(initialResponse);
-            results.addAll(initialResponse.asCollection());
+            apiCaller.doGet(target).ifPresent(initialResponse -> {
+                logResponse(initialResponse);
+                results.addAll(initialResponse.asCollection());
+            });
         });
     }
 
@@ -147,7 +147,7 @@ class DefaultBambooClient extends AbstractBambooClient {
             }
         });
     }
-    
+
     private CollectionVoConverter newCollectionConverter(VoConverter converter) {
         return new CollectionVoConverter(converter);
     }
@@ -160,8 +160,7 @@ class DefaultBambooClient extends AbstractBambooClient {
         ApiCallable<Result> caller = apiCallerFactory.newCaller(Result.class, path, params);
         Optional<WebTarget> target = caller.createTarget();
         if (target.isPresent()) {
-            Result response = caller.doGet(target.get());
-            result = ofNullable(response);
+            result = caller.doGet(target.get());
         }
 
         return result;
@@ -190,7 +189,7 @@ class DefaultBambooClient extends AbstractBambooClient {
         if (!source.isEmpty()) {
             ProjectsUpdater updater = new ProjectsUpdater();
             updater.update(source, projects);
-        }else{
+        } else {
             projects.clear();
         }
     }
@@ -249,7 +248,7 @@ class DefaultBambooClient extends AbstractBambooClient {
         Optional<WebTarget> opt = infoCaller.createTarget();
 
         if (opt.isPresent()) {
-            Info info = infoCaller.doGet(opt.get());
+            Info info = infoCaller.doGet(opt.get()).orElse(new Info());
             VersionInfoConverter converter = new VersionInfoConverter();
             versionInfo = converter.convert(info);
         }

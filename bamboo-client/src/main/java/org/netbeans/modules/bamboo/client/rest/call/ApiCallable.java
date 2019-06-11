@@ -42,7 +42,7 @@ public interface ApiCallable<T> {
      * @param target the target to be called
      * @return the result
      */
-    T doGet(final WebTarget target);
+    Optional<T> doGet(final WebTarget target);
 
     /**
      * Simple doPost without any values

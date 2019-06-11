@@ -40,6 +40,7 @@ import static java.util.Optional.empty;
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import org.mockito.InOrder;
 import org.netbeans.modules.bamboo.model.rest.Plans;
 
@@ -48,8 +49,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 
 
 /**
@@ -73,6 +76,8 @@ public class RepeatApiCallerTest {
 
     @Before
     public void setUp() {
+        reset(builder);
+        
         classUnderTest = new ApiCallRepeater<>(new CallParameters(PlansResponse.class, values));
         setInternalState(classUnderTest, "webTargetFactory", webTargetFactory);
         
@@ -132,8 +137,11 @@ public class RepeatApiCallerTest {
      * Test of doGet method, of class ApiCaller.
      */
     @Test
-    public void testGetRequest() {
+    public void doGet() {
         given(target.request()).willReturn(builder);
+        given(builder.accept(MediaType.APPLICATION_XML)).willReturn(builder);
+        given(builder.get(eq(PlansResponse.class))).willReturn(new PlansResponse());
+        
         classUnderTest.doGet(target);
         verify(builder).get(PlansResponse.class);
     }

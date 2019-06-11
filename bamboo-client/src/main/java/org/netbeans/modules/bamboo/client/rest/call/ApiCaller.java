@@ -86,16 +86,15 @@ class ApiCaller<T> implements ApiCallable {
     }
 
     @Override
-    public T doGet(final WebTarget target) {
-        T response = null;
+    public Optional<T> doGet(final WebTarget target) {
         
         try {
             log.info("calling URI: {}", target.getUri());
-            response = target.request().accept(media).get(clazz);
+            return of(target.request().accept(media).get(clazz));
         } catch (WebApplicationException ex) {
             log.warn(ex.getMessage());
         }
         
-        return response;
+        return empty();
     }
 }

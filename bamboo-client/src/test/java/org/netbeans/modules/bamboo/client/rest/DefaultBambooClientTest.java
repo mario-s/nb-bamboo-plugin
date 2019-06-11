@@ -179,22 +179,22 @@ public class DefaultBambooClientTest {
         info.setBuildDate("2014-12-02T07:43:02.000+01:00");
 
         given(projectsCaller.createTarget()).willReturn(of(webTarget));
-        given(projectsCaller.doGet(webTarget)).willReturn(projectsResponse);
+        given(projectsCaller.doGet(webTarget)).willReturn(of(projectsResponse));
         given(projectsCaller.repeat(projectsResponse)).willReturn(empty());
 
         given(plansCaller.createTarget()).willReturn(of(webTarget));
-        given(plansCaller.doGet(webTarget)).willReturn(plansResponse);
+        given(plansCaller.doGet(webTarget)).willReturn(of(plansResponse));
         given(plansCaller.repeat(plansResponse)).willReturn(of(plansResponse));
 
         given(resultsCaller.createTarget()).willReturn(of(webTarget));
-        given(resultsCaller.doGet(webTarget)).willReturn(resultsResponse);
+        given(resultsCaller.doGet(webTarget)).willReturn(of(resultsResponse));
         given(resultsCaller.repeat(resultsResponse)).willReturn(of(resultsResponse));
 
         given(infoCaller.createTarget()).willReturn(of(webTarget));
-        given(infoCaller.doGet(webTarget)).willReturn(info);
+        given(infoCaller.doGet(webTarget)).willReturn(of(info));
 
         given(resultCaller.createTarget()).willReturn(of(webTarget));
-        given(resultCaller.doGet(webTarget)).willReturn(result);
+        given(resultCaller.doGet(webTarget)).willReturn(of(result));
 
         trainApiCallerFactory();
     }
@@ -318,7 +318,7 @@ public class DefaultBambooClientTest {
         changes.setChanges(singletonList(change));
         result.setChanges(changes);
 
-        given(resultCaller.doGet(webTarget)).willReturn(result);
+        given(resultCaller.doGet(webTarget)).willReturn(of(result));
         ResultVo vo = new ResultVo();
 
         classUnderTest.attach(vo, ResultExpandParameter.Changes);
@@ -341,7 +341,7 @@ public class DefaultBambooClientTest {
         issues.setIssues(singletonList(issue));
         result.setJiraIssues(issues);
 
-        given(resultCaller.doGet(webTarget)).willReturn(result);
+        given(resultCaller.doGet(webTarget)).willReturn(of(result));
         ResultVo vo = new ResultVo();
 
         classUnderTest.attach(vo, ResultExpandParameter.Jira);

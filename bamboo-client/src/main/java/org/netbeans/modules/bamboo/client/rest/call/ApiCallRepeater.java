@@ -44,11 +44,8 @@ class ApiCallRepeater<T extends Responseable> extends ApiCaller<T> implements Ap
         opt = empty();
         if (size > max) {
             WebTarget target = newTarget().queryParam(MAX, size);
-            T response = doGet(target);
-
-            log.debug("got all items: {}", response);
-
-            opt = ofNullable(response);
+            opt = doGet(target);
+            log.debug("got all items: {}", opt.isPresent());
         }
 
         return opt;
