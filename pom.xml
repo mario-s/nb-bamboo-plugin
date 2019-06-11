@@ -29,7 +29,7 @@
         <developer>
             <id>spindizzy</id>
             <name>Mario Schroeder</name>
-            <timezone>+2</timezone>
+            <timezone>+1</timezone>
         </developer>
     </developers>
 
@@ -117,7 +117,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>cobertura-maven-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>2.7</version>
                     <configuration>
                         <quiet>true</quiet>
                         <formats>
@@ -282,7 +282,7 @@
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.16.8</version>
+                <version>1.16.14</version>
             </dependency>
             
             <dependency>
