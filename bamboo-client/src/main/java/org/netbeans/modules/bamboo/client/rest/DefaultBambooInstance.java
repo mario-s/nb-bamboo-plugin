@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import java.util.logging.Level;
 import java.util.prefs.Preferences;
 import javax.ws.rs.core.Response;
 import org.netbeans.api.annotations.common.NonNull;
@@ -40,7 +39,6 @@ import org.apache.commons.lang3.time.StopWatch;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
-import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 
 import static org.netbeans.modules.bamboo.client.glue.InstanceConstants.PROP_SYNC_INTERVAL;
@@ -52,6 +50,7 @@ import org.netbeans.modules.bamboo.client.glue.InstanceConstants;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import lombok.extern.slf4j.Slf4j;
 
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
@@ -66,7 +65,7 @@ import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 /**
  * @author Mario Schroeder
  */
-@Log
+@Slf4j
 class DefaultBambooInstance extends DefaultInstanceValues implements BambooInstance {
 
     /**
@@ -185,15 +184,15 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     private void startWatch() {
-        if (log.isLoggable(Level.INFO)) {
+        if (log.isInfoEnabled()) {
             stopWatch.start();
         }
     }
 
     private void stopWatch() {
-        if (log.isLoggable(Level.INFO)) {
+        if (log.isInfoEnabled()) {
             stopWatch.stop();
-            log.info(format("synchronized %s in %s", getName(), stopWatch));
+            log.info("synchronized {} in {}", getName(), stopWatch);
             stopWatch.reset();
         }
     }
@@ -318,7 +317,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         boolean oldVal = this.available;
         available = client.existsService();
 
-        log.log(Level.INFO, "service is available: {0}", available);
+        log.info("service is available: {0}", available);
 
         firePropertyChange(ModelChangedValues.Available.toString(), oldVal, available);
 

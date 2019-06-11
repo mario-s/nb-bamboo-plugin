@@ -33,6 +33,9 @@ import org.netbeans.modules.bamboo.ui.BrowserInstance;
 
 import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Changes;
 import static java.lang.String.format;
+import java.util.function.Consumer;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import static org.openide.util.NbBundle.getMessage;
 
 /**
@@ -74,7 +77,10 @@ public class ShowChangesAction extends AbstractResultAction {
 
     private void attachChangesIfAbsent(ResultVo res) {
         if (!res.requestedChanges()) {
-            res.getParent().ifPresent(p -> p.invoke(instance -> instance.expand(res, Changes)));
+            res.getParent().ifPresent(p -> { 
+                Consumer<BambooInstance> action = inst -> inst.expand(res, Changes);
+                p.invoke(action);
+            });
         }
     }
 
