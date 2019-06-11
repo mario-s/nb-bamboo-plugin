@@ -18,7 +18,8 @@ import java.util.Optional;
 import javax.ws.rs.client.WebTarget;
 
 import static java.util.Optional.empty;
-import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
+import java.util.logging.Level;
 
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.rest.Responseable;
@@ -47,8 +48,12 @@ class ApiCallRepeater<T extends Responseable> extends ApiCaller<T> implements Ap
         if (size > max) {
             WebTarget target = newTarget().queryParam(MAX, size);
             T response = doGet(target);
-            log.fine(String.format("got all items: %s", response));
-            opt = of(response);
+            
+            if(log.isLoggable(Level.FINE)) {
+                log.fine(String.format("got all items: %s", response));
+            }
+            
+            opt = ofNullable(response);
         }
 
         return opt;

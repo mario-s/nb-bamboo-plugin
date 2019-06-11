@@ -13,6 +13,7 @@
  */
 package org.netbeans.modules.bamboo.client.rest.call;
 
+import static java.lang.String.format;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -24,6 +25,7 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 import java.util.logging.Level;
+import javax.ws.rs.WebApplicationException;
 
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
@@ -33,18 +35,19 @@ import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
  * This class performs a a call to the REST API of Bamboo.
+ *
  * @author Mario Schroeder
  */
 @Log
-class ApiCaller<T> implements ApiCallable{
+class ApiCaller<T> implements ApiCallable {
 
     private final Class<T> clazz;
     private final String path;
     private final Map<String, String> parameters;
     private final InstanceValues values;
-    
+
     private final WebTargetFactory webTargetFactory;
-    
+
     private String media = MediaType.APPLICATION_XML;
 
     ApiCaller(final CallParameters<T> params) {
@@ -52,14 +55,14 @@ class ApiCaller<T> implements ApiCallable{
         this.values = params.getValues();
         this.path = params.getPath();
         this.parameters = params.getParameters();
-        
+
         webTargetFactory = new WebTargetFactory(this.values);
-        
+
         setMediaType(params.isJson());
     }
-    
+
     private void setMediaType(boolean isJson) {
-        if(isJson){
+        if (isJson) {
             media = MediaType.APPLICATION_JSON;
         }
     }
@@ -86,6 +89,17 @@ class ApiCaller<T> implements ApiCallable{
 
     @Override
     public T doGet(final WebTarget target) {
-        return target.request().accept(media).get(clazz);
+        T response = null;
+        
+        try {
+            if (log.isLoggable(Level.INFO)) {
+                log.info(format("calling URI: %s", target.getUri()));
+            }
+            response = target.request().accept(media).get(clazz);
+        } catch (WebApplicationException ex) {
+            log.warning(ex.toString());
+        }
+        
+        return response;
     }
 }
