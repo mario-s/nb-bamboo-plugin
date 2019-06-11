@@ -317,7 +317,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         boolean oldVal = this.available;
         available = client.existsService();
 
-        log.info("service is available: {0}", available);
+        log.info("service is available: {}", available);
 
         firePropertyChange(ModelChangedValues.Available.toString(), oldVal, available);
 
