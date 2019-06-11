@@ -90,7 +90,7 @@ class ApiCaller<T> implements ApiCallable {
         T response = null;
         
         try {
-            log.debug("calling URI: {}", target.getUri());
+            log.info("calling URI: {}", target.getUri());
             response = target.request().accept(media).get(clazz);
         } catch (WebApplicationException ex) {
             log.warn(ex.getMessage());
