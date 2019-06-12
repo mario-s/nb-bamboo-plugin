@@ -16,6 +16,7 @@ package org.netbeans.modules.bamboo.ui.actions;
 import java.util.Collection;
 
 import static java.util.Collections.emptyList;
+import java.util.function.Consumer;
 
 import javax.swing.Action;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
@@ -27,9 +28,11 @@ import org.openide.util.NbBundle;
 
 import org.netbeans.api.io.Hyperlink;
 import org.netbeans.api.io.OutputWriter;
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.ui.BrowserInstance;
 
 import org.netbeans.modules.bamboo.model.rcp.IssueVo;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Jira;
 import static org.openide.util.NbBundle.getMessage;
 
@@ -50,7 +53,7 @@ import static org.openide.util.NbBundle.getMessage;
     "Issues_Output_Title=Issues for {0} #{1}",
     "Issue_Text={0}: {1}"
 })
-public class ShowIssuesAction extends AbstractResultAction {
+public class ShowIssuesAction extends AbstractPlanAction {
 
     public ShowIssuesAction() {
     }
@@ -65,32 +68,32 @@ public class ShowIssuesAction extends AbstractResultAction {
     }
 
     @Override
-    protected void process(ResultVo res) {
-        attachIssues(res);
+    protected void process(PlanVo plan) {
+        ResultVo result = plan.getResult();
+        attachIssues(plan, result);
 
-        printResult(res);
+        printResult(plan, result);
     }
 
-    private void attachIssues(ResultVo res) {
-        res.getParent().ifPresent(p -> p.invoke(instance -> instance.expand(res, Jira)));
+    private void attachIssues(PlanVo plan, ResultVo result) {
+        Consumer<BambooInstance> action = inst -> inst.expand(result, Jira);
+        plan.invoke(action);
     }
 
-    private void printResult(ResultVo res) {
-        res.getParent().ifPresent(plan -> {
-            Object[] args = new Object[]{plan.getName(), res.getNumber()};
-            String title = getMessage(ShowIssuesAction.class, "Issues_Output_Title", args);
-            Collection<IssueVo> issues = getIssues(res);
+    private void printResult(PlanVo plan, ResultVo result) {
+        Object[] args = new Object[]{plan.getName(), result.getNumber()};
+        String title = getMessage(ShowIssuesAction.class, "Issues_Output_Title", args);
+        Collection<IssueVo> issues = getIssues(result);
 
-            if (!issues.isEmpty()) {
-                printIssues(title, issues);
-            } else {
-                printBuildReason(title, "No_Issues", res);
-            }
-        });
+        if (!issues.isEmpty()) {
+            printIssues(title, issues);
+        } else {
+            printBuildReason(title, "No_Issues", result);
+        }
     }
 
-    private Collection<IssueVo> getIssues(ResultVo res) {
-        return res.getIssues().orElse(emptyList());
+    private Collection<IssueVo> getIssues(ResultVo result) {
+        return result.getIssues().orElse(emptyList());
     }
 
     private void printIssues(String name, Collection<IssueVo> changes) {

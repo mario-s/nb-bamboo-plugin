@@ -130,7 +130,7 @@ public class ShowChangesActionTest {
         ResultVo result = new ResultVo();
         plan.setResult(result);
         
-        classUnderTest.process(result);
+        classUnderTest.process(plan);
         
         verify(instance).expand(result, Changes);
     }
@@ -153,7 +153,7 @@ public class ShowChangesActionTest {
         
         plan.setResult(result);
         
-        classUnderTest.process(result);
+        classUnderTest.process(plan);
         
         verify(instance, never()).expand(result, Changes);
     }

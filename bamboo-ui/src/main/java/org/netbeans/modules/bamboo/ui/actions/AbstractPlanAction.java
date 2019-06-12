@@ -40,16 +40,16 @@ import org.openide.util.RequestProcessor;
     "No_Changes=No changes. Build reason: {0}",
     "No_Issues=No issues. Build reason: {0}"
 })
-abstract class AbstractResultAction extends AbstractContextAction {
+abstract class AbstractPlanAction extends AbstractContextAction {
 
     protected static final String SPC = ": ";
 
     private Lookup.Result<InstanceInvokeable> result;
 
-    public AbstractResultAction() {
+    public AbstractPlanAction() {
     }
 
-    public AbstractResultAction(String name, Lookup context) {
+    public AbstractPlanAction(String name, Lookup context) {
         super(name, context);
         init();
     }
@@ -81,13 +81,14 @@ abstract class AbstractResultAction extends AbstractContextAction {
     @Override
     public void actionPerformed(ActionEvent ae) {
         findFirst().ifPresent(p -> new RequestProcessor(getClass()).post(() -> {
-            ResultVo r = p.getResult();
-            log.debug("result to process: {}", r);
-            process(r);
+            if(p.getResult() != null) {
+                log.debug("plan to process: {}", p);
+                process(p);
+            }
         }));
     }
     
-    protected abstract void process(ResultVo res);
+    protected abstract void process(PlanVo plan);
 
     /**
      * Prints only the build reason
@@ -98,7 +99,7 @@ abstract class AbstractResultAction extends AbstractContextAction {
         TextExtractor extractor = new TextExtractor();
         String reason = result.getBuildReason();
         String normalized = (!isBlank(reason)) ? extractor.removeTags(reason) : "";
-        String msg = getMessage(AbstractResultAction.class, messageKey, new Object[]{normalized});
+        String msg = getMessage(AbstractPlanAction.class, messageKey, new Object[]{normalized});
         
         try(OutputWriter out = getOut(name)){
             out.println(msg);

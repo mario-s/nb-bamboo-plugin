@@ -54,7 +54,7 @@ import static org.openide.util.NbBundle.getMessage;
     "CTL_ShowChangesAction=&Show Changes",
     "Changes_Output_Title=Changes for {0} #{1}"
 })
-public class ShowChangesAction extends AbstractResultAction {
+public class ShowChangesAction extends AbstractPlanAction {
 
     public ShowChangesAction() {
     }
@@ -69,37 +69,34 @@ public class ShowChangesAction extends AbstractResultAction {
     }
 
     @Override
-    protected void process(ResultVo res) {
-        attachChangesIfAbsent(res);
-
-        printResult(res);
+    protected void process(PlanVo plan) {
+        ResultVo result = plan.getResult();
+        attachChangesIfAbsent(plan, result);
+        printResult(plan, result);
     }
 
-    private void attachChangesIfAbsent(ResultVo res) {
-        if (!res.requestedChanges()) {
-            res.getParent().ifPresent(p -> { 
-                Consumer<BambooInstance> action = inst -> inst.expand(res, Changes);
-                p.invoke(action);
-            });
+    private void attachChangesIfAbsent(PlanVo plan, ResultVo result) {
+        if (!result.requestedChanges()) {
+            Consumer<BambooInstance> action = inst -> inst.expand(result, Changes);
+            plan.invoke(action);
         }
     }
 
-    private void printResult(ResultVo res) {
-        res.getParent().ifPresent(plan -> {
-            Object[] args = new Object[]{plan.getName(), res.getNumber()};
-            String title = getMessage(ShowChangesAction.class, "Changes_Output_Title", args);
-            Collection<ChangeVo> changes = getChanges(res);
+    private void printResult(PlanVo plan, ResultVo result) {
+        Object[] args = new Object[]{plan.getName(), result.getNumber()};
+        String title = getMessage(ShowChangesAction.class,
+                "Changes_Output_Title", args);
+        Collection<ChangeVo> changes = getChanges(result);
 
-            if (!changes.isEmpty()) {
-                printChanges(title, changes);
-            } else {
-                printBuildReason(title, "No_Changes", res);
-            }
-        });
+        if (!changes.isEmpty()) {
+            printChanges(title, changes);
+        } else {
+            printBuildReason(title, "No_Changes", result);
+        }
     }
 
-    private Collection<ChangeVo> getChanges(ResultVo res) {
-        return res.getChanges().orElse(emptyList());
+    private Collection<ChangeVo> getChanges(ResultVo result) {
+        return result.getChanges().orElse(emptyList());
     }
 
     private void printChanges(String name, Collection<ChangeVo> changes) {
@@ -111,8 +108,10 @@ public class ShowChangesAction extends AbstractResultAction {
                 out.println(builder.toString());
 
                 final String commitUrl = change.getCommitUrl();
-                out.println(commitUrl, Hyperlink.from(() -> BrowserInstance.Instance.showURL(commitUrl)));
-                out.println();
+                if(commitUrl != null) {
+                    out.println(commitUrl, Hyperlink.from(() -> BrowserInstance.Instance.showURL(commitUrl)));
+                    out.println();
+                }
 
                 change.getFiles().forEach(file -> {
                     out.println(format(" %s", file.getName()));

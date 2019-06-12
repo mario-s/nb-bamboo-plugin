@@ -126,7 +126,7 @@ public class ShowIssuesActionTest {
         ResultVo result = new ResultVo();
         plan.setResult(result);
         
-        classUnderTest.process(result);
+        classUnderTest.process(plan);
         
         verify(instance).expand(result, Jira);
     }
