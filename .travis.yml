@@ -3,3 +3,4 @@ jdk: openjdk11
 cache:
   directories:
   - $HOME/.m2
+install: travis_wait ./mvnw clean install
