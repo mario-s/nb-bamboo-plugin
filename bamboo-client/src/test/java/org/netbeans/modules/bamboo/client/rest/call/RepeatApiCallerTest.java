@@ -27,7 +27,6 @@ import org.junit.runner.RunWith;
 
 import org.mockito.Mock;
 
-import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -53,6 +52,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
+import org.springframework.test.util.ReflectionTestUtils;
 
 
 /**
@@ -79,7 +79,8 @@ public class RepeatApiCallerTest {
         reset(builder);
         
         classUnderTest = new ApiCallRepeater<>(new CallParameters(PlansResponse.class, values));
-        setInternalState(classUnderTest, "webTargetFactory", webTargetFactory);
+        
+        ReflectionTestUtils.setField(classUnderTest, "webTargetFactory", webTargetFactory);
         
         given(values.getPassword()).willReturn(FOO.toCharArray());
         given(values.getUrl()).willReturn(FOO);

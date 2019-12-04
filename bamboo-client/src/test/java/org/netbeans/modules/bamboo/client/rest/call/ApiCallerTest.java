@@ -17,7 +17,6 @@ import static java.util.Collections.singletonMap;
 
 import java.util.Map;
 import java.util.Optional;
-import static java.util.Optional.of;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
@@ -38,7 +37,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
-import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  *
@@ -69,7 +68,8 @@ public class ApiCallerTest {
         final CallParameters callParameters = new CallParameters(Info.class, values);
         callParameters.setParameters(FOO_MAP);
         classUnderTest = new ApiCaller<>(callParameters);
-        setInternalState(classUnderTest, "webTargetFactory", webTargetFactory);
+        
+        ReflectionTestUtils.setField(classUnderTest, "webTargetFactory", webTargetFactory);
 
         given(values.getPassword()).willReturn(FOO.toCharArray());
         given(values.getUrl()).willReturn(FOO);

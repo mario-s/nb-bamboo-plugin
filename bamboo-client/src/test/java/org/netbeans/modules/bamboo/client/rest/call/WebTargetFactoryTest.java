@@ -29,7 +29,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  *
@@ -49,7 +49,7 @@ public class WebTargetFactoryTest {
     
     @Before
     public void setUp() {
-        setInternalState(classUnderTest, "client", client);
+        ReflectionTestUtils.setField(classUnderTest, "client", client);
         
         given(values.getUrl()).willReturn(FOO);
         given(values.getUsername()).willReturn(FOO);

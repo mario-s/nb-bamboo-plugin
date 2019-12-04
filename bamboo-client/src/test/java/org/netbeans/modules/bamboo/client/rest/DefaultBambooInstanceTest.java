@@ -42,8 +42,6 @@ import static org.mockito.Mockito.inOrder;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
-
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
 
@@ -51,11 +49,11 @@ import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
-import org.mockito.internal.util.reflection.Whitebox;
 
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Changes;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  *
@@ -90,7 +88,7 @@ public class DefaultBambooInstanceTest {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws IllegalAccessException {
         classUnderTest = newInstance();
 
         plan = new PlanVo(FOO);
@@ -110,8 +108,8 @@ public class DefaultBambooInstanceTest {
 
         instance.setSyncInterval(5);
         instance.addPropertyChangeListener(listener);
-        setInternalState(instance, "client", client);
-
+        ReflectionTestUtils.setField(instance, "client", client);
+        
         return instance;
     }
 
@@ -213,9 +211,9 @@ public class DefaultBambooInstanceTest {
     }
     
     @Test
-    public void synchronize_ProjectsAreNotEmpty_ShouldUpdateProjects() throws InterruptedException {
+    public void synchronize_ProjectsAreNotEmpty_ShouldUpdateProjects() throws InterruptedException, IllegalAccessException{
         projects.add(project);
-        Whitebox.setInternalState(classUnderTest, "projects", projects);
+        ReflectionTestUtils.setField(classUnderTest, "projects", projects);
         classUnderTest.synchronize(false);
         waitForListener();
         

@@ -29,7 +29,6 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 
-import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -52,6 +51,7 @@ import org.openide.NotifyDescriptor;
 
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * @author Mario Schroeder
@@ -126,7 +126,7 @@ public class AddInstanceWorkerTest {
     @Test
     public void testTaskFinished_Cancel() {
         classUnderTest.execute(form);
-        setInternalState(classUnderTest, "cancel", true);
+        ReflectionTestUtils.setField(classUnderTest, "cancel", true);
 
         Task task = new Task(null);
         classUnderTest.taskFinished(task);

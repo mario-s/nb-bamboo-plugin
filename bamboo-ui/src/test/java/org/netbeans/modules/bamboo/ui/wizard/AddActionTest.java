@@ -24,7 +24,6 @@ import org.mockito.Mock;
 
 import static org.mockito.Mockito.verify;
 
-import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -35,6 +34,7 @@ import java.beans.PropertyChangeEvent;
 import static org.junit.Assert.assertFalse;
 import org.mockito.InjectMocks;
 import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * @author Mario Schroeder
@@ -57,8 +57,8 @@ public class AddActionTest {
     public void setUp() {
         given(form.getInstanceName()).willReturn(NAME);
         
-        setInternalState(classUnderTest, "instanceManager", manager);
-        setInternalState(classUnderTest, "worker", worker);
+        ReflectionTestUtils.setField(classUnderTest, "instanceManager", manager);
+        ReflectionTestUtils.setField(classUnderTest, "worker", worker);
     }
 
     /**

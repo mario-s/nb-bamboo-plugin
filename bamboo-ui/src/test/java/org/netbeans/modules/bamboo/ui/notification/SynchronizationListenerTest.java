@@ -26,7 +26,7 @@ import org.netbeans.modules.bamboo.model.rcp.ModelChangedValues;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-import static org.mockito.internal.util.reflection.Whitebox.getInternalState;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  *
@@ -73,7 +73,7 @@ public class SynchronizationListenerTest {
     }
 
     private Optional<ProgressHandle> getProgressHandle() {
-        return (Optional<ProgressHandle>) getInternalState(classUnderTest, "progressHandle");
+        return (Optional<ProgressHandle>) ReflectionTestUtils.getField(classUnderTest, "progressHandle");
     }
     
 }

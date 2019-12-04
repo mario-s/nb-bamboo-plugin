@@ -43,7 +43,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.never;
-import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({BrowserInstance.class})
@@ -64,7 +64,7 @@ public class OpenUrlActionTest {
     public void setUp() {
         Lookup lookup = LookupContext.Instance.getLookup();
         classUnderTest = new OpenUrlAction(lookup);
-        setInternalState(classUnderTest, "browser", browserInstance);
+        ReflectionTestUtils.setField(classUnderTest, "browser", browserInstance);
         given(openableInBrowser.getUrl()).willReturn("http://netbeans.org");
     }
 
