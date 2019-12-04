@@ -58,6 +58,14 @@
 
     <repositories>
         <repository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo1.maven.org/maven2/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>netbeans</id>
             <name>Repository hosting NetBeans modules</name>
             <url>http://bits.netbeans.org/nexus/content/groups/netbeans</url>
