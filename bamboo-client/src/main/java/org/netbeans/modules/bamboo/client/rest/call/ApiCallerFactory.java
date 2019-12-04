@@ -14,7 +14,6 @@
 package org.netbeans.modules.bamboo.client.rest.call;
 
 import java.util.Map;
-import lombok.AllArgsConstructor;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
 import static org.netbeans.modules.bamboo.client.glue.RestResources.JSON_PATH;
@@ -24,10 +23,13 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.JSON_PATH;
  *
  * @author Mario Schroeder
  */
-@AllArgsConstructor
 public class ApiCallerFactory {
 
     private final InstanceValues values;
+
+    public ApiCallerFactory(InstanceValues values) {
+        this.values = values;
+    }
 
     public ApiCallable newCaller(Class clazz, final String path) {
         return new ApiCaller<>(create(clazz, path));

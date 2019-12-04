@@ -16,7 +16,6 @@ package org.netbeans.modules.bamboo.ui.actions;
 import java.awt.event.ActionEvent;
 import java.util.Collection;
 import java.util.Optional;
-import lombok.extern.slf4j.Slf4j;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 
@@ -30,17 +29,20 @@ import org.openide.util.LookupEvent;
 import org.openide.util.NbBundle;
 import static org.openide.util.NbBundle.getMessage;
 import org.openide.util.RequestProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Mario Schroeder
  */
-@Slf4j
 @NbBundle.Messages({
     "No_Changes=No changes. Build reason: {0}",
     "No_Issues=No issues. Build reason: {0}"
 })
 abstract class AbstractPlanAction extends AbstractContextAction {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractPlanAction.class);
 
     protected static final String SPC = ": ";
 
@@ -82,7 +84,7 @@ abstract class AbstractPlanAction extends AbstractContextAction {
     public void actionPerformed(ActionEvent ae) {
         findFirst().ifPresent(p -> new RequestProcessor(getClass()).post(() -> {
             if(p.getResult() != null) {
-                log.debug("plan to process: {}", p);
+                LOG.debug("plan to process: {}", p);
                 process(p);
             }
         }));

@@ -14,10 +14,8 @@
 package org.netbeans.modules.bamboo.model.event;
 
 import javax.ws.rs.core.Response;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 
 /**
@@ -26,9 +24,16 @@ import org.netbeans.modules.bamboo.model.rcp.PlanVo;
  */
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class QueueEvent {
     private PlanVo plan;
     private Response response;
+    
+    public QueueEvent() {
+        this(null, null);
+    }
+
+    public QueueEvent(PlanVo plan, Response response) {
+        this.plan = plan;
+        this.response = response;
+    }
 }

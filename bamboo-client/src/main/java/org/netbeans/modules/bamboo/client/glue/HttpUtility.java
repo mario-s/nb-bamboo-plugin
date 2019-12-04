@@ -17,18 +17,20 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import lombok.extern.slf4j.Slf4j;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This utility provides HTTP related functionality.
  *
  * @author Mario Schroeder
  */
-@Slf4j
 public final class HttpUtility {
 
     private static final String WRONG_URL = "url is wrong: {}";
+    
+    private static final Logger LOG = LoggerFactory.getLogger(HttpUtility.class);
 
     /**
      * Checks if the server behind the url answers with a valid http response.
@@ -48,7 +50,7 @@ public final class HttpUtility {
                     exists = isValid(status);
                 }
             } catch (IOException ex) {
-                log.info(WRONG_URL, ex.getMessage());
+                LOG.info(WRONG_URL, ex.getMessage());
             }
         }
         return exists;

@@ -32,20 +32,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import lombok.extern.slf4j.Slf4j;
 import org.netbeans.modules.bamboo.client.glue.BuildStatusWatchable;
 import org.netbeans.modules.bamboo.LookupContext;
 
 import static org.netbeans.modules.bamboo.client.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 import static org.netbeans.modules.bamboo.client.rest.BambooInstanceConstants.INSTANCE_SUPPRESSED_PLANS;
 import static org.openide.util.Lookup.getDefault;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Mario Schroeder
  */
-@Slf4j
 @ServiceProvider(service = InstanceManageable.class)
 public class DefaultInstanceManager implements InstanceManageable, PropertyChangeListener {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultInstanceManager.class);
 
     private final BuildStatusWatchable buildStatusWatcher;
 
@@ -181,7 +183,7 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
                 instances.add(loadInstance(name));
             }
 
-            log.debug("loaded nodes: {}", names.length);
+            LOG.debug("loaded nodes: {}", names.length);
         } catch (BackingStoreException ex) {
             Exceptions.printStackTrace(ex);
         }
@@ -199,7 +201,7 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
 
             putInMap(instance);
         } catch (IllegalStateException e) {
-            log.warn(e.getMessage());
+            LOG.warn(e.getMessage());
         }
 
         return instance;

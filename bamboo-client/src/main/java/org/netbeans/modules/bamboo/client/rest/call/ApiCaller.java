@@ -27,17 +27,19 @@ import javax.ws.rs.WebApplicationException;
 
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import lombok.extern.slf4j.Slf4j;
 
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class performs a a call to the REST API of Bamboo.
  *
  * @author Mario Schroeder
  */
-@Slf4j
 class ApiCaller<T> implements ApiCallable {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(ApiCaller.class);
 
     private final Class<T> clazz;
     private final String path;
@@ -75,7 +77,7 @@ class ApiCaller<T> implements ApiCallable {
         if (isNotBlank(url) && isNotBlank(user) && isNotEmpty(chars)) {
             opt = of(newTarget());
         } else {
-            log.warn("Invalid values for instance");
+            LOG.warn("Invalid values for instance");
         }
 
         return opt;
@@ -89,10 +91,10 @@ class ApiCaller<T> implements ApiCallable {
     public Optional<T> doGet(final WebTarget target) {
         
         try {
-            log.info("calling URI: {}", target.getUri());
+            LOG.info("calling URI: {}", target.getUri());
             return of(target.request().accept(media).get(clazz));
         } catch (WebApplicationException ex) {
-            log.warn(ex.getMessage());
+            LOG.warn(ex.getMessage());
         }
         
         return empty();

@@ -14,17 +14,19 @@
 package org.netbeans.modules.bamboo.ui.actions;
 
 import java.io.IOException;
-import lombok.extern.java.Log;
 import org.netbeans.api.io.InputOutput;
 import org.netbeans.api.io.OutputWriter;
 import org.openide.windows.IOProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Mario Schroeder
  */
-@Log
 class InputOutputProvider {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(InputOutputProvider.class);
     
     OutputWriter getOut(String name) {
         InputOutput io = getInputOutput(name);
@@ -41,7 +43,7 @@ class InputOutputProvider {
         try {
             IOProvider.getDefault().getIO(name, false).getOut().reset();
         } catch (IOException ex) {
-            log.info(ex.getMessage());
+            LOG.info(ex.getMessage());
         }
     }
     

@@ -15,16 +15,18 @@ package org.netbeans.modules.bamboo.client.rest;
 
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import lombok.extern.slf4j.Slf4j;
 import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 import org.openide.util.NbPreferences;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  */
-@Slf4j
 class PreferenceWrapper {
     
+    private static final Logger LOG = LoggerFactory.getLogger(PreferenceWrapper.class);
+               
     private PreferenceWrapper(){}
     
     static Preferences instancesPrefs() {
@@ -32,7 +34,7 @@ class PreferenceWrapper {
         try {
             prefs.sync();
         } catch (BackingStoreException ex) {
-            log.info(ex.getMessage());
+            LOG.info(ex.getMessage());
         }
         return prefs;
     }

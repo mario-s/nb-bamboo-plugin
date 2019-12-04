@@ -25,22 +25,23 @@ import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import lombok.extern.java.Log;
 
 import static org.netbeans.modules.bamboo.client.glue.InstanceConstants.PROP_NAME;
 import static org.netbeans.modules.bamboo.client.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 import static org.netbeans.modules.bamboo.client.glue.InstanceConstants.PROP_URL;
 
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Instance properties for Bamboo instance.
  */
-@Log
 public class BambooInstanceProperties extends HashMap<String, String> {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(BambooInstanceProperties.class);
 
     /**
      * Use serialVersionUID for interoperability.
@@ -144,7 +145,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
             try {
                 prefs = preferences.node(nodeName);
             } catch (IllegalStateException exc) {
-                log.log(Level.FINE, exc.getMessage(), exc);
+                LOG.debug(exc.getMessage(), exc);
             }
         }
 
@@ -249,8 +250,8 @@ public class BambooInstanceProperties extends HashMap<String, String> {
 
                 put(key, val);
             }
-        } catch (IllegalStateException ex) {
-            log.info(ex.getMessage());
+        } catch (IllegalStateException exc) {
+            LOG.debug(exc.getMessage(), exc);
         }
     }
 
@@ -261,8 +262,8 @@ public class BambooInstanceProperties extends HashMap<String, String> {
         try {
             preferences.removeNode();
             preferences.flush();
-        } catch (BackingStoreException ex) {
-            log.info(ex.getMessage());
+        } catch (BackingStoreException exc) {
+            LOG.debug(exc.getMessage(), exc);
         }
     }
 }

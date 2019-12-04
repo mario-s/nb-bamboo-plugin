@@ -13,18 +13,25 @@
  */
 package org.netbeans.modules.bamboo.model.event;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * This event is fired when the connection to a CI server is lost or it comes back to live.
  * @author Mario Schroeder
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class ServerConnectionEvent {
     private String serverName;
     private boolean available;
+    
+    public ServerConnectionEvent() {
+        this(null, false);
+    }
+
+    public ServerConnectionEvent(String serverName, boolean available) {
+        this.serverName = serverName;
+        this.available = available;
+    }
+    
+    
 }

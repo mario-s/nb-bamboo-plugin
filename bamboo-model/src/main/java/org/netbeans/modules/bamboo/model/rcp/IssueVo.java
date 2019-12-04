@@ -15,7 +15,6 @@ package org.netbeans.modules.bamboo.model.rcp;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 /**
  *
@@ -23,7 +22,6 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @EqualsAndHashCode(of = "key")
-@NoArgsConstructor
 public class IssueVo {
 
     private String key;
@@ -31,6 +29,10 @@ public class IssueVo {
     private String assignee;
     private String iconUrl;
     private String link;
+    
+    public IssueVo() {
+        this(null);
+    }
 
     public IssueVo(String key) {
         this.key = key;

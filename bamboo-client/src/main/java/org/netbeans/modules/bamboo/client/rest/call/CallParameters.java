@@ -15,7 +15,6 @@ package org.netbeans.modules.bamboo.client.rest.call;
 
 import java.util.Map;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
@@ -26,10 +25,15 @@ import static java.util.Collections.emptyMap;
  * @author Mario Schroeder
  */
 @Getter
-@RequiredArgsConstructor
 final class CallParameters<T> {
     private final Class<T> responseClass;
     private final InstanceValues values;
+
+    public CallParameters(Class<T> responseClass, InstanceValues values) {
+        this.responseClass = responseClass;
+        this.values = values;
+    }
+    
     @Setter
     private boolean json; //if the path ends with json it is true
     @Setter
