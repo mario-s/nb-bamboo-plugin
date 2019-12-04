@@ -1,6 +1,5 @@
 language: java
 jdk: openjdk11
-install: true
-script: ./mvnw clean verify -e
-after_failure:
-  - "cat ./target/surefire-reports/*.xml"
+cache:
+  directories:
+  - $HOME/.m2
