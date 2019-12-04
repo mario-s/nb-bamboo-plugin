@@ -1,5 +1,5 @@
 language: java
-jdk: oraclejdk9
+jdk: openjdk8
 install: true
 script: ./mvnw clean verify -e
 after_failure:
