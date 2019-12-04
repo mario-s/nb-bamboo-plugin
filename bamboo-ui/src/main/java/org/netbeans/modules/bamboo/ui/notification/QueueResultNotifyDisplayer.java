@@ -13,6 +13,8 @@
  */
 package org.netbeans.modules.bamboo.ui.notification;
 
+import java.util.Optional;
+
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -25,12 +27,14 @@ import org.openide.awt.NotificationDisplayer.Priority;
 import org.openide.util.NbBundle.Messages;
 import org.openide.util.Pair;
 
+import static java.lang.String.format;
+import static java.util.Optional.ofNullable;
+
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Build;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.By_User;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Server_Response;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Start_Failed;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Start_Success;
-import static java.lang.String.format;
 
 /**
  * This class displays a ntification for manual build run.
@@ -55,8 +59,8 @@ class QueueResultNotifyDisplayer extends AbstractNotifyDisplayer {
         return event.getResponse();
     }
 
-    private PlanVo getPlan() {
-        return event.getPlan();
+    private Optional<PlanVo> getPlan() {
+        return ofNullable(event.getPlan());
     }
 
     private boolean isOk() {
@@ -84,15 +88,16 @@ class QueueResultNotifyDisplayer extends AbstractNotifyDisplayer {
 
     @Override
     public void run() {
-        PlanVo plan = getPlan();
-        String name = plan.getName();
-        String summary = getSummary();
+        getPlan().ifPresent(plan -> {
+            String name = plan.getName();
+            String summary = getSummary();
 
-        JComponent balloonDetails = new JLabel(summary);
-        JComponent popupDetails = newDetailsComponent(summary, getDetails());
-        Pair<Priority, Category> cat = getCategory();
+            JComponent balloonDetails = new JLabel(summary);
+            JComponent popupDetails = newDetailsComponent(summary, getDetails());
+            Pair<Priority, Category> cat = getCategory();
 
-        notify(name, balloonDetails, popupDetails, cat);
+            notify(name, balloonDetails, popupDetails, cat);
+        });
     }
 
 }
