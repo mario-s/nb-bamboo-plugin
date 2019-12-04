@@ -34,8 +34,8 @@ import static org.openide.util.Lookup.getDefault;
 import javax.swing.Action;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.model.event.InstancesLoadEvent;
 import org.springframework.test.util.ReflectionTestUtils;

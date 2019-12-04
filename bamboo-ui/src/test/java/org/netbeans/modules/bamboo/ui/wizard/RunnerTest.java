@@ -29,7 +29,7 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.mock.MockInstanceFactory;

@@ -30,7 +30,7 @@ import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 
 
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
