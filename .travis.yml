@@ -9,6 +9,6 @@ before_install:
 cache: 
     directories:
     - $HOME/.m2
-script: ./mvnw clean verify -e
+script: mvn clean verify -e
 after_failure:
   - "cat ./target/surefire-reports/*.xml"
