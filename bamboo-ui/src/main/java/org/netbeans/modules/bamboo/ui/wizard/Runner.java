@@ -21,16 +21,18 @@ import static org.openide.util.Lookup.getDefault;
 
 import java.beans.PropertyChangeSupport;
 import java.util.Optional;
-import lombok.extern.java.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
  * @author Mario Schroeder
  */
-@Log
 class Runner extends PropertyChangeSupport implements Runnable {
     /** Use serialVersionUID for interoperability. */
     private static final long serialVersionUID = 1L;
+    
+    private static final Logger LOG = LoggerFactory.getLogger(Runner.class);
 
     private final transient InstanceValues values;
 
@@ -48,7 +50,7 @@ class Runner extends PropertyChangeSupport implements Runnable {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException ex) {
-                log.info(ex.getMessage());
+                LOG.debug(ex.getMessage());
             }
 
             if (!Thread.interrupted()) {

@@ -17,9 +17,9 @@ import java.util.Optional;
 import javax.ws.rs.client.WebTarget;
 
 import static java.util.Optional.empty;
-import static java.util.Optional.ofNullable;
-import lombok.extern.slf4j.Slf4j;
 import org.netbeans.modules.bamboo.model.rest.Responseable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class can be used to perform a second call to the REST API. It is used
@@ -27,8 +27,9 @@ import org.netbeans.modules.bamboo.model.rest.Responseable;
  *
  * @author Mario Schroeder
  */
-@Slf4j
 class ApiCallRepeater<T extends Responseable> extends ApiCaller<T> implements ApiCallRepeatable {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(ApiCallRepeater.class);
 
     private Optional<T> opt = empty();
 
@@ -45,7 +46,7 @@ class ApiCallRepeater<T extends Responseable> extends ApiCaller<T> implements Ap
         if (size > max) {
             WebTarget target = newTarget().queryParam(MAX, size);
             opt = doGet(target);
-            log.debug("got all items: {}", opt.isPresent());
+            LOG.debug("got all items: {}", opt.isPresent());
         }
 
         return opt;
