@@ -21,11 +21,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import lombok.extern.java.Log;
 
-import static org.hamcrest.CoreMatchers.not;
 
-import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -41,6 +38,8 @@ import org.netbeans.modules.bamboo.model.rest.Issue;
 import org.netbeans.modules.bamboo.model.rest.Result;
 import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assume.assumeTrue;
 
@@ -51,12 +50,10 @@ import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.RESULT_COM
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 
-
 /**
  *
  * @author Mario Schroeder
  */
-@Log
 public class BambooCallerXmlIT {
 
     private static final String FOO = "foo";
@@ -74,14 +71,11 @@ public class BambooCallerXmlIT {
     }
 
     @BeforeClass
-    public static void prepare() {
+    public static void prepare() throws IOException {
         props = new Properties();
-        try {
-            InputStream input = BambooCallerXmlIT.class.getResourceAsStream("bamboo.properties");
-            props.load(input);
-        } catch (IOException e) {
-            log.severe(e.getMessage());
-        }
+        
+        InputStream input = BambooCallerXmlIT.class.getResourceAsStream("bamboo.properties");
+        props.load(input);
     }
 
     @Before
@@ -99,8 +93,8 @@ public class BambooCallerXmlIT {
     private boolean existsUrl() {
         return httpUtility.exists(props.getProperty(URL));
     }
-    
-    private  String newResultPath() {
+
+    private String newResultPath() {
         String key = props.getProperty("result.key");
         return String.format(RESULT, key);
     }

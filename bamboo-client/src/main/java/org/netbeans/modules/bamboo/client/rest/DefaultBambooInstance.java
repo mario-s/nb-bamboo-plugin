@@ -13,60 +13,51 @@
  */
 package org.netbeans.modules.bamboo.client.rest;
 
-import static java.lang.String.format;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.prefs.Preferences;
 
+import javax.ws.rs.core.Response;
+
+import org.apache.commons.lang3.time.StopWatch;
 import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import org.netbeans.modules.bamboo.model.rcp.VersionInfo;
 import org.openide.util.RequestProcessor;
 import org.openide.util.RequestProcessor.Task;
-
-import java.util.ArrayList;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-
-import java.util.Optional;
-import java.util.Set;
-
-import java.util.prefs.Preferences;
-import javax.ws.rs.core.Response;
 import org.netbeans.api.annotations.common.NonNull;
-import org.apache.commons.lang3.time.StopWatch;
-
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
-
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
-
-import static org.netbeans.modules.bamboo.client.glue.InstanceConstants.PROP_SYNC_INTERVAL;
-
 import org.netbeans.modules.bamboo.model.rcp.ModelChangedValues;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.openide.util.Lookup;
 import org.netbeans.modules.bamboo.client.glue.InstanceConstants;
-
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
-import lombok.extern.slf4j.Slf4j;
-
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
-
-import static org.netbeans.modules.bamboo.client.rest.BambooInstanceConstants.INSTANCE_SUPPRESSED_PLANS;
-
 import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.netbeans.modules.bamboo.client.glue.InstanceConstants.PROP_SYNC_INTERVAL;
+import static org.netbeans.modules.bamboo.client.rest.BambooInstanceConstants.INSTANCE_SUPPRESSED_PLANS;
 
 /**
  * @author Mario Schroeder
  */
-@Slf4j
 class DefaultBambooInstance extends DefaultInstanceValues implements BambooInstance {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultBambooInstance.class);
 
     /**
      * Use serialVersionUID for interoperability.
@@ -184,15 +175,15 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     private void startWatch() {
-        if (log.isInfoEnabled()) {
+        if (LOG.isInfoEnabled()) {
             stopWatch.start();
         }
     }
 
     private void stopWatch() {
-        if (log.isInfoEnabled()) {
+        if (LOG.isInfoEnabled()) {
             stopWatch.stop();
-            log.info("synchronized {} in {}", getName(), stopWatch);
+            LOG.info("synchronized {} in {}", getName(), stopWatch);
             stopWatch.reset();
         }
     }
@@ -287,7 +278,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     private void prepareSynchronization() {
         int interval = getSyncIntervalInMillis();
-        log.info(format("interval: %s ms", interval));
+        LOG.info("interval: {} ms", interval);
 
         if (interval > 0) {
             scheduleTask(interval);
@@ -317,7 +308,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         boolean oldVal = this.available;
         available = client.existsService();
 
-        log.info("service is available: {}", available);
+        LOG.info("service is available: {}", available);
 
         firePropertyChange(ModelChangedValues.Available.toString(), oldVal, available);
 
