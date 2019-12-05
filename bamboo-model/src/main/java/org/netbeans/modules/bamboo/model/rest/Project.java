@@ -18,13 +18,14 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import java.util.Collection;
 
 import static java.util.Collections.emptyList;
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
  *
  * @author Mario Schroeder
  */
+@EqualsAndHashCode
 @JsonRootName(value = "project")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Project implements ServiceInfoProvideable{
@@ -70,42 +71,6 @@ public class Project implements ServiceInfoProvideable{
         this.plans = plans;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.key);
-        hash = 79 * hash + Objects.hashCode(this.link);
-        hash = 79 * hash + Objects.hashCode(this.name);
-        hash = 79 * hash + Objects.hashCode(this.plans);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Project other = (Project) obj;
-        if (!Objects.equals(this.key, other.key)) {
-            return false;
-        }
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.link, other.link)) {
-            return false;
-        }
-        if (!Objects.equals(this.plans, other.plans)) {
-            return false;
-        }
-        return true;
-    }
 
     @Override
     public String toString() {

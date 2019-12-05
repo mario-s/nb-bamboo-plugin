@@ -21,12 +21,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.netbeans.modules.bamboo.model.LifeCycleState;
 import org.netbeans.modules.bamboo.model.State;
 
 
 
-@Data
 @EqualsAndHashCode(of = "key")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -62,5 +62,130 @@ public class Result implements ServiceInfoProvideable{
     public Result() {
         state = State.Unknown;
         lifeCycleState = LifeCycleState.NotBuilt;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public Link getLink() {
+        return link;
+    }
+
+    public void setLink(Link link) {
+        this.link = link;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
+    }
+
+    public LifeCycleState getLifeCycleState() {
+        return lifeCycleState;
+    }
+
+    public void setLifeCycleState(LifeCycleState lifeCycleState) {
+        this.lifeCycleState = lifeCycleState;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public String getBuildReason() {
+        return buildReason;
+    }
+
+    public void setBuildReason(String buildReason) {
+        this.buildReason = buildReason;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public long getBuildDurationInSeconds() {
+        return buildDurationInSeconds;
+    }
+
+    public void setBuildDurationInSeconds(long buildDurationInSeconds) {
+        this.buildDurationInSeconds = buildDurationInSeconds;
+    }
+
+    public String getBuildStartedTime() {
+        return buildStartedTime;
+    }
+
+    public void setBuildStartedTime(String buildStartedTime) {
+        this.buildStartedTime = buildStartedTime;
+    }
+
+    public String getBuildCompletedTime() {
+        return buildCompletedTime;
+    }
+
+    public void setBuildCompletedTime(String buildCompletedTime) {
+        this.buildCompletedTime = buildCompletedTime;
+    }
+
+    public int getFailedTestCount() {
+        return failedTestCount;
+    }
+
+    public void setFailedTestCount(int failedTestCount) {
+        this.failedTestCount = failedTestCount;
+    }
+
+    public int getSuccessfulTestCount() {
+        return successfulTestCount;
+    }
+
+    public void setSuccessfulTestCount(int successfulTestCount) {
+        this.successfulTestCount = successfulTestCount;
+    }
+
+    public Changes getChanges() {
+        return changes;
+    }
+
+    public void setChanges(Changes changes) {
+        this.changes = changes;
+    }
+
+    public JiraIssues getJiraIssues() {
+        return jiraIssues;
+    }
+
+    public void setJiraIssues(JiraIssues jiraIssues) {
+        this.jiraIssues = jiraIssues;
+    }
+    
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
     }
 }
