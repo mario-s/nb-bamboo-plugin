@@ -23,7 +23,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.LifeCycleState;
 
 import static org.junit.Assert.*;
@@ -35,8 +34,9 @@ import org.netbeans.modules.bamboo.model.State;
 import org.openide.nodes.Node;
 import org.openide.nodes.Node.Property;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import org.mockito.junit.MockitoJUnitRunner;
 
 /**
  *

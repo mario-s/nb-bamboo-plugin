@@ -22,14 +22,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  *
@@ -49,7 +49,7 @@ public class WebTargetFactoryTest {
     
     @Before
     public void setUp() {
-        setInternalState(classUnderTest, "client", client);
+        ReflectionTestUtils.setField(classUnderTest, "client", client);
         
         given(values.getUrl()).willReturn(FOO);
         given(values.getUsername()).willReturn(FOO);

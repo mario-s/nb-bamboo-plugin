@@ -34,12 +34,11 @@ import static org.openide.util.Lookup.getDefault;
 import javax.swing.Action;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.mockito.internal.util.reflection.Whitebox.getInternalState;
-
-import org.mockito.runners.MockitoJUnitRunner;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.model.event.InstancesLoadEvent;
+import org.springframework.test.util.ReflectionTestUtils;
 
 
 /**
@@ -84,8 +83,8 @@ public class BambooRootNodeTest {
         
         classUnderTest.resultChanged(null);
         
-        BambooInstanceNodeFactory nodeFactory = (BambooInstanceNodeFactory) getInternalState(classUnderTest, "nodeFactory");
-        Optional<CountDownLatch> blocker = (Optional<CountDownLatch>) getInternalState(nodeFactory, "blocker");
+        BambooInstanceNodeFactory nodeFactory = (BambooInstanceNodeFactory) ReflectionTestUtils.getField(classUnderTest, "nodeFactory");
+        Optional<CountDownLatch> blocker = (Optional<CountDownLatch>) ReflectionTestUtils.getField(nodeFactory, "blocker");
         
         assertThat(blocker.isPresent(), is(true));
     }

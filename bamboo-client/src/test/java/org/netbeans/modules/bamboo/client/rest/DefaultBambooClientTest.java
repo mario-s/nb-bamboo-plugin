@@ -24,7 +24,7 @@ import org.junit.runner.RunWith;
 
 import org.mockito.Mock;
 
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 
 import java.util.Collection;
@@ -70,7 +70,6 @@ import org.netbeans.modules.bamboo.client.rest.call.ApiCallerFactory;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.mockito.Matchers.any;
@@ -86,6 +85,7 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.PLANS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PROJECTS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.QUEUE;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * @author Mario Schroeder
@@ -140,7 +140,7 @@ public class DefaultBambooClientTest {
         classUnderTest
                 = new DefaultBambooClient(instanceValues);
 
-        setInternalState(classUnderTest, "apiCallerFactory", apiCallerFactory);
+        ReflectionTestUtils.setField(classUnderTest, "apiCallerFactory", apiCallerFactory);
 
         trainMocks();
     }

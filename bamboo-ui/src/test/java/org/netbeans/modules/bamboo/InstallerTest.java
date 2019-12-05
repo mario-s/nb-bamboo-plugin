@@ -25,7 +25,6 @@ import org.mockito.Mock;
 
 import static org.mockito.Mockito.inOrder;
 
-import org.mockito.runners.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
@@ -37,6 +36,7 @@ import org.openide.util.Task;
 
 import static java.util.Collections.singletonList;
 import static org.mockito.Matchers.anyBoolean;
+import org.mockito.junit.MockitoJUnitRunner;
 
 
 /**
