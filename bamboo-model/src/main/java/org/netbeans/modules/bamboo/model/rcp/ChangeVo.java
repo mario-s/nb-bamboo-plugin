@@ -46,6 +46,10 @@ public class ChangeVo {
         return (files != null) ? files : emptyList();
     }
 
+    public void setFiles(Collection<FileVo> files) {
+        this.files = files;
+    }
+
     public String getChangesetId() {
         return changesetId;
     }
