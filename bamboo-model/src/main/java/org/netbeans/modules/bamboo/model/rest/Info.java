@@ -15,18 +15,38 @@ package org.netbeans.modules.bamboo.model.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.Getter;
-import lombok.Setter;
-
 
 /**
  * @author Mario Schroeder
  */
-@Getter
-@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Info {
     private String version;
     private int buildNumber;
     private String buildDate;
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public int getBuildNumber() {
+        return buildNumber;
+    }
+
+    public void setBuildNumber(int buildNumber) {
+        this.buildNumber = buildNumber;
+    }
+
+    public String getBuildDate() {
+        return buildDate;
+    }
+
+    public void setBuildDate(String buildDate) {
+        this.buildDate = buildDate;
+    }
+    
 }

@@ -17,11 +17,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
+/**
+ * Metrics of a plan.
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Metrics {
     @JsonProperty(value = "start-index")
@@ -32,4 +31,29 @@ public class Metrics {
     private int maxResult;
     @XmlAttribute
     private int size;
+
+    public int getStartIndex() {
+        return startIndex;
+    }
+
+    public void setStartIndex(int startIndex) {
+        this.startIndex = startIndex;
+    }
+
+    public int getMaxResult() {
+        return maxResult;
+    }
+
+    public void setMaxResult(int maxResult) {
+        this.maxResult = maxResult;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+    
 }

@@ -14,21 +14,17 @@
 package org.netbeans.modules.bamboo.model.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import lombok.Getter;
-import lombok.Setter;
+import static java.util.Collections.emptyList;
 
 /**
  *
  * @author Mario Schroeder
  */
-@Getter
-@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JiraIssues extends Metrics implements Responseable<Issue>{
@@ -38,11 +34,15 @@ public class JiraIssues extends Metrics implements Responseable<Issue>{
 
     @Override
     public Collection<Issue> asCollection() {
-        List<Issue> coll = new ArrayList<>();
-        if (issues != null) {
-            coll.addAll(issues);
-        }
-        return coll;
+        return (issues != null) ? issues : emptyList();
+    }
+
+    public List<Issue> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(List<Issue> issues) {
+        this.issues = issues;
     }
     
 }

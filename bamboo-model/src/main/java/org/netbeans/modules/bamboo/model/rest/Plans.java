@@ -14,12 +14,19 @@
 package org.netbeans.modules.bamboo.model.rest;
 
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
+/**
+ * Container for a collection of {@link Plan}.
+ */
 public class Plans extends Metrics {
     private List<Plan> plan;
 
+    public List<Plan> getPlan() {
+        return plan;
+    }
+
+    public void setPlan(List<Plan> plan) {
+        this.plan = plan;
+    }
+    
 }

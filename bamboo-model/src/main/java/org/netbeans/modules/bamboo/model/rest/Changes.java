@@ -20,28 +20,30 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import lombok.Getter;
-import lombok.Setter;
 
+import static java.util.Collections.emptyList;
 /**
  *
  * @author Mario Schroeder
  */
-@Getter
-@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Changes extends Metrics implements Responseable<Change> {
 
     @XmlElement(name = "change")
-    private List<Change> changes;
+    private List<Change> changes = new ArrayList<>();
 
     @Override
     public Collection<Change> asCollection() {
-        List<Change> coll = new ArrayList<>();
-        if (changes != null) {
-            coll.addAll(changes);
-        }
-        return coll;
+        return (changes != null) ? changes : emptyList();
     }
+
+    public List<Change> getChanges() {
+        return changes;
+    }
+
+    public void setChanges(List<Change> changes) {
+        this.changes = changes;
+    }
+    
 }

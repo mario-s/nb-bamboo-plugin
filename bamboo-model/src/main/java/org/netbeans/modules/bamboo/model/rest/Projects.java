@@ -13,16 +13,26 @@
  */
 package org.netbeans.modules.bamboo.model.rest;
 
+import java.util.ArrayList;
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
- *
+ * Container for a collection of {@link Project}.
  * @author Mario Schroeder
  */
-@Getter
-@Setter
 public class Projects extends Metrics{
-    List<Project> project;
+    private List<Project> project;
+
+    public Projects() {
+        this.project = new ArrayList();
+    }
+
+    public List<Project> getProject() {
+        return project;
+    }
+
+    public void setProject(List<Project> project) {
+        this.project = project;
+    }
+    
 }

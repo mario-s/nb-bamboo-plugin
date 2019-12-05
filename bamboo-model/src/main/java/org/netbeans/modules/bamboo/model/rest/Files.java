@@ -20,28 +20,29 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import lombok.Getter;
-import lombok.Setter;
 
+import static java.util.Collections.emptyList;
 /**
  *
  * @author Mario Schroeder
  */
-@Getter
-@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Files extends Metrics implements Responseable<File> {
 
     @XmlElement(name = "file")
-    private List<File> files;
+    private List<File> files = new ArrayList();
 
     @Override
     public Collection<File> asCollection() {
-        List<File> coll = new ArrayList<>();
-        if (files != null) {
-            coll.addAll(files);
-        }
-        return coll;
+        return (files != null) ? files : emptyList();
+    }
+
+    public List<File> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<File> files) {
+        this.files = files;
     }
 }
