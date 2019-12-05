@@ -25,6 +25,7 @@ import lombok.ToString;
 
 import static java.util.Optional.ofNullable;
 import static lombok.AccessLevel.NONE;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
  * This class is the plan related to a project.
@@ -33,7 +34,6 @@ import static lombok.AccessLevel.NONE;
  */
 @Getter
 @Setter
-@ToString
 public class PlanVo extends AbstractOpenInBrowserVo implements PropertyChangeListener, TraverseUp<ProjectVo>, Queueable {
 
     private String name;
@@ -114,4 +114,8 @@ public class PlanVo extends AbstractOpenInBrowserVo implements PropertyChangeLis
         });
     }
 
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
 }
