@@ -13,6 +13,7 @@
  */
 package org.netbeans.modules.bamboo.client.rest.call;
 
+import java.net.URI;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -38,7 +39,7 @@ import org.slf4j.LoggerFactory;
  * @author Mario Schroeder
  */
 class ApiCaller<T> implements ApiCallable {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(ApiCaller.class);
 
     private final Class<T> clazz;
@@ -89,14 +90,17 @@ class ApiCaller<T> implements ApiCallable {
 
     @Override
     public Optional<T> doGet(final WebTarget target) {
-        
+        if (LOG.isInfoEnabled()) {
+            URI uri = target.getUri();
+            LOG.info("calling host: {} with path: {}", uri.getHost(), uri.getPath());
+        }
+
         try {
-            LOG.info("calling URI: {}", target.getUri());
             return of(target.request().accept(media).get(clazz));
         } catch (WebApplicationException ex) {
             LOG.warn(ex.getMessage());
         }
-        
+
         return empty();
     }
 }

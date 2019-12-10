@@ -13,6 +13,8 @@
  */
 package org.netbeans.modules.bamboo.client.rest.call;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import static java.util.Collections.singletonMap;
 
 import java.util.Map;
@@ -64,7 +66,7 @@ public class ApiCallerTest {
     private ApiCaller<Info> classUnderTest;
 
     @Before
-    public void setUp() {
+    public void setUp() throws URISyntaxException {
         final CallParameters callParameters = new CallParameters(Info.class, values);
         callParameters.setParameters(FOO_MAP);
         classUnderTest = new ApiCaller<>(callParameters);
@@ -76,6 +78,7 @@ public class ApiCallerTest {
         given(webTargetFactory.newTarget(anyString(), any(Map.class))).willReturn(target);
         given(target.path(anyString())).willReturn(target);
         given(target.queryParam(anyString(), any())).willReturn(target);
+        given(target.getUri()).willReturn(new URI("http://localhost"));
     }
 
     /**
