@@ -140,7 +140,7 @@ public class BambooInstanceNode extends AbstractInstanceChildNode implements Loo
         actions.addAll(findActions(ActionConstants.COMMON_ACTION_PATH));
         actions.addAll(findActions(ActionConstants.ACTION_PATH));
 
-        return actions.toArray(new Action[actions.size()]);
+        return actions.toArray(new Action[0]);
     }
 
     private void updateHtmlDisplayName() {
@@ -174,6 +174,7 @@ public class BambooInstanceNode extends AbstractInstanceChildNode implements Loo
     @Override
     public void destroy() throws IOException {
         instance.removePropertyChangeListener(this);
+        instance.stopSynchronization();
         getDefault().lookup(InstanceManageable.class).removeInstance(instance);
         super.destroy();
     }

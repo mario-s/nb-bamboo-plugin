@@ -367,6 +367,11 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             }
         });
     }
+    
+    @Override
+    public void stopSynchronization() {
+        RP.shutdownNow();
+    }
 
     void setVersionInfo(final VersionInfo version) {
         this.version = version;
