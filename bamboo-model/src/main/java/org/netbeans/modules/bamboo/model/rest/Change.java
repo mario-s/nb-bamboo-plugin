@@ -14,18 +14,15 @@
 package org.netbeans.modules.bamboo.model.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  *
  * @author Mario Schroeder
  */
-@Data
-@EqualsAndHashCode(of = "changesetId")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Change implements ServiceInfoProvideable{
@@ -44,6 +41,90 @@ public class Change implements ServiceInfoProvideable{
     private String date;
     
     private Files files;
-    
-    
+
+    public String getChangesetId() {
+        return changesetId;
+    }
+
+    public void setChangesetId(String changesetId) {
+        this.changesetId = changesetId;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getCommitUrl() {
+        return commitUrl;
+    }
+
+    public void setCommitUrl(String commitUrl) {
+        this.commitUrl = commitUrl;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Files getFiles() {
+        return files;
+    }
+
+    public void setFiles(Files files) {
+        this.files = files;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.changesetId);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Change other = (Change) obj;
+        return Objects.equals(this.changesetId, other.changesetId);
+    }
 }

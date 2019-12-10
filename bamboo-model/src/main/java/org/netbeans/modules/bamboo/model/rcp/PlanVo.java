@@ -21,7 +21,6 @@ import java.util.function.Consumer;
 import lombok.Getter;
 import org.netbeans.api.annotations.common.NonNull;
 import lombok.Setter;
-import lombok.ToString;
 
 import static java.util.Optional.ofNullable;
 import static lombok.AccessLevel.NONE;
