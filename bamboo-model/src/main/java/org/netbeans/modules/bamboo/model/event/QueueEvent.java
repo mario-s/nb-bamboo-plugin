@@ -13,16 +13,15 @@
  */
 package org.netbeans.modules.bamboo.model.event;
 
+import java.util.Objects;
 import javax.ws.rs.core.Response;
 import lombok.Builder;
-import lombok.Data;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 
 /**
  * This event is fired when a build was triggered manual.
  * @author Mario Schroeder
  */
-@Data
 @Builder
 public class QueueEvent {
     private PlanVo plan;
@@ -36,4 +35,48 @@ public class QueueEvent {
         this.plan = plan;
         this.response = response;
     }
+
+    public PlanVo getPlan() {
+        return plan;
+    }
+
+    public void setPlan(PlanVo plan) {
+        this.plan = plan;
+    }
+
+    public Response getResponse() {
+        return response;
+    }
+
+    public void setResponse(Response response) {
+        this.response = response;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.plan);
+        hash = 97 * hash + Objects.hashCode(this.response);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final QueueEvent other = (QueueEvent) obj;
+        if (!Objects.equals(this.plan, other.plan)) {
+            return false;
+        }
+        return Objects.equals(this.response, other.response);
+    }
+    
+    
 }
