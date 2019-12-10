@@ -174,7 +174,6 @@ public class BambooInstanceNode extends AbstractInstanceChildNode implements Loo
     @Override
     public void destroy() throws IOException {
         instance.removePropertyChangeListener(this);
-        instance.stopSynchronization();
         getDefault().lookup(InstanceManageable.class).removeInstance(instance);
         super.destroy();
     }

@@ -341,6 +341,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         if (properties != null) {
             properties.clear();
         }
+        stopSynchronization();
     }
 
     @Override

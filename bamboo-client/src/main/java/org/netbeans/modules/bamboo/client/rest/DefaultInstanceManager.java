@@ -95,6 +95,7 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
 
     private void remove(final BambooInstance instance) {
         if (instance != null) {
+            instance.remove();
             instance.removePropertyChangeListener(this);
             lookupContext.remove(instance);
             buildStatusWatcher.removeInstance(instance);
