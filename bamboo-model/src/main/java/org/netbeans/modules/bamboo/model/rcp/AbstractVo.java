@@ -15,14 +15,13 @@ package org.netbeans.modules.bamboo.model.rcp;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import lombok.EqualsAndHashCode;
+import java.util.Objects;
 import org.netbeans.api.annotations.common.NonNull;
 
 /**
  *
  * @author Mario Schroeder
  */
-@EqualsAndHashCode(of = "key")
 public abstract class AbstractVo {
     
     private final String key;
@@ -49,4 +48,28 @@ public abstract class AbstractVo {
     public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }     
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.key);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AbstractVo other = (AbstractVo) obj;
+        return Objects.equals(this.key, other.key);
+    }
+    
+    
 }
