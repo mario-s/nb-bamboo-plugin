@@ -15,23 +15,18 @@ package org.netbeans.modules.bamboo.model.rcp;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import java.util.Arrays;
 
 import static java.util.Arrays.copyOf;
+import java.util.Objects;
 
 /**
  * A wrapper for all parameters to be used to create a new BambooInstance.
  *
  * @author Mario Schroeder
  */
-@Data
-@EqualsAndHashCode(exclude = "changeSupport")
 public class DefaultInstanceValues implements InstanceValues {
 
-    @Getter(AccessLevel.NONE)
     private final PropertyChangeSupport changeSupport;
 
     private String name;
@@ -96,5 +91,84 @@ public class DefaultInstanceValues implements InstanceValues {
             final Object oldValue,
             final Object newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public int getSyncInterval() {
+        return syncInterval;
+    }
+
+    public void setSyncInterval(int syncInterval) {
+        this.syncInterval = syncInterval;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 83 * hash + Objects.hashCode(this.name);
+        hash = 83 * hash + Objects.hashCode(this.url);
+        hash = 83 * hash + this.syncInterval;
+        hash = 83 * hash + Objects.hashCode(this.username);
+        hash = 83 * hash + Arrays.hashCode(this.password);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DefaultInstanceValues other = (DefaultInstanceValues) obj;
+        if (this.syncInterval != other.syncInterval) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.url, other.url)) {
+            return false;
+        }
+        if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        return Arrays.equals(this.password, other.password);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "{" + "name=" + name + '}';
     }
 }
