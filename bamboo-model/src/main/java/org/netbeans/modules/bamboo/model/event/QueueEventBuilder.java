@@ -13,40 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.netbeans.modules.bamboo.model.rcp;
+package org.netbeans.modules.bamboo.model.event;
 
-import java.time.LocalDateTime;
+import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.builder.Builder;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 
 /**
- * Builder for {@link VersionInfo}.
+ * Builder for {@link QueueEvent}.
  * 
  * @author Mario Schroeder
  */
-public class VersionInfoBuilder implements Builder<VersionInfo> {
-
-    private String version;
-    private int buildNumber;
-    private LocalDateTime buildDate;
-        
-    public VersionInfoBuilder version(String version) {
-        this.version = version;
+public class QueueEventBuilder implements Builder<QueueEvent> {
+    
+    private PlanVo plan;
+    private Response response;
+    
+    public QueueEventBuilder plan(PlanVo plan) {
+        this.plan = plan;
         return this;
     }
     
-    public VersionInfoBuilder buildNumber(int buildNumber) {
-        this.buildNumber = buildNumber;
-        return this;
-    }
-    
-    public VersionInfoBuilder buildDate(LocalDateTime buildDate) {
-        this.buildDate = buildDate;
+    public QueueEventBuilder response(Response response) {
+        this.response = response;
         return this;
     }
 
     @Override
-    public VersionInfo build() {
-        return new VersionInfo(version, buildNumber, buildDate);
+    public QueueEvent build() {
+        return new QueueEvent(plan, response);
     }
-
+    
 }

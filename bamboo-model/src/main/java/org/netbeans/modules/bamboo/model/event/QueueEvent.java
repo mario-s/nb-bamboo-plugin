@@ -15,14 +15,12 @@ package org.netbeans.modules.bamboo.model.event;
 
 import java.util.Objects;
 import javax.ws.rs.core.Response;
-import lombok.Builder;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 
 /**
  * This event is fired when a build was triggered manual.
  * @author Mario Schroeder
  */
-@Builder
 public class QueueEvent {
     private PlanVo plan;
     private Response response;
@@ -78,5 +76,7 @@ public class QueueEvent {
         return Objects.equals(this.response, other.response);
     }
     
-    
+    public static QueueEventBuilder builder() {
+        return new QueueEventBuilder();
+    }
 }
