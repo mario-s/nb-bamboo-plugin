@@ -88,10 +88,7 @@ public class VersionInfo {
         if (!Objects.equals(this.version, other.version)) {
             return false;
         }
-        if (!Objects.equals(this.buildDate, other.buildDate)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.buildDate, other.buildDate);
     }
 
     @Override
