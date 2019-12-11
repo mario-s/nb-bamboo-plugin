@@ -15,13 +15,12 @@ package org.netbeans.modules.bamboo.model.rcp;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-import lombok.Builder;
+import org.apache.commons.lang3.builder.Builder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
- * @author Mario Schroeder
+ * This class hold the version information for the build server.
  */
-@Builder
 public class VersionInfo {
 
     private String version;
@@ -97,5 +96,9 @@ public class VersionInfo {
     @Override
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
+    }
+
+    public static VersionInfoBuilder builder() {
+        return new VersionInfoBuilder();
     }
 }
