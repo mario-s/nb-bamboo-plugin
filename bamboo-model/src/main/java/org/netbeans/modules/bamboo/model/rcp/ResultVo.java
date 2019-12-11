@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.Optional;
 
 import static java.util.Optional.empty;
-import static java.util.Optional.of;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,15 +29,15 @@ import static java.util.Optional.ofNullable;
 import static lombok.AccessLevel.NONE;
 
 /**
- * This class represent the result for a plan.
- * If the property changes is empty, that means there was no request to the server to get this information.
+ * This class represent the result for a plan. If the property changes is empty,
+ * that means there was no request to the server to get this information.
  *
  * @author Mario Schroeder
  */
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true, exclude = {"parent", "changes", "issues"})
-public class ResultVo extends AbstractVo implements TraverseUp<PlanVo>{
+public class ResultVo extends AbstractVo implements TraverseUp<PlanVo> {
 
     private int number;
     private String buildReason;
@@ -49,12 +48,12 @@ public class ResultVo extends AbstractVo implements TraverseUp<PlanVo>{
     private LocalDateTime buildCompletedTime;
     private int failedTestCount;
     private int successfulTestCount;
-    
+
     @Getter(NONE)
     private PlanVo parent;
 
     private Optional<Collection<ChangeVo>> changes;
-    
+
     private Optional<Collection<IssueVo>> issues;
 
     public ResultVo() {
@@ -68,25 +67,22 @@ public class ResultVo extends AbstractVo implements TraverseUp<PlanVo>{
     }
 
     public void setChanges(Collection<ChangeVo> changes) {
-        if (changes != null) {
-            this.changes = of(changes);
-        }
+        this.changes = ofNullable(changes);
     }
-    
+
     public void setIssues(Collection<IssueVo> issues) {
-        if (issues != null) {
-            this.issues = of(issues);
-        }
+        this.issues = ofNullable(issues);
     }
 
     @Override
     public Optional<PlanVo> getParent() {
         return ofNullable(parent);
     }
-    
+
     /**
-     * This method returns <code>true</code> when the changes are not empty, otherwhise false.
-     * If true it means that the server was already contacted.
+     * This method returns <code>true</code> when the changes are not empty,
+     * otherwhise false. If true it means that the server was already contacted.
+     *
      * @return true when changes otherwhise false.
      */
     public boolean requestedChanges() {
