@@ -79,8 +79,7 @@ public class IssueVo {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 43 * hash + Objects.hashCode(this.key);
-        return hash;
+        return 43 * hash + Objects.hashCode(this.key);
     }
 
     @Override
