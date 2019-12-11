@@ -110,8 +110,7 @@ public class Plan implements ServiceInfoProvideable{
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 37 * hash + Objects.hashCode(this.key);
-        return hash;
+        return 37 * hash + Objects.hashCode(this.key);
     }
 
     @Override

@@ -52,8 +52,7 @@ public abstract class AbstractVo {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.key);
-        return hash;
+        return 29 * hash + Objects.hashCode(this.key);
     }
 
     @Override

@@ -43,8 +43,7 @@ public class FileVo {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * hash + Objects.hashCode(this.revision);
-        return hash;
+        return 31 * hash + Objects.hashCode(this.revision);
     }
 
     @Override

@@ -81,8 +81,7 @@ public class Issue {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 97 * hash + Objects.hashCode(this.key);
-        return hash;
+        return 97 * hash + Objects.hashCode(this.key);
     }
 
     @Override

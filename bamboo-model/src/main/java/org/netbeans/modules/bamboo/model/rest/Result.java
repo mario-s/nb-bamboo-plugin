@@ -188,8 +188,7 @@ public class Result implements ServiceInfoProvideable{
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 41 * hash + Objects.hashCode(this.key);
-        return hash;
+        return 41 * hash + Objects.hashCode(this.key);
     }
 
     @Override

@@ -47,8 +47,7 @@ public class File {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 59 * hash + Objects.hashCode(this.revision);
-        return hash;
+        return 59 * hash + Objects.hashCode(this.revision);
     }
 
     @Override
