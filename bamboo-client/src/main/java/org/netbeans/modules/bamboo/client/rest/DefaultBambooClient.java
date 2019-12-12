@@ -26,6 +26,7 @@ import org.netbeans.modules.bamboo.model.rest.Result;
 import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 
 import java.util.Collection;
+import java.util.function.Function;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -39,7 +40,6 @@ import javax.ws.rs.ServerErrorException;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import lombok.NonNull;
 import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
@@ -72,7 +72,8 @@ import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
 import static java.lang.String.format;
-import java.util.function.Function;
+import static java.util.Objects.requireNonNull;
+
 
 /**
  * @author Mario Schroeder
@@ -140,14 +141,17 @@ class DefaultBambooClient extends AbstractBambooClient {
     }
 
     @Override
-    void attach(@NonNull ResultVo vo, @NonNull ResultExpandParameter expandParameter) {
+    void attach(final ResultVo vo, final ResultExpandParameter parameter) {
+        requireNonNull(vo);
+        requireNonNull(parameter);
+                
         String key = vo.getKey();
-        Optional<Result> result = doResultCall(key, expandParameter.toString());
+        Optional<Result> result = doResultCall(key, parameter.toString());
 
         result.ifPresent(res -> {
-            if (ResultExpandParameter.Changes.equals(expandParameter)) {
+            if (ResultExpandParameter.Changes.equals(parameter)) {
                 vo.setChanges(conv.apply(new ChangeVoConverter()).convert(res.getChanges()));
-            } else if (ResultExpandParameter.Jira.equals(expandParameter)) {
+            } else if (ResultExpandParameter.Jira.equals(parameter)) {
                 vo.setIssues(conv.apply(new IssueVoConverter()).convert(res.getJiraIssues()));
             }
         });
@@ -162,7 +166,9 @@ class DefaultBambooClient extends AbstractBambooClient {
     }
 
     @Override
-    Response queue(@NonNull PlanVo plan) {
+    Response queue(PlanVo plan) {
+        requireNonNull(plan);
+        
         Response response = Response.status(Status.NOT_FOUND).build();
         String path = format(QUEUE, plan.getKey());
         ApiCallable caller = apiCallerFactory.newCaller(Object.class, path);
@@ -179,7 +185,9 @@ class DefaultBambooClient extends AbstractBambooClient {
     }
 
     @Override
-    void updateProjects(@NonNull Collection<ProjectVo> projects) {
+    void updateProjects(Collection<ProjectVo> projects) {
+        requireNonNull(projects);
+        
         Collection<ProjectVo> source = getProjects();
         if (!source.isEmpty()) {
             ProjectsUpdater updater = new ProjectsUpdater();
