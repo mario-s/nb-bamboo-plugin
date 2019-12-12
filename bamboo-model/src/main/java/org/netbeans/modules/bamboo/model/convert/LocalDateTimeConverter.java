@@ -17,14 +17,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
-import lombok.extern.java.Log;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Convert a a string to a {@link LocalDateTime}. The result will be empty if convert failed.
  */
-@Log
 class LocalDateTimeConverter implements VoConverter<String, Optional<LocalDateTime>> {
+    private static final Logger LOG = LoggerFactory.getLogger(LocalDateTimeConverter.class);
+    
     private static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
     @Override
@@ -36,7 +38,7 @@ class LocalDateTimeConverter implements VoConverter<String, Optional<LocalDateTi
                 getOffset(src).ifPresent((offset) -> builder.appendOffset("+HH:MM", offset));
                 opt = Optional.of(LocalDateTime.parse(src, builder.toFormatter()));
             } catch (DateTimeParseException ex) {
-                log.fine(ex.getMessage());
+                LOG.trace(ex.getMessage(), ex);
             }
         }
         return opt;
