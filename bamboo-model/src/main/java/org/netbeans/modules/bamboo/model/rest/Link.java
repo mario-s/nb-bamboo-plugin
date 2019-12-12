@@ -46,10 +46,7 @@ public class Link {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.href);
-        hash = 83 * hash + Objects.hashCode(this.rel);
-        return hash;
+        return 83 * 7 + Objects.hash(href, rel);
     }
 
     @Override

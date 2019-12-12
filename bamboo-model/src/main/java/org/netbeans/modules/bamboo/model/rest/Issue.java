@@ -80,8 +80,7 @@ public class Issue {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        return 97 * hash + Objects.hashCode(this.key);
+        return 97 * 5 + Objects.hashCode(this.key);
     }
 
     @Override

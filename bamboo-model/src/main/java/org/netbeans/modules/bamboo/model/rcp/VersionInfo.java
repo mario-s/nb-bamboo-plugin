@@ -64,9 +64,8 @@ public class VersionInfo {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.version);
+        hash = 67 * hash + Objects.hash(version, buildDate);
         hash = 67 * hash + this.buildNumber;
-        hash = 67 * hash + Objects.hashCode(this.buildDate);
         return hash;
     }
 

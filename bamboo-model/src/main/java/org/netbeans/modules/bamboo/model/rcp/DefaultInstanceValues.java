@@ -132,10 +132,8 @@ public class DefaultInstanceValues implements InstanceValues {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 83 * hash + Objects.hashCode(this.name);
-        hash = 83 * hash + Objects.hashCode(this.url);
+        hash = 83 * hash + Objects.hash(name, url, username);
         hash = 83 * hash + this.syncInterval;
-        hash = 83 * hash + Objects.hashCode(this.username);
         hash = 83 * hash + Arrays.hashCode(this.password);
         return hash;
     }

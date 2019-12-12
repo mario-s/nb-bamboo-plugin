@@ -108,8 +108,7 @@ public class Change implements ServiceInfoProvideable{
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        return 29 * hash + Objects.hashCode(this.changesetId);
+        return 29 * 5 + Objects.hashCode(this.changesetId);
     }
 
     @Override

@@ -72,11 +72,7 @@ public class Project implements ServiceInfoProvideable{
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 11 * hash + Objects.hashCode(this.key);
-        hash = 11 * hash + Objects.hashCode(this.link);
-        hash = 11 * hash + Objects.hashCode(this.name);
-        return hash;
+        return 11 * 7 + Objects.hash(key, link, name);
     }
 
     @Override

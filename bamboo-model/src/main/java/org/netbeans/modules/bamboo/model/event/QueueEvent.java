@@ -52,10 +52,7 @@ public class QueueEvent {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.plan);
-        hash = 97 * hash + Objects.hashCode(this.response);
-        return hash;
+        return  97 * 7 + Objects.hash(plan, response);
     }
 
     @Override

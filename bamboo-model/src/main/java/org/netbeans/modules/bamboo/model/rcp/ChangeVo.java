@@ -108,8 +108,7 @@ public class ChangeVo {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        return 37 * hash + Objects.hashCode(this.changesetId);
+        return 37 * 5 + Objects.hashCode(this.changesetId);
     }
 
     @Override
