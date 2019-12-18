@@ -17,6 +17,7 @@ import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.openide.nodes.Node;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -32,7 +33,7 @@ import static java.util.Collections.sort;
  */
 class ProjectNodeFactory extends AbstractRefreshChildFactory<ProjectVo> {
 
-    private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(ProjectNodeFactory.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProjectNodeFactory.class);
 
     private static final BuildProjectComparator COMPARATOR = new BuildProjectComparator();
 
