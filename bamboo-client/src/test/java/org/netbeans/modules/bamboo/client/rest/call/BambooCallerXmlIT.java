@@ -103,7 +103,7 @@ public class BambooCallerXmlIT {
     public void testGetResults_SizeGtZero() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
-        WebTarget webTarget = factory.newTarget(RESULTS, params);
+        WebTarget webTarget = factory.create(RESULTS, params);
         ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
         final int size = response.getResults().getSize();
         assertThat(size, not(0));
@@ -113,7 +113,7 @@ public class BambooCallerXmlIT {
     public void testGetResults_ResultsNotEmpty() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
-        WebTarget webTarget = factory.newTarget(RESULTS, params);
+        WebTarget webTarget = factory.create(RESULTS, params);
         ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
         Collection<Result> results = response.asCollection();
         assertThat(results.isEmpty(), is(false));
@@ -123,7 +123,7 @@ public class BambooCallerXmlIT {
     public void testGetChanges_FilesNotEmpty() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Changes.toString());
-        WebTarget webTarget = factory.newTarget(newResultPath(), params);
+        WebTarget webTarget = factory.create(newResultPath(), params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
         Collection<Change> changes = response.getChanges().asCollection();
         assumeFalse(changes.isEmpty());
@@ -135,7 +135,7 @@ public class BambooCallerXmlIT {
     public void testGetChanges_ChangeSetIdNotEmpty() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Changes.toString());
-        WebTarget webTarget = factory.newTarget(newResultPath(), params);
+        WebTarget webTarget = factory.create(newResultPath(), params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
         Collection<Change> changes = response.getChanges().asCollection();
         assumeFalse(changes.isEmpty());
@@ -147,7 +147,7 @@ public class BambooCallerXmlIT {
     public void testGetJiraIssues_ResultNotEmpty() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Jira.toString());
-        WebTarget webTarget = factory.newTarget(newResultPath(), params);
+        WebTarget webTarget = factory.create(newResultPath(), params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
         Collection<Issue> issues = response.getJiraIssues().asCollection();
         assertThat(issues.isEmpty(), is(false));

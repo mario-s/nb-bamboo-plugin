@@ -85,7 +85,7 @@ class ApiCaller<T> implements ApiCallable {
     }
 
     protected WebTarget newTarget() {
-        return webTargetFactory.newTarget(path, parameters);
+        return webTargetFactory.create(path, parameters);
     }
 
     @Override

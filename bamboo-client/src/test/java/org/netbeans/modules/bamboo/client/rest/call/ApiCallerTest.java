@@ -75,7 +75,7 @@ public class ApiCallerTest {
 
         given(values.getPassword()).willReturn(FOO.toCharArray());
         given(values.getUrl()).willReturn(FOO);
-        given(webTargetFactory.newTarget(anyString(), any(Map.class))).willReturn(target);
+        given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
         given(target.path(anyString())).willReturn(target);
         given(target.queryParam(anyString(), any())).willReturn(target);
         given(target.getUri()).willReturn(new URI("http://localhost"));
@@ -97,7 +97,7 @@ public class ApiCallerTest {
     public void testCreateTarget_EmptyValues_ExpectParameterPresent() {
         given(values.getUsername()).willReturn(FOO);
         classUnderTest.createTarget();
-        verify(webTargetFactory).newTarget(anyString(), eq(FOO_MAP));
+        verify(webTargetFactory).create(anyString(), eq(FOO_MAP));
     }
 
     /**
