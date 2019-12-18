@@ -12,3 +12,6 @@ target/
 .settings/
 
 .vscode/
+
+.idea/
+*.iml
