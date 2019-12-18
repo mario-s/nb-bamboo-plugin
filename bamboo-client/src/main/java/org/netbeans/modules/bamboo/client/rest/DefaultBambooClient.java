@@ -14,73 +14,44 @@
 package org.netbeans.modules.bamboo.client.rest;
 
 import org.netbeans.modules.bamboo.client.glue.HttpUtility;
+import org.netbeans.modules.bamboo.client.rest.AbstractVoUpdater.ProjectsUpdater;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallRepeatable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallerFactory;
-import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
-import org.netbeans.modules.bamboo.model.rcp.VersionInfo;
-import org.netbeans.modules.bamboo.model.rest.Info;
-import org.netbeans.modules.bamboo.model.rest.Plan;
-import org.netbeans.modules.bamboo.model.rest.PlansResponse;
-import org.netbeans.modules.bamboo.model.rest.Result;
-import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
+import org.netbeans.modules.bamboo.model.convert.*;
+import org.netbeans.modules.bamboo.model.rcp.*;
+import org.netbeans.modules.bamboo.model.rest.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
-import java.util.function.Function;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.logging.Level;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.ServerErrorException;
-
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import lombok.extern.java.Log;
-import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
-import org.netbeans.modules.bamboo.model.rest.AbstractResponse;
-import org.netbeans.modules.bamboo.model.rest.Project;
-import org.netbeans.modules.bamboo.model.rest.ProjectsResponse;
-import org.netbeans.modules.bamboo.model.convert.VersionInfoConverter;
-import org.netbeans.modules.bamboo.client.rest.AbstractVoUpdater.ProjectsUpdater;
-import org.netbeans.modules.bamboo.model.rcp.PlanVo;
-import org.netbeans.modules.bamboo.model.rest.Responseable;
-import org.netbeans.modules.bamboo.model.rest.ServiceInfoProvideable;
-
-import static java.util.Collections.singletonMap;
-
-import static java.util.Optional.empty;
-import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.EXPAND;
-import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.PROJECT_PLANS;
-import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.RESULT_COMMENTS;
-import static org.netbeans.modules.bamboo.client.glue.RestResources.INFO;
-import static org.netbeans.modules.bamboo.client.glue.RestResources.PLANS;
-import static org.netbeans.modules.bamboo.client.glue.RestResources.PROJECTS;
-import static org.netbeans.modules.bamboo.client.glue.RestResources.QUEUE;
-import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
-import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
-
-import org.netbeans.modules.bamboo.model.convert.CollectionVoConverter;
-import org.netbeans.modules.bamboo.model.convert.ChangeVoConverter;
-import org.netbeans.modules.bamboo.model.convert.IssueVoConverter;
-import org.netbeans.modules.bamboo.model.convert.VoConverter;
-import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
-import org.netbeans.modules.bamboo.model.rcp.ResultVo;
+import java.util.*;
+import java.util.function.Function;
 
 import static java.lang.String.format;
+import static java.util.Collections.singletonMap;
 import static java.util.Objects.requireNonNull;
+import static java.util.Optional.empty;
+import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.*;
+import static org.netbeans.modules.bamboo.client.glue.RestResources.*;
 
 
 /**
+ * This is the client, which actually interacts with a Bamboo server.
+ *
  * @author Mario Schroeder
  */
-@Log
 class DefaultBambooClient extends AbstractBambooClient {
-    
+
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultBambooClient.class);
+
+    private static final String RESULTS_FOR_CALL = "got results for call: {}";
+
     private Function<VoConverter, CollectionVoConverter> conv = CollectionVoConverter::new;
 
     private final ApiCallerFactory apiCallerFactory;
@@ -95,7 +66,7 @@ class DefaultBambooClient extends AbstractBambooClient {
     }
 
     private Collection<Plan> doPlansCall() {
-        log.info("requesting plans...");
+        LOG.info("requesting plans...");
         Set<Plan> results = new HashSet<>();
         ApiCallRepeatable caller = apiCallerFactory.newRepeatCaller(PlansResponse.class, PLANS);
         doRepeatableCall(caller, results);
@@ -103,7 +74,7 @@ class DefaultBambooClient extends AbstractBambooClient {
     }
 
     private Collection<Result> doResultsCall() {
-        log.info("requesting results...");
+        LOG.info("requesting results...");
         Set<Result> results = new HashSet<>();
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
         ApiCallRepeatable caller = apiCallerFactory.newRepeatCaller(ResultsResponse.class, RESULTS, params);
@@ -116,7 +87,7 @@ class DefaultBambooClient extends AbstractBambooClient {
         final Optional<WebTarget> opt = apiCaller.createTarget();
         opt.ifPresent(target -> {
             apiCaller.doGet(target).ifPresent(initialResponse -> {
-                logResponse(initialResponse);
+                LOG.trace(RESULTS_FOR_CALL, initialResponse);
                 results.addAll(initialResponse.asCollection());
 
                 apiCaller.repeat(initialResponse).ifPresent(response -> {
@@ -130,15 +101,12 @@ class DefaultBambooClient extends AbstractBambooClient {
 
         apiCaller.createTarget().ifPresent(target -> {
             apiCaller.doGet(target).ifPresent(initialResponse -> {
-                logResponse(initialResponse);
+                LOG.trace("got results for call: {}", initialResponse);
                 results.addAll(initialResponse.asCollection());
             });
         });
     }
 
-    private void logResponse(Responseable response) {
-        log.log(Level.FINE, "got results for call: {0}", response);
-    }
 
     @Override
     void attach(final ResultVo vo, final ResultExpandParameter parameter) {
@@ -175,11 +143,9 @@ class DefaultBambooClient extends AbstractBambooClient {
         Optional<WebTarget> target = caller.createTarget();
         if (target.isPresent()) {
             response = caller.doPost(target.get());
-            if (log.isLoggable(Level.INFO)) {
-                log.info(format("queued build for: %s...got response: %s", path, response));
-            }
-        } else if (log.isLoggable(Level.INFO)) {
-            log.info(format("did not queue the build for: %s", path));
+            LOG.info("queued build for: {}...got response: {}", path, response);
+        } else {
+            LOG.info("did not queue the build for: {}", path);
         }
         return response;
     }
@@ -209,7 +175,7 @@ class DefaultBambooClient extends AbstractBambooClient {
             factory.setProjects(projects);
 
         } catch (ServerErrorException | ProcessingException | NotFoundException exc) {
-            log.log(Level.INFO, exc.getMessage(), exc);
+            LOG.info(exc.getMessage(), exc);
         }
         return factory.create();
     }
@@ -227,9 +193,7 @@ class DefaultBambooClient extends AbstractBambooClient {
     /**
      * Load the available plans and their results.
      *
-     * @param values {@link InstanceValues}
-     *
-     * @return the avlailable plans
+     * @return the available plans
      */
     private Collection<Plan> getPlans() {
         Collection<Plan> plans = doPlansCall();

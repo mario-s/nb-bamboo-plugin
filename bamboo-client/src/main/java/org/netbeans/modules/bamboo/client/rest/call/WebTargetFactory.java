@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 
 /**
  * Factory for a new {@link WebTarget}.
- * 
+ *
  * @author Mario Schroeder
  */
 class WebTargetFactory {
