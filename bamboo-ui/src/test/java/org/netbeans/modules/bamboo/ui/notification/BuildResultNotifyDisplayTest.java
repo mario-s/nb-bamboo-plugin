@@ -43,7 +43,7 @@ import static org.mockito.Mockito.verify;
  * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
-public class BuildResultNotifyDisplayerTest {
+public class BuildResultNotifyDisplayTest {
 
     @Mock
     private Icon instanceIcon;
@@ -59,7 +59,7 @@ public class BuildResultNotifyDisplayerTest {
     
     private ResultVo newResult;
 
-    private BuildResultNotifyDisplayer classUnderTest;
+    private BuildResultNotifyDisplay classUnderTest;
 
     @Before
     public void setUp() {
@@ -67,7 +67,7 @@ public class BuildResultNotifyDisplayerTest {
         newResult = new ResultVo();
         plan = new PlanVo("test", "test");
         buildResult = new BuildResult(plan, oldResult, newResult);
-        classUnderTest = new BuildResultNotifyDisplayer(instanceIcon, buildResult) {
+        classUnderTest = new BuildResultNotifyDisplay(instanceIcon, buildResult) {
             @Override
             NotificationDisplayer getNotificationDisplayer() {
                 return notificationDisplayer;
@@ -76,7 +76,7 @@ public class BuildResultNotifyDisplayerTest {
     }
 
     /**
-     * Test of run method, of class BuildResultNotifyDisplayer.
+     * Test of run method, of class BuildResultNotifyDisplay.
      */
     @Test
     public void testRun_ResultNormal_ExpectNotifyNormal() {
@@ -85,7 +85,7 @@ public class BuildResultNotifyDisplayerTest {
     }
 
     /**
-     * Test of run method, of class BuildResultNotifyDisplayer.
+     * Test of run method, of class BuildResultNotifyDisplay.
      */
     @Test
     public void testRun_ResultFailed_ExpectNotifyHigh() {
@@ -97,7 +97,7 @@ public class BuildResultNotifyDisplayerTest {
     }
     
     /**
-     * Test of run method, of class BuildResultNotifyDisplayer.
+     * Test of run method, of class BuildResultNotifyDisplay.
      */
     @Test
     public void testRun_ResultStillNormal_ExpectNoNotify() {

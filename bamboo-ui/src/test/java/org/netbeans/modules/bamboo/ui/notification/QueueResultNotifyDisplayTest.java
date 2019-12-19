@@ -38,7 +38,7 @@ import static org.mockito.Mockito.verify;
  * @author Mario Schroeder
  */
 @RunWith(MockitoJUnitRunner.class)
-public class QueueResultNotifyDisplayerTest {
+public class QueueResultNotifyDisplayTest {
 
     private static final String FOO = "foo";
     @Mock
@@ -47,7 +47,7 @@ public class QueueResultNotifyDisplayerTest {
     @Mock
     private NotificationDisplayer notificationDisplayer;
 
-    private QueueResultNotifyDisplayer classUnderTest;
+    private QueueResultNotifyDisplay classUnderTest;
 
     private QueueEvent event;
 
@@ -56,7 +56,7 @@ public class QueueResultNotifyDisplayerTest {
         event = new QueueEvent();
         PlanVo plan = new PlanVo(FOO);
         event.setPlan(plan);
-        classUnderTest = new QueueResultNotifyDisplayer(instanceIcon, event) {
+        classUnderTest = new QueueResultNotifyDisplay(instanceIcon, event) {
             @Override
             NotificationDisplayer getNotificationDisplayer() {
                 return notificationDisplayer;
@@ -65,7 +65,7 @@ public class QueueResultNotifyDisplayerTest {
     }
 
     /**
-     * Test of run method, of class QueueResultNotifyDisplayer.
+     * Test of run method, of class QueueResultNotifyDisplay.
      */
     @Test
     public void testRun_ResponseOk_ExpectNotify() {
@@ -76,7 +76,7 @@ public class QueueResultNotifyDisplayerTest {
     }
     
      /**
-     * Test of run method, of class QueueResultNotifyDisplayer.
+     * Test of run method, of class QueueResultNotifyDisplay.
      */
     @Test
     public void testRun_ResponseError_ExpectNotify() {

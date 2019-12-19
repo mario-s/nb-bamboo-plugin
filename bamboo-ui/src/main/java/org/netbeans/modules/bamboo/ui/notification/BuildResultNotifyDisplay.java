@@ -36,13 +36,13 @@ import static org.netbeans.modules.bamboo.ui.notification.Bundle.*;
     "Result_Failed=failed",
     "Result_Successful=was successful"
 })
-class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer {
+class BuildResultNotifyDisplay extends AbstractNotifyDisplay {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BuildResultNotifyDisplayer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BuildResultNotifyDisplay.class);
 
     private final BuildResult buildResult;
 
-    BuildResultNotifyDisplayer(Icon icon, BuildResult buildResult) {
+    BuildResultNotifyDisplay(Icon icon, BuildResult buildResult) {
         super(icon);
         this.buildResult = buildResult;
     }
