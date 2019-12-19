@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,18 +15,14 @@ package org.netbeans.modules.bamboo.model.rcp;
 
 import org.netbeans.modules.bamboo.model.LifeCycleState;
 import org.netbeans.modules.bamboo.model.State;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
 import static java.util.Optional.empty;
-
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-
 import static java.util.Optional.ofNullable;
-import static lombok.AccessLevel.NONE;
 
 /**
  * This class represent the result for a plan. If the property changes is empty,
@@ -34,9 +30,6 @@ import static lombok.AccessLevel.NONE;
  *
  * @author Mario Schroeder
  */
-@Getter
-@Setter
-@EqualsAndHashCode(callSuper = true, exclude = {"parent", "changes", "issues"})
 public class ResultVo extends AbstractVo implements TraverseUp<PlanVo> {
 
     private int number;
@@ -49,7 +42,6 @@ public class ResultVo extends AbstractVo implements TraverseUp<PlanVo> {
     private int failedTestCount;
     private int successfulTestCount;
 
-    @Getter(NONE)
     private PlanVo parent;
 
     private Optional<Collection<ChangeVo>> changes;
@@ -89,4 +81,117 @@ public class ResultVo extends AbstractVo implements TraverseUp<PlanVo> {
         return getChanges().isPresent();
     }
 
+
+    public int getNumber() {
+        return this.number;
+    }
+
+    public String getBuildReason() {
+        return this.buildReason;
+    }
+
+    public State getState() {
+        return this.state;
+    }
+
+    public LifeCycleState getLifeCycleState() {
+        return this.lifeCycleState;
+    }
+
+    public long getBuildDurationInSeconds() {
+        return this.buildDurationInSeconds;
+    }
+
+    public LocalDateTime getBuildStartedTime() {
+        return this.buildStartedTime;
+    }
+
+    public LocalDateTime getBuildCompletedTime() {
+        return this.buildCompletedTime;
+    }
+
+    public int getFailedTestCount() {
+        return this.failedTestCount;
+    }
+
+    public int getSuccessfulTestCount() {
+        return this.successfulTestCount;
+    }
+
+    public Optional<Collection<ChangeVo>> getChanges() {
+        return this.changes;
+    }
+
+    public Optional<Collection<IssueVo>> getIssues() {
+        return this.issues;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setBuildReason(String buildReason) {
+        this.buildReason = buildReason;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public void setLifeCycleState(LifeCycleState lifeCycleState) {
+        this.lifeCycleState = lifeCycleState;
+    }
+
+    public void setBuildDurationInSeconds(long buildDurationInSeconds) {
+        this.buildDurationInSeconds = buildDurationInSeconds;
+    }
+
+    public void setBuildStartedTime(LocalDateTime buildStartedTime) {
+        this.buildStartedTime = buildStartedTime;
+    }
+
+    public void setBuildCompletedTime(LocalDateTime buildCompletedTime) {
+        this.buildCompletedTime = buildCompletedTime;
+    }
+
+    public void setFailedTestCount(int failedTestCount) {
+        this.failedTestCount = failedTestCount;
+    }
+
+    public void setSuccessfulTestCount(int successfulTestCount) {
+        this.successfulTestCount = successfulTestCount;
+    }
+
+    public void setParent(PlanVo parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        ResultVo other = (ResultVo) o;
+        return number == other.number &&
+                buildDurationInSeconds == other.buildDurationInSeconds &&
+                failedTestCount == other.failedTestCount &&
+                successfulTestCount == other.successfulTestCount &&
+                state == other.state &&
+                lifeCycleState == other.lifeCycleState &&
+                Objects.equals(buildReason, other.buildReason) &&
+                Objects.equals(buildStartedTime, other.buildStartedTime) &&
+                Objects.equals(buildCompletedTime, other.buildCompletedTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), number, buildReason, state, lifeCycleState, buildDurationInSeconds,
+                buildStartedTime, buildCompletedTime, failedTestCount, successfulTestCount);
+    }
 }
