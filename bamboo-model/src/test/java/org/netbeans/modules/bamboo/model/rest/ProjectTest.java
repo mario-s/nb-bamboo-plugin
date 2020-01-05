@@ -16,10 +16,12 @@ package org.netbeans.modules.bamboo.model.rest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import static org.hamcrest.CoreMatchers.is;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
 
 /**
  *
@@ -70,7 +72,4 @@ public class ProjectTest {
         Collection<Plan> plans = classUnderTest.plansAsCollection();
         assertThat(plans.isEmpty(), is(true));
     }
-
-    
-    
 }
