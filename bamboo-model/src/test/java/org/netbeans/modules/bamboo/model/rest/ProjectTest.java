@@ -38,19 +38,16 @@ public class ProjectTest {
     }
 
     @Test
-    public void testEquals_SameInstance() {
+    public void equals_SameInstance() {
         assertThat(classUnderTest.equals(classUnderTest), is(true));
     }
     
     @Test
-    public void testEquals_DifferentInstance() {
-        assertThat(classUnderTest.equals(createOther()), is(true));
+    public void equals_WithResults() {
+        assertThat(classUnderTest.equals(addResults()), is(true));
     }
 
-    private Project createOther() {
-        Project other = new Project();
-        other.setKey(FOO);
-        other.setName(FOO);
+    private Project addResults() {
         Plans plans = new Plans();
         
         List<Plan> planList = new ArrayList<>();
@@ -62,13 +59,14 @@ public class ProjectTest {
         result.setNumber(1);
         plan.setResult(result);
         
-        other.setPlans(plans);
-        return other;
+        classUnderTest.setPlans(plans);
+        
+        return classUnderTest;
     }
 
     
     @Test
-    public void testPlansAsCollection() {
+    public void plansAsCollection() {
         Collection<Plan> plans = classUnderTest.plansAsCollection();
         assertThat(plans.isEmpty(), is(true));
     }

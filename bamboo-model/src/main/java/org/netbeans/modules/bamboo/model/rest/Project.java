@@ -90,10 +90,10 @@ public class Project implements ServiceInfoProvideable{
         if (!Objects.equals(this.key, other.key)) {
             return false;
         }
-        if (!Objects.equals(this.name, other.name)) {
+        if (!Objects.equals(this.link, other.link)) {
             return false;
         }
-        return Objects.equals(this.link, other.link);
+        return Objects.equals(this.name, other.name);
     }
     
     @Override
