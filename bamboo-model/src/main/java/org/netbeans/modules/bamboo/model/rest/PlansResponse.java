@@ -16,17 +16,21 @@ package org.netbeans.modules.bamboo.model.rest;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @author Mario Schroeder
  */
-@Getter
-@Setter
 public class PlansResponse extends AbstractResponse<Plan> {
     private Plans plans;
 
+    public Plans getPlans() {
+        return plans;
+    }
+
+    public void setPlans(Plans plans) {
+        this.plans = plans;
+    }
+    
     @Override
     public Collection<Plan> asCollection(){
         Set<Plan> coll = new HashSet<>();

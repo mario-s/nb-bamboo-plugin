@@ -13,16 +13,16 @@
  */
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import java.io.Serializable;
-
+import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.openide.nodes.Node;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
-import lombok.extern.java.Log;
-import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 
 import static java.util.Collections.sort;
 
@@ -31,11 +31,12 @@ import static java.util.Collections.sort;
  * 
  * @author Mario Schroeder
  */
-@Log
 class ProjectNodeFactory extends AbstractRefreshChildFactory<ProjectVo> {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ProjectNodeFactory.class);
+
     private static final BuildProjectComparator COMPARATOR = new BuildProjectComparator();
-    
+
     private final BambooInstance instance;
 
     private Collection<ProjectVo> projects;
@@ -51,7 +52,7 @@ class ProjectNodeFactory extends AbstractRefreshChildFactory<ProjectVo> {
 
     @Override
     void refreshNodes() {
-        log.info(String.format("refreshing projects of %s", instance.getName()));
+        LOG.info("refreshing projects of {}", instance.getName());
         projects = instance.getChildren();
         refresh(false);
     }

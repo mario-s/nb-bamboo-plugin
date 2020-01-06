@@ -31,11 +31,11 @@ class NotifyDelegator {
     private static final Icon ICON = ImageUtilities.loadImageIcon(ICON_BASE, false);
 
     void notify(BuildResult buildResult) {
-        EventQueue.invokeLater(new BuildResultNotifyDisplayer(ICON, buildResult));
+        EventQueue.invokeLater(new BuildResultNotifyDisplay(ICON, buildResult));
     }
     
     void notify(QueueEvent event) {
-        EventQueue.invokeLater(new QueueResultNotifyDisplayer(ICON, event));
+        EventQueue.invokeLater(new QueueResultNotifyDisplay(ICON, event));
     }
     
 }

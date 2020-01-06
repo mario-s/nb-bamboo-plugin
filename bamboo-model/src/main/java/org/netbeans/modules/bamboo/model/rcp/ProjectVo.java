@@ -16,26 +16,21 @@ package org.netbeans.modules.bamboo.model.rcp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
-import lombok.Getter;
-import lombok.Setter;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
-import static lombok.AccessLevel.NONE;
 
 /**
  * A class which represent the project.
  *
  * @author Mario Schroeder
  */
-@Getter
-@Setter
 public class ProjectVo extends AbstractOpenInBrowserVo implements TraverseDown<PlanVo>, TraverseUp<BambooInstance> {
 
     private String name;
     private Collection<PlanVo> children;
-    @Getter(NONE)
+
     private BambooInstance parent;
 
     public ProjectVo(String key) {
@@ -46,6 +41,11 @@ public class ProjectVo extends AbstractOpenInBrowserVo implements TraverseDown<P
     @Override
     public Optional<BambooInstance> getParent() {
         return ofNullable(parent);
+    }
+
+    @Override
+    public void setParent(BambooInstance parent) {
+        this.parent = parent;
     }
 
     /**
@@ -69,5 +69,13 @@ public class ProjectVo extends AbstractOpenInBrowserVo implements TraverseDown<P
     @Override
     public boolean isAvailable() {
         return AvailabilityVerifier.isAvailable(this);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

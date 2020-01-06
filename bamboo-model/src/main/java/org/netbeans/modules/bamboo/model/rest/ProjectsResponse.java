@@ -17,18 +17,22 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  *
  * @author Mario Schroeder
  */
-@Getter
-@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProjectsResponse extends AbstractResponse<Project> {
     private Projects projects;
+
+    public Projects getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Projects projects) {
+        this.projects = projects;
+    }
 
     @Override
     public Collection<Project> asCollection() {

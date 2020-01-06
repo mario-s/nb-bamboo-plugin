@@ -29,7 +29,7 @@ import static org.openide.util.Pair.of;
 @NbBundle.Messages({
     "Build=The Build"
 })
-abstract class AbstractNotifyDisplayer implements Runnable {
+abstract class AbstractNotifyDisplay implements Runnable {
 
     private final Icon icon;
     
@@ -44,7 +44,7 @@ abstract class AbstractNotifyDisplayer implements Runnable {
     protected static final Pair<NotificationDisplayer.Priority, NotificationDisplayer.Category> INFO = of(NotificationDisplayer.Priority.NORMAL, NotificationDisplayer.Category.INFO);
     
 
-    AbstractNotifyDisplayer(Icon icon) {
+    AbstractNotifyDisplay(Icon icon) {
         this.icon = icon;
     }
 

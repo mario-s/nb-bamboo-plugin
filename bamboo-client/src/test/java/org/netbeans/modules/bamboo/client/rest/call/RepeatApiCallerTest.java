@@ -13,6 +13,8 @@
  */
 package org.netbeans.modules.bamboo.client.rest.call;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -62,6 +64,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 public class RepeatApiCallerTest {
     private static final String FOO = "foo";
     private static final int SIZE = 50;
+    private static final String HOST = "http://localhost";
 
     @Mock
     private InstanceValues values;
@@ -84,7 +87,7 @@ public class RepeatApiCallerTest {
         
         given(values.getPassword()).willReturn(FOO.toCharArray());
         given(values.getUrl()).willReturn(FOO);
-        given(webTargetFactory.newTarget(anyString(), any(Map.class))).willReturn(target);
+        given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
         given(target.path(anyString())).willReturn(target);
         given(target.queryParam(anyString(), any())).willReturn(target);
         
@@ -113,7 +116,7 @@ public class RepeatApiCallerTest {
     }
     
     @Test
-    public void testDoSecondCall_SizeGreaterMax_ExpectPresent() {
+    public void testDoSecondCall_SizeGreaterMax_ExpectPresent() throws URISyntaxException {
         WebTarget newTarget = mock(WebTarget.class);
         
         PlansResponse initial = new PlansResponse();
@@ -122,6 +125,7 @@ public class RepeatApiCallerTest {
         plans.setMaxResult(25);
         initial.setPlans(plans);
         
+        given(newTarget.getUri()).willReturn(new URI(HOST));
         given(target.queryParam(ApiCallRepeater.MAX, SIZE)).willReturn(newTarget);
         given(newTarget.request()).willReturn(builder);
         given(builder.get(PlansResponse.class)).willReturn(initial);
@@ -138,7 +142,8 @@ public class RepeatApiCallerTest {
      * Test of doGet method, of class ApiCaller.
      */
     @Test
-    public void doGet() {
+    public void doGet() throws URISyntaxException {
+        given(target.getUri()).willReturn(new URI(HOST));
         given(target.request()).willReturn(builder);
         given(builder.accept(MediaType.APPLICATION_XML)).willReturn(builder);
         given(builder.get(eq(PlansResponse.class))).willReturn(new PlansResponse());

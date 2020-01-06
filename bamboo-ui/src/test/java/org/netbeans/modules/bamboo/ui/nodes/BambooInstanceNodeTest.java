@@ -14,6 +14,8 @@
 package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.List;
 import javax.swing.Action;
 import org.junit.Before;
@@ -33,7 +35,9 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.netbeans.modules.bamboo.client.glue.InstanceConstants.PROP_SYNC_INTERVAL;
 
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.Unavailable;
@@ -116,5 +120,11 @@ public class BambooInstanceNodeTest {
         classUnderTest.propertyChange(event);
         String htmlDisplayName = classUnderTest.getHtmlDisplayName();
         assertThat(htmlDisplayName, not(notNullValue()));
+    }
+    
+    @Test
+    public void testDestroy_ShouldStopSynchronization() throws IOException{
+        classUnderTest.destroy();
+        verify(instance).removePropertyChangeListener(any(PropertyChangeListener.class));
     }
 }

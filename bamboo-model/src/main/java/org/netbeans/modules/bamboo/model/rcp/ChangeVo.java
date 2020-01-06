@@ -15,17 +15,15 @@ package org.netbeans.modules.bamboo.model.rcp;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static java.util.Collections.emptyList;
+import java.util.Objects;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
  *
  * @author Mario Schroeder
  */
-@Data
-@EqualsAndHashCode(of = "changesetId")
 public class ChangeVo {
 
     private String changesetId;
@@ -47,4 +45,91 @@ public class ChangeVo {
     public Collection<FileVo> getFiles() {
         return (files != null) ? files : emptyList();
     }
+
+    public void setFiles(Collection<FileVo> files) {
+        this.files = files;
+    }
+
+    public String getChangesetId() {
+        return changesetId;
+    }
+
+    public void setChangesetId(String changesetId) {
+        this.changesetId = changesetId;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getCommitUrl() {
+        return commitUrl;
+    }
+
+    public void setCommitUrl(String commitUrl) {
+        this.commitUrl = commitUrl;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    @Override
+    public int hashCode() {
+        return 37 * 5 + Objects.hashCode(this.changesetId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ChangeVo other = (ChangeVo) obj;
+        return Objects.equals(this.changesetId, other.changesetId);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
+    
+    
 }

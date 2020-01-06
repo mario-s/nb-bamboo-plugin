@@ -13,27 +13,15 @@
  */
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import java.awt.Image;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyEditor;
-import java.io.CharConversionException;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import javax.swing.Action;
-import lombok.extern.java.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.modules.bamboo.model.LifeCycleState;
+import org.netbeans.modules.bamboo.model.State;
 import org.netbeans.modules.bamboo.model.rcp.ModelChangedValues;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
-import org.netbeans.modules.bamboo.model.State;
 import org.netbeans.modules.bamboo.ui.actions.ActionConstants;
 import org.netbeans.modules.bamboo.ui.util.DateFormatter;
-
 import org.openide.actions.PropertiesAction;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
@@ -42,6 +30,18 @@ import org.openide.util.NbBundle;
 import org.openide.util.actions.SystemAction;
 import org.openide.util.lookup.Lookups;
 import org.openide.xml.XMLUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyEditor;
+import java.io.CharConversionException;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.netbeans.modules.bamboo.ui.nodes.Bundle.*;
@@ -51,7 +51,6 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.*;
  *
  * @author Mario Schroeder
  */
-@Log
 @NbBundle.Messages({
     "TXT_Plan_Prop_Key=Plan Key",
     "DESC_Plan_Prop_Key=The key of the plan",
@@ -102,6 +101,8 @@ public class PlanNode extends AbstractInstanceChildNode {
 
     private static final String NO_CONTROL_SHADOW = "<font color='!controlShadow'>(%s)</font>";
 
+    private static final Logger LOG = LoggerFactory.getLogger(PlanNode.class);
+
     private final PlanVo plan;
 
     private final BuildReasonEditor buildReasonEditor;
@@ -131,7 +132,7 @@ public class PlanNode extends AbstractInstanceChildNode {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        log.log(Level.INFO, "plan changed: {0}", plan);
+        LOG.info("plan changed: {}", plan);
 
         updateHtmlDisplayName();
 
@@ -161,7 +162,7 @@ public class PlanNode extends AbstractInstanceChildNode {
 
             fireDisplayNameChange(oldDisplayName, htmlDisplayName);
         } catch (CharConversionException ex) {
-            log.log(Level.FINE, ex.getMessage(), ex);
+            LOG.debug(ex.getMessage(), ex);
         }
     }
 
@@ -227,7 +228,7 @@ public class PlanNode extends AbstractInstanceChildNode {
         actions.add(null);
         actions.add(SystemAction.get(PropertiesAction.class));
 
-        return actions.toArray(new Action[actions.size()]);
+        return actions.toArray(new Action[0]);
     }
 
     @Override

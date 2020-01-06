@@ -14,20 +14,53 @@
 package org.netbeans.modules.bamboo.model.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  *
  * @author Mario Schroeder
  */
-@Data
-@EqualsAndHashCode(of = "revision")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class File {
     private String name;
     private String revision;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRevision() {
+        return revision;
+    }
+
+    public void setRevision(String revision) {
+        this.revision = revision;
+    }
+
+    @Override
+    public int hashCode() {
+        return 59 * 3 + Objects.hashCode(this.revision);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final File other = (File) obj;
+        return Objects.equals(this.revision, other.revision);
+    }
 }

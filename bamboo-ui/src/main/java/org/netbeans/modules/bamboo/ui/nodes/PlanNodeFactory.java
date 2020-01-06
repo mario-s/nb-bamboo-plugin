@@ -13,16 +13,16 @@
  */
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import java.io.Serializable;
+import org.netbeans.modules.bamboo.model.rcp.PlanVo;
+import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.openide.nodes.Node;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import org.netbeans.modules.bamboo.model.rcp.PlanVo;
-import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
-
-import lombok.extern.java.Log;
 
 import static java.util.Collections.sort;
 
@@ -31,8 +31,9 @@ import static java.util.Collections.sort;
  *
  * @author Mario Schroeder
  */
-@Log
 class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {
+
+    private static final Logger LOG = LoggerFactory.getLogger(PlanNodeFactory.class);
 
     private static final PlanComparator COMPARATOR = new PlanComparator();
 
@@ -51,7 +52,7 @@ class PlanNodeFactory extends AbstractRefreshChildFactory<PlanVo> {
 
     @Override
     void refreshNodes() {
-        log.info(String.format("refreshing plans of %s", project.getName()));
+        LOG.info("refreshing plans of {}", project.getName());
         plans = project.getChildren();
         refresh(false);
     }

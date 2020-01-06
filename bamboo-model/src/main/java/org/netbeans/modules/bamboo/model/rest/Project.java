@@ -16,15 +16,15 @@ package org.netbeans.modules.bamboo.model.rest;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import java.util.Collection;
-import lombok.Data;
 
 import static java.util.Collections.emptyList;
+import java.util.Objects;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
  *
  * @author Mario Schroeder
  */
-@Data
 @JsonRootName(value = "project")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Project implements ServiceInfoProvideable{
@@ -38,4 +38,66 @@ public class Project implements ServiceInfoProvideable{
         return (plans == null) ? emptyList() : plans.getPlan();
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public Link getLink() {
+        return link;
+    }
+
+    public void setLink(Link link) {
+        this.link = link;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Plans getPlans() {
+        return plans;
+    }
+
+    public void setPlans(Plans plans) {
+        this.plans = plans;
+    }
+
+    @Override
+    public int hashCode() {
+        return 11 * 7 + Objects.hash(key, link, name);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Project other = (Project) obj;
+        if (!Objects.equals(this.key, other.key)) {
+            return false;
+        }
+        if (!Objects.equals(this.link, other.link)) {
+            return false;
+        }
+        return Objects.equals(this.name, other.name);
+    }
+    
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
 }

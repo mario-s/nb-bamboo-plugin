@@ -14,9 +14,6 @@
 package org.netbeans.modules.bamboo.model.event;
 
 import java.util.Collection;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 
 /**
@@ -24,10 +21,15 @@ import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
  *
  * @author Mario Schroeder
  */
-@Getter
-@AllArgsConstructor
 public final class InstancesLoadEvent {
 
-    @NonNull
     private final Collection<BambooInstance> instances;
+
+    public InstancesLoadEvent(Collection<BambooInstance> instances) {
+        this.instances = instances;
+    }
+
+    public Collection<BambooInstance> getInstances() {
+        return instances;
+    }
 }

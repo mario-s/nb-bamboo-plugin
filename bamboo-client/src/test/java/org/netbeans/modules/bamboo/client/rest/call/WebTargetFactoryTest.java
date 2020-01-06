@@ -66,7 +66,7 @@ public class WebTargetFactoryTest {
      */
     @Test
     public void testNewTarget_NoParams_ExpectTarget() {
-        WebTarget result = classUnderTest.newTarget(FOO, null);
+        WebTarget result = classUnderTest.create(FOO, null);
         assertThat(result, notNullValue());
     }
     
@@ -77,7 +77,7 @@ public class WebTargetFactoryTest {
     public void testNewTarget_WithParams_ExpectTarget() {
         Map<String, String> params = new HashMap<>();
         params.put(FOO, FOO);
-        WebTarget result = classUnderTest.newTarget(FOO, params);
+        WebTarget result = classUnderTest.create(FOO, params);
         assertThat(result, notNullValue());
     }
     

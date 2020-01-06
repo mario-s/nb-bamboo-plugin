@@ -1,4 +1,6 @@
-/* 
+/*
+ * Copyright 2019 NetBeans.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -11,42 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.netbeans.modules.bamboo.model.rest;
+package org.netbeans.modules.bamboo.model.rcp;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import java.time.LocalDateTime;
+import org.apache.commons.lang3.builder.Builder;
 
 /**
+ * Builder for {@link VersionInfo}.
+ * 
  * @author Mario Schroeder
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Info {
+public class VersionInfoBuilder implements Builder<VersionInfo> {
+
     private String version;
     private int buildNumber;
-    private String buildDate;
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
+    private LocalDateTime buildDate;
+        
+    public VersionInfoBuilder version(String version) {
         this.version = version;
-    }
-
-    public int getBuildNumber() {
-        return buildNumber;
-    }
-
-    public void setBuildNumber(int buildNumber) {
-        this.buildNumber = buildNumber;
-    }
-
-    public String getBuildDate() {
-        return buildDate;
-    }
-
-    public void setBuildDate(String buildDate) {
-        this.buildDate = buildDate;
+        return this;
     }
     
+    public VersionInfoBuilder buildNumber(int buildNumber) {
+        this.buildNumber = buildNumber;
+        return this;
+    }
+    
+    public VersionInfoBuilder buildDate(LocalDateTime buildDate) {
+        this.buildDate = buildDate;
+        return this;
+    }
+
+    @Override
+    public VersionInfo build() {
+        return new VersionInfo(version, buildNumber, buildDate);
+    }
+
 }

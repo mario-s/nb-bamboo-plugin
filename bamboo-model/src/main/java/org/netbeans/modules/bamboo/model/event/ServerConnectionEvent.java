@@ -13,13 +13,12 @@
  */
 package org.netbeans.modules.bamboo.model.event;
 
-import lombok.Data;
+import java.util.Objects;
 
 /**
  * This event is fired when the connection to a CI server is lost or it comes back to live.
  * @author Mario Schroeder
  */
-@Data
 public class ServerConnectionEvent {
     private String serverName;
     private boolean available;
@@ -32,6 +31,47 @@ public class ServerConnectionEvent {
         this.serverName = serverName;
         this.available = available;
     }
-    
+
+    public String getServerName() {
+        return serverName;
+    }
+
+    public void setServerName(String serverName) {
+        this.serverName = serverName;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.serverName);
+        hash = 29 * hash + (this.available ? 1 : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ServerConnectionEvent other = (ServerConnectionEvent) obj;
+        if (this.available != other.available) {
+            return false;
+        }
+        return Objects.equals(this.serverName, other.serverName);
+    }
     
 }

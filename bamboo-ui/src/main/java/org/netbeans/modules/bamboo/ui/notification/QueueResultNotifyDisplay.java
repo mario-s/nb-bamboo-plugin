@@ -37,20 +37,20 @@ import static org.netbeans.modules.bamboo.ui.notification.Bundle.Start_Failed;
 import static org.netbeans.modules.bamboo.ui.notification.Bundle.Start_Success;
 
 /**
- * This class displays a ntification for manual build run.
+ * This class displays a notification for manual build run.
  * @author Mario Schroeder
  */
 @Messages({"By_User=Manual run by user.",
     "Start_Success=started successful.",
     "Start_Failed=could not be started.",
     "Server_Response=The server responded with"})
-class QueueResultNotifyDisplayer extends AbstractNotifyDisplayer {
+class QueueResultNotifyDisplay extends AbstractNotifyDisplay {
 
     private static final String BR = "<br/>";
 
     private final QueueEvent event;
 
-    QueueResultNotifyDisplayer(Icon icon, QueueEvent event) {
+    QueueResultNotifyDisplay(Icon icon, QueueEvent event) {
         super(icon);
         this.event = event;
     }

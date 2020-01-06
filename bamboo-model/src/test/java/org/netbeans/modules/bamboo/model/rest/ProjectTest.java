@@ -16,10 +16,12 @@ package org.netbeans.modules.bamboo.model.rest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import static org.hamcrest.CoreMatchers.is;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
 
 /**
  *
@@ -38,19 +40,16 @@ public class ProjectTest {
     }
 
     @Test
-    public void testEquals_SameInstance() {
+    public void equals_SameInstance() {
         assertThat(classUnderTest.equals(classUnderTest), is(true));
     }
     
     @Test
-    public void testEquals_DifferentInstance() {
-        assertThat(classUnderTest.equals(createOther()), is(true));
+    public void equals_WithResults() {
+        assertThat(classUnderTest.equals(addResults()), is(true));
     }
 
-    private Project createOther() {
-        Project other = new Project();
-        other.setKey(FOO);
-        other.setName(FOO);
+    private Project addResults() {
         Plans plans = new Plans();
         
         List<Plan> planList = new ArrayList<>();
@@ -62,17 +61,15 @@ public class ProjectTest {
         result.setNumber(1);
         plan.setResult(result);
         
-        other.setPlans(plans);
-        return other;
+        classUnderTest.setPlans(plans);
+        
+        return classUnderTest;
     }
 
     
     @Test
-    public void testPlansAsCollection() {
+    public void plansAsCollection() {
         Collection<Plan> plans = classUnderTest.plansAsCollection();
         assertThat(plans.isEmpty(), is(true));
     }
-
-    
-    
 }

@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,27 +13,21 @@
  */
 package org.netbeans.modules.bamboo.model.rcp;
 
+import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.modules.bamboo.model.PlanType;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Optional;
 import java.util.function.Consumer;
-import lombok.Getter;
-import org.netbeans.api.annotations.common.NonNull;
-import lombok.Setter;
-import lombok.ToString;
 
 import static java.util.Optional.ofNullable;
-import static lombok.AccessLevel.NONE;
 
 /**
  * This class is the plan related to a project.
  *
  * @author Mario Schroeder
  */
-@Getter
-@Setter
-@ToString
 public class PlanVo extends AbstractOpenInBrowserVo implements PropertyChangeListener, TraverseUp<ProjectVo>, Queueable {
 
     private String name;
@@ -43,7 +37,6 @@ public class PlanVo extends AbstractOpenInBrowserVo implements PropertyChangeLis
     private boolean notify;
     private ResultVo result;
     private PlanType type;
-    @Getter(NONE)
     private ProjectVo parent;
 
     public PlanVo(String key) {
@@ -57,7 +50,7 @@ public class PlanVo extends AbstractOpenInBrowserVo implements PropertyChangeLis
         this.notify = true;
         init();
     }
-    
+
     private void init() {
         addPropertyChangeListener(this);
     }
@@ -112,6 +105,54 @@ public class PlanVo extends AbstractOpenInBrowserVo implements PropertyChangeLis
         getParent().ifPresent(project -> {
             project.getParent().ifPresent(action);
         });
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getShortKey() {
+        return shortKey;
+    }
+
+    public void setShortKey(String shortKey) {
+        this.shortKey = shortKey;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    public ResultVo getResult() {
+        return result;
+    }
+
+    public PlanType getType() {
+        return type;
+    }
+
+    public void setType(PlanType type) {
+        this.type = type;
+    }
+
+    public void setParent(ProjectVo parent) {
+        this.parent = parent;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public boolean isNotify() {
+        return notify;
     }
 
 }

@@ -13,15 +13,13 @@
  */
 package org.netbeans.modules.bamboo.model.rcp;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.util.Objects;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
  *
  * @author Mario Schroeder
  */
-@Data
-@EqualsAndHashCode(of = "key")
 public class IssueVo {
 
     private String key;
@@ -37,4 +35,71 @@ public class IssueVo {
     public IssueVo(String key) {
         this.key = key;
     }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(String assignee) {
+        this.assignee = assignee;
+    }
+
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return 43 * hash + Objects.hashCode(this.key);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final IssueVo other = (IssueVo) obj;
+        return Objects.equals(this.key, other.key);
+    }
+    
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
+    
 }

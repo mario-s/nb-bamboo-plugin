@@ -14,24 +14,88 @@
 package org.netbeans.modules.bamboo.model.rcp;
 
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-
-
+import java.util.Objects;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
+ * This class hold the version information for the build server.
+ * 
  * @author Mario Schroeder
  */
-@Data
-@Builder
-@AllArgsConstructor
 public class VersionInfo {
+
     private String version;
     private int buildNumber;
     private LocalDateTime buildDate;
 
     public VersionInfo() {
     }
-    
+
+    public VersionInfo(String version, int buildNumber, LocalDateTime buildDate) {
+        this.version = version;
+        this.buildNumber = buildNumber;
+        this.buildDate = buildDate;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public int getBuildNumber() {
+        return buildNumber;
+    }
+
+    public void setBuildNumber(int buildNumber) {
+        this.buildNumber = buildNumber;
+    }
+
+    public LocalDateTime getBuildDate() {
+        return buildDate;
+    }
+
+    public void setBuildDate(LocalDateTime buildDate) {
+        this.buildDate = buildDate;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + Objects.hash(version, buildDate);
+        hash = 67 * hash + this.buildNumber;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final VersionInfo other = (VersionInfo) obj;
+        if (this.buildNumber != other.buildNumber) {
+            return false;
+        }
+        if (!Objects.equals(this.version, other.version)) {
+            return false;
+        }
+        return Objects.equals(this.buildDate, other.buildDate);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
+
+    public static VersionInfoBuilder builder() {
+        return new VersionInfoBuilder();
+    }
 }

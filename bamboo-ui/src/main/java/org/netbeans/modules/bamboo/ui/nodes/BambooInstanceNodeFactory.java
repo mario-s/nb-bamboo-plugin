@@ -13,25 +13,23 @@
  */
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import java.io.Serializable;
-import java.util.Collection;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
-
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
-
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static java.util.Collections.sort;
-
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
-import lombok.extern.java.Log;
 
+import static java.util.Collections.sort;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
@@ -40,9 +38,10 @@ import static java.util.Optional.of;
  *
  * @author Mario Schroeder
  */
-@Log
 class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
         implements LookupListener {
+
+    private static final Logger LOG = LoggerFactory.getLogger(BambooInstanceNodeFactory.class);
 
     private static final BambooInstanceComparator COMPARATOR = new BambooInstanceComparator();
 
@@ -84,7 +83,7 @@ class BambooInstanceNodeFactory extends ChildFactory<BambooInstance>
             try {
                 c.await();
             } catch (InterruptedException ex) {
-                log.info(ex.getMessage());
+                LOG.debug(ex.getMessage());
             }
         });
 

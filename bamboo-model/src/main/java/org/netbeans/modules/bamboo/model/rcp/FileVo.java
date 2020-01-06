@@ -13,16 +13,57 @@
  */
 package org.netbeans.modules.bamboo.model.rcp;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.util.Objects;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
  *
  * @author Mario Schroeder
  */
-@Data
-@EqualsAndHashCode(of = "revision")
 public class FileVo {
     private String name;
     private String revision;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRevision() {
+        return revision;
+    }
+
+    public void setRevision(String revision) {
+        this.revision = revision;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return 31 * hash + Objects.hashCode(this.revision);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final FileVo other = (FileVo) obj;
+        return Objects.equals(this.revision, other.revision);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
+    
 }

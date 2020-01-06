@@ -54,6 +54,11 @@ public interface BambooInstance extends
      */
     Task synchronize(boolean showProgress);
     
+    /**
+     * This will cancel the synchronization task.
+     */
+    void stopSynchronization();
+    
 
     /**
      * This method updates the synchronization interval and restart any scheduled synchronization tasks.

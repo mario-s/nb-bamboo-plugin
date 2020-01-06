@@ -14,18 +14,17 @@
 package org.netbeans.modules.bamboo.client.rest.call;
 
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
 import static java.util.Collections.emptyMap;
 
 /**
  * This class keeps the necessary values for an Api call together.
+ *
  * @author Mario Schroeder
  */
-@Getter
 final class CallParameters<T> {
+
     private final Class<T> responseClass;
     private final InstanceValues values;
 
@@ -33,12 +32,43 @@ final class CallParameters<T> {
         this.responseClass = responseClass;
         this.values = values;
     }
-    
-    @Setter
+
     private boolean json; //if the path ends with json it is true
-    @Setter
+
     private String path = "";
-    @Setter
-    private Map<String, String> parameters =  emptyMap();     
-    
+
+    private Map<String, String> parameters = emptyMap();
+
+    public Class<T> getResponseClass() {
+        return responseClass;
+    }
+
+    public InstanceValues getValues() {
+        return values;
+    }
+
+    public void setJson(boolean json) {
+        this.json = json;
+    }
+
+    public boolean isJson() {
+        return json;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public Map<String, String> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(Map<String, String> parameters) {
+        this.parameters = parameters;
+    }
+
 }

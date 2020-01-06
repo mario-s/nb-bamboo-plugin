@@ -13,22 +13,22 @@
  */
 package org.netbeans.modules.bamboo.client.rest.call;
 
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.logging.Level;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import lombok.extern.java.Log;
 import org.glassfish.jersey.logging.LoggingFeature;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
+ * Factory for a new {@link WebTarget}.
  *
  * @author Mario Schroeder
  */
-@Log
 class WebTargetFactory {
 
     static final String REST_API = "/rest/api/latest";
@@ -36,6 +36,7 @@ class WebTargetFactory {
     static final String BASIC = "basic";
     static final String USER = "os_username";
     static final String PASS = "os_password";
+
 
     private final InstanceValues values;
     
@@ -49,15 +50,16 @@ class WebTargetFactory {
         this.values = values;
         
         client = ClientBuilder.newClient();
+        Logger log = Logger.getLogger(WebTargetFactory.class.getName());
         client = client.register(new LoggingFeature(log, level, null, null));
     }
     
-    WebTarget newTarget(final String path, final Map<String,String> params) {
+    WebTarget create(final String path, final Map<String,String> params) {
         String url = values.getUrl();
         String user = values.getUsername();
         char[] chars = values.getPassword();
         String password = String.valueOf(chars);
-        WebTarget target = newTarget(url, path).queryParam(AUTH_TYPE, BASIC).queryParam(USER, user).queryParam(
+        WebTarget target = create(url, path).queryParam(AUTH_TYPE, BASIC).queryParam(USER, user).queryParam(
                 PASS,
                 password);
         
@@ -75,11 +77,11 @@ class WebTargetFactory {
         return target;
     }
     
-    private WebTarget newTarget(final String url, final String path) {
-        return newTarget(url).path(REST_API).path(path);
+    private WebTarget create(final String url, final String path) {
+        return create(url).path(REST_API).path(path);
     }
 
-    private WebTarget newTarget(final String url) {
+    private WebTarget create(final String url) {
         return client.target(url);
     }
 }

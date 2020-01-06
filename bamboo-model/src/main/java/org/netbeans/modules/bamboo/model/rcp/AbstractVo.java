@@ -15,18 +15,15 @@ package org.netbeans.modules.bamboo.model.rcp;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import java.util.Objects;
 import org.netbeans.api.annotations.common.NonNull;
 
 /**
  *
  * @author Mario Schroeder
  */
-@EqualsAndHashCode(of = "key")
 public abstract class AbstractVo {
     
-    @Getter
     private final String key;
     
     private final PropertyChangeSupport changeSupport;
@@ -34,6 +31,10 @@ public abstract class AbstractVo {
     public AbstractVo(@NonNull String key) {
         this.key = key;
         this.changeSupport = new PropertyChangeSupport(this);
+    }
+
+    public String getKey() {
+        return key;
     }
     
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -47,4 +48,27 @@ public abstract class AbstractVo {
     public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }     
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return 29 * hash + Objects.hashCode(this.key);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AbstractVo other = (AbstractVo) obj;
+        return Objects.equals(this.key, other.key);
+    }
+    
+    
 }

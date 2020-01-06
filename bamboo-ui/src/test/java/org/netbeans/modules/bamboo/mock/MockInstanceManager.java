@@ -45,7 +45,7 @@ public class MockInstanceManager extends DefaultInstanceManager {
 
     @Override
     public void removeInstance(final BambooInstance instance) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override

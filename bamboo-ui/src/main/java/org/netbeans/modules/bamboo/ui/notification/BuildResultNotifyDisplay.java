@@ -13,37 +13,36 @@
  */
 package org.netbeans.modules.bamboo.ui.notification;
 
-import java.util.logging.Level;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import lombok.extern.java.Log;
+import org.netbeans.modules.bamboo.model.State;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
-import org.netbeans.modules.bamboo.model.State;
 import org.openide.awt.NotificationDisplayer.Category;
 import org.openide.awt.NotificationDisplayer.Priority;
 import org.openide.util.NbBundle;
 import org.openide.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static org.netbeans.modules.bamboo.ui.notification.Bundle.Build;
-import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Failed;
-import static org.netbeans.modules.bamboo.ui.notification.Bundle.Result_Successful;
+import javax.swing.*;
+
+import static org.netbeans.modules.bamboo.ui.notification.Bundle.*;
 
 /**
  * This class displays the build result in the status bar.
  *
  * @author Mario Schroeder
  */
-@Log
 @NbBundle.Messages({
     "Result_Failed=failed",
     "Result_Successful=was successful"
 })
-class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer {
+class BuildResultNotifyDisplay extends AbstractNotifyDisplay {
+
+    private static final Logger LOG = LoggerFactory.getLogger(BuildResultNotifyDisplay.class);
 
     private final BuildResult buildResult;
 
-    BuildResultNotifyDisplayer(Icon icon, BuildResult buildResult) {
+    BuildResultNotifyDisplay(Icon icon, BuildResult buildResult) {
         super(icon);
         this.buildResult = buildResult;
     }
@@ -54,7 +53,7 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer {
             final PlanVo plan = getPlan();
             final String name = plan.getName();
 
-            log.log(Level.INFO, "state of plan {0} has changed", name);
+            LOG.debug("state of plan {} has changed", name);
 
             final String summary = getSummary(plan);
 
@@ -106,7 +105,7 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer {
             relevant = false;
         }
 
-        log.log(Level.INFO, "result change is relevant: {0}", relevant);
+        LOG.debug("result change is relevant: {}", relevant);
 
         return relevant;
     }
@@ -116,5 +115,4 @@ class BuildResultNotifyDisplayer extends AbstractNotifyDisplayer {
         ResultVo newRes = buildResult.getNewResult();
         return State.Successful.equals(oldRes.getState()) && State.Successful.equals(newRes.getState());
     }
-
 }

@@ -20,11 +20,7 @@ import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlRootElement(name = "results")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -40,6 +36,14 @@ public class ResultsResponse extends AbstractResponse<Result> {
         return coll;
     }
 
+    public Results getResults() {
+        return results;
+    }
+
+    public void setResults(Results results) {
+        this.results = results;
+    }
+    
     @Override
     protected Metrics getMetrics() {
         return results;

@@ -13,35 +13,36 @@
  */
 package org.netbeans.modules.bamboo.ui.notification;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyVetoException;
-import java.util.Optional;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
-import lombok.extern.java.Log;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerManager.Provider;
 import org.openide.nodes.Node;
-import org.openide.windows.TopComponent;
-import org.openide.windows.WindowManager;
-
-import static java.util.Optional.ofNullable;
-
-
-import static org.netbeans.modules.bamboo.ui.RootNodeConstants.BAMBOO_NODE_NAME;
 import org.openide.nodes.NodeNotFoundException;
 import org.openide.nodes.NodeOp;
+import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyVetoException;
+import java.util.Optional;
+
+import static java.util.Optional.*;
+import static org.netbeans.modules.bamboo.ui.RootNodeConstants.BAMBOO_NODE_NAME;
 
 /**
+ * Listener for a selection of a node.
  *
  * @author Mario Schroeder
  */
-@Log
 class SelectNodeListener implements ActionListener {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SelectNodeListener.class);
+
     static final String TAB_ID = "services";
+
 
     private final Optional<PlanVo> plan;
 
@@ -66,35 +67,23 @@ class SelectNodeListener implements ActionListener {
         ExplorerManager em = provider.getExplorerManager();
 
         pl.getParent().ifPresent(project -> {
-            log.fine("project is present");
+            LOG.debug("project is present");
             project.getParent().ifPresent(instance -> {
-                log.fine("instance is present");
+                LOG.debug("instance is present");
                 String[] names = new String[]{BAMBOO_NODE_NAME, instance.getName(), project.getName(), pl.getName()};
-                findPath(em, names).ifPresent(node -> selectNode(em, node));
+                try {
+                    em.setSelectedNodes(new Node[] {findPath(em, names)});
+                } catch (NodeNotFoundException | PropertyVetoException ex) {
+                    LOG.warn(ex.getMessage(), ex);
+                }
             });
         });
     }
 
-    private Optional<Node> findPath(ExplorerManager em, String[] names) {
+    private Node findPath(ExplorerManager em, String[] names) throws NodeNotFoundException {
         Optional<Node> path = empty();
         Node root = em.getRootContext();
-        
-        try {
-            path = of(NodeOp.findPath(root, names));
-        } catch (NodeNotFoundException ex) {
-            log.warning(ex.getMessage());
-        }
-
-        return path;
-    }
-
-    private void selectNode(ExplorerManager em, Node node) {
-        
-        try {
-            em.setSelectedNodes(new Node[] {node});
-        } catch (PropertyVetoException ex) {
-            log.warning(ex.getMessage());
-        }
+        return NodeOp.findPath(root, names);
     }
 
     Optional<TopComponent> findServicesTab() {
