@@ -132,10 +132,6 @@ public class DefaultBambooClientTest {
     @Before
     public void setUp() {
         given(instanceValues.getUrl()).willReturn("http://foo.bar");
-        given(instanceValues.getUsername()).willReturn(FOO);
-        given(instanceValues.getPassword()).willReturn(new char[]{'b', 'a', 'z'});
-        given(webTarget.path(anyString())).willReturn(webTarget);
-        given(webTarget.request()).willReturn(invocationBuilder);
 
         classUnderTest
                 = new DefaultBambooClient(instanceValues);
@@ -180,7 +176,6 @@ public class DefaultBambooClientTest {
 
         given(projectsCaller.createTarget()).willReturn(of(webTarget));
         given(projectsCaller.doGet(webTarget)).willReturn(of(projectsResponse));
-        given(projectsCaller.repeat(projectsResponse)).willReturn(empty());
 
         given(plansCaller.createTarget()).willReturn(of(webTarget));
         given(plansCaller.doGet(webTarget)).willReturn(of(plansResponse));

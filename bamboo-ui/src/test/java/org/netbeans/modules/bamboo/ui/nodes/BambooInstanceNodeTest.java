@@ -65,7 +65,6 @@ public class BambooInstanceNodeTest {
         content = new InstanceContent();
         
         Lookup lookup = new AbstractLookup(content);
-        given(instance.getLookup()).willReturn(lookup);
         given(instance.getName()).willReturn(FOO);
         given(instance.getSyncInterval()).willReturn(1);
         
@@ -116,7 +115,6 @@ public class BambooInstanceNodeTest {
     @Test
     public void testPropertyChange_AvailabilityPropertyTrue_ExpectEmptyHtml() {
         given(event.getPropertyName()).willReturn(ModelChangedValues.Available.toString());
-        given(instance.isAvailable()).willReturn(true);
         classUnderTest.propertyChange(event);
         String htmlDisplayName = classUnderTest.getHtmlDisplayName();
         assertThat(htmlDisplayName, not(notNullValue()));

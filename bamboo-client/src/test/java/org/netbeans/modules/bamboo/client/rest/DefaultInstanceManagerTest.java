@@ -159,7 +159,6 @@ public class DefaultInstanceManagerTest {
 
     @Test
     public void testExistsInstance() throws BackingStoreException {
-        given(preferences.nodeExists(name)).willReturn(true);
         classUnderTest.addInstance(instance);
         assertThat(classUnderTest.existsInstanceName(name), is(true));
     }

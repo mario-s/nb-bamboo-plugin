@@ -18,8 +18,6 @@ import org.junit.Test;
 
 import org.junit.runner.RunWith;
 
-import static org.mockito.BDDMockito.given;
-
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.verify;
@@ -54,9 +52,7 @@ public class AddActionTest {
     private AddAction classUnderTest;
 
     @Before
-    public void setUp() {
-        given(form.getInstanceName()).willReturn(NAME);
-        
+    public void setUp() {        
         ReflectionTestUtils.setField(classUnderTest, "instanceManager", manager);
         ReflectionTestUtils.setField(classUnderTest, "worker", worker);
     }
@@ -66,7 +62,6 @@ public class AddActionTest {
      */
     @Test
     public void testActionPerformed_Ok() {
-        given(form.getPassword()).willReturn(new char[]{'a'});
         ActionEvent event = new ActionEvent(this, 0, TXT_ADD());
         classUnderTest.actionPerformed(event);
         assertFalse(classUnderTest.isEnabled());

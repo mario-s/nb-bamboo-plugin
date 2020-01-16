@@ -88,7 +88,6 @@ public class RepeatApiCallerTest {
         given(values.getPassword()).willReturn(FOO.toCharArray());
         given(values.getUrl()).willReturn(FOO);
         given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
-        given(target.path(anyString())).willReturn(target);
         given(target.queryParam(anyString(), any())).willReturn(target);
         
         given(target.request()).willReturn(builder);
