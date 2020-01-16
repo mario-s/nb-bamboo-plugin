@@ -13,30 +13,30 @@
  */
 package org.netbeans.modules.bamboo.model.rcp;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 /**
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class AvailabilityVerifierTest {
+@ExtendWith(MockitoExtension.class)
+class AvailabilityVerifierTest {
 
     @Mock
     private BambooInstance instance;
 
     private ProjectVo project;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         project = new ProjectVo("");
     }
 
@@ -44,17 +44,15 @@ public class AvailabilityVerifierTest {
      * Test of isAvailable method, of class AvailabilityVerifier.
      */
     @Test
-    public void testIsAvailable_NoParent_ExpectFalse() {
-        boolean result = AvailabilityVerifier.isAvailable(project);
-        assertThat(result, is(false));
+    void testIsAvailable_NoParent_ExpectFalse() {
+        assertFalse(AvailabilityVerifier.isAvailable(project));
     }
 
     @Test
-    public void testIsAvailable_ParentPresent_ExpectTrue() {
+    void testIsAvailable_ParentPresent_ExpectTrue() {
         given(instance.isAvailable()).willReturn(true);
         project.setParent(instance);
-        boolean result = AvailabilityVerifier.isAvailable(project);
-        assertThat(result, is(true));
+        assertTrue(AvailabilityVerifier.isAvailable(project));
     }
 
 }
