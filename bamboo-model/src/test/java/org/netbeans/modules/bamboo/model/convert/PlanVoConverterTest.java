@@ -13,27 +13,27 @@
  */
 package org.netbeans.modules.bamboo.model.convert;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rest.Plan;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  *
  * @author Mario Schroeder
  */
-public class PlanVoConverterTest {
+class PlanVoConverterTest {
     private static final String FOO = "foo";
     
     private PlanVoConverter classUnderTest;
     
     private Plan source;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new PlanVoConverter(FOO);
         source = new Plan();
         source.setKey(FOO);
@@ -44,9 +44,9 @@ public class PlanVoConverterTest {
      * Test of convert method, of class VoConverter.
      */
     @Test
-    public void testConvert() {
+    void testConvert() {
         PlanVo result = classUnderTest.convert(source);
-        assertThat(result.getKey(), equalTo(FOO));
+        assertEquals(result.getKey(), FOO);
     }
 
 }

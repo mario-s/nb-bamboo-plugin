@@ -13,21 +13,20 @@
  */
 package org.netbeans.modules.bamboo.model.convert;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.netbeans.modules.bamboo.model.rcp.VersionInfo;
 import org.netbeans.modules.bamboo.model.rest.Info;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  *
  * @author Mario Schroeder
  */
-public class VersionInfoConverterTest {
+class VersionInfoConverterTest {
 
     private static final String FOO = "foo";
 
@@ -35,8 +34,8 @@ public class VersionInfoConverterTest {
 
     private Info source;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new VersionInfoConverter();
         source = new Info();
         source.setVersion(FOO);
@@ -46,29 +45,29 @@ public class VersionInfoConverterTest {
      * Test of convert method, of class VoConverter.
      */
     @Test
-    public void testConvert_BlankBuildDate_ExpectVersion() {
+    void testConvert_BlankBuildDate_ExpectVersion() {
         VersionInfo result = classUnderTest.convert(source);
-        assertThat(result.getVersion(), equalTo(FOO));
+        assertEquals(result.getVersion(), FOO);
     }
 
     /**
      * Test of convert method, of class VoConverter.
      */
     @Test
-    public void testConvert_WrongBuildDate_ExpectMissingDate() {
+    void testConvert_WrongBuildDate_ExpectMissingDate() {
         source.setBuildDate(FOO);
         VersionInfo result = classUnderTest.convert(source);
-        assertThat(result.getBuildDate(), nullValue());
+        assertNull(result.getBuildDate());
     }
     
      /**
      * Test of convert method, of class VoConverter.
      */
     @Test
-    public void testConvert_CorrectBuildDate_ExpectDate() {
+    void testConvert_CorrectBuildDate_ExpectDate() {
         source.setBuildDate("2014-12-02T07:43:02.000+01:00");
         VersionInfo result = classUnderTest.convert(source);
-        assertThat(result.getBuildDate(), notNullValue());
+        assertNotNull(result.getBuildDate());
     }
 
 }

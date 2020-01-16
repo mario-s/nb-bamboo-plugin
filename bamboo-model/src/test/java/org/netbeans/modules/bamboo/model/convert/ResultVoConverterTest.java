@@ -13,20 +13,20 @@
  */
 package org.netbeans.modules.bamboo.model.convert;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 import org.netbeans.modules.bamboo.model.rest.Result;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 
 /**
  *
  * @author Mario Schroeder
  */
-public class ResultVoConverterTest {
+class ResultVoConverterTest {
 
     private static final String FOO = "foo";
 
@@ -34,8 +34,8 @@ public class ResultVoConverterTest {
 
     private Result source;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new ResultVoConverter();
         source = new Result();
         source.setKey(FOO);
@@ -47,38 +47,37 @@ public class ResultVoConverterTest {
      * Test of convert method, of class VoConverter.
      */
     @Test
-    public void testConvert_ExpectKey() {
+    void testConvert_ExpectKey() {
         ResultVo result = classUnderTest.convert(source);
-        assertThat(result.getKey(), equalTo(FOO));
-
+        assertEquals(result.getKey(), FOO);
     }
 
     /**
      * Test of convert method, of class VoConverter.
      */
     @Test
-    public void testConvert_ExpectCompletionTime() {
+    void testConvert_ExpectCompletionTime() {
         ResultVo result = classUnderTest.convert(source);
-        assertThat(result.getBuildCompletedTime(), notNullValue());
+        assertNotNull(result.getBuildCompletedTime());
     }
 
     /**
      * Test of convert method, of class VoConverter.
      */
     @Test
-    public void testConvert_ExpectStartTime() {
+    void testConvert_ExpectStartTime() {
         ResultVo result = classUnderTest.convert(source);
-        assertThat(result.getBuildStartedTime(), notNullValue());
+        assertNotNull(result.getBuildStartedTime());
     }
 
     /**
      * Test of convert method, of class VoConverter.
      */
     @Test
-    public void testConvert_NoOffset_ExpectFormatedStartTime() {
+    void testConvert_NoOffset_ExpectFormatedStartTime() {
         source.setBuildStartedTime("2016-12-02T07:43:02.000");
         ResultVo result = classUnderTest.convert(source);
-        assertThat(result.getBuildStartedTime(), notNullValue());
+        assertNotNull(result.getBuildStartedTime());
     }
 
 }
