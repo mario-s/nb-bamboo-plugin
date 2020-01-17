@@ -13,11 +13,12 @@
  */
 package org.netbeans.modules.bamboo.client.glue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 /**
  *
@@ -27,7 +28,7 @@ public class HttpUtilityTest {
     
     private HttpUtility classUnderTest;
     
-    @Before
+    @BeforeEach
     public void setUp() {
         classUnderTest = new HttpUtility();
     }
@@ -37,8 +38,7 @@ public class HttpUtilityTest {
      */
     @Test
     public void testExists_False() {
-        boolean result = classUnderTest.exists("foo");
-        assertThat(result, is(false));
+        assertFalse(classUnderTest.exists("foo"));
     }
     
     /**
@@ -46,8 +46,6 @@ public class HttpUtilityTest {
      */
     @Test
     public void testExists_True() {
-        boolean result = classUnderTest.exists("http://netbeans.org");
-        assertThat(result, is(true));
+        assertTrue(classUnderTest.exists("http://netbeans.org"));
     }
-    
 }
