@@ -61,7 +61,6 @@ import org.netbeans.modules.bamboo.client.rest.call.ApiCallRepeatable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallerFactory;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 
 import static org.mockito.BDDMockito.given;
 import static org.hamcrest.CoreMatchers.is;
@@ -221,14 +220,11 @@ class DefaultBambooClientTest {
     }
 
     private void trainApiCallerFactory() {
-
         given(apiCallerFactory.newCaller(eq(ProjectsResponse.class), eq(PROJECTS), any(
                 Map.class))).willReturn(
                         projectsCaller);
-
         given(apiCallerFactory.newRepeatCaller(eq(PlansResponse.class), eq(PLANS))).willReturn(
                 plansCaller);
-
         given(apiCallerFactory.newRepeatCaller(eq(ResultsResponse.class), eq(RESULTS),
                 any(Map.class))).willReturn(
                 resultsCaller);
@@ -314,16 +310,17 @@ class DefaultBambooClientTest {
         assertNotNull(classUnderTest.getVersionInfo().getBuildDate());
     }
 
-    @Disabled
     @Test
     void testQueue_TargetPresent_Expect200() {
-        final int code = 200;
-        PlanVo plan = new PlanVo(FOO);
-        plan.setParent(new ProjectVo(FOO));
+        given(apiCallerFactory.newCaller(eq(Object.class), anyString())).willReturn(postCaller);
+        
+        int code = 200;
+        PlanVo planVo = new PlanVo(FOO);
+        planVo.setParent(new ProjectVo(FOO));
         given(postCaller.createTarget()).willReturn(of(webTarget));
         given(postCaller.doPost(webTarget)).willReturn(Response.ok().build());
 
-        Response response = classUnderTest.queue(plan);
+        Response response = classUnderTest.queue(planVo);
         assertEquals(code, response.getStatus());
         verify(postCaller).doPost(webTarget);
     }
