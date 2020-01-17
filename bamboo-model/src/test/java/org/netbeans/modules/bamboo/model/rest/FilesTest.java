@@ -14,22 +14,26 @@
 package org.netbeans.modules.bamboo.model.rest;
 
 import java.util.Collection;
+
 import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.is;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 /**
  *
  * @author schroeder
  */
-public class FilesTest {
+class FilesTest {
     
     private Files classUnderTest;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new Files();
     }
 
@@ -37,21 +41,19 @@ public class FilesTest {
      * Test of asCollection method, of class Changes.
      */
     @Test
-    public void testAsCollection_NullChange_ExpectEmptyCollection() {
+    void testAsCollection_NullChange_ExpectEmptyCollection() {
         Collection<File> result = classUnderTest.asCollection();
-        assertThat(result.isEmpty(), is(true));
+        assertTrue(result.isEmpty());
     }
 
-      /**
+    /**
      * Test of asCollection method, of class Changes.
      */
     @Test
-    public void testAsCollection_Change_ExpectNonEmptyCollection() {
+    void testAsCollection_Change_ExpectNonEmptyCollection() {
         classUnderTest.setFiles(singletonList(new File()));
         Collection<File> result = classUnderTest.asCollection();
-        assertThat(result.isEmpty(), is(false));
+        assertFalse(result.isEmpty());
     }
-
-
     
 }

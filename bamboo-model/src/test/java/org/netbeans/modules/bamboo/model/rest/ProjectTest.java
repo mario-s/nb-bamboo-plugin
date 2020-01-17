@@ -17,11 +17,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.is;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  *
@@ -32,21 +31,21 @@ public class ProjectTest {
     
     private Project classUnderTest;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new Project();
         classUnderTest.setKey(FOO);
         classUnderTest.setName(FOO);
     }
 
     @Test
-    public void equals_SameInstance() {
-        assertThat(classUnderTest.equals(classUnderTest), is(true));
+    void equals_SameInstance() {
+        assertTrue(classUnderTest.equals(classUnderTest));
     }
     
     @Test
-    public void equals_WithResults() {
-        assertThat(classUnderTest.equals(addResults()), is(true));
+    void equals_WithResults() {
+        assertTrue(classUnderTest.equals(addResults()));
     }
 
     private Project addResults() {
@@ -62,14 +61,12 @@ public class ProjectTest {
         plan.setResult(result);
         
         classUnderTest.setPlans(plans);
-        
         return classUnderTest;
     }
-
     
     @Test
-    public void plansAsCollection() {
+    void plansAsCollection() {
         Collection<Plan> plans = classUnderTest.plansAsCollection();
-        assertThat(plans.isEmpty(), is(true));
+        assertTrue(plans.isEmpty());
     }
 }

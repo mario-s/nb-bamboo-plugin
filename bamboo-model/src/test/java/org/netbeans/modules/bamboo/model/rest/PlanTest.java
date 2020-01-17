@@ -13,23 +13,23 @@
  */
 package org.netbeans.modules.bamboo.model.rest;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 
 /**
  *
  * @author Mario Schroeder
  */
-public class PlanTest {
+class PlanTest {
     
     private static final String FOO = "foo";
     
     private Plan classUnderTest;
     
-    @Before
+    @BeforeEach
     public void setUp() {
         classUnderTest = new Plan();
         classUnderTest.setKey(FOO);
@@ -41,9 +41,6 @@ public class PlanTest {
     @Test
     public void testEquals() {
         Plan other = new Plan();
-        boolean result = classUnderTest.equals(other);
-        assertThat(result, is(false));
+        assertFalse(classUnderTest.equals(other));
     }
-
-  
 }
