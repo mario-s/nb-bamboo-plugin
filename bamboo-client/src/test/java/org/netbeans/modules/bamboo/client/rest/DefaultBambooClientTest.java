@@ -295,6 +295,16 @@ class DefaultBambooClientTest {
     }
 
     @Test
+    void testUpdate() {
+        trainApiCallerFactory();
+        trainForProjectResponse();
+
+        List<ProjectVo> toBeUpdated = new ArrayList<>();
+        classUnderTest.updateProjects(toBeUpdated);
+        assertFalse(toBeUpdated.isEmpty());
+    }
+
+    @Test
     void testGetVersion() {
         given(apiCallerFactory.newCaller(eq(Info.class), eq(INFO))).willReturn(
                 infoCaller);
@@ -302,14 +312,6 @@ class DefaultBambooClientTest {
         given(infoCaller.doGet(webTarget)).willReturn(of(info));
 
         assertNotNull(classUnderTest.getVersionInfo().getBuildDate());
-    }
-
-    @Disabled
-    @Test
-    void testUpdate() {
-        List<ProjectVo> toBeUpdated = new ArrayList<>();
-        classUnderTest.updateProjects(toBeUpdated);
-        assertFalse(toBeUpdated.isEmpty());
     }
 
     @Disabled
