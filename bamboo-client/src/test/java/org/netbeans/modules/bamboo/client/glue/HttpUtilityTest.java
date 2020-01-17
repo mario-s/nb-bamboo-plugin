@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Mario Schroeder
  */
-public class HttpUtilityTest {
+class HttpUtilityTest {
     
     private HttpUtility classUnderTest;
     
@@ -37,7 +37,7 @@ public class HttpUtilityTest {
      * Test of exists method, of class HttpUtility.
      */
     @Test
-    public void testExists_False() {
+    void testExists_False() {
         assertFalse(classUnderTest.exists("foo"));
     }
     
@@ -45,7 +45,7 @@ public class HttpUtilityTest {
      * Test of exists method, of class HttpUtility.
      */
     @Test
-    public void testExists_True() {
+    void testExists_True() {
         assertTrue(classUnderTest.exists("http://netbeans.org"));
     }
 }
