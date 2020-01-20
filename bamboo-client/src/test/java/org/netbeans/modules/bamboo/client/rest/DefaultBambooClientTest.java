@@ -61,7 +61,6 @@ import org.netbeans.modules.bamboo.client.rest.call.ApiCallRepeatable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallerFactory;
 
-
 import static org.mockito.BDDMockito.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -82,11 +81,14 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import static java.lang.String.format;
+import static java.util.Optional.empty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.INFO;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PLANS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PROJECTS;
@@ -324,16 +326,17 @@ class DefaultBambooClientTest {
         assertEquals(code, response.getStatus());
         verify(postCaller).doPost(webTarget);
     }
-
-    @Disabled
+    
     @Test
     void testQueue_TargetEmpty_ExpectNotFound() {
+        given(apiCallerFactory.newCaller(eq(Object.class), anyString())).willReturn(postCaller);
+
         final int code = 404;
-        PlanVo plan = new PlanVo(FOO);
-        plan.setParent(new ProjectVo(FOO));
+        PlanVo planVo = new PlanVo(FOO);
+        planVo.setParent(new ProjectVo(FOO));
         given(postCaller.createTarget()).willReturn(empty());
 
-        Response response = classUnderTest.queue(plan);
+        Response response = classUnderTest.queue(planVo);
         assertEquals(code, response.getStatus());
         verify(postCaller, never()).doPost(webTarget);
     }
