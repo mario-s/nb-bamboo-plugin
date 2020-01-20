@@ -351,16 +351,18 @@ class DefaultBambooClientTest {
         assertFalse(vo.getChanges().isPresent());
     }
 
-    @Disabled
     @Test
     void testAttach_Changes_ShouldHaveChanges() {
-        Result result = new Result();
+        given(apiCallerFactory.newCaller(eq(Result.class), anyString(), any(Map.class))).willReturn(
+                resultCaller);
+        given(resultCaller.createTarget()).willReturn(of(webTarget));
+        given(resultCaller.doGet(webTarget)).willReturn(of(result));
+        
         Changes changes = new Changes();
         Change change = new Change();
         changes.setChanges(singletonList(change));
         result.setChanges(changes);
 
-        given(resultCaller.doGet(webTarget)).willReturn(of(result));
         ResultVo vo = new ResultVo();
 
         classUnderTest.attach(vo, ResultExpandParameter.Changes);
