@@ -24,14 +24,11 @@ import static java.util.Collections.singletonList;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -48,7 +45,6 @@ import org.netbeans.modules.bamboo.model.rest.Changes;
 import org.netbeans.modules.bamboo.model.rest.Issue;
 import org.netbeans.modules.bamboo.model.rest.JiraIssues;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
-import org.netbeans.modules.bamboo.model.rcp.VersionInfo;
 import org.netbeans.modules.bamboo.model.rest.Info;
 import org.netbeans.modules.bamboo.model.rest.Plan;
 import org.netbeans.modules.bamboo.model.rest.Plans;
@@ -61,31 +57,18 @@ import org.netbeans.modules.bamboo.client.rest.call.ApiCallRepeatable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallerFactory;
 
-import static org.mockito.BDDMockito.given;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Matchers.anyString;
 
-import static java.lang.String.format;
-
-import static org.netbeans.modules.bamboo.client.glue.RestResources.INFO;
-import static org.netbeans.modules.bamboo.client.glue.RestResources.PLANS;
-import static org.netbeans.modules.bamboo.client.glue.RestResources.PROJECTS;
-import static org.netbeans.modules.bamboo.client.glue.RestResources.QUEUE;
-import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 
 import org.springframework.test.util.ReflectionTestUtils;
 
-import static java.lang.String.format;
 import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -153,8 +136,6 @@ class DefaultBambooClientTest {
 
     @BeforeEach
     void setUp() {
-        //given(instanceValues.getUrl()).willReturn("http://foo.bar");
-
         classUnderTest = new DefaultBambooClient(instanceValues);
 
         ReflectionTestUtils.setField(classUnderTest, "apiCallerFactory", apiCallerFactory);
@@ -189,36 +170,6 @@ class DefaultBambooClientTest {
 
         info = new Info();
         info.setBuildDate("2014-12-02T07:43:02.000+01:00");
-    }
-
-    private void trainMocks() {
-
-        given(projectsCaller.createTarget()).willReturn(of(webTarget));
-        given(projectsCaller.doGet(webTarget)).willReturn(of(projectsResponse));
-
-        given(plansCaller.createTarget()).willReturn(of(webTarget));
-        given(plansCaller.doGet(webTarget)).willReturn(of(plansResponse));
-        given(plansCaller.repeat(plansResponse)).willReturn(of(plansResponse));
-
-        given(resultsCaller.createTarget()).willReturn(of(webTarget));
-        given(resultsCaller.doGet(webTarget)).willReturn(of(resultsResponse));
-        given(resultsCaller.repeat(resultsResponse)).willReturn(of(resultsResponse));
-
-        given(infoCaller.createTarget()).willReturn(of(webTarget));
-        given(infoCaller.doGet(webTarget)).willReturn(of(info));
-
-        given(resultCaller.createTarget()).willReturn(of(webTarget));
-        given(resultCaller.doGet(webTarget)).willReturn(of(result));
-
-        given(apiCallerFactory.newCaller(eq(Info.class), eq(INFO))).willReturn(
-                infoCaller);
-
-        given(apiCallerFactory.newCaller(eq(Object.class), eq(format(QUEUE, FOO)))).willReturn(
-                postCaller);
-
-        given(apiCallerFactory.newCaller(eq(Result.class), anyString(), any(Map.class))).willReturn(
-                resultCaller);
-
     }
 
     private void trainApiCallerFactory() {
@@ -315,7 +266,7 @@ class DefaultBambooClientTest {
     @Test
     void testQueue_TargetPresent_Expect200() {
         given(apiCallerFactory.newCaller(eq(Object.class), anyString())).willReturn(postCaller);
-        
+
         int code = 200;
         PlanVo planVo = new PlanVo(FOO);
         planVo.setParent(new ProjectVo(FOO));
@@ -326,7 +277,7 @@ class DefaultBambooClientTest {
         assertEquals(code, response.getStatus());
         verify(postCaller).doPost(webTarget);
     }
-    
+
     @Test
     void testQueue_TargetEmpty_ExpectNotFound() {
         given(apiCallerFactory.newCaller(eq(Object.class), anyString())).willReturn(postCaller);
@@ -344,7 +295,7 @@ class DefaultBambooClientTest {
     @Test
     void testAttach_ChangesNoResult_ShouldNotHaveChanges() {
         given(apiCallerFactory.newCaller(eq(Result.class), anyString(), any(Map.class))).willReturn(
-                resultCaller);        
+                resultCaller);
         ResultVo vo = new ResultVo();
 
         classUnderTest.attach(vo, ResultExpandParameter.Changes);
@@ -353,11 +304,8 @@ class DefaultBambooClientTest {
 
     @Test
     void testAttach_Changes_ShouldHaveChanges() {
-        given(apiCallerFactory.newCaller(eq(Result.class), anyString(), any(Map.class))).willReturn(
-                resultCaller);
-        given(resultCaller.createTarget()).willReturn(of(webTarget));
-        given(resultCaller.doGet(webTarget)).willReturn(of(result));
-        
+        trainResultCaller();
+
         Changes changes = new Changes();
         Change change = new Change();
         changes.setChanges(singletonList(change));
@@ -369,25 +317,33 @@ class DefaultBambooClientTest {
         assertFalse(vo.getChanges().get().isEmpty());
     }
 
-    @Disabled
+    private void trainResultCaller() {
+        given(apiCallerFactory.newCaller(eq(Result.class), anyString(), any(Map.class))).willReturn(
+                resultCaller);
+        given(resultCaller.createTarget()).willReturn(of(webTarget));
+        given(resultCaller.doGet(webTarget)).willReturn(of(result));
+    }
+
     @Test
     void testAttach_IssuesNoResult_ShouldNotHaveIssues() {
+        given(apiCallerFactory.newCaller(eq(Result.class), anyString(), any(Map.class))).willReturn(
+                resultCaller);
         ResultVo vo = new ResultVo();
 
         classUnderTest.attach(vo, ResultExpandParameter.Jira);
-        assertTrue(vo.getIssues().get().isEmpty());
+        assertFalse(vo.getIssues().isPresent());
     }
 
-    @Disabled
     @Test
     void testAttach_IssuesResult_ShouldHaveIssues() {
-        Result result = new Result();
+        trainResultCaller();
+        
         JiraIssues issues = new JiraIssues();
         Issue issue = new Issue();
         issues.setIssues(singletonList(issue));
         result.setJiraIssues(issues);
 
-        given(resultCaller.doGet(webTarget)).willReturn(of(result));
+        
         ResultVo vo = new ResultVo();
 
         classUnderTest.attach(vo, ResultExpandParameter.Jira);
