@@ -341,13 +341,14 @@ class DefaultBambooClientTest {
         verify(postCaller, never()).doPost(webTarget);
     }
 
-    @Disabled
     @Test
     void testAttach_ChangesNoResult_ShouldNotHaveChanges() {
+        given(apiCallerFactory.newCaller(eq(Result.class), anyString(), any(Map.class))).willReturn(
+                resultCaller);        
         ResultVo vo = new ResultVo();
 
         classUnderTest.attach(vo, ResultExpandParameter.Changes);
-        assertTrue(vo.getChanges().get().isEmpty());
+        assertFalse(vo.getChanges().isPresent());
     }
 
     @Disabled

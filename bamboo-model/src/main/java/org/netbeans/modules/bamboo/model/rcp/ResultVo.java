@@ -44,8 +44,10 @@ public class ResultVo extends AbstractVo implements TraverseUp<PlanVo> {
 
     private PlanVo parent;
 
+    //TODO remove optional
     private Optional<Collection<ChangeVo>> changes;
 
+    //TODO remove optional
     private Optional<Collection<IssueVo>> issues;
 
     public ResultVo() {
