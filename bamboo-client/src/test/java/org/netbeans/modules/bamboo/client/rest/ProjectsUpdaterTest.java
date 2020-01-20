@@ -16,20 +16,18 @@ package org.netbeans.modules.bamboo.client.rest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.netbeans.modules.bamboo.client.rest.AbstractVoUpdater.ProjectsUpdater;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  *
  * @author Mario Schroeder
  */
-public class ProjectsUpdaterTest {
+class ProjectsUpdaterTest {
     private static final String FOO = "foo";
     private static final String BAR = "bar";
     
@@ -39,8 +37,8 @@ public class ProjectsUpdaterTest {
     
     private List<ProjectVo> target;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new ProjectsUpdater();
         source = new ArrayList<>();
         target = new ArrayList<>();
@@ -50,7 +48,7 @@ public class ProjectsUpdaterTest {
      * Test of update method, of class ProjectsUpdater.
      */
     @Test
-    public void testUpdate_SameContent_NoChange() {
+    void testUpdate_SameContent_NoChange() {
         ProjectVo left = new ProjectVo(FOO);
         ProjectVo right = new ProjectVo(FOO);
         
@@ -59,14 +57,14 @@ public class ProjectsUpdaterTest {
         
         classUnderTest.update(source, target);
 
-        assertThat(target.get(0), equalTo(right));
+        assertEquals(right, target.get(0));
     }
     
     /**
      * Test of update method, of class ProjectsUpdater.
      */
     @Test
-    public void testUpdate_DifferentContent_ExpectLeft() {
+    void testUpdate_DifferentContent_ExpectLeft() {
         ProjectVo left = new ProjectVo(FOO);
         ProjectVo right = new ProjectVo(BAR);
         
@@ -75,14 +73,14 @@ public class ProjectsUpdaterTest {
         
         classUnderTest.update(source, target);
 
-        assertThat(target.get(0).getKey(), equalTo(FOO));
+        assertEquals(FOO, target.get(0).getKey());
     }
     
      /**
      * Test of update method, of class ProjectsUpdater.
      */
     @Test
-    public void testUpdate_DifferentContent_OnlyOne() {
+    void testUpdate_DifferentContent_OnlyOne() {
         ProjectVo left = new ProjectVo(FOO);
         ProjectVo right = new ProjectVo(BAR);
         
@@ -92,14 +90,14 @@ public class ProjectsUpdaterTest {
         
         classUnderTest.update(source, target);
 
-        assertThat(target.size(), is(1));
+        assertEquals(1, target.size());
     }
     
      /**
      * Test of update method, of class ProjectsUpdater.
      */
     @Test
-    public void testUpdate_AddContent_NewOne() {
+    void testUpdate_AddContent_NewOne() {
         ProjectVo left = new ProjectVo(FOO);
         ProjectVo right = new ProjectVo(BAR);
         
@@ -109,7 +107,7 @@ public class ProjectsUpdaterTest {
         
         classUnderTest.update(source, target);
 
-        assertThat(target.size(), is(2));
+        assertEquals(2, target.size());
     }
     
 }
