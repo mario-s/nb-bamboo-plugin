@@ -15,6 +15,7 @@ package org.netbeans.modules.bamboo.client.rest.call;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import static java.util.Collections.singletonMap;
 
 import java.util.Map;
@@ -23,34 +24,38 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import org.netbeans.modules.bamboo.model.rest.Info;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
+
 import org.springframework.test.util.ReflectionTestUtils;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.BDDMockito.given;
 
 /**
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ApiCallerTest {
+@ExtendWith(MockitoExtension.class)
+class ApiCallerTest {
 
     private static final String FOO = "foo";
-    
-    private static final Map<String, String> FOO_MAP = singletonMap(FOO,FOO);
+
+    private static final Map<String, String> FOO_MAP = singletonMap(FOO, FOO);
 
     @Mock
     private InstanceValues values;
@@ -65,35 +70,33 @@ public class ApiCallerTest {
 
     private ApiCaller<Info> classUnderTest;
 
-    @Before
-    public void setUp() throws URISyntaxException {
+    @BeforeEach
+    void setUp() {
         final CallParameters callParameters = new CallParameters(Info.class, values);
         callParameters.setParameters(FOO_MAP);
         classUnderTest = new ApiCaller<>(callParameters);
-        
-        ReflectionTestUtils.setField(classUnderTest, "webTargetFactory", webTargetFactory);
 
-        given(values.getPassword()).willReturn(FOO.toCharArray());
-        given(values.getUrl()).willReturn(FOO);
-        given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
-        given(target.getUri()).willReturn(new URI("http://localhost"));
+        ReflectionTestUtils.setField(classUnderTest, "webTargetFactory", webTargetFactory);
     }
 
     /**
      * Test of createTarget method, of class ApiCaller.
      */
     @Test
-    public void testCreateTarget_EmptyValues_ExpectNotPresent() {
-        Optional<WebTarget> result = classUnderTest.createTarget();
-        assertThat(result.isPresent(), is(false));
+    void testCreateTarget_EmptyValues_ExpectNotPresent() {
+        assertFalse(classUnderTest.createTarget().isPresent());
     }
-    
-     /**
+
+    /**
      * Test of createTarget method, of class ApiCaller.
      */
     @Test
-    public void testCreateTarget_EmptyValues_ExpectParameterPresent() {
+    void testCreateTarget_EmptyValues_ExpectParameterPresent() {
+        given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
+        given(values.getPassword()).willReturn(FOO.toCharArray());
+        given(values.getUrl()).willReturn(FOO);
         given(values.getUsername()).willReturn(FOO);
+        
         classUnderTest.createTarget();
         verify(webTargetFactory).create(anyString(), eq(FOO_MAP));
     }
@@ -102,44 +105,49 @@ public class ApiCallerTest {
      * Test of createTarget method, of class ApiCaller.
      */
     @Test
-    public void testCreateTarget_Values_ExpectPresent() {
+    void testCreateTarget_Values_ExpectPresent() {
+        given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
+        given(values.getPassword()).willReturn(FOO.toCharArray());
+        given(values.getUrl()).willReturn(FOO);
         given(values.getUsername()).willReturn(FOO);
-        Optional<WebTarget> result = classUnderTest.createTarget();
-        assertThat(result.isPresent(), is(true));
+        
+        assertTrue(classUnderTest.createTarget().isPresent());
     }
 
     /**
      * Test of newTarget method, of class ApiCaller.
      */
     @Test
-    public void testNewTarget_ExpectNotNull() {
-        WebTarget result = classUnderTest.newTarget();
-        assertThat(result, notNullValue());
+    void testNewTarget_ExpectNotNull() {
+        given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
+        
+        assertNotNull(classUnderTest.newTarget());
     }
 
     /**
      * Test of doGet method, of class ApiCaller.
      */
     @Test
-    public void testGetRequest_ExpectPresent() {
+    void testGetRequest_ExpectPresent() throws URISyntaxException {
+        given(target.getUri()).willReturn(new URI("http://localhost"));
         given(target.request()).willReturn(builder);
         given(builder.accept(anyString())).willReturn(builder);
         given(builder.get(Info.class)).willReturn(new Info());
-
+        
         Optional<Info> result = classUnderTest.doGet(target);
-        assertThat(result.isPresent(), is(true));
+        assertTrue(result.isPresent());
     }
 
     /**
      * Test of doPost method, of class ApiCaller.
      */
     @Test
-    public void testPostRequest_ExpectZero() {
+    void testPostRequest_ExpectZero() {
         given(target.request()).willReturn(builder);
         given(builder.post(any(Entity.class))).willReturn(response);
 
         Response result = classUnderTest.doPost(target);
-        assertThat(result.getStatus(), is(0));
+        assertEquals(0, result.getStatus());
     }
 
 }

@@ -119,7 +119,7 @@ class DefaultBambooInstanceTest {
     }
 
     private void waitForListener() throws InterruptedException {
-        waitForListener(1000);
+        waitForListener(2000);
     }
 
     private void waitForListener(long timeout) throws InterruptedException {

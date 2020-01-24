@@ -13,24 +13,23 @@
  */
 package org.netbeans.modules.bamboo.client.rest.call;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
 import static java.util.Collections.emptyMap;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.JSON_PATH;
 
 /**
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ApiCallerFactoryTest {
+@ExtendWith(MockitoExtension.class)
+class ApiCallerFactoryTest {
     private static final String FOO = "foo";
     private static final Class BAR = FOO.getClass();
     @Mock
@@ -42,27 +41,24 @@ public class ApiCallerFactoryTest {
      * Test of newCaller method, of class ApiCallerFactory.
      */
     @Test
-    public void testNewCaller_ClassAndString_ExpectNotNull() {
-        ApiCallable result = classUnderTest.newCaller(BAR, FOO);
-        assertThat(result, notNullValue());
+    void testNewCaller_ClassAndString_ExpectNotNull() {
+        assertNotNull(classUnderTest.newCaller(BAR, FOO));
     }
     
     /**
      * Test of newCaller method, of class ApiCallerFactory.
      */
     @Test
-    public void testNewCaller_WithParams_ExpectNotNull() {
-        ApiCallable result = classUnderTest.newCaller(BAR, FOO, emptyMap());
-        assertThat(result, notNullValue());
+    void testNewCaller_WithParams_ExpectNotNull() {
+        assertNotNull(classUnderTest.newCaller(BAR, FOO, emptyMap()));
     }
     
      /**
      * Test of newCaller method, of class ApiCallerFactory.
      */
     @Test
-    public void testNewCaller_JsonPath_ExpectNotNull() {
-        ApiCallable result = classUnderTest.newCaller(BAR, FOO + JSON_PATH);
-        assertThat(result, notNullValue());
+    void testNewCaller_JsonPath_ExpectNotNull() {
+        assertNotNull(classUnderTest.newCaller(BAR, FOO + JSON_PATH));
     }
 
 
@@ -70,18 +66,15 @@ public class ApiCallerFactoryTest {
      * Test of newRepeatCaller method, of class ApiCallerFactory.
      */
     @Test
-    public void testNewRepeatCaller_ClassAndString_ExpectNotNull() {
-        ApiCallRepeatable result = classUnderTest.newRepeatCaller(BAR, FOO);
-        assertThat(result, notNullValue());
+    void testNewRepeatCaller_ClassAndString_ExpectNotNull() {
+        assertNotNull(classUnderTest.newRepeatCaller(BAR, FOO));
     }
     
     /**
      * Test of newRepeatCaller method, of class ApiCallerFactory.
      */
     @Test
-    public void testNewRepeatCaller_WithParams_ExpectNotNull() {
-        ApiCallRepeatable result = classUnderTest.newRepeatCaller(BAR, FOO, emptyMap());
-        assertThat(result, notNullValue());
+    void testNewRepeatCaller_WithParams_ExpectNotNull() {
+        assertNotNull(classUnderTest.newRepeatCaller(BAR, FOO, emptyMap()));
     }
-    
 }
