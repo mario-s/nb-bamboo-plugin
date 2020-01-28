@@ -13,22 +13,24 @@
  */
 package org.netbeans.modules.bamboo.ui.actions;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.netbeans.api.io.OutputWriter;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  *
  * @author Mario Schroeder
  */
-public class InputOutputProviderTest {
+class InputOutputProviderTest {
     
     private InputOutputProvider classUnderTest;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new InputOutputProvider();
     }
 
@@ -36,9 +38,9 @@ public class InputOutputProviderTest {
      * Test of getOut method, of class InputOutputProvider.
      */
     @Test
-    public void testGetOut() {
+    void testGetOut() {
         OutputWriter result = classUnderTest.getOut("");
-        assertThat(result, notNullValue());
+        assertNotNull(result);
     }
     
 }
