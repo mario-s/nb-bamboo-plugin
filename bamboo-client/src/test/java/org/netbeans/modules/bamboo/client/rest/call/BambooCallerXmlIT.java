@@ -21,12 +21,12 @@ import java.util.Properties;
 import java.util.logging.Level;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import org.junit.jupiter.api.BeforeAll;
 
 
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.netbeans.modules.bamboo.client.glue.HttpUtility;
 
@@ -38,13 +38,11 @@ import org.netbeans.modules.bamboo.model.rest.Issue;
 import org.netbeans.modules.bamboo.model.rest.Result;
 import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assume.assumeTrue;
-
 import static java.util.Collections.singletonMap;
 import static org.junit.Assume.assumeFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.EXPAND;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.RESULT_COMMENTS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
@@ -54,7 +52,7 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
  *
  * @author Mario Schroeder
  */
-public class BambooCallerXmlIT {
+class BambooCallerXmlIT {
 
     private static final String FOO = "foo";
 
@@ -66,20 +64,20 @@ public class BambooCallerXmlIT {
 
     private final HttpUtility httpUtility;
 
-    public BambooCallerXmlIT() {
+    BambooCallerXmlIT() {
         this.httpUtility = new HttpUtility();
     }
 
-    @BeforeClass
-    public static void prepare() throws IOException {
+    @BeforeAll
+    static void prepare() throws IOException {
         props = new Properties();
         
         InputStream input = BambooCallerXmlIT.class.getResourceAsStream("bamboo.properties");
         props.load(input);
     }
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
 
         DefaultInstanceValues values = new DefaultInstanceValues();
         values.setName(FOO);
@@ -106,21 +104,21 @@ public class BambooCallerXmlIT {
         WebTarget webTarget = factory.create(RESULTS, params);
         ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
         final int size = response.getResults().getSize();
-        assertThat(size, not(0));
+        assertTrue(size > 0);
     }
 
     @Test
-    public void testGetResults_ResultsNotEmpty() {
+    void testGetResults_ResultsNotEmpty() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
         WebTarget webTarget = factory.create(RESULTS, params);
         ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
         Collection<Result> results = response.asCollection();
-        assertThat(results.isEmpty(), is(false));
+        assertFalse(results.isEmpty());
     }
 
     @Test
-    public void testGetChanges_FilesNotEmpty() {
+    void testGetChanges_FilesNotEmpty() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Changes.toString());
         WebTarget webTarget = factory.create(newResultPath(), params);
@@ -128,11 +126,11 @@ public class BambooCallerXmlIT {
         Collection<Change> changes = response.getChanges().asCollection();
         assumeFalse(changes.isEmpty());
         Files files = changes.iterator().next().getFiles();
-        assertThat(files.asCollection().isEmpty(), is(false));
+        assertFalse(files.asCollection().isEmpty());
     }
 
     @Test
-    public void testGetChanges_ChangeSetIdNotEmpty() {
+    void testGetChanges_ChangeSetIdNotEmpty() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Changes.toString());
         WebTarget webTarget = factory.create(newResultPath(), params);
@@ -140,17 +138,17 @@ public class BambooCallerXmlIT {
         Collection<Change> changes = response.getChanges().asCollection();
         assumeFalse(changes.isEmpty());
         Change first = changes.iterator().next();
-        assertThat(first.getChangesetId().isEmpty(), is(false));
+        assertFalse(first.getChangesetId().isEmpty());
     }
 
     @Test
-    public void testGetJiraIssues_ResultNotEmpty() {
+    void testGetJiraIssues_ResultNotEmpty() {
         assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Jira.toString());
         WebTarget webTarget = factory.create(newResultPath(), params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
         Collection<Issue> issues = response.getJiraIssues().asCollection();
-        assertThat(issues.isEmpty(), is(false));
+        assertFalse(issues.isEmpty());
     }
 
 }
