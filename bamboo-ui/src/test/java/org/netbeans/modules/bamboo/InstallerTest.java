@@ -13,10 +13,9 @@
  */
 package org.netbeans.modules.bamboo;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.mockito.BDDMockito.given;
 
@@ -24,7 +23,6 @@ import org.mockito.InOrder;
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.inOrder;
-
 
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
@@ -36,13 +34,14 @@ import org.openide.util.Task;
 
 import static java.util.Collections.singletonList;
 import static org.mockito.Matchers.anyBoolean;
-import org.mockito.junit.MockitoJUnitRunner;
+
+import org.mockito.junit.jupiter.MockitoExtension;
 
 
 /**
  */
-@RunWith(MockitoJUnitRunner.class)
-public class InstallerTest {
+@ExtendWith(MockitoExtension.class)
+class InstallerTest {
     @Mock
     private InstanceManageable delegate;
 
@@ -53,8 +52,8 @@ public class InstallerTest {
 
     private Installer classUnderTest;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         MockInstanceManager manager =
             (MockInstanceManager) getDefault().lookup(InstanceManageable.class);
         manager.setDelegate(delegate);
@@ -71,7 +70,7 @@ public class InstallerTest {
      * Test of run method, of class Installer.
      */
     @Test
-    public void testRun() {
+    void testRun() {
         classUnderTest.run();
 
         InOrder order = inOrder(instance, delegate);
