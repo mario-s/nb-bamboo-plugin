@@ -17,26 +17,27 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
+
 import org.springframework.test.util.ReflectionTestUtils;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class WebTargetFactoryTest {
+@ExtendWith(MockitoExtension.class)
+class WebTargetFactoryTest {
     private static final String FOO = "foo";
     @Mock
     private Client client;
@@ -47,8 +48,8 @@ public class WebTargetFactoryTest {
     @InjectMocks
     private WebTargetFactory classUnderTest;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         ReflectionTestUtils.setField(classUnderTest, "client", client);
         
         given(values.getUrl()).willReturn(FOO);
@@ -65,20 +66,20 @@ public class WebTargetFactoryTest {
      * Test of newTarget method, of class WebTargetFactory.
      */
     @Test
-    public void testNewTarget_NoParams_ExpectTarget() {
+    void testNewTarget_NoParams_ExpectTarget() {
         WebTarget result = classUnderTest.create(FOO, null);
-        assertThat(result, notNullValue());
+        assertNotNull(result);
     }
     
       /**
      * Test of newTarget method, of class WebTargetFactory.
      */
     @Test
-    public void testNewTarget_WithParams_ExpectTarget() {
+    void testNewTarget_WithParams_ExpectTarget() {
         Map<String, String> params = new HashMap<>();
         params.put(FOO, FOO);
         WebTarget result = classUnderTest.create(FOO, params);
-        assertThat(result, notNullValue());
+        assertNotNull(result);
     }
     
 }
