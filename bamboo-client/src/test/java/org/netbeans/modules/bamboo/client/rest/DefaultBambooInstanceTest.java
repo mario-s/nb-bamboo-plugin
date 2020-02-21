@@ -66,6 +66,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @ExtendWith(MockitoExtension.class)
 class DefaultBambooInstanceTest {
+    
+    private static final long TIMEOUT = 1000;
 
     private static final String FOO = "foo";
 
@@ -179,7 +181,7 @@ class DefaultBambooInstanceTest {
         given(client.existsService()).willReturn(true);
         projects.add(project);
         given(client.getProjects()).willReturn(projects);
-        classUnderTest.synchronize(false).waitFinished();
+        classUnderTest.synchronize(false).waitFinished(TIMEOUT);
         
         InOrder order = inOrder(client, listener);
         order.verify(client).getVersionInfo();
@@ -192,7 +194,7 @@ class DefaultBambooInstanceTest {
         given(client.existsService()).willReturn(true);
         projects.add(project);
         ReflectionTestUtils.setField(classUnderTest, "projects", projects);
-        classUnderTest.synchronize(false).waitFinished();
+        classUnderTest.synchronize(false).waitFinished(TIMEOUT);
 
         InOrder order = inOrder(client, listener);
         order.verify(client).getVersionInfo();
@@ -202,7 +204,7 @@ class DefaultBambooInstanceTest {
     @Test
     void synchronize_ServiceNotExisting_ExpectAvailableFalse() throws InterruptedException {
         given(client.existsService()).willReturn(false);
-        classUnderTest.synchronize(false).waitFinished();
+        classUnderTest.synchronize(false).waitFinished(TIMEOUT);
         
         assertFalse(classUnderTest.isAvailable());
     }
@@ -220,7 +222,7 @@ class DefaultBambooInstanceTest {
         given(client.existsService()).willReturn(true);
         project.setChildren(singletonList(plan));
         classUnderTest.setChildren(singletonList(project));
-        classUnderTest.queue(plan).waitFinished();
+        classUnderTest.queue(plan).waitFinished(TIMEOUT);
 
         assertEquals(1, classUnderTest.getLookup().lookupAll(QueueEvent.class).size());
     }
@@ -232,8 +234,8 @@ class DefaultBambooInstanceTest {
 
         project.setChildren(singletonList(plan));
         classUnderTest.setChildren(singletonList(project));
-        classUnderTest.queue(plan).waitFinished();
-        classUnderTest.queue(plan).waitFinished();
+        classUnderTest.queue(plan).waitFinished(TIMEOUT);
+        classUnderTest.queue(plan).waitFinished(TIMEOUT);
 
         assertEquals(1, classUnderTest.getLookup().lookupAll(QueueEvent.class).size());
     }
