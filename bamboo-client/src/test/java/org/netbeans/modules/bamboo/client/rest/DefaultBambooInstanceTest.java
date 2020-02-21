@@ -188,9 +188,8 @@ class DefaultBambooInstanceTest {
         given(client.existsService()).willReturn(true);
         projects.add(project);
         given(client.getProjects()).willReturn(projects);
-        classUnderTest.synchronize(false);
-        waitForListener();
-
+        classUnderTest.synchronize(false).waitFinished();
+        
         InOrder order = inOrder(client, listener);
         order.verify(client).getVersionInfo();
         order.verify(client).getProjects();
@@ -202,8 +201,7 @@ class DefaultBambooInstanceTest {
         given(client.existsService()).willReturn(true);
         projects.add(project);
         ReflectionTestUtils.setField(classUnderTest, "projects", projects);
-        classUnderTest.synchronize(false);
-        waitForListener();
+        classUnderTest.synchronize(false).waitFinished();
 
         InOrder order = inOrder(client, listener);
         order.verify(client).getVersionInfo();
@@ -213,8 +211,8 @@ class DefaultBambooInstanceTest {
     @Test
     void synchronize_ServiceNotExisting_ExpectAvailableFalse() throws InterruptedException {
         given(client.existsService()).willReturn(false);
-        classUnderTest.synchronize(false);
-        waitForListener();
+        classUnderTest.synchronize(false).waitFinished();
+        
         assertFalse(classUnderTest.isAvailable());
     }
 
@@ -232,7 +230,7 @@ class DefaultBambooInstanceTest {
         project.setChildren(singletonList(plan));
         classUnderTest.setChildren(singletonList(project));
         classUnderTest.queue(plan);
-//        waitForListener();
+        waitForListener();
 
         assertEquals(1, classUnderTest.getLookup().lookupAll(QueueEvent.class).size());
     }
