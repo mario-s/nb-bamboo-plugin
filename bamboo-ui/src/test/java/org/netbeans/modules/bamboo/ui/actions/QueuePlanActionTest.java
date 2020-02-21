@@ -18,12 +18,13 @@ import javax.swing.Action;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.LookupContext;
 
 import static org.mockito.Mockito.verify;
@@ -33,7 +34,10 @@ import org.openide.util.Lookup;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 
@@ -41,47 +45,46 @@ import static org.mockito.Mockito.never;
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class QueuePlanActionTest {
+@ExtendWith(MockitoExtension.class)
+class QueuePlanActionTest {
 
     @Mock
     private Queueable plan;
 
     private QueuePlanAction classUnderTest;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         Lookup lookup = LookupContext.Instance.getLookup();
         classUnderTest = new QueuePlanAction(lookup);
     }
 
-    @After
-    public void shutDown() {
+    @AfterEach
+    void shutDown() {
         LookupContext.Instance.remove(plan);
     }
 
     @Test
-    public void testCreateContextAwareAction_ExpectNotNull() {
-        assertThat(new QueuePlanAction().createContextAwareInstance(Lookup.EMPTY), notNullValue());
+    void testCreateContextAwareAction_ExpectNotNull() {
+        assertNotNull(new QueuePlanAction().createContextAwareInstance(Lookup.EMPTY));
     }
 
     @Test
-    public void testGetName_ExpectBundle() {
+    void testGetName_ExpectBundle() {
         String name = (String) classUnderTest.getValue(Action.NAME);
-        assertThat(name, equalTo(Bundle.CTL_QueuePlanAction()));
+        assertEquals(Bundle.CTL_QueuePlanAction(), name);
     }
 
     @Test
-    public void testIsEnabled_NoPlan_ExpectFalse() {
-        boolean result = classUnderTest.isEnabled();
-        assertThat(result, is(false));
+    void testIsEnabled_NoPlan_ExpectFalse() {
+        assertFalse(classUnderTest.isEnabled());
     }
 
     /**
      * Test of actionPerformed method, of class QueuePlanAction.
      */
     @Test
-    public void testActionPerformed_PlanNotEnabled_ExpectNoCall() {
+    void testActionPerformed_PlanNotEnabled_ExpectNoCall() {
         classUnderTest.actionPerformed(null);
         verify(plan, never()).queue();
     }
@@ -90,7 +93,7 @@ public class QueuePlanActionTest {
      * Test of actionPerformed method, of class QueuePlanAction.
      */
     @Test
-    public void testActionPerformed_PlanEnabled_ExpectCall() {
+    void testActionPerformed_PlanEnabled_ExpectCall() {
 
         given(plan.isAvailable()).willReturn(true);
         given(plan.isEnabled()).willReturn(true);
@@ -104,14 +107,12 @@ public class QueuePlanActionTest {
      * Test of actionPerformed method, of class QueuePlanAction.
      */
     @Test
-    public void testResultChanged_PlanEnabled_ExpectEnabled() {
+    void testResultChanged_PlanEnabled_ExpectEnabled() {
 
         given(plan.isAvailable()).willReturn(true);
         given(plan.isEnabled()).willReturn(true);
         LookupContext.Instance.add(plan);
 
-        boolean result = classUnderTest.isEnabled();
-        assertThat(result, is(true));
+        assertTrue(classUnderTest.isEnabled());
     }
-
 }

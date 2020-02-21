@@ -15,15 +15,13 @@ package org.netbeans.modules.bamboo.ui.actions;
 
 import javax.swing.Action;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.LookupContext;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
@@ -37,9 +35,10 @@ import static org.mockito.Mockito.verify;
 import org.openide.util.Lookup;
 
 import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.never;
 import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Changes;
 
@@ -47,8 +46,8 @@ import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Change
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ShowChangesActionTest {
+@ExtendWith(MockitoExtension.class)
+class ShowChangesActionTest {
     
     private static final String FOO = "foo";
     
@@ -61,8 +60,8 @@ public class ShowChangesActionTest {
     
     private boolean available;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         plan = new PlanVo(FOO){
             @Override
             public boolean isAvailable() {
@@ -75,26 +74,25 @@ public class ShowChangesActionTest {
         classUnderTest = new ShowChangesAction(lookup);
     }
     
-    @After
-    public void shutDown() {
+    @AfterEach
+    void shutDown() {
         LookupContext.Instance.remove(plan);
     }
     
     @Test
-    public void testCreateContextAwareAction_ExpectNotNull() {
-        assertThat(new ShowChangesAction().createContextAwareInstance(Lookup.EMPTY), notNullValue());
+    void testCreateContextAwareAction_ExpectNotNull() {
+        assertNotNull(new ShowChangesAction().createContextAwareInstance(Lookup.EMPTY));
     }
     
     @Test
-    public void testGetName_ExpectBundle() {
+    void testGetName_ExpectBundle() {
         String name = (String) classUnderTest.getValue(Action.NAME);
-        assertThat(name, equalTo(Bundle.CTL_ShowChangesAction()));
+        assertEquals(Bundle.CTL_ShowChangesAction(), name);
     }
     
     @Test
-    public void testIsEnabled_NoPlan_ExpectFalse() {
-        boolean result = classUnderTest.isEnabled();
-        assertThat(result, is(false));
+    void testIsEnabled_NoPlan_ExpectFalse() {
+        assertFalse(classUnderTest.isEnabled());
     }
 
     
@@ -102,7 +100,7 @@ public class ShowChangesActionTest {
      * Test of actionPerformed method, of class QueuePlanAction.
      */
     @Test
-    public void testActionPerformed() {
+    void testActionPerformed() {
         
         LookupContext.Instance.add(plan);
         
@@ -113,17 +111,15 @@ public class ShowChangesActionTest {
      * Test of actionPerformed method, of class QueuePlanAction.
      */
     @Test
-    public void testResultChanged_PlanEnabled_ExpectEnabled() {
-        
+    void testResultChanged_PlanEnabled_ExpectEnabled() {
         available = true;
         LookupContext.Instance.add(plan);
         
-        boolean result = classUnderTest.isEnabled();
-        assertThat(result, is(true));
+        assertTrue(classUnderTest.isEnabled());
     }
 
     @Test
-    public void testRun_ChangesNotPresent_ExpectInvoke() {
+    void testRun_ChangesNotPresent_ExpectInvoke() {
         ProjectVo project = new ProjectVo(FOO);
         project.setParent(instance);
         plan.setParent(project);
@@ -137,7 +133,7 @@ public class ShowChangesActionTest {
     
     
     @Test
-    public void testRun_ChangesPresent_NotExpectInvoke() {
+    void testRun_ChangesPresent_NotExpectInvoke() {
         ProjectVo project = new ProjectVo(FOO);
         project.setParent(instance);
         plan.setParent(project);
