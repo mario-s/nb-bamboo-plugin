@@ -232,9 +232,9 @@ class DefaultBambooInstanceTest {
         project.setChildren(singletonList(plan));
         classUnderTest.setChildren(singletonList(project));
         classUnderTest.queue(plan);
-        waitForListener();
+//        waitForListener();
 
-        assertOneEvent();
+        assertEquals(1, classUnderTest.getLookup().lookupAll(QueueEvent.class).size());
     }
 
     @Test
@@ -249,13 +249,9 @@ class DefaultBambooInstanceTest {
         classUnderTest.queue(plan);
         waitForListener();
 
-        assertOneEvent();
+        assertEquals(1, classUnderTest.getLookup().lookupAll(QueueEvent.class).size());
     }
 
-    private void assertOneEvent() {
-        Collection<? extends QueueEvent> events = classUnderTest.getLookup().lookupAll(QueueEvent.class);
-        assertEquals(1, events.size());
-    }
 
     @Test
     void updateNotify_NoNotify_ExpectSurpressed() {
