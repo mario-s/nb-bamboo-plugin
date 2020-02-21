@@ -40,7 +40,6 @@ import org.netbeans.modules.bamboo.client.glue.InstanceConstants;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
@@ -78,20 +77,18 @@ class DefaultBambooInstanceTest {
 
     @Mock
     private AbstractBambooClient client;
+    
+    @Mock
+    private PropertyChangeListener listener;
 
     private PlanVo plan;
 
     private ProjectVo project;
 
-    private final PropertyChangeListener listener;
-
     private DefaultBambooInstance classUnderTest;
 
     private Collection<ProjectVo> projects;
-
-    DefaultBambooInstanceTest() {
-        listener = mock(PropertyChangeListener.class);
-    }
+    
 
     @BeforeEach
     void setUp() throws IllegalAccessException {
@@ -110,12 +107,6 @@ class DefaultBambooInstanceTest {
     @AfterEach
     void shutDown() {
         classUnderTest.removePropertyChangeListener(listener);
-    }
-
-    private void waitForListener() throws InterruptedException {
-        synchronized (listener) {
-            listener.wait(5000);
-        }
     }
 
     @Test
@@ -229,8 +220,7 @@ class DefaultBambooInstanceTest {
         given(client.existsService()).willReturn(true);
         project.setChildren(singletonList(plan));
         classUnderTest.setChildren(singletonList(project));
-        classUnderTest.queue(plan);
-        waitForListener();
+        classUnderTest.queue(plan).waitFinished();
 
         assertEquals(1, classUnderTest.getLookup().lookupAll(QueueEvent.class).size());
     }
@@ -242,10 +232,8 @@ class DefaultBambooInstanceTest {
 
         project.setChildren(singletonList(plan));
         classUnderTest.setChildren(singletonList(project));
-        classUnderTest.queue(plan);
-        waitForListener();
-        classUnderTest.queue(plan);
-        waitForListener();
+        classUnderTest.queue(plan).waitFinished();
+        classUnderTest.queue(plan).waitFinished();
 
         assertEquals(1, classUnderTest.getLookup().lookupAll(QueueEvent.class).size());
     }

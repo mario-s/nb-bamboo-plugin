@@ -72,8 +72,10 @@ public interface BambooInstance extends
      * server.
      * 
      * @param plan the {@link PlanVo} to queue for the build.
+     * 
+     * @return the queue task
      */
-    void queue(PlanVo plan);
+    Task queue(PlanVo plan);
     
     /**
      * Persist the notification state of the plan.
