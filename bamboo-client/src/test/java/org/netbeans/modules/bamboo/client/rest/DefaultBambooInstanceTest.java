@@ -29,7 +29,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InOrder;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -38,6 +37,7 @@ import static org.mockito.BDDMockito.given;
 import org.openide.util.RequestProcessor.Task;
 import org.netbeans.modules.bamboo.client.glue.InstanceConstants;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -95,22 +95,16 @@ class DefaultBambooInstanceTest {
 
     @BeforeEach
     void setUp() throws IllegalAccessException {
-        classUnderTest = newInstance();
+        given(properties.get(anyString())).willReturn(FOO);
+        given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn("1");
+        
+        classUnderTest = new DefaultBambooInstance(properties);
+        classUnderTest.addPropertyChangeListener(listener);
+        ReflectionTestUtils.setField(classUnderTest, "client", client);
 
         plan = new PlanVo(FOO);
         project = new ProjectVo(FOO);
-
         projects = new ArrayList<>();
-    }
-
-    private DefaultBambooInstance newInstance() {
-        DefaultBambooInstance instance = new DefaultBambooInstance(properties);
-
-        instance.setSyncInterval(5);
-        instance.addPropertyChangeListener(listener);
-        ReflectionTestUtils.setField(instance, "client", client);
-
-        return instance;
     }
 
     @AfterEach
@@ -120,13 +114,8 @@ class DefaultBambooInstanceTest {
 
     private void waitForListener() throws InterruptedException {
         synchronized (listener) {
-            listener.wait(8000);
+            listener.wait(5000);
         }
-    }
-
-    private void trainProperties() {
-        given(properties.get(ArgumentMatchers.anyString())).willReturn(FOO);
-        given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn("5");
     }
 
     @Test
@@ -150,10 +139,9 @@ class DefaultBambooInstanceTest {
      */
     @Test
     void setProperties_WithSync() {
-        trainProperties();
-
+        given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn(null);
         DefaultBambooInstance instance = new DefaultBambooInstance(properties);
-        assertEquals(5, instance.getSyncInterval());
+        assertEquals(0, instance.getSyncInterval());
     }
 
     /**
@@ -161,8 +149,6 @@ class DefaultBambooInstanceTest {
      */
     @Test
     void setChildren_ShouldCreateTask() {
-        trainProperties();
-
         DefaultBambooInstance instance = new DefaultBambooInstance(properties);
         instance.setChildren(projects);
         assertTrue(instance.getSynchronizationTask().isPresent());
@@ -173,7 +159,6 @@ class DefaultBambooInstanceTest {
      */
     @Test
     void setChildren_WithSuppressedPlans_ExpectPlanNotifyFalse() {
-        trainProperties();
         DefaultBambooInstance instance = new DefaultBambooInstance(properties);
 
         project.setChildren(singletonList(plan));
@@ -189,7 +174,6 @@ class DefaultBambooInstanceTest {
      */
     @Test
     void setChildren_ExpectProjectsHaveParent() {
-        trainProperties();
 
         DefaultBambooInstance instance = new DefaultBambooInstance(properties);
         instance.setChildren(projects);
@@ -280,7 +264,7 @@ class DefaultBambooInstanceTest {
 
         Collection<String> surpressed = classUnderTest.getSuppressedPlans();
         assertFalse(surpressed.isEmpty());
-        verify(listener).propertyChange(any(PropertyChangeEvent.class));
+        verify(listener, never()).propertyChange(any(PropertyChangeEvent.class));
     }
 
     @Test
@@ -289,7 +273,7 @@ class DefaultBambooInstanceTest {
 
         Collection<String> surpressed = classUnderTest.getSuppressedPlans();
         assertTrue(surpressed.isEmpty());
-        verify(listener, never()).propertyChange(any(PropertyChangeEvent.class));
+        verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
 
     @Test

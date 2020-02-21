@@ -139,7 +139,6 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         }
 
         String syncProp = props.get(InstanceConstants.PROP_SYNC_INTERVAL);
-
         if (isNotBlank(syncProp)) {
             setSyncInterval(Integer.parseInt(syncProp));
         }
