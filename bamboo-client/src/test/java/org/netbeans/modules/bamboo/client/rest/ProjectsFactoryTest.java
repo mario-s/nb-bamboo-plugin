@@ -21,28 +21,30 @@ import java.util.List;
 import static java.util.Collections.singletonList;
 
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
-import static org.junit.Assert.*;
 
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.Plan;
 import org.netbeans.modules.bamboo.model.rest.Plans;
 import org.netbeans.modules.bamboo.model.rest.Project;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 /**
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ProjectsFactoryTest {
+@ExtendWith(MockitoExtension.class)
+class ProjectsFactoryTest {
 
     private static final String FOO = "foo";
     
@@ -51,8 +53,8 @@ public class ProjectsFactoryTest {
 
     private ProjectsFactory classUnderTest;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         given(values.getUrl()).willReturn(FOO);
         classUnderTest = new ProjectsFactory(values);
     }
@@ -61,41 +63,41 @@ public class ProjectsFactoryTest {
      * Test of create method, of class ProjectsFactory.
      */
     @Test
-    public void testCreate_NoProjectNoPlans_ExpectEmpty() {
+    void testCreate_NoProjectNoPlans_ExpectEmpty() {
         Collection<ProjectVo> result = classUnderTest.create();
-        assertThat(result.isEmpty(), is(true));
+        assertTrue(result.isEmpty());
     }
 
     /**
      * Test of create method, of class ProjectsFactory.
      */
     @Test
-    public void testCreate_ProjectNoPlans_ExpectEmpty() {
+    void testCreate_ProjectNoPlans_ExpectEmpty() {
         Project project = new Project();
         classUnderTest.setProjects(singletonList(project));
         Collection<ProjectVo> result = classUnderTest.create();
-        assertThat(result.isEmpty(), is(true));
+        assertTrue(result.isEmpty());
     }
 
     /**
      * Test of create method, of class ProjectsFactory.
      */
     @Test
-    public void testCreate_ProjectPlans_ExpectNotEmpty() {
+    void testCreate_ProjectPlans_ExpectNotEmpty() {
         Plan plan = new Plan();
         Project project = new Project();
         project.setKey(FOO);
         classUnderTest.setProjects(singletonList(project));
         classUnderTest.setPlans(singletonList(plan));
         Collection<ProjectVo> result = classUnderTest.create();
-        assertThat(result.isEmpty(), is(false));
+        assertFalse(result.isEmpty());
     }
     
     /**
      * Test of create method, of class ProjectsFactory.
      */
-    @Test(expected = ConcurrentModificationException.class)
-    public void testCreate_ProjectBasedOnSamePlans_ExpectException() {
+    @Test
+    void testCreate_ProjectBasedOnSamePlans_ExpectException() {
         Plan plan = new Plan();
         plan.setKey(FOO);
         plan.setName(FOO);
@@ -111,7 +113,7 @@ public class ProjectsFactoryTest {
         classUnderTest.setProjects(projects);
         classUnderTest.setPlans(planList);
         
-        classUnderTest.create();
+        assertThrows(ConcurrentModificationException.class, () -> classUnderTest.create());
     }
 
 }

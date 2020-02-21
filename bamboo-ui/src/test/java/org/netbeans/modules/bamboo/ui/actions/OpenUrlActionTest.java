@@ -16,8 +16,6 @@ package org.netbeans.modules.bamboo.ui.actions;
 import java.net.URL;
 import javax.swing.Action;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
