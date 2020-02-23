@@ -13,35 +13,30 @@
  */
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import java.awt.Image;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static java.util.Collections.singletonList;
-
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.openide.nodes.Sheet;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 /**
  *
  * @author Mario Schroeder
  */
-public class ProjectNodeTest {
+class ProjectNodeTest {
     
     private ProjectNode classUnderTest;
     
     private ProjectVo project;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         project = new ProjectVo("");
         project.setChildren(singletonList(new PlanVo("")));
         classUnderTest = new ProjectNode(project);
@@ -51,18 +46,16 @@ public class ProjectNodeTest {
      * Test of getIcon method, of class ProjectNode.
      */
     @Test
-    public void testGetIcon_ExpectNotNull() {
-        Image result = classUnderTest.getIcon(1);
-        assertThat(result, notNullValue());
-
+    void testGetIcon_ExpectNotNull() {
+        assertNotNull(classUnderTest.getIcon(1));
     }
     
      /**
      * Test of getActions method, of class ProjectNode.
      */
     @Test
-    public void testCreateSheet_ExpectOneSheet() {
+    void testCreateSheet_ExpectOneSheet() {
         Sheet result = classUnderTest.createSheet();
-        assertThat(result.toArray().length, is(1));
+        assertEquals(1, result.toArray().length);
     }
 }

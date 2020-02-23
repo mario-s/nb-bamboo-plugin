@@ -15,23 +15,20 @@ package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.openide.nodes.Node;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  *
  * @author Mario Schroeder
  */
-public class PlanNodeFactoryTest {
+class PlanNodeFactoryTest {
 
     private static final String FOO = "foo";
     private static final String BAR = "bar";
@@ -41,8 +38,8 @@ public class PlanNodeFactoryTest {
 
     private PlanNodeFactory classUnderTest;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         project = new ProjectVo("");
         classUnderTest = new PlanNodeFactory(project);
     }
@@ -51,7 +48,7 @@ public class PlanNodeFactoryTest {
      * Test of refreshNodes method, of class PlanNodeFactory.
      */
     @Test
-    public void testRefreshNodes() {
+    void testRefreshNodes() {
         classUnderTest.refreshNodes();
     }
 
@@ -59,29 +56,29 @@ public class PlanNodeFactoryTest {
      * Test of createNodeForKey method, of class PlanNodeFactory.
      */
     @Test
-    public void testCreateNodeForKey() {
+    void testCreateNodeForKey() {
         PlanVo key = new PlanVo(FOO, FOO);
         Node result = classUnderTest.createNodeForKey(key);
-        assertThat(result.getName(), equalTo(FOO));
+        assertEquals(FOO, result.getName());
     }
 
     /**
      * Test of createKeys method, of class PlanNodeFactory.
      */
     @Test
-    public void testCreateKeys_NoneIgnore_ExpectSorted() {
+    void testCreateKeys_NoneIgnore_ExpectSorted() {
         List<PlanVo> toPopulate = new ArrayList<>();
         toPopulate.add(new PlanVo(FOO, FOO));
         toPopulate.add(new PlanVo(BAR, BAR));
         classUnderTest.createKeys(toPopulate);
-        assertThat(toPopulate.get(0).getName(), equalTo(BAR));
+        assertEquals(BAR, toPopulate.get(0).getName());
     }
     
      /**
      * Test of createKeys method, of class PlanNodeFactory.
      */
     @Test
-    public void testCreateKeys_OneIgnore_ExpectSorted() {
+    void testCreateKeys_OneIgnore_ExpectSorted() {
         List<PlanVo> toPopulate = new ArrayList<>();
         PlanVo fooPlan = new PlanVo(FOO, FOO);
         fooPlan.setNotify(true);
@@ -89,7 +86,7 @@ public class PlanNodeFactoryTest {
         toPopulate.add(new PlanVo(BAZ, BAZ));
         toPopulate.add(new PlanVo(BAR, BAR));
         classUnderTest.createKeys(toPopulate);
-        assertThat(toPopulate.get(2).getName(), equalTo(FOO));
+        assertEquals(FOO, toPopulate.get(2).getName());
     }
 
 }

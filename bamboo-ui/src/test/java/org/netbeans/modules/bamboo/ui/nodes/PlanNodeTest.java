@@ -16,16 +16,12 @@ package org.netbeans.modules.bamboo.ui.nodes;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.netbeans.modules.bamboo.model.LifeCycleState;
-
-import static org.junit.Assert.*;
 
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
@@ -36,14 +32,18 @@ import org.openide.nodes.Node.Property;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
-import org.mockito.junit.MockitoJUnitRunner;
+
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class PlanNodeTest {
+@ExtendWith(MockitoExtension.class)
+class PlanNodeTest {
 
     private static final String FOO = "foo";
 
@@ -54,8 +54,8 @@ public class PlanNodeTest {
 
     private PlanNode classUnderTest;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         plan = new PlanVo(FOO);
         plan.setShortName(FOO);
         ResultVo resultVo = new ResultVo(FOO);
@@ -73,7 +73,7 @@ public class PlanNodeTest {
      * Test of getHtmlDisplayName method, of class PlanNode.
      */
     @Test
-    public void testGetHtmlDisplayName_ExpectNotFinishedLifyCycle() {
+    void testGetHtmlDisplayName_ExpectNotFinishedLifyCycle() {
         String htmlDisplayName = classUnderTest.getHtmlDisplayName();
         assertFalse(htmlDisplayName.contains(LifeCycleState.Finished.name()));
     }
@@ -82,7 +82,7 @@ public class PlanNodeTest {
      * Test of propertyChange method, of class PlanNode.
      */
     @Test
-    public void testChange_Name() {
+    void testChange_Name() {
         ResultVo result = new ResultVo();
         result.setNumber(2);
         result.setState(State.Failed);
@@ -95,7 +95,7 @@ public class PlanNodeTest {
      * Test of propertyChange method, of class PlanNode.
      */
     @Test
-    public void testChange_Watching() {
+    void testChange_Watching() {
         String htmlDisplayName = classUnderTest.getHtmlDisplayName();
         assertTrue(htmlDisplayName.contains(Bundle.TXT_Plan_Not_Watched()));
     }
@@ -104,7 +104,7 @@ public class PlanNodeTest {
      * Test of propertyChange method, of class PlanNode.
      */
     @Test
-    public void testChange_BuildNumber() throws IllegalAccessException, InvocationTargetException {
+    void testChange_BuildNumber() throws IllegalAccessException, InvocationTargetException {
 
         Property[] oldProps = getProperties(0);
         Object oldValue = oldProps[1].getValue();
@@ -118,7 +118,7 @@ public class PlanNodeTest {
 
         Object newValue = newProps[2].getValue();
 
-        assertThat(oldValue.equals(newValue), is(false));
+        assertFalse(oldValue.equals(newValue));
     }
 
     private Property[] getProperties(int setIndex) {
@@ -128,7 +128,7 @@ public class PlanNodeTest {
     }
 
     @Test
-    public void testSetSilent_ExpectFirePropertyChange() {
+    void testSetSilent_ExpectFirePropertyChange() {
         plan.getParent().ifPresent(p -> {p.addPropertyChangeListener(listener);});
         plan.setNotify(true);
         verify(listener).propertyChange(any(PropertyChangeEvent.class));
