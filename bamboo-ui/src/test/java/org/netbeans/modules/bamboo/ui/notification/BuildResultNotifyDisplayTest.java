@@ -14,17 +14,15 @@
 package org.netbeans.modules.bamboo.ui.notification;
 
 import javax.swing.Icon;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import static org.mockito.Matchers.anyString;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.never;
 
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
@@ -32,18 +30,18 @@ import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.NotificationDisplayer.Category;
 import org.openide.awt.NotificationDisplayer.Priority;
 
-import static org.mockito.Matchers.isA;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isA;
 
 /**
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class BuildResultNotifyDisplayTest {
+@ExtendWith(MockitoExtension.class)
+class BuildResultNotifyDisplayTest {
 
     @Mock
     private Icon instanceIcon;
@@ -61,8 +59,8 @@ public class BuildResultNotifyDisplayTest {
 
     private BuildResultNotifyDisplay classUnderTest;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         oldResult = new ResultVo();
         newResult = new ResultVo();
         plan = new PlanVo("test", "test");
@@ -79,7 +77,7 @@ public class BuildResultNotifyDisplayTest {
      * Test of run method, of class BuildResultNotifyDisplay.
      */
     @Test
-    public void testRun_ResultNormal_ExpectNotifyNormal() {
+    void testRun_ResultNormal_ExpectNotifyNormal() {
         classUnderTest.run();
         verify(notificationDisplayer).notify(anyString(), any(Icon.class), isA(ResultDetailsPanel.class), isA(ResultDetailsPanel.class), eq(Priority.NORMAL), eq(Category.INFO));
     }
@@ -88,7 +86,7 @@ public class BuildResultNotifyDisplayTest {
      * Test of run method, of class BuildResultNotifyDisplay.
      */
     @Test
-    public void testRun_ResultFailed_ExpectNotifyHigh() {
+    void testRun_ResultFailed_ExpectNotifyHigh() {
         ResultVo result = new ResultVo();
         result.setState(State.Failed);
         plan.setResult(result);
@@ -100,7 +98,7 @@ public class BuildResultNotifyDisplayTest {
      * Test of run method, of class BuildResultNotifyDisplay.
      */
     @Test
-    public void testRun_ResultStillNormal_ExpectNoNotify() {
+    void testRun_ResultStillNormal_ExpectNoNotify() {
         oldResult.setState(State.Successful);
         newResult.setState(State.Successful);
         classUnderTest.run();
