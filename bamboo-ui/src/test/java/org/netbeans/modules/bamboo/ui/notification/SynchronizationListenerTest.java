@@ -15,32 +15,34 @@ package org.netbeans.modules.bamboo.ui.notification;
 
 import java.beans.PropertyChangeEvent;
 import java.util.Optional;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.model.rcp.ModelChangedValues;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+
 import org.springframework.test.util.ReflectionTestUtils;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class SynchronizationListenerTest {
+@ExtendWith(MockitoExtension.class)
+class SynchronizationListenerTest {
     @Mock
     private BambooInstance instance;
     
     private SynchronizationListener classUnderTest;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new SynchronizationListener(instance);
     }
 
@@ -48,11 +50,11 @@ public class SynchronizationListenerTest {
      * Test of propertyChange method, of class SynchronizationListener.
      */
     @Test
-    public void testPropertyChange_StartSynchronize() {
+    void testPropertyChange_StartSynchronize() {
         PropertyChangeEvent event = newChangeEvent(true);
         classUnderTest.propertyChange(event);
         Optional<ProgressHandle> opt = getProgressHandle();
-        assertThat(opt.isPresent(), is(true));
+        assertTrue(opt.isPresent());
     }
 
     private PropertyChangeEvent newChangeEvent(boolean val) {
@@ -63,13 +65,13 @@ public class SynchronizationListenerTest {
      * Test of propertyChange method, of class SynchronizationListener.
      */
     @Test
-    public void testPropertyChange_StartAndStopSynchronize() {
+    void testPropertyChange_StartAndStopSynchronize() {
         PropertyChangeEvent event = newChangeEvent(true);
         classUnderTest.propertyChange(event);
         event = newChangeEvent(false);
         classUnderTest.propertyChange(event);
         Optional<ProgressHandle> opt = getProgressHandle();
-        assertThat(opt.isPresent(), is(false));
+        assertFalse(opt.isPresent());
     }
 
     private Optional<ProgressHandle> getProgressHandle() {
