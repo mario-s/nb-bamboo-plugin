@@ -13,8 +13,8 @@
  */
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import java.util.Observable;
-import java.util.Observer;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.event.DocumentEvent;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,8 +28,6 @@ import org.netbeans.modules.bamboo.mock.MockInstanceManager;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.openide.util.Lookup.getDefault;
 import static org.mockito.Mockito.inOrder;
@@ -46,10 +44,10 @@ public class InstancePropertiesFormTest {
     @Mock
     private InstanceManageable delegate;
 
-    private Observable observable;
-
     @Mock
-    private Observer observer;
+    private PropertyChangeListener listener;
+    
+    private PropertyChangeEvent event;
 
     @Mock
     private DocumentEvent docEvent;
@@ -64,18 +62,18 @@ public class InstancePropertiesFormTest {
         MockInstanceManager manager
                 = (MockInstanceManager) getDefault().lookup(InstanceManageable.class);
         manager.setDelegate(delegate);
-
-        observable = new Observable();
+        
+        event = new PropertyChangeEvent(this, FOO, FOO, FOO);
 
         classUnderTest = new InstancePropertiesForm() {
             @Override
             void inform(String message) {
-                observer.update(observable, message);
+                listener.propertyChange(event);
             }
 
             @Override
             void error(String message) {
-                observer.update(observable, message);
+                listener.propertyChange(event);
             }
 
             @Override
@@ -119,7 +117,7 @@ public class InstancePropertiesFormTest {
     void testInsertUpdate_NoName_ExpectActionDisabled() {
         classUnderTest.insertUpdate(docEvent);
         verify(applyAction).setEnabled(false);
-        verify(observer).update(eq(observable), anyString());
+        verify(listener).propertyChange(event);
     }
 
     /**
@@ -138,9 +136,9 @@ public class InstancePropertiesFormTest {
     void testInsertUpdate_ExistingName_ExpectActionDisabled() {
         classUnderTest.getTxtName().setText(FOO);
         
-        InOrder order = inOrder(applyAction, delegate, observer);
+        InOrder order = inOrder(applyAction, delegate, listener);
         order.verify(applyAction).setEnabled(false);
         order.verify(delegate).existsInstanceName(FOO);
-        order.verify(observer).update(eq(observable), anyString());
+        verify(listener).propertyChange(event);
     }
 }
