@@ -13,51 +13,41 @@
  */
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import org.junit.runner.RunWith;
-
-import static org.mockito.BDDMockito.given;
-
 import org.mockito.InOrder;
 
-import static org.mockito.Matchers.anyString;
-
 import org.mockito.Mock;
-
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.verify;
-
-
-import org.mockito.junit.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.mock.MockInstanceFactory;
 import org.netbeans.modules.bamboo.client.glue.BambooInstanceProduceable;
 
-import static org.openide.util.Lookup.getDefault;
-
 import org.openide.util.Task;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
-
-import static org.mockito.Mockito.atLeast;
-
 import org.openide.NotifyDescriptor;
-
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.never;
 import org.springframework.test.util.ReflectionTestUtils;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.verify;
+import static org.openide.util.Lookup.getDefault;
 
 /**
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class AddInstanceWorkerTest {
+@ExtendWith(MockitoExtension.class)
+class AddInstanceWorkerTest {
 
     @Mock
     private AbstractDialogAction action;
@@ -74,14 +64,13 @@ public class AddInstanceWorkerTest {
 
     private AddInstanceWorker classUnderTest;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         MockInstanceFactory factory
                 = (MockInstanceFactory) getDefault().lookup(BambooInstanceProduceable.class);
         factory.setDelegate(producer);
 
         given(action.getInstanceManager()).willReturn(instanceManager);
-        given(form.getInstanceName()).willReturn("test");
 
         classUnderTest = new AddInstanceWorker(action) {
             @Override
@@ -92,7 +81,7 @@ public class AddInstanceWorkerTest {
     }
 
     @Test
-    public void testExecute_Cancel() {
+    void testExecute_Cancel() {
         classUnderTest.execute(form);
         classUnderTest.cancel();
         verify(runner).addPropertyChangeListener(isA(PropertyChangeListener.class));
@@ -100,7 +89,7 @@ public class AddInstanceWorkerTest {
     }
 
     @Test
-    public void testPropertyChangeEvent_InstanceCreated() {
+    void testPropertyChangeEvent_InstanceCreated() {
         String eventName = WorkerEvents.INSTANCE_CREATED.name();
         classUnderTest.propertyChange(newEvent(eventName));
 
@@ -110,7 +99,7 @@ public class AddInstanceWorkerTest {
     }
     
     @Test
-    public void testPropertyChangeEvent_InvalidUrl() {
+    void testPropertyChangeEvent_InvalidUrl() {
         String eventName = WorkerEvents.INVALID_URL.name();
         PropertyChangeEvent event = newEvent(eventName);
         classUnderTest.propertyChange(event);
@@ -124,7 +113,9 @@ public class AddInstanceWorkerTest {
     }
 
     @Test
-    public void testTaskFinished_Cancel() {
+    void testTaskFinished_Cancel() {
+        given(form.getInstanceName()).willReturn("test");
+        
         classUnderTest.execute(form);
         ReflectionTestUtils.setField(classUnderTest, "cancel", true);
 

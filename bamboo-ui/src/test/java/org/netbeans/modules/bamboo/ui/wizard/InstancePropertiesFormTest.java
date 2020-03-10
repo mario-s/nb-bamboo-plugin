@@ -17,19 +17,19 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.AbstractAction;
 import javax.swing.event.DocumentEvent;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.mock.MockInstanceManager;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.openide.util.Lookup.getDefault;
 import static org.mockito.Mockito.inOrder;
@@ -38,7 +38,7 @@ import static org.mockito.Mockito.inOrder;
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class InstancePropertiesFormTest {
     
     private static final String FOO = "foo";
@@ -59,8 +59,8 @@ public class InstancePropertiesFormTest {
 
     private InstancePropertiesForm classUnderTest;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         MockInstanceManager manager
                 = (MockInstanceManager) getDefault().lookup(InstanceManageable.class);
         manager.setDelegate(delegate);
@@ -90,25 +90,25 @@ public class InstancePropertiesFormTest {
      * Test of block method, of class InstancePropertiesForm.
      */
     @Test
-    public void testBlock_ExpectProgressVisisble() {
+    void testBlock_ExpectProgressVisisble() {
         classUnderTest.block();
-        assertThat(classUnderTest.getProgressBar().isVisible(), is(true));
+        assertTrue(classUnderTest.getProgressBar().isVisible());
     }
 
     /**
      * Test of unblock method, of class InstancePropertiesForm.
      */
     @Test
-    public void testUnblock_ExpectProgressNotVisisble() {
+    void testUnblock_ExpectProgressNotVisisble() {
         classUnderTest.unblock();
-        assertThat(classUnderTest.getProgressBar().isVisible(), is(false));
+        assertFalse(classUnderTest.getProgressBar().isVisible());
     }
 
     /**
      * Test of setFocus method, of class InstancePropertiesForm.
      */
     @Test
-    public void testSetFocus() {
+    void testSetFocus() {
         classUnderTest.setFocus(0);
     }
 
@@ -116,7 +116,7 @@ public class InstancePropertiesFormTest {
      * Test of insertUpdate method, of class InstancePropertiesForm.
      */
     @Test
-    public void testInsertUpdate_NoName_ExpectActionDisabled() {
+    void testInsertUpdate_NoName_ExpectActionDisabled() {
         classUnderTest.insertUpdate(docEvent);
         verify(applyAction).setEnabled(false);
         verify(observer).update(eq(observable), anyString());
@@ -126,7 +126,7 @@ public class InstancePropertiesFormTest {
      * Test of removeUpdate method, of class InstancePropertiesForm.
      */
     @Test
-    public void testRemoveUpdate_NoName_ExpectActionDisabled() {
+    void testRemoveUpdate_NoName_ExpectActionDisabled() {
         classUnderTest.removeUpdate(docEvent);
         verify(applyAction).setEnabled(false);
     }
@@ -135,7 +135,7 @@ public class InstancePropertiesFormTest {
      * Test of insertUpdate method, of class InstancePropertiesForm.
      */
     @Test
-    public void testInsertUpdate_ExistingName_ExpectActionDisabled() {
+    void testInsertUpdate_ExistingName_ExpectActionDisabled() {
         classUnderTest.getTxtName().setText(FOO);
         
         InOrder order = inOrder(applyAction, delegate, observer);
