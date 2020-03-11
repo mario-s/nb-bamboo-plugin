@@ -14,29 +14,24 @@
 package org.netbeans.modules.bamboo.client.rest;
 
 import org.netbeans.modules.bamboo.client.glue.HttpUtility;
-import java.util.Optional;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.given;
 import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import org.netbeans.modules.bamboo.client.glue.BambooClient;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.BDDMockito.given;
 
 /**
  *
  * @author Mario Schroeder
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(HttpUtility.class)
-public class BambooClientFactoryTest {
+@ExtendWith(MockitoExtension.class)
+class BambooClientFactoryTest {
     private static final String FOO = "foo";
     
     @Mock
@@ -48,8 +43,8 @@ public class BambooClientFactoryTest {
     @InjectMocks
     private DefaultBambooClientFactory classUnderTest;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         given(values.getUrl()).willReturn(FOO);
     }
     
@@ -58,22 +53,20 @@ public class BambooClientFactoryTest {
      * Test of newClient method, of class DefaultBambooClientFactory.
      */
     @Test
-    public void testNewClient_UrlExists_ExpectPresent() {
+    void testNewClient_UrlExists_ExpectPresent() {
         given(httpUtility.exists(FOO)).willReturn(true);
         
-        Optional<BambooClient> result = classUnderTest.newClient(values);
-        assertThat(result.isPresent(), is(true));
+        assertTrue(classUnderTest.newClient(values).isPresent());
     }
     
     /**
      * Test of newClient method, of class DefaultBambooClientFactory.
      */
     @Test
-    public void testNewClient_UrlDoesNotExists_ExpectAbsent() {
+    void testNewClient_UrlDoesNotExists_ExpectAbsent() {
         given(httpUtility.exists(FOO)).willReturn(false);
         
-        Optional<BambooClient> result = classUnderTest.newClient(values);
-        assertThat(result.isPresent(), is(false));
+        assertFalse(classUnderTest.newClient(values).isPresent());
     }
     
 }

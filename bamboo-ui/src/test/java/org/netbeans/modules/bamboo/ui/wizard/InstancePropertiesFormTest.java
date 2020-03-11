@@ -37,7 +37,7 @@ import static org.mockito.Mockito.inOrder;
  * @author Mario Schroeder
  */
 @ExtendWith(MockitoExtension.class)
-public class InstancePropertiesFormTest {
+class InstancePropertiesFormTest {
     
     private static final String FOO = "foo";
     
