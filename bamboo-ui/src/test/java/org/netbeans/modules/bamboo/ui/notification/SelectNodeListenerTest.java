@@ -16,16 +16,16 @@ package org.netbeans.modules.bamboo.ui.notification;
 import java.util.Optional;
 
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.mockito.BDDMockito.given;
 
 import org.mockito.Mock;
 
 
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
@@ -37,16 +37,16 @@ import org.openide.nodes.IndexedNode;
 import org.openide.nodes.Node;
 import org.openide.windows.TopComponent;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 
 /**
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class SelectNodeListenerTest {
+@ExtendWith(MockitoExtension.class)
+class SelectNodeListenerTest {
 
     private static final String FOO = "foo";
 
@@ -65,8 +65,8 @@ public class SelectNodeListenerTest {
 
     private SelectNodeListener classUnderTest;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         plan = new PlanVo(FOO);
         plan.setName(FOO);
 
@@ -86,7 +86,6 @@ public class SelectNodeListenerTest {
         };
         
         given(instance.getName()).willReturn(FOO);
-
         given(provider.getExplorerManager()).willReturn(explorerManager);
     }
 
@@ -120,31 +119,33 @@ public class SelectNodeListenerTest {
      * Test of actionPerformed method, of class SelectNodeButton.
      */
     @Test
-    public void testActionPerformed() {
+    void testActionPerformed() {
+        reset(instance, provider);
+        
         classUnderTest.actionPerformed(null);
         verify(servicesTab).requestActive();
     }
 
     @Test
-    public void testSelectNodes_AllSameNames_ExpectOne() {
+    void testSelectNodes_AllSameNames_ExpectOne() {
         classUnderTest.selectNodes(provider, plan);
         Node[] selected = explorerManager.getSelectedNodes();
-        assertThat(selected.length, is(1));
+        assertEquals(1, selected.length);
     }
 
     @Test
-    public void testSelectNodes_OneDifferentName_ExpectNone() {
+    void testSelectNodes_OneDifferentName_ExpectNone() {
         plan.setName("bar");
         classUnderTest.selectNodes(provider, plan);
         Node[] selected = explorerManager.getSelectedNodes();
-        assertThat(selected.length, is(0));
+        assertEquals(0, selected.length);
     }
     
-     @Test
-    public void testSelectNodes_NoMatchingRoot_ExpectZero() {
+    @Test
+    void testSelectNodes_NoMatchingRoot_ExpectZero() {
         explorerManager.setRootContext(Node.EMPTY);
         classUnderTest.selectNodes(provider, plan);
         Node[] selected = explorerManager.getSelectedNodes();
-        assertThat(selected.length, is(0));
+        assertEquals(0, selected.length);
     }
 }

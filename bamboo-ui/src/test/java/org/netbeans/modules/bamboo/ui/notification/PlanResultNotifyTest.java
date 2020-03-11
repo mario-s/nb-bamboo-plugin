@@ -13,20 +13,20 @@
  */
 package org.netbeans.modules.bamboo.ui.notification;
 
-import org.junit.After;
 
 import static java.util.Collections.singletonList;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.mockito.BDDMockito.given;
 
 import org.mockito.Mock;
 
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.LookupContext;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
@@ -36,17 +36,17 @@ import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 import org.netbeans.modules.bamboo.model.State;
 import org.openide.util.Lookup;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 
 /**
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class PlanResultNotifyTest {
+@ExtendWith(MockitoExtension.class)
+class PlanResultNotifyTest {
 
     @Mock
     private BambooInstance instance;
@@ -60,8 +60,8 @@ public class PlanResultNotifyTest {
 
     private QueueEvent event;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         plan = new PlanVo("a");
         plan.setName("test");
         ResultVo resultVo = new ResultVo();
@@ -82,8 +82,8 @@ public class PlanResultNotifyTest {
         classUnderTest.setDelegator(delegator);
     }
 
-    @After
-    public void shutDown() {
+    @AfterEach
+    void shutDown() {
         LookupContext.Instance.remove(event);
     }
 
@@ -98,7 +98,7 @@ public class PlanResultNotifyTest {
      * Test of propertyChange method, of class PlanResultNotify.
      */
     @Test
-    public void testPropertyChange_ExpectNotify() {
+    void testPropertyChange_ExpectNotify() {
         ResultVo resultVo = newFailedResult();
         plan.setResult(resultVo);
         verify(delegator).notify(any(BuildResult.class));
@@ -108,7 +108,7 @@ public class PlanResultNotifyTest {
      * Test of propertyChange method, of class PlanResultNotify.
      */
     @Test
-    public void testPropertyChange_PlanIgnore_ExpectNoNotify() {
+    void testPropertyChange_PlanIgnore_ExpectNoNotify() {
         plan.setNotify(false);
         ResultVo resultVo = newFailedResult();
         plan.setResult(resultVo);
@@ -116,7 +116,7 @@ public class PlanResultNotifyTest {
     }
 
     @Test
-    public void testResultChanged_ExpectNotify() {
+    void testResultChanged_ExpectNotify() {
         LookupContext.Instance.add(event);
         verify(delegator).notify(eq(event));
     }

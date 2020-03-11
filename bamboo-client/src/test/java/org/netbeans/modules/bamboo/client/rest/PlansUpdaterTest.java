@@ -18,19 +18,18 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 import org.netbeans.modules.bamboo.client.rest.AbstractVoUpdater.PlansUpdater;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
@@ -38,8 +37,8 @@ import static org.mockito.Mockito.verify;
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class PlansUpdaterTest {
+@ExtendWith(MockitoExtension.class)
+class PlansUpdaterTest {
 
     private static final String FOO = "foo";
     private static final String BAR = "bar";
@@ -53,8 +52,8 @@ public class PlansUpdaterTest {
 
     private List<PlanVo> target;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new PlansUpdater();
         source = new ArrayList<>();
         target = new ArrayList<>();
@@ -64,7 +63,7 @@ public class PlansUpdaterTest {
      * Test of update method, of class ProjectsUpdater.
      */
     @Test
-    public void testUpdate_SameContent_NoChange() {
+    void testUpdate_SameContent_NoChange() {
         PlanVo left = new PlanVo(FOO, FOO);
         PlanVo right = new PlanVo(FOO, FOO);
 
@@ -73,14 +72,14 @@ public class PlansUpdaterTest {
 
         classUnderTest.update(source, target);
 
-        assertThat(target.get(0), equalTo(right));
+        assertEquals(right, target.get(0));
     }
 
     /**
      * Test of update method, of class ProjectsUpdater.
      */
     @Test
-    public void testUpdate_DifferentContent_ExpectLeft() {
+    void testUpdate_DifferentContent_ExpectLeft() {
         PlanVo left = new PlanVo(FOO, FOO);
         PlanVo right = new PlanVo(BAR, BAR);
 
@@ -89,14 +88,14 @@ public class PlansUpdaterTest {
 
         classUnderTest.update(source, target);
 
-        assertThat(target.get(0).getKey(), equalTo(FOO));
+        assertEquals(FOO, target.get(0).getKey());
     }
 
     /**
      * Test of update method, of class ProjectsUpdater.
      */
     @Test
-    public void testUpdate_DifferentContent_OnlyOne() {
+    void testUpdate_DifferentContent_OnlyOne() {
         PlanVo left = new PlanVo(FOO, FOO);
         PlanVo right = new PlanVo(BAR, BAR);
 
@@ -106,14 +105,14 @@ public class PlansUpdaterTest {
 
         classUnderTest.update(source, target);
 
-        assertThat(target.size(), is(1));
+        assertEquals(1, target.size());
     }
 
     /**
      * Test of update method, of class ProjectsUpdater.
      */
     @Test
-    public void testUpdate_AddContent_NewOne() {
+    void testUpdate_AddContent_NewOne() {
         PlanVo left = new PlanVo(FOO, FOO);
         PlanVo right = new PlanVo(BAR, BAR);
 
@@ -123,14 +122,14 @@ public class PlansUpdaterTest {
 
         classUnderTest.update(source, target);
 
-        assertThat(target.size(), is(2));
+        assertEquals(2, target.size());
     }
     
         /**
      * Test of update method, of class ProjectsUpdater.
      */
     @Test
-    public void testUpdate_Enable_ExpectListenerCalled() {
+    void testUpdate_Enable_ExpectListenerCalled() {
         PlanVo left = new PlanVo(FOO, FOO);
         left.setEnabled(true);
         PlanVo right = new PlanVo(FOO, FOO);
@@ -141,7 +140,7 @@ public class PlansUpdaterTest {
 
         classUnderTest.update(source, target);
 
-        assertThat(left.isEnabled(), is(true));
+        assertTrue(left.isEnabled());
         verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
 
@@ -149,7 +148,7 @@ public class PlansUpdaterTest {
      * Test of update method, of class ProjectsUpdater.
      */
     @Test
-    public void testUpdate_NewResult() {
+    void testUpdate_NewResult() {
         PlanVo left = new PlanVo(FOO);
         ResultVo leftResult = new ResultVo();
         leftResult.setNumber(1);
@@ -164,7 +163,7 @@ public class PlansUpdaterTest {
 
         classUnderTest.update(source, target);
 
-        assertThat(target.get(0).getResult().getNumber(), is(1));
+        assertEquals(1, target.get(0).getResult().getNumber());
     }
 
 }

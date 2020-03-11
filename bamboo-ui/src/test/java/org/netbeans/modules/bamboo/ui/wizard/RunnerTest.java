@@ -13,43 +13,35 @@
  */
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import org.junit.runner.RunWith;
-
-import static org.mockito.BDDMockito.given;
-
 import org.mockito.InOrder;
-
-import static org.mockito.Matchers.any;
-
 import org.mockito.Mock;
-
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.verify;
-
-import org.mockito.junit.MockitoJUnitRunner;
-
 import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.mock.MockInstanceFactory;
 import org.netbeans.modules.bamboo.client.glue.BambooInstanceProduceable;
 
-import static org.openide.util.Lookup.getDefault;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
+import static org.openide.util.Lookup.getDefault;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class RunnerTest {
+@ExtendWith(MockitoExtension.class)
+class RunnerTest {
     private static final String FOO = "foo";
     @Mock
     private BambooInstanceProduceable producer;
@@ -62,8 +54,8 @@ public class RunnerTest {
 
     private Runner classUnderTest;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         MockInstanceFactory factory =
             (MockInstanceFactory) getDefault().lookup(BambooInstanceProduceable.class);
         factory.setDelegate(producer);
@@ -79,7 +71,7 @@ public class RunnerTest {
      * Test of run method, of class Runner.
      */
     @Test
-    public void testRun_ServerExists() {
+    void testRun_ServerExists() {
         given(producer.create(values)).willReturn(of(instance));
         classUnderTest.run();
 
@@ -92,7 +84,7 @@ public class RunnerTest {
      * Test of run method, of class Runner.
      */
     @Test
-    public void testRun_ServerDoesNotExists() {
+    void testRun_ServerDoesNotExists() {
         given(producer.create(values)).willReturn(empty());
         classUnderTest.run();
         verify(listener).propertyChange(any(PropertyChangeEvent.class));

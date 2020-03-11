@@ -13,28 +13,30 @@
  */
 package org.netbeans.modules.bamboo.ui.actions;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+
 import static org.mockito.Mockito.verify;
-import org.mockito.junit.MockitoJUnitRunner;
+
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.client.glue.InstancePropertiesDisplayable;
 
 /**
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class AddInstanceActionTest {
+@ExtendWith(MockitoExtension.class)
+class AddInstanceActionTest {
     
     private AddInstanceAction classUnderTest;
     
     @Mock
     private InstancePropertiesDisplayable dialogDisplayer;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new AddInstanceAction(){
             @Override
             InstancePropertiesDisplayable createDialog() {
@@ -47,7 +49,7 @@ public class AddInstanceActionTest {
      * Test of actionPerformed method, of class AddInstanceAction.
      */
     @Test
-    public void testActionPerformed() {
+    void testActionPerformed() {
         classUnderTest.actionPerformed(null);
         verify(dialogDisplayer).show();
     }

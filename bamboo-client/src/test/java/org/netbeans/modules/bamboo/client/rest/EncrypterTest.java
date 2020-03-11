@@ -13,19 +13,22 @@
  */
 package org.netbeans.modules.bamboo.client.rest;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Before;
-import org.junit.Test;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author schroeder
  */
-public class EncrypterTest {
+class EncrypterTest {
+    private static final String FOO = "foo";
+    
     private Encrypter classUnderTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         classUnderTest = Encrypter.getInstance();
     }
@@ -34,19 +37,19 @@ public class EncrypterTest {
      * Test of encrypt method, of class Encrypter.
      */
     @Test
-    public void testEncrypt() {
-        String str = "test";
-        String result = classUnderTest.encrypt(str.toCharArray());
-        assertFalse(result.equals(str));
+    @DisplayName("It should encrypt clear text.")
+    void testEncrypt() {
+        String result = classUnderTest.encrypt(FOO.toCharArray());
+        assertFalse(result.equals(FOO));
     }
 
     /**
      * Test of encrypt method, of class Encrypter.
      */
     @Test
+    @DisplayName("It should encrypt an decrypt text.")
     public void testEncrypt_And_Decrypt() {
-        String str = "test";
-        String result = classUnderTest.decrypt(classUnderTest.encrypt(str));
-        assertEquals(str, result);
+        String result = classUnderTest.decrypt(classUnderTest.encrypt(FOO));
+        assertEquals(FOO, result);
     }
 }

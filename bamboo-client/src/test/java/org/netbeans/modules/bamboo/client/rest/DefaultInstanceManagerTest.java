@@ -19,27 +19,23 @@ import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
 import java.util.Collection;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.junit.Assert.*;
-import static org.junit.Assume.assumeThat;
-
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.times;
 
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.client.glue.BuildStatusWatchable;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -49,12 +45,18 @@ import static org.openide.util.Lookup.getDefault;
 
 import org.netbeans.modules.bamboo.client.glue.InstanceConstants;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+
 /**
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class DefaultInstanceManagerTest {
+@ExtendWith(MockitoExtension.class)
+class DefaultInstanceManagerTest {
+    
+    private static final String FOO = "foo";
     
     private static final String FOO_URL = "http://foo.com";
     
@@ -79,14 +81,8 @@ public class DefaultInstanceManagerTest {
 
     private DefaultBambooInstance instance;
     
-    private final String name;
-
-    public DefaultInstanceManagerTest() {
-        name = getClass().getName();
-    }
-
-    @Before
-    public void setUp() throws BackingStoreException {
+    @BeforeEach
+    void setUp(){
         
         MockBuildStateWatcher watcher = (MockBuildStateWatcher) getDefault().lookup(BuildStatusWatchable.class);
         watcher.setDelegate(buildStatusWatcher);
@@ -99,7 +95,7 @@ public class DefaultInstanceManagerTest {
         result.addLookupListener(listener);
 
         values = new DefaultInstanceValues();
-        values.setName(name);
+        values.setName(FOO);
         values.setUrl(FOO_URL);
         values.setPassword(new char[]{'a'});
 
@@ -107,7 +103,6 @@ public class DefaultInstanceManagerTest {
         instance.setName(values.getName());
         instance.setUrl(values.getUrl());
 
-        given(preferences.childrenNames()).willReturn(new String[]{values.getName()});
     }
     
     private DefaultInstanceManager createInstance() {
@@ -118,11 +113,9 @@ public class DefaultInstanceManagerTest {
             }
 
         };
-        
-        
     }
 
-    @After
+    @AfterEach
     public void shutDown() {
         result.removeLookupListener(listener);
         classUnderTest.removeInstance(instance);
@@ -132,9 +125,9 @@ public class DefaultInstanceManagerTest {
      * Test of addInstance method, of class BambooManager.
      */
     @Test
-    public void testAddInstance() {
+    void testAddInstance() {
         classUnderTest.addInstance(instance);
-        assertThat(result.allInstances().isEmpty(), is(false));
+        assertFalse(result.allInstances().isEmpty());
         verify(listener).resultChanged(lookupCaptor.capture());
     }
 
@@ -142,50 +135,54 @@ public class DefaultInstanceManagerTest {
      * Test of addInstance method, of class BambooManager.
      */
     @Test
-    public void testRemoveInstance() {
+    void testRemoveInstance() {
         classUnderTest.addInstance(instance);
         Collection<? extends BambooInstance> instances = result.allInstances();
-        assumeThat(instances.isEmpty(), is(false));
+        assumeFalse(instances.isEmpty());
+        
         classUnderTest.removeInstance(instances.iterator().next());
         verify(listener, times(2)).resultChanged(lookupCaptor.capture());
     }
 
     @Test
-    public void testLoadInstances() {
+    void testLoadInstances() throws BackingStoreException {
+        given(preferences.childrenNames()).willReturn(new String[]{values.getName()});
+        
         classUnderTest.addInstance(instance);
         Collection<BambooInstance> instances = classUnderTest.loadInstances();
-        assertThat(instances.isEmpty(), is(false));
+        assertFalse(instances.isEmpty());
     }
 
     @Test
-    public void testExistsInstance() throws BackingStoreException {
-        given(preferences.nodeExists(name)).willReturn(true);
+    void testExistsInstance() throws BackingStoreException {
         classUnderTest.addInstance(instance);
-        assertThat(classUnderTest.existsInstanceName(name), is(true));
+        assertTrue(classUnderTest.existsInstanceName(FOO));
     }
     
     @Test
-    public void testExistsInstanceByUrl_NoUrl_ExpectFalse() throws BackingStoreException {
-        assertThat(classUnderTest.existsInstanceUrl(""), is(false));
+    void testExistsInstanceByUrl_NoUrl_ExpectFalse() throws BackingStoreException {
+        assertFalse(classUnderTest.existsInstanceUrl(""));
     }
     
     @Test
-    public void testExistsInstanceByUrl_OtherUrl_ExpectFalse() throws BackingStoreException {
+    void testExistsInstanceByUrl_OtherUrl_ExpectFalse() throws BackingStoreException {
         classUnderTest.addInstance(instance);
-        assertThat(classUnderTest.existsInstanceUrl(BAR_URL), is(false));
+        assertFalse(classUnderTest.existsInstanceUrl(BAR_URL));
     }
     
     @Test
-    public void testExistsInstanceByUrl_SameUrl_ExpectTrue() throws BackingStoreException {
+    void testExistsInstanceByUrl_SameUrl_ExpectTrue() throws BackingStoreException {
         classUnderTest.addInstance(instance);
-        assertThat(classUnderTest.existsInstanceUrl(FOO_URL), is(true));
+        assertTrue(classUnderTest.existsInstanceUrl(FOO_URL));
     }
     
     @Test
-    public void testPropertyChange_ShouldPersist() {
+    void testPropertyChange_ShouldPersist() throws BackingStoreException {
+        given(preferences.childrenNames()).willReturn(new String[]{values.getName()});
+        
         PropertyChangeEvent event = new PropertyChangeEvent(instance, InstanceConstants.PROP_SYNC_INTERVAL, 0, 1);
         classUnderTest.propertyChange(event);
         Collection<BambooInstance> instances = classUnderTest.loadInstances();
-        assertThat(instances.isEmpty(), is(false));
+        assertFalse(instances.isEmpty());
     }
 }

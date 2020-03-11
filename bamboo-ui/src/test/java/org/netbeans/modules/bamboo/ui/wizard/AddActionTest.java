@@ -13,36 +13,32 @@
  */
 package org.netbeans.modules.bamboo.ui.wizard;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import org.junit.runner.RunWith;
-
-import static org.mockito.BDDMockito.given;
 
 import org.mockito.Mock;
 
-import static org.mockito.Mockito.verify;
-
-
-import org.mockito.junit.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
-import static org.junit.Assert.assertFalse;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.mockito.InjectMocks;
-import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import org.springframework.test.util.ReflectionTestUtils;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Mockito.verify;
+import static org.netbeans.modules.bamboo.ui.wizard.Bundle.TXT_ADD;
 
 /**
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class AddActionTest {
-
-    private static final String NAME = AddActionTest.class.getName();
+@ExtendWith(MockitoExtension.class)
+class AddActionTest {
 
     @Mock
     private InstanceManageable manager;
@@ -53,10 +49,8 @@ public class AddActionTest {
     @InjectMocks
     private AddAction classUnderTest;
 
-    @Before
-    public void setUp() {
-        given(form.getInstanceName()).willReturn(NAME);
-        
+    @BeforeEach
+    void setUp() {        
         ReflectionTestUtils.setField(classUnderTest, "instanceManager", manager);
         ReflectionTestUtils.setField(classUnderTest, "worker", worker);
     }
@@ -65,8 +59,7 @@ public class AddActionTest {
      * Test of actionPerformed method, of class AddAction.
      */
     @Test
-    public void testActionPerformed_Ok() {
-        given(form.getPassword()).willReturn(new char[]{'a'});
+    void testActionPerformed_Ok() {
         ActionEvent event = new ActionEvent(this, 0, TXT_ADD());
         classUnderTest.actionPerformed(event);
         assertFalse(classUnderTest.isEnabled());
@@ -74,7 +67,7 @@ public class AddActionTest {
     }
     
     @Test
-    public void testPropertyChange_Cancel() {
+    void testPropertyChange_Cancel() {
         PropertyChangeEvent event = new PropertyChangeEvent(this, "test", null, -1);
         classUnderTest.propertyChange(event);
         verify(worker).cancel();

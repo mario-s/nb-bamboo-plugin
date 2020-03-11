@@ -16,19 +16,17 @@ package org.netbeans.modules.bamboo.ui.actions;
 import java.net.URL;
 import javax.swing.Action;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-
-import org.junit.After;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 
 import static org.mockito.BDDMockito.given;
 
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.Mockito.verify;
 
@@ -36,18 +34,18 @@ import org.netbeans.modules.bamboo.LookupContext;
 import org.netbeans.modules.bamboo.model.rcp.OpenableInBrowser;
 import org.netbeans.modules.bamboo.ui.BrowserInstance;
 import org.openide.util.Lookup;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.never;
+
 import org.springframework.test.util.ReflectionTestUtils;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({BrowserInstance.class})
-public class OpenUrlActionTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@ExtendWith(MockitoExtension.class)
+class OpenUrlActionTest {
 
     private OpenUrlAction classUnderTest;
 
@@ -60,35 +58,34 @@ public class OpenUrlActionTest {
     @Captor
     private ArgumentCaptor<URL> urlCaptor;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         Lookup lookup = LookupContext.Instance.getLookup();
         classUnderTest = new OpenUrlAction(lookup);
         ReflectionTestUtils.setField(classUnderTest, "browser", browserInstance);
-        given(openableInBrowser.getUrl()).willReturn("http://netbeans.org");
     }
 
-    @After
-    public void shutDown() {
+    @AfterEach
+    void shutDown() {
         LookupContext.Instance.remove(openableInBrowser);
     }
 
     @Test
-    public void testCreateContextAwareAction_ExpectNotNull() {
-        assertThat(new OpenUrlAction().createContextAwareInstance(Lookup.EMPTY), notNullValue());
+    void testCreateContextAwareAction_ExpectNotNull() {
+        assertNotNull(new OpenUrlAction().createContextAwareInstance(Lookup.EMPTY));
     }
 
     @Test
-    public void testGetName_ExpectBundle() {
+    void testGetName_ExpectBundle() {
         String name = (String) classUnderTest.getValue(Action.NAME);
-        assertThat(name, equalTo(Bundle.CTL_OpenUrlAction()));
+        assertEquals(Bundle.CTL_OpenUrlAction(), name);
     }
 
     /**
      * Test of actionPerformed method, of class OpenUrlAction.
      */
     @Test
-    public void testActionPerformed_NoInstance_UrlShouldNotBecalled() {
+    void testActionPerformed_NoInstance_UrlShouldNotBecalled() {
         classUnderTest.actionPerformed(null);
         verify(browserInstance, never()).showURL(urlCaptor.capture());
     }
@@ -97,25 +94,24 @@ public class OpenUrlActionTest {
      * Test of actionPerformed method, of class OpenUrlAction.
      */
     @Test
-    public void testActionPerformed_Instance_UrlShouldBecalled() {
+    void testActionPerformed_Instance_UrlShouldBecalled() {
+        given(openableInBrowser.getUrl()).willReturn("http://netbeans.org");
         LookupContext.Instance.add(openableInBrowser);
         classUnderTest.actionPerformed(null);
         verify(browserInstance).showURL(urlCaptor.capture());
     }
 
     @Test
-    public void testIsEnabled_InstanceAvailable_ShouldBeTrue() {
+    void testIsEnabled_InstanceAvailable_ShouldBeTrue() {
         given(openableInBrowser.isAvailable()).willReturn(true);
         LookupContext.Instance.add(openableInBrowser);
-        boolean result = classUnderTest.isEnabled();
-        assertThat(result, is(true));
+        assertTrue(classUnderTest.isEnabled());
     }
 
     @Test
-    public void testIsEnabled_InstanceNotAvailable_ShouldBeFalse() {
+    void testIsEnabled_InstanceNotAvailable_ShouldBeFalse() {
         given(openableInBrowser.isAvailable()).willReturn(false);
         LookupContext.Instance.add(openableInBrowser);
-        boolean result = classUnderTest.isEnabled();
-        assertThat(result, is(false));
+        assertFalse(classUnderTest.isEnabled());
     }
 }

@@ -13,27 +13,27 @@
  */
 package org.netbeans.modules.bamboo.model.convert;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 import org.netbeans.modules.bamboo.model.rest.Project;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  *
  * @author Mario Schroeder
  */
-public class ProjectVoConverterTest {
+class ProjectVoConverterTest {
     private static final String FOO = "foo";
     
     private ProjectVoConverter classUnderTest;
     
     private Project source;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new ProjectVoConverter(FOO);
         source = new Project();
         source.setKey(FOO);
@@ -43,9 +43,9 @@ public class ProjectVoConverterTest {
      * Test of convert method, of class VoConverter.
      */
     @Test
-    public void testConvert() {
+    void testConvert() {
         ProjectVo result = classUnderTest.convert(source);
-        assertThat(result.getKey(), equalTo(FOO));
+        assertEquals(result.getKey(), FOO);
     }
 
 }

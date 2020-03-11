@@ -13,38 +13,29 @@
  */
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import org.junit.runner.RunWith;
-
 import static org.mockito.BDDMockito.given;
-
 import org.mockito.Mock;
-
-import org.mockito.junit.MockitoJUnitRunner;
-
-
-import org.openide.nodes.Node;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.hamcrest.CoreMatchers.equalTo;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.model.rcp.ProjectVo;
 
-import static org.openide.util.Lookup.getDefault;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 
 /**
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ProjectNodeFactoryTest {
+@ExtendWith(MockitoExtension.class)
+class ProjectNodeFactoryTest {
 
     @Mock
     private BambooInstance instance;
@@ -55,8 +46,8 @@ public class ProjectNodeFactoryTest {
 
     private ProjectVo project;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         project = new ProjectVo("b");
         project.setName("b");
 
@@ -68,7 +59,6 @@ public class ProjectNodeFactoryTest {
         projects = Arrays.asList(vos);
 
         given(instance.getChildren()).willReturn(projects);
-        given(instance.getLookup()).willReturn(getDefault());
 
         classUnderTest = new ProjectNodeFactory(instance);
     }
@@ -77,9 +67,8 @@ public class ProjectNodeFactoryTest {
      * Test of createNodeForKey method, of class ProjectNodeFactory.
      */
     @Test
-    public void testCreateNodeForKey() {
-        Node result = classUnderTest.createNodeForKey(project);
-        assertNotNull(result);
+    void testCreateNodeForKey() {
+        assertNotNull(classUnderTest.createNodeForKey(project));
     }
 
     /**
@@ -89,6 +78,6 @@ public class ProjectNodeFactoryTest {
     public void testCreateKeys() {
         List<ProjectVo> toPopulate = new ArrayList<>();
         classUnderTest.createKeys(toPopulate);
-        assertThat(toPopulate.get(0).getName(), equalTo("a"));
+        assertEquals("a", toPopulate.get(0).getName());
     }
 }

@@ -16,13 +16,13 @@ package org.netbeans.modules.bamboo.model.rcp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.is;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
@@ -35,8 +35,8 @@ public class ProjectVoTest {
 
     private PlanVo plan;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         plan = new PlanVo(FOO);
         
         classUnderTest = newInstance();
@@ -55,63 +55,56 @@ public class ProjectVoTest {
     }
     
     @Test
-    public void testGetChildren_ExpectProjectToBeParent() {
+    void testGetChildren_ExpectProjectToBeParent() {
         Collection<PlanVo> children = classUnderTest.getChildren();
         ProjectVo parent = children.iterator().next().getParent().get();
-        assertThat(parent, is(classUnderTest));
+        assertEquals(classUnderTest, parent);
     }
 
     /**
      * Test of equals method, of class ProjectVo.
      */
     @Test
-    public void testEquals_True() {
+    void testEquals_True() {
         ProjectVo instance = newInstance();
-        boolean result = classUnderTest.equals(instance);
-        assertThat(result, is(true));
+        assertTrue(classUnderTest.equals(instance));
     }
 
      /**
      * Test of equals method, of class ProjectVo.
      */
     @Test
-    public void testEqualsNewResult_True() {
+    void testEqualsNewResult_True() {
         ProjectVo instance = newInstance();
         ResultVo resultVo = new ResultVo();
         resultVo.setNumber(1);
         instance.getChildren().iterator().next().setResult(resultVo);
-        boolean result = classUnderTest.equals(instance);
-        assertThat(result, is(true));
+        assertTrue(classUnderTest.equals(instance));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void testAddPlanToChildren_ExpectException() {
-        PlanVo plan = new PlanVo("");
-        classUnderTest.getChildren().add(plan);
+    @Test
+    void testAddPlanToChildren_ExpectException() {
+        assertThrows(UnsupportedOperationException.class, () -> classUnderTest.getChildren().add(new PlanVo("")));
     }
     
     @Test
-    public void testIsChild_ExistingPlan_ExpectTrue() {
-        boolean result = classUnderTest.isChild(plan);
-        assertThat(result, is(true));
+    void testIsChild_ExistingPlan_ExpectTrue() {
+        assertTrue(classUnderTest.isChild(plan));
     }
     
     @Test
-    public void testIsChild_EmptyPlan_ExpectFalse() {
-        boolean result = classUnderTest.isChild(empty());
-        assertThat(result, is(false));
+    void testIsChild_EmptyPlan_ExpectFalse() {
+        assertFalse(classUnderTest.isChild(empty()));
     }
     
     @Test
-    public void testIsChild_PresentPlan_ExpectTrue() {
-        boolean result = classUnderTest.isChild(of(plan));
-        assertThat(result, is(true));
+    void testIsChild_PresentPlan_ExpectTrue() {
+        assertTrue(classUnderTest.isChild(of(plan)));
     }
     
     @Test
-    public void testIsAvailable_ParentNotPresent_ExpectFalse() {
-        boolean result = classUnderTest.isAvailable();
-        assertThat(result, is(false));
+    void testIsAvailable_ParentNotPresent_ExpectFalse() {
+        assertFalse(classUnderTest.isAvailable());
     }
    
 }

@@ -18,23 +18,19 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.List;
 import javax.swing.Action;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.model.rcp.ModelChangedValues;
 import org.netbeans.modules.bamboo.model.event.ServerConnectionEvent;
-import org.openide.util.Lookup;
-import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 
 import static java.util.Collections.emptyList;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -47,8 +43,8 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.Disconnected;
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class BambooInstanceNodeTest {
+@ExtendWith(MockitoExtension.class)
+class BambooInstanceNodeTest {
     private static final String FOO = "foo";
     
     private InstanceContent content;
@@ -60,14 +56,11 @@ public class BambooInstanceNodeTest {
 
     private BambooInstanceNode classUnderTest;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         content = new InstanceContent();
         
-        Lookup lookup = new AbstractLookup(content);
-        given(instance.getLookup()).willReturn(lookup);
         given(instance.getName()).willReturn(FOO);
-        given(instance.getSyncInterval()).willReturn(1);
         
         classUnderTest = new BambooInstanceNode(instance) {
             @Override
@@ -81,49 +74,48 @@ public class BambooInstanceNodeTest {
      * Test of propertyChange method, of class BambooInstanceNode.
      */
     @Test
-    public void testPropertyChange_NoValidProperty_ExpectEmptyHtml() {
+    void testPropertyChange_NoValidProperty_ExpectEmptyHtml() {
         classUnderTest.propertyChange(event);
-        String htmlDisplayName = classUnderTest.getHtmlDisplayName();
-        assertThat(htmlDisplayName, not(notNullValue()));
+        assertNull(classUnderTest.getHtmlDisplayName());
     }
 
     /**
      * Test of propertyChange method, of class BambooInstanceNode.
      */
     @Test
-    public void testPropertyChange_AvailabilityPropertyFalse_ExpectUnavailable() {
+    void testPropertyChange_AvailabilityPropertyFalse_ExpectUnavailable() {
+        given(instance.getSyncInterval()).willReturn(1);
+        
         content.add(new ServerConnectionEvent(FOO, false));
         classUnderTest.resultChanged(null);
         String htmlDisplayName = classUnderTest.getHtmlDisplayName();
-        assertThat(htmlDisplayName, containsString(Unavailable()));
+        assertTrue(htmlDisplayName.contains(Unavailable()));
     }
     
     /**
      * Test of propertyChange method, of class BambooInstanceNode.
      */
     @Test
-    public void testPropertyChange_SyncIntervalZero_ExpectDisconnected() {
+    void testPropertyChange_SyncIntervalZero_ExpectDisconnected() {
         given(event.getPropertyName()).willReturn(PROP_SYNC_INTERVAL);
         given(instance.getSyncInterval()).willReturn(0);
         classUnderTest.propertyChange(event);
         String htmlDisplayName = classUnderTest.getHtmlDisplayName();
-        assertThat(htmlDisplayName, containsString(Disconnected()));
+        assertTrue(htmlDisplayName.contains(Disconnected()));
     }
 
     /**
      * Test of propertyChange method, of class BambooInstanceNode.
      */
     @Test
-    public void testPropertyChange_AvailabilityPropertyTrue_ExpectEmptyHtml() {
+    void testPropertyChange_AvailabilityPropertyTrue_ExpectEmptyHtml() {
         given(event.getPropertyName()).willReturn(ModelChangedValues.Available.toString());
-        given(instance.isAvailable()).willReturn(true);
         classUnderTest.propertyChange(event);
-        String htmlDisplayName = classUnderTest.getHtmlDisplayName();
-        assertThat(htmlDisplayName, not(notNullValue()));
+        assertNull(classUnderTest.getHtmlDisplayName());
     }
     
     @Test
-    public void testDestroy_ShouldStopSynchronization() throws IOException{
+    void testDestroy_ShouldStopSynchronization() throws IOException{
         classUnderTest.destroy();
         verify(instance).removePropertyChangeListener(any(PropertyChangeListener.class));
     }

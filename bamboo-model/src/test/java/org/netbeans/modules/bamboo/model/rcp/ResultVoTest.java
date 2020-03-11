@@ -15,20 +15,18 @@ package org.netbeans.modules.bamboo.model.rcp;
 
 import java.time.LocalDateTime;
 
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  *
  * @author Mario Schroeder
  */
-public class ResultVoTest {
+class ResultVoTest {
     
     private static final String FOO = "foo";
     
@@ -36,8 +34,8 @@ public class ResultVoTest {
     
     private LocalDateTime now;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new ResultVo(FOO);
         now = LocalDateTime.now();
     }
@@ -46,17 +44,16 @@ public class ResultVoTest {
      * Test of getBuildStartedTime method, of class ResultVo.
      */
     @Test
-    public void testGetBuildStartedTime() {
+    void testGetBuildStartedTime() {
         classUnderTest.setBuildCompletedTime(now);
         LocalDateTime result = classUnderTest.getBuildCompletedTime();
-        assertThat(result, equalTo(now));
+        assertEquals(result, now);
     }
     
     @Test
-    public void testEquals_AddChanges_ShouldBeEqual() {
+    void testEquals_AddChanges_ShouldBeEqual() {
         ResultVo other = new ResultVo(FOO);
         other.setChanges(singletonList(new ChangeVo()));
-        assertThat(classUnderTest.equals(other), is(true));
+        assertTrue(classUnderTest.equals(other));
     }
-
 }

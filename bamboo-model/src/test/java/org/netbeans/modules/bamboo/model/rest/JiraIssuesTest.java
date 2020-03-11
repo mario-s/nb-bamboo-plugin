@@ -15,21 +15,24 @@ package org.netbeans.modules.bamboo.model.rest;
 
 import java.util.Arrays;
 import java.util.Collection;
-import static org.hamcrest.CoreMatchers.is;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 /**
  *
  * @author Mario Schroeder
  */
-public class JiraIssuesTest {
+class JiraIssuesTest {
 
     private JiraIssues classUnderTest;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new JiraIssues();
     }
 
@@ -38,20 +41,20 @@ public class JiraIssuesTest {
      * Test of asCollection method, of class JiraIssues.
      */
     @Test
-    public void asCollection_NoIssues_ShouldBeEmpty() {
+    void asCollection_NoIssues_ShouldBeEmpty() {
         Collection<Issue> result = classUnderTest.asCollection();
-        assertThat(result.isEmpty(), is(true));
+        assertTrue(result.isEmpty());
     }
-    
+   
     
     /**
      * Test of asCollection method, of class JiraIssues.
      */
     @Test
-    public void asCollection_Issues_ShouldNotBeEmpty() {
+    void asCollection_Issues_ShouldNotBeEmpty() {
         classUnderTest.setIssues(Arrays.asList(new Issue()));
         Collection<Issue> result = classUnderTest.asCollection();
-        assertThat(result.isEmpty(), is(false));
+        assertFalse(result.isEmpty());
     }
     
 }

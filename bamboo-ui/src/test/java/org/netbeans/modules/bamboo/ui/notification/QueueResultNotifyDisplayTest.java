@@ -16,29 +16,29 @@ package org.netbeans.modules.bamboo.ui.notification;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.ws.rs.core.Response;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.event.QueueEvent;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.NotificationDisplayer.Category;
 import org.openide.awt.NotificationDisplayer.Priority;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isA;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.verify;
 
 /**
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class QueueResultNotifyDisplayTest {
+@ExtendWith(MockitoExtension.class)
+class QueueResultNotifyDisplayTest {
 
     private static final String FOO = "foo";
     @Mock
@@ -51,8 +51,8 @@ public class QueueResultNotifyDisplayTest {
 
     private QueueEvent event;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         event = new QueueEvent();
         PlanVo plan = new PlanVo(FOO);
         event.setPlan(plan);
@@ -68,7 +68,7 @@ public class QueueResultNotifyDisplayTest {
      * Test of run method, of class QueueResultNotifyDisplay.
      */
     @Test
-    public void testRun_ResponseOk_ExpectNotify() {
+    void testRun_ResponseOk_ExpectNotify() {
         event.setResponse(Response.ok().build());
         classUnderTest.run();
         verify(notificationDisplayer).notify(anyString(), any(Icon.class), isA(JLabel.class), isA(
@@ -79,7 +79,7 @@ public class QueueResultNotifyDisplayTest {
      * Test of run method, of class QueueResultNotifyDisplay.
      */
     @Test
-    public void testRun_ResponseError_ExpectNotify() {
+    void testRun_ResponseError_ExpectNotify() {
         event.setResponse(Response.serverError().build());
         classUnderTest.run();
         verify(notificationDisplayer).notify(anyString(), any(Icon.class), isA(JLabel.class), isA(

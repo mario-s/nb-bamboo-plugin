@@ -16,27 +16,27 @@ package org.netbeans.modules.bamboo.model.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 /**
+ * Integration test for Plans.
+ * 
  * @author Mario Schroeder
  */
-public class AllPlansResponseITest {
+class AllPlansResponseITest {
     private PlansResponse classUnderTest;
 
     private ObjectMapper mapper;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new PlansResponse();
 
         List<Plan> planList = new ArrayList<>();
@@ -56,7 +56,7 @@ public class AllPlansResponseITest {
      * Test of asCollection method, of class PlansResponse.
      */
     @Test
-    public void testSerialize_NotEmpty() throws JsonProcessingException {
+    void testSerialize_NotEmpty() throws JsonProcessingException {
         String result = mapper.writeValueAsString(classUnderTest);
         assertFalse(result.isEmpty());
     }
@@ -65,7 +65,7 @@ public class AllPlansResponseITest {
      * Test of asCollection method, of class PlansResponse.
      */
     @Test
-    public void testDeserialize_NotEmpty() throws JsonProcessingException, IOException {
+    void testDeserialize_NotEmpty() throws JsonProcessingException, IOException {
         String str =
             "{\"expand\":null,\"link\":null,\"plans\":{\"size\":1,\"plan\":" +
             "[{\"shortName\":null,\"shortKey\":null,\"type\":null,\"enabled\":false,\"link\":null,\"key\":null,\"name\":\"test\"}]" +

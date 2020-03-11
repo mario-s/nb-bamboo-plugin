@@ -13,25 +13,21 @@
  */
 package org.netbeans.modules.bamboo.model.rcp;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-
-import static org.hamcrest.CoreMatchers.is;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- *
- * @author schroeder
+ * Unit test for {@link DefaultInstanceValues}.
+ * @author Mario Schroeder
  */
-public class DefaultInstanceValuesTest {
+class DefaultInstanceValuesTest {
     
     private DefaultInstanceValues classUnderTest;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new DefaultInstanceValues();
         classUnderTest.setPassword(new char[]{'a'});
     }
@@ -40,19 +36,18 @@ public class DefaultInstanceValuesTest {
      * Test of getName method, of class DefaultInstanceValues.
      */
     @Test
-    public void testCopyConstructor_NotNull() {
+    void testCopyConstructor_NotNull() {
         DefaultInstanceValues result = new DefaultInstanceValues(classUnderTest);
-        assertThat(result.getPassword().length, is(1));
+        assertEquals(1, result.getPassword().length);
     }
     
     /**
      * Test of getName method, of class DefaultInstanceValues.
      */
     @Test
-    public void testCopyConstructor_Null() {
+    void testCopyConstructor_Null() {
         DefaultInstanceValues result = new DefaultInstanceValues(null);
-        assertThat(result.getPassword().length, is(0));
+        assertEquals(0, result.getPassword().length);
     }
-
    
 }

@@ -14,30 +14,25 @@
 package org.netbeans.modules.bamboo.client.rest;
 
 import java.util.prefs.Preferences;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+
 
 /**
  *
  * @author Mario Schroeder
  */
-public class PreferenceWrapperTest {
-    
-    
-    @Before
-    public void setUp() {
-    }
+class PreferenceWrapperTest {
 
     /**
      * Test of instancesPrefs method, of class PreferenceWrapper.
      */
     @Test
-    public void testInstancesPrefs_ExpectNotNull() {
+    void testInstancesPrefs_ExpectNotNull() {
         Preferences result = PreferenceWrapper.instancesPrefs();
-        assertThat(result, notNullValue());
+        assertNotNull(result);
     }
     
 }

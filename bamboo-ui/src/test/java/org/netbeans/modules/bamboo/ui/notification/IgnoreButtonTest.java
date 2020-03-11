@@ -13,25 +13,25 @@
  */
 package org.netbeans.modules.bamboo.ui.notification;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 
 /**
  *
  * @author Mario Schroeder
  */
-public class IgnoreButtonTest {
+class IgnoreButtonTest {
     
     private IgnoreButton classUnderTest;
     
     private PlanVo plan;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         plan = new PlanVo("");
         classUnderTest = new IgnoreButton(plan);
     }
@@ -40,10 +40,10 @@ public class IgnoreButtonTest {
      * Test of actionPerformed method, of class IgnoreButton.
      */
     @Test
-    public void testActionPerformed_PlanPresent_ExpectNoNotify() {
+    void testActionPerformed_PlanPresent_ExpectNoNotify() {
         classUnderTest.actionPerformed(null);
 
-        assertThat(plan.isNotify(), is(false));
+        assertFalse(plan.isNotify());
     }
     
 }

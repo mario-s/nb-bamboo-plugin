@@ -15,22 +15,21 @@ package org.netbeans.modules.bamboo.ui.nodes;
 
 import java.awt.Component;
 import javax.swing.JPanel;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  *
  * @author Mario Schroeder
  */
-public class BuildReasonEditorTest {
+class BuildReasonEditorTest {
 
     private BuildReasonEditor classUnderTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         classUnderTest = new BuildReasonEditor();
     }
@@ -39,26 +38,26 @@ public class BuildReasonEditorTest {
      * Test of supportsCustomEditor method, of class BuildReasonEditor.
      */
     @Test
-    public void testSupportsCustomEditor_ExpectTrue() {
-        assertThat(classUnderTest.supportsCustomEditor(), is(true));
+    void testSupportsCustomEditor_ExpectTrue() {
+        assertTrue(classUnderTest.supportsCustomEditor());
     }
 
     /**
      * Test of getCustomEditor method, of class BuildReasonEditor.
      */
     @Test
-    public void testGetCustomEditor_ExpectInstanceOfJEditor() {
+    void testGetCustomEditor_ExpectInstanceOfJEditor() {
         Component result = classUnderTest.getCustomEditor();
-        assertThat(result instanceof JPanel, is(true));
+        assertTrue(result instanceof JPanel);
     }
 
     /**
      * Test of getAsText method, of class BuildReasonEditor.
      */
     @Test
-    public void testGetAsText_HtmlText_ExpectClearText() {
+    void testGetAsText_HtmlText_ExpectClearText() {
         String input = "<b>foo</b>";
         classUnderTest.setValue(input);
-        assertThat(classUnderTest.getAsText(), equalTo("foo"));
+        assertEquals("foo", classUnderTest.getAsText());
     }
 }

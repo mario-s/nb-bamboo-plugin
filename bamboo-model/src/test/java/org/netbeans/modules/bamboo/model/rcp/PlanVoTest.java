@@ -13,18 +13,17 @@
  */
 package org.netbeans.modules.bamboo.model.rcp;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.LifeCycleState;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -33,8 +32,8 @@ import static org.mockito.Mockito.verify;
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class PlanVoTest {
+@ExtendWith(MockitoExtension.class)
+class PlanVoTest {
 
     private static final String FOO = "foo";
     @Mock
@@ -45,8 +44,8 @@ public class PlanVoTest {
 
     private PlanVo classUnderTest;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new PlanVo(FOO);
         ProjectVo project = new ProjectVo(FOO);
         project.setParent(instance);
@@ -67,7 +66,7 @@ public class PlanVoTest {
      * Test of setResult method, of class PlanVo.
      */
     @Test
-    public void testSetResult_NewLifeCycleState_ExpectEventFired() {
+    void testSetResult_NewLifeCycleState_ExpectEventFired() {
         ResultVo result = newResult();
         result.setLifeCycleState(LifeCycleState.Queued);
         classUnderTest.setResult(result);
@@ -78,18 +77,18 @@ public class PlanVoTest {
      * Test of setResult method, of class PlanVo.
      */
     @Test
-    public void testSetResult_NewLifeCycleState_ExpectResultParentKeyIsFOO() {
+    void testSetResult_NewLifeCycleState_ExpectResultParentKeyIsFOO() {
         ResultVo result = newResult();
         result.setLifeCycleState(LifeCycleState.Queued);
         classUnderTest.setResult(result);
-        assertThat(result.getParent().get().getKey(), equalTo(FOO));
+        assertEquals(result.getParent().get().getKey(), FOO);
     }
 
     /**
      * Test of setResult method, of class PlanVo.
      */
     @Test
-    public void testSetResult_SmallerNumber_ExpectEventNotFired() {
+    void testSetResult_SmallerNumber_ExpectEventNotFired() {
         ResultVo result = newResult();
         result.setNumber(0);
         result.setLifeCycleState(LifeCycleState.Queued);
@@ -98,27 +97,26 @@ public class PlanVoTest {
     }
 
     @Test
-    public void testSetEnable_ExpectListenerCalled() {
+    void testSetEnable_ExpectListenerCalled() {
         classUnderTest.setEnabled(true);
         verify(listener).propertyChange(any(PropertyChangeEvent.class));
     }
 
     @Test
-    public void testSetNotify_False_ExpectListenerCalled() {
+    void testSetNotify_False_ExpectListenerCalled() {
         classUnderTest.setNotify(false);
         verify(listener).propertyChange(any(PropertyChangeEvent.class));
         verify(instance).updateNotify(classUnderTest);
     }
 
     @Test
-    public void testQueue_ExpectCallToInstance() {
+    void testQueue_ExpectCallToInstance() {
         classUnderTest.queue();
         verify(instance).queue(classUnderTest);
     }
 
     @Test
-    public void testIsAvailable_ParentNotPresent_ExpectFalse() {
-        boolean result = classUnderTest.isAvailable();
-        assertThat(result, is(false));
+    void testIsAvailable_ParentNotPresent_ExpectFalse() {
+        assertFalse(classUnderTest.isAvailable());
     }
 }

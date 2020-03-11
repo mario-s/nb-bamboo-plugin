@@ -18,13 +18,6 @@ import static java.util.Collections.singletonList;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 
-import static org.hamcrest.CoreMatchers.is;
-
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 
 import org.openide.nodes.Node;
@@ -32,20 +25,26 @@ import org.openide.nodes.Node;
 import static org.openide.util.Lookup.getDefault;
 
 import javax.swing.Action;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.model.event.InstancesLoadEvent;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 /**
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class BambooRootNodeTest {
+@ExtendWith(MockitoExtension.class)
+class BambooRootNodeTest {
     private BambooRootNode classUnderTest;
 
     private InstanceManageable manager;
@@ -53,8 +52,8 @@ public class BambooRootNodeTest {
     @Mock
     private BambooInstance instance;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new BambooRootNode(false);
         manager = getDefault().lookup(InstanceManageable.class);
     }
@@ -63,21 +62,21 @@ public class BambooRootNodeTest {
      * Test of getActions method, of class BambooRootNode.
      */
     @Test
-    public void testGetActions() {
+    void testGetActions() {
         Action[] result = classUnderTest.getActions(false);
-        assertThat(result.length == 0, is(false));
+        assertFalse(result.length == 0);
     }
 
     @Test
-    public void testCreateChild() {
+    void testCreateChild() {
         manager.getContent().add(instance);
 
         Node[] result = classUnderTest.getChildren().getNodes();
-        assertThat(result.length, is(1));
+        assertEquals(1, result.length);
     }
     
     @Test
-    public void testResultChanged_ExpectBlockerInFactory() {
+    void testResultChanged_ExpectBlockerInFactory() {
         InstancesLoadEvent loadEvent = new InstancesLoadEvent(singletonList(instance));
         manager.getContent().add(loadEvent);
         
@@ -86,6 +85,6 @@ public class BambooRootNodeTest {
         BambooInstanceNodeFactory nodeFactory = (BambooInstanceNodeFactory) ReflectionTestUtils.getField(classUnderTest, "nodeFactory");
         Optional<CountDownLatch> blocker = (Optional<CountDownLatch>) ReflectionTestUtils.getField(nodeFactory, "blocker");
         
-        assertThat(blocker.isPresent(), is(true));
+        assertTrue(blocker.isPresent());
     }
 }

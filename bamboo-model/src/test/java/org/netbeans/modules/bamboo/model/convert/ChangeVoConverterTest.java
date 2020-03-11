@@ -13,20 +13,20 @@
  */
 package org.netbeans.modules.bamboo.model.convert;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.netbeans.modules.bamboo.model.rcp.ChangeVo;
 import org.netbeans.modules.bamboo.model.rest.Change;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  *
  * @author Mario Schroeder
  */
-public class ChangeVoConverterTest {
+class ChangeVoConverterTest {
 
     private static final String FOO = "foo";
 
@@ -34,8 +34,8 @@ public class ChangeVoConverterTest {
 
     private Change source;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new ChangeVoConverter();
         source = new Change();
         source.setChangesetId(FOO);
@@ -45,9 +45,9 @@ public class ChangeVoConverterTest {
      * Test of convert method, of class VoConverter.
      */
     @Test
-    public void testConvert_ExpectChangesetId() {
+    void testConvert_ExpectChangesetId() {
         ChangeVo result = classUnderTest.convert(source);
-        assertThat(result.getChangesetId(), equalTo(FOO));
+        assertEquals(result.getChangesetId(),FOO);
     }
     
     
@@ -55,10 +55,10 @@ public class ChangeVoConverterTest {
      * Test of convert method, of class VoConverter.
      */
     @Test
-    public void testConvert_Date_ExpectDate() {
+    void testConvert_Date_ExpectDate() {
         source.setDate("2016-12-02T07:43:02.000");
         ChangeVo result = classUnderTest.convert(source);
-        assertThat(result.getDate(), notNullValue());
+        assertNotNull(result.getDate());
     }
 
 }

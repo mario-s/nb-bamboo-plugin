@@ -15,23 +15,23 @@ package org.netbeans.modules.bamboo.model.convert;
 
 import java.util.Collection;
 
-import static java.util.Collections.singletonList;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.netbeans.modules.bamboo.model.rcp.FileVo;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.netbeans.modules.bamboo.model.rest.File;
 import org.netbeans.modules.bamboo.model.rest.Files;
+
+import static java.util.Collections.singletonList;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  *
  * @author Mario Schroeder
  */
-public class FilessVoConverterTest {
+class FilessVoConverterTest {
 
     private static final String FOO = "foo";
 
@@ -39,24 +39,24 @@ public class FilessVoConverterTest {
 
     private Files source;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         
         classUnderTest = new CollectionVoConverter(new FileVoConverter());
         source = new Files();
     }
 
     @Test
-    public void testConvert_WithChanges_ExpectChangesVo() {
+    void testConvert_WithChanges_ExpectChangesVo() {
         File file = new File();
         source.setFiles(singletonList(file));
         Collection<FileVo> result = classUnderTest.convert(source);
-        assertThat(result.isEmpty(), is(false));
+        assertFalse(result.isEmpty());
     }
     
-     @Test
-    public void testConvert_NullChanges_ExpectEmpty() {
+    @Test
+    void testConvert_NullChanges_ExpectEmpty() {
         Collection<FileVo> result = classUnderTest.convert(null);
-        assertThat(result.isEmpty(), is(true));
+        assertTrue(result.isEmpty());
     }
 }

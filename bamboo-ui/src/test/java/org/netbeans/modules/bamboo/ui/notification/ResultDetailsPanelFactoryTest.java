@@ -13,28 +13,25 @@
  */
 package org.netbeans.modules.bamboo.ui.notification;
 
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  *
  * @author Mario Schroeder
  */
-public class ResultDetailsPanelFactoryTest {
+class ResultDetailsPanelFactoryTest {
     private static final String FOO = "foo";
     
     private ResultDetailsPanelFactory classUnderTest;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new ResultDetailsPanelFactory();
     }
 
@@ -42,19 +39,19 @@ public class ResultDetailsPanelFactoryTest {
      * Test of create method, of class ResultDetailsPanelFactory.
      */
     @Test
-    public void testCreate_StringString_ExpectPanel() {
+    void testCreate_StringString_ExpectPanel() {
         ResultDetailsPanel result = classUnderTest.create(FOO, FOO);
-        assertThat(result, not(nullValue()));
+        assertNotNull(result);
     }
 
     /**
      * Test of create method, of class ResultDetailsPanelFactory.
      */
     @Test
-    public void testCreate_StringBuildResult__ExpectPanel() {
+    void testCreate_StringBuildResult__ExpectPanel() {
         BuildResult buildResult = new BuildResult(new PlanVo(FOO), new ResultVo(), new ResultVo());
         ResultDetailsPanel result = classUnderTest.create(FOO, buildResult);
-        assertThat(result, not(nullValue()));
+        assertNotNull(result);
     }
     
 }

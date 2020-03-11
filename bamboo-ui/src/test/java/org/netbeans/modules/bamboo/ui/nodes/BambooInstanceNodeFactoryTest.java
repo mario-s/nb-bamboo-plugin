@@ -13,12 +13,6 @@
  */
 package org.netbeans.modules.bamboo.ui.nodes;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.Test;
 
 import static org.mockito.BDDMockito.given;
 
@@ -28,23 +22,26 @@ import org.openide.util.lookup.InstanceContent;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.mock;
 
 
 /**
  * @author Mario Schroeder
  */
-public class BambooInstanceNodeFactoryTest {
+class BambooInstanceNodeFactoryTest {
     
     private InstanceContent content;
 
     private BambooInstanceNodeFactory classUnderTest;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         content = new InstanceContent();
 
         Lookup lookup = new AbstractLookup(content);
@@ -64,7 +61,7 @@ public class BambooInstanceNodeFactoryTest {
      * Test of createKeys method, of class BambooInstanceNodeFactory.
      */
     @Test
-    public void testCreateKeys_ExpectSorted() {
+    void testCreateKeys_ExpectSorted() {
         BambooInstance instance1 = newInstance("a");
         BambooInstance instance2 = newInstance("b");
 
@@ -75,11 +72,11 @@ public class BambooInstanceNodeFactoryTest {
 
         classUnderTest.createKeys(toPopulate);
 
-        assertThat(toPopulate.get(0).getName(), equalTo("a"));
+        assertEquals("a", toPopulate.get(0).getName());
     }
     
     @Test
-    public void testCreateKeys_WithLoadEvent() {
+    void testCreateKeys_WithLoadEvent() {
         classUnderTest.block();
         
         BambooInstance instance = newInstance("foo");
@@ -91,6 +88,6 @@ public class BambooInstanceNodeFactoryTest {
         List<BambooInstance> toPopulate = new ArrayList<>();
 
         classUnderTest.createKeys(toPopulate);
-        assertThat(toPopulate.isEmpty(), is(false));
+        assertFalse(toPopulate.isEmpty());
     }
 }

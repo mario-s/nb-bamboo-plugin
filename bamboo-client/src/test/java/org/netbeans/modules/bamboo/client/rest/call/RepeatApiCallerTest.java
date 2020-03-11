@@ -17,20 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import org.junit.runner.RunWith;
-
-
 import org.mockito.Mock;
-
-
-import org.mockito.junit.MockitoJUnitRunner;
 
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import org.netbeans.modules.bamboo.model.rest.PlansResponse;
@@ -42,11 +29,14 @@ import static java.util.Optional.empty;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InOrder;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rest.Plans;
 
 import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -54,14 +44,19 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
+
 import org.springframework.test.util.ReflectionTestUtils;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class RepeatApiCallerTest {
+@ExtendWith(MockitoExtension.class)
+class RepeatApiCallerTest {
     private static final String FOO = "foo";
     private static final int SIZE = 50;
     private static final String HOST = "http://localhost";
@@ -77,46 +72,41 @@ public class RepeatApiCallerTest {
 
     private ApiCallRepeater<PlansResponse> classUnderTest;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         reset(builder);
         
         classUnderTest = new ApiCallRepeater<>(new CallParameters(PlansResponse.class, values));
         
         ReflectionTestUtils.setField(classUnderTest, "webTargetFactory", webTargetFactory);
-        
-        given(values.getPassword()).willReturn(FOO.toCharArray());
-        given(values.getUrl()).willReturn(FOO);
-        given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
-        given(target.path(anyString())).willReturn(target);
-        given(target.queryParam(anyString(), any())).willReturn(target);
-        
-        given(target.request()).willReturn(builder);
-        given(builder.accept(anyString())).willReturn(builder);
     }
 
     /**
      * Test of createTarget method, of class ApiCaller.
      */
     @Test
-    public void testCreateTarget() {
+    void testCreateTarget() {
         Optional<WebTarget> result = classUnderTest.createTarget();
-        assertThat(result.isPresent(), is(false));
+        assertFalse(result.isPresent());
     }
 
     /**
      * Test of repeat method, of class ApiCaller.
      */
     @Test
-    public void testDoSecondCall_SizeLessMax() {
+    void testDoSecondCall_SizeLessMax() {
         PlansResponse initial = new PlansResponse();
         Optional<PlansResponse> expResult = empty();
         Optional<PlansResponse> result = classUnderTest.repeat(initial);
-        assertThat(result, equalTo(expResult));
+        assertEquals(expResult, result);
     }
     
     @Test
-    public void testDoSecondCall_SizeGreaterMax_ExpectPresent() throws URISyntaxException {
+    void testDoSecondCall_SizeGreaterMax_ExpectPresent() throws URISyntaxException {
+        given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
+        given(target.queryParam(anyString(), any())).willReturn(target);
+        given(builder.accept(anyString())).willReturn(builder);
+        
         WebTarget newTarget = mock(WebTarget.class);
         
         PlansResponse initial = new PlansResponse();
@@ -131,7 +121,7 @@ public class RepeatApiCallerTest {
         given(builder.get(PlansResponse.class)).willReturn(initial);
         
         Optional<PlansResponse> result = classUnderTest.repeat(initial);
-        assertThat(result.isPresent(), is(true));
+        assertTrue(result.isPresent());
         
         InOrder order = inOrder(target, newTarget);
         order.verify(target).queryParam(ApiCallRepeater.MAX, SIZE);
@@ -142,7 +132,7 @@ public class RepeatApiCallerTest {
      * Test of doGet method, of class ApiCaller.
      */
     @Test
-    public void doGet() throws URISyntaxException {
+    void doGet() throws URISyntaxException {
         given(target.getUri()).willReturn(new URI(HOST));
         given(target.request()).willReturn(builder);
         given(builder.accept(MediaType.APPLICATION_XML)).willReturn(builder);

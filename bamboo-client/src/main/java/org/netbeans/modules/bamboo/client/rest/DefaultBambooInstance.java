@@ -139,7 +139,6 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         }
 
         String syncProp = props.get(InstanceConstants.PROP_SYNC_INTERVAL);
-
         if (isNotBlank(syncProp)) {
             setSyncInterval(Integer.parseInt(syncProp));
         }
@@ -316,8 +315,8 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     }
 
     @Override
-    public void queue(@NonNull PlanVo plan) {
-        RP.post(() -> {
+    public Task queue(@NonNull PlanVo plan) {
+        return RP.post(() -> {
             final Optional<ProjectVo> parent = plan.getParent();
             if (isChild(parent) && verifyAvailibility()) {
                 Response response = client.queue(plan);

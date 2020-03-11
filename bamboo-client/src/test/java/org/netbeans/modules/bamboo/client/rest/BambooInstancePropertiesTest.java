@@ -16,30 +16,27 @@ package org.netbeans.modules.bamboo.client.rest;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.prefs.Preferences;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import org.junit.runner.RunWith;
-
-import static org.mockito.BDDMockito.given;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import static org.mockito.Mockito.verify;
-
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.client.glue.InstanceConstants;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  *
  * @author Mario Schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class BambooInstancePropertiesTest {
+@ExtendWith(MockitoExtension.class)
+class BambooInstancePropertiesTest {
     
     @Mock
     private BambooInstance instance;
@@ -49,18 +46,13 @@ public class BambooInstancePropertiesTest {
     private PropertyChangeListener listener;
     @InjectMocks
     private BambooInstanceProperties classUnderTest;
-    
-    
-    @Before
-    public void setUp() {
-        given(instance.getPassword()).willReturn(new char[]{'a'});
-    }
 
     /**
      * Test of copyProperties method, of class BambooInstanceProperties.
      */
     @Test
-    public void testCopyProperties() {
+    void testCopyProperties() {
+        given(instance.getPassword()).willReturn(new char[]{'a'});
         classUnderTest.copyProperties(instance);
         verify(instance).getName();
     }
@@ -69,7 +61,7 @@ public class BambooInstancePropertiesTest {
      * Test of remove method, of class BambooInstanceProperties.
      */
     @Test
-    public void testRemove() {
+    void testRemove() {
         String key = "a";
         String expResult = "b";
         classUnderTest.put(key, expResult);
@@ -82,7 +74,7 @@ public class BambooInstancePropertiesTest {
      * Test of isPersisted method, of class BambooInstanceProperties.
      */
     @Test
-    public void testIsPersisted_True() {
+    void testIsPersisted_True() {
         boolean expResult = true;
         boolean result = classUnderTest.isPersisted();
         assertEquals(expResult, result);
@@ -93,7 +85,7 @@ public class BambooInstancePropertiesTest {
      * Test of getCurrentListeners method, of class BambooInstanceProperties.
      */
     @Test
-    public void testGetCurrentListeners() {
+    void testGetCurrentListeners() {
         classUnderTest.addPropertyChangeListener(listener);
         List<PropertyChangeListener> result = classUnderTest.getCurrentListeners();
         assertEquals(1, result.size());
@@ -103,7 +95,7 @@ public class BambooInstancePropertiesTest {
      * Test of getPreferences method, of class BambooInstanceProperties.
      */
     @Test
-    public void testGetPreferences() {
+    void testGetPreferences() {
         String name = "foo";
         given(preferences.node(name)).willReturn(preferences);
         classUnderTest.put(InstanceConstants.PROP_NAME, name);

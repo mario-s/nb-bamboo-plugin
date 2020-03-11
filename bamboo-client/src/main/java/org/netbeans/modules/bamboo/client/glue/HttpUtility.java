@@ -58,8 +58,9 @@ public final class HttpUtility {
 
     private boolean isValid(int status) {
         HttpResponseCode code = HttpResponseCode.getCode(status);
-        return code.equals(HttpResponseCode.Successful) || code.equals(HttpResponseCode.Redirect) || code.equals(
-                HttpResponseCode.Unauthorized);
+        return code.equals(HttpResponseCode.Successful) || 
+               code.equals(HttpResponseCode.Redirect) || 
+               code.equals(HttpResponseCode.Unauthorized);
 
     }
 }

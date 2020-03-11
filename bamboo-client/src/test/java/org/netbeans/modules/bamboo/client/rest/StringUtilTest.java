@@ -16,21 +16,22 @@ package org.netbeans.modules.bamboo.client.rest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  *
  * @author Mario Schroeder
  */
-public class StringUtilTest {
+class StringUtilTest {
 
     /**
      * Test of split method, of class StringUtil.
      */
     @Test
-    public void testSplit() {
+    void testSplit() {
         String prop = "a/b";
         Collection<String> result = StringUtil.split(prop);
         assertEquals(2, result.size());
@@ -40,7 +41,7 @@ public class StringUtilTest {
      * Test of join method, of class StringUtil.
      */
     @Test
-    public void testJoin() {
+    void testJoin() {
         List<String> pieces = new ArrayList<>();
         pieces.add("a");
         pieces.add("b");

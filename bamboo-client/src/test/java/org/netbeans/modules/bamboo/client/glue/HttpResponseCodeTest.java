@@ -13,33 +13,32 @@
  */
 package org.netbeans.modules.bamboo.client.glue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  *
  * @author Mario Schroeder
  */
-public class HttpResponseCodeTest {
+class HttpResponseCodeTest {
 
     /**
      * Test of getCode method, of class HttpResponseCode.
      */
     @Test
-    public void testGetCode_Unauthorized() {
+    void testGetCode_Unauthorized() {
         HttpResponseCode result = HttpResponseCode.getCode(401);
-        assertThat(result, is(HttpResponseCode.Unauthorized));
+        assertEquals(HttpResponseCode.Unauthorized, result);
     }
     
      /**
      * Test of getCode method, of class HttpResponseCode.
      */
     @Test
-    public void testGetCode_Unknown() {
+    void testGetCode_Unknown() {
         HttpResponseCode result = HttpResponseCode.getCode(-10);
-        assertThat(result, is(HttpResponseCode.Unknown));
+        assertEquals(HttpResponseCode.Unknown, result);
     }
-    
 }

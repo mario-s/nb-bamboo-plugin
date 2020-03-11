@@ -15,21 +15,21 @@ package org.netbeans.modules.bamboo.ui.wizard;
 
 import java.awt.Dialog;
 import java.beans.PropertyChangeEvent;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 
-import static org.mockito.Mockito.verify;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import org.mockito.junit.MockitoJUnitRunner;
+import static org.mockito.Mockito.verify;
 
 /**
  *
  * @author schroeder
  */
-@RunWith(MockitoJUnitRunner.class)
-public class InstanceDialogTest {
+@ExtendWith(MockitoExtension.class)
+class InstanceDialogTest {
     @Mock
     private Dialog dialog;
     
@@ -38,8 +38,8 @@ public class InstanceDialogTest {
     
     private InstanceDialog classUnderTest;
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         classUnderTest = new InstanceDialog(form){
             @Override
             Dialog createDialog() {
@@ -52,7 +52,7 @@ public class InstanceDialogTest {
      * Test of propertyChange method, of class InstanceDialog.
      */
     @Test
-    public void testPropertyChange() {
+    void testPropertyChange() {
         PropertyChangeEvent event = new PropertyChangeEvent(this, WorkerEvents.INSTANCE_CREATED.name(), null, null);
         classUnderTest.propertyChange(event);
     }
@@ -61,9 +61,8 @@ public class InstanceDialogTest {
      * Test of show method, of class InstanceDialog.
      */
     @Test
-    public void testShow() {
+    void testShow() {
         classUnderTest.show();
         verify(dialog).setVisible(true);
     }
-    
 }
