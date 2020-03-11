@@ -15,9 +15,6 @@ package org.netbeans.modules.bamboo.ui.actions;
 
 import javax.swing.Action;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-
-import org.junit.After;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,8 +29,6 @@ import static org.mockito.Mockito.verify;
 import org.netbeans.modules.bamboo.model.rcp.Queueable;
 import org.openide.util.Lookup;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

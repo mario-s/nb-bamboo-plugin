@@ -19,19 +19,17 @@ import java.util.prefs.Preferences;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.junit.Assert.*;
-
-
-import static org.mockito.BDDMockito.given;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
-import static org.mockito.Mockito.verify;
 
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.client.glue.InstanceConstants;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  *

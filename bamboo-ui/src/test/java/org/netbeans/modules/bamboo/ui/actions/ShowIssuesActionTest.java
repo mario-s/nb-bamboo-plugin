@@ -32,9 +32,9 @@ import static org.mockito.Mockito.verify;
 
 import org.openide.util.Lookup;
 
-import static junit.framework.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Jira;
 

@@ -39,9 +39,9 @@ import org.netbeans.modules.bamboo.model.rest.Result;
 import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
 
 import static java.util.Collections.singletonMap;
-import static org.junit.Assume.assumeFalse;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.EXPAND;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.RESULT_COMMENTS;

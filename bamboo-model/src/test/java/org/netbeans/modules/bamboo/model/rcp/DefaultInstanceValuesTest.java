@@ -13,14 +13,10 @@
  */
 package org.netbeans.modules.bamboo.model.rcp;
 
-
-
-import static org.hamcrest.CoreMatchers.is;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit test for {@link DefaultInstanceValues}.
@@ -42,7 +38,7 @@ class DefaultInstanceValuesTest {
     @Test
     void testCopyConstructor_NotNull() {
         DefaultInstanceValues result = new DefaultInstanceValues(classUnderTest);
-        assertThat(result.getPassword().length, is(1));
+        assertEquals(1, result.getPassword().length);
     }
     
     /**
@@ -51,7 +47,7 @@ class DefaultInstanceValuesTest {
     @Test
     void testCopyConstructor_Null() {
         DefaultInstanceValues result = new DefaultInstanceValues(null);
-        assertThat(result.getPassword().length, is(0));
+        assertEquals(0, result.getPassword().length);
     }
    
 }
