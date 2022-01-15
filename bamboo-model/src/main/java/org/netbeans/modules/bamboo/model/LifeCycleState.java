@@ -16,6 +16,11 @@ package org.netbeans.modules.bamboo.model;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The states of a plan, which is also used in result.
+ * 
+ * @author mario
+ */
 public enum LifeCycleState {
     Queued,
     Pending,
