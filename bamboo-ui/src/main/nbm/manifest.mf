@@ -1,4 +1,4 @@
-Manifest-Version: 1.0
+Manifest-Version: 1.1
 OpenIDE-Module: org.netbeans.modules.bamboo
 OpenIDE-Module-Layer: org/netbeans/modules/bamboo/layer.xml
 OpenIDE-Module-Localizing-Bundle: org/netbeans/modules/bamboo/Bundle.properties
