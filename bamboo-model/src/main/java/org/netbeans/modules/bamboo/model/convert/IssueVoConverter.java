@@ -25,7 +25,7 @@ public class IssueVoConverter extends AbstractVoConverter<Issue, IssueVo> {
 
     @Override
     public IssueVo convert(Issue src) {
-        IssueVo target = new IssueVo(src.getKey());
+        var target = new IssueVo(src.getKey());
 
         target.setAssignee(src.getAssignee());
         target.setSummary(src.getSummary());

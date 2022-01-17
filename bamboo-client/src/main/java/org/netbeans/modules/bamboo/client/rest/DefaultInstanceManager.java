@@ -84,7 +84,7 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
     }
 
     private BambooInstanceProperties loadInstanceProperties(final String name) {
-        BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
+        var props = new BambooInstanceProperties(instancesPrefs());
         props.loadPreferences(name);
         return props;
     }
@@ -197,7 +197,7 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
 
         try {
             BambooInstanceProperties props = loadInstanceProperties(name);
-            //create a instance with a client anyway since the stored properties must have been valid
+            // create a instance with a client anyway since the stored properties must have been valid
             instance = new DefaultBambooInstance(props);
 
             putInMap(instance);
@@ -210,7 +210,7 @@ public class DefaultInstanceManager implements InstanceManageable, PropertyChang
 
     @Override
     public void persist(final BambooInstance instance) {
-        BambooInstanceProperties props = new BambooInstanceProperties(instancesPrefs());
+        var props = new BambooInstanceProperties(instancesPrefs());
         props.copyProperties(instance);
     }
 

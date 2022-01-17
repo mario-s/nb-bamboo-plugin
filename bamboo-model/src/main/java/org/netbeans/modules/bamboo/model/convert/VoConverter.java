@@ -25,7 +25,4 @@ public interface VoConverter<S, T> {
 
     T convert(S src);
 
-
-
-
 }

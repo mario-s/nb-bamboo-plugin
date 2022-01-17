@@ -85,7 +85,6 @@ public class ProjectNode extends AbstractInstanceChildNode {
 
     @Override
     protected Sheet createSheet() {
-
         Sheet.Set set = Sheet.createPropertiesSet();
         set.setDisplayName(project.getName());
 

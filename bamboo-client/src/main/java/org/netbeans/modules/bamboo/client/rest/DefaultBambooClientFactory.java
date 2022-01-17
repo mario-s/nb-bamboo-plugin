@@ -44,11 +44,10 @@ public class DefaultBambooClientFactory implements BambooClientProduceable {
 
     @Override
     public Optional<BambooClient> newClient(InstanceValues values) {
-        Optional<BambooClient> opt = empty();
         String url = values.getUrl();
         if (httpUtility.exists(url)) {
-            opt = of(new DefaultBambooClient(values, httpUtility));
+            return of(new DefaultBambooClient(values, httpUtility));
         }
-        return opt;
+        return empty();
     }
 }

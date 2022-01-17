@@ -24,9 +24,11 @@ public class VersionInfoConverter extends AbstractVoConverter<Info, VersionInfo>
     
     @Override
     public VersionInfo convert(Info src) {
-        VersionInfo target = VersionInfo.builder().version(src.getVersion()).buildNumber(src.getBuildNumber()).build();
+        var target = VersionInfo.builder().version(src.getVersion()).buildNumber(src.getBuildNumber()).build();
+        
         final String buildDate = src.getBuildDate();
         toDate(buildDate).ifPresent((date) -> target.setBuildDate(date));
+        
         return target;
     }
     

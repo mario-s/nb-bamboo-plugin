@@ -21,6 +21,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static java.util.Optional.empty;
+
 /**
  * Convert a a string to a {@link LocalDateTime}. The result will be empty if convert failed.
  */
@@ -31,17 +33,16 @@ class LocalDateTimeConverter implements VoConverter<String, Optional<LocalDateTi
 
     @Override
     public Optional<LocalDateTime> convert(String src) {
-        Optional<LocalDateTime> opt = Optional.empty();
         if (StringUtils.isNotBlank(src)) {
             try {
                 DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder().appendPattern(DATE_PATTERN);
                 getOffset(src).ifPresent((offset) -> builder.appendOffset("+HH:MM", offset));
-                opt = Optional.of(LocalDateTime.parse(src, builder.toFormatter()));
+                return Optional.of(LocalDateTime.parse(src, builder.toFormatter()));
             } catch (DateTimeParseException ex) {
                 LOG.trace(ex.getMessage(), ex);
             }
         }
-        return opt;
+        return empty();
     }
 
     private Optional<String> getOffset(String src) {

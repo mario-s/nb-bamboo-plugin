@@ -24,10 +24,9 @@ public class ResultVoConverter extends AbstractVoConverter<Result, ResultVo> {
 
     @Override
     public ResultVo convert(Result src) {
-        ResultVo target = new ResultVo(src.getKey());
+        var target = new ResultVo(src.getKey());
         
         copyProperties(src, target);
-
         convertDates(src, target);
 
         return target;

@@ -30,11 +30,11 @@ public class ProjectVoConverter extends AbstractVoConverter<Project, ProjectVo> 
 
     @Override
     public ProjectVo convert(Project src) {
-        ProjectVo target = new ProjectVo(src.getKey());
+        var target = new ProjectVo(src.getKey());
         
         copyProperties(src, target);
-        
         target.setServerUrl(serverUrl);
+        
         return target;
     }
     

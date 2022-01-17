@@ -37,7 +37,7 @@ public class ChangeVoConverter extends AbstractVoConverter<Change, ChangeVo> {
     }
 
     private void convertFiles(Change src, ChangeVo target) {
-        CollectionVoConverter converter = new CollectionVoConverter(new FileVoConverter());
+        var converter = new CollectionVoConverter(new FileVoConverter());
         target.setFiles(converter.convert(src.getFiles()));
     }
     
