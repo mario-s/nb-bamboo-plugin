@@ -13,10 +13,11 @@
  */
 package org.netbeans.modules.bamboo.model.rcp;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for {@link DefaultInstanceValues}.
@@ -32,22 +33,32 @@ class DefaultInstanceValuesTest {
         classUnderTest.setPassword(new char[]{'a'});
     }
 
-    /**
-     * Test of getName method, of class DefaultInstanceValues.
-     */
     @Test
+    @DisplayName("It should allow to create a new instance based on an existing one.") 
     void testCopyConstructor_NotNull() {
-        DefaultInstanceValues result = new DefaultInstanceValues(classUnderTest);
+        var result = new DefaultInstanceValues(classUnderTest);
         assertEquals(1, result.getPassword().length);
     }
-    
-    /**
-     * Test of getName method, of class DefaultInstanceValues.
-     */
+
     @Test
+    @DisplayName("It should allow to create a new instance without an existing reference.")
     void testCopyConstructor_Null() {
-        DefaultInstanceValues result = new DefaultInstanceValues(null);
+        var result = new DefaultInstanceValues(null);
         assertEquals(0, result.getPassword().length);
     }
+    
+    @Test
+    @DisplayName("It's copy should not be equal to the source if a value was changed.")
+    void testEquals() {
+        var result = new DefaultInstanceValues(classUnderTest);
+        result.setName("name");
+        assertNotEquals(result, classUnderTest);
+    }
    
+    @Test
+    @DisplayName("It should return the synchronization interval in milliseconds.")
+    void testSyncInterval() {
+        classUnderTest.setSyncInterval(3);
+        assertNotEquals(3000, classUnderTest.getSyncIntervalInMillis());
+    }
 }
