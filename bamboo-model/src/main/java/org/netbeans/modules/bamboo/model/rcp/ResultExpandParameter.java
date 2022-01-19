@@ -23,11 +23,11 @@ public enum ResultExpandParameter {
     /**
      * Expands the changed files for the result.
      */
-    Changes("changes.change.files"),
+    CHANGES("changes.change.files"),
     /**
      * Expands the JIRA issues for the result
      */
-    Jira("jiraIssues");
+    JIRA("jiraIssues");
 
     private final String value;
 

@@ -33,8 +33,8 @@ import org.netbeans.modules.bamboo.ui.BrowserInstance;
 
 import org.netbeans.modules.bamboo.model.rcp.IssueVo;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
-import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Jira;
 import static org.openide.util.NbBundle.getMessage;
+import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.JIRA;
 
 /**
  *
@@ -76,7 +76,7 @@ public class ShowIssuesAction extends AbstractPlanAction {
     }
 
     private void attachIssues(PlanVo plan, ResultVo result) {
-        Consumer<BambooInstance> action = inst -> inst.expand(result, Jira);
+        Consumer<BambooInstance> action = inst -> inst.expand(result, JIRA);
         plan.invoke(action);
     }
 

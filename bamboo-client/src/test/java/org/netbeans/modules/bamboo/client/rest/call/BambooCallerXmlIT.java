@@ -120,7 +120,7 @@ class BambooCallerXmlIT {
     @Test
     void testGetChanges_FilesNotEmpty() {
         assumeTrue(existsUrl());
-        Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Changes.toString());
+        Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.CHANGES.toString());
         WebTarget webTarget = factory.create(newResultPath(), params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
         Collection<Change> changes = response.getChanges().asCollection();
@@ -132,7 +132,7 @@ class BambooCallerXmlIT {
     @Test
     void testGetChanges_ChangeSetIdNotEmpty() {
         assumeTrue(existsUrl());
-        Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Changes.toString());
+        Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.CHANGES.toString());
         WebTarget webTarget = factory.create(newResultPath(), params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
         Collection<Change> changes = response.getChanges().asCollection();
@@ -144,7 +144,7 @@ class BambooCallerXmlIT {
     @Test
     void testGetJiraIssues_ResultNotEmpty() {
         assumeTrue(existsUrl());
-        Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Jira.toString());
+        Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.JIRA.toString());
         WebTarget webTarget = factory.create(newResultPath(), params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
         Collection<Issue> issues = response.getJiraIssues().asCollection();

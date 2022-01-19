@@ -51,7 +51,6 @@ import static org.mockito.Mockito.verify;
 
 import org.netbeans.modules.bamboo.model.rcp.ResultVo;
 
-import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Changes;
 
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -59,6 +58,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.CHANGES;
 
 /**
  *
@@ -264,7 +264,7 @@ class DefaultBambooInstanceTest {
     void attachChanges_ExpectClientCall() {
         given(client.existsService()).willReturn(true);
         ResultVo result = new ResultVo();
-        classUnderTest.expand(result, Changes);
-        verify(client).attach(result, Changes);
+        classUnderTest.expand(result, CHANGES);
+        verify(client).attach(result, CHANGES);
     }
 }

@@ -40,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.never;
-import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Changes;
+import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.CHANGES;
 
 /**
  *
@@ -128,7 +128,7 @@ class ShowChangesActionTest {
         
         classUnderTest.process(plan);
         
-        verify(instance).expand(result, Changes);
+        verify(instance).expand(result, CHANGES);
     }
     
     
@@ -151,6 +151,6 @@ class ShowChangesActionTest {
         
         classUnderTest.process(plan);
         
-        verify(instance, never()).expand(result, Changes);
+        verify(instance, never()).expand(result, CHANGES);
     }
 }

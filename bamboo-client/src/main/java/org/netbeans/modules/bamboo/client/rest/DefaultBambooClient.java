@@ -117,9 +117,9 @@ class DefaultBambooClient extends AbstractBambooClient {
         Optional<Result> result = doResultCall(key, parameter.toString());
 
         result.ifPresent(res -> {
-            if (ResultExpandParameter.Changes.equals(parameter)) {
+            if (ResultExpandParameter.CHANGES.equals(parameter)) {
                 vo.setChanges(conv.apply(new ChangeVoConverter()).convert(res.getChanges()));
-            } else if (ResultExpandParameter.Jira.equals(parameter)) {
+            } else if (ResultExpandParameter.JIRA.equals(parameter)) {
                 vo.setIssues(conv.apply(new IssueVoConverter()).convert(res.getJiraIssues()));
             }
         });

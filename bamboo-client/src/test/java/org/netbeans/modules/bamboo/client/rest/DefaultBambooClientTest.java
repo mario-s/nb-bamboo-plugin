@@ -297,7 +297,7 @@ class DefaultBambooClientTest {
                 resultCaller);
         ResultVo vo = new ResultVo();
 
-        classUnderTest.attach(vo, ResultExpandParameter.Changes);
+        classUnderTest.attach(vo, ResultExpandParameter.CHANGES);
         assertFalse(vo.getChanges().isPresent());
     }
 
@@ -312,7 +312,7 @@ class DefaultBambooClientTest {
 
         ResultVo vo = new ResultVo();
 
-        classUnderTest.attach(vo, ResultExpandParameter.Changes);
+        classUnderTest.attach(vo, ResultExpandParameter.CHANGES);
         assertFalse(vo.getChanges().get().isEmpty());
     }
 
@@ -329,7 +329,7 @@ class DefaultBambooClientTest {
                 resultCaller);
         ResultVo vo = new ResultVo();
 
-        classUnderTest.attach(vo, ResultExpandParameter.Jira);
+        classUnderTest.attach(vo, ResultExpandParameter.JIRA);
         assertFalse(vo.getIssues().isPresent());
     }
 
@@ -345,7 +345,7 @@ class DefaultBambooClientTest {
         
         ResultVo vo = new ResultVo();
 
-        classUnderTest.attach(vo, ResultExpandParameter.Jira);
+        classUnderTest.attach(vo, ResultExpandParameter.JIRA);
         assertFalse(vo.getIssues().get().isEmpty());
     }
 }
