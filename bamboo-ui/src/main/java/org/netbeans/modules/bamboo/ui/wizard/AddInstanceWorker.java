@@ -13,25 +13,23 @@
  */
 package org.netbeans.modules.bamboo.ui.wizard;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Optional;
+
+import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
-import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
-
 import org.openide.NotifyDescriptor;
-
 import org.openide.util.RequestProcessor;
 import org.openide.util.Task;
 import org.openide.util.TaskListener;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-import java.util.Optional;
-
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This worker does the call to the server and creation of nodes in a
@@ -40,6 +38,8 @@ import static java.util.Optional.ofNullable;
  * @author Mario Schroeder
  */
 class AddInstanceWorker implements PropertyChangeListener, TaskListener {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(AddInstanceWorker.class);
     private static final RequestProcessor RP = new RequestProcessor("interrupt", 1, true);
 
     private final AbstractDialogAction action;
@@ -61,9 +61,9 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
     void cancel() {
         cancel = true;
 
-        if (currentTask.isPresent()) {
-            currentTask.get().cancel();
-        }
+        currentTask.ifPresent(t -> t.cancel());
+        
+        LOG.info("The task to add instance was canceled by user.");
     }
 
     void execute(final InstancePropertiesForm form) {
@@ -110,6 +110,7 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
         String prop = event.getPropertyName();
 
         if (WorkerEvents.INSTANCE_CREATED.name().equals(prop) && !cancel) {
+            LOG.info("Instance created successful.");
             BambooInstance instance = (BambooInstance) event.getNewValue();
 
             if (instance != null) {
@@ -121,6 +122,7 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
                 null,
                 NotifyDescriptor.OK_OPTION);
         } else if (WorkerEvents.INVALID_URL.name().equals(prop)) {
+            LOG.warn("invalid URL for instance");
             action.firePropertyChange(event);
         }
     }

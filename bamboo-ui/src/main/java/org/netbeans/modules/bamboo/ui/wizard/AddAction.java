@@ -59,7 +59,6 @@ class AddAction extends AbstractDialogAction {
 
     @Override
     protected void onCancel() {
-        super.onCancel();
         worker.cancel();
     }
 }

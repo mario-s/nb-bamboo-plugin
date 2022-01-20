@@ -15,9 +15,9 @@ package org.netbeans.modules.bamboo.ui.actions;
 
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
+import org.netbeans.modules.bamboo.client.glue.InstancePropertiesDisplayable;
 import static org.netbeans.modules.bamboo.ui.actions.Bundle.*;
 import org.netbeans.modules.bamboo.ui.wizard.InstanceDialog;
-import org.netbeans.modules.bamboo.client.glue.InstancePropertiesDisplayable;
 import org.openide.util.NbBundle.Messages;
 
 /**
@@ -25,7 +25,7 @@ import org.openide.util.NbBundle.Messages;
  * @author Mario Schroeder
  */
 @Messages({
-    "LBL_Add_Instance=Add New Instance..."
+    "LBL_Add_Instance=Add Bamboo Instance..."
 })
 public class AddInstanceAction extends AbstractAction {
 

@@ -13,8 +13,10 @@
  */
 package org.netbeans.modules.bamboo.ui.wizard;
 
+import java.awt.Cursor;
 import java.util.HashMap;
 import java.util.Map;
+import static java.util.Optional.ofNullable;
 import org.netbeans.modules.bamboo.client.glue.InstanceManageable;
 
 import org.openide.NotificationLineSupport;
@@ -109,11 +111,18 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
     }
 
     void block() {
+        setCursor(Cursor.WAIT_CURSOR);
         blocking(true);
     }
 
     void unblock() {
+        setCursor(Cursor.DEFAULT_CURSOR);
         blocking(false);
+    }
+    
+    private void setCursor(int type) {
+        var comp = ofNullable(getParent()).orElse(this);
+        comp.setCursor(Cursor.getPredefinedCursor(type));
     }
 
     /**

@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
+ * This class will create a new {@link BambooInstance} in a thread.
  * @author Mario Schroeder
  */
 class Runner extends PropertyChangeSupport implements Runnable {
