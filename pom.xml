@@ -52,6 +52,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
         <netbeans.version>RELEASE126</netbeans.version>
+        <jersey.version>2.25.1</jersey.version>
         <netbeans.run.params.ide />
         <netbeans.run.params>${netbeans.run.params.ide}</netbeans.run.params>
     </properties>
@@ -303,23 +304,17 @@
             <dependency>
                 <groupId>org.glassfish.jersey.media</groupId>
                 <artifactId>jersey-media-jaxb</artifactId>
-                <version>2.23.2</version>
+                <version>${jersey.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>jersey-client</artifactId>
-                <version>2.23.2</version>
+                <version>${jersey.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.media</groupId>
                 <artifactId>jersey-media-moxy</artifactId>
-                <version>2.23.1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.eclipse.persistence</groupId>
-                        <artifactId>org.eclipse.persistence.asm</artifactId>
-                    </exclusion>
-                </exclusions>
+                <version>${jersey.version}</version>
             </dependency>
             
             <dependency>
