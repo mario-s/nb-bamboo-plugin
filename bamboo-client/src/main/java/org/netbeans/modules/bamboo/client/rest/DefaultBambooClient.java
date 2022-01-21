@@ -106,12 +106,11 @@ class DefaultBambooClient extends AbstractBambooClient {
         });
     }
 
-
     @Override
     void attach(final ResultVo vo, final ResultExpandParameter parameter) {
         requireNonNull(vo);
         requireNonNull(parameter);
-                
+
         String key = vo.getKey();
         Optional<Result> result = doResultCall(key, parameter.toString());
 
@@ -124,35 +123,34 @@ class DefaultBambooClient extends AbstractBambooClient {
         });
     }
 
-
     private Optional<Result> doResultCall(String resultKey, String expandParameter) {
         String path = format(RESULT, resultKey);
         Map<String, String> params = singletonMap(EXPAND, expandParameter);
-        ApiCallable<Result> caller = apiCallerFactory.newCaller(Result.class, path, params);        
+        ApiCallable<Result> caller = apiCallerFactory.newCaller(Result.class, path, params);
         return caller.createTarget().map(caller::doGet).orElse(empty());
     }
 
     @Override
     Response queue(PlanVo plan) {
         requireNonNull(plan);
-        
+
         String path = format(QUEUE, plan.getKey());
         ApiCallable caller = apiCallerFactory.newCaller(Object.class, path);
         Optional<WebTarget> target = caller.createTarget();
-        
+
         return target.map(t -> {
-                LOG.info("queued build for: {}", t);
-                return caller.doPost(t);
-               }).orElseGet(() -> {
-                LOG.info("did not queue the build for: {}", path);
-                return Response.status(Status.NOT_FOUND).build();
-             });
+            LOG.info("queued build for: {}", t);
+            return caller.doPost(t);
+        }).orElseGet(() -> {
+            LOG.info("did not queue the build for: {}", path);
+            return Response.status(Status.NOT_FOUND).build();
+        });
     }
 
     @Override
     void updateProjects(Collection<ProjectVo> projects) {
         requireNonNull(projects);
-        
+
         Collection<ProjectVo> source = getProjects();
         if (!source.isEmpty()) {
             ProjectsUpdater updater = new ProjectsUpdater();
@@ -199,7 +197,8 @@ class DefaultBambooClient extends AbstractBambooClient {
         Collection<Result> results = doResultsCall();
         results.forEach(result -> {
             plans.forEach(plan -> {
-                if (result.getPlan().getKey().equals(plan.getKey())) {
+                var key = result.getPlan().getKey();
+                if (key.equals(plan.getKey())) {
                     plan.setResult(result);
                 }
             });
