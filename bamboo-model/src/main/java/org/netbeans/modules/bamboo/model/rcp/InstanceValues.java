@@ -50,6 +50,13 @@ public interface InstanceValues extends OpenableInBrowser {
      */
     char[] getPassword();
     
+    /**
+     * Get the token of the user for authentication.
+     * 
+     * @return token as characters
+     */
+    char[] getToken();
+    
     @Override
     default boolean isAvailable() {
         return false;

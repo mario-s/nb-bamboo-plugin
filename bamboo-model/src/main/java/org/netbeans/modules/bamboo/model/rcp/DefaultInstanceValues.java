@@ -38,6 +38,8 @@ public class DefaultInstanceValues implements InstanceValues {
     private String username;
 
     private char[] password;
+    
+    private char[] token;
 
     public DefaultInstanceValues() {
         this(null);
@@ -50,6 +52,7 @@ public class DefaultInstanceValues implements InstanceValues {
             this.syncInterval = other.getSyncInterval();
             this.username = other.getUsername();
             this.password = other.getPassword();
+            this.token = other.getToken();
         }
 
         this.changeSupport = new PropertyChangeSupport(this);
@@ -67,7 +70,7 @@ public class DefaultInstanceValues implements InstanceValues {
     private char[] clonePassword(char[] passwd) {
         return (passwd != null) ? copyOf(passwd, passwd.length) : new char[0];
     }
-    
+
     protected final int getSyncIntervalInMillis() {
         return toMillis(syncInterval);
     }
@@ -75,12 +78,12 @@ public class DefaultInstanceValues implements InstanceValues {
     private int toMillis(final int minutes) {
         return minutes * 60000;
     }
-    
+
     @Override
     public void addPropertyChangeListener(final PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
     }
-    
+
     @Override
     public void removePropertyChangeListener(
             final PropertyChangeListener listener) {
@@ -130,11 +133,21 @@ public class DefaultInstanceValues implements InstanceValues {
     }
 
     @Override
+    public char[] getToken() {
+        return token;
+    }
+
+    public void setToken(char[] token) {
+        this.token = token;
+    }
+
+    @Override
     public int hashCode() {
         int hash = 5;
         hash = 83 * hash + Objects.hash(name, url, username);
         hash = 83 * hash + this.syncInterval;
         hash = 83 * hash + Arrays.hashCode(this.password);
+        hash = 83 * hash + Arrays.hashCode(this.token);
         return hash;
     }
 
@@ -162,7 +175,10 @@ public class DefaultInstanceValues implements InstanceValues {
         if (!Objects.equals(this.username, other.username)) {
             return false;
         }
-        return Arrays.equals(this.password, other.password);
+        if (!Arrays.equals(this.password, other.password)) {
+            return false;
+        }
+        return Arrays.equals(this.token, other.token);
     }
 
     @Override

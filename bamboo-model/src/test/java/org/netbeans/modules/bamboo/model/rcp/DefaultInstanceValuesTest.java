@@ -48,10 +48,18 @@ class DefaultInstanceValuesTest {
     }
     
     @Test
-    @DisplayName("It's copy should not be equal to the source if a value was changed.")
-    void testEquals() {
+    @DisplayName("It's copy should not be equal to the source if name was changed.")
+    void testEquals_Name() {
         var result = new DefaultInstanceValues(classUnderTest);
         result.setName("name");
+        assertNotEquals(result, classUnderTest);
+    }
+    
+    @Test
+    @DisplayName("It's copy should not be equal to the source if token was changed.")
+    void testEquals_Token() {
+        var result = new DefaultInstanceValues(classUnderTest);
+        result.setToken("name".toCharArray());
         assertNotEquals(result, classUnderTest);
     }
    
