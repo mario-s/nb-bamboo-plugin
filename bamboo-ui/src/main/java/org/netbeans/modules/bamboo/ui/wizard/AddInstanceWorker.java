@@ -63,7 +63,7 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
 
         currentTask.ifPresent(t -> t.cancel());
         
-        LOG.info("The task to add instance was canceled by user.");
+        LOG.info("The task to add an instance was canceled by user.");
     }
 
     void execute(final InstancePropertiesForm form) {
@@ -95,14 +95,15 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
     }
 
     private DefaultInstanceValues createInstanceValues(final InstancePropertiesForm form) {
-        DefaultInstanceValues vals = new DefaultInstanceValues();
-        vals.setName(form.getInstanceName());
-        vals.setUrl(form.getInstanceUrl());
-        vals.setSyncInterval(form.getSyncTime());
-        vals.setUsername(form.getUsername());
-        vals.setPassword(form.getPassword());
+        var values = new DefaultInstanceValues();
+        values.setName(form.getInstanceName());
+        values.setUrl(form.getInstanceUrl());
+        values.setSyncInterval(form.getSyncTime());
+        values.setUsername(form.getUsername());
+        values.setPassword(form.getPassword());
+        values.setToken(form.getToken());
 
-        return vals;
+        return values;
     }
 
     @Override

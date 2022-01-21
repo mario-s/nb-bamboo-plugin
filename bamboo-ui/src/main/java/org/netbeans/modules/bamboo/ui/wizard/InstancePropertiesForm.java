@@ -53,10 +53,12 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblServer;
     private javax.swing.JLabel lblTime;
+    private javax.swing.JLabel lblToken;
     private javax.swing.JLabel lblUser;
     private javax.swing.JPasswordField password;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JSpinner spinTime;
+    private javax.swing.JPasswordField token;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtServer;
     private javax.swing.JTextField txtUser;
@@ -79,8 +81,9 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         focusMap.put(1, txtServer);
         focusMap.put(2, txtUser);
         focusMap.put(3, password);
-        focusMap.put(4, chkRefresh);
-        focusMap.put(5, spinTime);
+        focusMap.put(4, token);
+        focusMap.put(5, chkRefresh);
+        focusMap.put(6, spinTime);
     }
 
     private void addDocumentListener() {
@@ -104,6 +107,10 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
 
     char[] getPassword() {
         return password.getPassword();
+    }
+    
+    char[] getToken() {
+        return token.getPassword();
     }
 
     int getSyncTime() {
@@ -143,6 +150,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         txtServer.setEnabled(!block);
         txtUser.setEnabled(!block);
         password.setEnabled(!block);
+        token.setEnabled(!block);
         spinTime.setEnabled(!block);
         chkRefresh.setEnabled(!block);
     }
@@ -167,6 +175,8 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         lblPassword = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
         progressBar = new javax.swing.JProgressBar();
+        lblToken = new javax.swing.JLabel();
+        token = new javax.swing.JPasswordField();
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/netbeans/modules/bamboo/ui/wizard/Bundle"); // NOI18N
         lblServer.setText(bundle.getString("LBL_SERVER")); // NOI18N
@@ -196,6 +206,8 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         progressBar.setString("Please wait...");
         progressBar.setStringPainted(true);
 
+        lblToken.setText("Token");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -203,7 +215,6 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblServer)
@@ -212,19 +223,25 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtServer)
                             .addComponent(txtName)))
+                    .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(lblUser)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addComponent(lblUser)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lblPassword)
+                                            .addGap(12, 12, 12)))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblPassword)
-                                        .addGap(12, 12, 12)))
+                                        .addComponent(lblToken)
+                                        .addGap(39, 39, 39)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-                                    .addComponent(txtUser)))
+                                    .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                                    .addComponent(txtUser)
+                                    .addComponent(token)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(chkRefresh)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -245,7 +262,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtServer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblServer))
-                .addGap(19, 19, 19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblUser))
@@ -253,6 +270,10 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPassword)
                     .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblToken)
+                    .addComponent(token, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chkRefresh)
@@ -260,7 +281,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
                     .addComponent(lblTime))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
