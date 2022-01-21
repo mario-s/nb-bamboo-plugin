@@ -320,6 +320,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             final Optional<ProjectVo> parent = plan.getParent();
             if (isChild(parent) && verifyAvailibility()) {
                 Response response = client.queue(plan);
+                LOG.info("response for queue: {}", response);
                 QueueEvent event = QueueEvent.builder().plan(plan).response(response).build();
                 previousEvent.ifPresent(content::remove);
                 content.add(event);

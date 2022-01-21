@@ -40,7 +40,6 @@ import static java.util.Optional.empty;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.*;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.*;
 
-
 /**
  * This is the client, which actually interacts with a Bamboo server.
  *
@@ -137,17 +136,17 @@ class DefaultBambooClient extends AbstractBambooClient {
     Response queue(PlanVo plan) {
         requireNonNull(plan);
         
-        Response response = Response.status(Status.NOT_FOUND).build();
         String path = format(QUEUE, plan.getKey());
         ApiCallable caller = apiCallerFactory.newCaller(Object.class, path);
         Optional<WebTarget> target = caller.createTarget();
-        if (target.isPresent()) {
-            response = caller.doPost(target.get());
-            LOG.info("queued build for: {}...got response: {}", path, response);
-        } else {
-            LOG.info("did not queue the build for: {}", path);
-        }
-        return response;
+        
+        return target.map(t -> {
+                LOG.info("queued build for: {}", t);
+                return caller.doPost(t);
+               }).orElseGet(() -> {
+                LOG.info("did not queue the build for: {}", path);
+                return Response.status(Status.NOT_FOUND).build();
+             });
     }
 
     @Override
