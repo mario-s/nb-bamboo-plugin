@@ -13,8 +13,10 @@
  */
 package org.netbeans.modules.bamboo.model.rcp;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -68,5 +70,25 @@ class DefaultInstanceValuesTest {
     void testSyncInterval() {
         classUnderTest.setSyncInterval(3);
         assertNotEquals(3000, classUnderTest.getSyncIntervalInMillis());
+    }
+    
+    @Test
+    @DisplayName("It should not return null for char arrays.")
+    void testNullChars() {
+        assertAll(
+                () -> assertNotNull(classUnderTest.getPassword()),
+                () -> assertNotNull(classUnderTest.getToken())
+            );
+    }
+    
+    @Test
+    @DisplayName("It should not return null for char arrays, even when we set them null.")
+    void testSetNullChars() {
+        classUnderTest.setPassword(null);
+        classUnderTest.setToken(null);
+        assertAll(
+                () -> assertNotNull(classUnderTest.getPassword()),
+                () -> assertNotNull(classUnderTest.getToken())
+            );
     }
 }

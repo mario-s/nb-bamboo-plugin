@@ -14,7 +14,7 @@
 package org.netbeans.modules.bamboo.client.rest;
 
 /**
- *
+ * Constants for the properties of an Bamboo instance.
  * @author Mario Schroeder
  */
 final class BambooInstanceConstants {
@@ -24,6 +24,8 @@ final class BambooInstanceConstants {
     static final String INSTANCE_USER = "username";
     
     static final String INSTANCE_PASSWORD = "password";
+    
+    static final String INSTANCE_TOKEN = "token";
 
     /**
      * preferred jobs for the instance, list of job names, separated by |

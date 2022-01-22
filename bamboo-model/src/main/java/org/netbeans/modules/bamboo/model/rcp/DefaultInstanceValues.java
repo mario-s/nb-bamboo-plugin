@@ -60,15 +60,24 @@ public class DefaultInstanceValues implements InstanceValues {
 
     @Override
     public char[] getPassword() {
-        return clonePassword(password);
+        return copyChars(password);
     }
 
     public void setPassword(char[] password) {
-        this.password = clonePassword(password);
+        this.password = copyChars(password);
+    }
+    
+    @Override
+    public char[] getToken() {
+        return copyChars(token);
     }
 
-    private char[] clonePassword(char[] passwd) {
-        return (passwd != null) ? copyOf(passwd, passwd.length) : new char[0];
+    public void setToken(char[] token) {
+        this.token = copyChars(token);
+    }
+
+    private char[] copyChars(char[] chars) {
+        return (chars != null) ? copyOf(chars, chars.length) : new char[0];
     }
 
     protected final int getSyncIntervalInMillis() {
@@ -130,15 +139,6 @@ public class DefaultInstanceValues implements InstanceValues {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    @Override
-    public char[] getToken() {
-        return token;
-    }
-
-    public void setToken(char[] token) {
-        this.token = token;
     }
 
     @Override
