@@ -13,6 +13,7 @@
  */
 package org.netbeans.modules.bamboo.client.rest.call;
 
+import static java.util.Collections.emptyMap;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.client.Client;
@@ -67,7 +68,7 @@ class WebTargetFactoryTest {
      */
     @Test
     void testNewTarget_NoParams_ExpectTarget() {
-        WebTarget result = classUnderTest.create(FOO, null);
+        WebTarget result = classUnderTest.create(FOO, emptyMap());
         assertNotNull(result);
     }
     
