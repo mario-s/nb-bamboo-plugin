@@ -43,6 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import org.junit.jupiter.api.Disabled;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.EXPAND;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.RESULT_COMMENTS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
@@ -52,6 +53,7 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
  *
  * @author Mario Schroeder
  */
+@Disabled
 class BambooCallerXmlIT {
 
     private static final String FOO = "foo";
@@ -78,6 +80,7 @@ class BambooCallerXmlIT {
 
     @BeforeEach
     void setUp() {
+        assumeTrue(existsUrl());
 
         DefaultInstanceValues values = new DefaultInstanceValues();
         values.setName(FOO);
@@ -99,7 +102,6 @@ class BambooCallerXmlIT {
 
     @Test
     public void testGetResults_SizeGtZero() {
-        assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
         WebTarget webTarget = factory.create(RESULTS, params);
         ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
@@ -109,7 +111,6 @@ class BambooCallerXmlIT {
 
     @Test
     void testGetResults_ResultsNotEmpty() {
-        assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
         WebTarget webTarget = factory.create(RESULTS, params);
         ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
@@ -119,7 +120,6 @@ class BambooCallerXmlIT {
 
     @Test
     void testGetChanges_FilesNotEmpty() {
-        assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.CHANGES.toString());
         WebTarget webTarget = factory.create(newResultPath(), params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
@@ -131,7 +131,6 @@ class BambooCallerXmlIT {
 
     @Test
     void testGetChanges_ChangeSetIdNotEmpty() {
-        assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.CHANGES.toString());
         WebTarget webTarget = factory.create(newResultPath(), params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
@@ -143,7 +142,6 @@ class BambooCallerXmlIT {
 
     @Test
     void testGetJiraIssues_ResultNotEmpty() {
-        assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.JIRA.toString());
         WebTarget webTarget = factory.create(newResultPath(), params);
         Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
