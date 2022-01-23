@@ -48,6 +48,7 @@ class ApiCaller<T> implements ApiCallable {
     private final InstanceValues values;
 
     private final WebTargetFactory webTargetFactory;
+    private final AuthHeaderWebTargetFactory authHeaderWebTargetFactory;
 
     private String media = MediaType.APPLICATION_XML;
 
@@ -58,6 +59,7 @@ class ApiCaller<T> implements ApiCallable {
         this.parameters = params.getParameters();
 
         webTargetFactory = new WebTargetFactory(this.values);
+        authHeaderWebTargetFactory = new AuthHeaderWebTargetFactory(values);
 
         setMediaType(params.isJson());
     }
@@ -70,21 +72,20 @@ class ApiCaller<T> implements ApiCallable {
 
     @Override
     public Optional<WebTarget> createTarget() {
-        Optional<WebTarget> opt = empty();
         String url = values.getUrl();
         String user = values.getUsername();
         char[] chars = values.getPassword();
 
         if (isNotBlank(url) && isNotBlank(user) && isNotEmpty(chars)) {
-            opt = of(newTarget());
-        } else {
-            LOG.warn("Invalid values for instance");
-        }
-
-        return opt;
+            return of(newTarget());
+        } 
+            
+        LOG.warn("Invalid values for instance");
+        return empty();
     }
 
     protected WebTarget newTarget() {
+        //TOODO check for version and use other factory if needed.
         return webTargetFactory.create(path, parameters);
     }
 

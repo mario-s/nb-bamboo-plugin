@@ -208,17 +208,13 @@ class DefaultBambooClient extends AbstractBambooClient {
 
     @Override
     public VersionInfo getVersionInfo() {
-        VersionInfo versionInfo = new VersionInfo();
         ApiCallable<Info> infoCaller = apiCallerFactory.newCaller(Info.class, INFO);
         Optional<WebTarget> opt = infoCaller.createTarget();
 
-        if (opt.isPresent()) {
+        return opt.map(t -> {
             Info info = infoCaller.doGet(opt.get()).orElse(new Info());
-            VersionInfoConverter converter = new VersionInfoConverter();
-            versionInfo = converter.convert(info);
-        }
-
-        return versionInfo;
+            return new VersionInfoConverter().convert(info);
+        }).orElseGet(() -> new VersionInfo());
     }
 
 }

@@ -42,7 +42,7 @@ class WebTargetFactory {
     
     private Client client;
 
-    public WebTargetFactory(InstanceValues values) {
+    WebTargetFactory(InstanceValues values) {
         this(values, Level.FINE);
     }
     
@@ -57,8 +57,7 @@ class WebTargetFactory {
     WebTarget create(final String path, final Map<String,String> params) {
         String url = values.getUrl();
         String user = values.getUsername();
-        char[] chars = values.getPassword();
-        String password = String.valueOf(chars);
+        String password = String.valueOf(values.getPassword());
         WebTarget target = create(url, path).queryParam(AUTH_TYPE, BASIC).queryParam(USER, user).queryParam(
                 PASS,
                 password);
