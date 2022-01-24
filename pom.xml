@@ -324,6 +324,11 @@
                 <artifactId>jersey-media-moxy</artifactId>
                 <version>${jersey.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.security</groupId>
+                <artifactId>oauth2-client</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
             
             <dependency>
                 <groupId>org.jsoup</groupId>

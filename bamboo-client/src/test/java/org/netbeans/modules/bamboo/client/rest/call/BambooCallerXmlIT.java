@@ -57,28 +57,27 @@ class BambooCallerXmlIT {
     private static final String FOO = "foo";
 
     private static final String URL = "url";
+    
+    private static final String PROPERTIES = "bamboo.properties";
 
     private WebTargetFactory factory;
 
     private static Properties props;
-
-    private final HttpUtility httpUtility;
-
-    BambooCallerXmlIT() {
-        this.httpUtility = new HttpUtility();
-    }
+    
+    private static boolean existsUrl;
 
     @BeforeAll
     static void prepare() throws IOException {
+        InputStream input = BambooCallerXmlIT.class.getResourceAsStream(PROPERTIES);
         props = new Properties();
-        
-        InputStream input = BambooCallerXmlIT.class.getResourceAsStream("bamboo.properties");
         props.load(input);
+        
+        existsUrl = new HttpUtility().exists(props.getProperty(URL));
     }
 
     @BeforeEach
     void setUp() {
-        assumeTrue(existsUrl());
+        assumeTrue(existsUrl);
 
         DefaultInstanceValues values = new DefaultInstanceValues();
         values.setName(FOO);
@@ -87,10 +86,6 @@ class BambooCallerXmlIT {
         values.setPassword(props.getProperty("password").toCharArray());
 
         factory = new WebTargetFactory(values, Level.FINE);
-    }
-
-    private boolean existsUrl() {
-        return httpUtility.exists(props.getProperty(URL));
     }
 
     private String newResultPath() {
