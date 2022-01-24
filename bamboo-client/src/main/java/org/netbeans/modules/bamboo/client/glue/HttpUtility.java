@@ -28,6 +28,8 @@ import org.slf4j.LoggerFactory;
  */
 public final class HttpUtility {
 
+    private static final int TIMEOUT = 5000;
+    
     private static final String WRONG_URL = "url is wrong: {}";
     
     private static final Logger LOG = LoggerFactory.getLogger(HttpUtility.class);
@@ -45,8 +47,11 @@ public final class HttpUtility {
                 URL endpoint = new URL(url);
                 URLConnection connection = endpoint.openConnection();
                 if (connection instanceof HttpURLConnection) {
-                    HttpURLConnection httpConn = (HttpURLConnection) connection;
-                    int status = httpConn.getResponseCode();
+                    var httpCon = (HttpURLConnection) connection;
+                    httpCon.setConnectTimeout(TIMEOUT);
+                    httpCon.setReadTimeout(TIMEOUT);
+                    httpCon.setRequestMethod("HEAD");
+                    int status = httpCon.getResponseCode();
                     exists = isValid(status);
                 }
             } catch (IOException ex) {

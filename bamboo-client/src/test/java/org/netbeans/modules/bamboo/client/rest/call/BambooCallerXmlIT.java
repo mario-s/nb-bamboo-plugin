@@ -43,7 +43,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
-import org.junit.jupiter.api.Disabled;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.EXPAND;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.RESULT_COMMENTS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
@@ -53,7 +52,6 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
  *
  * @author Mario Schroeder
  */
-@Disabled
 class BambooCallerXmlIT {
 
     private static final String FOO = "foo";
