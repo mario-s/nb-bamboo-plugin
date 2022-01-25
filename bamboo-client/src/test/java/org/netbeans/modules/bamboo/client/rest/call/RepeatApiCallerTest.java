@@ -64,7 +64,7 @@ class RepeatApiCallerTest {
     @Mock
     private InstanceValues values;
     @Mock
-    private WebTargetFactory webTargetFactory;
+    private BasicAuthWebTargetFactory webTargetFactory;
     @Mock
     private WebTarget target;
     @Mock
@@ -75,6 +75,7 @@ class RepeatApiCallerTest {
     @BeforeEach
     void setUp() {
         reset(builder);
+        given(values.getToken()).willReturn(new char[] {'a'});
         
         classUnderTest = new ApiCallRepeater<>(new CallParameters(PlansResponse.class, values));
         

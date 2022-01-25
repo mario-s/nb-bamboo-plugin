@@ -47,7 +47,7 @@ class ApiCaller<T> implements ApiCallable {
     private final Map<String, String> parameters;
     private final InstanceValues values;
 
-    private final WebTargetFactory webTargetFactory;
+    private final BasicAuthWebTargetFactory webTargetFactory;
     private final AuthHeaderWebTargetFactory authHeaderWebTargetFactory;
 
     private String media = MediaType.APPLICATION_XML;
@@ -58,8 +58,8 @@ class ApiCaller<T> implements ApiCallable {
         this.path = params.getPath();
         this.parameters = params.getParameters();
 
-        webTargetFactory = new WebTargetFactory(this.values);
-        authHeaderWebTargetFactory = new AuthHeaderWebTargetFactory(values);
+        webTargetFactory = new BasicAuthWebTargetFactory(this.values);
+        authHeaderWebTargetFactory = new AuthHeaderWebTargetFactory(this.values);
 
         setMediaType(params.isJson());
     }

@@ -1,6 +1,4 @@
-/*
- * Copyright 2022 NetBeans.
- *
+/* 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,37 +13,40 @@
  */
 package org.netbeans.modules.bamboo.client.rest.call;
 
-import java.util.Map;
-import java.util.logging.Level;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Feature;
-import org.glassfish.jersey.client.oauth2.OAuth2ClientSupport;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
+import javax.ws.rs.client.WebTarget;
+import java.util.Map;
+import java.util.logging.Level;
+
 /**
- * This factory creates WebTraget which uses athorization in the header.
+ * Factory for a new {@link WebTarget}.
+ *
  * @author Mario Schroeder
  */
-class AuthHeaderWebTargetFactory extends AbstractWebTargetFactory {
+class BasicAuthWebTargetFactory extends AbstractWebTargetFactory {
 
-    AuthHeaderWebTargetFactory(InstanceValues values) {
+    static final String BASIC = "basic";
+    static final String USER = "os_username";
+    static final String PASS = "os_password";
+
+    BasicAuthWebTargetFactory(InstanceValues values) {
         this(values, Level.FINE);
     }
 
-    AuthHeaderWebTargetFactory(InstanceValues values, Level level) {
+    BasicAuthWebTargetFactory(InstanceValues values, Level level) {
         super(values, level);
-        registerOuthFeature();
     }
-
-    final void registerOuthFeature() {
-        char[] token = values.getToken();
-        Feature feature = OAuth2ClientSupport.feature(new String(token));
-        registerFeature(feature);
-    }
-
+    
     @Override
-    WebTarget create(String path, Map<String, String> params) {
-        WebTarget target = create(path);
+    WebTarget create(final String path, final Map<String,String> params) {
+        String user = values.getUsername();
+        String password = String.valueOf(values.getPassword());
+        
+        WebTarget target = create(path)
+                .queryParam(AUTH_TYPE, BASIC)
+                .queryParam(USER, user)
+                .queryParam(PASS, password);
         
         return addParameters(target, params);
     }

@@ -32,10 +32,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import org.netbeans.modules.bamboo.model.rest.Info;
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 import org.springframework.test.util.ReflectionTestUtils;
@@ -60,7 +59,7 @@ class ApiCallerTest {
     @Mock
     private InstanceValues values;
     @Mock
-    private WebTargetFactory webTargetFactory;
+    private BasicAuthWebTargetFactory webTargetFactory;
     @Mock
     private WebTarget target;
     @Mock
@@ -72,7 +71,9 @@ class ApiCallerTest {
 
     @BeforeEach
     void setUp() {
-        final CallParameters callParameters = new CallParameters(Info.class, values);
+        given(values.getToken()).willReturn(new char[] {'a'});
+        
+        var callParameters = new CallParameters(Info.class, values);
         callParameters.setParameters(FOO_MAP);
         classUnderTest = new ApiCaller<>(callParameters);
 

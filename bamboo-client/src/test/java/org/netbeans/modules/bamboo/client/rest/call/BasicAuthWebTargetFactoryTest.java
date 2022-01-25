@@ -16,50 +16,35 @@ package org.netbeans.modules.bamboo.client.rest.call;
 import static java.util.Collections.emptyMap;
 import java.util.HashMap;
 import java.util.Map;
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
 
 import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
 
 /**
  *
  * @author Mario Schroeder
  */
-@ExtendWith(MockitoExtension.class)
-class WebTargetFactoryTest {
-    private static final String FOO = "foo";
-    @Mock
-    private Client client;
-    @Mock
-    private InstanceValues values;
-    @Mock
-    private WebTarget target;
-    @InjectMocks
-    private WebTargetFactory classUnderTest;
+class BasicAuthWebTargetFactoryTest extends AbstractWebTargetFactoryTest{
+    
+    private BasicAuthWebTargetFactory classUnderTest;
     
     @BeforeEach
     void setUp() {
-        ReflectionTestUtils.setField(classUnderTest, "client", client);
-        
         given(values.getUrl()).willReturn(FOO);
         given(values.getUsername()).willReturn(FOO);
-        given(values.getPassword()).willReturn(new char[]{'a'});
+        given(values.getPassword()).willReturn(FOO.toCharArray());
         
-        given(client.target(FOO)).willReturn(target);
-        given(target.path(WebTargetFactory.REST_API)).willReturn(target);
-        given(target.path(FOO)).willReturn(target);
+        classUnderTest = new BasicAuthWebTargetFactory(values);
+        ReflectionTestUtils.setField(classUnderTest, "client", client);
+        
+        trainTarget();
         given(target.queryParam(anyString(), anyString())).willReturn(target);
     }
 
@@ -68,8 +53,7 @@ class WebTargetFactoryTest {
      */
     @Test
     void testNewTarget_NoParams_ExpectTarget() {
-        WebTarget result = classUnderTest.create(FOO, emptyMap());
-        assertNotNull(result);
+        verifyWebTarget(emptyMap());
     }
     
       /**
@@ -79,6 +63,10 @@ class WebTargetFactoryTest {
     void testNewTarget_WithParams_ExpectTarget() {
         Map<String, String> params = new HashMap<>();
         params.put(FOO, FOO);
+        verifyWebTarget(params);
+    }
+
+    void verifyWebTarget(Map<String, String> params) {
         WebTarget result = classUnderTest.create(FOO, params);
         assertNotNull(result);
     }

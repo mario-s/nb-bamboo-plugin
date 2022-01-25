@@ -60,7 +60,7 @@ class BambooCallerXmlIT {
     
     private static final String PROPERTIES = "bamboo.properties";
 
-    private WebTargetFactory factory;
+    private BasicAuthWebTargetFactory factory;
 
     private static Properties props;
     
@@ -85,7 +85,7 @@ class BambooCallerXmlIT {
         values.setUsername(props.getProperty("user"));
         values.setPassword(props.getProperty("password").toCharArray());
 
-        factory = new WebTargetFactory(values, Level.FINE);
+        factory = new BasicAuthWebTargetFactory(values, Level.FINE);
     }
 
     private String newResultPath() {
