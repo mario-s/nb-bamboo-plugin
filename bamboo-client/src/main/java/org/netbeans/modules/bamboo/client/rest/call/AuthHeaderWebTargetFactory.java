@@ -21,7 +21,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Feature;
 import org.glassfish.jersey.client.oauth2.OAuth2ClientSupport;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
-
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 /**
  * This factory creates WebTraget which uses athorization in the header.
  * @author Mario Schroeder
@@ -49,4 +50,13 @@ class AuthHeaderWebTargetFactory extends AbstractWebTargetFactory {
         
         return addParameters(target, params);
     }
+
+    @Override
+    boolean isValid() {
+        String url = values.getUrl();
+        char[] chars = values.getToken();
+
+        return isNotBlank(url) && isNotEmpty(chars);
+    }
+    
 }

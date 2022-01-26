@@ -59,7 +59,9 @@ class ApiCallerTest {
     @Mock
     private InstanceValues values;
     @Mock
-    private BasicAuthWebTargetFactory webTargetFactory;
+    private BasicAuthWebTargetFactory basicAuthWebTargetFactory;
+    @Mock
+    private AuthHeaderWebTargetFactory authHeaderWebTargetFactory;
     @Mock
     private WebTarget target;
     @Mock
@@ -77,7 +79,8 @@ class ApiCallerTest {
         callParameters.setParameters(FOO_MAP);
         classUnderTest = new ApiCaller<>(callParameters);
 
-        ReflectionTestUtils.setField(classUnderTest, "webTargetFactory", webTargetFactory);
+        ReflectionTestUtils.setField(classUnderTest, "basicAuthWebTargetFactory", basicAuthWebTargetFactory);
+        ReflectionTestUtils.setField(classUnderTest, "authHeaderWebTargetFactory", authHeaderWebTargetFactory);
     }
 
     /**
@@ -93,13 +96,11 @@ class ApiCallerTest {
      */
     @Test
     void testCreateTarget_EmptyValues_ExpectParameterPresent() {
-        given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
-        given(values.getPassword()).willReturn(FOO.toCharArray());
-        given(values.getUrl()).willReturn(FOO);
-        given(values.getUsername()).willReturn(FOO);
+        given(basicAuthWebTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
+        given(basicAuthWebTargetFactory.isValid()).willReturn(true);
         
         classUnderTest.createTarget();
-        verify(webTargetFactory).create(anyString(), eq(FOO_MAP));
+        verify(basicAuthWebTargetFactory).create(anyString(), eq(FOO_MAP));
     }
 
     /**
@@ -107,11 +108,9 @@ class ApiCallerTest {
      */
     @Test
     void testCreateTarget_Values_ExpectPresent() {
-        given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
-        given(values.getPassword()).willReturn(FOO.toCharArray());
-        given(values.getUrl()).willReturn(FOO);
-        given(values.getUsername()).willReturn(FOO);
-        
+        given(basicAuthWebTargetFactory.isValid()).willReturn(true);
+        given(basicAuthWebTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
+
         assertTrue(classUnderTest.createTarget().isPresent());
     }
 
@@ -120,7 +119,7 @@ class ApiCallerTest {
      */
     @Test
     void testNewTarget_ExpectNotNull() {
-        given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
+        given(basicAuthWebTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
         
         assertNotNull(classUnderTest.newTarget());
     }

@@ -71,4 +71,10 @@ abstract class AbstractWebTargetFactory {
     
     abstract WebTarget create(String path, Map<String,String> params);
     
+    /**
+     * Retruns <code>true</code> when url and authentication are not null and not empty.
+     * @return boolean
+     */
+    abstract boolean isValid();
+    
 }

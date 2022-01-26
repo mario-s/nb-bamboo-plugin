@@ -18,6 +18,8 @@ import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import javax.ws.rs.client.WebTarget;
 import java.util.Map;
 import java.util.logging.Level;
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * Factory for a new {@link WebTarget}.
@@ -50,4 +52,14 @@ class BasicAuthWebTargetFactory extends AbstractWebTargetFactory {
         
         return addParameters(target, params);
     }
+
+    @Override
+    boolean isValid() {
+        String url = values.getUrl();
+        String user = values.getUsername();
+        char[] chars = values.getPassword();
+
+        return isNotBlank(url) && isNotBlank(user) && isNotEmpty(chars);
+    }
+    
 }

@@ -19,11 +19,11 @@ import java.util.Map;
 import javax.ws.rs.client.WebTarget;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-
+import org.junit.jupiter.api.DisplayName;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
@@ -31,21 +31,18 @@ import static org.mockito.BDDMockito.given;
  *
  * @author Mario Schroeder
  */
-class BasicAuthWebTargetFactoryTest extends AbstractWebTargetFactoryTest{
-    
+class BasicAuthWebTargetFactoryTest extends AbstractWebTargetFactoryTest {
+
     private BasicAuthWebTargetFactory classUnderTest;
-    
+
     @BeforeEach
     void setUp() {
         given(values.getUrl()).willReturn(FOO);
         given(values.getUsername()).willReturn(FOO);
         given(values.getPassword()).willReturn(FOO.toCharArray());
-        
+
         classUnderTest = new BasicAuthWebTargetFactory(values);
         ReflectionTestUtils.setField(classUnderTest, "client", client);
-        
-        trainTarget();
-        given(target.queryParam(anyString(), anyString())).willReturn(target);
     }
 
     /**
@@ -55,8 +52,8 @@ class BasicAuthWebTargetFactoryTest extends AbstractWebTargetFactoryTest{
     void testNewTarget_NoParams_ExpectTarget() {
         verifyWebTarget(emptyMap());
     }
-    
-      /**
+
+    /**
      * Test of newTarget method, of class WebTargetFactory.
      */
     @Test
@@ -67,8 +64,21 @@ class BasicAuthWebTargetFactoryTest extends AbstractWebTargetFactoryTest{
     }
 
     void verifyWebTarget(Map<String, String> params) {
+        trainTarget();
+        given(target.queryParam(anyString(), anyString())).willReturn(target);
+
         WebTarget result = classUnderTest.create(FOO, params);
         assertNotNull(result);
     }
-    
+
+    @Test
+    @DisplayName("It should return true when all needed params are valid.")
+    void isValid() {
+        given(values.getPassword()).willReturn(FOO.toCharArray());
+        given(values.getUrl()).willReturn(FOO);
+        given(values.getUsername()).willReturn(FOO);
+
+        assertTrue(classUnderTest.isValid());
+    }
+
 }

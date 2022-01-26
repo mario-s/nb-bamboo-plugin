@@ -16,7 +16,6 @@ package org.netbeans.modules.bamboo.client.rest.call;
 import java.net.URI;
 import java.util.Map;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import java.util.Optional;
@@ -29,7 +28,6 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
-import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +45,7 @@ class ApiCaller<T> implements ApiCallable {
     private final Map<String, String> parameters;
     private final InstanceValues values;
 
-    private final BasicAuthWebTargetFactory webTargetFactory;
+    private final BasicAuthWebTargetFactory basicAuthWebTargetFactory;
     private final AuthHeaderWebTargetFactory authHeaderWebTargetFactory;
 
     private String media = MediaType.APPLICATION_XML;
@@ -58,7 +56,7 @@ class ApiCaller<T> implements ApiCallable {
         this.path = params.getPath();
         this.parameters = params.getParameters();
 
-        webTargetFactory = new BasicAuthWebTargetFactory(this.values);
+        basicAuthWebTargetFactory = new BasicAuthWebTargetFactory(this.values);
         authHeaderWebTargetFactory = new AuthHeaderWebTargetFactory(this.values);
 
         setMediaType(params.isJson());
@@ -72,11 +70,8 @@ class ApiCaller<T> implements ApiCallable {
 
     @Override
     public Optional<WebTarget> createTarget() {
-        String url = values.getUrl();
-        String user = values.getUsername();
-        char[] chars = values.getPassword();
-
-        if (isNotBlank(url) && isNotBlank(user) && isNotEmpty(chars)) {
+        
+        if (basicAuthWebTargetFactory.isValid()) {
             return of(newTarget());
         } 
             
@@ -86,7 +81,7 @@ class ApiCaller<T> implements ApiCallable {
 
     protected WebTarget newTarget() {
         //TOODO check for version and use other factory if needed.
-        return webTargetFactory.create(path, parameters);
+        return basicAuthWebTargetFactory.create(path, parameters);
     }
 
     @Override

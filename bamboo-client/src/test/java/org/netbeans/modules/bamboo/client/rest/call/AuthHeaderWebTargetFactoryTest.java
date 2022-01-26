@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.core.Feature;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -57,18 +58,13 @@ public class AuthHeaderWebTargetFactoryTest extends AbstractWebTargetFactoryTest
     @Test
     @DisplayName("It should generate a WebTarget for empty parameter.") 
     void testCreate() {
-        given(values.getUrl()).willReturn(FOO);
-        trainTarget();
-        
         verifyWebTarget(emptyMap());
     }
     
     @Test
     @DisplayName("It should generate a WebTarget for not empty parameter.") 
     void testCreate_NoEmptyParams() {
-        given(values.getUrl()).willReturn(FOO);
         given(target.queryParam(anyString(), anyString())).willReturn(target);
-        trainTarget();
         
         Map<String, String> params = new HashMap<>();
         params.put(FOO, FOO);
@@ -76,8 +72,19 @@ public class AuthHeaderWebTargetFactoryTest extends AbstractWebTargetFactoryTest
     }
     
     void verifyWebTarget(final Map<String, String> parms) {
+        given(values.getUrl()).willReturn(FOO);
+        trainTarget();
+        
         var res = classUnderTest.create(FOO, parms);
         assertNotNull(res);
     }
     
+    @Test
+    @DisplayName("It should return true when all needed params are valid.")
+    void isValid() {
+        given(values.getToken()).willReturn(FOO.toCharArray());
+        given(values.getUrl()).willReturn(FOO);
+
+        assertTrue(classUnderTest.isValid());
+    }
 }
