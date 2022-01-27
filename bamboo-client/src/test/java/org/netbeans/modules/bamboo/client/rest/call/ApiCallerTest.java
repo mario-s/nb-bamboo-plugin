@@ -20,6 +20,7 @@ import static java.util.Collections.singletonMap;
 
 import java.util.Map;
 import java.util.Optional;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
@@ -34,15 +35,13 @@ import org.netbeans.modules.bamboo.model.rest.Info;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
 
 import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.DisplayName;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -87,6 +86,7 @@ class ApiCallerTest {
      * Test of createTarget method, of class ApiCaller.
      */
     @Test
+    @DisplayName("It should not create a web target if necessary values are missing.")
     void testCreateTarget_EmptyValues_ExpectNotPresent() {
         assertFalse(classUnderTest.createTarget().isPresent());
     }
@@ -95,39 +95,32 @@ class ApiCallerTest {
      * Test of createTarget method, of class ApiCaller.
      */
     @Test
-    void testCreateTarget_EmptyValues_ExpectParameterPresent() {
-        given(basicAuthWebTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
-        given(basicAuthWebTargetFactory.isValid()).willReturn(true);
-        
-        classUnderTest.createTarget();
-        verify(basicAuthWebTargetFactory).create(anyString(), eq(FOO_MAP));
-    }
-
-    /**
-     * Test of createTarget method, of class ApiCaller.
-     */
-    @Test
+    @DisplayName("It should create a web target with basic authentication and additional parameters.")
     void testCreateTarget_Values_ExpectPresent() {
         given(basicAuthWebTargetFactory.isValid()).willReturn(true);
         given(basicAuthWebTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
 
         assertTrue(classUnderTest.createTarget().isPresent());
     }
-
+    
     /**
-     * Test of newTarget method, of class ApiCaller.
+     * Test of createTarget method, of class ApiCaller.
      */
     @Test
-    void testNewTarget_ExpectNotNull() {
-        given(basicAuthWebTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
-        
-        assertNotNull(classUnderTest.newTarget());
+    @DisplayName("It should create a web target with token authentication and additional parameters.")
+    void testCreateTokenTarget_Values_ExpectPresent() {
+        given(values.isUseToken()).willReturn(true);
+        given(authHeaderWebTargetFactory.isValid()).willReturn(true);
+        given(authHeaderWebTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
+
+        assertTrue(classUnderTest.createTarget().isPresent());
     }
 
     /**
      * Test of doGet method, of class ApiCaller.
      */
     @Test
+    @DisplayName("It should allow to perform a GET request.")
     void testGetRequest_ExpectPresent() throws URISyntaxException {
         given(target.getUri()).willReturn(new URI("http://localhost"));
         given(target.request()).willReturn(builder);
@@ -137,11 +130,25 @@ class ApiCallerTest {
         Optional<Info> result = classUnderTest.doGet(target);
         assertTrue(result.isPresent());
     }
+    
+    /**
+     * Test of doGet method, of class ApiCaller.
+     */
+    @Test
+    @DisplayName("It should allow to perform a GET request and return empty when it fails.")
+    void testGetRequest_ExpectEmpty() throws URISyntaxException {
+        given(target.getUri()).willReturn(new URI("http://localhost"));
+        given(target.request()).willThrow(new WebApplicationException());
+        
+        Optional<Info> result = classUnderTest.doGet(target);
+        assertTrue(result.isEmpty());
+    }
 
     /**
      * Test of doPost method, of class ApiCaller.
      */
     @Test
+    @DisplayName("It should allow to perform a POST request.")
     void testPostRequest_ExpectZero() {
         given(target.request()).willReturn(builder);
         given(builder.post(any(Entity.class))).willReturn(response);

@@ -30,6 +30,19 @@ public interface InstanceValues extends OpenableInBrowser {
      * @return instance name
      */
     String getName();
+    
+    /**
+     * Indicates whether the authentication method is based on token or not.
+     * @return <code>true</code> when using a token, <code>false</code> when not. 
+     */
+    boolean isUseToken();
+    
+    /**
+     * Get the token of the user for authentication.
+     * 
+     * @return token as characters
+     */
+    char[] getToken();
 
     /**
      * @return Synchronization interval in minutes.
@@ -49,13 +62,6 @@ public interface InstanceValues extends OpenableInBrowser {
      * @return password as characters
      */
     char[] getPassword();
-    
-    /**
-     * Get the token of the user for authentication.
-     * 
-     * @return token as characters
-     */
-    char[] getToken();
     
     @Override
     default boolean isAvailable() {

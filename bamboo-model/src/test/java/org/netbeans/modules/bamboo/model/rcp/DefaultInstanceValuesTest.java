@@ -13,13 +13,15 @@
  */
 package org.netbeans.modules.bamboo.model.rcp;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit test for {@link DefaultInstanceValues}.
@@ -39,14 +41,20 @@ class DefaultInstanceValuesTest {
     @DisplayName("It should allow to create a new instance based on an existing one.") 
     void testCopyConstructor_NotNull() {
         var result = new DefaultInstanceValues(classUnderTest);
-        assertEquals(1, result.getPassword().length);
+        assertAll(
+                () -> assertTrue(result.isUseToken(), "expected to use token by default"),
+                () -> assertEquals(1, result.getPassword().length)
+        );
     }
 
     @Test
     @DisplayName("It should allow to create a new instance without an existing reference.")
     void testCopyConstructor_Null() {
         var result = new DefaultInstanceValues(null);
-        assertEquals(0, result.getPassword().length);
+        assertAll(
+                () -> assertTrue(result.isUseToken(), "expected to use token by default"),
+                () -> assertEquals(0, result.getPassword().length)
+        );
     }
     
     @Test

@@ -71,7 +71,7 @@ class ApiCaller<T> implements ApiCallable {
     @Override
     public Optional<WebTarget> createTarget() {
         
-        if (basicAuthWebTargetFactory.isValid()) {
+        if (getWebTargetFactory().isValid()) {
             return of(newTarget());
         } 
             
@@ -80,8 +80,16 @@ class ApiCaller<T> implements ApiCallable {
     }
 
     protected WebTarget newTarget() {
-        //TOODO check for version and use other factory if needed.
-        return basicAuthWebTargetFactory.create(path, parameters);
+        return getWebTargetFactory().create(path, parameters);
+    }
+    
+    private AbstractWebTargetFactory getWebTargetFactory() {
+        boolean useToken = this.values.isUseToken();
+        LOG.debug("using token for web target: {}", useToken);
+        if (useToken) {
+            return authHeaderWebTargetFactory;
+        }
+        return basicAuthWebTargetFactory;
     }
 
     @Override

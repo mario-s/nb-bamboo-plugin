@@ -34,6 +34,8 @@ public class DefaultInstanceValues implements InstanceValues {
     private String url;
 
     private int syncInterval;
+    
+    private boolean useToken;
 
     private String username;
 
@@ -46,6 +48,8 @@ public class DefaultInstanceValues implements InstanceValues {
     }
 
     public DefaultInstanceValues(final InstanceValues other) {
+        useToken = true;
+        
         if (other != null) {
             this.name = other.getName();
             this.url = other.getUrl();
@@ -53,9 +57,15 @@ public class DefaultInstanceValues implements InstanceValues {
             this.username = other.getUsername();
             this.password = other.getPassword();
             this.token = other.getToken();
+            this.useToken = other.isUseToken();
         }
 
         this.changeSupport = new PropertyChangeSupport(this);
+    }
+    
+    @Override
+    public boolean isUseToken() {
+        return useToken;
     }
 
     @Override
@@ -144,7 +154,7 @@ public class DefaultInstanceValues implements InstanceValues {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 83 * hash + Objects.hash(name, url, username);
+        hash = 83 * hash + Objects.hash(name, url, username, useToken);
         hash = 83 * hash + this.syncInterval;
         hash = 83 * hash + Arrays.hashCode(this.password);
         hash = 83 * hash + Arrays.hashCode(this.token);
@@ -163,6 +173,9 @@ public class DefaultInstanceValues implements InstanceValues {
             return false;
         }
         final DefaultInstanceValues other = (DefaultInstanceValues) obj;
+        if (this.useToken != other.useToken) {
+            return false;
+        }
         if (this.syncInterval != other.syncInterval) {
             return false;
         }
