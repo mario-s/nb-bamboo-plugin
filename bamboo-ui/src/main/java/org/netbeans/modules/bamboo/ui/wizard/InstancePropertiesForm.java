@@ -49,8 +49,8 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup authBtnGroup;
+    private javax.swing.JPanel authPanel;
     private javax.swing.JCheckBox chkRefresh;
-    private javax.swing.JLabel lblAuthMethod;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblServer;
@@ -164,6 +164,8 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         progressBar.setVisible(block);
         txtName.setEnabled(!block);
         txtServer.setEnabled(!block);
+        radBtnToken.setEnabled(!block);
+        radBtnUsername.setEnabled(!block);
         txtUser.setEnabled(!block);
         password.setEnabled(!block);
         token.setEnabled(!block);
@@ -188,16 +190,16 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         chkRefresh = new javax.swing.JCheckBox();
         spinTime = new javax.swing.JSpinner();
         lblTime = new javax.swing.JLabel();
-        lblUser = new javax.swing.JLabel();
-        txtUser = new javax.swing.JTextField();
+        progressBar = new javax.swing.JProgressBar();
+        authPanel = new javax.swing.JPanel();
         lblPassword = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
-        progressBar = new javax.swing.JProgressBar();
         lblToken = new javax.swing.JLabel();
         token = new javax.swing.JPasswordField();
-        lblAuthMethod = new javax.swing.JLabel();
         radBtnToken = new javax.swing.JRadioButton();
+        lblUser = new javax.swing.JLabel();
         radBtnUsername = new javax.swing.JRadioButton();
+        txtUser = new javax.swing.JTextField();
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/netbeans/modules/bamboo/ui/wizard/Bundle"); // NOI18N
         lblServer.setText(bundle.getString("LBL_SERVER")); // NOI18N
@@ -219,21 +221,17 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
 
         lblTime.setText("minutes");
 
-        lblUser.setText("Username:");
+        progressBar.setIndeterminate(true);
+        progressBar.setString("Please wait...");
+        progressBar.setStringPainted(true);
 
-        txtUser.setEnabled(false);
+        authPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Authentication Method"));
 
         lblPassword.setText("Password:");
 
         password.setEnabled(false);
 
-        progressBar.setIndeterminate(true);
-        progressBar.setString("Please wait...");
-        progressBar.setStringPainted(true);
-
         lblToken.setText("Token");
-
-        lblAuthMethod.setText("Authentication Method");
 
         radBtnToken.setSelected(true);
         radBtnToken.setText("Token");
@@ -243,6 +241,8 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
             }
         });
 
+        lblUser.setText("Username:");
+
         radBtnUsername.setText("Username");
         radBtnUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -250,14 +250,69 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
             }
         });
 
+        txtUser.setEnabled(false);
+
+        javax.swing.GroupLayout authPanelLayout = new javax.swing.GroupLayout(authPanel);
+        authPanel.setLayout(authPanelLayout);
+        authPanelLayout.setHorizontalGroup(
+            authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(authPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(authPanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, authPanelLayout.createSequentialGroup()
+                                    .addComponent(lblUser)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                .addGroup(authPanelLayout.createSequentialGroup()
+                                    .addComponent(lblPassword)
+                                    .addGap(12, 12, 12)))
+                            .addGroup(authPanelLayout.createSequentialGroup()
+                                .addComponent(lblToken)
+                                .addGap(39, 39, 39)))
+                        .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(password)
+                            .addComponent(txtUser)
+                            .addComponent(token, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(authPanelLayout.createSequentialGroup()
+                        .addComponent(radBtnToken)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(radBtnUsername)))
+                .addContainerGap(116, Short.MAX_VALUE))
+        );
+        authPanelLayout.setVerticalGroup(
+            authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(authPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(radBtnToken)
+                    .addComponent(radBtnUsername))
+                .addGap(18, 18, 18)
+                .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblToken)
+                    .addComponent(token, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUser))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPassword)
+                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(authPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblServer)
                             .addComponent(lblName))
@@ -265,47 +320,21 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtServer)
                             .addComponent(txtName)))
-                    .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblAuthMethod)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                    .addComponent(lblUser)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(lblPassword)
-                                                    .addGap(12, 12, 12)))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(lblToken)
-                                                .addGap(39, 39, 39)))
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(password)
-                                            .addComponent(txtUser)
-                                            .addComponent(token, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(radBtnToken)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(radBtnUsername))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(chkRefresh)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(spinTime, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(lblTime)))))
-                        .addGap(0, 164, Short.MAX_VALUE)))
+                    .addComponent(progressBar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(chkRefresh)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinTime, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblTime)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblName))
@@ -314,31 +343,14 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
                     .addComponent(txtServer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblServer))
                 .addGap(18, 18, 18)
-                .addComponent(lblAuthMethod)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(radBtnToken)
-                    .addComponent(radBtnUsername))
+                .addComponent(authPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblToken)
-                    .addComponent(token, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUser))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPassword)
-                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chkRefresh)
                     .addComponent(spinTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTime))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
