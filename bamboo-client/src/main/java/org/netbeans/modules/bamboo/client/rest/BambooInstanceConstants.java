@@ -25,6 +25,8 @@ final class BambooInstanceConstants {
     
     static final String INSTANCE_PASSWORD = "password";
     
+    static final String INSTANCE_USE_TOKEN = "useToken";
+    
     static final String INSTANCE_TOKEN = "token";
 
     /**

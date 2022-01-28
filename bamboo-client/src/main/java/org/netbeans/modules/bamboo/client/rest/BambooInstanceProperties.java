@@ -67,6 +67,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
         put(PROP_NAME, instance.getName());
         put(PROP_URL, instance.getUrl());
         put(PROP_SYNC_INTERVAL, Integer.toString(instance.getSyncInterval()));
+        put(INSTANCE_USE_TOKEN, Boolean.toString(instance.isUseToken()));
         put(INSTANCE_USER, instance.getUsername());
         put(INSTANCE_PASSWORD, new String(instance.getPassword()));
         put(INSTANCE_TOKEN, new String(instance.getToken()));

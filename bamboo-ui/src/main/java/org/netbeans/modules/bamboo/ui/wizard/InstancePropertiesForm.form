@@ -63,16 +63,17 @@
                   <Component id="txtServer" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblServer" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="authPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="chkRefresh" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="spinTime" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblTime" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="progressBar" min="-2" pref="26" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -164,9 +165,9 @@
                               </Group>
                           </Group>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="password" max="32767" attributes="0"/>
+                              <Component id="txtPassword" max="32767" attributes="0"/>
                               <Component id="txtUser" max="32767" attributes="0"/>
-                              <Component id="token" alignment="1" min="-2" pref="190" max="-2" attributes="0"/>
+                              <Component id="txtToken" alignment="1" min="-2" pref="190" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -190,7 +191,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblToken" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="token" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtToken" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -200,7 +201,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblPassword" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="password" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtPassword" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -213,7 +214,7 @@
             <Property name="text" type="java.lang.String" value="Password:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JPasswordField" name="password">
+        <Component class="javax.swing.JPasswordField" name="txtPassword">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
@@ -223,12 +224,13 @@
             <Property name="text" type="java.lang.String" value="Token"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JPasswordField" name="token">
+        <Component class="javax.swing.JPasswordField" name="txtToken">
         </Component>
         <Component class="javax.swing.JRadioButton" name="radBtnToken">
           <Properties>
             <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="Token"/>
+            <Property name="toolTipText" type="java.lang.String" value="Authentication with token"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radBtnTokenActionPerformed"/>
@@ -242,6 +244,7 @@
         <Component class="javax.swing.JRadioButton" name="radBtnUsername">
           <Properties>
             <Property name="text" type="java.lang.String" value="Username"/>
+            <Property name="toolTipText" type="java.lang.String" value="Authentication with username and password (deprecated)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radBtnUsernameActionPerformed"/>
