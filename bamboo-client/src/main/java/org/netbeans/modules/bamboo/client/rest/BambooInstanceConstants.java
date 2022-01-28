@@ -21,10 +21,13 @@ final class BambooInstanceConstants {
 
     private BambooInstanceConstants() {}
     
+    @Deprecated
     static final String INSTANCE_USER = "username";
     
+    @Deprecated
     static final String INSTANCE_PASSWORD = "password";
     
+    @Deprecated
     static final String INSTANCE_USE_TOKEN = "useToken";
     
     static final String INSTANCE_TOKEN = "token";

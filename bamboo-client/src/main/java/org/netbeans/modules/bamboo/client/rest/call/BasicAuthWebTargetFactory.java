@@ -28,6 +28,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  *
  * @author Mario Schroeder
  */
+@Deprecated
 class BasicAuthWebTargetFactory extends AbstractWebTargetFactory {
     
     private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(AuthHeaderWebTargetFactory.class);

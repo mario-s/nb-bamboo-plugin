@@ -35,10 +35,13 @@ public class DefaultInstanceValues implements InstanceValues {
 
     private int syncInterval;
     
+    @Deprecated
     private boolean useToken;
 
+    @Deprecated
     private String username;
 
+    @Deprecated
     private char[] password;
     
     private char[] token;
@@ -63,20 +66,24 @@ public class DefaultInstanceValues implements InstanceValues {
         this.changeSupport = new PropertyChangeSupport(this);
     }
     
+    @Deprecated
     @Override
     public boolean isUseToken() {
         return useToken;
     }
 
+    @Deprecated
     public void setUseToken(boolean useToken) {
         this.useToken = useToken;
     }
     
+    @Deprecated
     @Override
     public char[] getPassword() {
         return copyChars(password);
     }
 
+    @Deprecated
     public void setPassword(char[] password) {
         this.password = copyChars(password);
     }
@@ -137,11 +144,13 @@ public class DefaultInstanceValues implements InstanceValues {
         this.syncInterval = syncInterval;
     }
 
+    @Deprecated
     @Override
     public String getUsername() {
         return username;
     }
 
+    @Deprecated
     public void setUsername(String username) {
         this.username = username;
     }

@@ -114,6 +114,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
      * Returns <code>true</code> if the user selected authentication by token, else <code>false</code>.
      * @return boolean
      */
+    @Deprecated
     boolean isTokenSelected() {
         return radBtnToken.isSelected();
     }
@@ -122,10 +123,12 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         return txtToken.getPassword();
     }
 
+    @Deprecated
     String getUsername() {
         return txtUser.getText();
     }
 
+    @Deprecated
     char[] getPassword() {
         return txtPassword.getPassword();
     }

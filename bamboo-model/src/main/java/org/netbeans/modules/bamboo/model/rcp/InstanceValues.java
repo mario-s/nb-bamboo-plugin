@@ -35,6 +35,7 @@ public interface InstanceValues extends OpenableInBrowser {
      * Indicates whether the authentication method is based on token or not.
      * @return <code>true</code> when using a token, <code>false</code> when not. 
      */
+    @Deprecated
     boolean isUseToken();
     
     /**
@@ -54,6 +55,7 @@ public interface InstanceValues extends OpenableInBrowser {
      *
      * @return user name
      */
+    @Deprecated
     String getUsername();
 
     /**
@@ -61,6 +63,7 @@ public interface InstanceValues extends OpenableInBrowser {
      *
      * @return password as characters
      */
+    @Deprecated
     char[] getPassword();
     
     @Override
