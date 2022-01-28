@@ -13,6 +13,7 @@
  */
 package org.netbeans.modules.bamboo.client.rest;
 
+import static java.lang.String.format;
 import java.util.ArrayList;
 
 import org.mockito.Mock;
@@ -24,12 +25,10 @@ import static java.util.Collections.singletonList;
 import java.util.List;
 import java.util.Map;
 
-
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -58,9 +57,9 @@ import org.netbeans.modules.bamboo.client.rest.call.ApiCallRepeatable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallerFactory;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -72,6 +71,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import org.netbeans.modules.bamboo.client.glue.RestResources;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.INFO;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PLANS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PROJECTS;
@@ -80,7 +80,6 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 /**
  * @author Mario Schroeder
  */
-@Disabled
 @ExtendWith(MockitoExtension.class)
 class DefaultBambooClientTest {
 
@@ -107,9 +106,6 @@ class DefaultBambooClientTest {
     private ApiCallRepeatable<ResultsResponse> resultsCaller;
 
     @Mock
-    private ApiCallable<Result> resultCaller;
-
-    @Mock
     private ApiCallable<Info> infoCaller;
 
     @Mock
@@ -123,7 +119,7 @@ class DefaultBambooClientTest {
     private Plan plan;
 
     private Plans plans;
-
+    
     private Result result;
 
     private Info info;
@@ -265,7 +261,7 @@ class DefaultBambooClientTest {
 
     @Test
     void testQueue_TargetPresent_Expect200() {
-        given(apiCallerFactory.newCaller(eq(Object.class), anyString())).willReturn(postCaller);
+        trainQueueCaller();
 
         int code = 200;
         PlanVo planVo = new PlanVo(FOO);
@@ -280,7 +276,7 @@ class DefaultBambooClientTest {
 
     @Test
     void testQueue_TargetEmpty_ExpectNotFound() {
-        given(apiCallerFactory.newCaller(eq(Object.class), anyString())).willReturn(postCaller);
+        trainQueueCaller();
 
         final int code = 404;
         PlanVo planVo = new PlanVo(FOO);
@@ -292,11 +288,18 @@ class DefaultBambooClientTest {
         verify(postCaller, never()).doPost(webTarget);
     }
 
+    private void trainQueueCaller() {
+        String path = format(RestResources.QUEUE, FOO);
+        given(apiCallerFactory.newCaller(eq(Object.class), eq(path))).willReturn(postCaller);
+    }
+
     @Test
     void testAttach_ChangesNoResult_ShouldNotHaveChanges() {
-        given(apiCallerFactory.newCaller(eq(Result.class), anyString(), any(Map.class))).willReturn(
-                resultCaller);
+        String path = format(RestResources.RESULT, FOO);
+        given(apiCallerFactory.newCaller(eq(ResultsResponse.class), eq(path), any(Map.class))).willReturn(
+                resultsCaller);
         ResultVo vo = new ResultVo();
+        vo.setParent(new PlanVo(FOO));
 
         classUnderTest.attach(vo, ResultExpandParameter.CHANGES);
         assertFalse(vo.getChanges().isPresent());
@@ -318,16 +321,16 @@ class DefaultBambooClientTest {
     }
 
     private void trainResultCaller() {
-        given(apiCallerFactory.newCaller(eq(Result.class), anyString(), any(Map.class))).willReturn(
-                resultCaller);
-        given(resultCaller.createTarget()).willReturn(of(webTarget));
-        given(resultCaller.doGet(webTarget)).willReturn(of(result));
+        given(apiCallerFactory.newCaller(eq(ResultsResponse.class), anyString(), any(Map.class))).willReturn(
+                resultsCaller);
+        given(resultsCaller.createTarget()).willReturn(of(webTarget));
+        given(resultsCaller.doGet(webTarget)).willReturn(of(resultsResponse));
     }
 
     @Test
     void testAttach_IssuesNoResult_ShouldNotHaveIssues() {
-        given(apiCallerFactory.newCaller(eq(Result.class), anyString(), any(Map.class))).willReturn(
-                resultCaller);
+        given(apiCallerFactory.newCaller(eq(ResultsResponse.class), anyString(), any(Map.class))).willReturn(
+                resultsCaller);
         ResultVo vo = new ResultVo();
 
         classUnderTest.attach(vo, ResultExpandParameter.JIRA);
