@@ -68,6 +68,10 @@ public class DefaultInstanceValues implements InstanceValues {
         return useToken;
     }
 
+    public void setUseToken(boolean useToken) {
+        this.useToken = useToken;
+    }
+    
     @Override
     public char[] getPassword() {
         return copyChars(password);

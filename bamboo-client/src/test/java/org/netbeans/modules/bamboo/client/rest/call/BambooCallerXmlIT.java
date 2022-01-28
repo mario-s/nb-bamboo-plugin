@@ -26,6 +26,7 @@ import org.junit.jupiter.api.BeforeAll;
 
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.netbeans.modules.bamboo.client.glue.HttpUtility;
@@ -46,12 +47,12 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.EXPAND;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.RESULT_COMMENTS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
-import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 
 /**
  *
  * @author Mario Schroeder
  */
+@Disabled
 class BambooCallerXmlIT {
 
     private static final String FOO = "foo";
@@ -60,7 +61,7 @@ class BambooCallerXmlIT {
     
     private static final String PROPERTIES = "bamboo.properties";
 
-    private BasicAuthWebTargetFactory factory;
+    private AbstractWebTargetFactory factory;
 
     private static Properties props;
     
@@ -88,16 +89,10 @@ class BambooCallerXmlIT {
         factory = new BasicAuthWebTargetFactory(values, Level.FINE);
     }
 
-    private String newResultPath() {
-        String key = props.getProperty("result.key");
-        return String.format(RESULT, key);
-    }
-
     @Test
     public void testGetResults_SizeGtZero() {
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
-        WebTarget webTarget = factory.create(RESULTS, params);
-        ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
+        ResultsResponse response = request(ResultsResponse.class, params);
         final int size = response.getResults().getSize();
         assertTrue(size > 0);
     }
@@ -105,8 +100,7 @@ class BambooCallerXmlIT {
     @Test
     void testGetResults_ResultsNotEmpty() {
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
-        WebTarget webTarget = factory.create(RESULTS, params);
-        ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
+        ResultsResponse response = request(ResultsResponse.class, params);
         Collection<Result> results = response.asCollection();
         assertFalse(results.isEmpty());
     }
@@ -114,8 +108,7 @@ class BambooCallerXmlIT {
     @Test
     void testGetChanges_FilesNotEmpty() {
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.CHANGES.toString());
-        WebTarget webTarget = factory.create(newResultPath(), params);
-        Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
+        Result response = request(Result.class, params);
         Collection<Change> changes = response.getChanges().asCollection();
         assumeFalse(changes.isEmpty());
         Files files = changes.iterator().next().getFiles();
@@ -125,8 +118,7 @@ class BambooCallerXmlIT {
     @Test
     void testGetChanges_ChangeSetIdNotEmpty() {
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.CHANGES.toString());
-        WebTarget webTarget = factory.create(newResultPath(), params);
-        Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
+        Result response = request(Result.class, params);
         Collection<Change> changes = response.getChanges().asCollection();
         assumeFalse(changes.isEmpty());
         Change first = changes.iterator().next();
@@ -136,10 +128,19 @@ class BambooCallerXmlIT {
     @Test
     void testGetJiraIssues_ResultNotEmpty() {
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.JIRA.toString());
-        WebTarget webTarget = factory.create(newResultPath(), params);
-        Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
+        Result response = request(Result.class, params);
         Collection<Issue> issues = response.getJiraIssues().asCollection();
         assertFalse(issues.isEmpty());
+    }
+    
+    private <T> T request(Class<T> clazz, Map<String, String> params) {
+        WebTarget webTarget = factory.create(newResultPath(), params);
+        return webTarget.request().accept(MediaType.APPLICATION_XML).get(clazz);
+    }
+    
+    private String newResultPath() {
+        String key = props.getProperty("result.key");
+        return String.format(RESULT, key);
     }
 
 }

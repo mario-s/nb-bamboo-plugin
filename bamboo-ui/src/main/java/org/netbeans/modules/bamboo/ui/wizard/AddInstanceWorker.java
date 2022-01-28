@@ -98,10 +98,11 @@ class AddInstanceWorker implements PropertyChangeListener, TaskListener {
         var values = new DefaultInstanceValues();
         values.setName(form.getInstanceName());
         values.setUrl(form.getInstanceUrl());
-        values.setSyncInterval(form.getSyncTime());
+        values.setUseToken(form.isTokenSelected());
+        values.setToken(form.getToken());
         values.setUsername(form.getUsername());
         values.setPassword(form.getPassword());
-        values.setToken(form.getToken());
+        values.setSyncInterval(form.getSyncTime());
 
         return values;
     }
