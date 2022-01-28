@@ -21,6 +21,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Feature;
 import org.glassfish.jersey.client.oauth2.OAuth2ClientSupport;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
+import org.slf4j.LoggerFactory;
+
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 /**
@@ -28,6 +30,8 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  * @author Mario Schroeder
  */
 class AuthHeaderWebTargetFactory extends AbstractWebTargetFactory {
+    
+    private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(AuthHeaderWebTargetFactory.class);
 
     AuthHeaderWebTargetFactory(InstanceValues values) {
         this(values, Level.FINE);
@@ -46,9 +50,9 @@ class AuthHeaderWebTargetFactory extends AbstractWebTargetFactory {
 
     @Override
     WebTarget create(String path, Map<String, String> params) {
-        WebTarget target = create(path);
-        
-        return addParameters(target, params);
+        WebTarget target = addParameters(create(path), params);
+        LOG.info("created target for {}", target.getUri());
+        return target;
     }
 
     @Override

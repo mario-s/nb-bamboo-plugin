@@ -29,6 +29,7 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -61,7 +62,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.anyString;
 
-
 import org.springframework.test.util.ReflectionTestUtils;
 
 import static java.util.Optional.empty;
@@ -80,6 +80,7 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 /**
  * @author Mario Schroeder
  */
+@Disabled
 @ExtendWith(MockitoExtension.class)
 class DefaultBambooClientTest {
 

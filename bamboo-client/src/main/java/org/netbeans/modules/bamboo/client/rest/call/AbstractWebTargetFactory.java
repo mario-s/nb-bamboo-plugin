@@ -29,7 +29,7 @@ import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
  * @author Mario Schroeder
  */
 abstract class AbstractWebTargetFactory {
-
+    
     static final String AUTH_TYPE = "os_authType";
     static final String REST_API = "/rest/api/latest";
     

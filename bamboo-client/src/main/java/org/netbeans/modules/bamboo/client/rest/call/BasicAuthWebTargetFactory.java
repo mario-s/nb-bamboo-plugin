@@ -18,6 +18,8 @@ import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import javax.ws.rs.client.WebTarget;
 import java.util.Map;
 import java.util.logging.Level;
+import org.slf4j.LoggerFactory;
+
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -27,6 +29,8 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  * @author Mario Schroeder
  */
 class BasicAuthWebTargetFactory extends AbstractWebTargetFactory {
+    
+    private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(AuthHeaderWebTargetFactory.class);
 
     static final String BASIC = "basic";
     static final String USER = "os_username";
@@ -49,8 +53,9 @@ class BasicAuthWebTargetFactory extends AbstractWebTargetFactory {
                 .queryParam(AUTH_TYPE, BASIC)
                 .queryParam(USER, user)
                 .queryParam(PASS, password);
-        
-        return addParameters(target, params);
+        target = addParameters(target, params);
+        LOG.info("created target for {}", target.getUri());
+        return target;
     }
 
     @Override

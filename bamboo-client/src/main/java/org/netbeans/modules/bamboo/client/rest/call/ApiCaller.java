@@ -102,7 +102,7 @@ class ApiCaller<T> implements ApiCallable {
         try {
             return of(target.request().accept(media).get(clazz));
         } catch (WebApplicationException ex) {
-            LOG.warn(ex.getMessage());
+            LOG.warn(ex.getMessage(), ex);
         }
 
         return empty();

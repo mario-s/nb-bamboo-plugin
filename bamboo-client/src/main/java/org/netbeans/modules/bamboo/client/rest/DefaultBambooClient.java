@@ -34,9 +34,11 @@ import java.util.*;
 import java.util.function.Function;
 
 import static java.lang.String.format;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonMap;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.empty;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.*;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.*;
 
@@ -112,21 +114,26 @@ class DefaultBambooClient extends AbstractBambooClient {
         requireNonNull(parameter);
 
         String key = vo.getKey();
-        Optional<Result> result = doResultCall(key, parameter.toString());
+        if (isBlank(key)) {
+            key = vo.getParent().map(PlanVo::getKey).orElse("");
+        }
+        Optional<ResultsResponse> response = doResultCall(key, parameter.toString());
+        List<Result> results = response.map(ResultsResponse::getResults).map(Results::getResult).orElse(emptyList());
 
-        result.ifPresent(res -> {
+        if (!results.isEmpty()) {
+            var res = results.iterator().next();
             if (ResultExpandParameter.CHANGES.equals(parameter)) {
                 vo.setChanges(conv.apply(new ChangeVoConverter()).convert(res.getChanges()));
             } else if (ResultExpandParameter.JIRA.equals(parameter)) {
                 vo.setIssues(conv.apply(new IssueVoConverter()).convert(res.getJiraIssues()));
             }
-        });
+        }
     }
 
-    private Optional<Result> doResultCall(String resultKey, String expandParameter) {
+    private Optional<ResultsResponse> doResultCall(String resultKey, String expandParameter) {
         String path = format(RESULT, resultKey);
         Map<String, String> params = singletonMap(EXPAND, expandParameter);
-        ApiCallable<Result> caller = apiCallerFactory.newCaller(Result.class, path, params);
+        ApiCallable<ResultsResponse> caller = apiCallerFactory.newCaller(ResultsResponse.class, path, params);
         return caller.createTarget().map(caller::doGet).orElse(empty());
     }
 

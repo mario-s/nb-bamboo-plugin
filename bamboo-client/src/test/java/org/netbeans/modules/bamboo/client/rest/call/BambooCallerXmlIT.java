@@ -33,11 +33,7 @@ import org.netbeans.modules.bamboo.client.glue.HttpUtility;
 
 import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
-import org.netbeans.modules.bamboo.model.rest.Change;
-import org.netbeans.modules.bamboo.model.rest.Files;
-import org.netbeans.modules.bamboo.model.rest.Issue;
-import org.netbeans.modules.bamboo.model.rest.Result;
-import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
+import org.netbeans.modules.bamboo.model.rest.*;
 
 import static java.util.Collections.singletonMap;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -52,7 +48,6 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
  *
  * @author Mario Schroeder
  */
-@Disabled
 class BambooCallerXmlIT {
 
     private static final String FOO = "foo";
@@ -83,10 +78,11 @@ class BambooCallerXmlIT {
         DefaultInstanceValues values = new DefaultInstanceValues();
         values.setName(FOO);
         values.setUrl(props.getProperty(URL));
+        values.setToken(props.getProperty("token").toCharArray());
         values.setUsername(props.getProperty("user"));
         values.setPassword(props.getProperty("password").toCharArray());
 
-        factory = new BasicAuthWebTargetFactory(values, Level.FINE);
+        factory = new AuthHeaderWebTargetFactory(values, Level.FINE);
     }
 
     @Test
@@ -94,7 +90,7 @@ class BambooCallerXmlIT {
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
         ResultsResponse response = request(ResultsResponse.class, params);
         final int size = response.getResults().getSize();
-        assertTrue(size > 0);
+        assumeTrue(size > 0);
     }
 
     @Test
@@ -102,14 +98,15 @@ class BambooCallerXmlIT {
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
         ResultsResponse response = request(ResultsResponse.class, params);
         Collection<Result> results = response.asCollection();
-        assertFalse(results.isEmpty());
+        assumeFalse(results.isEmpty());
     }
 
     @Test
     void testGetChanges_FilesNotEmpty() {
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.CHANGES.toString());
-        Result response = request(Result.class, params);
-        Collection<Change> changes = response.getChanges().asCollection();
+        ResultsResponse response = request(ResultsResponse.class, params);
+        assumeFalse(response.getResults().getResult().isEmpty());
+        Collection<Change> changes = response.getResults().getResult().get(0).getChanges().asCollection();
         assumeFalse(changes.isEmpty());
         Files files = changes.iterator().next().getFiles();
         assertFalse(files.asCollection().isEmpty());
@@ -118,8 +115,9 @@ class BambooCallerXmlIT {
     @Test
     void testGetChanges_ChangeSetIdNotEmpty() {
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.CHANGES.toString());
-        Result response = request(Result.class, params);
-        Collection<Change> changes = response.getChanges().asCollection();
+        ResultsResponse response = request(ResultsResponse.class, params);
+        assumeFalse(response.getResults().getResult().isEmpty());
+        Collection<Change> changes = response.getResults().getResult().get(0).getChanges().asCollection();
         assumeFalse(changes.isEmpty());
         Change first = changes.iterator().next();
         assertFalse(first.getChangesetId().isEmpty());
@@ -128,13 +126,16 @@ class BambooCallerXmlIT {
     @Test
     void testGetJiraIssues_ResultNotEmpty() {
         Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.JIRA.toString());
-        Result response = request(Result.class, params);
-        Collection<Issue> issues = response.getJiraIssues().asCollection();
+        ResultsResponse response = request(ResultsResponse.class, params);
+        assumeFalse(response.getResults().getResult().isEmpty());
+        Result result = response.getResults().getResult().get(0);
+        Collection<Issue> issues = result.getJiraIssues().asCollection();
         assertFalse(issues.isEmpty());
     }
     
     private <T> T request(Class<T> clazz, Map<String, String> params) {
         WebTarget webTarget = factory.create(newResultPath(), params);
+        
         return webTarget.request().accept(MediaType.APPLICATION_XML).get(clazz);
     }
     
