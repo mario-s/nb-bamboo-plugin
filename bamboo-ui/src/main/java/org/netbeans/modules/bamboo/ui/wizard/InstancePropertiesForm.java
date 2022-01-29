@@ -94,27 +94,8 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         return txtName.getText();
     }
     
-    /**
-     * Returns <code>true</code> if the user selected authentication by token, else <code>false</code>.
-     * @return boolean
-     */
-    @Deprecated
-    boolean isTokenSelected() {
-        return true;
-    }
-    
     char[] getToken() {
         return txtToken.getPassword();
-    }
-
-    @Deprecated
-    String getUsername() {
-        return "";
-    }
-
-    @Deprecated
-    char[] getPassword() {
-        return new char[0];
     }
 
     int getSyncTime() {

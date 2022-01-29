@@ -139,10 +139,4 @@ class InstancePropertiesFormTest {
         classUnderTest.removeUpdate(docEvent);
         verify(applyAction).setEnabled(false);
     }
-    
-    @Test
-    @DisplayName("It should return true for using token by default.")
-    void isTokenSelected() {
-        assertTrue(classUnderTest.isTokenSelected());
-    }
 }

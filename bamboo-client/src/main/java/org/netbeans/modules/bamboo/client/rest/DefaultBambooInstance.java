@@ -131,12 +131,6 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
         setName(props.get(InstanceConstants.PROP_NAME));
         setUrl(props.get(InstanceConstants.PROP_URL));
         
-        String useToken = props.get(BambooInstanceConstants.INSTANCE_USE_TOKEN);
-        if (isNotBlank(useToken)) {
-            setUseToken(Boolean.parseBoolean(useToken));
-        }
-
-        
         String token = props.get(BambooInstanceConstants.INSTANCE_TOKEN);
         if (isNotBlank(token)) {
             setToken(token.toCharArray());

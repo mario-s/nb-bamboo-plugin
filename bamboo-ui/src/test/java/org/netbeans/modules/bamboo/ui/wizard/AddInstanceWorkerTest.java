@@ -85,7 +85,6 @@ class AddInstanceWorkerTest {
         classUnderTest.execute(form);
         classUnderTest.cancel();
         verify(runner).addPropertyChangeListener(isA(PropertyChangeListener.class));
-        verify(form).getPassword();
     }
 
     @Test

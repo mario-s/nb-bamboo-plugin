@@ -97,7 +97,6 @@ class DefaultBambooInstanceTest {
     @BeforeEach
     void setUp() throws IllegalAccessException {
         given(properties.get(anyString())).willReturn(FOO);
-        given(properties.get(BambooInstanceConstants.INSTANCE_USE_TOKEN)).willReturn("true");
         given(properties.get(InstanceConstants.PROP_SYNC_INTERVAL)).willReturn("1");
         
         classUnderTest = new DefaultBambooInstance(properties);

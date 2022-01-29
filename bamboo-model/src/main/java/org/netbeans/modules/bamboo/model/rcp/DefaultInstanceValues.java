@@ -71,11 +71,6 @@ public class DefaultInstanceValues implements InstanceValues {
     public boolean isUseToken() {
         return useToken;
     }
-
-    @Deprecated
-    public void setUseToken(boolean useToken) {
-        this.useToken = useToken;
-    }
     
     @Deprecated
     @Override
