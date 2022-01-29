@@ -48,24 +48,16 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
     private NotificationLineSupport notificationSupport;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup authBtnGroup;
-    private javax.swing.JPanel authPanel;
     private javax.swing.JCheckBox chkRefresh;
     private javax.swing.JLabel lblName;
-    private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblServer;
     private javax.swing.JLabel lblTime;
     private javax.swing.JLabel lblToken;
-    private javax.swing.JLabel lblUser;
     private javax.swing.JProgressBar progressBar;
-    private javax.swing.JRadioButton radBtnToken;
-    private javax.swing.JRadioButton radBtnUsername;
     private javax.swing.JSpinner spinTime;
     private javax.swing.JTextField txtName;
-    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtServer;
     private javax.swing.JPasswordField txtToken;
-    private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -79,26 +71,18 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
 
     private void onPostInit() {
         addDocumentListener();
-        authBtnGroup.add(radBtnToken);
-        authBtnGroup.add(radBtnUsername);
         progressBar.setVisible(false);
 
         focusMap.put(0, txtName);
         focusMap.put(1, txtServer);
-        focusMap.put(2, txtUser);
-        focusMap.put(3, txtPassword);
-        focusMap.put(4, radBtnToken);
-        focusMap.put(5, radBtnUsername);
-        focusMap.put(6, txtToken);
-        focusMap.put(7, chkRefresh);
-        focusMap.put(8, spinTime);
+        focusMap.put(2, txtToken);
+        focusMap.put(3, chkRefresh);
+        focusMap.put(4, spinTime);
     }
 
     private void addDocumentListener() {
         txtName.getDocument().addDocumentListener(this);
         txtServer.getDocument().addDocumentListener(this);
-        txtUser.getDocument().addDocumentListener(this);
-        txtPassword.getDocument().addDocumentListener(this);
         txtToken.getDocument().addDocumentListener(this);
     }
 
@@ -116,7 +100,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
      */
     @Deprecated
     boolean isTokenSelected() {
-        return radBtnToken.isSelected();
+        return true;
     }
     
     char[] getToken() {
@@ -125,12 +109,12 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
 
     @Deprecated
     String getUsername() {
-        return txtUser.getText();
+        return "";
     }
 
     @Deprecated
     char[] getPassword() {
-        return txtPassword.getPassword();
+        return new char[0];
     }
 
     int getSyncTime() {
@@ -168,10 +152,6 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         progressBar.setVisible(block);
         txtName.setEnabled(!block);
         txtServer.setEnabled(!block);
-        radBtnToken.setEnabled(!block);
-        radBtnUsername.setEnabled(!block);
-        txtUser.setEnabled(!block);
-        txtPassword.setEnabled(!block);
         txtToken.setEnabled(!block);
         spinTime.setEnabled(!block);
         chkRefresh.setEnabled(!block);
@@ -186,31 +166,28 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        authBtnGroup = new javax.swing.ButtonGroup();
-        lblServer = new javax.swing.JLabel();
-        txtServer = new javax.swing.JTextField();
         lblName = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
+        lblServer = new javax.swing.JLabel();
+        txtServer = new javax.swing.JTextField();
+        lblToken = new javax.swing.JLabel();
+        txtToken = new javax.swing.JPasswordField();
         chkRefresh = new javax.swing.JCheckBox();
         spinTime = new javax.swing.JSpinner();
         lblTime = new javax.swing.JLabel();
         progressBar = new javax.swing.JProgressBar();
-        authPanel = new javax.swing.JPanel();
-        lblPassword = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JPasswordField();
-        lblToken = new javax.swing.JLabel();
-        txtToken = new javax.swing.JPasswordField();
-        radBtnToken = new javax.swing.JRadioButton();
-        lblUser = new javax.swing.JLabel();
-        radBtnUsername = new javax.swing.JRadioButton();
-        txtUser = new javax.swing.JTextField();
+
+        lblName.setText(org.openide.util.NbBundle.getMessage(InstancePropertiesForm.class, "TXT_NAME")); // NOI18N
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/netbeans/modules/bamboo/ui/wizard/Bundle"); // NOI18N
         lblServer.setText(bundle.getString("LBL_SERVER")); // NOI18N
 
         txtServer.setText("http://");
 
-        lblName.setText(org.openide.util.NbBundle.getMessage(InstancePropertiesForm.class, "TXT_NAME")); // NOI18N
+        lblToken.setText("Token");
+        lblToken.setToolTipText("");
+
+        txtToken.setToolTipText("authentication token");
 
         chkRefresh.setSelected(true);
         chkRefresh.setText("Auto refresh every");
@@ -229,96 +206,14 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
         progressBar.setString("Please wait...");
         progressBar.setStringPainted(true);
 
-        authPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Authentication Method"));
-
-        lblPassword.setText("Password:");
-
-        txtPassword.setEnabled(false);
-
-        lblToken.setText("Token");
-
-        radBtnToken.setSelected(true);
-        radBtnToken.setText("Token");
-        radBtnToken.setToolTipText("Authentication with token");
-        radBtnToken.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radBtnTokenActionPerformed(evt);
-            }
-        });
-
-        lblUser.setText("Username:");
-
-        radBtnUsername.setText("Username");
-        radBtnUsername.setToolTipText("Authentication with username and password (deprecated)");
-        radBtnUsername.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radBtnUsernameActionPerformed(evt);
-            }
-        });
-
-        txtUser.setEnabled(false);
-
-        javax.swing.GroupLayout authPanelLayout = new javax.swing.GroupLayout(authPanel);
-        authPanel.setLayout(authPanelLayout);
-        authPanelLayout.setHorizontalGroup(
-            authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(authPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(authPanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, authPanelLayout.createSequentialGroup()
-                                    .addComponent(lblUser)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                                .addGroup(authPanelLayout.createSequentialGroup()
-                                    .addComponent(lblPassword)
-                                    .addGap(12, 12, 12)))
-                            .addGroup(authPanelLayout.createSequentialGroup()
-                                .addComponent(lblToken)
-                                .addGap(39, 39, 39)))
-                        .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtPassword)
-                            .addComponent(txtUser)
-                            .addComponent(txtToken, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(authPanelLayout.createSequentialGroup()
-                        .addComponent(radBtnToken)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(radBtnUsername)))
-                .addContainerGap(116, Short.MAX_VALUE))
-        );
-        authPanelLayout.setVerticalGroup(
-            authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(authPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(radBtnToken)
-                    .addComponent(radBtnUsername))
-                .addGap(18, 18, 18)
-                .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblToken)
-                    .addComponent(txtToken, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUser))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(authPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPassword)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(authPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblServer)
                             .addComponent(lblName))
@@ -326,15 +221,21 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtServer)
                             .addComponent(txtName)))
-                    .addComponent(progressBar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(chkRefresh)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spinTime, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblTime)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lblToken)
+                                .addGap(21, 21, 21)
+                                .addComponent(txtToken, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(chkRefresh)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinTime, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblTime)))
+                        .addGap(0, 98, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -348,33 +249,20 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtServer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblServer))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(authPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblToken)
+                    .addComponent(txtToken, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chkRefresh)
                     .addComponent(spinTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTime))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addGap(15, 15, 15))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void radBtnTokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radBtnTokenActionPerformed
-        toggleAuth(isTokenSelected());
-    }//GEN-LAST:event_radBtnTokenActionPerformed
-
-    private void radBtnUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radBtnUsernameActionPerformed
-        toggleAuth(isTokenSelected());
-    }//GEN-LAST:event_radBtnUsernameActionPerformed
-
-    private void toggleAuth(boolean useToken) {
-        txtToken.setEnabled(useToken);
-        txtUser.setEnabled(!useToken);
-        txtPassword.setEnabled(!useToken);
-        validateInput();
-    }
 
     private void chkRefreshActionPerformed(final java.awt.event.ActionEvent evt) {
         AbstractButton abstractButton = (AbstractButton) evt.getSource();
@@ -423,17 +311,7 @@ class InstancePropertiesForm extends JPanel implements DocumentListener {
             return;
         }
 
-        if (!isTokenSelected()) {
-            if (getUsername().isEmpty()) {
-                inform(getMessage("MSG_EmptyUserName"));
-                return;
-            }
-
-            if (getPassword().length == 0) {
-                inform(getMessage("MSG_EmptyPassword"));
-                return;
-            }
-        } else if (getToken().length == 0){
+        if (getToken().length == 0){
             inform(getMessage("MSG_EmptyToken"));
             return;
         }
