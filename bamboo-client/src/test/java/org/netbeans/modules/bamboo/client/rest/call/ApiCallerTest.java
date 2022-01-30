@@ -28,6 +28,7 @@ import javax.ws.rs.core.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
@@ -41,7 +42,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.DisplayName;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -58,9 +58,7 @@ class ApiCallerTest {
     @Mock
     private InstanceValues values;
     @Mock
-    private BasicAuthWebTargetFactory basicAuthWebTargetFactory;
-    @Mock
-    private AuthHeaderWebTargetFactory authHeaderWebTargetFactory;
+    private WebTargetFactory webTargetFactory;
     @Mock
     private WebTarget target;
     @Mock
@@ -78,8 +76,7 @@ class ApiCallerTest {
         callParameters.setParameters(FOO_MAP);
         classUnderTest = new ApiCaller<>(callParameters);
 
-        ReflectionTestUtils.setField(classUnderTest, "basicAuthWebTargetFactory", basicAuthWebTargetFactory);
-        ReflectionTestUtils.setField(classUnderTest, "authHeaderWebTargetFactory", authHeaderWebTargetFactory);
+        ReflectionTestUtils.setField(classUnderTest, "webTargetFactory", webTargetFactory);
     }
 
     /**
@@ -95,23 +92,10 @@ class ApiCallerTest {
      * Test of createTarget method, of class ApiCaller.
      */
     @Test
-    @DisplayName("It should create a web target with basic authentication and additional parameters.")
+    @DisplayName("It should create a web target with additional parameters.")
     void testCreateTarget_Values_ExpectPresent() {
-        given(basicAuthWebTargetFactory.isValid()).willReturn(true);
-        given(basicAuthWebTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
-
-        assertTrue(classUnderTest.createTarget().isPresent());
-    }
-    
-    /**
-     * Test of createTarget method, of class ApiCaller.
-     */
-    @Test
-    @DisplayName("It should create a web target with token authentication and additional parameters.")
-    void testCreateTokenTarget_Values_ExpectPresent() {
-        given(values.isUseToken()).willReturn(true);
-        given(authHeaderWebTargetFactory.isValid()).willReturn(true);
-        given(authHeaderWebTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
+        given(webTargetFactory.isValid()).willReturn(true);
+        given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
 
         assertTrue(classUnderTest.createTarget().isPresent());
     }

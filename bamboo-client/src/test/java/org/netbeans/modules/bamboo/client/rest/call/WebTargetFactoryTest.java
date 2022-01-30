@@ -18,41 +18,43 @@ package org.netbeans.modules.bamboo.client.rest.call;
 import static java.util.Collections.emptyMap;
 import java.util.HashMap;
 import java.util.Map;
-import javax.ws.rs.core.Feature;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static org.mockito.ArgumentMatchers.any;
+import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.netbeans.modules.bamboo.client.rest.call.AbstractWebTargetFactoryTest.FOO;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  *
  * @author Mario Schroeder
  */
-public class AuthHeaderWebTargetFactoryTest extends AbstractWebTargetFactoryTest{
-
-    private AuthHeaderWebTargetFactory classUnderTest;
+@ExtendWith(MockitoExtension.class)
+public class WebTargetFactoryTest {
+    
+    private static final String FOO = "foo";
+    @Mock
+    private Client client;
+    @Mock
+    private WebTarget target;
+    @Mock
+    private InstanceValues values;
+    private WebTargetFactory classUnderTest;
     
     @BeforeEach
     public void setUp() {
         given(values.getToken()).willReturn(FOO.toCharArray());
         
-        classUnderTest = new AuthHeaderWebTargetFactory(values);
+        classUnderTest = new WebTargetFactory(values);
         ReflectionTestUtils.setField(classUnderTest, "client", client);
-    }
-    
-    @Test
-    @DisplayName("It should register OAuth2 feature.")
-    void registerOuthFeature() {
-        given(client.register(any(Feature.class))).willReturn(client);
-        classUnderTest.registerOuthFeature();
-        verify(client).register(any(Feature.class));
     }
 
     @Test
@@ -73,7 +75,9 @@ public class AuthHeaderWebTargetFactoryTest extends AbstractWebTargetFactoryTest
     
     void verifyWebTarget(final Map<String, String> parms) {
         given(values.getUrl()).willReturn(FOO);
-        trainTarget();
+        given(client.target(FOO)).willReturn(target);
+        given(target.path(WebTargetFactory.REST_API)).willReturn(target);
+        given(target.path(FOO)).willReturn(target);
         
         var res = classUnderTest.create(FOO, parms);
         assertNotNull(res);

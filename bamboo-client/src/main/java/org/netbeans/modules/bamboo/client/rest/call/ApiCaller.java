@@ -20,16 +20,15 @@ import java.util.Map;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import java.util.Optional;
 
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
-
-import javax.ws.rs.WebApplicationException;
-
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import javax.ws.rs.WebApplicationException;
 
 /**
  * This class performs a a call to the REST API of Bamboo.
@@ -45,8 +44,7 @@ class ApiCaller<T> implements ApiCallable {
     private final Map<String, String> parameters;
     private final InstanceValues values;
 
-    private final BasicAuthWebTargetFactory basicAuthWebTargetFactory;
-    private final AuthHeaderWebTargetFactory authHeaderWebTargetFactory;
+    private final WebTargetFactory webTargetFactory;
 
     private String media = MediaType.APPLICATION_XML;
 
@@ -56,8 +54,7 @@ class ApiCaller<T> implements ApiCallable {
         this.path = params.getPath();
         this.parameters = params.getParameters();
 
-        basicAuthWebTargetFactory = new BasicAuthWebTargetFactory(this.values);
-        authHeaderWebTargetFactory = new AuthHeaderWebTargetFactory(this.values);
+        webTargetFactory = new WebTargetFactory(this.values);
 
         setMediaType(params.isJson());
     }
@@ -71,7 +68,7 @@ class ApiCaller<T> implements ApiCallable {
     @Override
     public Optional<WebTarget> createTarget() {
         
-        if (getWebTargetFactory().isValid()) {
+        if (webTargetFactory.isValid()) {
             return of(newTarget());
         } 
             
@@ -80,16 +77,7 @@ class ApiCaller<T> implements ApiCallable {
     }
 
     protected WebTarget newTarget() {
-        return getWebTargetFactory().create(path, parameters);
-    }
-    
-    private AbstractWebTargetFactory getWebTargetFactory() {
-        boolean useToken = this.values.isUseToken();
-        LOG.debug("using token for web target: {}", useToken);
-        if (useToken) {
-            return authHeaderWebTargetFactory;
-        }
-        return basicAuthWebTargetFactory;
+        return webTargetFactory.create(path, parameters);
     }
 
     @Override

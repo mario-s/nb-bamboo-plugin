@@ -64,7 +64,7 @@ class RepeatApiCallerTest {
     @Mock
     private InstanceValues values;
     @Mock
-    private BasicAuthWebTargetFactory basicAuthWebTargetFactory;
+    private WebTargetFactory webTargetFactory;
     @Mock
     private WebTarget target;
     @Mock
@@ -79,7 +79,7 @@ class RepeatApiCallerTest {
         
         classUnderTest = new ApiCallRepeater<>(new CallParameters(PlansResponse.class, values));
         
-        ReflectionTestUtils.setField(classUnderTest, "basicAuthWebTargetFactory", basicAuthWebTargetFactory);
+        ReflectionTestUtils.setField(classUnderTest, "webTargetFactory", webTargetFactory);
     }
 
     /**
@@ -104,7 +104,7 @@ class RepeatApiCallerTest {
     
     @Test
     void testDoSecondCall_SizeGreaterMax_ExpectPresent() throws URISyntaxException {
-        given(basicAuthWebTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
+        given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
         given(target.queryParam(anyString(), any())).willReturn(target);
         given(builder.accept(anyString())).willReturn(builder);
         

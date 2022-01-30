@@ -23,10 +23,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import org.junit.jupiter.api.BeforeAll;
 
-
-
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.netbeans.modules.bamboo.client.glue.HttpUtility;
@@ -37,7 +34,6 @@ import org.netbeans.modules.bamboo.model.rest.*;
 
 import static java.util.Collections.singletonMap;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.EXPAND;
@@ -56,7 +52,7 @@ class BambooCallerXmlIT {
     
     private static final String PROPERTIES = "bamboo.properties";
 
-    private AbstractWebTargetFactory factory;
+    private WebTargetFactory factory;
 
     private static Properties props;
     
@@ -82,7 +78,7 @@ class BambooCallerXmlIT {
         values.setUsername(props.getProperty("user"));
         values.setPassword(props.getProperty("password").toCharArray());
 
-        factory = new AuthHeaderWebTargetFactory(values, Level.FINE);
+        factory = new WebTargetFactory(values, Level.FINE);
     }
 
     @Test
