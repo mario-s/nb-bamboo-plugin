@@ -28,7 +28,9 @@ import org.slf4j.LoggerFactory;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+
 import javax.ws.rs.WebApplicationException;
+import org.openide.util.Exceptions;
 
 /**
  * This class performs a a call to the REST API of Bamboo.
@@ -90,7 +92,7 @@ class ApiCaller<T> implements ApiCallable {
         try {
             return of(target.request().accept(media).get(clazz));
         } catch (WebApplicationException ex) {
-            LOG.warn(ex.getMessage(), ex);
+            Exceptions.printStackTrace(ex);
         }
 
         return empty();
