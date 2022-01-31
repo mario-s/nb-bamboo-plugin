@@ -32,13 +32,6 @@ public interface InstanceValues extends OpenableInBrowser {
     String getName();
     
     /**
-     * Indicates whether the authentication method is based on token or not.
-     * @return <code>true</code> when using a token, <code>false</code> when not. 
-     */
-    @Deprecated
-    boolean isUseToken();
-    
-    /**
      * Get the token of the user for authentication.
      * 
      * @return token as characters
@@ -49,22 +42,6 @@ public interface InstanceValues extends OpenableInBrowser {
      * @return Synchronization interval in minutes.
      */
     int getSyncInterval();
-    
-    /**
-     * Get the user's name used for authentication.
-     *
-     * @return user name
-     */
-    @Deprecated
-    String getUsername();
-
-    /**
-     * Get the password of the user.
-     *
-     * @return password as characters
-     */
-    @Deprecated
-    char[] getPassword();
     
     @Override
     default boolean isAvailable() {

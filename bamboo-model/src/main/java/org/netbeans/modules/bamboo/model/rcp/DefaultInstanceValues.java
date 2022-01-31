@@ -51,31 +51,6 @@ public class DefaultInstanceValues implements InstanceValues {
 
         this.changeSupport = new PropertyChangeSupport(this);
     }
-    
-    @Deprecated
-    @Override
-    public boolean isUseToken() {
-        return true;
-    }
-    
-    @Deprecated
-    @Override
-    public char[] getPassword() {
-        return copyChars(null);
-    }
-    
-    @Override
-    public char[] getToken() {
-        return copyChars(token);
-    }
-
-    public void setToken(char[] token) {
-        this.token = copyChars(token);
-    }
-
-    private char[] copyChars(char[] chars) {
-        return (chars != null) ? copyOf(chars, chars.length) : new char[0];
-    }
 
     protected final int getSyncIntervalInMillis() {
         return toMillis(syncInterval);
@@ -112,6 +87,15 @@ public class DefaultInstanceValues implements InstanceValues {
     }
 
     @Override
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    
+    @Override
     public int getSyncInterval() {
         return syncInterval;
     }
@@ -119,20 +103,18 @@ public class DefaultInstanceValues implements InstanceValues {
     public void setSyncInterval(int syncInterval) {
         this.syncInterval = syncInterval;
     }
-
-    @Deprecated
+      
     @Override
-    public String getUsername() {
-        return "";
+    public char[] getToken() {
+        return copyChars(token);
     }
 
-    @Override
-    public String getUrl() {
-        return url;
+    public void setToken(char[] token) {
+        this.token = copyChars(token);
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    private char[] copyChars(char[] chars) {
+        return (chars != null) ? copyOf(chars, chars.length) : new char[0];
     }
 
     @Override

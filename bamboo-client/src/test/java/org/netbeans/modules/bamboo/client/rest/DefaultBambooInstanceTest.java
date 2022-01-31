@@ -117,7 +117,6 @@ class DefaultBambooInstanceTest {
     @DisplayName("It should copy token from properties.")
     void copyToken() {
         assertAll(
-                () -> assertTrue(classUnderTest.isUseToken(), "expected to use token"),
                 () -> assertNotNull(classUnderTest.getToken()),
                 () -> assertFalse(classUnderTest.getToken().length == 0, "expected characters")
         );
