@@ -136,12 +136,6 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             setToken(token.toCharArray());
         }
         
-        setUsername(props.get(BambooInstanceConstants.INSTANCE_USER));
-        String passwd = props.get(BambooInstanceConstants.INSTANCE_PASSWORD);
-        if (isNotBlank(passwd)) {
-            setPassword(passwd.toCharArray());
-        }
-
         String syncProp = props.get(InstanceConstants.PROP_SYNC_INTERVAL);
         if (isNotBlank(syncProp)) {
             setSyncInterval(Integer.parseInt(syncProp));

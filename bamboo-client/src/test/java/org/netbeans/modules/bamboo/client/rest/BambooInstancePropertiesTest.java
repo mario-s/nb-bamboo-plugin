@@ -57,7 +57,6 @@ class BambooInstancePropertiesTest {
     @Test
     @DisplayName("It should copy properties from a Bamboo instance.")
     void testCopyProperties() {
-        given(instance.getPassword()).willReturn(new char[]{'a'});
         given(instance.getToken()).willReturn(new char[]{'a', 'b'});
         classUnderTest.copyProperties(instance);
         verify(instance).getName();

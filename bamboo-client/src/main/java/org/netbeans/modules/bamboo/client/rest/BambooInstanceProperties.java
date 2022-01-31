@@ -202,7 +202,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
                     if (val == null) {
                         prefs.remove(key);
                     } else {
-                        if (INSTANCE_PASSWORD.equals(key)) {
+                        if (INSTANCE_TOKEN.equals(key)) {
                             val = Encrypter.getInstance().encrypt(val);
                         }
 
@@ -243,7 +243,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
             String val = prefs.get(key, null);
 
             if (val != null) {
-                if (INSTANCE_PASSWORD.equals(key)) {
+                if (INSTANCE_TOKEN.equals(key)) {
                     val = Encrypter.getInstance().decrypt(val);
                 }
 
