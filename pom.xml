@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.mario-s.nbplugin</groupId>
-    <artifactId>bamboo</artifactId>
+    <groupId>io.github.mario-s</groupId>
+    <artifactId>nb-bamboo</artifactId>
     <version>1.1.0</version>
     <packaging>pom</packaging>
     <name>NetBeans Bamboo plugin</name>
@@ -14,9 +14,9 @@
     </organization>
 
     <modules>
-        <module>bamboo-model</module>
-        <module>bamboo-client</module>
-        <module>bamboo-ui</module>
+        <module>nb-bamboo-model</module>
+        <module>nb-bamboo-client</module>
+        <module>nb-bamboo-ui</module>
     </modules>
 
     <contributors>
