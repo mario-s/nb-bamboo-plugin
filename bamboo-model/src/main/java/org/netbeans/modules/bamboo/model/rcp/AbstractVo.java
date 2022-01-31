@@ -37,7 +37,7 @@ public abstract class AbstractVo {
         return key;
     }
     
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
+    public final void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
     }
     

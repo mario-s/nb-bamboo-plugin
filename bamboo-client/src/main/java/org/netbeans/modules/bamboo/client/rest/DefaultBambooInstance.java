@@ -87,7 +87,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     private BambooInstanceProperties properties;
     
-    private Optional<QueueEvent> previousEvent;
+    private transient Optional<QueueEvent> previousEvent;
 
     DefaultBambooInstance(final BambooInstanceProperties properties) {
         this(null, null);
