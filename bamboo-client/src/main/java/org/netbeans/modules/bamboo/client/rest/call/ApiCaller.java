@@ -13,9 +13,7 @@
  */
 package org.netbeans.modules.bamboo.client.rest.call;
 
-import java.net.URI;
 import java.util.Map;
-
 
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import java.util.Optional;
@@ -84,10 +82,7 @@ class ApiCaller<T> implements ApiCallable {
 
     @Override
     public Optional<T> doGet(final WebTarget target) {
-        if (LOG.isInfoEnabled()) {
-            URI uri = target.getUri();
-            LOG.info("calling host: {} with path: {}", uri.getHost(), uri.getPath());
-        }
+        LOG.info("GET: {}", target.getUri());
 
         try {
             return of(target.request().accept(media).get(clazz));

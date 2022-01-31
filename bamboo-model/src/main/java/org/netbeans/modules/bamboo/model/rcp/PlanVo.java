@@ -31,6 +31,7 @@ import static java.util.Optional.ofNullable;
 public class PlanVo extends AbstractOpenInBrowserVo implements PropertyChangeListener, TraverseUp<ProjectVo>, Queueable {
 
     private String name;
+    private String description;
     private String shortKey;
     private String shortName;
     private boolean enabled;
@@ -155,4 +156,11 @@ public class PlanVo extends AbstractOpenInBrowserVo implements PropertyChangeLis
         return notify;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

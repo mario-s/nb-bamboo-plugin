@@ -69,7 +69,8 @@ class DefaultBambooClient extends AbstractBambooClient {
     private Collection<Plan> doPlansCall() {
         LOG.info("requesting plans...");
         Set<Plan> results = new HashSet<>();
-        ApiCallRepeatable caller = apiCallerFactory.newRepeatCaller(PlansResponse.class, PLANS);
+        Map<String, String> params = singletonMap(EXPAND, PLAN_DETAILS);
+        ApiCallRepeatable caller = apiCallerFactory.newRepeatCaller(PlansResponse.class, PLANS, params);
         doRepeatableCall(caller, results);
         return results;
     }
@@ -102,7 +103,7 @@ class DefaultBambooClient extends AbstractBambooClient {
 
         apiCaller.createTarget().ifPresent(target -> {
             apiCaller.doGet(target).ifPresent(initialResponse -> {
-                LOG.trace("got results for call: {}", initialResponse);
+                LOG.debug("got results for call: {}", initialResponse);
                 results.addAll(initialResponse.asCollection());
             });
         });

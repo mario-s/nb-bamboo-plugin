@@ -14,6 +14,7 @@
 package org.netbeans.modules.bamboo.client.rest;
 
 import static java.lang.String.format;
+
 import java.util.ArrayList;
 
 import org.mockito.Mock;
@@ -71,7 +72,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+
 import org.netbeans.modules.bamboo.client.glue.RestResources;
+
+import static java.util.Collections.singletonMap;
+import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.EXPAND;
+import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.PLAN_DETAILS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.INFO;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PLANS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PROJECTS;
@@ -165,15 +171,15 @@ class DefaultBambooClientTest {
         resultsResponse.setResults(results);
 
         info = new Info();
-        info.setBuildDate("2014-12-02T07:43:02.000+01:00");
+        info.setBuildDate("2021-12-02T07:43:02.000+01:00");
     }
 
     private void trainApiCallerFactory() {
         given(apiCallerFactory.newCaller(eq(ProjectsResponse.class), eq(PROJECTS), any(
                 Map.class))).willReturn(
                         projectsCaller);
-        given(apiCallerFactory.newRepeatCaller(eq(PlansResponse.class), eq(PLANS))).willReturn(
-                plansCaller);
+        given(apiCallerFactory.newRepeatCaller(eq(PlansResponse.class), eq(PLANS), 
+                eq(singletonMap(EXPAND, PLAN_DETAILS)))).willReturn(plansCaller);
         given(apiCallerFactory.newRepeatCaller(eq(ResultsResponse.class), eq(RESULTS),
                 any(Map.class))).willReturn(
                 resultsCaller);

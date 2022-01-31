@@ -56,6 +56,8 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.*;
     "DESC_Plan_Prop_Key=The key of the plan",
     "TXT_Plan_Prop_DisplayName=Display Name",
     "DESC_Plan_Prop_DisplayName=The display name of the plan, as shown as in the tree",
+    "TXT_Plan_Prop_Desc=Description",
+    "DESC_Plan_Prop_Desc=Description of the plan.",
     "TXT_Plan_Prop_Name=Plan Name",
     "DESC_Plan_Prop_Name=The name of the build plan.",
     "TXT_Plan_Prop_Result_Number=Result Number",
@@ -75,32 +77,21 @@ import static org.netbeans.modules.bamboo.ui.nodes.Bundle.*;
 public class PlanNode extends AbstractInstanceChildNode {
 
     private static final String KEY = "key";
-
     private static final String SHORT_NAME = "shortName";
-
+    private static final String DESC = "description";
     private static final String BUILD_REASON = "buildReason";
-
     private static final String RESULT_NUMBER = "resultNumber";
-
     private static final String NOTIFY = "notify";
-
     private static final String DURATION = "buildDurationInSeconds";
-
     private static final String STARTED_TIME = "buildStartedTime";
-
     private static final String COMPLETED_TIME = "buildCompletedTime";
-
     @StaticResource
     private static final String ICON_BASE = "org/netbeans/modules/bamboo/resources/grey.png";
-
     @StaticResource
     private static final String ICON_ENABLED = "org/netbeans/modules/bamboo/resources/blue.png";
-
     @StaticResource
     private static final String ICON_FAILED = "org/netbeans/modules/bamboo/resources/red.png";
-
     private static final String NO_CONTROL_SHADOW = "<font color='!controlShadow'>(%s)</font>";
-
     private static final Logger LOG = LoggerFactory.getLogger(PlanNode.class);
 
     private final PlanVo plan;
@@ -248,6 +239,13 @@ public class PlanNode extends AbstractInstanceChildNode {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
                 return plan.getKey();
+            }
+        });
+        
+        set.put(new StringReadPropertySupport(DESC, TXT_Plan_Prop_Desc(), DESC_Plan_Prop_Desc()) {
+            @Override
+            public String getValue() throws IllegalAccessException, InvocationTargetException {
+                return plan.getDescription();
             }
         });
 
