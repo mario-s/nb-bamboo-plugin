@@ -13,6 +13,11 @@
  */
 package org.netbeans.modules.bamboo.model;
 
+/**
+ * Very simple end state of a plan.
+ * 
+ * @author Mario Schroeder
+ */
 public enum State {
     Successful, Failed, Unknown
 }

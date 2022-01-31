@@ -76,12 +76,10 @@ abstract class AbstractDialogAction extends AbstractAction implements PropertyCh
     /**
      * This method is called when the user presses ok.
      */
-    protected void onOk() {
-    }
+    abstract void onOk();
 
     /**
      * This method is called when the user cancels the dialog.
      */
-    protected void onCancel() {
-    }
+    abstract void onCancel();
 }

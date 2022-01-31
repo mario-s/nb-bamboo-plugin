@@ -24,7 +24,7 @@ public class FileVoConverter extends AbstractVoConverter<File, FileVo>{
 
     @Override
     public FileVo convert(File src) {
-        FileVo target = new FileVo();
+        var target = new FileVo();
         copyProperties(src, target);
         return target;
     }

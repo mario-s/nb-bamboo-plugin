@@ -21,11 +21,17 @@ package org.netbeans.modules.bamboo.client.glue;
 public final class ExpandParameter {
     /**expand parameter key*/
     public static final String EXPAND = "expand";
+    
+    /**expand details for plans*/
+    public static final String PLAN_DETAILS = "plans.plan";
 
     /**expand the plans of each project*/
     public static final String PROJECT_PLANS = "projects.project.plans.plan";
     
     /**expand the comments for a build result*/
     public static final String RESULT_COMMENTS = "results.result.comments";
-    
+
+    private ExpandParameter() {
+        // nothing to see here
+    }
 }

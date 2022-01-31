@@ -32,6 +32,7 @@ public class Project implements ServiceInfoProvideable{
     private String key;
     private Link link;
     private String name;
+    private String description;
     private transient Plans plans;
 
     public Collection<Plan> plansAsCollection() {
@@ -62,6 +63,14 @@ public class Project implements ServiceInfoProvideable{
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
     public Plans getPlans() {
         return plans;
     }
@@ -72,7 +81,7 @@ public class Project implements ServiceInfoProvideable{
 
     @Override
     public int hashCode() {
-        return 11 * 7 + Objects.hash(key, link, name);
+        return 11 * 7 + Objects.hash(key, link, name, description);
     }
 
     @Override
@@ -93,7 +102,10 @@ public class Project implements ServiceInfoProvideable{
         if (!Objects.equals(this.link, other.link)) {
             return false;
         }
-        return Objects.equals(this.name, other.name);
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return Objects.equals(this.description, other.description);
     }
     
     @Override

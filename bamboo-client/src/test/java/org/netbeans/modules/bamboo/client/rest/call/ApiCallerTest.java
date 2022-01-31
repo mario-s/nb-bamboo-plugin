@@ -20,6 +20,7 @@ import static java.util.Collections.singletonMap;
 
 import java.util.Map;
 import java.util.Optional;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
@@ -27,22 +28,19 @@ import javax.ws.rs.core.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import org.netbeans.modules.bamboo.model.rest.Info;
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 
@@ -72,7 +70,9 @@ class ApiCallerTest {
 
     @BeforeEach
     void setUp() {
-        final CallParameters callParameters = new CallParameters(Info.class, values);
+        given(values.getToken()).willReturn(new char[] {'a'});
+        
+        var callParameters = new CallParameters(Info.class, values);
         callParameters.setParameters(FOO_MAP);
         classUnderTest = new ApiCaller<>(callParameters);
 
@@ -83,6 +83,7 @@ class ApiCallerTest {
      * Test of createTarget method, of class ApiCaller.
      */
     @Test
+    @DisplayName("It should not create a web target if necessary values are missing.")
     void testCreateTarget_EmptyValues_ExpectNotPresent() {
         assertFalse(classUnderTest.createTarget().isPresent());
     }
@@ -91,43 +92,19 @@ class ApiCallerTest {
      * Test of createTarget method, of class ApiCaller.
      */
     @Test
-    void testCreateTarget_EmptyValues_ExpectParameterPresent() {
-        given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
-        given(values.getPassword()).willReturn(FOO.toCharArray());
-        given(values.getUrl()).willReturn(FOO);
-        given(values.getUsername()).willReturn(FOO);
-        
-        classUnderTest.createTarget();
-        verify(webTargetFactory).create(anyString(), eq(FOO_MAP));
-    }
-
-    /**
-     * Test of createTarget method, of class ApiCaller.
-     */
-    @Test
+    @DisplayName("It should create a web target with additional parameters.")
     void testCreateTarget_Values_ExpectPresent() {
+        given(webTargetFactory.isValid()).willReturn(true);
         given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
-        given(values.getPassword()).willReturn(FOO.toCharArray());
-        given(values.getUrl()).willReturn(FOO);
-        given(values.getUsername()).willReturn(FOO);
-        
-        assertTrue(classUnderTest.createTarget().isPresent());
-    }
 
-    /**
-     * Test of newTarget method, of class ApiCaller.
-     */
-    @Test
-    void testNewTarget_ExpectNotNull() {
-        given(webTargetFactory.create(anyString(), any(Map.class))).willReturn(target);
-        
-        assertNotNull(classUnderTest.newTarget());
+        assertTrue(classUnderTest.createTarget().isPresent());
     }
 
     /**
      * Test of doGet method, of class ApiCaller.
      */
     @Test
+    @DisplayName("It should allow to perform a GET request.")
     void testGetRequest_ExpectPresent() throws URISyntaxException {
         given(target.getUri()).willReturn(new URI("http://localhost"));
         given(target.request()).willReturn(builder);
@@ -137,11 +114,25 @@ class ApiCallerTest {
         Optional<Info> result = classUnderTest.doGet(target);
         assertTrue(result.isPresent());
     }
+    
+    /**
+     * Test of doGet method, of class ApiCaller.
+     */
+    @Test
+    @DisplayName("It should allow to perform a GET request and return empty when it fails.")
+    void testGetRequest_ExpectEmpty() throws URISyntaxException {
+        given(target.getUri()).willReturn(new URI("http://localhost"));
+        given(target.request()).willThrow(new WebApplicationException());
+        
+        Optional<Info> result = classUnderTest.doGet(target);
+        assertTrue(result.isEmpty());
+    }
 
     /**
      * Test of doPost method, of class ApiCaller.
      */
     @Test
+    @DisplayName("It should allow to perform a POST request.")
     void testPostRequest_ExpectZero() {
         given(target.request()).willReturn(builder);
         given(builder.post(any(Entity.class))).willReturn(response);

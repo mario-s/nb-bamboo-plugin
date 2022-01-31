@@ -67,8 +67,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
         put(PROP_NAME, instance.getName());
         put(PROP_URL, instance.getUrl());
         put(PROP_SYNC_INTERVAL, Integer.toString(instance.getSyncInterval()));
-        put(INSTANCE_USER, instance.getUsername());
-        put(INSTANCE_PASSWORD, new String(instance.getPassword()));
+        put(INSTANCE_TOKEN, new String(instance.getToken()));
         put(INSTANCE_SUPPRESSED_PLANS, StringUtil.join(instance.getSuppressedPlans()));
     }
 
@@ -203,7 +202,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
                     if (val == null) {
                         prefs.remove(key);
                     } else {
-                        if (INSTANCE_PASSWORD.equals(key)) {
+                        if (INSTANCE_TOKEN.equals(key)) {
                             val = Encrypter.getInstance().encrypt(val);
                         }
 
@@ -244,7 +243,7 @@ public class BambooInstanceProperties extends HashMap<String, String> {
             String val = prefs.get(key, null);
 
             if (val != null) {
-                if (INSTANCE_PASSWORD.equals(key)) {
+                if (INSTANCE_TOKEN.equals(key)) {
                     val = Encrypter.getInstance().decrypt(val);
                 }
 

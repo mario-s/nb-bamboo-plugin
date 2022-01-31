@@ -30,25 +30,18 @@ public interface InstanceValues extends OpenableInBrowser {
      * @return instance name
      */
     String getName();
+    
+    /**
+     * Get the token of the user for authentication.
+     * 
+     * @return token as characters
+     */
+    char[] getToken();
 
     /**
      * @return Synchronization interval in minutes.
      */
     int getSyncInterval();
-    
-    /**
-     * Get the user's name used for authentication.
-     *
-     * @return user name
-     */
-    String getUsername();
-
-    /**
-     * Get the password of the user.
-     *
-     * @return password as characters
-     */
-    char[] getPassword();
     
     @Override
     default boolean isAvailable() {

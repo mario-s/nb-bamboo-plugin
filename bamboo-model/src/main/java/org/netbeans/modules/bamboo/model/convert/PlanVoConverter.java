@@ -30,10 +30,9 @@ public class PlanVoConverter extends AbstractVoConverter<Plan, PlanVo> {
 
     @Override
     public PlanVo convert(Plan src) {
-        PlanVo target = new PlanVo(src.getKey(), src.getName());
+        var target = new PlanVo(src.getKey(), src.getName());
         
         copyProperties(src, target);
-        
         target.setServerUrl(serverUrl);
 
         return target;

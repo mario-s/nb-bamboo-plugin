@@ -82,10 +82,14 @@ abstract class AbstractPlanAction extends AbstractContextAction {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        findFirst().ifPresent(p -> new RequestProcessor(getClass()).post(() -> {
-            if(p.getResult() != null) {
-                LOG.debug("plan to process: {}", p);
-                process(p);
+        findFirst().ifPresent(plan -> new RequestProcessor(getClass()).post(() -> {
+            var result = plan.getResult();
+            if(result != null) {
+                if (result.getParent() != null) {
+                    result.setParent(plan);
+                }
+                LOG.debug("plan to process: {}", plan);
+                process(plan);
             }
         }));
     }

@@ -13,6 +13,8 @@
  */
 package org.netbeans.modules.bamboo.client.rest;
 
+import static java.lang.String.format;
+
 import java.util.ArrayList;
 
 import org.mockito.Mock;
@@ -23,7 +25,6 @@ import static java.util.Collections.singletonList;
 
 import java.util.List;
 import java.util.Map;
-
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
@@ -57,10 +58,9 @@ import org.netbeans.modules.bamboo.client.rest.call.ApiCallRepeatable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallable;
 import org.netbeans.modules.bamboo.client.rest.call.ApiCallerFactory;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.anyString;
-
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -72,6 +72,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+
+import org.netbeans.modules.bamboo.client.glue.RestResources;
+
+import static java.util.Collections.singletonMap;
+import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.EXPAND;
+import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.PLAN_DETAILS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.INFO;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PLANS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.PROJECTS;
@@ -106,9 +112,6 @@ class DefaultBambooClientTest {
     private ApiCallRepeatable<ResultsResponse> resultsCaller;
 
     @Mock
-    private ApiCallable<Result> resultCaller;
-
-    @Mock
     private ApiCallable<Info> infoCaller;
 
     @Mock
@@ -122,7 +125,7 @@ class DefaultBambooClientTest {
     private Plan plan;
 
     private Plans plans;
-
+    
     private Result result;
 
     private Info info;
@@ -168,15 +171,15 @@ class DefaultBambooClientTest {
         resultsResponse.setResults(results);
 
         info = new Info();
-        info.setBuildDate("2014-12-02T07:43:02.000+01:00");
+        info.setBuildDate("2021-12-02T07:43:02.000+01:00");
     }
 
     private void trainApiCallerFactory() {
         given(apiCallerFactory.newCaller(eq(ProjectsResponse.class), eq(PROJECTS), any(
                 Map.class))).willReturn(
                         projectsCaller);
-        given(apiCallerFactory.newRepeatCaller(eq(PlansResponse.class), eq(PLANS))).willReturn(
-                plansCaller);
+        given(apiCallerFactory.newRepeatCaller(eq(PlansResponse.class), eq(PLANS), 
+                eq(singletonMap(EXPAND, PLAN_DETAILS)))).willReturn(plansCaller);
         given(apiCallerFactory.newRepeatCaller(eq(ResultsResponse.class), eq(RESULTS),
                 any(Map.class))).willReturn(
                 resultsCaller);
@@ -264,7 +267,7 @@ class DefaultBambooClientTest {
 
     @Test
     void testQueue_TargetPresent_Expect200() {
-        given(apiCallerFactory.newCaller(eq(Object.class), anyString())).willReturn(postCaller);
+        trainQueueCaller();
 
         int code = 200;
         PlanVo planVo = new PlanVo(FOO);
@@ -279,7 +282,7 @@ class DefaultBambooClientTest {
 
     @Test
     void testQueue_TargetEmpty_ExpectNotFound() {
-        given(apiCallerFactory.newCaller(eq(Object.class), anyString())).willReturn(postCaller);
+        trainQueueCaller();
 
         final int code = 404;
         PlanVo planVo = new PlanVo(FOO);
@@ -291,13 +294,20 @@ class DefaultBambooClientTest {
         verify(postCaller, never()).doPost(webTarget);
     }
 
+    private void trainQueueCaller() {
+        String path = format(RestResources.QUEUE, FOO);
+        given(apiCallerFactory.newCaller(eq(Object.class), eq(path))).willReturn(postCaller);
+    }
+
     @Test
     void testAttach_ChangesNoResult_ShouldNotHaveChanges() {
-        given(apiCallerFactory.newCaller(eq(Result.class), anyString(), any(Map.class))).willReturn(
-                resultCaller);
+        String path = format(RestResources.RESULT, FOO);
+        given(apiCallerFactory.newCaller(eq(ResultsResponse.class), eq(path), any(Map.class))).willReturn(
+                resultsCaller);
         ResultVo vo = new ResultVo();
+        vo.setParent(new PlanVo(FOO));
 
-        classUnderTest.attach(vo, ResultExpandParameter.Changes);
+        classUnderTest.attach(vo, ResultExpandParameter.CHANGES);
         assertFalse(vo.getChanges().isPresent());
     }
 
@@ -312,24 +322,24 @@ class DefaultBambooClientTest {
 
         ResultVo vo = new ResultVo();
 
-        classUnderTest.attach(vo, ResultExpandParameter.Changes);
+        classUnderTest.attach(vo, ResultExpandParameter.CHANGES);
         assertFalse(vo.getChanges().get().isEmpty());
     }
 
     private void trainResultCaller() {
-        given(apiCallerFactory.newCaller(eq(Result.class), anyString(), any(Map.class))).willReturn(
-                resultCaller);
-        given(resultCaller.createTarget()).willReturn(of(webTarget));
-        given(resultCaller.doGet(webTarget)).willReturn(of(result));
+        given(apiCallerFactory.newCaller(eq(ResultsResponse.class), anyString(), any(Map.class))).willReturn(
+                resultsCaller);
+        given(resultsCaller.createTarget()).willReturn(of(webTarget));
+        given(resultsCaller.doGet(webTarget)).willReturn(of(resultsResponse));
     }
 
     @Test
     void testAttach_IssuesNoResult_ShouldNotHaveIssues() {
-        given(apiCallerFactory.newCaller(eq(Result.class), anyString(), any(Map.class))).willReturn(
-                resultCaller);
+        given(apiCallerFactory.newCaller(eq(ResultsResponse.class), anyString(), any(Map.class))).willReturn(
+                resultsCaller);
         ResultVo vo = new ResultVo();
 
-        classUnderTest.attach(vo, ResultExpandParameter.Jira);
+        classUnderTest.attach(vo, ResultExpandParameter.JIRA);
         assertFalse(vo.getIssues().isPresent());
     }
 
@@ -345,7 +355,7 @@ class DefaultBambooClientTest {
         
         ResultVo vo = new ResultVo();
 
-        classUnderTest.attach(vo, ResultExpandParameter.Jira);
+        classUnderTest.attach(vo, ResultExpandParameter.JIRA);
         assertFalse(vo.getIssues().get().isEmpty());
     }
 }

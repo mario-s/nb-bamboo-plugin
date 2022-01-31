@@ -23,8 +23,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import org.junit.jupiter.api.BeforeAll;
 
-
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,21 +30,15 @@ import org.netbeans.modules.bamboo.client.glue.HttpUtility;
 
 import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
 import org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter;
-import org.netbeans.modules.bamboo.model.rest.Change;
-import org.netbeans.modules.bamboo.model.rest.Files;
-import org.netbeans.modules.bamboo.model.rest.Issue;
-import org.netbeans.modules.bamboo.model.rest.Result;
-import org.netbeans.modules.bamboo.model.rest.ResultsResponse;
+import org.netbeans.modules.bamboo.model.rest.*;
 
 import static java.util.Collections.singletonMap;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.EXPAND;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.RESULT_COMMENTS;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULT;
-import static org.netbeans.modules.bamboo.client.glue.RestResources.RESULTS;
 
 /**
  *
@@ -57,73 +49,58 @@ class BambooCallerXmlIT {
     private static final String FOO = "foo";
 
     private static final String URL = "url";
+    
+    private static final String PROPERTIES = "bamboo.properties";
 
     private WebTargetFactory factory;
 
     private static Properties props;
-
-    private final HttpUtility httpUtility;
-
-    BambooCallerXmlIT() {
-        this.httpUtility = new HttpUtility();
-    }
+    
+    private static boolean existsUrl;
 
     @BeforeAll
     static void prepare() throws IOException {
+        InputStream input = BambooCallerXmlIT.class.getResourceAsStream(PROPERTIES);
         props = new Properties();
-        
-        InputStream input = BambooCallerXmlIT.class.getResourceAsStream("bamboo.properties");
         props.load(input);
+        
+        existsUrl = new HttpUtility().exists(props.getProperty(URL));
     }
 
     @BeforeEach
     void setUp() {
+        assumeTrue(existsUrl);
 
         DefaultInstanceValues values = new DefaultInstanceValues();
         values.setName(FOO);
         values.setUrl(props.getProperty(URL));
-        values.setUsername(props.getProperty("user"));
-        values.setPassword(props.getProperty("password").toCharArray());
+        values.setToken(props.getProperty("token").toCharArray());
 
         factory = new WebTargetFactory(values, Level.FINE);
     }
 
-    private boolean existsUrl() {
-        return httpUtility.exists(props.getProperty(URL));
-    }
-
-    private String newResultPath() {
-        String key = props.getProperty("result.key");
-        return String.format(RESULT, key);
-    }
-
     @Test
     public void testGetResults_SizeGtZero() {
-        assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
-        WebTarget webTarget = factory.create(RESULTS, params);
-        ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
+        ResultsResponse response = request(ResultsResponse.class, params);
         final int size = response.getResults().getSize();
-        assertTrue(size > 0);
+        assumeTrue(size > 0);
     }
 
     @Test
     void testGetResults_ResultsNotEmpty() {
-        assumeTrue(existsUrl());
         Map<String, String> params = singletonMap(EXPAND, RESULT_COMMENTS);
-        WebTarget webTarget = factory.create(RESULTS, params);
-        ResultsResponse response = webTarget.request().accept(MediaType.APPLICATION_XML).get(ResultsResponse.class);
+        ResultsResponse response = request(ResultsResponse.class, params);
         Collection<Result> results = response.asCollection();
-        assertFalse(results.isEmpty());
+        assumeFalse(results.isEmpty());
     }
 
     @Test
     void testGetChanges_FilesNotEmpty() {
-        assumeTrue(existsUrl());
-        Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Changes.toString());
-        WebTarget webTarget = factory.create(newResultPath(), params);
-        Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
-        Collection<Change> changes = response.getChanges().asCollection();
+        Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.CHANGES.toString());
+        ResultsResponse response = request(ResultsResponse.class, params);
+        assumeFalse(response.getResults().getResult().isEmpty());
+        Collection<Change> changes = response.getResults().getResult().get(0).getChanges().asCollection();
         assumeFalse(changes.isEmpty());
         Files files = changes.iterator().next().getFiles();
         assertFalse(files.asCollection().isEmpty());
@@ -131,11 +108,10 @@ class BambooCallerXmlIT {
 
     @Test
     void testGetChanges_ChangeSetIdNotEmpty() {
-        assumeTrue(existsUrl());
-        Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Changes.toString());
-        WebTarget webTarget = factory.create(newResultPath(), params);
-        Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
-        Collection<Change> changes = response.getChanges().asCollection();
+        Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.CHANGES.toString());
+        ResultsResponse response = request(ResultsResponse.class, params);
+        assumeFalse(response.getResults().getResult().isEmpty());
+        Collection<Change> changes = response.getResults().getResult().get(0).getChanges().asCollection();
         assumeFalse(changes.isEmpty());
         Change first = changes.iterator().next();
         assertFalse(first.getChangesetId().isEmpty());
@@ -143,12 +119,23 @@ class BambooCallerXmlIT {
 
     @Test
     void testGetJiraIssues_ResultNotEmpty() {
-        assumeTrue(existsUrl());
-        Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.Jira.toString());
-        WebTarget webTarget = factory.create(newResultPath(), params);
-        Result response = webTarget.request().accept(MediaType.APPLICATION_XML).get(Result.class);
-        Collection<Issue> issues = response.getJiraIssues().asCollection();
+        Map<String, String> params = singletonMap(EXPAND, ResultExpandParameter.JIRA.toString());
+        ResultsResponse response = request(ResultsResponse.class, params);
+        assumeFalse(response.getResults().getResult().isEmpty());
+        Result result = response.getResults().getResult().get(0);
+        Collection<Issue> issues = result.getJiraIssues().asCollection();
         assertFalse(issues.isEmpty());
+    }
+    
+    private <T> T request(Class<T> clazz, Map<String, String> params) {
+        WebTarget webTarget = factory.create(newResultPath(), params);
+        
+        return webTarget.request().accept(MediaType.APPLICATION_XML).get(clazz);
+    }
+    
+    private String newResultPath() {
+        String key = props.getProperty("result.key");
+        return String.format(RESULT, key);
     }
 
 }

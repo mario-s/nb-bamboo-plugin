@@ -46,7 +46,7 @@ import static org.netbeans.modules.bamboo.ui.RootNodeConstants.*;
         shortDescription = "#TIP_BambooNode", iconResource = ICON_BASE, position = 450
 )
 @Messages(
-        {"LBL_BambooNode=Bamboo Builders", "TIP_BambooNode=Bamboo continuous integration servers."}
+        {"LBL_BambooNode=Bamboo Builders", "TIP_BambooNode=Atlassian Bamboo continuous integration servers."}
 )
 public final class BambooRootNode extends AbstractNode implements LookupListener {
 

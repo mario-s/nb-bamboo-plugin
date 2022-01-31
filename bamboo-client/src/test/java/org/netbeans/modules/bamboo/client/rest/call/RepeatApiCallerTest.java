@@ -75,6 +75,7 @@ class RepeatApiCallerTest {
     @BeforeEach
     void setUp() {
         reset(builder);
+        given(values.getToken()).willReturn(new char[] {'a'});
         
         classUnderTest = new ApiCallRepeater<>(new CallParameters(PlansResponse.class, values));
         

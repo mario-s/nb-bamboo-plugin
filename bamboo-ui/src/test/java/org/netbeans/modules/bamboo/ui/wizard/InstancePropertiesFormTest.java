@@ -28,6 +28,7 @@ import org.netbeans.modules.bamboo.mock.MockInstanceManager;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.DisplayName;
 import static org.mockito.Mockito.verify;
 import static org.openide.util.Lookup.getDefault;
 import static org.mockito.Mockito.inOrder;
@@ -88,6 +89,7 @@ class InstancePropertiesFormTest {
      * Test of block method, of class InstancePropertiesForm.
      */
     @Test
+    @DisplayName("It should show progress bar when form is blocked.")
     void testBlock_ExpectProgressVisisble() {
         classUnderTest.block();
         assertTrue(classUnderTest.getProgressBar().isVisible());
@@ -97,42 +99,28 @@ class InstancePropertiesFormTest {
      * Test of unblock method, of class InstancePropertiesForm.
      */
     @Test
+    @DisplayName("It should not show progress bar when form is unblocked.")
     void testUnblock_ExpectProgressNotVisisble() {
         classUnderTest.unblock();
         assertFalse(classUnderTest.getProgressBar().isVisible());
     }
 
     /**
-     * Test of setFocus method, of class InstancePropertiesForm.
-     */
-    @Test
-    void testSetFocus() {
-        classUnderTest.setFocus(0);
-    }
-
-    /**
      * Test of insertUpdate method, of class InstancePropertiesForm.
      */
     @Test
+    @DisplayName("It should fire property change event when update is inserted.")
     void testInsertUpdate_NoName_ExpectActionDisabled() {
         classUnderTest.insertUpdate(docEvent);
         verify(applyAction).setEnabled(false);
         verify(listener).propertyChange(event);
     }
-
-    /**
-     * Test of removeUpdate method, of class InstancePropertiesForm.
-     */
-    @Test
-    void testRemoveUpdate_NoName_ExpectActionDisabled() {
-        classUnderTest.removeUpdate(docEvent);
-        verify(applyAction).setEnabled(false);
-    }
-
+    
     /**
      * Test of insertUpdate method, of class InstancePropertiesForm.
      */
     @Test
+    @DisplayName("It should fire property change event and enable actionwhen update is inserted.")
     void testInsertUpdate_ExistingName_ExpectActionDisabled() {
         classUnderTest.getTxtName().setText(FOO);
         
@@ -140,5 +128,15 @@ class InstancePropertiesFormTest {
         order.verify(applyAction).setEnabled(false);
         order.verify(delegate).existsInstanceName(FOO);
         verify(listener).propertyChange(event);
+    }
+
+    /**
+     * Test of removeUpdate method, of class InstancePropertiesForm.
+     */
+    @Test
+    @DisplayName("It should fire property change event when update is removed.")
+    void testRemoveUpdate_NoName_ExpectActionDisabled() {
+        classUnderTest.removeUpdate(docEvent);
+        verify(applyAction).setEnabled(false);
     }
 }

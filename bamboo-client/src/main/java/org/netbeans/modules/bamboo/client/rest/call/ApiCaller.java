@@ -13,25 +13,22 @@
  */
 package org.netbeans.modules.bamboo.client.rest.call;
 
-import java.net.URI;
 import java.util.Map;
-
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 import java.util.Optional;
+
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 import javax.ws.rs.WebApplicationException;
-
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-
-import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.openide.util.Exceptions;
 
 /**
  * This class performs a a call to the REST API of Bamboo.
@@ -70,18 +67,13 @@ class ApiCaller<T> implements ApiCallable {
 
     @Override
     public Optional<WebTarget> createTarget() {
-        Optional<WebTarget> opt = empty();
-        String url = values.getUrl();
-        String user = values.getUsername();
-        char[] chars = values.getPassword();
-
-        if (isNotBlank(url) && isNotBlank(user) && isNotEmpty(chars)) {
-            opt = of(newTarget());
-        } else {
-            LOG.warn("Invalid values for instance");
-        }
-
-        return opt;
+        
+        if (webTargetFactory.isValid()) {
+            return of(newTarget());
+        } 
+            
+        LOG.warn("Invalid values for instance");
+        return empty();
     }
 
     protected WebTarget newTarget() {
@@ -90,15 +82,12 @@ class ApiCaller<T> implements ApiCallable {
 
     @Override
     public Optional<T> doGet(final WebTarget target) {
-        if (LOG.isInfoEnabled()) {
-            URI uri = target.getUri();
-            LOG.info("calling host: {} with path: {}", uri.getHost(), uri.getPath());
-        }
+        LOG.info("GET: {}", target.getUri());
 
         try {
             return of(target.request().accept(media).get(clazz));
         } catch (WebApplicationException ex) {
-            LOG.warn(ex.getMessage());
+            Exceptions.printStackTrace(ex);
         }
 
         return empty();

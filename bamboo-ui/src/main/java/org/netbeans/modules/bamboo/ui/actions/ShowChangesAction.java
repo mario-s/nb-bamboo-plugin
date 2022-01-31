@@ -31,12 +31,12 @@ import org.netbeans.api.io.Hyperlink;
 import org.netbeans.api.io.OutputWriter;
 import org.netbeans.modules.bamboo.ui.BrowserInstance;
 
-import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.Changes;
 import static java.lang.String.format;
 import java.util.function.Consumer;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
 import org.netbeans.modules.bamboo.model.rcp.PlanVo;
 import static org.openide.util.NbBundle.getMessage;
+import static org.netbeans.modules.bamboo.model.rcp.ResultExpandParameter.CHANGES;
 
 /**
  *
@@ -77,7 +77,7 @@ public class ShowChangesAction extends AbstractPlanAction {
 
     private void attachChangesIfAbsent(PlanVo plan, ResultVo result) {
         if (!result.requestedChanges()) {
-            Consumer<BambooInstance> action = inst -> inst.expand(result, Changes);
+            Consumer<BambooInstance> action = inst -> inst.expand(result, CHANGES);
             plan.invoke(action);
         }
     }

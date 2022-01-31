@@ -34,6 +34,8 @@ public class Plan implements ServiceInfoProvideable{
     @XmlAttribute
     private String name;
     @XmlAttribute
+    private String description;
+    @XmlAttribute
     private String shortKey;
     @XmlAttribute
     private String shortName;
@@ -67,6 +69,14 @@ public class Plan implements ServiceInfoProvideable{
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
     public String getShortKey() {
         return shortKey;
     }

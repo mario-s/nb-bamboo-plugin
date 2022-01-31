@@ -29,6 +29,7 @@ import static java.util.Optional.ofNullable;
 public class ProjectVo extends AbstractOpenInBrowserVo implements TraverseDown<PlanVo>, TraverseUp<BambooInstance> {
 
     private String name;
+    private String description;
     private Collection<PlanVo> children;
 
     private BambooInstance parent;
@@ -77,5 +78,13 @@ public class ProjectVo extends AbstractOpenInBrowserVo implements TraverseDown<P
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

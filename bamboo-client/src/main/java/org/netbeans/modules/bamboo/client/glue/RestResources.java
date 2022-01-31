@@ -20,11 +20,15 @@ package org.netbeans.modules.bamboo.client.glue;
  */
 public final class RestResources {
     
-    public static final String JSON_PATH = ".json";
-    public static final String PROJECTS = "/project" + JSON_PATH;
-    public static final String PLANS = "/plan" + JSON_PATH;
-    public static final String INFO = "/info" + JSON_PATH;
-    public static final String RESULTS = "/result";
+    public static final String JSON = ".json";
+    public static final String PROJECTS = "/project" + JSON;
+    public static final String PLANS = "/plan" + JSON;
+    public static final String INFO = "/info" + JSON;
+    public static final String RESULTS = "/result" + JSON;
     public static final String QUEUE = "/queue/%s";
     public static final String RESULT = "/result/%s";
+
+    private RestResources() {
+        // nothing to see here
+    }
 }

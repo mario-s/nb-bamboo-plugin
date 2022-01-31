@@ -34,12 +34,13 @@ import java.util.*;
 import java.util.function.Function;
 
 import static java.lang.String.format;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonMap;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.empty;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.netbeans.modules.bamboo.client.glue.ExpandParameter.*;
 import static org.netbeans.modules.bamboo.client.glue.RestResources.*;
-
 
 /**
  * This is the client, which actually interacts with a Bamboo server.
@@ -68,7 +69,8 @@ class DefaultBambooClient extends AbstractBambooClient {
     private Collection<Plan> doPlansCall() {
         LOG.info("requesting plans...");
         Set<Plan> results = new HashSet<>();
-        ApiCallRepeatable caller = apiCallerFactory.newRepeatCaller(PlansResponse.class, PLANS);
+        Map<String, String> params = singletonMap(EXPAND, PLAN_DETAILS);
+        ApiCallRepeatable caller = apiCallerFactory.newRepeatCaller(PlansResponse.class, PLANS, params);
         doRepeatableCall(caller, results);
         return results;
     }
@@ -101,59 +103,62 @@ class DefaultBambooClient extends AbstractBambooClient {
 
         apiCaller.createTarget().ifPresent(target -> {
             apiCaller.doGet(target).ifPresent(initialResponse -> {
-                LOG.trace("got results for call: {}", initialResponse);
+                LOG.debug("got results for call: {}", initialResponse);
                 results.addAll(initialResponse.asCollection());
             });
         });
     }
 
-
     @Override
     void attach(final ResultVo vo, final ResultExpandParameter parameter) {
         requireNonNull(vo);
         requireNonNull(parameter);
-                
-        String key = vo.getKey();
-        Optional<Result> result = doResultCall(key, parameter.toString());
 
-        result.ifPresent(res -> {
-            if (ResultExpandParameter.Changes.equals(parameter)) {
+        String key = vo.getKey();
+        if (isBlank(key)) {
+            key = vo.getParent().map(PlanVo::getKey).orElse("");
+        }
+        Optional<ResultsResponse> response = doResultCall(key, parameter.toString());
+        List<Result> results = response.map(ResultsResponse::getResults).map(Results::getResult).orElse(emptyList());
+
+        if (!results.isEmpty()) {
+            var res = results.iterator().next();
+            if (ResultExpandParameter.CHANGES.equals(parameter)) {
                 vo.setChanges(conv.apply(new ChangeVoConverter()).convert(res.getChanges()));
-            } else if (ResultExpandParameter.Jira.equals(parameter)) {
+            } else if (ResultExpandParameter.JIRA.equals(parameter)) {
                 vo.setIssues(conv.apply(new IssueVoConverter()).convert(res.getJiraIssues()));
             }
-        });
+        }
     }
 
-
-    private Optional<Result> doResultCall(String resultKey, String expandParameter) {
+    private Optional<ResultsResponse> doResultCall(String resultKey, String expandParameter) {
         String path = format(RESULT, resultKey);
         Map<String, String> params = singletonMap(EXPAND, expandParameter);
-        ApiCallable<Result> caller = apiCallerFactory.newCaller(Result.class, path, params);        
+        ApiCallable<ResultsResponse> caller = apiCallerFactory.newCaller(ResultsResponse.class, path, params);
         return caller.createTarget().map(caller::doGet).orElse(empty());
     }
 
     @Override
     Response queue(PlanVo plan) {
         requireNonNull(plan);
-        
-        Response response = Response.status(Status.NOT_FOUND).build();
+
         String path = format(QUEUE, plan.getKey());
         ApiCallable caller = apiCallerFactory.newCaller(Object.class, path);
         Optional<WebTarget> target = caller.createTarget();
-        if (target.isPresent()) {
-            response = caller.doPost(target.get());
-            LOG.info("queued build for: {}...got response: {}", path, response);
-        } else {
+
+        return target.map(t -> {
+            LOG.info("queued build for: {}", t);
+            return caller.doPost(t);
+        }).orElseGet(() -> {
             LOG.info("did not queue the build for: {}", path);
-        }
-        return response;
+            return Response.status(Status.NOT_FOUND).build();
+        });
     }
 
     @Override
     void updateProjects(Collection<ProjectVo> projects) {
         requireNonNull(projects);
-        
+
         Collection<ProjectVo> source = getProjects();
         if (!source.isEmpty()) {
             ProjectsUpdater updater = new ProjectsUpdater();
@@ -200,7 +205,8 @@ class DefaultBambooClient extends AbstractBambooClient {
         Collection<Result> results = doResultsCall();
         results.forEach(result -> {
             plans.forEach(plan -> {
-                if (result.getPlan().getKey().equals(plan.getKey())) {
+                var key = result.getPlan().getKey();
+                if (key.equals(plan.getKey())) {
                     plan.setResult(result);
                 }
             });
@@ -210,17 +216,13 @@ class DefaultBambooClient extends AbstractBambooClient {
 
     @Override
     public VersionInfo getVersionInfo() {
-        VersionInfo versionInfo = new VersionInfo();
         ApiCallable<Info> infoCaller = apiCallerFactory.newCaller(Info.class, INFO);
         Optional<WebTarget> opt = infoCaller.createTarget();
 
-        if (opt.isPresent()) {
+        return opt.map(t -> {
             Info info = infoCaller.doGet(opt.get()).orElse(new Info());
-            VersionInfoConverter converter = new VersionInfoConverter();
-            versionInfo = converter.convert(info);
-        }
-
-        return versionInfo;
+            return new VersionInfoConverter().convert(info);
+        }).orElseGet(() -> new VersionInfo());
     }
 
 }

@@ -22,7 +22,11 @@ import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
 import static java.util.Collections.emptyMap;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.netbeans.modules.bamboo.client.glue.RestResources.JSON_PATH;
+
+import org.junit.jupiter.api.BeforeEach;
+
+import static org.mockito.BDDMockito.given;
+import static org.netbeans.modules.bamboo.client.glue.RestResources.JSON;
 
 /**
  *
@@ -30,12 +34,18 @@ import static org.netbeans.modules.bamboo.client.glue.RestResources.JSON_PATH;
  */
 @ExtendWith(MockitoExtension.class)
 class ApiCallerFactoryTest {
+    
     private static final String FOO = "foo";
     private static final Class BAR = FOO.getClass();
     @Mock
     private InstanceValues values;
     @InjectMocks
     private ApiCallerFactory classUnderTest;
+    
+    @BeforeEach
+    void setup() {
+        given(values.getToken()).willReturn(new char[] {'a'});
+    }
     
     /**
      * Test of newCaller method, of class ApiCallerFactory.
@@ -58,7 +68,7 @@ class ApiCallerFactoryTest {
      */
     @Test
     void testNewCaller_JsonPath_ExpectNotNull() {
-        assertNotNull(classUnderTest.newCaller(BAR, FOO + JSON_PATH));
+        assertNotNull(classUnderTest.newCaller(BAR, FOO + JSON));
     }
 
 

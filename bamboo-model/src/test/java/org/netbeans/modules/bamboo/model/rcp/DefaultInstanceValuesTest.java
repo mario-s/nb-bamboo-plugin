@@ -14,9 +14,11 @@
 package org.netbeans.modules.bamboo.model.rcp;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Unit test for {@link DefaultInstanceValues}.
@@ -29,25 +31,49 @@ class DefaultInstanceValuesTest {
     @BeforeEach
     void setUp() {
         classUnderTest = new DefaultInstanceValues();
-        classUnderTest.setPassword(new char[]{'a'});
+        classUnderTest.setToken(new char[]{'a'});
     }
 
-    /**
-     * Test of getName method, of class DefaultInstanceValues.
-     */
     @Test
+    @DisplayName("It should allow to create a new instance based on an existing one.") 
     void testCopyConstructor_NotNull() {
-        DefaultInstanceValues result = new DefaultInstanceValues(classUnderTest);
-        assertEquals(1, result.getPassword().length);
+        var result = new DefaultInstanceValues(classUnderTest);
+        assertNotNull(result.getToken(), "expected token by default");
     }
     
-    /**
-     * Test of getName method, of class DefaultInstanceValues.
-     */
     @Test
-    void testCopyConstructor_Null() {
-        DefaultInstanceValues result = new DefaultInstanceValues(null);
-        assertEquals(0, result.getPassword().length);
+    @DisplayName("It's copy should not be equal to the source if name was changed.")
+    void testEquals_Name() {
+        var result = new DefaultInstanceValues(classUnderTest);
+        result.setName("name");
+        assertNotEquals(result, classUnderTest);
+    }
+    
+    @Test
+    @DisplayName("It's copy should not be equal to the source if token was changed.")
+    void testEquals_Token() {
+        var result = new DefaultInstanceValues(classUnderTest);
+        result.setToken("name".toCharArray());
+        assertNotEquals(result, classUnderTest);
     }
    
+    @Test
+    @DisplayName("It should return the synchronization interval in milliseconds.")
+    void testSyncInterval() {
+        classUnderTest.setSyncInterval(3);
+        assertNotEquals(3000, classUnderTest.getSyncIntervalInMillis());
+    }
+    
+    @Test
+    @DisplayName("It should not return null for char arrays.")
+    void testNullChars() {
+        assertNotNull(classUnderTest.getToken());
+    }
+    
+    @Test
+    @DisplayName("It should not return null for char arrays, even when we set them null.")
+    void testSetNullChars() {
+        classUnderTest.setToken(null);
+        assertNotNull(classUnderTest.getToken());
+    }
 }

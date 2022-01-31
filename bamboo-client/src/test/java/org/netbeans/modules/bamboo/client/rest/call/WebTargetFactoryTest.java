@@ -1,4 +1,6 @@
-/* 
+/*
+ * Copyright 2022 NetBeans.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,73 +15,80 @@
  */
 package org.netbeans.modules.bamboo.client.rest.call;
 
+import static java.util.Collections.emptyMap;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
-
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
-
 import org.springframework.test.util.ReflectionTestUtils;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  *
  * @author Mario Schroeder
  */
 @ExtendWith(MockitoExtension.class)
-class WebTargetFactoryTest {
+public class WebTargetFactoryTest {
+    
     private static final String FOO = "foo";
     @Mock
     private Client client;
     @Mock
-    private InstanceValues values;
-    @Mock
     private WebTarget target;
-    @InjectMocks
+    @Mock
+    private InstanceValues values;
     private WebTargetFactory classUnderTest;
     
     @BeforeEach
-    void setUp() {
+    public void setUp() {
+        given(values.getToken()).willReturn(FOO.toCharArray());
+        
+        classUnderTest = new WebTargetFactory(values);
         ReflectionTestUtils.setField(classUnderTest, "client", client);
+    }
+
+    @Test
+    @DisplayName("It should generate a WebTarget for empty parameter.") 
+    void testCreate() {
+        verifyWebTarget(emptyMap());
+    }
+    
+    @Test
+    @DisplayName("It should generate a WebTarget for not empty parameter.") 
+    void testCreate_NoEmptyParams() {
+        given(target.queryParam(anyString(), anyString())).willReturn(target);
         
+        Map<String, String> params = new HashMap<>();
+        params.put(FOO, FOO);
+        verifyWebTarget(params);
+    }
+    
+    void verifyWebTarget(final Map<String, String> parms) {
         given(values.getUrl()).willReturn(FOO);
-        given(values.getUsername()).willReturn(FOO);
-        given(values.getPassword()).willReturn(new char[]{'a'});
-        
         given(client.target(FOO)).willReturn(target);
         given(target.path(WebTargetFactory.REST_API)).willReturn(target);
         given(target.path(FOO)).willReturn(target);
-        given(target.queryParam(anyString(), anyString())).willReturn(target);
+        
+        var res = classUnderTest.create(FOO, parms);
+        assertNotNull(res);
     }
+    
+    @Test
+    @DisplayName("It should return true when all needed params are valid.")
+    void isValid() {
+        given(values.getToken()).willReturn(FOO.toCharArray());
+        given(values.getUrl()).willReturn(FOO);
 
-    /**
-     * Test of newTarget method, of class WebTargetFactory.
-     */
-    @Test
-    void testNewTarget_NoParams_ExpectTarget() {
-        WebTarget result = classUnderTest.create(FOO, null);
-        assertNotNull(result);
+        assertTrue(classUnderTest.isValid());
     }
-    
-      /**
-     * Test of newTarget method, of class WebTargetFactory.
-     */
-    @Test
-    void testNewTarget_WithParams_ExpectTarget() {
-        Map<String, String> params = new HashMap<>();
-        params.put(FOO, FOO);
-        WebTarget result = classUnderTest.create(FOO, params);
-        assertNotNull(result);
-    }
-    
 }

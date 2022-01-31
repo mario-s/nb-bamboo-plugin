@@ -15,7 +15,6 @@ package org.netbeans.modules.bamboo.client.rest;
 
 import java.beans.PropertyChangeEvent;
 import org.netbeans.modules.bamboo.model.rcp.BambooInstance;
-import org.netbeans.modules.bamboo.model.rcp.DefaultInstanceValues;
 import java.util.Collection;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
@@ -77,7 +76,6 @@ class DefaultInstanceManagerTest {
 
     private Lookup.Result<BambooInstance> result;
 
-    private DefaultInstanceValues values;
 
     private DefaultBambooInstance instance;
     
@@ -94,15 +92,9 @@ class DefaultInstanceManagerTest {
 
         result.addLookupListener(listener);
 
-        values = new DefaultInstanceValues();
-        values.setName(FOO);
-        values.setUrl(FOO_URL);
-        values.setPassword(new char[]{'a'});
-
         instance = new DefaultBambooInstance(properties);
-        instance.setName(values.getName());
-        instance.setUrl(values.getUrl());
-
+        instance.setName(FOO);
+        instance.setUrl(FOO_URL);
     }
     
     private DefaultInstanceManager createInstance() {
@@ -146,7 +138,7 @@ class DefaultInstanceManagerTest {
 
     @Test
     void testLoadInstances() throws BackingStoreException {
-        given(preferences.childrenNames()).willReturn(new String[]{values.getName()});
+        given(preferences.childrenNames()).willReturn(new String[]{FOO});
         
         classUnderTest.addInstance(instance);
         Collection<BambooInstance> instances = classUnderTest.loadInstances();
@@ -178,7 +170,7 @@ class DefaultInstanceManagerTest {
     
     @Test
     void testPropertyChange_ShouldPersist() throws BackingStoreException {
-        given(preferences.childrenNames()).willReturn(new String[]{values.getName()});
+        given(preferences.childrenNames()).willReturn(new String[]{FOO});
         
         PropertyChangeEvent event = new PropertyChangeEvent(instance, InstanceConstants.PROP_SYNC_INTERVAL, 0, 1);
         classUnderTest.propertyChange(event);

@@ -87,7 +87,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
 
     private BambooInstanceProperties properties;
     
-    private Optional<QueueEvent> previousEvent;
+    private transient Optional<QueueEvent> previousEvent;
 
     DefaultBambooInstance(final BambooInstanceProperties properties) {
         this(null, null);
@@ -130,14 +130,12 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
     private void copyProperties(final BambooInstanceProperties props) throws NumberFormatException {
         setName(props.get(InstanceConstants.PROP_NAME));
         setUrl(props.get(InstanceConstants.PROP_URL));
-        setUsername(props.get(BambooInstanceConstants.INSTANCE_USER));
-
-        String passwd = props.get(BambooInstanceConstants.INSTANCE_PASSWORD);
-
-        if (isNotBlank(passwd)) {
-            setPassword(passwd.toCharArray());
+        
+        String token = props.get(BambooInstanceConstants.INSTANCE_TOKEN);
+        if (isNotBlank(token)) {
+            setToken(token.toCharArray());
         }
-
+        
         String syncProp = props.get(InstanceConstants.PROP_SYNC_INTERVAL);
         if (isNotBlank(syncProp)) {
             setSyncInterval(Integer.parseInt(syncProp));
@@ -320,6 +318,7 @@ class DefaultBambooInstance extends DefaultInstanceValues implements BambooInsta
             final Optional<ProjectVo> parent = plan.getParent();
             if (isChild(parent) && verifyAvailibility()) {
                 Response response = client.queue(plan);
+                LOG.info("response for queue: {}", response);
                 QueueEvent event = QueueEvent.builder().plan(plan).response(response).build();
                 previousEvent.ifPresent(content::remove);
                 content.add(event);
