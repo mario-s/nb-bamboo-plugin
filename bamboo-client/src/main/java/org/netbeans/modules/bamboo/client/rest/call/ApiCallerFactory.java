@@ -16,7 +16,7 @@ package org.netbeans.modules.bamboo.client.rest.call;
 import java.util.Map;
 import org.netbeans.modules.bamboo.model.rcp.InstanceValues;
 
-import static org.netbeans.modules.bamboo.client.glue.RestResources.JSON_PATH;
+import static org.netbeans.modules.bamboo.client.glue.RestResources.JSON;
 
 /**
  * This factory produces {@link ApiCaller} and subclasses.
@@ -67,7 +67,7 @@ public class ApiCallerFactory {
     private CallParameters createCallParameters(Class clazz, final String path) {
         CallParameters params = new CallParameters(clazz, values);
         params.setPath(path);
-        params.setJson(path.endsWith(JSON_PATH));
+        params.setJson(path.endsWith(JSON));
         return params;
     }
 
