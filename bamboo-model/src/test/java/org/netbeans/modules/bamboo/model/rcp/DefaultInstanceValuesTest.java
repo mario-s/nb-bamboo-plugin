@@ -17,11 +17,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit test for {@link DefaultInstanceValues}.
@@ -34,27 +31,14 @@ class DefaultInstanceValuesTest {
     @BeforeEach
     void setUp() {
         classUnderTest = new DefaultInstanceValues();
-        classUnderTest.setPassword(new char[]{'a'});
+        classUnderTest.setToken(new char[]{'a'});
     }
 
     @Test
     @DisplayName("It should allow to create a new instance based on an existing one.") 
     void testCopyConstructor_NotNull() {
         var result = new DefaultInstanceValues(classUnderTest);
-        assertAll(
-                () -> assertTrue(result.isUseToken(), "expected to use token by default"),
-                () -> assertEquals(1, result.getPassword().length)
-        );
-    }
-
-    @Test
-    @DisplayName("It should allow to create a new instance without an existing reference.")
-    void testCopyConstructor_Null() {
-        var result = new DefaultInstanceValues(null);
-        assertAll(
-                () -> assertTrue(result.isUseToken(), "expected to use token by default"),
-                () -> assertEquals(0, result.getPassword().length)
-        );
+        assertNotNull(result.getToken(), "expected token by default");
     }
     
     @Test
@@ -83,20 +67,13 @@ class DefaultInstanceValuesTest {
     @Test
     @DisplayName("It should not return null for char arrays.")
     void testNullChars() {
-        assertAll(
-                () -> assertNotNull(classUnderTest.getPassword()),
-                () -> assertNotNull(classUnderTest.getToken())
-            );
+        assertNotNull(classUnderTest.getToken());
     }
     
     @Test
     @DisplayName("It should not return null for char arrays, even when we set them null.")
     void testSetNullChars() {
-        classUnderTest.setPassword(null);
         classUnderTest.setToken(null);
-        assertAll(
-                () -> assertNotNull(classUnderTest.getPassword()),
-                () -> assertNotNull(classUnderTest.getToken())
-            );
+        assertNotNull(classUnderTest.getToken());
     }
 }

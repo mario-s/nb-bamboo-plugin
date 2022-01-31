@@ -75,8 +75,6 @@ class BambooCallerXmlIT {
         values.setName(FOO);
         values.setUrl(props.getProperty(URL));
         values.setToken(props.getProperty("token").toCharArray());
-        values.setUsername(props.getProperty("user"));
-        values.setPassword(props.getProperty("password").toCharArray());
 
         factory = new WebTargetFactory(values, Level.FINE);
     }

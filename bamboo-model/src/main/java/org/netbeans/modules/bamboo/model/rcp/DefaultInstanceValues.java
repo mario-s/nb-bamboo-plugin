@@ -35,15 +35,6 @@ public class DefaultInstanceValues implements InstanceValues {
 
     private int syncInterval;
     
-    @Deprecated
-    private boolean useToken;
-
-    @Deprecated
-    private String username;
-
-    @Deprecated
-    private char[] password;
-    
     private char[] token;
 
     public DefaultInstanceValues() {
@@ -51,16 +42,11 @@ public class DefaultInstanceValues implements InstanceValues {
     }
 
     public DefaultInstanceValues(final InstanceValues other) {
-        useToken = true;
-        
         if (other != null) {
             this.name = other.getName();
             this.url = other.getUrl();
             this.syncInterval = other.getSyncInterval();
-            this.username = other.getUsername();
-            this.password = other.getPassword();
             this.token = other.getToken();
-            this.useToken = other.isUseToken();
         }
 
         this.changeSupport = new PropertyChangeSupport(this);
@@ -69,18 +55,13 @@ public class DefaultInstanceValues implements InstanceValues {
     @Deprecated
     @Override
     public boolean isUseToken() {
-        return useToken;
+        return true;
     }
     
     @Deprecated
     @Override
     public char[] getPassword() {
-        return copyChars(password);
-    }
-
-    @Deprecated
-    public void setPassword(char[] password) {
-        this.password = copyChars(password);
+        return copyChars(null);
     }
     
     @Override
@@ -142,12 +123,7 @@ public class DefaultInstanceValues implements InstanceValues {
     @Deprecated
     @Override
     public String getUsername() {
-        return username;
-    }
-
-    @Deprecated
-    public void setUsername(String username) {
-        this.username = username;
+        return "";
     }
 
     @Override
@@ -162,9 +138,8 @@ public class DefaultInstanceValues implements InstanceValues {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 83 * hash + Objects.hash(name, url, username, useToken);
+        hash = 83 * hash + Objects.hash(name, url);
         hash = 83 * hash + this.syncInterval;
-        hash = 83 * hash + Arrays.hashCode(this.password);
         hash = 83 * hash + Arrays.hashCode(this.token);
         return hash;
     }
@@ -181,9 +156,6 @@ public class DefaultInstanceValues implements InstanceValues {
             return false;
         }
         final DefaultInstanceValues other = (DefaultInstanceValues) obj;
-        if (this.useToken != other.useToken) {
-            return false;
-        }
         if (this.syncInterval != other.syncInterval) {
             return false;
         }
@@ -191,12 +163,6 @@ public class DefaultInstanceValues implements InstanceValues {
             return false;
         }
         if (!Objects.equals(this.url, other.url)) {
-            return false;
-        }
-        if (!Objects.equals(this.username, other.username)) {
-            return false;
-        }
-        if (!Arrays.equals(this.password, other.password)) {
             return false;
         }
         return Arrays.equals(this.token, other.token);
